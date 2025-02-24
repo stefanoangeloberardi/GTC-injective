@@ -1,0 +1,1642 @@
+% lmcs, 2018.5.2, 2019.9.9, 2020.2.10
+
+
+\documentclass{lmcs}
+
+%\usepackage{fouriernc}
+%\setmathfont[FakeBold=0.5]{Latin Modern Math}
+
+\usepackage{wasysym}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+
+\usepackage{amssymb,amsmath,graphicx,color}
+\usepackage{mymath,proof,latexsym}
+\usepackage{xcolor}
+\usepackage[pdftex,outline]{contour}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% WE ADD THE COMMANDS theorem lemma proposition corollary definition % 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+
+%\newenvironment{proof}[1][Proof]{\begin{trivlist}
+%\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+\begin{document}
+\sloppy 
+\hbadness=10000
+\vbadness=10000
+
+\input{macro}
+
+\title{Size Change Termination Condition 
+for Injective Relations}
+\date{}
+
+\author[S. Berardi]{Stefano Berardi}
+\address{Universit\`{a} di Torino,
+Torino, Italy}
+\email{stefano@unito.it}
+
+%% mandatory lists of keywords 
+\keywords{
+proof theory
+inductive definitions
+cyclic proofs
+infinite Ramsey theorem
+}
+
+
+
+
+\maketitle
+
+\section{Introduction}
+We want to study Neil Jones Size Change Termination condition
+(from now on, SCT) for program termination in a particular case: 
+the case of Injective bi-colored Relations.
+
+Our motivation is that this particular case is enough to treat a relevant
+application of SCT, namely checking  the correctness of a cyclic proof.
+
+We suspect that the algorithm checking SCT is 
+PSPACE-complete also in this case. 
+However we will argue that checking SCT is simpler  
+and faster for injective relations.
+
+Another motivation we have in mind is an automatic translation from 
+cyclic proofs into more ordinary inductive proofs. 
+We prove termination for SCT in the case of injective relations only using 
+first order induction. With respect to a previous attempt,
+we claim that we can translate cyclic proofs avoiding in the resulting proof
+a formal proof of Ramsey Theorem and using Intuitionistic Logic only.
+
+
+\section{Size Change Termination in the Case of Injective Relations}
+%14:03 30/10/2024 ricontrollare tutta l'introduzione
+Suppose we have a finite set $X=\{x_1, \ldots, x_n\}$ 
+and a finite set $\setR =\{(\Stat_i, \Prog_i)| i \in [1,r]\}$
+of pairs of finite relations on $X$. We consider the elements of $X$
+as variables to which we associate a value in each instant of time.
+%\emph{disjoint} %disjointness of \Stat_i, \Prog_i is NO MORE REQUIRED
+
+We will use each relation $a \Stat_i b$ to express the fact that $a$
+is associated in an instant $t$
+to a value \emph{greater than or equal} to the value associated to $b$ in the next
+instant $t+1$.
+We will use each relation $a \Prog_i b$ to express the fact that $a$
+is associated in an instant $t$
+to a value \emph{greater than} the value associated to $b$ in the next
+instant $t+1$.
+We consider the tree of all finite sequences over $\setR$.
+We call trace any sequence on $X$ and path any sequence on $\setR^+$.
+
+We take the words \quotationMarks{trace} and \quotationMarks{path} 
+from cyclic proofs. Neil Jones
+uses for the same concept the words \quotationMarks{thread}
+and \quotationMarks{multipath}, and states GTC, the Global Trace Condition,
+as: \quotationMarks{all multipaths are in $DESC^\omega$}, where $DESC^\omega$ is the set of multipaths having some infinite descending thread.
+
+Neil Jones terminology is probably more suitable when speaking
+of programs, while trace and path appear more suitable when speaking of a proof-graph, as we do in this paper.
+Definitions are the same.
+
+We call value flow any assignment
+of values in $\N$ to each $x \in X$, the assignment 
+depends on a time parameter $t$. We require that the the set of instants
+of time is some initial segment of the set $\N$ of natural numbers.
+
+We repeat the same definitions more formally:
+
+\begin{definition}[Path, Trace and Value Flow]
+Assume $D = [0,h]$ for some $h \in \N$ or $D=\N$ 
+is any non-empty initial segment of the order on natural numbers.
+\begin{enumerate}
+\item
+We call any map $b:D \rightarrow \setR^+$ a multipath, a \emph{path} for short:
+a path is any finite or infinite sequence over $\setR^+$.
+\item
+We call any map $\pi:D \rightarrow X$ a \emph{trace} (or a \emph{thread}): 
+a trace is any finite or infinite sequence over $X$.
+\item
+We call any map $\theta:D,X \rightarrow \N$ a \emph{value flow}. 
+We call $\theta(t,x) \in \N$ the value of $x \in X$ at time $t \in D$.
+\end{enumerate}
+We say that a path, trace, value flow 
+is finite when $D=[0,h]$ for some $h \in \N$, that it is infinite when $D = \N$.
+\end{definition}
+
+
+
+We are interested to a condition on $\setR$
+called the \quotationMarks{Global Trace Condition} (GTC), 
+equivalent to the 
+termination of value flows \quotationMarks{compatible}
+with a path of $\setR$. GTC is expressed in term of traces.
+
+\begin{definition}[Global Trace Condition (GTC) ]
+Suppose $X=\{x_1, \ldots, x_n\}$, $\setR =\{(\Stat_i, \Prog_i)| i \in [1,r]\}$
+and $b, \pi$ are a path and a trace of domain $D$ as above.
+
+\begin{enumerate}
+
+\item
+We say that the trace $\pi:D \rightarrow X$ is compatible with the path
+$b :D \rightarrow \setR^+$ on the same $D$, 
+and we write $\pi \models b$, if and only if :
+whenever $t, t+1 \in D$ and $b(t) = (\Stat_i,\Prog_i) \in \setR$
+the two consecutive values  of the trace are related by $\setR$, namely
+ $\pi(t) (\Stat_i \cup \Prog_i) \pi(t+1)$.
+If furthermore we have $\pi(t) \Prog_i \pi(t+1)$,
+we say that $t \in D$ is a \emph{$b$-progress point} of the trace $\pi$.
+
+\item
+$\setR$ satisfies the \emph{Global Trace Condition} (GTC) if and only if
+for all infinite pathes $b:\N \rightarrow \setR$ 
+there is some trace $\pi:\N \rightarrow X$ such that
+$\pi \models b$ and $\pi$ has infinitely many $b$-progress points.
+
+\item
+We write $\universe{(\Stat, \Prog)}
+= \Stat \cup \Prog$ for the \emph{union} of the pair $(\Stat, \Prog) \in \setR^+$.
+
+
+\item
+$\setR$ satisfies \emph{injectivity} if and only if for all $i \in [1,r]$ the relation
+$\Stat_i \cup \Prog_i$ is injective.
+
+\end{enumerate}
+
+\end{definition}
+
+If formulated as above, the Global Trace condition (GTC) is equivalent to
+Size Change Termination (SCT), introduced by Neil Jones. 
+SCT was originally used as a sufficient, and quite broad too, 
+condition for termination of recursive calls. 
+When we use GTC as a correctness criterion for cyclic proofs,
+\emph{we add one more condition, \underline{injectivity} of the trace relations}, 
+a condition which is missing in the SCT paper. 
+
+Injectivity implies that in cyclic proofs two traces of different
+variables never cross each other and significantly simplifies traces.
+Instead, in the SCT condition two traces, say, $x_1 \ge x_2 > x_3$ and
+$y_1 > y_2$, from two different variables $x_1$, $y_1$,
+can meet into a single variable $z$. For instance, we can have:
+\begin{center}
+$x_1 \ge x_2 > x_3 \ge z$ 
+\ \ \ and \ \ \ 
+$y_1 > y_2 \ge z$
+\end{center}
+
+In this paper we study GTC in the case $\setR$ is injective, and from a
+purely combinatorial viewpoint, as a termination condition. Our
+result can be used for checking termination of recursive calls, with a 
+faster algorithm but under less general conditions than in Neil Jones. 
+Our result could be used for translating cyclic proofs into ordinary proofs. 
+Our goal is finding a termination proof using Intuitionistic Logic and First 
+Order Arithmetic.
+
+Several decidable equivalent are known for GTC. In Classical Logic, GTC for 
+$\setR$ is equivalent to the fact that all value flows compatible 
+with some path are finite.
+
+We assume injectivity and we are looking for an equivalent version
+of GTC which can expressed in First Order Aritmetic, and such that
+the finiteness of all compatible value flows can be proved
+in Intuitionistic Arithmetic.
+%We prove that we can translate cyclic proofs + Peano Arithmetic 
+%into Martin-L\"of's Inductive Definitions + Arithmetic. 
+
+%As we said, with respect to our previous proof of the same result,
+%we avoid using Ramsey Theorem explicitly. This means that if we use our 
+%result for translating cyclic proofs into inductive proofs, we do not
+%have to insert a formal proof of Ramsey Theorem in the translated proof.
+
+We anticipate that when $n = \Card(X) \ge 1$, we will 
+use lexicographic induction on a length $2n$ sequence 
+$( m_1,r_1, \ldots, m_n,r_n)$.
+For all $k \in [1,n]$, we will have $m_k \in \N \cup \{\infty\}$ and 
+%$r_k \in [0, {n \choose k }[$, a finite initial segment of $\N$. 
+$r_k \in \N$, $r_k < \genfrac(){0pt}{0}{n}{k}$.
+
+
+
+\subsection{Comparing our Terminology 
+with the Terminology in Neil Jones SCT Paper}
+\label{subsection-comparing}
+The SCT paper uses $3$-coloring on the set $[1,n] \times [1,n]$. 
+The choice of a color for a pair
+$(i,j)$ represents what we know about the relation between the value of
+variable $x_i$ at time $t$, and the value of variable $x_j$ at time $t+1$.
+What we know about the relation can be: either $\ge$ or $>$ or 
+\quotationMarks{no information at all}.
+
+We could interpret our relations pairs
+$(\Stat,\Prog) \in \setR$ as the $3$-coloring $(\Stat \setminus \Prog, \Prog, X^2 \setminus{(\Stat \cup \Prog)}$ in the sense of Neil Jones. $x \Stat y$ for 
+$x, y, \in X$ represents \quotationMarks{the value of $x$ is $\ge$ than the value of $y$}, provided we do not have $x \Prog y$. $x \Prog y$ represents 
+\quotationMarks{the value of $x$ is $>$ than the value of $y$}. 
+If we do not have $x \Stat y$ nor $x \Prog y$ we represent the fact we do
+not know what is the relation between the values of $x$ and $y$.
+
+
+In order to formulate SCT in our setting, we have first to define
+the composition of 2-colored relations
+
+\subsection{Definition of Composition of 2-colored relations}
+\label{subsection-composition}
+
+We define composition in such a way that if  $(x,y)$, $(y,z)$ are two pairs,
+then $(x,z)$ is stationary in the composition relation 
+$(\Stat,\Prog)(\Stat',\Prog') $ if and only if both $(x,y)$ is stationary in 
+$\Stat$ and $(y,z)$ is stationary in $\Stat'$ for some $y \in X$. 
+Dually, $(x,z)$ is progressing in the composition relation 
+$(\Stat,\Prog)(\Stat',\Prog') $ if and only if either $(x,y)$ is progressing in 
+$\Prog$ or $(y,z)$ is progressing in $\Prog'$ or both are, for some $y \in X$.
+
+
+\begin{definition}[States, Compositions and Transition Sequences]
+Assume $X = \{1, \ldots, n\}$ and $(\Stat,\Prog)$ is a pair
+of finite binary relations on $X$. 
+\begin{enumerate}
+\item
+\emph{Composition on relation pairs}.
+If $(\Stat,\Prog)$, $(\Stat',\Prog')$ are relation pairs on $X$ we define 
+their composition as
+$$
+(\Stat,\Prog)(\Stat',\Prog') 
+=
+(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog')
+$$
+\item
+\emph{(Closure on composition)}
+Assume $\setR \subseteq \setP(X \times X)^2$ is any finite 
+set of pairs of finite binary relations on $X$.
+$\setR^+$ is the set of finite non-empty compositions of elements of $\setR$
+$\setR$ is \emph{composition-closed} if and only if 
+$\setR = \setR^+$
+\end{enumerate}
+\end{definition}
+
+$\setR^+$ is finite and we can compute it, because
+$n = \Card(X)$ is finite.
+However, the cardinality of $\setR^+$ could be exponential in $n$. Remark that we defined composition of relation pairs in such a way that it is
+compatible with the union operator $\universe{\cdot}$ for relation pairs. 
+Indeed we have
+$$
+\universe{(\Stat,\Prog)(\Stat',\Prog')} 
+= 
+\universe{(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog')}
+=
+\Stat \Stat' \cup \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'
+=
+(\Stat \cup \Prog) (\Stat' \cup \Prog') 
+= 
+\universe{(\Stat,\Prog)}\universe{(\Stat',\Prog')} 
+$$
+We can now define SCT.
+
+\subsection{The Size Change Termination condition (SCT)
+and the Progressing Domain Condition (PDC)}
+The SCT condition says:
+\quotationMarks{\bf 
+all bi-colored relations in $\setR^+$ have some finite power in which some
+element progresses to itself}. We write SCT as follows:
+
+\begin{center}
+\emph{
+$\forall (\Stat,\Prog) \in \setR^+. \ \exists n \in \N \exists x \in X. 
+\ (x \mbox{ progresses to $x$ in } (\Stat,\Prog)^n)$
+}
+\end{center}
+
+In previous work we proved that SCT and GTC are equivalent,
+using Ramsey Theorem. 
+
+In this paper we are looking for a more
+constructive and elementary proof of an equivalent result, namely the termination
+of all value flows compatible with some path of $\setR^+$.
+The proof should be suitable to a formalization in a proof assistant.
+We add the injectivity assumption because $2$-colored relations with
+injectivity are enough to describe cyclic proofs, and if we have injectivity
+proving a termination result requires a weaker hypothesis PDC (see below). 
+Besides, using PDC it is faster checking whether a cyclic proof is correct.
+
+The Progressing Domain Condition (PDC) says: 
+\quotationMarks{all bi-colored
+relations in $\setR^+$ have a progressing pair with both elements 
+included in the domain of the relation}, namely
+
+\begin{center}
+\emph{
+$\forall (\Stat,\Prog) \in \setR^+. \ \exists x, y \in \dom(\Stat\cup\Prog). 
+\ (x \Prog y)$
+}
+\end{center}
+
+PDC is weaker and it is easier to check than the SCT condition. To check PDC,
+we do not have to look for
+some $x$ in the progressing to itself in some power of $(\Stat,\Prog)$. Instead 
+it is enough to find some $x$ progressing to some $y$, such that both
+$x$, $y$ are in the domain of $\Stat \cup \Prog$.
+
+However, PDC has the drawback that it implies 
+GTC and termination only for \emph{injective} bi-colored
+relations. We explain why.
+
+\subsubsection{PDC and composition-closure do not imply GTC,
+in the case of non injective family of bi-colored relations}
+\label{subsubsection-counterexample-PDC-GTC}
+Here is a counter-example $\setR_1$.
+Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$
+and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_2,x_1)\}$. Then $\setR_1$ is
+composition-closed because 
+$
+(\Stat,\Prog)(\Stat,\Prog) = 
+(\Stat\Stat,\Stat\Prog \cup \Prog\Prog \cup \Prog\Stat) = 
+$(by $\Stat\Prog = \Prog\Prog = \emptyset$)$
+(\Stat\Stat,\Prog\Stat) = 
+(\Stat,\Prog)
+$.
+The unique coloring $(\Stat,\Prog)$ satisfies PDC 
+because $x_2 \in \dom((\Stat,\Prog))$
+is progressing to  $x_1 \in \dom((\Stat,\Prog))$. However, $\setR_1$
+does not satisfy GTC, because the unique infinite path is 
+$\pi = ((\Stat,\Prog),(\Stat,\Prog),(\Stat,\Prog),\ldots)$,
+and any infinite trace compatible with $\pi$ is either
+$x_1 x_1 x_1 \ldots$ or $x_2 x_1 x_1 x_1 \ldots$. Thus, any infinite
+trace compatible with $\pi$ progresses \emph{at most once}. 
+The implication PDC $\implies$ GTC is false because 
+$\setR_1$ is not injective. Indeed, the relation 
+$R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_2,x_1)\}$ is not injective.
+
+
+Instead, we will prove that PDC+injectivity imply finiteness of value flows,
+or, using Classical Logic, GTC:
+
+\begin{theorem}[Finiteness of $\setR$-compatible transitions 1]
+\label{theorem-finiteness-value-flow-1}
+If $\setR$ is a finite list of bi-colored \emph{injective} relations satisfying 
+Progressing Domain Condition (PDC), then any value flow 
+compatible with $\setR$ is finite.
+\end{theorem}
+
+We postpone the proof to \S \ \ref{subsection-proof-termination}.
+Before we remark that the Termination Theorem for $\setR$ can be reformulated
+as an induction schema on $\N^n$, as follows.
+
+Let $\vec{x}= (x_1, \ldots, x_n)$ and $\vec{y} = (y_1, \ldots, y_n)$.
+For any $(\Stat,\Prog) \in \setR^+$ we define a relation $<_{(\Stat,\Prog)}$.
+We define $\vec{x}  <_{(\Stat,\Prog)} \vec{y}$ if and only if:
+$$
+\forall i,j \in [1,n]. \  
+(i \Stat j \implies x_i \le y_j) \ 
+\wedge \ 
+(i \Prog j \implies x_i < y_j)
+$$
+We define $<_\setR$ as the union 
+$\bigcup \{ <_{(\Stat,\Prog)} | (\Stat,\Prog) \in \setR^+\}$
+of all relations $<_{(\Stat,\Prog)}$ for $(\Stat,\Prog) \in \setR^+$. 
+Then Thm. \ref{theorem-finiteness-value-flow-1} can be reformulated 
+as follows. Assume PDC 
+and injectivity for $\Stat \cup \Prog$, for all $(\Stat,\Prog) \in \setR^+$.
+Then we can prove {\bf the induction schema for $<_\setR$}.
+%17:24 03/02/2025
+
+More in detail,
+using Progressing Domain Condition we will reformulate a cyclic proof
+as an ordinary proof by adding first order intuitionistic reasoning and 
+induction on $[0,\infty]$ nested $n$ times, 
+where $n = \Card(X)$ is the cardinality of the set of variables,
+together with induction on the finite sets $[1, \genfrac(){0pt}{0}{n}{k}[$ nested $n$ times,
+for $k=1, \ldots, n$.
+\\
+
+A last remark: in the definition of PDC we cannot simplify 
+$x, y \in \dom(\Stat \cup \Prog)$ to the weaker condition
+$x, y \in X$. Let us call \quotationMarks{Progressing Condition} or 
+PC the resulting condition. Then PC it is weaker than PDC,
+and indeed PC just says:
+$\Prog \not = \emptyset$ for all $(\Stat,\Prog) \in \setR^+$.
+If we have PC in the place of PDC then the Termination Theorem fails, even if
+we assume composition-closure and injectivity. We explain why.
+
+\subsubsection{PC, composition-closure and injectivity does not imply GTC}
+\label{subsubsection-counterexample-PC-PDC}
+Here is a counter-example $\setR_2$. 
+Let $X = \{x_1,x_2\}$, $\setR_2=\{(\Stat,\Prog)\}$
+and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_1,x_2)\}$. Then $\setR_2$ is
+composition-closed because 
+$
+(\Stat,\Prog)(\Stat,\Prog) = 
+(\Stat\Stat,\Stat\Prog \cup \Prog\Prog \cup \Prog\Stat) = 
+$(by $\Prog\Prog = \Prog\Stat = \emptyset$)$
+(\Stat\Stat,\Stat\Prog) = 
+(\Stat,\Prog)
+$.
+$\setR_2$ is injective, because the relation 
+$R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_1,x_2)\}$ is injective.
+The unique coloring $(\Stat,\Prog)$ satisfies PC 
+because $x_1 \in \dom((\Stat,\Prog))$
+is progressing to  $x_2$. Remark that $x_2 \not \in \dom((\Stat,\Prog))$
+and $x_1$ does not progress to $x_1$, therefore PDC fails while PC holds. 
+$\setR_2$ does \emph{not} satisfy GTC, because the unique infinite path is 
+$\pi = (R,R,R,R,\ldots)$,
+and the unique infinite trace in $\pi$ is 
+$x_1 x_1 x_1 \ldots$, therefore the unique infinite trace \emph{never} progresses. 
+%17:24 03/02/2025
+
+In order to prove the Termination Theorem we have to define States and
+Transition chains first.
+
+
+
+
+\subsection{Definition of States and Transitions chain}
+\label{subsection-transition}
+
+We define the set $\setS$ of computation states and the set $\setT$ of 
+transition chains from a computation state to another one.
+
+\begin{definition}[States, Compositions and Transition Sequences]
+Assume $X = \{x_1, \ldots, x_n\}$ and $(\Stat,\Prog)$ is a pair
+of finite binary relations on $X$. 
+\begin{enumerate}
+\item
+We denote with $\Val$ the set of \emph{value assignment} 
+$\sigma: X \rightarrow \N$ for variables. 
+\item
+We denote with $\setS = \setR^+ \times \Val$ the set of \emph{computation states},
+each $s=((\Stat,\Prog),\sigma)$ consists of a pair $(\Stat,\Prog)$ 
+of finite binary relations on $X$ 
+and a value assignment $\sigma: X \rightarrow \N$.
+\item
+\emph{(Transition)}
+Assume $s=((\Stat,\Prog), \sigma)$, $s'=((\Stat',\Prog'), \sigma')$, $s, s' \in \setS$
+are states. 
+We call $(s,s')$ a \emph{transition} if and only if
+$\forall (x,y) \in \Stat. \sigma(x) \ge \sigma'(y)$
+and $\forall (x,y) \in \Prog. \sigma(x) > \sigma'(y)$.
+\item
+\emph{(Transition Sequence)}
+A \emph{transition sequence} 
+is any sequence $(s_1, \ldots, s_n) \in \setS$ of states
+such that $(s_i, s_{i+1})$ is a transition for all $i \in [1,n[$. 
+We denote the set of transition sequences with $\setT$.
+\end{enumerate}
+\end{definition}
+
+
+\subsection{A Proof of the Termination Theorem 
+\ref{theorem-finiteness-value-flow-1}}
+\label{subsection-proof-termination}
+Assume that $\setR$ is a composition-closed set, that $\setR$ is
+injective and that $\setR$
+satisfies PDC, namely: for all $(\Stat,\Prog) \in \setR$ we have $x \Prog y$ for
+some $x, y \in \dom(\Stat \cup \Prog)$.
+Let $\setT$ be the set of transition sequences for $\setR$. 
+We want to prove the Termination Theorem: 
+all transition sequences terminate.
+
+We will prove using Intuitionistic Logic  and First Order Arithmetic
+that the tree $\setT$ of transition sequences (having root the empty sequence)
+satisfies the induction schema.
+
+To this aim, let $[0,\infty] = \N + \{\infty\}$ be $\N$ extended with an
+\quotationMarks{infinite} point $\infty$, and with the relation $n < \infty$
+for all $n \in \N$.
+Let 
+$$
+\setL 
+\ \ \ = \ \ \ 
+\Pi_{k=1}^{k=n} \ [0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[ 
+$$
+with the lexicographic ordering. We define a map 
+$
+f: \setT \rightarrow \setL
+$ 
+and we prove
+that $f$ is increasing w.r.t. the one-step extension $>_1$ in $\setT$
+and the lexicographic ordering $<_{\lex}$ on $\setL$.
+
+Namely we will prove that if $\theta \in \setT$ and 
+$\eta \in \setT$, $\eta >_1 \theta$ then $ f(\eta) <_{\lex} f(\theta) $. 
+This implies that all transition sequences in $\setT$ terminate.
+We use the following folk-lore Proposition.
+
+We need some more ingredients for a proof of the Termination 
+Theorem \ref{theorem-finiteness-value-flow-1}. 
+The first one is some sufficient condition
+for an injective relation $R$ on $X$ to be a bijection.
+
+\begin{proposition}[Injective Relations and Cardinality]
+\label{proposition-injective-relation}
+Assume that $R \subseteq X \times Y$ is \emph{everywhere defined} 
+and is \emph{injective}. Then 
+\begin{enumerate}
+\item
+\label{proposition-injective-relation-01}
+$\Card(X) \le \Card(Y)$
+
+\item  
+\label{proposition-injective-relation-02}
+if $\Card(X)=\Card(Y)$
+then $R$ is a bijection between $X$ and $Y$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Assume $R \subseteq X \times Y$ is everywhere defined and injective. 
+\begin{enumerate}
+\item
+%\label{proposition-injective-relation-01}
+Then
+for all $x \in X$ the sets $R(x) = \{ y \in Y | R(x,y) \}$ are inhabited,
+because $R$ is everywhere defined, and are pairwise disjoint,
+because $R$ is injective.
+We deduce that $\Card(X) \le \Card(Y)$.
+
+\item
+%\label{proposition-injective-relation-02}
+Now suppose that $\Card(X) = \Card(Y)$.
+Then all sets $R(x)$ have cardinality $1$, 
+otherwise we would have $\Card(X)<\Card(Y)$. 
+Thus, $R$ is a function, and $R$ is injective by assumption. 
+Now we use the well-known fact that any injection
+between two \emph{finite} sets of equal cardinality is a bijection.
+\end{enumerate}
+\end{proof}
+
+% 13:52 20/02/2025
+
+We also need a sufficient condition for a relation $R$ being
+a bijection between $\dom(RS)$ and $\dom(S)$: $R$ should be injective
+and the cardinalities of $\dom(RS)$ and $\dom(S)$ should be the same.
+We also provide a sufficient condition for $R$ being
+a bijection between $\dom(R)$ and $\dom(R)$:
+$R$ should be injective and $\dom(R)=\dom(RS)=\dom(S)$.
+
+For any binary relation $R$ on $X$
+we write $R \restr Y,Z$  
+for $R \cap (Y \times Z)$, the \emph{restriction of $R$ to $Y,Z$} and 
+$R \restr Y$ for $R \cap (Y \times Y)$,
+the \emph{restriction of $R$ to $Y$}.
+
+\begin{lemma}[Composition of Injective Relations and Cardinality]
+\label{lemma-composition-injective-relations}
+Assume that $R$,$S$ are finite binary relations on $X = \{x_1,\ldots,x_n\}$.
+
+\begin{enumerate}
+\item
+\label{lemma-composition-injective-relations-01}
+$\dom(R) \supseteq \dom(RS)$.
+
+\item
+\label{lemma-composition-injective-relations-02}
+If $R$ is injective then 
+$R \cap (\dom(RS) \times \dom(S))$ is everywhere defined and
+surjective, and $\Card(\dom(RS)) \le \Card(\dom(S))$
+
+\item
+\label{lemma-composition-injective-relations-03}
+If $R$ is injective and $\Card(\dom(RS)) = \Card(\dom(S))$
+then $R\cap (\dom(RS) \times \dom(S))$ is a bijection.
+
+\item
+\label{lemma-composition-injective-relations-04}
+If $R$ is injective and $\dom(R)=\dom(RS)=\dom(S)$ 
+then $R\restr \dom(R)$ is a bijection.
+
+%%%%%%%%%%%%%%%%%%
+% 18/02/2025 this point is correct but no more required in the proof
+%%%%%%%%%%%%%%%%%%
+%\item
+%%\label{lemma-composition-injective-relations-05}
+%Let us abbreviate $U = R\cap (\dom(RST) \times \dom(ST))$.
+%If $\Card(\dom(RS)) = \Card(\dom(S))$ then $U$ is a bijection.
+
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+%11:52 06/02/2025
+
+\begin{enumerate}
+\item
+%\label{lemma-composition-injective-relations-01}
+We have to prove that $\dom(R) \supseteq \dom(RS)$. 
+We assume $x \in \dom(RS)$ in order to prove that $x \in \dom(R)$.
+If  $x \in \dom(RS)$ then by definition of $RS$ 
+we have $(x,y) \in \dom(R)$ and $(y,z) \in \dom(S)$ for some $y,z \in X$.
+We conclude that $x \in \dom(R)$, as wished.
+
+\item
+%\label{lemma-composition-injective-relations-02}
+By Lemma 
+\ref{proposition-injective-relation}.
+\ref{proposition-injective-relation-01} 
+if $R$ is injective then in order to prove that
+$\Card(\dom(RS)) \le \Card(\dom(S))$ it is enough to prove two conditions
+on $R \cap (\dom(RS) \times \dom(S))$:
+
+\begin{enumerate}
+\item
+\emph{$R \cap (\dom(RS) \times \dom(S))$ is everywhere defined}.
+For, we assume that $x \in \dom(RS)$ in order to prove that
+for some $(x,y) \in R$ we have $y \in \dom(S)$.
+From $x \in \dom(RS)$ we deduce that there is some $z \in X$ 
+such that $(x,z) \in RS$, therefore for some $y \in X$ we have  $(x,y) \in R$ 
+and $(y,z) \in S$. We conclude that $(x,y) \in R$ and  
+$y \in \dom(S)$, as we wished to prove.
+
+\item
+\emph{$R \cap (\dom(RS) \times \dom(S))$ is injective}. This
+is  because this relation is a subset of $R$ which is injective.
+\end{enumerate}
+
+\item
+%\label{lemma-composition-injective-relations-03}
+By point \ref{lemma-composition-injective-relations-02} above 
+and Proposition 
+\ref{proposition-injective-relation}.\ref{proposition-injective-relation-02}.
+
+\item
+%\label{lemma-composition-injective-relations-04}
+Assume $\dom(R)=\dom(RS)$ and $\dom(R)=\dom(S)$ 
+and $R$ injective in order to prove that $R\restr \dom(R)$ is a bijection. 
+$\dom(R)=\dom(S)$ implies that $\Card(\dom(R))=\Card(\dom(S))$.
+By $\Card(\dom(R))=\Card(\dom(S))$, $R$ injective
+and point \ref{lemma-composition-injective-relations-03} above we deduce 
+that $R\restr \dom(RS), \dom(S)$ is a bijection. The thesis now follows from
+$\dom(RS) = \dom(R)$ and $\dom(S)=\dom(R)$.
+
+%%%%%%%%%%%%%%%%%%
+% 18/02/2025 this point is correct but no more required in the proof
+%%%%%%%%%%%%%%%%%%
+%\item
+%%\label{lemma-composition-injective-relations-05}
+%Let us abbreviate $U = R\cap (\dom(RST) \times \dom(ST))$.
+%Assume $\Card(\dom(RS)) = \Card(\dom(S))$ in order to prove
+%that $U$ is a bijection. We prove for $U$
+%the four clauses of the definition of bijective.
+%
+%\begin{enumerate}
+%\item
+%\emph{$U$ is everywhere defined}. 
+%Assume $x \in \dom(RST)$ in order to prove
+%that there is some $y \in \dom(ST)$ such that $(x,y) \in R$. By unfolding
+%the definition of $x \in \dom(RST)$,
+%there are some $(x,y) \in R$, $(y,z) \in S$, $(z,t) \in T$. 
+%Thus, we found some $y \in \dom(ST)$ such that $(x,y) \in R$.
+% 
+%\item
+%\emph{$U$ is functional}. Assume that
+%$x \in \dom(RST)$, $y, y' \in \dom(ST)$ 
+%and $(x,y), (x,y') \in R$ in order to prove that $y = y'$. By unfolding
+%the definition of $y,y' \in \dom(ST)$, there are some $(y,z) \in S$, $(z,t) \in T$
+%and some $(y',z') \in S$, $(z',t') \in T$.
+%From the assumptions $(x,y), (x,y') \in R$ and from $(y,z), (y',z') \in S$ 
+%we just proved
+%we deduce that $x \in \dom(RS)$, $y, y' \in \dom(S)$.
+%From $R$ bijection on $\dom(RS) \times \dom(S)$ (point
+%\ref{lemma-composition-injective-relations-03} above) and 
+%$(x,y), (x,y') \in R$.we conclude that $y = y'$.
+%
+%\item
+%\emph{$U$ is injective}. $U$ is a subset of $R$ which is injective.
+%Thus, $U$ is injective. 
+%
+%\item
+%\emph{$U$ is surjective} 
+%Assume that $y \in \dom(ST)$ in order to prove that there is some 
+%$x \in \dom(RST)$ such that $(x,y) \in R$. By unfolding
+%the definition of $y \in \dom(ST)$, there are some $(y,z) \in S$, $(z,t) \in T$,
+%in particular $y \in \dom(S)$.
+%From $R$ bijection on $\dom(RS) \times \dom(S)$ (point
+%\ref{lemma-composition-injective-relations-03} above) we deduce that
+%there is some $x \in \dom(RS)$ such that $(x,y) \in R$. 
+%From $(y,z) \in S$, $(z,t) \in T$ we conclude that
+%that $x \in \dom(RST)$.
+%By unfolding the definition of $x \in \dom(RS)$ there are some $(x,y') \in R$
+%$(y',z') \in S$, in particular $y' \in \dom(S)$. 
+%Again from $R$ bijection on $\dom(RS) \times \dom(S)$
+%from $x \in \dom(RS)$ and $(x,y), (x,y') \in R$ and $y, y' \in \dom(S)$
+%we deduce that $y = y'$. From $y = y'$ and
+%$(x,y') \in R$ we deduce $(x,y) \in R$. Eventually, from $(x,y) \in R$ and
+%$(y,z) \in S$, $(z,t) \in T$ we conclude that $x \in \dom(RST)$, as
+%wished.
+%\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{enumerate}
+\end{proof}
+
+%13:24 06/02/2025
+%12:21 17/02/2025
+
+Remark that the fact that $R\restr \dom(R)$ is a bijection 
+does not mean that $R$ itself
+is a bijection. For instance, an element $x \in \dom(R)$ can have some image
+$y \not \in \dom(R)$. In this case $x$ has at least two images and $R$ is no
+bijection, while $R\restr \dom(R)$ is.
+
+We define the value $\val(Y,\sigma)$ of a subset $Y \subseteq X$ of $X$
+w.r.t. a valuation 
+$\sigma:X \rightarrow \N$ as the sum of all values of $\sigma$ on $X$ 
+$$
+	\val(Y,\sigma)  \ \ \ = \ \ \  \Sigma_{y \in Y} \sigma(y)
+$$
+
+
+\begin{lemma}[The value of progressing bijection is decreasing]
+\label{lemma-decreasing-progressing-bijection}
+
+Assume that $r = (\Stat,\Prog)$ is a relation pair of $X = \{x_1, \ldots, x_n\}$
+and $R= \universe{r} = \Stat \cup \Prog$.
+Assume $\sigma, \tau \in \Val$ are value assignments on $X$
+and $Y, Z \subseteq X$. Assume that:
+
+\begin{enumerate}
+\item
+$R \cap (Z \times Y)$ is a bijection 
+\item
+we have
+\quotationMarks{weak progression of $\sigma$ to $\tau$}:
+for all $i \in Y, j \in Z. ((i,j) \in R \implies \sigma(i) \ge \tau(j))$.
+\item
+we have \quotationMarks{strict progression of $\sigma$ to $\tau$}:
+for some $i \in Y, j \in Z$ we have
+$(i,j) \in R$ and $\sigma(i) > \tau(j)$.
+\end{enumerate}
+
+Then $\val(Y,\sigma) > \val(Z,\tau)$.
+
+\end{lemma}
+
+
+\begin{proof}
+From $R \cap (Z \times Y)$ bijection we deduce that
+ $\Card(Y) = \Card(Z) = p$ for some $p \in [0,n]$. 
+We also deduce that $Y = \{i_1, \ldots, i_p\}$ and $Z = \{j_1, \ldots, j_p\}$
+for some increasing sequences $i_1 < \ldots < i_p$
+and $j_1 < \ldots < j_p$ on $[1,n]$ such that $(i_h, j_h) \in R$ for all
+$h \in [1,p]$.
+
+By weak and strict progression of $\sigma$ to $\tau$ we deduce that 
+$\sigma(i_h) \ge \tau(j_h)$ for all $h \in [1,p]$
+and $\sigma(i_h) > \tau(j_h)$ for some $h \in [1,p]$
+We conclude that 
+$
+\val(Y,\sigma)                               = 
+\Sigma_{h \in [1,p]} \sigma(i_h) >  
+\Sigma_{h \in [1,p]} \tau(j_h)      =
+\val(Z,\tau)
+$,
+as wished. 
+\end{proof}
+
+\section{Translating Global Trace Condition into Nested Induction
+(for Injective Relations and any Cardinality)}
+Suppose $\Card(X) = n$. Suppose $\setR=\{(\Stat_i,\Prog_i) | i \in [1,a]\}$
+is any finite set of bi-colorings on finite relations on $X$, closed by
+bi-color composition, i.e., $\setR = \setR^+$.  
+Suppose $\setR$ satisfies PDC, the progressing cycle condition.
+
+%Assume $\pi:[1,n] \rightarrow \setR$ is any length $n$ list on $\setR$,
+%with each $\pi(j) = (\Stat_{i_j}, \Prog_{i_j})$ some element of $\setR$.
+%Let $\Pi$ be the set of such lists on $\setR$.
+%\\
+%
+%Let $\theta:[1,n+1] \rightarrow (X \rightarrow \N)$ any family of assignment
+%compatible with $\pi$: we require that
+%$\theta(i)$ $\pi(i)$-progresses to $\theta(i+1)$, for all $i \in [1,n]$. 
+%To put otherwise we have
+%$$
+%\theta(1) \ 
+%(\Stat_{i_1}, \Prog_{i_1}) \ 
+%\theta(2) \ (
+%\Stat_{i_2}, \Prog_{i_2}) \ 
+%\theta(3) \ 
+%\ldots \ 
+%\theta(n) \ 
+%(\Stat_{i_n}, \Prog_{i_n})  \ 
+%\theta(n+1)
+% $$
+%Let $\Theta$ be the set of compatible pairs $(\pi,\theta)$.
+%We define the component-wise one-step extension on $\Theta$ by:
+%$(\pi,\theta) <_1 (\pi',\theta')$ 
+%if and only if $\pi <_1 \pi'$ and $\theta <_1 \theta'$ if and only if
+%$\exists \Stat,\Prog \in \Pfin(X^2) 
+%(\pi' = \pi \star (\Stat,\Prog))$ 
+%and 
+%$\exists \sigma:X \rightarrow \N 
+%(\theta' = \theta \star \sigma)$.
+%
+%We associate a weight 
+%$w(\pi,\theta) \in \Pi_{k=1}^{k=n}( \N \cup \{\infty\} \times [1,\genfrac(){0pt}{0}{n}{k} [ )$
+%in such a way that if $(\pi,\theta) <_1 (\pi',\theta')$ then 
+%$w(\pi,\theta)>w(\pi',\theta')$ in the lexicographic ordering.
+
+Assume $L:[1,l] \rightarrow \Pfin(\N \times \N)$ is a finite relation sequence,
+with $R_i = L(i)$ for all $i \in [1,l]$.
+Then for all $i,j \in [1,l]$, $i \le j$ we define
+$R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$.
+
+By Lemma \ref{lemma-composition-injective-relations-01} 
+and $\dom(R_{i,j+1}) = \dom(R_{i,j} R_{j+1})$ we have
+$\dom(R_{i,j})  \supseteq \dom(R_{i,j+1})$, that is,
+the sequence of sets $\dom(R_{i,j})$
+for $j \in [i,l]$ is weakly decreasing. 
+When all these sequences are 
+constant we say that the list $L$ is domain-stable.
+Here is the formal definition.
+
+\begin{definition}
+[Domain-Stability for a Sequence]
+Assume $L:[1,l] \rightarrow \Pfin(X \times X)$
+is a finite relation sequence and
+$\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ is
+a finite sequence of relation pairs.
+
+\begin{enumerate}
+
+\item
+$L$ is \emph{domain-stable} if and only if all $i \in [1,l]$ 
+we have $\Card(\dom(R_i)) = \Card(\dom(R_{i,l}))$.
+
+\item
+$L$ has \emph{constant cardinality} if and only if all 
+$i,j \in [1,l]$, $i \le j$ 
+we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l}))$.
+
+\item 
+$\pi$ is domain-stable (respectively, has constant cardinality)
+if the associated relation sequence 
+$\{\universe{\pi(i)} | i \in [1,l]\}$, obtained by taking the union
+of each pair $\pi(i)$, is domain-stable 
+(respectively, has constant cardinality).
+\end{enumerate}
+
+\end{definition}
+
+If $L = \{R_i | i \in [1,l\}$ 
+is domain-stable and $i \in [1,l]$, then the first set 
+$\dom(R_{i,i})$ and the last set $\dom(R_{i,l})$ in the weakly 
+decreasing sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ are equal. 
+Thus, if $L$ is domain stable then all these sequences are constant.
+The next Lemma describes in details the structure of a domain-stable
+sequence $\pi$ on a set $\setR$ of relation pairs.
+
+\begin{lemma}
+[Domain-stable injective bi-coloring and the Progressing Domain condition]
+\label{lemma-domain-stable-injective}
+Assume that 
+$\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ is a \emph{domain-stable} finite list
+of \emph{injective} pairs of relations on $X$, compatible with the assignment list 
+$\theta:[1,l] \rightarrow (X \rightarrow \N)$.
+
+For all $i \in [1,l]$ suppose that $R_i = \universe{\pi(i)}$. 
+For all $j \in [1,l]$, $i \le j$
+suppose that $R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$.
+
+\begin{enumerate}
+\item
+\label{lemma-domain-stable-injective-01}
+If $i,j \in [1,l]$, $i < j$ we have $\Card(\dom(R_i)) \le \Card(\dom(R_j))$.
+If furthermore $\Card(\dom(R_i)) = \Card(\dom(R_j))$,
+then $R_{i,j-1} \restr \dom(R_{i}), \dom(R_{j})$ is a bijection from $\dom(R_{i})$
+to $\dom(R_{j})$.
+
+\item
+\label{lemma-domain-stable-injective-02}
+If $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$,
+then %$R_{i,j-1} \restr \dom(R_{i}), \dom(R_{j})$ is a bijection,
+the value of $\theta(i)$ on any $x \in \dom(R_i)$ is $\ge$ than the value of
+$\theta(j)$ on the corresponding point $y \in \dom(R_j)$ and
+$\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
+
+\item
+\label{lemma-domain-stable-injective-03}
+If $i,j \in [1,l]$, $i < j$ and $\dom(R_i)) =\dom(R_j)$,
+and the composition closure of $\{\pi(i) | i \in [1,l]\}$ 
+satisfies the Progressing-domain condition, then 
+$\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
+
+\item
+\label{lemma-domain-stable-injective-04}
+Let $k \in [1,n]$
+with $n = \Card(X)$.
+Assume that the composition closure of $\setR = \{\pi(i) | i \in [1,l]\}$ 
+satisfies the Progressing-domain condition.
+Then the number of indexes $i \in [1,l]$ such that $\Card(\dom(R_i))=k$
+and $\val(\dom(R_i),\theta(i))=v$ is $\le \genfrac(){0pt}{0}{n}{k}$, for all $v \in \N$.
+
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\begin{enumerate}
+
+\item
+%\label{lemma-domain-stable-injective-01}
+If $L$ is a domain-stable sequence of injective relations then by Lemma 
+\ref{lemma-composition-injective-relations}.
+\ref{lemma-composition-injective-relations-02},
+\ref{lemma-composition-injective-relations-03} 
+we deduce that $\Card(\dom(R_i R_{i+1})) \le \Card(\dom(R_{i+1}))$
+and if $\Card(\dom(R_i R_{i+1})) = \Card(\dom(R_{i+1}))$ that
+$R_i \restr \dom(R_i R_{i+1}), \dom(R_{i+1})$ is a bijection.
+ 
+For all $i \in [1,l-1]$ by stability we have 
+$\dom(R_i) = \dom(R_i R_{i+1})$, therefore 
+$\Card(\dom(R_i)) \le \Card(\dom(R_{i+1}))$
+and if $\Card(\dom(R_i)) = \Card(\dom(R_{i+1}))$ then 
+$R_i \restr \dom(R_i ), \dom(R_{i+1})$ is a bijection.
+
+%$\pi$ is a list of injective relation pairs and $i \le j-1$, 
+%therefore $R_{i,j-1}$ is injective.
+%By stability of $\pi$ and $i \le j-1$ we have 
+%$\dom(R_i) = \dom(R_{i,j-1})$ and  $\dom(R_{i,j-1}) =  \dom(R_{i,j})$.
+%By definition we have $\dom(R_{i,j}) = \dom(R_{i,j-1}R_j)$,
+%we deduce that $\dom(R_{i,j-1}) = \dom(R_{i,j-1}R_j)$.
+%By Lemma 
+%\ref{lemma-composition-injective-relations}.
+%\ref{lemma-composition-injective-relations-03} 
+%applied to $R_{i,j-1}, R_j$ and to $\dom(R_{i,j-1}) = \dom(R_i)$ we deduce that 
+%$R_{i,j-1} \restr \dom(R_{i}), \dom(R_{j})$ is a bijection. 
+
+\item
+%\label{lemma-domain-stable-injective-02}
+By the previous point we know that 
+$R_{i,j-1} \restr \dom(R_{i,j-1})$ is a bijection between $\dom(R_i)$
+and $\dom(R_j)$. By compatibility between $\pi$ and $\theta$, 
+the value of $\theta(i)$ on any $x \in \dom(R_i)$ is $\ge$ than the value of
+$\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
+Thus, $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
+
+\item
+%\label{lemma-domain-stable-injective-03}
+Assume $\dom(R_i) = \dom(R_j)$. Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
+and the value of $\theta(i)$ on \emph{any} $x \in \dom(R_i)$ is 
+$\ge$ than the value of
+$\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
+By the Progressing Domain Condition, $R_{i,j-1}$ progresses on
+$\dom(R_{i,j-1})$, that is, on $\dom(R_i)$, that is, between $\dom(R_i)$ 
+and $\dom(R_i) = \dom(R_j)$. 
+By compatibility between $\pi$ and $\theta$, 
+the value of $\theta(i)$ on \emph{some} $x \in \dom(R_i)$ is 
+$>$ than the value of
+$\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
+We conclude that $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
+
+%10:56 16/11/2024
+
+\item
+%\label{lemma-domain-stable-injective-04}
+Assume $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i))=\Card(\dom(R_j))=k$
+and $\val(\dom(R_i),\theta(i))=\val(\dom(R_j),\theta(j))=v$.
+By the previous point we deduce that $\dom(R_i) \not = \dom(R_j)$.
+
+There are $\genfrac(){0pt}{0}{n}{k}$ 
+different cardinality $k$ subsets of an $n$ element
+set $X$, therefore at most $\genfrac(){0pt}{0}{n}{k}$ indexes for 
+$i\in [1,l]$ such that $\Card(\dom(R_i))=k$
+and $\val(\dom(R_i),\theta(i))=v$.
+
+\end{enumerate}
+\end{proof}
+
+
+\begin{proof}
+[Proof of Termination Theorem 1, \ref{theorem-finiteness-value-flow-1}]
+
+%We say that a bi-coloring sequence $\pi:[1,m] \rightarrow \setR$
+%is domain-stable if the relation sequence $\universe{\pi}$ defined by
+%$\universe{\pi}(i) = \universe{\pi(i)}$ for all $i \in [1,m]$ is domain-stable.
+
+We first define a list of $n$ weights $w(\pi,\theta)$ for a 
+length $m$ sequence $\pi$
+with stable domains. We associate to each cardinality $k \in [1,m]$
+a single weight.
+
+Suppose there is some $i \in [1,m]$
+such that $\Card(\dom(\universe{\pi(i)}))=k$.
+Then we define $w(\pi,\theta)_k = (m_k,r_k)$ 
+where $m_k$ is the least value for $\val(\pi(i),\theta(i))$
+such that $\Card(\dom(\universe{\pi(i)}))=k$. We define 
+$r_k = \genfrac(){0pt}{0}{n}{k} - s_k$, where $s_k \ge 1$ is the number of $i \in [1,m]$ such that
+$\val(\pi(i),\theta(i)) = m_k$
+and $\Card(\dom(\universe{\pi(i)}))=k$
+\footnote{$r_k$ is a bound to the number of times the values
+$(m_1,r_1, \ldots, m_k)$ can repeat equal if we extend $\pi$,
+and $r_k=0$ means these values cannot repeat.
+Indeed, we 
+will prove that if we consecutively have $\Card(\dom(\universe{\pi(i)}))=k$ and
+$ \val(\pi(i),\theta(i)) = m_k$, then the set $Y = \dom(\universe{\pi(i)})$
+cannot repeat. 
+$Y$ is any subset of $k$ elements of $[1,n]$, therefore the number of 
+possible values for $Y$ starts from $\genfrac(){0pt}{0}{n}{k}$ and decreases by $1$
+in each step, and it cannot go below zero.}
+
+If there is no $i \in [1,m]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
+then we set $w(\pi,\theta)_k = (\infty,0)$.
+
+We define $w(\pi,\theta)$ as the sequence
+$(w(\pi,\theta)_1, \ldots, w(\pi,\theta)_n)$ of weights.
+
+In each domain
+stable segment by Lemma \ref{lemma-composition-injective-relations-02}
+we have $\Card(\dom(R_{i,m})) = \Card(\dom(R_i R_{i+1,m})) \le
+\Card(\dom(R_{i+1,m}))$. By stability we have $\dom(R_{i}) =
+\dom(R_{i,m})$ and $\dom(R_{i+1}) =
+\dom(R_{i+1,m})$, we deduce $\Card(\dom(R_{i})) 
+\le \Card(\dom(R_{i+1}))$.
+
+For all $k \in [1,n]$ and any domain stable $ \pi : [1,m] \rightarrow \setR $ 
+we define $S(\pi,k) = \{i \in [1,m] | \Card(\dom(R_i)) = k \}$. 
+We claim that each $S(\pi,k)$ is a possibly empty segment. Indeed, if $i, j \in 
+S(\pi,k)$, $i \le h \le j$ then $k = \Card(\dom(R_i)) \le \Card(\dom(R_h))
+\le \Card(\dom(R_j)) = k$, therefore $\Card(\dom(R_h))=k$ and $h \in S(\pi,k)$.
+From $\Card(\dom(R_{i}))$ weakly increasing 
+we deduce that $S(\pi,k)$ is to the left
+of $S(\pi,k')$ whenever $k,k' \in [1,n]$ and $k < k'$.
+
+We can decompose each domain-stable $q:[1,m] \rightarrow \setR$ into
+a consecutive composition $q_1 \conc \ldots \conc q_n$, 
+with each $q_k$ the possibly empty restriction of $q$ to $S(\pi,k)$.
+By definition, each $q_k$ is a \emph{constant cardinality} path,
+indeed for each $i, j \in S(\pi,k)$, $i \le j$ we have $\Card(\dom(R_{i,j}))=\Card(\dom(R_i))=k$. 
+
+Assume $L=(c_1, \ldots, c_n)$ is a coloring list. We define a re-grouping
+of $L$ as any coloring sequence 
+$
+M = 
+(c_1\ldots c_{a_1},  
+c_{a_1+1}\ldots c_{a_2},
+\ldots,
+ c_{a_{m-1}+1}\ldots c_{n})
+$ 
+of composition of 2-colorings takne from $L$, 
+ with the same ordering as in $L$,
+ and whose product is the same as $L$: $\Pi M = \Pi L$.
+ $M$ is obtained by partitioning $L$ into adjacent segments 
+$[a_1,a_2-1], [a_2,a_3-1], \ldots, [a_{m-1},a_m - 1],[a_m,n]$,
+with $a_1=1$, 
+then composing the coloring of each segment $[a_{i},a_{i+1}-1]$
+ into a single coloring.
+ Say: we can group $L=(c_1,c_2,c_3,c_4,c_5,c_6)$ into
+ $M=(c_1c_2,c_3,c4,c_5,c_6)$, and in many more ways.
+We call $a=a_1, \ldots, a_m$
+the adjacence sequence. If $n \ge 1$ there are $2^{n-1}$ coloring,
+exactly the number of subsets $\{a_1,\ldots, a_m\}$ of $[1,n]$ including 
+ $a_1 = 1$.
+
+Formally, we define re-grouping and the adjacence sequence 
+by induction on $n$. If $n=0$ then $M=()$
+is the only re-grouping of $L=()$ with adjacence sequence $a=()$.
+Suppose $n \ge 1$ and we defined re-grouping and adjacence for all lists
+of length $\le n-1$ and $L=L_1 \star L_2 \star (c_n)$ 
+is any decomposition of $L$ into two consecutive sublists plus one element.
+Then $L_1$ has length $\le n-1$. 
+If $M$ is any re-grouping of $L_1$ with adjacence sequence $a$
+and  $d = \Pi L_1 \star (c_n)$ is the composition
+of all colorings in the list $L_2 \stat (c_n)$   %%%$L_1 \stat (c_n)$,%%%
+then $M \star (d)$ is one of the re-groupings of $L$, the re-grouping 
+with adjacence sequence $a \star (\length(L_2)+1)$ 
+                           %%%$a \star (\length(L_1)+1)$.
+
+%15:18 21/02/2025
+
+Assume $(\pi,\theta)$ 
+is any compatible pair bi-coloring sequence/assignment sequence
+with $\pi:[1,n] \rightarrow \setR$ and $\theta:[1,n],X\rightarrow \N$.
+We define a map $c(\pi,\theta) = (q,\eta)$
+returning a compatible pair bi-coloring sequence/assignment sequence,
+and for some increasing map $a:[1,m] \rightarrow [1,n]$ we have:
+
+\begin{enumerate}
+\item 
+$q:[1,m] \rightarrow \setR$ 
+is a re-grouping of $\pi$ with adjacence sequence $a$,
+\item
+$\eta=\theta \comp a$, namely $\eta(t,x) = \theta(a(t),x)$ for all
+ $t \in [1,m]$, $x \in X$. 
+\item
+$q$ has stable domain and  
+\item
+$(\pi,\theta) <_1 (\pi',\theta')$ implies $w(c(\pi,\theta)) >_\lex w(c(\pi',\theta'))$
+in the lexicographic ordering.
+\end{enumerate}
+
+More in detail we will have $c(\pi,\theta) = (q,\eta)$, 
+$c(\pi,\theta) = (q,\eta)$
+$c(\pi',\theta') = (q',\eta')$ and $q= q_1 \conc \ldots \conc q_n$,
+$q' = q'_1 \conc \ldots \conc q'_n$ are decomposition with each $q_k, q'_k$
+ a sequence of 2-colored relations whose domains all have cardinality $k$,
+then for some $k \in [1,n]$ we have $q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$
+and $q_k <_1 q'_k$ and $q' = q'_1 \ldots q'_k$. This explains why we have
+$w(c(\pi,\theta)) >_\lex w(c(\pi',\theta'))$.
+
+%16:42 21/02/2025
+Suppose $\pi' = \pi \star (\Stat,\Prog)$ and $\theta' = \theta \star \sigma$
+and $c(\pi,\theta) = (q,\eta)$ with $\length(q) = \length(\eta) = m$ in order to
+define $c(\pi',\theta') = (q',\eta')$, sequences of length $m'$. 
+We distinguish two cases.
+
+\begin{enumerate}
+\item
+Assume that $q \star (\Stat,\Prog)$ is stable. 
+Then we set $q' = q \star (\Stat,\Prog)$ and $\eta' = \eta \star (n+1)$,
+sequences of length $m' = m+1$. 
+
+\item
+Assume that $q \star (\Stat,\Prog)$ is \emph{not} stable. 
+Then we take the first $m' \in [1,m]$ such that 
+$
+\dom(q(m') \comp \ldots \comp q(m))
+\subset 
+\dom(q(m') \comp \ldots \comp q(m) \comp (\Stat,\Prog))
+$.
+We define $q'(i) =  q(i)$ for all $i \in [1,m'-1]$ and
+$q'(m') = q(m') \comp \ldots \comp q(m) \comp (\Stat,\Prog)$.
+We define $\eta'(i) = \eta(i)$ for all $i \in [1,m']$. 
+\end{enumerate}
+This is $c(\pi',\theta')$. 
+
+%In the definition of $c(\pi',\theta')$ we remove no $q(j)$ such that
+%$\Card(\dom(\universe{q(i)})) < k$, because we cannot have 
+%$\Card(\dom(\universe{q(i)}) = k$ and $q(i) \comp \ldots \comp q(j-1)$ injective
+%and $\Card(\dom(\universe{q(j)})) < k$. Indeed, we proved that
+In any domain-stable sequence of injective relations the cardinality sequence
+$\Card(\dom(\universe{q(i)}))$ is equal to 
+$\Card(\dom(\universe{q(i)}\ldots\universe{q(m)}))$
+and therefore it is weakly increasing in the index $i \in [1,m]$.
+
+%22:25 19/02/2025
+
+We prove that $w(c(\pi,\theta))>w(c(\pi',\theta'))$ by cases on the
+definition of $c(\pi',\theta')$.
+
+\begin{enumerate}
+
+\item
+Assume that $q \star (\Stat,\Prog)$ is stable. 
+Then $w(c(\pi,\theta))_l = w(c(\pi',\theta'))_l$ for all $l<m'$.
+If $\dom(\pi'(m')) = \dom(\pi'(m))$ 
+we use Lemma \ref{lemma-domain-stable-injective}.
+\ref{lemma-domain-stable-injective-03}
+to prove that $w(c(\pi,\theta))_{m'} > w(c(\pi',\theta'))_{m'}$.
+If $\dom(\pi'(m')) \not = \dom(\pi'(m))$ 
+we use Lemma \ref{lemma-domain-stable-injective}.
+\ref{lemma-domain-stable-injective-04}
+to prove that $w(c(\pi,\theta))_{m'} > w(c(\pi',\theta'))_{m'}$.
+
+\item
+Assume that $q \star (\Stat,\Prog)$ is \emph{not} stable. 
+Then $w(c(\pi,\theta))_l = w(c(\pi',\theta'))_l$ for all $l<m'$
+and $w(c(\pi,\theta))_{m'} > w(c(\pi',\theta'))_{m'}$ because
+the domain of $q'(m')$ is smaller than the domain of $q(m')$.
+In the case 
+$\Card(\dom(q'(m')) > \Card(\dom(q(1))), \ldots, \Card(\dom(q(m'-1)))$
+we have $w(c(\pi,\theta))_{m'} = \infty > w(c(\pi',\theta'))_{m'}$.
+In the case $\Card(\dom(q'(m')) = \Card(\dom(q(m'-1)))$, by arguing
+as in the previous case we prove that $q'$ has smaller indexes than 
+$(q(1), \ldots, q(m'-1))$, therefore smaller indexes than $q$.
+
+\end{enumerate}
+\end{proof}
+
+This ends the proof of Termination Theorem 
+(\ref{theorem-finiteness-value-flow-1}).
+
+%
+%We define an increasing map
+%$f:(\setT,>_1) \rightarrow ([0,\infty]^n, <_\lex)$ as follows. 
+%%14:57 20/02/2025
+%
+%Assume we have a transition 
+%$\theta = \langle (r_1,\sigma_1), \ldots, (r_m,\sigma_m) \rangle$
+%on $\setR$. For all $s \in [1,m]$
+%we have $r_s = (\Stat_{i_s},\Prog_{i_s} \in \setR$ and 
+%we define $R_s = \universe{r_s} =\Stat_{i_s} \cup \Prog_{i_s}$. 
+%By our assumption on $\setR$, the relation $R_s$ is injective.
+%
+%For any $p,q \in [1,m]$, $p \le q$ let 
+%us abbreviate the composition $r_p \ldots r_q$ of relation pairs 
+%with $r(p,q) = \Pi_{s=p}^{s=q} r_s$ and $R(p,q) = \universe{r(p,q)} =
+%\universe{r_p} \ldots \universe{r_q} = R_p  \ldots R_q$.
+%In particular we have $r(p) = r_p$ and $R(p,p)=R_p$.
+%
+%All relation pairs $r(p,q)$ are in $\setR$ by 
+%\emph{composition-closure of $\setR$}. By the assumption PDC on $\setR$
+%all $r(p,q)$ are progressing.
+%%%%%%%%%%%
+%% THE NEXT REMARK IS TRUE BUT POSSIBLY IT IS USELESS
+%%%%%%%%%%%
+%%Therefore all relations $R(p,q)$ on $X$ are finite non-empty compositions of 
+%%injective relations, hence all relations $R(p,q)$ are \emph{injective relations}.
+%%\\
+%%%%%%%%%%%
+%An alternative definition of $r(p,q) \in \setR$ runs as follows. We form all possible
+%compositions of relations by selecting one relation
+%in each pair $r_s = (\Stat_{i_s}, \Prog_{i_s})$, for all $s \in [p,q]$.
+%Then $r(p,q) = (\Stat', \Prog')$, with $\Stat' = \Stat_{i_p} \ldots \Stat_{i_q}$
+%and $\Prog' = $ the union of all compositions including at least one
+%$\Prog_{i_s}$ for some $s \in [p,q]$. 
+%\\
+% 
+%We define the sequence $c_\theta(i) =  \Card(\dom(R(i,m)))$ of the cardinalities
+%of the domains of $R(i,m)$, for all $i \in [1,m]$.
+%For all $i \in [1,m-1]$ we have $R(i,m)) = R_i R(i+1,m)$ and $R_i$ injective.
+%For all $i \in [1,m-1]$, by Lemma 
+%\ref{lemma-composition-injective-relations}.
+%\ref{lemma-composition-injective-relations-02},
+%{lemma-composition-injective-relations-03} 
+%we deduce that:
+%\begin{enumerate}
+%\item
+%$c_\theta(i) = \Card(\dom(R(i,m))) \le \Card(\dom(R(i+1,m))) = c_\theta(i+1)$ (i.e.,
+%$c$ is weakly increasing)
+%\item
+%if $c_\theta(i)=c_\theta(i+1)$ then $R(i,m) \cap (\dom(R(i,m)) \times \dom(R(i+1,m)))$
+%is a bijection.
+%\end{enumerate}
+%
+%We define $S_\theta(j) = \{i \in [1,m] | c_\theta(i) = j \}$. 
+%
+%The set $S_\theta(j)$ is a segment, possibly empty.
+%Indeed, if $n,m \in S_\theta(j)$ and $n<p<m$ then $j = c_\theta(n) \le c_\theta(p) \le c_\theta(m) = j$.
+%We deduce that $c_\theta(p)=j$ and we conclude that $p \in S_\theta(j)$.
+%
+%If $i, i+1 \in S_\theta(j)$ we have $c_\theta(i) = c_\theta(i+1) = j$ and therefore
+%$R(i,m) \cap (\dom(R(i,m)) \times \dom(R(i+1,m)))$ 
+%is a bijection by Lemma 
+%\ref{lemma-composition-injective-relations}.
+%{lemma-composition-injective-relations-03}.
+%
+%
+%Let us abbreviate $v_{\theta, i} = \val(R(i,m),\sigma_i)$ for all $i \in [1,m]$.
+%
+%Let us assume that $i, i+1 \in S_\theta(j)$.
+%We claim that we have $v_{\theta,i}  > v_{\theta,i+1}$. 
+%The reason is that $R_i$ is a bijection restricted to $\dom(R(i,m))
+%\times \dom(R(i+1,m))$ by Lemma 
+%\label{lemma-composition-injective-relations}.
+%\label{lemma-composition-injective-relations-03}.
+%Thus, we have 
+%$v_{\theta,i} = \val(R(i,m),\sigma_i) > \val(R(i+1,m),\sigma_i) = v_{\theta,i+1}$ 
+%by Lemma 
+%\ref{lemma-decreasing-progressing-bijection}
+%and the fact that $R(i+1,m)$ is weakly progressing and strictly progressing.
+%This latter is a consequence of PDC for $\setR$ and composition-closure for $\setR$.
+%\\
+%
+%Suppose that $S_\theta(j) \not = \emptyset$.
+%From $v_{\theta,i}  > v_{\theta,i+1}$ for all $i, i+1 \in S_\theta(j)$ and 
+%the fact that $S_\theta(j)$ is a segment 
+%that  deduce that the minimum of $\{v_{\theta,i} | i \in S_\theta(j)\}$ 
+%is $v_M$, for $M = \max(S_\theta(j))$ the last element
+%of the segment $S_\theta(j)$. 
+%In this case, we define $v_\theta(j) = \min(\{v_{\theta,i} | i \in S_\theta(j)\})$.
+%
+%Instead, in the case $S_\theta(j)=\emptyset$ we set $v_\theta(j) = \infty$,
+%which is the minimum of the $\emptyset$ in the order $[0,\infty]$.
+%
+%We map any
+%$\theta = \langle (R_1, \sigma_1),\ldots, (R_m,\sigma_m) \rangle \in \setT$ 
+%into 
+%$$
+%f(\theta) 
+%\ \ \ = \ \ \ 
+%( v_\theta(1), \ldots, v_\theta(n) ) \in [0,\infty]^n
+%$$
+%Whenever we extend the sequence to 
+%$\theta$ to $\eta = \theta \conc ((R_{m+1},\sigma_{m+1})) \in \setT$
+%we have $\dom(R(i,m)) \supseteq \dom(R(i,m)R_{m+1}) =
+%\dom(R(i,m+1))$. 
+%\\
+%
+%We first remark that in the case we have 
+%$\dom(R(i,m)) = \dom(R(i,m+1))$ for all $i \in [1,m]$,
+%then we have $c_\eta(i) = c_\theta(i)$ for all $i \in [1,m]$.
+%Let us abbreviate $k=c_\theta(m)$ the maximum value of $c_\theta$.
+%Then we have $c_\eta(m+1) \ge c_\eta(m) =  c_\theta(i) = k$.
+%
+%We now consider all possible cases.
+%
+%\begin{enumerate}
+%\item
+%Assume $\dom(R(i,m)) = \dom(R(i,m+1))$ for all $i \in [1,m]$ and 
+%$c_\eta(m+1) > k$. 
+%
+%In this case for all $h \in [1,k]$ we have $S_\eta(h) = S_\theta(h)$ 
+%and we deduce that $v_\eta(h) = v_\theta(h)$.
+%We have $S_\theta(k+1) = \emptyset$ while $S_\eta(k+1) = [m+1,m+1]$.
+%In this case $f(\theta) = (v_\theta(1), \ldots, v_\theta(k),\infty, \ldots, \infty)$
+%and $f(\eta) = (v_\eta(1), \ldots, v_\eta(k), v_\eta(k+1),\infty, \ldots, \infty)$.
+%$f(\eta)$ is smaller than $f(\theta)$ in the lexicographic order
+%because $v_\eta(k+1) < \infty$.
+%
+%\item
+%Assume $\dom(R(i,m)) = \dom(R(i,m+1))$ 
+%for all $i \in [1,m]$ and $c_\eta(m+1) = k$.
+%
+%In this case $S_\eta(k) = S_\theta(k)  \cup \{m+1\}$. We have 
+%$v_\eta(k) = v_{m+1} < v_m = v_\theta(k)$.
+%Thus, $f(\eta)$ is smaller than $f(\theta)$ in the lexicographic order.
+%
+%\item
+%Assume $\dom(R(h,m)) \supset \dom(R(h,m+1))$ for some $h \in [1,m]$.
+%Take the first such $h$. Then $\dom(R(i,m) = \dom(R(i,m+1))$
+%for all $i<h$ and $\dom(R(h,m)) \supset \dom(R(h,m+1))$.
+%We have $c_\theta(i) = c_\eta(i)$ for all $i<h$ and 
+%$c_\theta(h) > c_\eta(h)$. Let $j = c_\eta(h)$. 
+%In order to prove that $f(\eta)$ is smaller than $f(\theta)$ in the lexicographic 
+%order we will prove
+%that $v_\eta(j') = v_\theta(j')$ for all $j'<j$ and $v_\eta(j) < v_\theta(j)$.
+%
+%If $c_\theta(i) = j' < j$ then $i \le h-1$ and if $c_\eta(i)= j'  < j$ then 
+%again $i \le h-1$.
+%
+%Thus, for all $j'<j$ we have $S_\eta(j'), S_\theta(j') \subseteq [1,h-1]$,
+%hence $S_\eta(j') = S_\theta(j')$.
+%From $\dom(R(i,m) = \dom(R(i,m+1))$
+%for all $i<h$ we obtain $v_\eta(j') = v_\theta(j')$ for all $j'<j$.
+%
+%Now we prove that $v_\eta(j) < v_\theta(j)$. We distinguish two sub-cases.
+%
+%\begin{enumerate}
+%\item
+%Suppose there is some 
+%$i<h$ such that $c_\theta(i) = j$. We take the last $i \in [1,m]$
+%such that $c_\theta(i) = j$. We still have $i<h$ because if $i \ge h$
+%then $c_\theta(i) \ge c_\theta(h) > c_\eta(h) = j$. 
+%By the choice of $i$ we have $c_\eta(i) = c_\theta(i) = j$,
+%therefore $i \in S_\eta(j)$ and by $i<h$ we conclude that:
+%$v_\eta(j) = v_{\eta,h} < v_{\eta,i} = v_{\theta,i} = v_\theta(j)$. 
+%
+%\item
+%Suppose there is no $i<h$ such that $c_\theta(i) = j$. 
+%Then $S_\theta(j) = \emptyset$ while $h \in S_\eta(j)$ and therefore
+%$v_\eta(j) \in \N$. We conclude that $v_\eta(j) < \infty = v_\theta(j)$. 
+%\end{enumerate}
+%\end{enumerate}
+%
+%
+%
+%Thus, $f$ is increasing from $(\Seq{\setR}, >_1)$ to $([0,\infty]^n, <_{\lex})$. 
+%This ends the proof of the Termination
+%Theorem \ref{theorem-finiteness-value-flow}.
+%
+%%10:10 04/02/2024
+
+\newpage
+
+\section{Appendix: PDC and SCT are Equivalent Given Injectivity}
+The goal of this section is to compare PDC with the GTC with and 
+without injectivity. We Claim:
+\begin{enumerate}
+\item
+\label{property-1}
+We prove that SCT, GTC are equivalent with PDC given injectivity:
+$$
+\forall \setR. 
+\setR \mbox{ injective} 
+\implies 
+(SCT \Leftrightarrow PDC) \wedge 
+(GTC \Leftrightarrow PDC)
+$$
+\item
+\label{property-2}
+Instead, in general we only have left-to-rigth implication
+$$
+\forall \setR. 
+(SCT \Rightarrow PDC) \wedge 
+(GTC \Rightarrow PDC)
+$$
+\item
+\label{property-3}
+while the opposite implication can fail:
+$$
+\exists \setR. 
+\neg(\setR \mbox{ injective}) \wedge 
+\neg SCT \wedge 
+\neg GTC \wedge 
+PDC
+$$
+\end{enumerate}
+
+The implication GTC $\Rightarrow$ PDC follows from the fact that
+for all $(\Stat,\Prog) \in \setR$
+there is some infinitely progressing trace $z_1,z_2,z_3,\ldots$
+in the path $R,R,R,R,...$ where $R = \universe{(\Stat,\Prog)}$. 
+In any progressing point we have $z_i \Prog z_{i+1}$
+and $z_{i+1} R z_{i+2}$. We conclude that $z_i \Prog z_{i+1}$
+and $z_i, z_{i+1} \in \dom(R)$ for some $z_i, z_{i+1}$, that is,
+PDC.
+\\
+
+In order to prove SCT $\Rightarrow$ PDC, we recall 
+that Neil Jones proved the equivalence of SCT and GTC without
+any assumption on $\setR$: 
+$$
+\forall \setR. 
+(SCT \Leftrightarrow GTC)
+$$
+Thus, from GTC $\Rightarrow$ PDC just proved we deduce
+SCT $\Rightarrow$ PDC. We proved the property \ref{property-2}.
+\\
+
+Now we prove the property \ref{property-1}.
+We first prove that if $\setR$ is injective then
+PCD $\Rightarrow$ SCT. If will follow
+if $\setR$ is injective then PDC $\Rightarrow$ GTC. We just
+proved the opposite implications.
+
+So it is enough to prove: ($\setR$ is injective, PCD $\Rightarrow$ SCT).
+By Ramsey Theorem, for all binary relations $R$ on $X = \{x_1, \ldots, x_n\}$
+there is $m \in \N$, $m \ge 1$ such that $R^m$ is idempotent, namely
+such that $R^m = R^m R^m$. If we $R$ is injective, then $R^m$ is 
+is the identity on $\dom(R^m)$, as the next Lemma says.
+
+
+\begin{proposition}[Idempotent Injective Relations
+and the Global Trace Condition]
+\label{proposition-idempotent-relations}
+Assume a set $\setR$ of bi-colored \emph{injective} relations. 
+Assume $(\Stat,\Prog) \in \setR$, $R = \universe{(\Stat,\Prog)}$ and $RR=R$. 
+Then:
+\begin{enumerate}
+
+\item
+$R \restr \dom(R) $ is a bijection
+
+\item
+$R \restr \dom(R) $ is the identity
+
+\item
+If PDC holds, then some $x \in \dom(R)$ is progressing to itself and all
+$x \in \dom(R)$ are weakly progressing to themselves.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}
+\item
+We have to prove that \emph{$R \restr \dom(R) $ is a bijection}. 
+Let $\dom(R) = \{y_1, \ldots, y_m\}$. Assume
+$i \in [1,m]$, $y_i \in \dom(R)$: 
+from $R=RR$ we deduce that $y_i \in \dom(RR)$, therefore
+there are $(y_i,y) \in R$ and $(y,z) \in R$. From $(y,z) \in R$ 
+we obtain $y \in \dom(R)$. 
+Let $C_i = \{y \in \dom(R) |(y_i,y) \in R\}$ and $c_i = \Card(C_i)$. 
+By $(y_i,y) \in R$ we have $c_i \ge 1$, hence $\Sigma_{i \in [1,m]} c_i \ge m$. 
+By injectivity of $R$ if  $C_i \cap C_j \not = \emptyset$ then $i=j$, therefore 
+$\{C_i | i \in [1,m]\}$ are a partition of some subset of $\dom(R)$
+and we have $\Sigma_{i \in [1,m]} c_i \le m$. 
+We deduce that $\Sigma_{i \in [1,m]} c_i  = m$,
+and from it that $c_i=1$ for all $i \in [1,m]$. Thus, 
+$R \restr \dom(R) $ is an injection on a finite set $\dom(R)$.
+By the characterization of bijections on finite sets we 
+conclude that $R \restr \dom(R) $ is a bijection.
+
+\item
+In the point above we proved that $R \restr \dom(R) $ is 
+a bijection and we have to prove that \emph{it is an identity}. Any bijection
+of the finite set $\dom(R)$ is an union of pairwise disjoint cycles of the form 
+$D = \{z_1, \ldots, z_p\}$ for some $p \ge 1$. We have $z_i R z_j$
+if and only if $j = i+1 \mod p$ and we have
+$z_i RR z_j$ if and only if $j = i+2 \mod p$.
+From $R=RR$ and $z_1 R z_2$ we deduce $z_1 RR z_2$, then by choosing
+$i=1$, $j=2$ that $2=1+2 \mod p$, and eventually that $0=1 \mod p$. 
+We conclude that $p=1$. Thus, all cycles in
+$R \restr \dom(R) $ are unary and therefore
+$R \restr \dom(R) $ is the identity.
+
+\item
+
+\begin{enumerate}
+
+\item 
+We prove that \emph{for some $x \in \dom(R)$, $x$ is progressing to itself}.
+By PDC there are some $y, z \in \dom(R)$ such that $y$ is progressing to $z$.
+From $R \restr \dom(R) $ identity (the previous point)
+we deduce that $y=z$ for some $x \in \dom(R)$. 
+Thus, some $y \in \dom(R)$ is progressing to itself.
+
+\item 
+We prove that \emph{for all $x \in \dom(R)$, $x$ is weakly progressing to itself}.
+From $R \restr \dom(R)$ identity (the previous point)
+we deduce that $x R x$, either $x$ is progressing to $x$ or 
+$x$ is weakly progressing to $x$. In both cases $x$ is 
+is weakly progressing to $x$.
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+
+We already said that for all finite relations $R$ 
+there is $m \in \N$, $m \ge 1$ such that $R^m = R^m R^m$. By the previous
+Lemma, if $\setR$ is injective, $(\Stat,\Prog) \in \setR$, 
+$R = \universe{(\Stat,\Prog)}$ we deduce that some $x$ in progressing to itself 
+in $R^m$. This proves SCT, hence GTC.
+\\
+
+The last property, namely
+$
+\exists \setR. 
+\neg(\setR \mbox{ injective}) \wedge 
+\neg SCT \wedge 
+\neg GTC \wedge 
+PDC
+$,
+was already proved with the counter-example $\setR_2$
+in \S \ \ref{subsubsection-counterexample-PDC-GTC}.
+
+
+\section{Appendix: Comparing Global Trace Condition (GTC) 
+with Termination of Computations (TC)}
+In this section we prove that the Global Trace Condition is equivalent to
+the Termination of all possible computation flows, from now on, just TC
+for short.
+
+Using Classical Logic, 
+it is immediate that GTC $\implies$ TC. Indeed, in any infinite computation 
+flow there is some variable $x \in X$ with some infinitely progressig trace. 
+This implies that the value of $x$ is infinitely decreasing in the domain $\N$,
+and this cannot be. 
+
+
+The converse TC $\implies$ GTC is true but not immediate. Using Classical 
+Logic, we prove it in the form $\neg$ GTC $\implies$ $\neg$ TC. Actually
+we prove a stronger result: if GTC is false, there is some \emph{constant}
+infinite transition $s, s, s, \ldots$ for some $s = (\Stat,\Prog),\sigma) \in \setS$,
+in particular Termination of Computations (TC) fails.
+
+\begin{proof}[$\neg$ GTC $\implies$ $\neg$ TC]
+Assume $\neg$ GTC. By Neil Jones Thm we deduce $\neg$ SCT, namely
+that there is some $(\Stat,\Prog) \in \setR^+$ such that for no $m \in \N$, $m>0$, 
+$x \in X$ we have $x$ progressing to itself in $(\Stat,\Prog)^m$.
+
+We will define some \emph{constant}infinite transition 
+$\theta = (s, s, s, \ldots)$ for some 
+state $s = (\Stat,\Prog),\sigma) \in \setS$.
+
+We say that a trace $\tau:[1,t] \rightarrow X$ 
+is irredundant if and only if all its elements are 
+pairwise distinct, namely: $\forall i,j \in [1,t]. \tau(i)=\tau(j) \implies i=j$. 
+An irredundant trace has at most $n$ elements, where  $n = \Card(X)$, and
+progresses at most $n-1$ times, because the last element of the trace
+does not progress, having no next element.
+\\
+
+Let $\pi = (\Stat,\Prog), (\Stat,\Prog), \ldots$
+be the infinite constant path repeating $(\Stat,\Prog)$.
+We set $\sigma(x)=$ the maximum number progressions in
+an irredundant trace $\tau$ from $x$ compatible with $\pi$. The maximum
+exists because an irredundant trace has at most $n$ elements,
+therefore there are finitely many irredundant traces from $x$. In fact,
+we also know that $\sigma(x) \le n-1$.
+\\
+
+Now we prove that $\theta = (s, s, s, \ldots)$ is a constant infinite transition.
+We have to prove that for all $x,y \in X$ if $x \Stat y$ then $\sigma(x) \ge
+\sigma(y)$ and if $x \Prog y$ then $\sigma(x) >
+\sigma(y)$, namely $\sigma(x) \ge \sigma(y)+1$. 
+Assume $\sigma(x) = a$ and $\sigma(y) = b$.  
+By definition of $\sigma$ there is some irredundant trace $\tau$ from $y$ 
+with $b$ progressing points in $\pi$. We have to prove $a \ge b$ 
+if $x \Stat y$ and $a \ge b+1$ if $x \Prog y$.
+\\
+
+For, we define a trace $\rho = (x) \conc \tau$.
+$\rho$ could be not irredundant, however we can repeatedly replace each
+cycle included in $\rho$ with its first element. 
+Each time we obtain a shorter trace from $x$, eventually we obtain an irredundant
+trace $\rho'$. All the cycles we removed are not progressing,
+otherwise there would be some power of $(\Stat,\Prog)$ and some $z \in X$
+ progressing to itself. Therefore whenever we remove a cycle from$\rho$
+ we preserve the number of progressions. This number is $b$ if $x \Stat y$
+ and is $b+1$ if $x \Prog y$. By definition of $\sigma(x) = a$ we deduce
+ $a \ge b$ if $x \Stat y$ and $a \ge b+1$ if $x \Prog y$, as wished.
+\end{proof}
+
+Remark that in fact we proved a stronger property: either we have SCT and
+GTC and TC, or we have $\neg$SCT and $\neg$GTC and $\neg$TC. In the
+second case we have an infinite constant transition $\theta = (s, s, s, \ldots)$
+in which all traces progresses at most $n-1$ times, with $n=\Card(X)$.
+
+\end{document}
+
