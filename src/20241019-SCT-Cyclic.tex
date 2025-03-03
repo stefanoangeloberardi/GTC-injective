@@ -60,7 +60,7 @@ cyclic proofs
 infinite Ramsey theorem
 }
 
-%CIAO
+
 
 
 \maketitle
@@ -535,11 +535,10 @@ and the lexicographic ordering $<_{\lex}$ on $\setL$.
 Namely we will prove that if $\theta \in \setT$ and 
 $\eta \in \setT$, $\eta >_1 \theta$ then $ f(\eta) <_{\lex} f(\theta) $. 
 This implies that all transition sequences in $\setT$ terminate.
-We use the following folk-lore Proposition.
 
 We need some more ingredients for a proof of the Termination 
 Theorem \ref{theorem-finiteness-value-flow-1}. 
-The first one is some sufficient condition
+The first one is the following folk-lore Proposition, some sufficient condition
 for an injective relation $R$ on $X$ to be a bijection.
 
 \begin{proposition}[Injective Relations and Cardinality]
@@ -582,18 +581,18 @@ between two \emph{finite} sets of equal cardinality is a bijection.
 
 % 13:52 20/02/2025
 
-We also need a sufficient condition for a relation $R$ being
+Next, we also need a sufficient condition for a relation $R$ being
 a bijection between $\dom(RS)$ and $\dom(S)$: $R$ should be injective
 and the cardinalities of $\dom(RS)$ and $\dom(S)$ should be the same.
 We also provide a sufficient condition for $R$ being
 a bijection between $\dom(R)$ and $\dom(R)$:
-$R$ should be injective and $\dom(R)=\dom(RS)=\dom(S)$.
+$R$ should be injective and we should have $\dom(R)=\dom(RS)=\dom(S)$.
 
-For any binary relation $R$ on $X$
+From now on, for any binary relation $R$ on $X$
 we write $R \restr Y,Z$  
 for $R \cap (Y \times Z)$, the \emph{restriction of $R$ to $Y,Z$} and 
 $R \restr Y$ for $R \cap (Y \times Y)$,
-the \emph{restriction of $R$ to $Y$}.
+the \emph{restriction of $R$ to $Y$.}
 
 \begin{lemma}[Composition of Injective Relations and Cardinality]
 \label{lemma-composition-injective-relations}
@@ -753,9 +752,10 @@ is a bijection. For instance, an element $x \in \dom(R)$ can have some image
 $y \not \in \dom(R)$. In this case $x$ has at least two images and $R$ is no
 bijection, while $R\restr \dom(R)$ is.
 
-We define the value $\val(Y,\sigma)$ of a subset $Y \subseteq X$ of $X$
-w.r.t. a valuation 
-$\sigma:X \rightarrow \N$ as the sum of all values of $\sigma$ on $X$ 
+The last ingredient we need is a definition $\val(Y,\sigma)$ of value for 
+a subset $Y \subseteq X$ of $X$ w.r.t. a valuation 
+$\sigma:X \rightarrow \N$. 
+$\val(Y,\sigma)$ is the sum of all values of $\sigma$ on $X$ 
 $$
 	\val(Y,\sigma)  \ \ \ = \ \ \  \Sigma_{y \in Y} \sigma(y)
 $$
@@ -779,7 +779,7 @@ for all $i \in Y, j \in Z. ((i,j) \in R \implies \sigma(i) \ge \tau(j))$.
 \item
 we have \quotationMarks{strict progression of $\sigma$ to $\tau$}:
 for some $i \in Y, j \in Z$ we have
-$(i,j) \in R$ and $\sigma(i) > \tau(j)$.
+$((i,j) \in R)$ and $(\sigma(i) > \tau(j))$.
 \end{enumerate}
 
 Then $\val(Y,\sigma) > \val(Z,\tau)$.
@@ -808,12 +808,12 @@ $,
 as wished. 
 \end{proof}
 
-\section{Translating Global Trace Condition into Nested Induction
-(for Injective Relations and any Cardinality)}
+\section{The notion of stable-cardinality path}
+We need one last ingredients before proving the Main Theorem.
 Suppose $\Card(X) = n$. Suppose $\setR=\{(\Stat_i,\Prog_i) | i \in [1,a]\}$
 is any finite set of bi-colorings on finite relations on $X$, closed by
 bi-color composition, i.e., $\setR = \setR^+$.  
-Suppose $\setR$ satisfies PDC, the progressing cycle condition.
+%Suppose $\setR$ satisfies PDC, the progressing cycle condition.
 
 %Assume $\pi:[1,n] \rightarrow \setR$ is any length $n$ list on $\setR$,
 %with each $\pi(j) = (\Stat_{i_j}, \Prog_{i_j})$ some element of $\setR$.
@@ -850,6 +850,9 @@ Suppose $\setR$ satisfies PDC, the progressing cycle condition.
 %in such a way that if $(\pi,\theta) <_1 (\pi',\theta')$ then 
 %$w(\pi,\theta)>w(\pi',\theta')$ in the lexicographic ordering.
 
+We now define larger and larger set of paths, then we will prove that the
+associated value flows terminate.
+
 Assume $L:[1,l] \rightarrow \Pfin(\N \times \N)$ is a finite relation sequence,
 with $R_i = L(i)$ for all $i \in [1,l]$.
 Then for all $i,j \in [1,l]$, $i \le j$ we define
@@ -859,13 +862,17 @@ By Lemma \ref{lemma-composition-injective-relations-01}
 and $\dom(R_{i,j+1}) = \dom(R_{i,j} R_{j+1})$ we have
 $\dom(R_{i,j})  \supseteq \dom(R_{i,j+1})$, that is,
 the sequence of sets $\dom(R_{i,j})$
-for $j \in [i,l]$ is weakly decreasing. 
-When all these sequences are 
-constant we say that the list $L$ is domain-stable.
+for $j \in [i,l]$ is weakly decreasing. The same holds for 
+$\Card(\dom(R_{i,j}))$.
+When for each $i \in [1,l]$  the sequence $\Card(\dom(R_{i,j}))$ 
+is constant we say that the list $L$ has stable-cardinality domains. 
+When all cardinalities are $\Card(\dom(R_{i,j}))$ are the same we
+say that $L$ has constant-cardinality domains.
+
 Here is the formal definition.
 
 \begin{definition}
-[Domain-Stability for a Sequence]
+[Stable-Cardinality Domain for a sequence on $\setR$]
 Assume $L:[1,l] \rightarrow \Pfin(X \times X)$
 is a finite relation sequence and
 $\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ is
@@ -874,37 +881,68 @@ a finite sequence of relation pairs.
 \begin{enumerate}
 
 \item
-$L$ is \emph{domain-stable} if and only if all $i \in [1,l]$ 
+$L$ has \emph{stable-cardinality domains} if and only if all $i \in [1,l]$ 
 we have $\Card(\dom(R_i)) = \Card(\dom(R_{i,l}))$.
 
 \item
-$L$ has \emph{constant cardinality} if and only if all 
+$L$ has \emph{constant cardinality domains} if and only if all 
 $i,j \in [1,l]$, $i \le j$ 
 we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l}))$.
 
 \item 
-$\pi$ is domain-stable (respectively, has constant cardinality)
-if the associated relation sequence 
+$\pi$ has \emph{stable-cardinality domains} 
+(respectively, has \emph{constant cardinality domains})
+if and only if the associated relation sequence 
 $\{\universe{\pi(i)} | i \in [1,l]\}$, obtained by taking the union
-of each pair $\pi(i)$, is domain-stable 
-(respectively, has constant cardinality).
+of each pair $\pi(i) = (\Stat_i,\Prog_i)$, has stable-cardinality domains 
+(respectively, has constant cardinality domains).
+
+\item
+$\pi$ has \emph{non-progressing domains} if and only if for all 
+$i, j \in [1,l]$, $i < j$ we have $\neg (x \Prog_{i,j} y)$ for all 
+$x \in \dom(\pi(i))$, $y \in \dom(\pi(j))$.
 \end{enumerate}
 
 \end{definition}
 
-If $L = \{R_i | i \in [1,l\}$ 
-is domain-stable and $i \in [1,l]$, then the first set 
-$\dom(R_{i,i})$ and the last set $\dom(R_{i,l})$ in the weakly 
-decreasing sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ are equal. 
-Thus, if $L$ is domain stable then all these sequences are constant.
-The next Lemma describes in details the structure of a domain-stable
-sequence $\pi$ on a set $\setR$ of relation pairs.
+We will prove that termination of all value flows in four steps: 
+\begin{enumerate}
+\item
+the paths on $\setR^+$ 
+with constant-cardinality non-progressing domains 
+terminate in at most $\genfrac(){0pt}{0}{n}{k}$ steps, where $k$ is 
+the common cardinality of the domains; 
+\item 
+the paths on $\setR^+$ 
+with constant-cardinality domains have an increasing embedding in 
+$[0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[$ and therefore terminate;
+\item
+the paths on $\setR^+$ 
+with stable-cardinality domains have an increasing embedding 
+in $\setL$ and therefore terminate;
+\item
+\emph{all} paths on $\setR^+$ 
+with stable-cardinality domains have an increasing embedding 
+in $\setL$ and therefore terminate;
+\end{enumerate}
+
+Assume $L = \{R_i | i \in [1,l\}$ and 
+$R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$
+for all $i,j \in [1,l]$, $i \le j$.
+If $L$ has stable-cardinality domains and $i \in [1,l]$, 
+then the first set $\dom(R_{i,i})$ and the last set $\dom(R_{i,l})$ in the weakly 
+decreasing sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ have the same cardinality,
+therefore they are equal. 
+Thus, if $L$ has stable-cardinality domains then $\dom(R_{i,i}) = \dom(R_{i,j})$
+for all $i,j \in [1,l]$, $i \le j$.
+The next Lemma describes in details more properties of a stable-cardinality 
+domain sequence $\pi$ on a set $\setR$ of relation pairs.
 
 \begin{lemma}
-[Domain-stable injective bi-coloring and the Progressing Domain condition]
-\label{lemma-domain-stable-injective}
+[stable-cardinality domain injective bi-coloring and the Progressing Domain condition]
+\label{lemma-stable-cardinality domain-injective}
 Assume that 
-$\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ is a \emph{domain-stable} finite list
+$\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ is a \emph{stable-cardinality domain} finite list
 of \emph{injective} pairs of relations on $X$, compatible with the assignment list 
 $\theta:[1,l] \rightarrow (X \rightarrow \N)$.
 
@@ -914,14 +952,14 @@ suppose that $R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$.
 
 \begin{enumerate}
 \item
-\label{lemma-domain-stable-injective-01}
+\label{lemma-stable-cardinality domain-injective-01}
 If $i,j \in [1,l]$, $i < j$ we have $\Card(\dom(R_i)) \le \Card(\dom(R_j))$.
 If furthermore $\Card(\dom(R_i)) = \Card(\dom(R_j))$,
 then $R_{i,j-1} \restr \dom(R_{i}), \dom(R_{j})$ is a bijection from $\dom(R_{i})$
 to $\dom(R_{j})$.
 
 \item
-\label{lemma-domain-stable-injective-02}
+\label{lemma-stable-cardinality domain-injective-02}
 If $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$,
 then %$R_{i,j-1} \restr \dom(R_{i}), \dom(R_{j})$ is a bijection,
 the value of $\theta(i)$ on any $x \in \dom(R_i)$ is $\ge$ than the value of
@@ -929,14 +967,14 @@ $\theta(j)$ on the corresponding point $y \in \dom(R_j)$ and
 $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
-\label{lemma-domain-stable-injective-03}
+\label{lemma-stable-cardinality domain-injective-03}
 If $i,j \in [1,l]$, $i < j$ and $\dom(R_i)) =\dom(R_j)$,
 and the composition closure of $\{\pi(i) | i \in [1,l]\}$ 
 satisfies the Progressing-domain condition, then 
 $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 
 \item
-\label{lemma-domain-stable-injective-04}
+\label{lemma-stable-cardinality domain-injective-04}
 Let $k \in [1,n]$
 with $n = \Card(X)$.
 Assume that the composition closure of $\setR = \{\pi(i) | i \in [1,l]\}$ 
@@ -951,8 +989,8 @@ and $\val(\dom(R_i),\theta(i))=v$ is $\le \genfrac(){0pt}{0}{n}{k}$, for all $v 
 \begin{enumerate}
 
 \item
-%\label{lemma-domain-stable-injective-01}
-If $L$ is a domain-stable sequence of injective relations then by Lemma 
+%\label{lemma-stable-cardinality domain-injective-01}
+If $L$ is a stable-cardinality domain sequence of injective relations then by Lemma 
 \ref{lemma-composition-injective-relations}.
 \ref{lemma-composition-injective-relations-02},
 \ref{lemma-composition-injective-relations-03} 
@@ -979,7 +1017,7 @@ $R_i \restr \dom(R_i ), \dom(R_{i+1})$ is a bijection.
 %$R_{i,j-1} \restr \dom(R_{i}), \dom(R_{j})$ is a bijection. 
 
 \item
-%\label{lemma-domain-stable-injective-02}
+%\label{lemma-stable-cardinality domain-injective-02}
 By the previous point we know that 
 $R_{i,j-1} \restr \dom(R_{i,j-1})$ is a bijection between $\dom(R_i)$
 and $\dom(R_j)$. By compatibility between $\pi$ and $\theta$, 
@@ -988,7 +1026,7 @@ $\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
 Thus, $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
-%\label{lemma-domain-stable-injective-03}
+%\label{lemma-stable-cardinality domain-injective-03}
 Assume $\dom(R_i) = \dom(R_j)$. Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
 and the value of $\theta(i)$ on \emph{any} $x \in \dom(R_i)$ is 
 $\ge$ than the value of
@@ -1005,7 +1043,7 @@ We conclude that $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 %10:56 16/11/2024
 
 \item
-%\label{lemma-domain-stable-injective-04}
+%\label{lemma-stable-cardinality domain-injective-04}
 Assume $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i))=\Card(\dom(R_j))=k$
 and $\val(\dom(R_i),\theta(i))=\val(\dom(R_j),\theta(j))=v$.
 By the previous point we deduce that $\dom(R_i) \not = \dom(R_j)$.
@@ -1019,13 +1057,15 @@ and $\val(\dom(R_i),\theta(i))=v$.
 \end{enumerate}
 \end{proof}
 
+We have now all ingredients for proving the Main Theorem.
 
 \begin{proof}
 [Proof of Termination Theorem 1, \ref{theorem-finiteness-value-flow-1}]
-
 %We say that a bi-coloring sequence $\pi:[1,m] \rightarrow \setR$
-%is domain-stable if the relation sequence $\universe{\pi}$ defined by
-%$\universe{\pi}(i) = \universe{\pi(i)}$ for all $i \in [1,m]$ is domain-stable.
+%has stable-cardinality domain if the relation sequence $\universe{\pi}$ defined by
+%$\universe{\pi}(i) = \universe{\pi(i)}$ for all $i \in [1,m]$ has stable-cardinality domain.
+
+%13:44 03/03/2025
 
 We first define a list of $n$ weights $w(\pi,\theta)$ for a 
 length $m$ sequence $\pi$
@@ -1074,10 +1114,10 @@ From $\Card(\dom(R_{i}))$ weakly increasing
 we deduce that $S(\pi,k)$ is to the left
 of $S(\pi,k')$ whenever $k,k' \in [1,n]$ and $k < k'$.
 
-We can decompose each domain-stable $q:[1,m] \rightarrow \setR$ into
+We can decompose each stable-cardinality domain $q:[1,m] \rightarrow \setR$ into
 a consecutive composition $q_1 \conc \ldots \conc q_n$, 
 with each $q_k$ the possibly empty restriction of $q$ to $S(\pi,k)$.
-By definition, each $q_k$ is a \emph{constant cardinality} path,
+By definition, each $q_k$ is a \emph{constant cardinality domains} path,
 indeed for each $i, j \in S(\pi,k)$, $i \le j$ we have $\Card(\dom(R_{i,j}))=\Card(\dom(R_i))=k$. 
 
 Assume $L=(c_1, \ldots, c_n)$ is a coloring list. We define a re-grouping
@@ -1180,7 +1220,7 @@ This is $c(\pi',\theta')$.
 %$\Card(\dom(\universe{q(i)})) < k$, because we cannot have 
 %$\Card(\dom(\universe{q(i)}) = k$ and $q(i) \comp \ldots \comp q(j-1)$ injective
 %and $\Card(\dom(\universe{q(j)})) < k$. Indeed, we proved that
-In any domain-stable sequence of injective relations the cardinality sequence
+In any stable-cardinality domain sequence of injective relations the cardinality sequence
 $\Card(\dom(\universe{q(i)}))$ is equal to 
 $\Card(\dom(\universe{q(i)}\ldots\universe{q(m)}))$
 and therefore it is weakly increasing in the index $i \in [1,m]$.
@@ -1196,12 +1236,12 @@ definition of $c(\pi',\theta')$.
 Assume that $q \star (\Stat,\Prog)$ is stable. 
 Then $w(c(\pi,\theta))_l = w(c(\pi',\theta'))_l$ for all $l<m'$.
 If $\dom(\pi'(m')) = \dom(\pi'(m))$ 
-we use Lemma \ref{lemma-domain-stable-injective}.
-\ref{lemma-domain-stable-injective-03}
+we use Lemma \ref{lemma-stable-cardinality domain-injective}.
+\ref{lemma-stable-cardinality domain-injective-03}
 to prove that $w(c(\pi,\theta))_{m'} > w(c(\pi',\theta'))_{m'}$.
 If $\dom(\pi'(m')) \not = \dom(\pi'(m))$ 
-we use Lemma \ref{lemma-domain-stable-injective}.
-\ref{lemma-domain-stable-injective-04}
+we use Lemma \ref{lemma-stable-cardinality domain-injective}.
+\ref{lemma-stable-cardinality domain-injective-04}
 to prove that $w(c(\pi,\theta))_{m'} > w(c(\pi',\theta'))_{m'}$.
 
 \item
