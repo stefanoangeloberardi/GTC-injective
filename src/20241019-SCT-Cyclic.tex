@@ -909,21 +909,21 @@ We will prove that termination of all value flows in four steps:
 \begin{enumerate}
 \item
 the paths on $\setR^+$ 
-with constant-cardinality non-progressing domains 
+with \emph{constant-cardinality non-progressing domains} 
 terminate in at most $\genfrac(){0pt}{0}{n}{k}$ steps, where $k$ is 
 the common cardinality of the domains; 
 \item 
 the paths on $\setR^+$ 
-with constant-cardinality domains have an increasing embedding in 
+with \emph{constant-cardinality domains} have a decreasing embedding in 
 $[0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[$ and therefore terminate;
 \item
 the paths on $\setR^+$ 
-with stable-cardinality domains have an increasing embedding 
+with \emph{stable-cardinality domains} have a decreasing embedding 
 in $\setL$ and therefore terminate;
 \item
 \emph{all} paths on $\setR^+$ 
-with stable-cardinality domains have an increasing embedding 
-in $\setL$ and therefore terminate;
+have a decreasing embedding $WG$ in the set of paths with stable-cardinality 
+domains  and therefore terminate;
 \end{enumerate}
 
 Assume $L = \{R_i | i \in [1,l\}$ and 
@@ -942,8 +942,10 @@ domain sequence $\pi$ on a set $\setR$ of relation pairs.
 [stable-cardinality domain injective bi-coloring and the Progressing Domain condition]
 \label{lemma-stable-cardinality domain-injective}
 Assume that 
-$\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ is a \emph{stable-cardinality domain} finite list
-of \emph{injective} pairs of relations on $X$, compatible with the assignment list 
+$\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ 
+is a \emph{stable-cardinality domain} finite list
+of \emph{injective} pairs of relations on $X$, 
+compatible with the assignment list 
 $\theta:[1,l] \rightarrow (X \rightarrow \N)$.
 
 For all $i \in [1,l]$ suppose that $R_i = \universe{\pi(i)}$. 
@@ -977,8 +979,8 @@ $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 \label{lemma-stable-cardinality domain-injective-04}
 Let $k \in [1,n]$
 with $n = \Card(X)$.
-Assume that the composition closure of $\setR = \{\pi(i) | i \in [1,l]\}$ 
-satisfies the Progressing-domain condition.
+Assume that the composition closure $\setR^+$ of $\setR = \{\pi(i) | i \in [1,l]\}$ 
+satisfies the Progressing-domain condition PDC.
 Then the number of indexes $i \in [1,l]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ is $\le \genfrac(){0pt}{0}{n}{k}$, for all $v \in \N$.
 
@@ -1066,62 +1068,167 @@ We have now all ingredients for proving the Main Theorem.
 %$\universe{\pi}(i) = \universe{\pi(i)}$ for all $i \in [1,m]$ has stable-cardinality domain.
 
 %13:44 03/03/2025
+Lemma 
+\ref{lemma-stable-cardinality domain-injective}.
+\ref{lemma-stable-cardinality domain-injective-04} says that if $\setR^+ = \setR$
+then each constant-cardinality non-progressing domain path on $\setR$
+has at most $\genfrac(){0pt}{0}{n}{k}$ elements, that is,
+length in $[0,  \genfrac(){0pt}{0}{n}{k}[$. This is the first step in the proof
+of Main Theorem.
+\\
 
-We first define a list of $n$ weights $w(\pi,\theta)$ for a 
-length $m$ sequence $\pi$
-with stable domains. We associate to each cardinality $k \in [1,m]$
-a single weight.
+For the second step in the proof of the Main Theorem, 
+we assume that $\pi:[1,l] \rightarrow \setR$ is a constant-cardinality domain
+path on $\setR^+ = \setR$ and we define a decreasing map $w$ from
+$(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  \genfrac(){0pt}{0}{n}{k}[$.
+We define $w(\pi,\theta) = (m,r)$ where $m$ is the least value for 
+$\val(\pi(i),\theta(i))$ and $r = \genfrac(){0pt}{0}{n}{k} - s$, where 
+$s \ge 1$ is the number of $i \in [1,l]$ such that $\val(\pi(i),\theta(i)) = m$.
+By the previous step in the proof we have $s \le \genfrac(){0pt}{0}{n}{k}$,
+therefore $r \in [0, \genfrac(){0pt}{0}{n}{k}[$.
 
-Suppose there is some $i \in [1,m]$
-such that $\Card(\dom(\universe{\pi(i)}))=k$.
-Then we define $w(\pi,\theta)_k = (m_k,r_k)$ 
-where $m_k$ is the least value for $\val(\pi(i),\theta(i))$
-such that $\Card(\dom(\universe{\pi(i)}))=k$. We define 
-$r_k = \genfrac(){0pt}{0}{n}{k} - s_k$, where $s_k \ge 1$ is the number of $i \in [1,m]$ such that
-$\val(\pi(i),\theta(i)) = m_k$
-and $\Card(\dom(\universe{\pi(i)}))=k$
-\footnote{$r_k$ is a bound to the number of times the values
-$(m_1,r_1, \ldots, m_k)$ can repeat equal if we extend $\pi$,
-and $r_k=0$ means these values cannot repeat.
-Indeed, we 
-will prove that if we consecutively have $\Card(\dom(\universe{\pi(i)}))=k$ and
-$ \val(\pi(i),\theta(i)) = m_k$, then the set $Y = \dom(\universe{\pi(i)})$
-cannot repeat. 
-$Y$ is any subset of $k$ elements of $[1,n]$, therefore the number of 
-possible values for $Y$ starts from $\genfrac(){0pt}{0}{n}{k}$ and decreases by $1$
-in each step, and it cannot go below zero.}
+Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have constant-cardinality
+domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $w(\pi,\theta) >
+w(\pi',\theta')$ in the lexicographic ordering. Suppose $w(\pi,\theta) = (m,r)$
+and $w(\pi',\theta') = (m',r')$ with $r = \genfrac(){0pt}{0}{n}{k} - s$,
+$r' = \genfrac(){0pt}{0}{n}{k} - s'$, in order to prove $(m,r) > (m',r')$.
+We have $m = \val(\pi'(l),\theta') \ge m' = \val(\pi'(l+1),\theta')$.
+If $m > m'$ then $(m,r) > (m',r')$. Suppose now that $m=m'$.
+Then the number of of $i \in [1,l]$ such that $\val(\pi(i),\theta(i)) = m$
+is greater in $\pi'$ than in $\pi$. Namely we have $s' > s'$, we deduce that
+$m=m'$, $r' < r'$. Also in this case we conclude $(m,r) > (m',r')$. 
+\\
 
-If there is no $i \in [1,m]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
-then we set $w(\pi,\theta)_k = (\infty,0)$.
+For the third step in the proof of the Main Theorem, 
+we assume that $\pi:[1,l] \rightarrow \setR$ is a stable-cardinality domain
+path on $\setR^+ = \setR$ and we define a decreasing map $W$ from
+$(\pi,\theta) \in \setS$ to $\setL$.
 
-We define $w(\pi,\theta)$ as the sequence
-$(w(\pi,\theta)_1, \ldots, w(\pi,\theta)_n)$ of weights.
-
-In each domain
-stable segment by Lemma \ref{lemma-composition-injective-relations-02}
+In each stable-cardinality domains path by Lemma 
+\ref{lemma-composition-injective-relations}.
+\ref{lemma-composition-injective-relations-02}
 we have $\Card(\dom(R_{i,m})) = \Card(\dom(R_i R_{i+1,m})) \le
 \Card(\dom(R_{i+1,m}))$. By stability we have $\dom(R_{i}) =
 \dom(R_{i,m})$ and $\dom(R_{i+1}) =
-\dom(R_{i+1,m})$, we deduce $\Card(\dom(R_{i})) 
-\le \Card(\dom(R_{i+1}))$.
+\dom(R_{i+1,m})$. We deduce that $\Card(\dom(R_{i})) 
+\le \Card(\dom(R_{i+1}))$: the domain cardinality in a stable-cardinality path
+is weakly increasing. 
 
 For all $k \in [1,n]$ and any domain stable $ \pi : [1,m] \rightarrow \setR $ 
 we define $S(\pi,k) = \{i \in [1,m] | \Card(\dom(R_i)) = k \}$. 
-We claim that each $S(\pi,k)$ is a possibly empty segment. Indeed, if $i, j \in 
+We claim that each $S(\pi,k)$ is a possibly empty segment of $\pi$. 
+Indeed, if $i, j \in 
 S(\pi,k)$, $i \le h \le j$ then $k = \Card(\dom(R_i)) \le \Card(\dom(R_h))
 \le \Card(\dom(R_j)) = k$, therefore $\Card(\dom(R_h))=k$ and $h \in S(\pi,k)$.
 From $\Card(\dom(R_{i}))$ weakly increasing 
 we deduce that $S(\pi,k)$ is to the left
 of $S(\pi,k')$ whenever $k,k' \in [1,n]$ and $k < k'$.
 
-We can decompose each stable-cardinality domain $q:[1,m] \rightarrow \setR$ into
-a consecutive composition $q_1 \conc \ldots \conc q_n$, 
-with each $q_k$ the possibly empty restriction of $q$ to $S(\pi,k)$.
-By definition, each $q_k$ is a \emph{constant cardinality domains} path,
+Thus, we can decompose each stable-cardinality domains path 
+$\pi:[1,m] \rightarrow \setR$ into
+a consecutive composition $\pi_1 \conc \ldots \conc \pi_n$, 
+with each $\pi_k$ the possibly empty restriction of $\pi$ to $S(\pi,k)$.
+By definition, each $\pi_k$ is a \emph{constant cardinality domains} path,
 indeed for each $i, j \in S(\pi,k)$, $i \le j$ we have $\Card(\dom(R_{i,j}))=\Card(\dom(R_i))=k$. 
 
-Assume $L=(c_1, \ldots, c_n)$ is a coloring list. We define a re-grouping
-of $L$ as any coloring sequence 
+Let $\theta_i$ be the restriction of $\theta$ to the segment in which is
+defined $\pi_1$.
+We define a list of $n$ weights $W(\pi,\theta) = (w(\pi_1, \theta_1),
+\ldots, w(\pi_n, \theta_n)$ 
+for a length $l$ path $\pi$ with stable-cardinality domains. 
+
+If there is no $i \in [1,l]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
+then we set $w(\pi,\theta)_k = (\infty,0)$.
+\\
+
+%We associate to each cardinality $k \in [1,n]$ a single weight $w(\pi_k, \theta_k)$.
+
+
+Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have stable-cardinality
+domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $W(\pi,\theta) >
+W(\pi',\theta')$ in the lexicographic ordering. 
+Assume $\Card(\dom(\pi(l))) = k$. Then $\pi = \pi_1 \conc \ldots \pi_k$
+and $\pi_h=\nil$ for all $h \in [k+1,n]$. We have $\pi' = \pi \conc ((\Stat,\Prog))$
+for some $(\Stat,\Prog) \in \setR$ and $\Card(\dom((\Stat,\Prog))) \ge k$
+by stability. of $\pi'$. Therefore $\pi'_i = \pi_i$ for all $i \in [1,k-1]$
+and either $\pi'_k = \pi_k \conc ((\Stat,\Prog))$ or $\pi'_k = \pi_k$
+and $\pi'_{k+1} = ((\Stat,\Prog))$.
+In both cases we have $w(\pi_i,\theta_i) = w(\pi'_i,\theta'_i)_l$ for all 
+$i \in [1,k-1]$. 
+
+In the case $\pi'_k = \pi_k \conc ((\Stat,\Prog))$ 
+we have  $w(\pi_k,\theta_k) > w(\pi'_k,\theta'_k)$ by the third case
+of the Theorem. We conclude $W(\pi,\theta) > W(\pi',\theta')$.
+
+In the case $\pi'_k = \pi_k$ and $\pi'_{k+1} = ((\Stat,\Prog))$
+we have $w(\pi_k,\theta_k) = w(\pi'_k,\theta'_k)$ and 
+$w(\pi_{k+1},\theta_{k+1}) = (\infty,0) > w(\pi'_{k+1},\theta'_{k+1})$.
+We conclude $W(\pi,\theta) > W(\pi',\theta')$.
+\\
+
+%Suppose there is some $i \in [1,m]$
+%such that $\Card(\dom(\universe{\pi(i)}))=k$.
+%Then we define $w(\pi,\theta)_k = (m_k,r_k)$ 
+%where $m_k$ is the least value for $\val(\pi(i),\theta(i))$
+%such that $\Card(\dom(\universe{\pi(i)}))=k$. We define 
+%$r_k = \genfrac(){0pt}{0}{n}{k} - s_k$, where $s_k \ge 1$ is the number of $i \in [1,m]$ such that
+%$\val(\pi(i),\theta(i)) = m_k$
+%and $\Card(\dom(\universe{\pi(i)}))=k$
+%\footnote{$r_k$ is a bound to the number of times the values
+%$(m_1,r_1, \ldots, m_k)$ can repeat equal if we extend $\pi$,
+%and $r_k=0$ means these values cannot repeat.
+%Indeed, we 
+%will prove that if we consecutively have $\Card(\dom(\universe{\pi(i)}))=k$ and
+%$ \val(\pi(i),\theta(i)) = m_k$, then the set $Y = \dom(\universe{\pi(i)})$
+%cannot repeat. 
+%$Y$ is any subset of $k$ elements of $[1,n]$, therefore the number of 
+%possible values for $Y$ starts from $\genfrac(){0pt}{0}{n}{k}$ and decreases by $1$
+%in each step, and it cannot go below zero.}
+%
+%If there is no $i \in [1,m]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
+%then we set $w(\pi,\theta)_k = (\infty,0)$.
+%
+%We define $w(\pi,\theta)$ as the sequence
+%$(w(\pi,\theta)_1, \ldots, w(\pi,\theta)_n)$ of weights.
+%
+%In each path with stable-cardinality domains 
+%by Lemma 
+%\ref{lemma-composition-injective-relations}.
+%\ref{lemma-composition-injective-relations-02}
+%we have $\Card(\dom(R_{i,m})) = \Card(\dom(R_i R_{i+1,m})) \le
+%\Card(\dom(R_{i+1,m}))$. By stability we have $\dom(R_{i}) =
+%\dom(R_{i,m})$ and $\dom(R_{i+1}) =
+%\dom(R_{i+1,m})$. We deduce $\Card(\dom(R_{i})) 
+%\le \Card(\dom(R_{i+1}))$.
+%
+%For all $k \in [1,n]$ and any domain stable $ \pi : [1,m] \rightarrow \setR $ 
+%we define $S(\pi,k) = \{i \in [1,m] | \Card(\dom(R_i)) = k \}$. 
+%We claim that each $S(\pi,k)$ is a possibly empty segment of $\pi$. 
+%Indeed, if $i, j \in 
+%S(\pi,k)$, $i \le h \le j$ then $k = \Card(\dom(R_i)) \le \Card(\dom(R_h))
+%\le \Card(\dom(R_j)) = k$, therefore $\Card(\dom(R_h))=k$ and $h \in S(\pi,k)$.
+%From $\Card(\dom(R_{i}))$ weakly increasing 
+%we deduce that $S(\pi,k)$ is to the left
+%of $S(\pi,k')$ whenever $k,k' \in [1,n]$ and $k < k'$.
+%
+%Thus, we can decompose each stable-cardinality domains path 
+%$q:[1,m] \rightarrow \setR$ into
+%a consecutive composition $q_1 \conc \ldots \conc q_n$, 
+%with each $q_k$ the possibly empty restriction of $q$ to $S(\pi,k)$.
+%By definition, each $q_k$ is a \emph{constant cardinality domains} path,
+%indeed for each $i, j \in S(\pi,k)$, $i \le j$ we have $\Card(\dom(R_{i,j}))=\Card(\dom(R_i))=k$. 
+
+For the forth and last step in the proof of the Main Theorem, 
+we assume that $\pi:[1,l] \rightarrow \setR$ is \emph{any}
+path on $\setR^+ = \setR$ and we define a decreasing map $WG$ from 
+$(\pi,\theta) \in \setS$ to $WG(\pi,\theta) = (\pi',\theta') \in \setS$, 
+with $\pi'$ paths with stable-cardinality domains. We will conclude that
+all value flows terminate. 
+
+%16:29 03/03/2025
+
+Assume $L=(c_1, \ldots, c_n)$ is any path on $\setR$ with $n\ge 1$. 
+We define a re-grouping $M$ of $L$ as any path
 $
 M = 
 (c_1\ldots c_{a_1},  
@@ -1129,16 +1236,17 @@ c_{a_1+1}\ldots c_{a_2},
 \ldots,
  c_{a_{m-1}+1}\ldots c_{n})
 $ 
-of composition of 2-colorings takne from $L$, 
+of composition of 2-colorings taken from $L$, 
  with the same ordering as in $L$,
  and whose product is the same as $L$: $\Pi M = \Pi L$.
- $M$ is obtained by partitioning $L$ into adjacent segments 
+ $M$ is obtained by partitioning $L$ into $m \ge 1$ adjacent segments 
 $[a_1,a_2-1], [a_2,a_3-1], \ldots, [a_{m-1},a_m - 1],[a_m,n]$,
 with $a_1=1$, 
-then composing the coloring of each segment $[a_{i},a_{i+1}-1]$
- into a single coloring.
+then composing all $c_{a_{i}},\ldots, c_{a_{i+1}-1}$ in the same segment
+ into a single coloring $d_i = c_{a_{i}} \ldots c_{a_{i+1}-1}$.
  Say: we can group $L=(c_1,c_2,c_3,c_4,c_5,c_6)$ into
- $M=(c_1c_2,c_3,c4,c_5,c_6)$, and in many more ways.
+ $M=(c_1c_2,c_3,c_4,c_5,c_6)$, with $d_1 = c_1c_2$,
+ $d_2 = c_3c_4$, $d_3=c_5$, $d_4=_6$ and in many more ways.
 We call $a=a_1, \ldots, a_m$
 the adjacence sequence. If $n \ge 1$ there are $2^{n-1}$ coloring,
 exactly the number of subsets $\{a_1,\ldots, a_m\}$ of $[1,n]$ including 
@@ -1155,17 +1263,16 @@ If $M$ is any re-grouping of $L_1$ with adjacence sequence $a$
 and  $d = \Pi L_1 \star (c_n)$ is the composition
 of all colorings in the list $L_2 \stat (c_n)$   %%%$L_1 \stat (c_n)$,%%%
 then $M \star (d)$ is one of the re-groupings of $L$, the re-grouping 
-with adjacence sequence $a \star (\length(L_2)+1)$ 
-                           %%%$a \star (\length(L_1)+1)$.
+with adjacence sequence $a \star (\length(L_1)+1)$.
 
 %15:18 21/02/2025
 
 Assume $(\pi,\theta)$ 
 is any compatible pair bi-coloring sequence/assignment sequence
 with $\pi:[1,n] \rightarrow \setR$ and $\theta:[1,n],X\rightarrow \N$.
-We define a map $c(\pi,\theta) = (q,\eta)$
+We define a map $WG(\pi,\theta) = (q,\eta)$
 returning a compatible pair bi-coloring sequence/assignment sequence,
-and for some increasing map $a:[1,m] \rightarrow [1,n]$ we have:
+such that for some increasing map $a:[1,m] \rightarrow [1,n]$ we have:
 
 \begin{enumerate}
 \item 
@@ -1175,88 +1282,94 @@ is a re-grouping of $\pi$ with adjacence sequence $a$,
 $\eta=\theta \comp a$, namely $\eta(t,x) = \theta(a(t),x)$ for all
  $t \in [1,m]$, $x \in X$. 
 \item
-$q$ has stable domain and  
+$q$ has stable-cardinality domains and  
 \item
-$(\pi,\theta) <_1 (\pi',\theta')$ implies $w(c(\pi,\theta)) >_\lex w(c(\pi',\theta'))$
+$(\pi,\theta) <_1 (\pi',\theta')$ implies $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$
 in the lexicographic ordering.
 \end{enumerate}
 
-More in detail we will have $c(\pi,\theta) = (q,\eta)$, 
-$c(\pi,\theta) = (q,\eta)$
-$c(\pi',\theta') = (q',\eta')$ and $q= q_1 \conc \ldots \conc q_n$,
+%17:00 03/03/2025
+
+Assume $(\pi,\theta) <_1 (\pi',\theta')$ and  $G(\pi,\theta) = (q,\eta)$, 
+$G(\pi',\theta') = (q',\eta')$. Suppose $q= q_1 \conc \ldots \conc q_n$,
 $q' = q'_1 \conc \ldots \conc q'_n$ are decomposition with each $q_k, q'_k$
- a sequence of 2-colored relations whose domains all have cardinality $k$,
-then for some $k \in [1,n]$ we have $q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$
-and $q_k <_1 q'_k$ and $q' = q'_1 \ldots q'_k$. This explains why we have
-$w(c(\pi,\theta)) >_\lex w(c(\pi',\theta'))$.
+ a path  with constant-cardinality domains, 
+ whose domains all have cardinality $k$.
 
 %16:42 21/02/2025
 Suppose $\pi' = \pi \star (\Stat,\Prog)$ and $\theta' = \theta \star \sigma$
-and $c(\pi,\theta) = (q,\eta)$ with $\length(q) = \length(\eta) = m$ in order to
-define $c(\pi',\theta') = (q',\eta')$, sequences of length $m'$. 
+and $G(\pi,\theta) = (q,\eta)$ with $\length(q) = \length(\eta) = m$ in order to
+define $G(\pi',\theta') = (q',\eta')$, sequences of length $m'$. 
 We distinguish two cases.
 
 \begin{enumerate}
 \item
 Assume that $q \star (\Stat,\Prog)$ is stable. 
-Then we set $q' = q \star (\Stat,\Prog)$ and $\eta' = \eta \star (n+1)$,
-sequences of length $m' = m+1$. 
+Then we set $q' = q \star ((\Stat,\Prog))$ and $\eta' = \eta \star (n+1)$,
+two sequences of length $l' = l+1$. 
 
 \item
 Assume that $q \star (\Stat,\Prog)$ is \emph{not} stable. 
-Then we take the first $m' \in [1,m]$ such that 
+Then we take the first $l' \in [1,l]$ such that 
 $
-\dom(q(m') \comp \ldots \comp q(m))
-\subset 
-\dom(q(m') \comp \ldots \comp q(m) \comp (\Stat,\Prog))
+\dom(q(l') \ldots q(l))
+\supset 
+\dom(q(l') \ldots q(l) (\Stat,\Prog))
 $.
-We define $q'(i) =  q(i)$ for all $i \in [1,m'-1]$ and
-$q'(m') = q(m') \comp \ldots \comp q(m) \comp (\Stat,\Prog)$.
-We define $\eta'(i) = \eta(i)$ for all $i \in [1,m']$. 
+We define $q'(i) =  q(i)$ for all $i \in [1,l'-1]$ and
+$q'(l') = q(l') \comp \ldots \comp q(l) \comp (\Stat,\Prog)$.
+We define $\eta'(i) = \eta(i)$ for all $i \in [1,l']$. 
 \end{enumerate}
-This is $c(\pi',\theta')$. 
+This is $G(\pi',\theta')$. 
+\\
 
-%In the definition of $c(\pi',\theta')$ we remove no $q(j)$ such that
-%$\Card(\dom(\universe{q(i)})) < k$, because we cannot have 
-%$\Card(\dom(\universe{q(i)}) = k$ and $q(i) \comp \ldots \comp q(j-1)$ injective
-%and $\Card(\dom(\universe{q(j)})) < k$. Indeed, we proved that
-In any stable-cardinality domain sequence of injective relations the cardinality sequence
-$\Card(\dom(\universe{q(i)}))$ is equal to 
-$\Card(\dom(\universe{q(i)}\ldots\universe{q(m)}))$
-and therefore it is weakly increasing in the index $i \in [1,m]$.
+Then for some $k \in [1,n]$ we have $q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$
+and $q_k <_1 q'_k$ and $q' = q'_1 \ldots q'_k$. By the results of the third
+step of the proof, this implies that we have 
+$W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
 
-%22:25 19/02/2025
-
-We prove that $w(c(\pi,\theta))>w(c(\pi',\theta'))$ by cases on the
-definition of $c(\pi',\theta')$.
-
-\begin{enumerate}
-
-\item
-Assume that $q \star (\Stat,\Prog)$ is stable. 
-Then $w(c(\pi,\theta))_l = w(c(\pi',\theta'))_l$ for all $l<m'$.
-If $\dom(\pi'(m')) = \dom(\pi'(m))$ 
-we use Lemma \ref{lemma-stable-cardinality domain-injective}.
-\ref{lemma-stable-cardinality domain-injective-03}
-to prove that $w(c(\pi,\theta))_{m'} > w(c(\pi',\theta'))_{m'}$.
-If $\dom(\pi'(m')) \not = \dom(\pi'(m))$ 
-we use Lemma \ref{lemma-stable-cardinality domain-injective}.
-\ref{lemma-stable-cardinality domain-injective-04}
-to prove that $w(c(\pi,\theta))_{m'} > w(c(\pi',\theta'))_{m'}$.
-
-\item
-Assume that $q \star (\Stat,\Prog)$ is \emph{not} stable. 
-Then $w(c(\pi,\theta))_l = w(c(\pi',\theta'))_l$ for all $l<m'$
-and $w(c(\pi,\theta))_{m'} > w(c(\pi',\theta'))_{m'}$ because
-the domain of $q'(m')$ is smaller than the domain of $q(m')$.
-In the case 
-$\Card(\dom(q'(m')) > \Card(\dom(q(1))), \ldots, \Card(\dom(q(m'-1)))$
-we have $w(c(\pi,\theta))_{m'} = \infty > w(c(\pi',\theta'))_{m'}$.
-In the case $\Card(\dom(q'(m')) = \Card(\dom(q(m'-1)))$, by arguing
-as in the previous case we prove that $q'$ has smaller indexes than 
-$(q(1), \ldots, q(m'-1))$, therefore smaller indexes than $q$.
-
-\end{enumerate}
+%%In the definition of $G(\pi',\theta')$ we remove no $q(j)$ such that
+%%$\Card(\dom(\universe{q(i)})) < k$, because we cannot have 
+%%$\Card(\dom(\universe{q(i)}) = k$ and $q(i) \comp \ldots \comp q(j-1)$ injective
+%%and $\Card(\dom(\universe{q(j)})) < k$. Indeed, we proved that
+%
+%In any stable-cardinality domain sequence of injective relations the cardinality sequence
+%$\Card(\dom(\universe{q(i)}))$ is equal to 
+%$\Card(\dom(\universe{q(i)}\ldots\universe{q(m)}))$
+%and therefore it is weakly increasing in the index $i \in [1,m]$.
+%
+%%22:25 19/02/2025
+%
+%We prove that $w(G(\pi,\theta))>w(G(\pi',\theta'))$ by cases on the
+%definition of $G(\pi',\theta')$.
+%
+%\begin{enumerate}
+%
+%\item
+%Assume that $q \star (\Stat,\Prog)$ is stable. 
+%Then $w(G(\pi,\theta))_l = w(G(\pi',\theta'))_l$ for all $l<m'$.
+%If $\dom(\pi'(m')) = \dom(\pi'(m))$ 
+%we use Lemma \ref{lemma-stable-cardinality domain-injective}.
+%\ref{lemma-stable-cardinality domain-injective-03}
+%to prove that $w(G(\pi,\theta))_{m'} > w(G(\pi',\theta'))_{m'}$.
+%If $\dom(\pi'(m')) \not = \dom(\pi'(m))$ 
+%we use Lemma \ref{lemma-stable-cardinality domain-injective}.
+%\ref{lemma-stable-cardinality domain-injective-04}
+%to prove that $w(G(\pi,\theta))_{m'} > w(G(\pi',\theta'))_{m'}$.
+%
+%\item
+%Assume that $q \star (\Stat,\Prog)$ is \emph{not} stable. 
+%Then $w(G(\pi,\theta))_l = w(G(\pi',\theta'))_l$ for all $l<m'$
+%and $w(G(\pi,\theta))_{m'} > w(G(\pi',\theta'))_{m'}$ because
+%the domain of $q'(m')$ is smaller than the domain of $q(m')$.
+%In the case 
+%$\Card(\dom(q'(m')) > \Card(\dom(q(1))), \ldots, \Card(\dom(q(m'-1)))$
+%we have $w(G(\pi,\theta))_{m'} = \infty > w(G(\pi',\theta'))_{m'}$.
+%In the case $\Card(\dom(q'(m')) = \Card(\dom(q(m'-1)))$, by arguing
+%as in the previous case we prove that $q'$ has smaller indexes than 
+%$(q(1), \ldots, q(m'-1))$, therefore smaller indexes than $q$.
+%
+%\end{enumerate}
 \end{proof}
 
 This ends the proof of Termination Theorem 
