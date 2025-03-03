@@ -387,7 +387,7 @@ $R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_2,x_1)\}$ is not injective.
 Instead, we will prove that PDC+injectivity imply finiteness of value flows,
 or, using Classical Logic, GTC:
 
-\begin{theorem}[Finiteness of $\setR$-compatible transitions 1]
+\begin{theorem}[Finiteness of $\setR$-compatible transitions (weak form)]
 \label{theorem-finiteness-value-flow-1}
 If $\setR$ is a finite list of bi-colored \emph{injective} relations satisfying 
 Progressing Domain Condition (PDC), then any value flow 
@@ -500,7 +500,7 @@ We denote the set of transition sequences with $\setT$.
 \end{definition}
 
 
-\subsection{A Proof of the Termination Theorem 
+\subsection{Some Ingredinent for a Proof of the Termination Theorem 
 \ref{theorem-finiteness-value-flow-1}}
 \label{subsection-proof-termination}
 Assume that $\setR$ is a composition-closed set, that $\setR$ is
@@ -809,7 +809,7 @@ as wished.
 \end{proof}
 
 \section{The notion of stable-cardinality path}
-We need one last ingredients before proving the Main Theorem.
+We need one last ingredients before proving the Termination Theorem.
 Suppose $\Card(X) = n$. Suppose $\setR=\{(\Stat_i,\Prog_i) | i \in [1,a]\}$
 is any finite set of bi-colorings on finite relations on $X$, closed by
 bi-color composition, i.e., $\setR = \setR^+$.  
@@ -905,27 +905,35 @@ $x \in \dom(\pi(i))$, $y \in \dom(\pi(j))$.
 
 \end{definition}
 
-We will prove that termination of all value flows in four steps: 
+We can now restate the Termination Theorem in a more detailed form, giving
+an upper bound the height of the tree of all paths in various cases.
+ 
+ \begin{theorem}[Finiteness of $\setR$-Compatible Transitions (Srong Form)]
+\label{theorem-finiteness-value-flow-2}
+
 \begin{enumerate}
 \item
-the paths on $\setR^+$ 
+The value flows on $\setR^+$ 
 with \emph{constant-cardinality non-progressing domains} 
-terminate in at most $\genfrac(){0pt}{0}{n}{k}$ steps, where $k$ is 
-the common cardinality of the domains; 
-\item 
-the paths on $\setR^+$ 
-with \emph{constant-cardinality domains} have a decreasing embedding in 
-$[0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[$ and therefore terminate;
-\item
-the paths on $\setR^+$ 
-with \emph{stable-cardinality domains} have a decreasing embedding 
-in $\setL$ and therefore terminate;
-\item
-\emph{all} paths on $\setR^+$ 
-have a decreasing embedding $WG$ in the set of paths with stable-cardinality 
-domains  and therefore terminate;
-\end{enumerate}
+terminate in $< \genfrac(){0pt}{0}{n}{k}$ steps, where $k$ is 
+the common cardinality of the domains.
 
+\item 
+There is a decreasing embedding $w$ from the value flows on $\setR^+$ 
+with \emph{constant-cardinality domains} to the set 
+$[0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[$, therefore these value flows terminate.
+
+\item
+There is a decreasing embedding $W$ from the value flows on $\setR^+$ with 
+\emph{stable-cardinality domains} to $\setL$, therefore these value flows terminate.
+
+\item
+There is a decreasing embedding $WG$ from \emph{all} value flows on $\setR^+$ 
+to $L$, therefore these value flows terminate.
+\end{enumerate}
+\end{theorem}
+
+We postpone the proof of Thm. \ref{theorem-finiteness-value-flow-2}.
 Assume $L = \{R_i | i \in [1,l\}$ and 
 $R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$
 for all $i,j \in [1,l]$, $i \le j$.
@@ -935,8 +943,8 @@ decreasing sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ have the same cardinality,
 therefore they are equal. 
 Thus, if $L$ has stable-cardinality domains then $\dom(R_{i,i}) = \dom(R_{i,j})$
 for all $i,j \in [1,l]$, $i \le j$.
-The next Lemma describes in details more properties of a stable-cardinality 
-domain sequence $\pi$ on a set $\setR$ of relation pairs.
+The next Lemma describes in details more properties of a path $\pi$ 
+on a set $\setR$  with stable-cardinality domains.
 
 \begin{lemma}
 [stable-cardinality domain injective bi-coloring and the Progressing Domain condition]
@@ -1006,18 +1014,6 @@ $\Card(\dom(R_i)) \le \Card(\dom(R_{i+1}))$
 and if $\Card(\dom(R_i)) = \Card(\dom(R_{i+1}))$ then 
 $R_i \restr \dom(R_i ), \dom(R_{i+1})$ is a bijection.
 
-%$\pi$ is a list of injective relation pairs and $i \le j-1$, 
-%therefore $R_{i,j-1}$ is injective.
-%By stability of $\pi$ and $i \le j-1$ we have 
-%$\dom(R_i) = \dom(R_{i,j-1})$ and  $\dom(R_{i,j-1}) =  \dom(R_{i,j})$.
-%By definition we have $\dom(R_{i,j}) = \dom(R_{i,j-1}R_j)$,
-%we deduce that $\dom(R_{i,j-1}) = \dom(R_{i,j-1}R_j)$.
-%By Lemma 
-%\ref{lemma-composition-injective-relations}.
-%\ref{lemma-composition-injective-relations-03} 
-%applied to $R_{i,j-1}, R_j$ and to $\dom(R_{i,j-1}) = \dom(R_i)$ we deduce that 
-%$R_{i,j-1} \restr \dom(R_{i}), \dom(R_{j})$ is a bijection. 
-
 \item
 %\label{lemma-stable-cardinality domain-injective-02}
 By the previous point we know that 
@@ -1059,32 +1055,34 @@ and $\val(\dom(R_i),\theta(i))=v$.
 \end{enumerate}
 \end{proof}
 
-We have now all ingredients for proving the Main Theorem.
+We have now all ingredients for proving the the Termination Theorem
+\ref{theorem-finiteness-value-flow-2} in strong form.
 
 \begin{proof}
-[Proof of Termination Theorem 1, \ref{theorem-finiteness-value-flow-1}]
+[Proof of Termination Theorem \ref{theorem-finiteness-value-flow-2}]
 %We say that a bi-coloring sequence $\pi:[1,m] \rightarrow \setR$
 %has stable-cardinality domain if the relation sequence $\universe{\pi}$ defined by
 %$\universe{\pi}(i) = \universe{\pi(i)}$ for all $i \in [1,m]$ has stable-cardinality domain.
 
 %13:44 03/03/2025
-Lemma 
-\ref{lemma-stable-cardinality domain-injective}.
+\begin{enumerate}
+
+\item
+Lemma \ref{lemma-stable-cardinality domain-injective}.
 \ref{lemma-stable-cardinality domain-injective-04} says that if $\setR^+ = \setR$
 then each constant-cardinality non-progressing domain path on $\setR$
-has at most $\genfrac(){0pt}{0}{n}{k}$ elements, that is,
-length in $[0,  \genfrac(){0pt}{0}{n}{k}[$. This is the first step in the proof
-of Main Theorem.
-\\
+has at most $\genfrac(){0pt}{0}{n}{k}$ elements, that is, has
+length in $[0,  \genfrac(){0pt}{0}{n}{k}[$. This is point $1$
+of Termination Theorem \ref{theorem-finiteness-value-flow-2}.
 
-For the second step in the proof of the Main Theorem, 
-we assume that $\pi:[1,l] \rightarrow \setR$ is a constant-cardinality domain
+\item
+We assume that $\pi:[1,l] \rightarrow \setR$ is a constant-cardinality domain
 path on $\setR^+ = \setR$ and we define a decreasing map $w$ from
 $(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  \genfrac(){0pt}{0}{n}{k}[$.
 We define $w(\pi,\theta) = (m,r)$ where $m$ is the least value for 
 $\val(\pi(i),\theta(i))$ and $r = \genfrac(){0pt}{0}{n}{k} - s$, where 
 $s \ge 1$ is the number of $i \in [1,l]$ such that $\val(\pi(i),\theta(i)) = m$.
-By the previous step in the proof we have $s \le \genfrac(){0pt}{0}{n}{k}$,
+By point $1$ above we have $s \le \genfrac(){0pt}{0}{n}{k}$,
 therefore $r \in [0, \genfrac(){0pt}{0}{n}{k}[$.
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have constant-cardinality
@@ -1097,11 +1095,10 @@ If $m > m'$ then $(m,r) > (m',r')$. Suppose now that $m=m'$.
 Then the number of of $i \in [1,l]$ such that $\val(\pi(i),\theta(i)) = m$
 is greater in $\pi'$ than in $\pi$. Namely we have $s' > s'$, we deduce that
 $m=m'$, $r' < r'$. Also in this case we conclude $(m,r) > (m',r')$. 
-\\
 
-For the third step in the proof of the Main Theorem, 
-we assume that $\pi:[1,l] \rightarrow \setR$ is a stable-cardinality domain
-path on $\setR^+ = \setR$ and we define a decreasing map $W$ from
+\item
+We assume that $\pi:[1,l] \rightarrow \setR$ is a stable-cardinality domain
+path on $\setR^+ = \setR$, in order to define a decreasing map $W$ from
 $(\pi,\theta) \in \setS$ to $\setL$.
 
 In each stable-cardinality domains path by Lemma 
@@ -1129,7 +1126,8 @@ $\pi:[1,m] \rightarrow \setR$ into
 a consecutive composition $\pi_1 \conc \ldots \conc \pi_n$, 
 with each $\pi_k$ the possibly empty restriction of $\pi$ to $S(\pi,k)$.
 By definition, each $\pi_k$ is a \emph{constant cardinality domains} path,
-indeed for each $i, j \in S(\pi,k)$, $i \le j$ we have $\Card(\dom(R_{i,j}))=\Card(\dom(R_i))=k$. 
+indeed for each $i, j \in S(\pi,k)$, $i \le j$ we have 
+$\Card(\dom(R_{i,j}))=\Card(\dom(R_i))=k$. 
 
 Let $\theta_i$ be the restriction of $\theta$ to the segment in which is
 defined $\pi_1$.
@@ -1139,10 +1137,8 @@ for a length $l$ path $\pi$ with stable-cardinality domains.
 
 If there is no $i \in [1,l]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
 then we set $w(\pi,\theta)_k = (\infty,0)$.
-\\
 
 %We associate to each cardinality $k \in [1,n]$ a single weight $w(\pi_k, \theta_k)$.
-
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have stable-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $W(\pi,\theta) >
@@ -1157,73 +1153,21 @@ In both cases we have $w(\pi_i,\theta_i) = w(\pi'_i,\theta'_i)_l$ for all
 $i \in [1,k-1]$. 
 
 In the case $\pi'_k = \pi_k \conc ((\Stat,\Prog))$ 
-we have  $w(\pi_k,\theta_k) > w(\pi'_k,\theta'_k)$ by the third case
-of the Theorem. We conclude $W(\pi,\theta) > W(\pi',\theta')$.
+we have  $w(\pi_k,\theta_k) > w(\pi'_k,\theta'_k)$ by point $2$ above. 
+We conclude $W(\pi,\theta) > W(\pi',\theta')$.
 
 In the case $\pi'_k = \pi_k$ and $\pi'_{k+1} = ((\Stat,\Prog))$
 we have $w(\pi_k,\theta_k) = w(\pi'_k,\theta'_k)$ and 
 $w(\pi_{k+1},\theta_{k+1}) = (\infty,0) > w(\pi'_{k+1},\theta'_{k+1})$.
 We conclude $W(\pi,\theta) > W(\pi',\theta')$.
-\\
 
-%Suppose there is some $i \in [1,m]$
-%such that $\Card(\dom(\universe{\pi(i)}))=k$.
-%Then we define $w(\pi,\theta)_k = (m_k,r_k)$ 
-%where $m_k$ is the least value for $\val(\pi(i),\theta(i))$
-%such that $\Card(\dom(\universe{\pi(i)}))=k$. We define 
-%$r_k = \genfrac(){0pt}{0}{n}{k} - s_k$, where $s_k \ge 1$ is the number of $i \in [1,m]$ such that
-%$\val(\pi(i),\theta(i)) = m_k$
-%and $\Card(\dom(\universe{\pi(i)}))=k$
-%\footnote{$r_k$ is a bound to the number of times the values
-%$(m_1,r_1, \ldots, m_k)$ can repeat equal if we extend $\pi$,
-%and $r_k=0$ means these values cannot repeat.
-%Indeed, we 
-%will prove that if we consecutively have $\Card(\dom(\universe{\pi(i)}))=k$ and
-%$ \val(\pi(i),\theta(i)) = m_k$, then the set $Y = \dom(\universe{\pi(i)})$
-%cannot repeat. 
-%$Y$ is any subset of $k$ elements of $[1,n]$, therefore the number of 
-%possible values for $Y$ starts from $\genfrac(){0pt}{0}{n}{k}$ and decreases by $1$
-%in each step, and it cannot go below zero.}
-%
-%If there is no $i \in [1,m]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
-%then we set $w(\pi,\theta)_k = (\infty,0)$.
-%
-%We define $w(\pi,\theta)$ as the sequence
-%$(w(\pi,\theta)_1, \ldots, w(\pi,\theta)_n)$ of weights.
-%
-%In each path with stable-cardinality domains 
-%by Lemma 
-%\ref{lemma-composition-injective-relations}.
-%\ref{lemma-composition-injective-relations-02}
-%we have $\Card(\dom(R_{i,m})) = \Card(\dom(R_i R_{i+1,m})) \le
-%\Card(\dom(R_{i+1,m}))$. By stability we have $\dom(R_{i}) =
-%\dom(R_{i,m})$ and $\dom(R_{i+1}) =
-%\dom(R_{i+1,m})$. We deduce $\Card(\dom(R_{i})) 
-%\le \Card(\dom(R_{i+1}))$.
-%
-%For all $k \in [1,n]$ and any domain stable $ \pi : [1,m] \rightarrow \setR $ 
-%we define $S(\pi,k) = \{i \in [1,m] | \Card(\dom(R_i)) = k \}$. 
-%We claim that each $S(\pi,k)$ is a possibly empty segment of $\pi$. 
-%Indeed, if $i, j \in 
-%S(\pi,k)$, $i \le h \le j$ then $k = \Card(\dom(R_i)) \le \Card(\dom(R_h))
-%\le \Card(\dom(R_j)) = k$, therefore $\Card(\dom(R_h))=k$ and $h \in S(\pi,k)$.
-%From $\Card(\dom(R_{i}))$ weakly increasing 
-%we deduce that $S(\pi,k)$ is to the left
-%of $S(\pi,k')$ whenever $k,k' \in [1,n]$ and $k < k'$.
-%
-%Thus, we can decompose each stable-cardinality domains path 
-%$q:[1,m] \rightarrow \setR$ into
-%a consecutive composition $q_1 \conc \ldots \conc q_n$, 
-%with each $q_k$ the possibly empty restriction of $q$ to $S(\pi,k)$.
-%By definition, each $q_k$ is a \emph{constant cardinality domains} path,
-%indeed for each $i, j \in S(\pi,k)$, $i \le j$ we have $\Card(\dom(R_{i,j}))=\Card(\dom(R_i))=k$. 
-
-For the forth and last step in the proof of the Main Theorem, 
-we assume that $\pi:[1,l] \rightarrow \setR$ is \emph{any}
-path on $\setR^+ = \setR$ and we define a decreasing map $WG$ from 
-$(\pi,\theta) \in \setS$ to $WG(\pi,\theta) = (\pi',\theta') \in \setS$, 
-with $\pi'$ paths with stable-cardinality domains. We will conclude that
-all value flows terminate. 
+\item
+We assume that $\pi:[1,l] \rightarrow \setR$ is \emph{any}
+path on $\setR^+ = \setR$ and we define a map $G$ from 
+$(\pi,\theta) \in \setS$ to $G(\pi,\theta) = (\pi',\theta') \in \setS$, 
+with $\pi'$ paths with stable-cardinality domains, in such a way that
+$WG$ is decreasing. We will conclude that
+\emph{all} value flows terminate. 
 
 %16:29 03/03/2025
 
@@ -1270,7 +1214,7 @@ with adjacence sequence $a \star (\length(L_1)+1)$.
 Assume $(\pi,\theta)$ 
 is any compatible pair bi-coloring sequence/assignment sequence
 with $\pi:[1,n] \rightarrow \setR$ and $\theta:[1,n],X\rightarrow \N$.
-We define a map $WG(\pi,\theta) = (q,\eta)$
+We define a map $G(\pi,\theta) = (q,\eta)$
 returning a compatible pair bi-coloring sequence/assignment sequence,
 such that for some increasing map $a:[1,m] \rightarrow [1,n]$ we have:
 
@@ -1321,240 +1265,16 @@ $q'(l') = q(l') \comp \ldots \comp q(l) \comp (\Stat,\Prog)$.
 We define $\eta'(i) = \eta(i)$ for all $i \in [1,l']$. 
 \end{enumerate}
 This is $G(\pi',\theta')$. 
-\\
 
 Then for some $k \in [1,n]$ we have $q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$
-and $q_k <_1 q'_k$ and $q' = q'_1 \ldots q'_k$. By the results of the third
-step of the proof, this implies that we have 
-$W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
+and $q_k <_1 q'_k$ and $q' = q'_1 \ldots q'_k$. By point $3$ above, 
+this implies that we have $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
 
-%%In the definition of $G(\pi',\theta')$ we remove no $q(j)$ such that
-%%$\Card(\dom(\universe{q(i)})) < k$, because we cannot have 
-%%$\Card(\dom(\universe{q(i)}) = k$ and $q(i) \comp \ldots \comp q(j-1)$ injective
-%%and $\Card(\dom(\universe{q(j)})) < k$. Indeed, we proved that
-%
-%In any stable-cardinality domain sequence of injective relations the cardinality sequence
-%$\Card(\dom(\universe{q(i)}))$ is equal to 
-%$\Card(\dom(\universe{q(i)}\ldots\universe{q(m)}))$
-%and therefore it is weakly increasing in the index $i \in [1,m]$.
-%
-%%22:25 19/02/2025
-%
-%We prove that $w(G(\pi,\theta))>w(G(\pi',\theta'))$ by cases on the
-%definition of $G(\pi',\theta')$.
-%
-%\begin{enumerate}
-%
-%\item
-%Assume that $q \star (\Stat,\Prog)$ is stable. 
-%Then $w(G(\pi,\theta))_l = w(G(\pi',\theta'))_l$ for all $l<m'$.
-%If $\dom(\pi'(m')) = \dom(\pi'(m))$ 
-%we use Lemma \ref{lemma-stable-cardinality domain-injective}.
-%\ref{lemma-stable-cardinality domain-injective-03}
-%to prove that $w(G(\pi,\theta))_{m'} > w(G(\pi',\theta'))_{m'}$.
-%If $\dom(\pi'(m')) \not = \dom(\pi'(m))$ 
-%we use Lemma \ref{lemma-stable-cardinality domain-injective}.
-%\ref{lemma-stable-cardinality domain-injective-04}
-%to prove that $w(G(\pi,\theta))_{m'} > w(G(\pi',\theta'))_{m'}$.
-%
-%\item
-%Assume that $q \star (\Stat,\Prog)$ is \emph{not} stable. 
-%Then $w(G(\pi,\theta))_l = w(G(\pi',\theta'))_l$ for all $l<m'$
-%and $w(G(\pi,\theta))_{m'} > w(G(\pi',\theta'))_{m'}$ because
-%the domain of $q'(m')$ is smaller than the domain of $q(m')$.
-%In the case 
-%$\Card(\dom(q'(m')) > \Card(\dom(q(1))), \ldots, \Card(\dom(q(m'-1)))$
-%we have $w(G(\pi,\theta))_{m'} = \infty > w(G(\pi',\theta'))_{m'}$.
-%In the case $\Card(\dom(q'(m')) = \Card(\dom(q(m'-1)))$, by arguing
-%as in the previous case we prove that $q'$ has smaller indexes than 
-%$(q(1), \ldots, q(m'-1))$, therefore smaller indexes than $q$.
-%
-%\end{enumerate}
+\end{enumerate}
 \end{proof}
 
 This ends the proof of Termination Theorem 
 (\ref{theorem-finiteness-value-flow-1}).
-
-%
-%We define an increasing map
-%$f:(\setT,>_1) \rightarrow ([0,\infty]^n, <_\lex)$ as follows. 
-%%14:57 20/02/2025
-%
-%Assume we have a transition 
-%$\theta = \langle (r_1,\sigma_1), \ldots, (r_m,\sigma_m) \rangle$
-%on $\setR$. For all $s \in [1,m]$
-%we have $r_s = (\Stat_{i_s},\Prog_{i_s} \in \setR$ and 
-%we define $R_s = \universe{r_s} =\Stat_{i_s} \cup \Prog_{i_s}$. 
-%By our assumption on $\setR$, the relation $R_s$ is injective.
-%
-%For any $p,q \in [1,m]$, $p \le q$ let 
-%us abbreviate the composition $r_p \ldots r_q$ of relation pairs 
-%with $r(p,q) = \Pi_{s=p}^{s=q} r_s$ and $R(p,q) = \universe{r(p,q)} =
-%\universe{r_p} \ldots \universe{r_q} = R_p  \ldots R_q$.
-%In particular we have $r(p) = r_p$ and $R(p,p)=R_p$.
-%
-%All relation pairs $r(p,q)$ are in $\setR$ by 
-%\emph{composition-closure of $\setR$}. By the assumption PDC on $\setR$
-%all $r(p,q)$ are progressing.
-%%%%%%%%%%%
-%% THE NEXT REMARK IS TRUE BUT POSSIBLY IT IS USELESS
-%%%%%%%%%%%
-%%Therefore all relations $R(p,q)$ on $X$ are finite non-empty compositions of 
-%%injective relations, hence all relations $R(p,q)$ are \emph{injective relations}.
-%%\\
-%%%%%%%%%%%
-%An alternative definition of $r(p,q) \in \setR$ runs as follows. We form all possible
-%compositions of relations by selecting one relation
-%in each pair $r_s = (\Stat_{i_s}, \Prog_{i_s})$, for all $s \in [p,q]$.
-%Then $r(p,q) = (\Stat', \Prog')$, with $\Stat' = \Stat_{i_p} \ldots \Stat_{i_q}$
-%and $\Prog' = $ the union of all compositions including at least one
-%$\Prog_{i_s}$ for some $s \in [p,q]$. 
-%\\
-% 
-%We define the sequence $c_\theta(i) =  \Card(\dom(R(i,m)))$ of the cardinalities
-%of the domains of $R(i,m)$, for all $i \in [1,m]$.
-%For all $i \in [1,m-1]$ we have $R(i,m)) = R_i R(i+1,m)$ and $R_i$ injective.
-%For all $i \in [1,m-1]$, by Lemma 
-%\ref{lemma-composition-injective-relations}.
-%\ref{lemma-composition-injective-relations-02},
-%{lemma-composition-injective-relations-03} 
-%we deduce that:
-%\begin{enumerate}
-%\item
-%$c_\theta(i) = \Card(\dom(R(i,m))) \le \Card(\dom(R(i+1,m))) = c_\theta(i+1)$ (i.e.,
-%$c$ is weakly increasing)
-%\item
-%if $c_\theta(i)=c_\theta(i+1)$ then $R(i,m) \cap (\dom(R(i,m)) \times \dom(R(i+1,m)))$
-%is a bijection.
-%\end{enumerate}
-%
-%We define $S_\theta(j) = \{i \in [1,m] | c_\theta(i) = j \}$. 
-%
-%The set $S_\theta(j)$ is a segment, possibly empty.
-%Indeed, if $n,m \in S_\theta(j)$ and $n<p<m$ then $j = c_\theta(n) \le c_\theta(p) \le c_\theta(m) = j$.
-%We deduce that $c_\theta(p)=j$ and we conclude that $p \in S_\theta(j)$.
-%
-%If $i, i+1 \in S_\theta(j)$ we have $c_\theta(i) = c_\theta(i+1) = j$ and therefore
-%$R(i,m) \cap (\dom(R(i,m)) \times \dom(R(i+1,m)))$ 
-%is a bijection by Lemma 
-%\ref{lemma-composition-injective-relations}.
-%{lemma-composition-injective-relations-03}.
-%
-%
-%Let us abbreviate $v_{\theta, i} = \val(R(i,m),\sigma_i)$ for all $i \in [1,m]$.
-%
-%Let us assume that $i, i+1 \in S_\theta(j)$.
-%We claim that we have $v_{\theta,i}  > v_{\theta,i+1}$. 
-%The reason is that $R_i$ is a bijection restricted to $\dom(R(i,m))
-%\times \dom(R(i+1,m))$ by Lemma 
-%\label{lemma-composition-injective-relations}.
-%\label{lemma-composition-injective-relations-03}.
-%Thus, we have 
-%$v_{\theta,i} = \val(R(i,m),\sigma_i) > \val(R(i+1,m),\sigma_i) = v_{\theta,i+1}$ 
-%by Lemma 
-%\ref{lemma-decreasing-progressing-bijection}
-%and the fact that $R(i+1,m)$ is weakly progressing and strictly progressing.
-%This latter is a consequence of PDC for $\setR$ and composition-closure for $\setR$.
-%\\
-%
-%Suppose that $S_\theta(j) \not = \emptyset$.
-%From $v_{\theta,i}  > v_{\theta,i+1}$ for all $i, i+1 \in S_\theta(j)$ and 
-%the fact that $S_\theta(j)$ is a segment 
-%that  deduce that the minimum of $\{v_{\theta,i} | i \in S_\theta(j)\}$ 
-%is $v_M$, for $M = \max(S_\theta(j))$ the last element
-%of the segment $S_\theta(j)$. 
-%In this case, we define $v_\theta(j) = \min(\{v_{\theta,i} | i \in S_\theta(j)\})$.
-%
-%Instead, in the case $S_\theta(j)=\emptyset$ we set $v_\theta(j) = \infty$,
-%which is the minimum of the $\emptyset$ in the order $[0,\infty]$.
-%
-%We map any
-%$\theta = \langle (R_1, \sigma_1),\ldots, (R_m,\sigma_m) \rangle \in \setT$ 
-%into 
-%$$
-%f(\theta) 
-%\ \ \ = \ \ \ 
-%( v_\theta(1), \ldots, v_\theta(n) ) \in [0,\infty]^n
-%$$
-%Whenever we extend the sequence to 
-%$\theta$ to $\eta = \theta \conc ((R_{m+1},\sigma_{m+1})) \in \setT$
-%we have $\dom(R(i,m)) \supseteq \dom(R(i,m)R_{m+1}) =
-%\dom(R(i,m+1))$. 
-%\\
-%
-%We first remark that in the case we have 
-%$\dom(R(i,m)) = \dom(R(i,m+1))$ for all $i \in [1,m]$,
-%then we have $c_\eta(i) = c_\theta(i)$ for all $i \in [1,m]$.
-%Let us abbreviate $k=c_\theta(m)$ the maximum value of $c_\theta$.
-%Then we have $c_\eta(m+1) \ge c_\eta(m) =  c_\theta(i) = k$.
-%
-%We now consider all possible cases.
-%
-%\begin{enumerate}
-%\item
-%Assume $\dom(R(i,m)) = \dom(R(i,m+1))$ for all $i \in [1,m]$ and 
-%$c_\eta(m+1) > k$. 
-%
-%In this case for all $h \in [1,k]$ we have $S_\eta(h) = S_\theta(h)$ 
-%and we deduce that $v_\eta(h) = v_\theta(h)$.
-%We have $S_\theta(k+1) = \emptyset$ while $S_\eta(k+1) = [m+1,m+1]$.
-%In this case $f(\theta) = (v_\theta(1), \ldots, v_\theta(k),\infty, \ldots, \infty)$
-%and $f(\eta) = (v_\eta(1), \ldots, v_\eta(k), v_\eta(k+1),\infty, \ldots, \infty)$.
-%$f(\eta)$ is smaller than $f(\theta)$ in the lexicographic order
-%because $v_\eta(k+1) < \infty$.
-%
-%\item
-%Assume $\dom(R(i,m)) = \dom(R(i,m+1))$ 
-%for all $i \in [1,m]$ and $c_\eta(m+1) = k$.
-%
-%In this case $S_\eta(k) = S_\theta(k)  \cup \{m+1\}$. We have 
-%$v_\eta(k) = v_{m+1} < v_m = v_\theta(k)$.
-%Thus, $f(\eta)$ is smaller than $f(\theta)$ in the lexicographic order.
-%
-%\item
-%Assume $\dom(R(h,m)) \supset \dom(R(h,m+1))$ for some $h \in [1,m]$.
-%Take the first such $h$. Then $\dom(R(i,m) = \dom(R(i,m+1))$
-%for all $i<h$ and $\dom(R(h,m)) \supset \dom(R(h,m+1))$.
-%We have $c_\theta(i) = c_\eta(i)$ for all $i<h$ and 
-%$c_\theta(h) > c_\eta(h)$. Let $j = c_\eta(h)$. 
-%In order to prove that $f(\eta)$ is smaller than $f(\theta)$ in the lexicographic 
-%order we will prove
-%that $v_\eta(j') = v_\theta(j')$ for all $j'<j$ and $v_\eta(j) < v_\theta(j)$.
-%
-%If $c_\theta(i) = j' < j$ then $i \le h-1$ and if $c_\eta(i)= j'  < j$ then 
-%again $i \le h-1$.
-%
-%Thus, for all $j'<j$ we have $S_\eta(j'), S_\theta(j') \subseteq [1,h-1]$,
-%hence $S_\eta(j') = S_\theta(j')$.
-%From $\dom(R(i,m) = \dom(R(i,m+1))$
-%for all $i<h$ we obtain $v_\eta(j') = v_\theta(j')$ for all $j'<j$.
-%
-%Now we prove that $v_\eta(j) < v_\theta(j)$. We distinguish two sub-cases.
-%
-%\begin{enumerate}
-%\item
-%Suppose there is some 
-%$i<h$ such that $c_\theta(i) = j$. We take the last $i \in [1,m]$
-%such that $c_\theta(i) = j$. We still have $i<h$ because if $i \ge h$
-%then $c_\theta(i) \ge c_\theta(h) > c_\eta(h) = j$. 
-%By the choice of $i$ we have $c_\eta(i) = c_\theta(i) = j$,
-%therefore $i \in S_\eta(j)$ and by $i<h$ we conclude that:
-%$v_\eta(j) = v_{\eta,h} < v_{\eta,i} = v_{\theta,i} = v_\theta(j)$. 
-%
-%\item
-%Suppose there is no $i<h$ such that $c_\theta(i) = j$. 
-%Then $S_\theta(j) = \emptyset$ while $h \in S_\eta(j)$ and therefore
-%$v_\eta(j) \in \N$. We conclude that $v_\eta(j) < \infty = v_\theta(j)$. 
-%\end{enumerate}
-%\end{enumerate}
-%
-%
-%
-%Thus, $f$ is increasing from $(\Seq{\setR}, >_1)$ to $([0,\infty]^n, <_{\lex})$. 
-%This ends the proof of the Termination
-%Theorem \ref{theorem-finiteness-value-flow}.
-%
-%%10:10 04/02/2024
 
 \newpage
 
