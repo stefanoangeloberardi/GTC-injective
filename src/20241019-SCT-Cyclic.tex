@@ -414,7 +414,8 @@ included in the domain of the relation}, namely
 
 \begin{center}
 \emph{
-$\forall (\Stat,\Prog) \in \setR. \ \exists x, y \in \dom(\Stat\cup\Prog). 
+$\forall (\Stat,\Prog) \in \setR, a \in G. 
+\ \ ((\Stat,\Prog) \ \setG \ (a,a)) \implies \exists x, y \in \dom(\Stat\cup\Prog). 
 \ (x \Prog y)$
 }
 \end{center}
@@ -515,7 +516,8 @@ $x, y \in \dom(\Stat \cup \Prog)$ to the weaker condition
 $x, y \in X$. Let us call \quotationMarks{Progressing Condition} or 
 PC the resulting condition. Then PC it is weaker than PDC,
 and indeed PC just says:
-$\Prog \not = \emptyset$ for all $(\Stat,\Prog) \in \setR$.
+for all $(\Stat,\Prog) \in \setR$, all $a \in G$ if $(\Stat,\Prog) \setG (a,a)$
+then $\Prog \not = \emptyset$.
 If we have PC in the place of PDC then the Termination Theorem fails, even if
 we assume composition-closure of $\setR$ in $\setG$ and injectivity
 of $\setR$. We explain why.
@@ -594,7 +596,7 @@ We denote the set of transition sequences with $\setT$.
 \end{definition}
 
 
-\subsection{Some Ingredinent for a Proof of the Termination Theorem 
+\subsection{Some Ingredient for a Proof of the Termination Theorem 
 \ref{theorem-finiteness-value-flow-1}}
 \label{subsection-proof-termination}
 Assume that $\setR$ is a composition-closed set, that $\setR$ is
@@ -615,11 +617,11 @@ for all $n \in \N$. We define a well-founded order $\setL$:
 
 \begin{definition}[The well-founded order $\setL$]
 \label{definition-well-founded-order-L}
-We equip the set 
+Let $g = \Card(G)$. We equip the set 
 $$
 \setL 
 \ \ \ = \ \ \ 
-\Pi_{k=1}^{k=n} \ [0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[ 
+\Pi_{k=1}^{k=n} \ [0,\infty] \times [0,g \genfrac(){0pt}{0}{n}{k}[ 
 $$
 with the lexicographic ordering on the components $(m_1,r_1), \ldots, 
 (m_n,r_n)$, with each pair $(m_i,r_i)$ ordered lexicographically. 
@@ -909,13 +911,13 @@ an upper bound the height of the tree of all paths in various cases.
  
  \begin{theorem}[Finiteness of $\setR$-Compatible Transitions (Srong Form)]
 \label{theorem-finiteness-value-flow-2}
-
+Let $g = \Card(G)$. 
 \begin{enumerate}
 \item
 \label{theorem-finiteness-value-flow-2-1}
 The value flows on $\setR, \setG$ 
 with \emph{constant-cardinality non-progressing domains} 
-terminate in $< \genfrac(){0pt}{0}{n}{k}$ steps, where $k$ is 
+terminate in $< g\genfrac(){0pt}{0}{n}{k}$ steps, where $k$ is 
 the common cardinality of the domains.
 Therefore these value flows terminate.
 
@@ -923,12 +925,13 @@ Therefore these value flows terminate.
 \label{theorem-finiteness-value-flow-2-2}
 There is a decreasing embedding $w$ from the value flows on $\setR, \setG$ 
 with \emph{constant-cardinality domains} to the set 
-$[0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[$. 
+$[0,\infty] \times [0,g\genfrac(){0pt}{0}{n}{k}[$. 
 Therefore these value flows terminate.
 
 \item
 \label{theorem-finiteness-value-flow-2-3}
-There is a decreasing embedding $W$ from the value flows on $\setR, \setG$ with 
+There is a decreasing embedding $W$ 
+from the value flows on $\setR, \setG$ with 
 \emph{stable-cardinality domains} to the well-order $\setL$ 
 (Def. \ref{definition-well-founded-order-L}).
 Therefore these value flows terminate.
@@ -985,7 +988,8 @@ $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
 \label{lemma-stable-cardinality domain-injective-03}
-If $i,j \in [1,l]$, $i < j$ and $\dom(R_i)) =\dom(R_j)$,
+If $i,j \in [1,l]$, $i < j$ and $\dom(R_i)) =\dom(R_j)$, and the pair
+from $i$ to $j$ is related to $(a,a)$ for some $a \in G$,
 and the composition closure of $\{\pi(i) | i \in [1,l]\}$ 
 satisfies the Progressing-domain condition, then 
 $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
@@ -997,7 +1001,8 @@ with $n = \Card(X)$.
 Assume that the composition closure $\setR$ of $\setR = \{\pi(i) | i \in [1,l]\}$ 
 satisfies the Progressing-domain condition PDC.
 Then the number of indexes $i \in [1,l]$ such that $\Card(\dom(R_i))=k$
-and $\val(\dom(R_i),\theta(i))=v$ is $\le \genfrac(){0pt}{0}{n}{k}$, for all $v \in \N$.
+and $\val(\dom(R_i),\theta(i))=v$ is 
+$\le g\genfrac(){0pt}{0}{n}{k}$, for all $v \in \N$.
 
 \end{enumerate}
 \end{lemma}
@@ -1032,11 +1037,12 @@ Thus, $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
 %\label{lemma-stable-cardinality domain-injective-03}
-Assume $\dom(R_i) = \dom(R_j)$. Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
+Assume $\dom(R_i) = \dom(R_j)$ and the pair between $i$ and $j$
+is related to $(a,a)$ for some $a \in G$. Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
 and the value of $\theta(i)$ on \emph{any} $x \in \dom(R_i)$ is 
 $\ge$ than the value of
 $\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
-By the Progressing Domain Condition, $R_{i,j-1}$ progresses on
+By the Progressing Domain Condition, then $R_{i,j-1}$ progresses on
 $\dom(R_{i,j-1})$, that is, on $\dom(R_i)$, that is, between $\dom(R_i)$ 
 and $\dom(R_i) = \dom(R_j)$. 
 By compatibility between $\pi$ and $\theta$, 
@@ -1053,11 +1059,12 @@ Assume $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i))=\Card(\dom(R_j))=k$
 and $\val(\dom(R_i),\theta(i))=\val(\dom(R_j),\theta(j))=v$.
 By the previous point we deduce that $\dom(R_i) \not = \dom(R_j)$.
 
-There are $\genfrac(){0pt}{0}{n}{k}$ 
+There are $g\genfrac(){0pt}{0}{n}{k}$ 
 different cardinality $k$ subsets of an $n$ element
-set $X$, therefore at most $\genfrac(){0pt}{0}{n}{k}$ indexes for 
+set $X$ with , therefore at most $\genfrac(){0pt}{0}{n}{k}$ indexes for 
 $i\in [1,l]$ such that $\Card(\dom(R_i))=k$
-and $\val(\dom(R_i),\theta(i))=v$.
+and $\val(\dom(R_i),\theta(i))=v$ and $R_i$ is related to $(a,b)$ and $R_j$
+to $(a,b')$, for some $a,b,b' \in G$.
 
 \end{enumerate}
 \end{proof}
@@ -1069,7 +1076,7 @@ in strong form (\ref{theorem-finiteness-value-flow-2}).
 \begin{proof}
 [Proof of Termination Theorem \ref{theorem-finiteness-value-flow-2}]
 %13:44 03/03/2025
-Assume $\setR$ is composition-closed in $\setG$.
+Assume $\setR$ is composition-closed in $\setG$. Let $g = \Card(G)$.
 
 \begin{enumerate}
 
@@ -1079,32 +1086,33 @@ Lemma \ref{lemma-stable-cardinality domain-injective}.
 \ref{lemma-stable-cardinality domain-injective-04} says that if 
 $\setR$ is composition-closed in $\setG$,
 then each constant-cardinality non-progressing domain path on $\setR$
-has at most $\genfrac(){0pt}{0}{n}{k}$ elements, that is, has
-length in $[0,  \genfrac(){0pt}{0}{n}{k}[$. This is point $1$
+has at most $g\genfrac(){0pt}{0}{n}{k}$ elements, that is, has
+length in $[0,  g\genfrac(){0pt}{0}{n}{k}[$. This is point $1$
 of Termination Theorem \ref{theorem-finiteness-value-flow-2}.
 
 \item
 %\label{theorem-finiteness-value-flow-2-2}
 We assume that $\pi:[1,l] \rightarrow \setR$ is a constant-cardinality domain
 path on $\setR$ and we define a decreasing map $w$ from
-$(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  \genfrac(){0pt}{0}{n}{k}[$.
+$(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  g\genfrac(){0pt}{0}{n}{k}[$.
 We define $w(\pi,\theta) = (m,r)$ where 
 \begin{enumerate}
 \item
 $m = \val(\pi(l),\theta(l))$ is the last value of $\val(\pi(i),\theta(i))$ 
 \item
-$r = \genfrac(){0pt}{0}{n}{k} - s$, where $s \ge 1$ is the number of $i \in [1,l]$ 
+$r = g\genfrac(){0pt}{0}{n}{k} - s$, 
+where $s \ge 1$ is the number of $i \in [1,l]$ 
 such that $\val(\pi(i),\theta(i)) = m$.
 \end{enumerate}
 By point \ref{theorem-finiteness-value-flow-2-1} 
-above we have $s \le \genfrac(){0pt}{0}{n}{k}$,
-therefore $r \in [0, \genfrac(){0pt}{0}{n}{k}[$.
+above we have $s \le g\genfrac(){0pt}{0}{n}{k}$,
+therefore $r \in [0, g\genfrac(){0pt}{0}{n}{k}[$.
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have constant-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $w(\pi,\theta) >
 w(\pi',\theta')$ in the lexicographic ordering. Suppose $w(\pi,\theta) = (m,r)$
 and $w(\pi',\theta') = (m',r')$ with $r = \genfrac(){0pt}{0}{n}{k} - s$,
-$r' = \genfrac(){0pt}{0}{n}{k} - s'$, in order to prove $(m,r) > (m',r')$.
+$r' = g\genfrac(){0pt}{0}{n}{k} - s'$, in order to prove $(m,r) > (m',r')$.
 We have $m = \val(\pi'(l),\theta') \ge m' = \val(\pi'(l+1),\theta')$.
 If $m > m'$ then $(m,r) > (m',r')$. Suppose now that $m=m'$.
 Then the number of of $i \in [1,l]$ such that $\val(\pi(i),\theta(i)) = m$
@@ -1359,7 +1367,7 @@ $$
 \end{enumerate}
 
 The implication GTC $\Rightarrow$ PDC follows from the fact that
-for all $(\Stat,\Prog) \in \setR$
+for all self-composable $(\Stat,\Prog) \in \setR$ 
 there is some infinitely progressing trace $z_1,z_2,z_3,\ldots$
 in the path $R,R,R,R,...$ where $R = \universe{(\Stat,\Prog)}$. 
 In any progressing point we have $z_i \Prog z_{i+1}$
@@ -1369,7 +1377,8 @@ PDC.
 \\
 
 In order to prove SCT $\Rightarrow$ PDC, we recall 
-that Neil Jones proved the equivalence of SCT and GTC with only
+that Neil Jones in \cite{SCT-2001} 
+proved the equivalence of SCT and GTC with only
 assumption the composition-closure: 
 $$
 \forall \setR, \setG \mbox{ comp.-closed}.  \ \ 
@@ -1386,7 +1395,8 @@ if $\setR$ is injective then PDC $\Rightarrow$ GTC. We just
 proved the opposite implications.
 
 So it is enough to prove: ($\setR$ is injective, PCD $\Rightarrow$ SCT).
-By Ramsey Theorem, for all binary relations $R$ on $X = \{x_1, \ldots, x_n\}$
+By Ramsey Theorem, for all binary $\setG$-self-composable 
+relations $R$ on $X = \{x_1, \ldots, x_n\}$
 there is $m \in \N$, $m \ge 1$ such that $R^m$ is idempotent, namely
 such that $R^m = R^m R^m$. If we $R$ is injective, then $R^m$ is 
 is the identity on $\dom(R^m)$, as the next Lemma says.
@@ -1395,8 +1405,9 @@ is the identity on $\dom(R^m)$, as the next Lemma says.
 \begin{proposition}[Idempotent Injective Relations
 and the Global Trace Condition]
 \label{proposition-idempotent-relations}
-Assume a set $\setR$ of bi-colored \emph{injective} relations. 
-Assume $(\Stat,\Prog) \in \setR$, $R = \universe{(\Stat,\Prog)}$ and $RR=R$. 
+Assume a set $\setR$ of \emph{injective} relation pairs. 
+Assume $(\Stat,\Prog) \in \setR$ is self-composable, 
+$R = \universe{(\Stat,\Prog)}$ and $RR=R$. 
 Then:
 \begin{enumerate}
 
@@ -1507,25 +1518,27 @@ in particular Termination of Computations (TC) fails.
 
 \begin{proof}[$\neg$ GTC $\implies$ $\neg$ TC]
 Assume $\neg$ GTC. By Neil Jones Thm we deduce $\neg$ SCT, namely
-that there is some $(\Stat,\Prog) \in \setR$ such that for no $m \in \N$, $m>0$, 
+that there is some self-composable 
+$(\Stat,\Prog) \in \setR$ such that for no $m \in \N$, $m>0$, 
 $x \in X$ we have $x$ progressing to itself in $(\Stat,\Prog)^m$.
 
 We will define some \emph{constant}infinite transition 
 $\theta = (s, s, s, \ldots)$ for some 
-state $s = (\Stat,\Prog),\sigma) \in \setS$.
+state $s = ((\Stat,\Prog),\sigma) \in \setS$.
 
 We say that a trace $\tau:[1,t] \rightarrow X$ 
 is irredundant if and only if all its elements are 
-pairwise distinct, namely: $\forall i,j \in [1,t]. \tau(i)=\tau(j) \implies i=j$. 
+pairwise distinct, namely: $\forall i,j \in [1,t]. \tau(i) = \tau(j) \implies i=j$. 
 An irredundant trace has at most $n$ elements, where  $n = \Card(X)$, and
 progresses at most $n-1$ times, because the last element of the trace
 does not progress, having no next element.
 \\
 
 Let $\pi = (\Stat,\Prog), (\Stat,\Prog), \ldots$
-be the infinite constant path repeating $(\Stat,\Prog)$.
-We set $\sigma(x)=$ the maximum number progressions in
-an irredundant trace $\tau$ from $x$ compatible with $\pi$. The maximum
+be the infinite constant path repeating the self-composable pair $(\Stat,\Prog)$.
+We set $\sigma(x)=$ the maximum number of progressions in
+an irredundant trace $\tau$, starting
+ from $x$ and compatible with $\pi$. The maximum
 exists because an irredundant trace has at most $n$ elements,
 therefore there are finitely many irredundant traces from $x$. In fact,
 we also know that $\sigma(x) \le n-1$.
@@ -1537,8 +1550,8 @@ We have to prove that for all $x,y \in X$ if $x \Stat y$ then $\sigma(x) \ge
 \sigma(y)$, namely $\sigma(x) \ge \sigma(y)+1$. 
 Assume $\sigma(x) = a$ and $\sigma(y) = b$.  
 By definition of $\sigma$ there is some irredundant trace $\tau$ from $y$ 
-with $b$ progressing points in $\pi$. We have to prove $a \ge b$ 
-if $x \Stat y$ and $a \ge b+1$ if $x \Prog y$.
+whose progressing points in $\pi$ are in number of $b$. 
+We have to prove $a \ge b$ if $x \Stat y$ and $a \ge b+1$ if $x \Prog y$.
 \\
 
 For, we define a trace $\rho = (x) \conc \tau$.
@@ -1554,8 +1567,8 @@ otherwise there would be some power of $(\Stat,\Prog)$ and some $z \in X$
 \end{proof}
 
 Remark that in fact we proved a stronger property: either we have SCT and
-GTC and TC, or we have $\neg$SCT and $\neg$GTC and $\neg$TC. In the
-second case we have an infinite constant transition $\theta = (s, s, s, \ldots)$
+GTC and TC, or we have $\neg$ SCT and $\neg$ GTC and $\neg$ TC. In the
+second case we also have an infinite constant transition $\theta = (s, s, s, \ldots)$
 in which all traces progresses at most $n-1$ times, with $n=\Card(X)$.
 
 \end{document}
