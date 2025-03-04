@@ -18,7 +18,8 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% WE ADD THE COMMANDS theorem lemma proposition corollary definition % 
+% WE ADD THE COMMANDS 
+% theorem lemma proposition corollary definition  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newtheorem{theorem}{Theorem}[section]
@@ -29,6 +30,7 @@
 
 %\newenvironment{proof}[1][Proof]{\begin{trivlist}
 %\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
 \newenvironment{example}[1][Example]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 \newenvironment{remark}[1][Remark]{\begin{trivlist}
@@ -87,7 +89,7 @@ a formal proof of Ramsey Theorem and using Intuitionistic Logic only.
 
 
 \section{Size Change Termination in the Case of Injective Relations}
-%14:03 30/10/2024 ricontrollare tutta l'introduzione
+%14:03 30/10/2024 
 Suppose we have a finite set $X=\{x_1, \ldots, x_n\}$ 
 and a finite set $\setR =\{(\Stat_i, \Prog_i)| i \in [1,r]\}$
 of pairs of finite relations on $X$. We consider the elements of $X$
@@ -218,20 +220,12 @@ We assume injectivity and we are looking for an equivalent version
 of GTC which can expressed in First Order Aritmetic, and such that
 the finiteness of all compatible value flows can be proved
 in Intuitionistic Arithmetic.
-%We prove that we can translate cyclic proofs + Peano Arithmetic 
-%into Martin-L\"of's Inductive Definitions + Arithmetic. 
-
-%As we said, with respect to our previous proof of the same result,
-%we avoid using Ramsey Theorem explicitly. This means that if we use our 
-%result for translating cyclic proofs into inductive proofs, we do not
-%have to insert a formal proof of Ramsey Theorem in the translated proof.
 
 We anticipate that when $n = \Card(X) \ge 1$, we will 
 use lexicographic induction on a length $2n$ sequence 
 $( m_1,r_1, \ldots, m_n,r_n)$.
 For all $k \in [1,n]$, we will have $m_k \in \N \cup \{\infty\}$ and 
-%$r_k \in [0, {n \choose k }[$, a finite initial segment of $\N$. 
-$r_k \in \N$, $r_k < \genfrac(){0pt}{0}{n}{k}$.
+$r_k \in [0, {n \choose k }[$, a finite initial segment of $\N$. 
 
 
 
@@ -254,7 +248,7 @@ not know what is the relation between the values of $x$ and $y$.
 
 
 In order to formulate SCT in our setting, we have first to define
-the composition of 2-colored relations
+the composition of relation pairs.
 
 \subsection{Definition of Composition of 2-colored relations}
 \label{subsection-composition}
@@ -312,9 +306,11 @@ We can now define SCT.
 \subsection{The Size Change Termination condition (SCT)
 and the Progressing Domain Condition (PDC)}
 The SCT condition says:
-\quotationMarks{\bf 
-all bi-colored relations in $\setR^+$ have some finite power in which some
-element progresses to itself}. We write SCT as follows:
+\quotationMarks{
+\emph{all relation pairs in $\setR^+$ 
+have some finite power in which some element progresses to itself}
+}. 
+We write SCT as follows:
 
 \begin{center}
 \emph{
@@ -330,14 +326,14 @@ In this paper we are looking for a more
 constructive and elementary proof of an equivalent result, namely the termination
 of all value flows compatible with some path of $\setR^+$.
 The proof should be suitable to a formalization in a proof assistant.
-We add the injectivity assumption because $2$-colored relations with
+We add the injectivity assumption because relation pairs with
 injectivity are enough to describe cyclic proofs, and if we have injectivity
 proving a termination result requires a weaker hypothesis PDC (see below). 
-Besides, using PDC it is faster checking whether a cyclic proof is correct.
+Besides, using PDC it is faster to check whether a cyclic proof is correct.
 
 The Progressing Domain Condition (PDC) says: 
-\quotationMarks{all bi-colored
-relations in $\setR^+$ have a progressing pair with both elements 
+\quotationMarks{all relation pairs in $\setR^+$ 
+have a progression from $x$ to $y$ with both elements 
 included in the domain of the relation}, namely
 
 \begin{center}
@@ -347,18 +343,17 @@ $\forall (\Stat,\Prog) \in \setR^+. \ \exists x, y \in \dom(\Stat\cup\Prog).
 }
 \end{center}
 
-PDC is weaker and it is easier to check than the SCT condition. To check PDC,
-we do not have to look for
-some $x$ in the progressing to itself in some power of $(\Stat,\Prog)$. Instead 
-it is enough to find some $x$ progressing to some $y$, such that both
-$x$, $y$ are in the domain of $\Stat \cup \Prog$.
+PDC is weaker and it is easier to check than the SCT condition. 
+To check PDC, we do not have to look for some $x$ in the progressing to itself in 
+some power of $(\Stat,\Prog)$. Instead it is enough to find some $x$ progressing 
+to some $y$, such that both $x$, $y$ are in the domain of $\Stat \cup \Prog$.
 
 However, PDC has the drawback that it implies 
-GTC and termination only for \emph{injective} bi-colored
-relations. We explain why.
+GTC and termination only for \emph{injective} relation pairs. 
+We explain why.
 
 \subsubsection{PDC and composition-closure do not imply GTC,
-in the case of non injective family of bi-colored relations}
+in the case of non injective family of relation pairs}
 \label{subsubsection-counterexample-PDC-GTC}
 Here is a counter-example $\setR_1$.
 Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$
@@ -389,12 +384,13 @@ or, using Classical Logic, GTC:
 
 \begin{theorem}[Finiteness of $\setR$-compatible transitions (weak form)]
 \label{theorem-finiteness-value-flow-1}
-If $\setR$ is a finite list of bi-colored \emph{injective} relations satisfying 
+If $\setR$ is a finite list of \emph{injective} relation pairs satisfying 
 Progressing Domain Condition (PDC), then any value flow 
 compatible with $\setR$ is finite.
 \end{theorem}
 
-We postpone the proof to \S \ \ref{subsection-proof-termination}.
+We postpone the proof of Thm. 
+\ref{theorem-finiteness-value-flow-1} above.
 Before we remark that the Termination Theorem for $\setR$ can be reformulated
 as an induction schema on $\N^n$, as follows.
 
@@ -517,24 +513,31 @@ satisfies the induction schema.
 
 To this aim, let $[0,\infty] = \N + \{\infty\}$ be $\N$ extended with an
 \quotationMarks{infinite} point $\infty$, and with the relation $n < \infty$
-for all $n \in \N$.
-Let 
+for all $n \in \N$. We define a well-founded order $\setL$:
+
+\begin{definition}[The well-founded order $\setL$]
+\label{definition-well-founded-order-L}
+We equip the set 
 $$
 \setL 
 \ \ \ = \ \ \ 
 \Pi_{k=1}^{k=n} \ [0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[ 
 $$
-with the lexicographic ordering. We define a map 
-$
-f: \setT \rightarrow \setL
-$ 
-and we prove
-that $f$ is increasing w.r.t. the one-step extension $>_1$ in $\setT$
-and the lexicographic ordering $<_{\lex}$ on $\setL$.
+with the lexicographic ordering on the components $(m_1,r_1), \ldots, 
+(m_n,r_n)$, with each pair $(m_i,r_i)$ ordered lexicographically. 
+\end{definition}
 
-Namely we will prove that if $\theta \in \setT$ and 
-$\eta \in \setT$, $\eta >_1 \theta$ then $ f(\eta) <_{\lex} f(\theta) $. 
-This implies that all transition sequences in $\setT$ terminate.
+%We define a map 
+%$
+%f: \setT \rightarrow \setL
+%$ 
+%and we prove
+%that $f$ is increasing w.r.t. the one-step extension $>_1$ in $\setT$
+%and the lexicographic ordering $<_{\lex}$ on $\setL$.
+%
+%Namely we will prove that if $\theta \in \setT$ and 
+%$\eta \in \setT$, $\eta >_1 \theta$ then $ f(\eta) <_{\lex} f(\theta) $. 
+%This implies that all transition sequences in $\setT$ terminate.
 
 We need some more ingredients for a proof of the Termination 
 Theorem \ref{theorem-finiteness-value-flow-1}. 
@@ -619,14 +622,6 @@ then $R\cap (\dom(RS) \times \dom(S))$ is a bijection.
 If $R$ is injective and $\dom(R)=\dom(RS)=\dom(S)$ 
 then $R\restr \dom(R)$ is a bijection.
 
-%%%%%%%%%%%%%%%%%%
-% 18/02/2025 this point is correct but no more required in the proof
-%%%%%%%%%%%%%%%%%%
-%\item
-%%\label{lemma-composition-injective-relations-05}
-%Let us abbreviate $U = R\cap (\dom(RST) \times \dom(ST))$.
-%If $\Card(\dom(RS)) = \Card(\dom(S))$ then $U$ is a bijection.
-
 \end{enumerate}
 \end{lemma}
 
@@ -681,64 +676,6 @@ By $\Card(\dom(R))=\Card(\dom(S))$, $R$ injective
 and point \ref{lemma-composition-injective-relations-03} above we deduce 
 that $R\restr \dom(RS), \dom(S)$ is a bijection. The thesis now follows from
 $\dom(RS) = \dom(R)$ and $\dom(S)=\dom(R)$.
-
-%%%%%%%%%%%%%%%%%%
-% 18/02/2025 this point is correct but no more required in the proof
-%%%%%%%%%%%%%%%%%%
-%\item
-%%\label{lemma-composition-injective-relations-05}
-%Let us abbreviate $U = R\cap (\dom(RST) \times \dom(ST))$.
-%Assume $\Card(\dom(RS)) = \Card(\dom(S))$ in order to prove
-%that $U$ is a bijection. We prove for $U$
-%the four clauses of the definition of bijective.
-%
-%\begin{enumerate}
-%\item
-%\emph{$U$ is everywhere defined}. 
-%Assume $x \in \dom(RST)$ in order to prove
-%that there is some $y \in \dom(ST)$ such that $(x,y) \in R$. By unfolding
-%the definition of $x \in \dom(RST)$,
-%there are some $(x,y) \in R$, $(y,z) \in S$, $(z,t) \in T$. 
-%Thus, we found some $y \in \dom(ST)$ such that $(x,y) \in R$.
-% 
-%\item
-%\emph{$U$ is functional}. Assume that
-%$x \in \dom(RST)$, $y, y' \in \dom(ST)$ 
-%and $(x,y), (x,y') \in R$ in order to prove that $y = y'$. By unfolding
-%the definition of $y,y' \in \dom(ST)$, there are some $(y,z) \in S$, $(z,t) \in T$
-%and some $(y',z') \in S$, $(z',t') \in T$.
-%From the assumptions $(x,y), (x,y') \in R$ and from $(y,z), (y',z') \in S$ 
-%we just proved
-%we deduce that $x \in \dom(RS)$, $y, y' \in \dom(S)$.
-%From $R$ bijection on $\dom(RS) \times \dom(S)$ (point
-%\ref{lemma-composition-injective-relations-03} above) and 
-%$(x,y), (x,y') \in R$.we conclude that $y = y'$.
-%
-%\item
-%\emph{$U$ is injective}. $U$ is a subset of $R$ which is injective.
-%Thus, $U$ is injective. 
-%
-%\item
-%\emph{$U$ is surjective} 
-%Assume that $y \in \dom(ST)$ in order to prove that there is some 
-%$x \in \dom(RST)$ such that $(x,y) \in R$. By unfolding
-%the definition of $y \in \dom(ST)$, there are some $(y,z) \in S$, $(z,t) \in T$,
-%in particular $y \in \dom(S)$.
-%From $R$ bijection on $\dom(RS) \times \dom(S)$ (point
-%\ref{lemma-composition-injective-relations-03} above) we deduce that
-%there is some $x \in \dom(RS)$ such that $(x,y) \in R$. 
-%From $(y,z) \in S$, $(z,t) \in T$ we conclude that
-%that $x \in \dom(RST)$.
-%By unfolding the definition of $x \in \dom(RS)$ there are some $(x,y') \in R$
-%$(y',z') \in S$, in particular $y' \in \dom(S)$. 
-%Again from $R$ bijection on $\dom(RS) \times \dom(S)$
-%from $x \in \dom(RS)$ and $(x,y), (x,y') \in R$ and $y, y' \in \dom(S)$
-%we deduce that $y = y'$. From $y = y'$ and
-%$(x,y') \in R$ we deduce $(x,y) \in R$. Eventually, from $(x,y) \in R$ and
-%$(y,z) \in S$, $(z,t) \in T$ we conclude that $x \in \dom(RST)$, as
-%wished.
-%\end{enumerate}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{enumerate}
 \end{proof}
@@ -811,44 +748,8 @@ as wished.
 \section{The notion of stable-cardinality path}
 We need one last ingredients before proving the Termination Theorem.
 Suppose $\Card(X) = n$. Suppose $\setR=\{(\Stat_i,\Prog_i) | i \in [1,a]\}$
-is any finite set of bi-colorings on finite relations on $X$, closed by
-bi-color composition, i.e., $\setR = \setR^+$.  
-%Suppose $\setR$ satisfies PDC, the progressing cycle condition.
-
-%Assume $\pi:[1,n] \rightarrow \setR$ is any length $n$ list on $\setR$,
-%with each $\pi(j) = (\Stat_{i_j}, \Prog_{i_j})$ some element of $\setR$.
-%Let $\Pi$ be the set of such lists on $\setR$.
-%\\
-%
-%Let $\theta:[1,n+1] \rightarrow (X \rightarrow \N)$ any family of assignment
-%compatible with $\pi$: we require that
-%$\theta(i)$ $\pi(i)$-progresses to $\theta(i+1)$, for all $i \in [1,n]$. 
-%To put otherwise we have
-%$$
-%\theta(1) \ 
-%(\Stat_{i_1}, \Prog_{i_1}) \ 
-%\theta(2) \ (
-%\Stat_{i_2}, \Prog_{i_2}) \ 
-%\theta(3) \ 
-%\ldots \ 
-%\theta(n) \ 
-%(\Stat_{i_n}, \Prog_{i_n})  \ 
-%\theta(n+1)
-% $$
-%Let $\Theta$ be the set of compatible pairs $(\pi,\theta)$.
-%We define the component-wise one-step extension on $\Theta$ by:
-%$(\pi,\theta) <_1 (\pi',\theta')$ 
-%if and only if $\pi <_1 \pi'$ and $\theta <_1 \theta'$ if and only if
-%$\exists \Stat,\Prog \in \Pfin(X^2) 
-%(\pi' = \pi \star (\Stat,\Prog))$ 
-%and 
-%$\exists \sigma:X \rightarrow \N 
-%(\theta' = \theta \star \sigma)$.
-%
-%We associate a weight 
-%$w(\pi,\theta) \in \Pi_{k=1}^{k=n}( \N \cup \{\infty\} \times [1,\genfrac(){0pt}{0}{n}{k} [ )$
-%in such a way that if $(\pi,\theta) <_1 (\pi',\theta')$ then 
-%$w(\pi,\theta)>w(\pi',\theta')$ in the lexicographic ordering.
+is any finite set of relation pairs on $X$, closed by composition, 
+i.e., $\setR = \setR^+$.  
 
 We now define larger and larger set of paths, then we will prove that the
 associated value flows terminate.
@@ -913,23 +814,32 @@ an upper bound the height of the tree of all paths in various cases.
 
 \begin{enumerate}
 \item
+\label{theorem-finiteness-value-flow-2-1}
 The value flows on $\setR^+$ 
 with \emph{constant-cardinality non-progressing domains} 
 terminate in $< \genfrac(){0pt}{0}{n}{k}$ steps, where $k$ is 
 the common cardinality of the domains.
+Therefore these value flows terminate.
 
 \item 
+\label{theorem-finiteness-value-flow-2-2}
 There is a decreasing embedding $w$ from the value flows on $\setR^+$ 
 with \emph{constant-cardinality domains} to the set 
-$[0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[$, therefore these value flows terminate.
+$[0,\infty] \times [0,\genfrac(){0pt}{0}{n}{k}[$. 
+Therefore these value flows terminate.
 
 \item
+\label{theorem-finiteness-value-flow-2-3}
 There is a decreasing embedding $W$ from the value flows on $\setR^+$ with 
-\emph{stable-cardinality domains} to $\setL$, therefore these value flows terminate.
+\emph{stable-cardinality domains} to the well-order $\setL$ 
+(Def. \ref{definition-well-founded-order-L}).
+Therefore these value flows terminate.
 
 \item
-There is a decreasing embedding $WG$ from \emph{all} value flows on $\setR^+$ 
-to $L$, therefore these value flows terminate.
+\label{theorem-finiteness-value-flow-2-4}
+There is a decreasing embedding from \emph{all} value flows on $\setR^+$ 
+to $L$, and equal to $WG$ for some  $G$. 
+Therefore these value flows terminate.
 \end{enumerate}
 \end{theorem}
 
@@ -970,8 +880,7 @@ to $\dom(R_{j})$.
 
 \item
 \label{lemma-stable-cardinality domain-injective-02}
-If $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$,
-then %$R_{i,j-1} \restr \dom(R_{i}), \dom(R_{j})$ is a bijection,
+If $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$, then 
 the value of $\theta(i)$ on any $x \in \dom(R_i)$ is $\ge$ than the value of
 $\theta(j)$ on the corresponding point $y \in \dom(R_j)$ and
 $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
@@ -1056,18 +965,16 @@ and $\val(\dom(R_i),\theta(i))=v$.
 \end{proof}
 
 We have now all ingredients for proving the the Termination Theorem
-\ref{theorem-finiteness-value-flow-2} in strong form.
+in strong form (\ref{theorem-finiteness-value-flow-2}).
+\\
 
 \begin{proof}
 [Proof of Termination Theorem \ref{theorem-finiteness-value-flow-2}]
-%We say that a bi-coloring sequence $\pi:[1,m] \rightarrow \setR$
-%has stable-cardinality domain if the relation sequence $\universe{\pi}$ defined by
-%$\universe{\pi}(i) = \universe{\pi(i)}$ for all $i \in [1,m]$ has stable-cardinality domain.
-
 %13:44 03/03/2025
 \begin{enumerate}
 
 \item
+%\label{theorem-finiteness-value-flow-2-1}
 Lemma \ref{lemma-stable-cardinality domain-injective}.
 \ref{lemma-stable-cardinality domain-injective-04} says that if $\setR^+ = \setR$
 then each constant-cardinality non-progressing domain path on $\setR$
@@ -1076,13 +983,20 @@ length in $[0,  \genfrac(){0pt}{0}{n}{k}[$. This is point $1$
 of Termination Theorem \ref{theorem-finiteness-value-flow-2}.
 
 \item
+%\label{theorem-finiteness-value-flow-2-2}
 We assume that $\pi:[1,l] \rightarrow \setR$ is a constant-cardinality domain
 path on $\setR^+ = \setR$ and we define a decreasing map $w$ from
 $(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  \genfrac(){0pt}{0}{n}{k}[$.
-We define $w(\pi,\theta) = (m,r)$ where $m$ is the least value for 
-$\val(\pi(i),\theta(i))$ and $r = \genfrac(){0pt}{0}{n}{k} - s$, where 
-$s \ge 1$ is the number of $i \in [1,l]$ such that $\val(\pi(i),\theta(i)) = m$.
-By point $1$ above we have $s \le \genfrac(){0pt}{0}{n}{k}$,
+We define $w(\pi,\theta) = (m,r)$ where 
+\begin{enumerate}
+\item
+$m = \val(\pi(l),\theta(l))$ is the last value of $\val(\pi(i),\theta(i))$ 
+\item
+$r = \genfrac(){0pt}{0}{n}{k} - s$, where $s \ge 1$ is the number of $i \in [1,l]$ 
+such that $\val(\pi(i),\theta(i)) = m$.
+\end{enumerate}
+By point \ref{theorem-finiteness-value-flow-2-1} 
+above we have $s \le \genfrac(){0pt}{0}{n}{k}$,
 therefore $r \in [0, \genfrac(){0pt}{0}{n}{k}[$.
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have constant-cardinality
@@ -1097,9 +1011,10 @@ is greater in $\pi'$ than in $\pi$. Namely we have $s' > s'$, we deduce that
 $m=m'$, $r' < r'$. Also in this case we conclude $(m,r) > (m',r')$. 
 
 \item
+%\label{theorem-finiteness-value-flow-2-2} 
 We assume that $\pi:[1,l] \rightarrow \setR$ is a stable-cardinality domain
 path on $\setR^+ = \setR$, in order to define a decreasing map $W$ from
-$(\pi,\theta) \in \setS$ to $\setL$.
+$(\pi,\theta) \in \setS$ to $\setL$ (Def. \ref{definition-well-founded-order-L}).
 
 In each stable-cardinality domains path by Lemma 
 \ref{lemma-composition-injective-relations}.
@@ -1138,8 +1053,6 @@ for a length $l$ path $\pi$ with stable-cardinality domains.
 If there is no $i \in [1,l]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
 then we set $w(\pi,\theta)_k = (\infty,0)$.
 
-%We associate to each cardinality $k \in [1,n]$ a single weight $w(\pi_k, \theta_k)$.
-
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have stable-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $W(\pi,\theta) >
 W(\pi',\theta')$ in the lexicographic ordering. 
@@ -1153,7 +1066,8 @@ In both cases we have $w(\pi_i,\theta_i) = w(\pi'_i,\theta'_i)_l$ for all
 $i \in [1,k-1]$. 
 
 In the case $\pi'_k = \pi_k \conc ((\Stat,\Prog))$ 
-we have  $w(\pi_k,\theta_k) > w(\pi'_k,\theta'_k)$ by point $2$ above. 
+we have  $w(\pi_k,\theta_k) > w(\pi'_k,\theta'_k)$ by point 
+\ref{theorem-finiteness-value-flow-2-2}  above. 
 We conclude $W(\pi,\theta) > W(\pi',\theta')$.
 
 In the case $\pi'_k = \pi_k$ and $\pi'_{k+1} = ((\Stat,\Prog))$
@@ -1197,18 +1111,21 @@ exactly the number of subsets $\{a_1,\ldots, a_m\}$ of $[1,n]$ including
  $a_1 = 1$.
 
 Formally, we define re-grouping and the adjacence sequence 
-by induction on $n$. If $n=0$ then $M=()$
+by induction on $n$. 
+\begin{enumerate}
+\item
+If $n=0$ then $M=()$
 is the only re-grouping of $L=()$ with adjacence sequence $a=()$.
+\item
 Suppose $n \ge 1$ and we defined re-grouping and adjacence for all lists
 of length $\le n-1$ and $L=L_1 \star L_2 \star (c_n)$ 
-is any decomposition of $L$ into two consecutive sublists plus one element.
-Then $L_1$ has length $\le n-1$. 
-If $M$ is any re-grouping of $L_1$ with adjacence sequence $a$
-and  $d = \Pi L_1 \star (c_n)$ is the composition
-of all colorings in the list $L_2 \stat (c_n)$   %%%$L_1 \stat (c_n)$,%%%
-then $M \star (d)$ is one of the re-groupings of $L$, the re-grouping 
+is any decomposition of $L$ into two possibly empty 
+consecutive sublists $L_1$, $L_2$, plus one element. 
+Assume $M$ is any re-grouping of $L_1$ with adjacence sequence $a$.
+Assume $d$ is the composition of all pairs in $L_2 \star (c_n)$.
+Then $M \star (d)$ is one of the re-groupings of $L$, the re-grouping 
 with adjacence sequence $a \star (\length(L_1)+1)$.
-
+\end{enumerate}
 %15:18 21/02/2025
 
 Assume $(\pi,\theta)$ 
@@ -1261,13 +1178,21 @@ $
 \dom(q(l') \ldots q(l) (\Stat,\Prog))
 $.
 We define $q'(i) =  q(i)$ for all $i \in [1,l'-1]$ and
-$q'(l') = q(l') \comp \ldots \comp q(l) \comp (\Stat,\Prog)$.
+$q'(l') = q(l') \ldots q(l)  (\Stat,\Prog)$.
 We define $\eta'(i) = \eta(i)$ for all $i \in [1,l']$. 
 \end{enumerate}
-This is $G(\pi',\theta')$. 
+This is $(\pi',\theta')=G(\pi,\eta)$, a path with stable-cardinality domains. 
 
-Then for some $k \in [1,n]$ we have $q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$
-and $q_k <_1 q'_k$ and $q' = q'_1 \ldots q'_k$. By point $3$ above, 
+In the first case of definition of $G$ we have 
+$q' = q \star ((\Stat,\Prog))$ and $\eta' = \eta \star (n+1)$, namely
+$(q',\eta') >_1 (q,\eta)$, therefore $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$
+by point \ref{theorem-finiteness-value-flow-2-3} 
+above and $(\pi',\theta')$ stable.
+
+In the second case of definition of $G$ we have: 
+for $k = \Card(\dom(q'(l')))$ we have $q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$
+and $q_k <_1 q'_k$ and $q' = q'_1 \conc \ldots \conc q'_k$. 
+By point \ref{theorem-finiteness-value-flow-2-2} above, 
 this implies that we have $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
 
 \end{enumerate}
