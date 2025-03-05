@@ -1,3 +1,103 @@
-Amir M. Ben-Amram
-Qiryat Ono
-Israel
+
+------------------------------------------------------------------------------------------
+MAIL EXCHANGE WITH
+Amir M. Ben-Amram, Qiryat Ono University, Israel
+------------------------------------------------------------------------------------------
+
+home page:
+ https://amirben.bitbucket.io/
+"My gmail address is the typical lastname.firstname (no hyphen in the last name)."
+
+e-mail:
+ benamram.amir@gmail.com 
+
+-----------------------------------------------------------------------------------------
+ QUESTION to Amir M. Ben-Amram Wed, 5 Mar 2025 at 10:00
+-----------------------------------------------------------------------------------------
+
+Dear Prof. Ben-Amram,
+
+     I hope this message finds you well. I am looking through your papers about 
+Size-Change Termination and I have a problem in Lemma 3.4, page 10 of your paper: 
+RANKING FUNCTIONS FOR SIZE-CHANGE TERMINATION II. Possibly I do not understand 
+properly the definitions which are involved. I include my question below.
+
+    Thank you in advance for your kind answer and best wishes
+
+    Stefano Berardi, full professor in Computer Science, Turin University
+
+------------------------------------------------------------------------------------------
+
+Consider the following strongly connected *strict* SCT-instance {f,g}
+ • G1:f-->f, G2:f-->g, G3:g-->f, G4:g-->g
+ • Var(f)=Var(g)={x,y}
+ • G1={x-->x}, G2={x-->y}, G3={y-->x}, G4={y-->y}
+ • We assume that all arrows in all graphs are *strictly* progressing
+
+ The SCT-instance is composition-closed. There are eight correct compositions and 
+we have:
+
+G1G1=G1:f-->f 
+G1G2=G2:f-->g
+
+G2G3=G1:f-->f
+G2G4=G2:f-->g
+
+G3G1=G3:g-->f
+G3G2=G4:g-->g
+
+G4G3=G3:g-->f
+G4G4=G4:g-->g
+
+ SCT holds: if G:f-->f or G:g-->g then G=G1 and x-->x∈G progresses
+to itself, or G=G4 and y-->y∈G progresses to itself.
+
+ Alternatively, we can check SCT directly. By induction on the path, we can prove that 
+in every finite path from f there is exactly one thread from x in the path and that 
+in every finite path from g there is exactly one thread from y in the path. 
+This implies that every infinite path has exactly one infinite thread, progressing 
+at each step.
+
+ Thus, this SCT-instance satisfies SCT, it is strict and it is fan-out free:
+there is at most one image for each variable x,y in all graphs.
+
+ By Lemma 3.4, page 10 of the paper: RANKING FUNCTIONS FOR SIZE-CHANGE TERMINATION II,
+there some non-empty thread-preserver P. Then x∈P or y∈P.
+ • If x∈P then x in Var(f)∩P, therefore there is some z∈P such that
+   x-->z ∈ G1:f-->g. Necessarily z=y, hence y∈P.
+ • If y∈P then y∈Var(g)∩P, therefore there is some z∈P such that
+   y-->z ∈ G3:f-->g. Necessarily z=x.
+Thus, if the thread-preserver P is not empty then P={x,y}.
+
+ But this is a contradiction. We have y∈Var(f)∩P, however there is no z∈P such that
+y-->z ∈ G1:f-->g.
+
+-----------------------------------------------------------------------------------------
+ ANSWER from Amir M. Ben-Amram Wed, 5 Mar 2025 at 10:19
+-----------------------------------------------------------------------------------------
+
+ Dear Stefano,
+
+ The answer to this apparent contradiction is simple: the variables have to be renamed 
+so that they are unique across the graph. For instance, they can be named xf, yf, xg, yg.  
+Then you get the thread preserver {xf, yg}.
+
+ Best regards,
+ Amir
+
+-----------------------------------------------------------------------------------------
+ CONCLUSION letter to Amir M. Ben-Amram Wed, 5 Mar 2025 at 11:14
+-----------------------------------------------------------------------------------------
+
+ Dear Amir,
+
+ many thanks for your prompt, kind and complete answer. So apparently, at least in this case 
+the definition of fan-out free requires having all sets Var(f) to be disjoint. If Var(f)=Var(g) 
+then we have x-->x, x-->y, y-->y, y-->x in the same graph and in this case we have a fan-out 
+in the graph.
+
+ Stefano
+
+
+Note: {xf, yg} is the maximum thread preserver, if we start from f we need x and if we start
+from g we need y, and then we move to xf or to yg according if we move to f or to g.
