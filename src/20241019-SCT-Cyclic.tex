@@ -69,93 +69,140 @@ infinite Ramsey theorem
 \maketitle
 
 \section{Introduction}
-We want to study Neil Jones Size Change Termination condition \cite{2001-SCT}
-(from now on, SCT) for program termination in a particular case: 
-the case of Injective bi-colored Relations.
+We want to study Size Change Termination condition 
+(from now on, SCT) for program termination, introduced by
+Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{2001-SCT}. 
+We are particulary interested to the case of transition graphs labeled by 
+\emph{injective} bi-colored relations.
 
-Our motivation is that this particular case is enough to treat a relevant
-application of SCT, namely checking  the correctness of a cyclic proof.
+Our motivation is that this particular case is enough to check 
+the correctness of a cyclic proof. 
+Cyclic proofs have been introduced independently as a tool for proof search
+by Brotherston and Simpson \cite{2011-Brotherston-Simpson}. 
+However, the algorithm checking cyclic proofs is a particular case of the
+algorithm checking SCT.
 
-We suspect that the algorithm checking SCT is 
-PSPACE-complete also in this case. 
-However we will argue that checking SCT is simpler  
-and faster for injective relations.
+The algorithm checking SCT is PSPACE-complete (\cite{2001-SCT}).
+We suspect that SCT is PSPACE-complete 
+also in the particular case of injective bi-colored relations required by cyclic 
+proofs. However we will argue that checking SCT is simpler  
+and faster in this case.
 
-Another motivation we have in mind is an automatic translation from 
-cyclic proofs into more ordinary inductive proofs. 
+Another motivation we have in mind is defining an automatic translation from 
+cyclic proofs into more ordinary inductive proofs. This translation
+would be useful for cross-checking the result of a proof-search done 
+using cyclic proofs. 
+
 We prove termination for SCT in the case of injective relations only using 
-first order induction. With respect to a previous attempt,
-we claim that we can translate cyclic proofs avoiding in the resulting proof
-a formal proof of Ramsey Theorem and using Intuitionistic Logic only.
+first order induction. With respect to a previous work,
+we avoid the use Ramsey Theorem, and we use Intuitionistic Logic only.
 
 
 \section{Size Change Termination in the Case of Injective Relations}
 %14:03 30/10/2024 
-Along this paper we suppose we have: 
+Along this paper we suppose we have the main ingredients for an SCT problem,
+namely:
 \begin{enumerate}
 \item
 a \emph{finite set} $X=\{x_1, \ldots, x_n\}$;
-\item
-a finite set $\setR =\{(\Stat_i, \Prog_i)| i \in [1,r]\}$, with
-each $(\Stat_i, \Prog_i)$ a \emph{pair of finite relations on $X$}.
 
 \item
-a relation $\setG$ on 
-$\setR \times (G \times G)$
+a finite set $\setR$, with
+each $(\Stat, \Prog) \in \setR$ a \emph{pair of finite relations on $X$}
+such that \emph{$\Stat \cap \Prog = \emptyset$ for all $(\Stat, \Prog) \in \setR$};
+
+\item
+a finite non-empty set $G$ and a map $\setG: \dom(\setG) \rightarrow \setR$,
+such that $\dom(\setG) \subseteq G \times G$. 
 \end{enumerate}
 
-We call each $(\Stat_i, \Prog_i)$ just a \emph{pair} for short.
+Implicitly, $\dom(\setG) \subseteq G \times G$ is a graph with nodes in $G$
+and with edges labeled on $\setR$. 
+We write $\setG(a,b) = (\Stat,\Prog)$, or quotationMarks{the edge $(a,b)$ is
+labeled by $(\Stat,\Prog)$} in the form: 
+$\composable{\setG}{a}{b}{(\Stat,\Prog)}$. We often skip the index $\setG$
+and we write just $\composable{}{a}{b}{(\Stat,\Prog)}$.
+
+We call each $(\Stat, \Prog) \in \setR$ just a \emph{pair} for short.
+If $x \Stat y$ we say that $x$ weakly progresses to $y$ in $(\Stat, \Prog)$,
+and if $x \Prog y$ we say that $x$ progresses to $y$ in $(\Stat, \Prog)$.
+We provide an interpretation of weak progression and progression later.
 
 We define composition of pairs in $\setR$ by:
 $$
 (\Stat,\Prog)(\Stat',\Prog') 
 =
-(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog')
+(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
 $$
-We motivate this definition later. For the moment, we stress that
-we use $\setG$ to restrict the compositions which are allowed.
+We interpret composition of pairs later. 
+For the moment, we stress that
+we use $\setG$ to restrict the set of compositions which are allowed.
 
 \begin{definition}[Composable pairs  in $\setG$]
 Assume $\setR, \setG$ are as above.
+
 \begin{enumerate}
+
 \item
-We say that $(\Stat,\Prog), (\Stat',\Prog') \in \setR$
-are \emph{composable in $\setG$}, just \emph{composable}
-for short, if and only if for some $a,b,c \in G$ we have 
-$(\Stat,\Prog) \ \setG \ (a,b)$ and $(\Stat',\Prog') \ \setG \ (b,c)$
+We say that a finite 
+sequence $(\Stat_1,\Prog_1), \ldots, (\Stat_m,\Prog_m)$ on $\setR$
+is \emph{composable in $\setG$}, just \emph{composable}
+for short, if and only if for some $a_1, \ldots, a_m \in G$ 
+we have $\composable {} {a_i \ } { \ a_{i+1}} {(\Stat_i,\Prog_i)}$
+for all $i \in [1,m-1]$.
+
 \item
-A sequence of pairs of $\setR$ is
-\emph{composable in $\setG$}, just \emph{composable} for short,
-if and only if each pair is composable with the next pair.
+We say that $(\Stat,\Prog) \in \setR$
+is \emph{self-composable in $\setG$}, just \emph{self-composable}
+for short, if and only if for some $a \in G$ we have 
+$\composable {} {a} {a} {(\Stat,\Prog)}$.
+
 \end{enumerate}
+
 \end{definition}
 
  We consider the elements of $X$
 as variables to which we associate a value in each instant of time.
 
 
-We will use each relation $a \Stat_i b$ to express the fact that $a$
+We will use each relation $x \Stat y$ to express the fact that 
+$x$ is associated in an instant $t$ to x value \emph{greater than or equal} 
+to the value associated to $y$ in the next instant $t+1$.
+We will use each relation $x \Prog y$ to express the fact that $x$
 is associated in an instant $t$
-to a value \emph{greater than or equal} to the value associated to $b$ in the next
+to x value \emph{greater than} the value associated to $y$ in the next
 instant $t+1$.
-We will use each relation $a \Prog_i b$ to express the fact that $a$
-is associated in an instant $t$
-to a value \emph{greater than} the value associated to $b$ in the next
-instant $t+1$.
-% disjointness of \Stat_i and \Prog_i is NOT REQUIRED
-We call \emph{trace} any sequence on $X$ 
-and \emph{path} any sequence of pairs of $\setR$
-which is \underline{composable} in $\setG$.
+\\
+
+The requirement $\Stat \cap \Prog = \emptyset$ 
+on any $(\Stat,\Prog) \in \setR$ expresses the fact that
+if we know that $x \Prog y$ (namely that
+the value of of $x$ is greater than the value of $y$), then the information
+$x \Stat y$ (namely that the value of of $x$ is greater \emph{or equal} 
+than the value of $y$) becomes redundant and we remove it from our records.
+\\
+
+We call \emph{trace} any sequence on $X$. 
+We call \emph{path} on $\setG$ 
+any sequence $b$ on $G$ such that $(b(i),b(i+1)) \in 
+\dom(\setG)$ for any two consecutive elements of the path.
+Implicitly, each path is a path in the graph associated to $G$ and labeled
+on $\setR$ by $\setG$.
+Thus, each path $b$ is associated by $\setG$ to a sequence $r$ on $\setR$
+defined by $r(i) = (\Stat_i, \Prog_i) = \setG(b(i),b(i+1))$. If $b$
+is finite, then the pair sequence $r$ is one unit shorter than $b$. If
+$b$ is infinite then $r$ is infinite.
 
 We take the words \quotationMarks{trace} and \quotationMarks{path} 
-from cyclic proofs. Neil Jones \cite{2001-SCT}
-uses for the same concept the words \quotationMarks{thread}
+from cyclic proofs. The paper \cite{2001-SCT}
+uses for the same concepts the words \quotationMarks{thread}
 and \quotationMarks{multipath}, and states GTC, the Global Trace Condition,
 as: \quotationMarks{all multipaths are in $DESC^\omega$}, where $DESC^\omega$ is the set of multipaths having some infinite descending thread.
 
-Neil Jones terminology is probably more suitable when speaking
-of programs, while trace and path appear more suitable when speaking of a proof-graph, as we do in this paper.
-Definitions are the same.
+The terminology of cite{2001-SCT} is probably more suitable when speaking
+of programs, while Brotherston and Simpson terminology,
+trace and path, appears more suitable when speaking of a 
+proof-graph, as we do in this paper. 
 
 We call value flow any assignment
 of values in $\N$ to each $x \in X$, the assignment 
@@ -170,12 +217,11 @@ Assume $D = [0,h]$ for some $h \in \N$ or $D=\N$
 is any non-empty initial segment of the order on natural numbers.
 \begin{enumerate}
 \item
-We call any map $b:D \rightarrow \setR$ a multipath, a \emph{path} for short:
-a path is any finite or infinite sequence over $\setR$ which is
-\underline{composable} in
-$\setG$.
+We call any map $b:D \rightarrow G$ a multipath, a \emph{path} for short
+if and only if for all $i, i+1 \in D$ we have $(b(i),b(i+1)) \in \dom(\setG)$.
 \item
-We call any map $\pi:D \rightarrow X$ a \emph{trace} (or a \emph{thread}): 
+We call any map $\pi:D \rightarrow X$ a \emph{trace} 
+(called a \emph{thread} in \cite{SCT-2001}): 
 a trace is any finite or infinite sequence over $X$.
 \item
 We call any map $\theta:D,X \rightarrow \N$ a \emph{value flow}. 
@@ -193,7 +239,8 @@ equivalent to the
 termination of value flows \quotationMarks{compatible}
 with a path of $\setR, \setG$. GTC is expressed in term of traces.
 
-\begin{definition}[Global Trace Condition (GTC) ]
+\begin{definition}[Global Trace Condition (GTC) and Injectivity]
+\label{definition-GTC-inj}
 Assume $\setR, \setG$ are as above.
 Suppose $X=\{x_1, \ldots, x_n\}$, $\setR =\{(\Stat_i, \Prog_i)| i \in [1,r]\}$
 and $b, \pi$ are a path of $\setR, \setG$ and a trace, all of domain $D$ 
@@ -205,10 +252,10 @@ $D=[0,h]$ for some $h \in \N$ or $D=\N$.
 We say that the trace $\pi:D \rightarrow X$ is compatible with the path
 $b :D \rightarrow \setR$ on the same $D$, 
 and we write $\pi \models b$, if and only if :
-whenever $t, t+1 \in D$ and $b(t) = (\Stat_i,\Prog_i) \in \setR$
-the two consecutive values  of the trace are related by $\setR$, namely
- $\pi(t) (\Stat_i \cup \Prog_i) \pi(t+1)$.
-If furthermore we have $\pi(t) \Prog_i \pi(t+1)$,
+whenever $t, t+1 \in D$ and $\setG(b(t),b(t+1)) = (\Stat,\Prog) \in \setR$,
+then the two consecutive values  of the trace are related by $\setR$, namely
+ $\pi(t) (\Stat \cup \Prog) \pi(t+1)$.
+If furthermore we have $\pi(t) \Prog \pi(t+1)$,
 we say that $t \in D$ is a \emph{$b$-progress point} of the trace $\pi$.
 
 \item
@@ -223,16 +270,21 @@ We write $\universe{(\Stat, \Prog)}
 
 
 \item
-$\setR$ satisfies \emph{injectivity} if and only if for all $i \in [1,r]$ 
-the relation $\Stat_i \cup \Prog_i$ is injective.
+$\setR$ satisfies \emph{injectivity} if and only 
+the union relation $\universe{(\Stat, \Prog)}$ is injective
+for all $(\Stat, \Prog) \in \setR$.
 
 \end{enumerate}
 
 \end{definition}
 
-The injectivity condition was already considered by Lee and Ben-Aram in 
-\cite{2009-Lee-Aram}, Example 1.6, page 7.
-Lee and Ben-Aram use the word \emph{fan-in free} for injectivity.
+Lee and Ben-Aram considered in \cite{2009-Lee-Aram} the notion
+of fan-in free for $\setR$, $\setG$. 
+This notion is equivalent to our injectivity condition above 
+(\ref{definition-GTC-inj}). This equivalence requires to
+rename all sets $X$ in each node $f \in G$ to some set
+$\Var(f)$, in order to make pairwise distinct the set of variables associated
+to each node $f \in G$.
 
 If formulated as above, the Global Trace condition (GTC) is equivalent to
 Size Change Termination (SCT), introduced by Neil Jones \cite{2001-SCT}. 
@@ -240,11 +292,12 @@ SCT was originally used as a sufficient, and quite broad too,
 condition for termination of recursive calls. 
 When we use GTC as a correctness criterion for cyclic proofs,
 \emph{we add one more condition, \underline{injectivity} of the trace relations}, 
-a condition which is missing in the SCT paper. 
+a condition which is missing in the original SCT paper. 
 
 Injectivity implies that in cyclic proofs two traces of different
-variables never cross each other and significantly simplifies traces.
-Instead, in the SCT condition two traces, say, $x_1 \ge x_2 > x_3$ and
+variables never cross each other. This significantly simplifies traces.
+Instead, in the original SCT formulation two traces, 
+say, $x_1 \ge x_2 > x_3$ and
 $y_1 > y_2$, from two different variables $x_1$, $y_1$,
 can meet into a single variable $z$. For instance, we can have:
 \begin{center}
@@ -254,17 +307,19 @@ $y_1 > y_2 \ge z$
 \end{center}
 
 In this paper we study GTC in the case $\setR$ is injective, and from a
-purely combinatorial viewpoint, as a termination condition. Our
-result can be used for checking termination of recursive calls, with a 
-faster algorithm but under less general conditions than in 
-Neil Jones \cite{2001-SCT}. 
-Our result could be used for translating cyclic proofs into ordinary proofs. 
-Our goal is finding a termination proof using Intuitionistic Logic and First 
-Order Arithmetic.
+purely combinatorial viewpoint, as a termination condition for value flows. 
+Our result can be used for checking termination of recursive calls, with a 
+faster algorithm but unfortunately under less general conditions than in 
+\cite{2001-SCT}. 
+We hope that our result will be used for translating cyclic proofs into 
+ordinary proofs, but for the moment we do not provide such translation.
+
+We find a termination proof using Intuitionistic Logic, First 
+Order Arithmetic and nested induction.
 
 Several decidable equivalent are known for GTC. In Classical Logic, GTC for 
 $\setR,\setG$ is equivalent to the fact that all value flows compatible 
-with some path are finite.
+with some path are finite: we postpone the proof to the Appendix.
 
 We assume injectivity and we are looking for an equivalent version
 of GTC which can expressed in First Order Aritmetic, and such that
@@ -275,9 +330,9 @@ We anticipate that when $n = \Card(X) \ge 1$, we will
 use lexicographic induction on a length $2n$ sequence 
 $( m_1,r_1, \ldots, m_n,r_n)$.
 For all $k \in [1,n]$, we will have $m_k \in \N \cup \{\infty\}$ and 
-$r_k \in [0, {n \choose k }[$, a finite initial segment of $\N$. 
+$r_k \in [0, \Card(G){n \choose k }[$, a finite initial segment of $\N$. 
 
-
+%11:44 06/03/2025
 
 \subsection{Comparing our Terminology 
 with the Terminology in Neil Jones SCT Paper}
@@ -327,7 +382,7 @@ their composition as
 $$
 (\Stat,\Prog)(\Stat',\Prog') 
 =
-(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog')
+(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
 $$
 \item
 \emph{(Composition-Closed)}
@@ -1324,6 +1379,17 @@ Amir M. Ben-Amram and Chin Soon Lee,
 Ranking Functions for Size-Change Termination II,
 in Logical Methods in Computer Science
 Vol. 5 (2:8) 2009, pp. 1–29
+
+\bibitem{2011-Brotherston-Simpson}
+James Brotherston and Alex Simpson, 
+Sequent calculi for induction and infinite descent,
+December, 1 2011,
+Journal of Logic and Computation,
+Volume 21, 
+Issue 6, 
+Pages 1177-1216,
+Oxford University Press.
+
 
 \end{thebibliography}
 
