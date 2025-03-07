@@ -116,12 +116,8 @@ a finite non-empty set $G$ and a map $\setG: \dom(\setG) \rightarrow \setR$,
 such that $\dom(\setG) \subseteq G \times G$. 
 \end{enumerate}
 
-Implicitly, $\dom(\setG) \subseteq G \times G$ is a graph with nodes in $G$
-and with edges labeled on $\setR$. 
-We write $\setG(a,b) = (\Stat,\Prog)$, or quotationMarks{the edge $(a,b)$ is
-labeled by $(\Stat,\Prog)$} in the form: 
-$\composable{\setG}{a}{b}{(\Stat,\Prog)}$. We often skip the index $\setG$
-and we write just $\composable{}{a}{b}{(\Stat,\Prog)}$.
+Implicitly, $\setG$ defines a graph with set of nodes $G$, set of
+edges $\dom(\setG) \subseteq G \times G$ and with edges labeled on $\setR$. 
 
 We call each $(\Stat, \Prog) \in \setR$ just a \emph{pair} for short.
 If $x \Stat y$ we say that $x$ weakly progresses to $y$ in $(\Stat, \Prog)$,
@@ -134,9 +130,12 @@ $$
 =
 (\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
 $$
+Remark that the result of composition is a disjoint pair of finite relations on $X$.
 We interpret composition of pairs later. 
-For the moment, we stress that
-we use $\setG$ to restrict the set of compositions which are allowed.
+
+Sometimes we skip the index $\setG$
+and we write just $\composable{}{a}{b}{(\Stat,\Prog)}$.
+We use $\setG$ to restrict the set of compositions which are allowed.
 
 \begin{definition}[Composable pairs  in $\setG$]
 Assume $\setR, \setG$ are as above.
@@ -144,25 +143,32 @@ Assume $\setR, \setG$ are as above.
 \begin{enumerate}
 
 \item
-We say that a finite 
-sequence $(\Stat_1,\Prog_1), \ldots, (\Stat_m,\Prog_m)$ on $\setR$
-is \emph{composable in $\setG$}, just \emph{composable}
-for short, if and only if for some $a_1, \ldots, a_m \in G$ 
-we have $\composable {} {a_i \ } { \ a_{i+1}} {(\Stat_i,\Prog_i)}$
-for all $i \in [1,m-1]$.
+We write $\composable{\setG}{a}{b}{(\Stat,\Prog)}$
+for the smallest relation including $\setG(a,b) = (\Stat,\Prog)$ and closed
+by composition: if $\composable{\setG}{a}{b}{(\Stat,\Prog)}$ and
+$\composable{\setG}{b}{c}{(\Stat',\Prog')}$ then  
+$\composable{\setG}{a}{c}{(\Stat,\Prog)(\Stat',\Prog')}$.
+
+
+\item
+We say that that $(\Stat,\Prog), (\Stat',\Prog')$ are
+\emph{composable in $\setG$}, just \emph{composable} for short
+if and only if we have
+$\composable{\setG}{a}{b}{(\Stat,\Prog)}$ and
+$\composable{\setG}{b}{c}{(\Stat',\Prog')}$ for some $a,b,c, \in G$.
 
 \item
 We say that $(\Stat,\Prog) \in \setR$
 is \emph{self-composable in $\setG$}, just \emph{self-composable}
-for short, if and only if for some $a \in G$ we have 
-$\composable {} {a} {a} {(\Stat,\Prog)}$.
+for short, if and only if we have 
+$\composable {\setG} {a} {a} {(\Stat,\Prog)}$ for some $a \in G$.
 
 \end{enumerate}
 
 \end{definition}
 
- We consider the elements of $X$
-as variables to which we associate a value in each instant of time.
+ We consider the elements of $X$ as variables to which we associate a value in 
+ each instant of time.
 
 
 We will use each relation $x \Stat y$ to express the fact that 
@@ -249,7 +255,7 @@ $D=[0,h]$ for some $h \in \N$ or $D=\N$.
 \begin{enumerate}
 
 \item
-We say that the trace $\pi:D \rightarrow X$ is compatible with the path
+We say that the trace $\pi:D \rightarrow X$ is \emph{compatible} with the path
 $b :D \rightarrow \setR$ on the same $D$, 
 and we write $\pi \models b$, if and only if :
 whenever $t, t+1 \in D$ and $\setG(b(t),b(t+1)) = (\Stat,\Prog) \in \setR$,
@@ -337,16 +343,18 @@ $r_k \in [0, \Card(G){n \choose k }[$, a finite initial segment of $\N$.
 \subsection{Comparing our Terminology 
 with the Terminology in Neil Jones SCT Paper}
 \label{subsection-comparing}
-The SCT paper uses $3$-coloring on the set $[1,n] \times [1,n]$. 
+The SCT paper uses $2$-coloring on the set of relations $[1,n] \times [1,n]$. 
 The choice of a color for a pair
 $(i,j)$ represents what we know about the relation between the value of
 variable $x_i$ at time $t$, and the value of variable $x_j$ at time $t+1$.
-What we know about the relation can be: either $\ge$ or $>$ or 
-\quotationMarks{no information at all}.
+What we know about the relation can be: either $\ge$ or $>$. No relation
+means \quotationMarks{no information at all}.
 
-We could interpret our relations pairs
-$(\Stat,\Prog) \in \setR$ as the $3$-coloring $(\Stat \setminus \Prog, \Prog, X^2 \setminus{(\Stat \cup \Prog)}$ in the sense of Neil Jones \cite{2001-SCT}. $x \Stat y$ for 
-$x, y, \in X$ represents \quotationMarks{the value of $x$ is $\ge$ than the value of $y$}, provided we do not have $x \Prog y$. $x \Prog y$ represents 
+We could interpret our relation pairs
+$(\Stat,\Prog) \in \setR$ are a $2$-coloring in the sense of 
+\cite{2001-SCT}. $x \Stat y$ for 
+$x, y, \in X$ represents \quotationMarks{the value of $x$ is $\ge$ 
+than the value of $y$}. $x \Prog y$ represents 
 \quotationMarks{the value of $x$ is $>$ than the value of $y$}. 
 If we do not have $x \Stat y$ nor $x \Prog y$ we represent the fact we do
 not know what is the relation between the values of $x$ and $y$.
@@ -360,7 +368,7 @@ composition of pairs in $\setR$ and and of composable pairs in $\setG$.
 \subsection{Definition of Composition of relation pairs}
 \label{subsection-composition}
 
-We define composition in such a way that if  
+We defined composition in such a way that if  
 $(x,y), (y,z) \in X \times X$ 
 are two pairs on $X$,
 then $(x,z) \in X \times X$ is stationary in the composition  
@@ -377,45 +385,43 @@ of finite binary relations on $X$.
 \begin{enumerate}
 \item
 \emph{Composition on relation pairs}.
-If $(\Stat,\Prog)$, $(\Stat',\Prog')$ are relation pairs on $X$ we define 
-their composition as
+If $(\Stat,\Prog)$, $(\Stat',\Prog')$ are pairs of disjoint relations on $X$,
+then we define their composition by
 $$
-(\Stat,\Prog)(\Stat',\Prog') 
+(\Stat'', \Prog'')
 =
 (\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
 $$
-\item
-\emph{(Composition-Closed)}
-We say that $\setR$ is \emph{composition-closed w.r.t. $\setG$},
-just \emph{composition-closed} for short, if and only
-whenever $(\Stat'',\Prog'')$ is the composition of
-$(\Stat,\Prog), (\Stat',\Prog') \in \setR$ and 
-$(\Stat,\Prog) \setG (a,b)$ and $(\Stat',\Prog') \setG (b,c)$,
-then $(\Stat'',\Prog'') \in \setR$ and $(\Stat'',\Prog'') \setG (a,c)$.
-
+$$
+(\Stat,\Prog)(\Stat',\Prog')=(\Stat''\setminus\Prog'',\Prog'')
+$$
 
 \item
-\emph{(Closure on composition)}
-We say that $(\setR',\setG')$ is the closure by composition of $(\setR,\setG)$
-if and only if:
-\begin{enumerate}
-\item
-$\setR'$ is composition-closed w.r.t. $\setG$ and 
-$\setR \subseteq \setR'$, $\setG  \subseteq \setG'$
-\item
-whenever
-$\setR''$ is composition-closed w.r.t. $\setG''$ and 
-$\setR \subseteq \setR''$, $\setG  \subseteq \setG''$, then  
-$\setR' \subseteq \setR''$, $\setG'  \subseteq \setG''$.
-\end{enumerate}
+\emph{(Closure by Composition)}
+We say that $\setR^\setG$ is the
+\emph{closure of $\setR$ by $\setG$-composition} if and only if
+$\setR^\setG = \{(\Stat,\Prog) | \composable{\setG}{a}{b}{(\Stat,\Prog)}\}$.
+\footnote{
+$\setR^\setG$ is the the smallest set including $\setR$ and such
+that for all $a,b,c \in G$, all $(\Stat,\Prog), (\Stat',\Prog') \in \setR^\setG$:
+if $\composable{\setG}{a}{b}{(\Stat,\Prog)}$
+and $\composable{\setG}{b}{c}{(\Stat',\Prog')}$
+then we have $(\Stat,\Prog)(\Stat',\Prog') \in \setR^\setG$.
+}
 
 \end{enumerate}
 \end{definition}
 
-$\setR'$ and $\setG'$ are finite and we can compute then from $\setR$ and $\setG'$, 
-because $n = \Card(X)$ is finite.
-However, the cardinality of $\setR'$ could be exponential in $n$. 
-From now on, \emph{we will assume that $\setR$ is composition-closed w.r.t. $\setG$}.
+When we have injectivity, we could remove the substruction 
+\quotationMarks{$(\ldots) \setminus 
+\Prog''$} in the definition of composition , because in this case if $\Stat,\Prog$ 
+are disjoint and $\Stat', \Prog'$ are disjoint then  $\Stat \Stat'$ and $\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'$ are disjoint. In this case 
+we have $(\Stat,\Prog)(\Stat',\Prog')=(\Stat'',\Prog'')$.
+
+$\setR^\setG$ is finite and we can compute it from $\setR$ and 
+$\setG$, because $n = \Card(X)$ is finite.
+However, the cardinality of $\setR^\setG$ could be exponential in $n$. 
+
 
 Remark that we defined composition of relation pairs in such a way that it is
 compatible with the union operator $\universe{\cdot}$ for relation pairs. 
@@ -423,7 +429,16 @@ Indeed we have
 $$
 \universe{(\Stat,\Prog)(\Stat',\Prog')} 
 = 
-\universe{(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog')}
+\universe{
+(\Stat \Stat', 
+\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
+}
+=
+\Stat \Stat' \cup (\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog') 
+\setminus \Stat \Stat'
+=
+$$
+$$
 =
 \Stat \Stat' \cup \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'
 =
@@ -437,24 +452,23 @@ We can now define SCT.
 and the Progressing Domain Condition (PDC)}
 The SCT condition says:
 \quotationMarks{
-\emph{all relation pairs in $\setR$ related to some $(a,a) \in G$ by $\setG$
-have some finite power in which some element progresses to itself}
+\emph{all self-composalbe relation pairs $(\Stat,\Prog)$
+(i.e., such that $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ for some $a \in G$)
+have some finite power in which some $x \in X$ progresses to itself}
 }. 
-We write SCT as follows:
-
-\begin{center}
-\emph{
-$\forall (\Stat,\Prog) \in \setR, a \in G. 
-\ \ ((\Stat,\Prog) \ \setG \ (a,a)) \implies \exists n \in \N \exists x \in X. 
-\ (x \mbox{ progresses to $x$ in } (\Stat,\Prog)^n)$
-}
-\end{center}
-
+We can write SCT as follows:
+$$
+\forall (\Stat,\Prog) \in \setR, a \in G. 
+\ (\composable{\setG}{a}{a}{(\Stat,\Prog)})
+\ \implies \exists n \in \N \exists x \in X. 
+\ (x \mbox{ progresses to $x$ in } (\Stat,\Prog)^n)
+$$
 In previous work we proved that SCT and GTC are equivalent,
 using Ramsey Theorem. 
 
 In this paper we are looking for a more
-constructive and elementary proof of an equivalent result, namely the termination
+constructive and elementary proof of an equivalent result, 
+namely the termination
 of all value flows compatible with some path of $\setR$.
 The proof should be suitable to a formalization in a proof assistant.
 We add the injectivity assumption because relation pairs with
@@ -463,52 +477,60 @@ proving a termination result requires a weaker hypothesis PDC (see below).
 Besides, using PDC it is faster to check whether a cyclic proof is correct.
 
 The Progressing Domain Condition (PDC) says: 
-\quotationMarks{all relation pairs in $\setR$ 
+\quotationMarks{all self-progressing $(\Stat,\Prog) \in \setR^\setG$ 
 have a progression from $x$ to $y$ with both elements 
-included in the domain of the relation}, namely
+included in the domain of $(\Stat,\Prog)$}, namely
 
-\begin{center}
-\emph{
-$\forall (\Stat,\Prog) \in \setR, a \in G. 
-\ \ ((\Stat,\Prog) \ \setG \ (a,a)) \implies \exists x, y \in \dom(\Stat\cup\Prog). 
-\ (x \Prog y)$
-}
-\end{center}
+$$
+\forall (\Stat,\Prog) \in \setR, a \in G. 
+\ \ (\composable{\setG}{a}{a}{(\Stat,\Prog)}) \implies \exists x, y \in \dom(\Stat\cup\Prog). 
+\ (x \Prog y)
+$$
 
 PDC is weaker and it is easier to check than the SCT condition. 
-To check PDC, we do not have to look for some $x$ in the progressing to itself in 
-some power of $(\Stat,\Prog)$. Instead it is enough to find some $x$ progressing 
-to some $y$, such that both $x$, $y$ are in the domain of $\Stat \cup \Prog$.
+To check PDC, we do not have to look for some $x$ progressing to itself in 
+some power of any self-composable $(\Stat,\Prog)$. 
+Instead it is enough to find some $x$ progressing 
+to some $y$, such that both $x$, $y$ are in the domain of $\Stat \cup \Prog$,
+again in any self-composable $(\Stat,\Prog) \in \setR^\setG$.
 
 However, PDC has the drawback that it implies 
 GTC and termination only for \emph{injective} relation pairs. 
 We explain why.
 
-\subsubsection{PDC and composition-closure do not imply GTC,
+
+
+\subsubsection{PDC does not imply GTC,
 in the case of non injective family of relation pairs}
 \label{subsubsection-counterexample-PDC-GTC}
 Here is a counter-example $\setR_1$.
-Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$
+Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$, $G_1=\{1\}$
 and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_2,x_1)\}$ and
-$(\Stat,\Prog) \ \setG (1,1) $, 
+$\setG_1(1,1) = (\Stat,\Prog)$, 
 namely, the pair $(\Stat,\Prog)$ is self-composable. 
 Then $\setR_1$ is composition-closed in $\setG$ because 
 $
+\Stat\Prog \cup \Prog\Prog \cup \Prog\Stat =
+$ (by $\Stat\Prog = \Prog\Prog = \emptyset$) $
+\Prog\Stat = 
+\Prog
+$
+therefore
+$
 (\Stat,\Prog)(\Stat,\Prog) = 
-(\Stat\Stat,\Stat\Prog \cup \Prog\Prog \cup \Prog\Stat) = 
-$(by $\Stat\Prog = \Prog\Prog = \emptyset$)$
-(\Stat\Stat,\Prog\Stat) = 
+(\Stat\Stat \setminus \Prog, \Prog) = 
+(\Stat \setminus \Prog,\Prog) = 
 (\Stat,\Prog)
 $.
 The unique pair $(\Stat,\Prog)$ satisfies PDC 
 because $x_2 \in \dom((\Stat,\Prog))$
 is progressing to  $x_1 \in \dom((\Stat,\Prog))$. However, $\setR_1$
-does not satisfy GTC, because the unique infinite path in $\setR,\setG$ is 
-$\pi = ((\Stat,\Prog),(\Stat,\Prog),(\Stat,\Prog),\ldots)$,
-and any infinite trace compatible with $\pi$ is either
+does not satisfy GTC. Indeed, the unique infinite path in $\setR_1,\setG_1$ is 
+$b = 1,1,1,\ldots$, labeled $(\Stat,\Prog),(\Stat,\Prog),(\Stat,\Prog),\ldots$.
+Any infinite trace compatible with $b$ is either
 $x_1 x_1 x_1 \ldots$ or $x_2 x_1 x_1 x_1 \ldots$. Thus, any infinite
-trace compatible with $\pi$ progresses \emph{at most once}. 
-The implication PDC $\implies$ GTC is false because 
+trace compatible with $b$ progresses \emph{at most once}. 
+The reason why the implication PDC $\implies$ GTC is false is because 
 $\setR_1$ is not injective. Indeed, the relation 
 $R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_2,x_1)\}$ is not injective.
 
@@ -519,16 +541,15 @@ or, using Classical Logic, GTC:
 \begin{theorem}[Finiteness of $\setR$-compatible transitions (weak form)]
 \label{theorem-finiteness-value-flow-1}
 If $\setR$ is any finite list of \emph{injective} relation pairs 
-satisfying the Progressing Domain Condition (PDC) 
-and composition-closed in $\setG$, 
+satisfying the Progressing Domain Condition (PDC)  in $\setG$
 then any value flow compatible with $\setR,\setG$ is finite.
 \end{theorem}
 
 We postpone the proof of Thm. 
-\ref{theorem-finiteness-value-flow-1} above.
+\ref{theorem-finiteness-value-flow-1}.
 
-Before we remark that the Termination Theorem for $\setR, \setG$ 
-can be reformulated as an induction schema on $\N^n$, as follows.
+%Before we remark that the Termination Theorem for $\setR, \setG$ 
+%can be reformulated as an induction schema on $\N^n$, as follows.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 04/03/2025 
@@ -571,42 +592,45 @@ $x, y \in \dom(\Stat \cup \Prog)$ to the weaker condition
 $x, y \in X$. Let us call \quotationMarks{Progressing Condition} or 
 PC the resulting condition. Then PC it is weaker than PDC,
 and indeed PC just says:
-for all $(\Stat,\Prog) \in \setR$, all $a \in G$ if $(\Stat,\Prog) \setG (a,a)$
-then $\Prog \not = \emptyset$.
+for all self-composable $(\Stat,\Prog) \in \setR$ we have $\Prog \not = \emptyset$.
 If we have PC in the place of PDC then the Termination Theorem fails, even if
-we assume composition-closure of $\setR$ in $\setG$ and injectivity
+we assume injectivity
 of $\setR$. We explain why.
 
-\subsubsection{PC, composition-closure and injectivity does not imply GTC}
+\subsubsection{PC and injectivity does not imply GTC}
 \label{subsubsection-counterexample-PC-PDC}
 Here is a counter-example $\setR_2$. 
 Let $X = \{x_1,x_2\}$, $\setR_2=\{(\Stat,\Prog)\}$
-and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_1,x_2)\}$, 
-namely, the pair $(\Stat,\Prog)$ is self-composable. 
+and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_1,x_2)\}$. 
+We define $\setG$ in such a way that the pair $(\Stat,\Prog)$ is self-composable. 
 Then $\setR_2$ is composition-closed because 
 $
-(\Stat,\Prog)(\Stat,\Prog) = 
-(\Stat\Stat,\Stat\Prog \cup \Prog\Prog \cup \Prog\Stat) = 
+\Stat\Prog \cup \Prog\Prog \cup \Prog\Stat = 
 $(by $\Prog\Prog = \Prog\Stat = \emptyset$)$
-(\Stat\Stat,\Stat\Prog) = 
+\Stat\Prog = 
+\Prog
+$
+therefore
+$
+(\Stat,\Prog)(\Stat,\Prog) = 
+(\Stat\Stat \setminus \Prog,\Prog) = 
+(\Stat \setminus \Prog,\Prog) = 
 (\Stat,\Prog)
 $.
 $\setR_2$ is injective, because the relation 
 $R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_1,x_2)\}$ is injective.
-The unique coloring $(\Stat,\Prog)$ satisfies PC 
+The unique $2$-coloring $(\Stat,\Prog)$ satisfies PC 
 because $x_1 \in \dom((\Stat,\Prog))$
 is progressing to  $x_2$. Remark that $x_2 \not \in \dom((\Stat,\Prog))$
 and $x_1$ does not progress to $x_1$, therefore PDC fails while PC holds. 
 $\setR_2$ does \emph{not} satisfy GTC, because the unique infinite path is 
-$\pi = (R,R,R,R,\ldots)$,
-and the unique infinite trace in $\pi$ is 
-$x_1 x_1 x_1 \ldots$, therefore the unique infinite trace \emph{never} progresses. 
+$b = R,R,R,R,\ldots$,
+and the unique infinite trace compatible with $b$ is 
+$x_1 x_1 x_1 \ldots$. Thus, the unique infinite trace \emph{never} progresses. 
 %17:24 03/02/2025
 
 In order to prove the Termination Theorem we have to define States and
 Transition chains first.
-
-
 
 
 \subsection{Definition of States and Transitions chain}
@@ -618,7 +642,7 @@ transition chains from a computation state to another one.
 \begin{definition}[States, Compositions and Transition Sequences]
 Assume $\setR, \setG$ are as above.
 Assume $X = \{x_1, \ldots, x_n\}$ and $(\Stat,\Prog)$ is a pair
-of finite binary relations on $X$. 
+of \emph{disjoint} finite binary relations on $X$. 
 \begin{enumerate}
 
 \item
@@ -626,18 +650,19 @@ We denote with $\Val$ the set of \emph{value assignment}
 $\sigma: X \rightarrow \N$ for variables. 
 
 \item
-We denote with $\setS = \setR \times \Val$ the set of \emph{computation states},
-each $s=((\Stat,\Prog),\sigma)$ consists of a pair $(\Stat,\Prog)$ 
-of finite binary relations on $X$ 
+We denote with $\setS = G \times \Val$ the set of \emph{computation states},
+each $s=(G,\sigma)$ consists of a pair of a node $a \in G$ of the labeled graph 
+defined by $\setG$
 and a value assignment $\sigma: X \rightarrow \N$.
 
 \item
 \emph{(Transition)}
-Assume $s=((\Stat,\Prog), \sigma)$, $s'=((\Stat',\Prog'), \sigma')$, $s, s' \in \setS$
+Assume $s=(a, \sigma)$, $s'=(a', \sigma')$, $s, s' \in \setS$
 are states. 
-We call $(s,s')$ a \emph{transition in $\setR,\setG$}, just
+We call $(s,s')$ a \emph{transition in $\setG$}, just
 a \emph{transition} for short,  if and only if
-$(\Stat,\Prog)$ is composable with $(\Stat',\Prog')$ in $\setG$ and
+$(a,a') \in \dom(\setG)$ and if $\setG(a,a') = (\Stat,\Prog) \in \setR$ is
+the labeling of $(a,a')$ then
 $\forall (x,y) \in \Stat. \sigma(x) \ge \sigma'(y)$
 and $\forall (x,y) \in \Prog. \sigma(x) > \sigma'(y)$.
 
@@ -651,12 +676,16 @@ We denote the set of transition sequences with $\setT$.
 \end{definition}
 
 
+%13:34 06/03/2025
+
+
 \subsection{Some Ingredient for a Proof of the Termination Theorem 
 \ref{theorem-finiteness-value-flow-1}}
 \label{subsection-proof-termination}
-Assume that $\setR$ is a composition-closed set, that $\setR$ is
-injective and that $\setR$
-satisfies PDC, namely: for all $(\Stat,\Prog) \in \setR$ we have $x \Prog y$ for
+Assume that $\setR$ is
+injective and that $\setR, \setG$
+satisfies PDC, namely: for all $(\Stat,\Prog) \in \setR^\setG$ self-composable
+in $\setG$ we have $x \Prog y$ for
 some $x, y \in \dom(\Stat \cup \Prog)$.
 Let $\setT$ be the set of transition sequences for $\setR, \setG$. 
 We want to prove the Termination Theorem: 
@@ -682,6 +711,10 @@ with the lexicographic ordering on the components $(m_1,r_1), \ldots,
 (m_n,r_n)$, with each pair $(m_i,r_i)$ ordered lexicographically. 
 \end{definition}
 
+To put otherwise, the ordering on $((m_1,r_1), \ldots, 
+(m_n,r_n)) \in \setL$ is the lexicographic ordering on 
+$(m_1,r_1, \ldots, m_n,r_n)$.
+
 %We define a map 
 %$
 %f: \setT \rightarrow \setL
@@ -698,6 +731,8 @@ We need some more ingredients for a proof of the Termination
 Theorem \ref{theorem-finiteness-value-flow-1}. 
 The first one is the following folk-lore Proposition, some sufficient condition
 for an injective relation $R$ on $X$ to be a bijection.
+
+%14:30 06/03/2025
 
 \begin{proposition}[Injective Relations and Cardinality]
 \label{proposition-injective-relation}
@@ -813,7 +848,7 @@ $y \in \dom(S)$, as we wished to prove.
 
 \item
 \emph{$R \cap (\dom(RS) \times \dom(S))$ is injective}. This
-is  because this relation is a subset of $R$ which is injective.
+is  because this relation is a subset of $R$ and $R$ is injective.
 \end{enumerate}
 
 \item
@@ -829,7 +864,8 @@ and $R$ injective in order to prove that $R\restr \dom(R)$ is a bijection.
 $\dom(R)=\dom(S)$ implies that $\Card(\dom(R))=\Card(\dom(S))$.
 By $\Card(\dom(R))=\Card(\dom(S))$, $R$ injective
 and point \ref{lemma-composition-injective-relations-03} above we deduce 
-that $R\restr \dom(RS), \dom(S)$ is a bijection. The thesis now follows from
+that $R\restr \dom(RS), \dom(S)$ is a bijection. The fact that
+$R\restr \dom(R), \dom(R)$ is a bijection now follows from
 $\dom(RS) = \dom(R)$ and $\dom(S)=\dom(R)$.
 
 \end{enumerate}
@@ -839,10 +875,9 @@ $\dom(RS) = \dom(R)$ and $\dom(S)=\dom(R)$.
 %12:21 17/02/2025
 
 Remark that the fact that $R\restr \dom(R)$ is a bijection 
-does not mean that $R$ itself
-is a bijection. For instance, an element $x \in \dom(R)$ can have some image
-$y \not \in \dom(R)$. In this case $x$ has at least two images and $R$ is no
-bijection, while $R\restr \dom(R)$ is.
+does not mean that $R$ itself is a bijection. For instance, an element 
+$x \in \dom(R)$ can have some image $y \not \in \dom(R)$. In this case $x$ 
+has at least two images and $R$ is no bijection, while $R\restr \dom(R)$ is.
 
 The last ingredient we need is a definition $\val(Y,\sigma)$ of value for 
 a subset $Y \subseteq X$ of $X$ w.r.t. a valuation 
@@ -856,7 +891,8 @@ $$
 \begin{lemma}[The value of progressing bijection is decreasing]
 \label{lemma-decreasing-progressing-bijection}
 
-Assume that $r = (\Stat,\Prog)$ is a relation pair of $X = \{x_1, \ldots, x_n\}$
+Assume that $r = (\Stat,\Prog)$ is a disjoint pair of 
+relations on $X = \{x_1, \ldots, x_n\}$
 and $R= \universe{r} = \Stat \cup \Prog$.
 Assume $\sigma, \tau \in \Val$ are value assignments on $X$
 and $Y, Z \subseteq X$. Assume that:
@@ -902,12 +938,15 @@ as wished.
 
 \section{The notion of stable-cardinality path}
 We need one last ingredients before proving the Termination Theorem.
-Suppose $\Card(X) = n$. Suppose $\setR=\{(\Stat_i,\Prog_i) | i \in [1,a]\}$
-is any finite set of relation pairs on $X$, $\setG$ a relation between $\setR$
-and $G \times G$, and $\setR$ is composition-closed in $\setG$.
+We recall all our assumptions.
+We supposed $\Card(X) = n$. We supposed $\setR$
+is any finite set of pairs of disjoint relations on $X$, 
+and $\setG: \dom(\setG)  \rightarrow \setR$ with
+$\dom(\setG) \subseteq G \times G$ is a labeling on $\setR$ of the graph 
+$\dom(\setG)$. 
 
-We now define larger and larger set of paths, then we will prove that the
-associated value flows terminate.
+We now define larger and larger set of paths, and for each of them 
+we will prove that all value flows associated to the set of paths terminate.
 
 Assume $L:[1,l] \rightarrow \Pfin(\N \times \N)$ is a finite relation sequence,
 with $R_i = L(i)$ for all $i \in [1,l]$.
@@ -918,9 +957,9 @@ By Lemma \ref{lemma-composition-injective-relations-01}
 and $\dom(R_{i,j+1}) = \dom(R_{i,j} R_{j+1})$ we have
 $\dom(R_{i,j})  \supseteq \dom(R_{i,j+1})$, that is,
 the sequence of sets $\dom(R_{i,j})$
-for $j \in [i,l]$ is weakly decreasing. The same holds for 
-$\Card(\dom(R_{i,j}))$.
-When for each $i \in [1,l]$  the sequence $\Card(\dom(R_{i,j}))$ 
+for $j \in [i,l]$ is weakly decreasing. The same holds for the sequence 
+$\{\Card(\dom(R_{i,j})) | j \in [i,l]\}$ on $\N$.
+When for each $i \in [1,l]$  the sequence $\{\Card(\dom(R_{i,j})) | j \in [i,l]\}$ 
 is constant we say that the list $L$ has stable-cardinality domains. 
 When all cardinalities are $\Card(\dom(R_{i,j}))$ are the same we
 say that $L$ has constant-cardinality domains.
@@ -950,7 +989,7 @@ $\pi$ has \emph{stable-cardinality domains}
 (respectively, has \emph{constant cardinality domains})
 if and only if the associated relation sequence 
 $\{\universe{\pi(i)} | i \in [1,l]\}$, obtained by taking the union
-of each pair $\pi(i) = (\Stat_i,\Prog_i)$, has stable-cardinality domains 
+of each pair $\pi(i) = (\Stat_i,\Prog_i) \in \setR$, has stable-cardinality domains 
 (respectively, has constant cardinality domains).
 
 \item
@@ -962,8 +1001,10 @@ $x \in \dom(\pi(i))$, $y \in \dom(\pi(j))$.
 \end{definition}
 
 We can now restate the Termination Theorem in a more detailed form, giving
-an upper bound the height of the tree of all paths in various cases.
+an upper bound to the height of the tree of all paths in various cases.
  
+%16:00 06/03/2025
+
  \begin{theorem}[Finiteness of $\setR$-Compatible Transitions (Srong Form)]
 \label{theorem-finiteness-value-flow-2}
 Let $g = \Card(G)$. 
@@ -1131,16 +1172,15 @@ in strong form (\ref{theorem-finiteness-value-flow-2}).
 \begin{proof}
 [Proof of Termination Theorem \ref{theorem-finiteness-value-flow-2}]
 %13:44 03/03/2025
-Assume $\setR$ is composition-closed in $\setG$. Let $g = \Card(G)$.
+Let $g = \Card(G)$.
 
 \begin{enumerate}
 
 \item
 %\label{theorem-finiteness-value-flow-2-1}
 Lemma \ref{lemma-stable-cardinality domain-injective}.
-\ref{lemma-stable-cardinality domain-injective-04} says that if 
-$\setR$ is composition-closed in $\setG$,
-then each constant-cardinality non-progressing domain path on $\setR$
+\ref{lemma-stable-cardinality domain-injective-04} says that 
+each constant-cardinality non-progressing domain path on $\setR^\setG$
 has at most $g\genfrac(){0pt}{0}{n}{k}$ elements, that is, has
 length in $[0,  g\genfrac(){0pt}{0}{n}{k}[$. This is point $1$
 of Termination Theorem \ref{theorem-finiteness-value-flow-2}.
@@ -1398,8 +1438,7 @@ Oxford University Press.
 
 \section{Appendix: PDC and SCT are Equivalent Given Injectivity}
 The goal of this section is to compare PDC with the GTC with and 
-without injectivity. Recal that we only consider $\setR, \setG$ such that 
-\emph{$\setR$ is composition-closed in $\setG$}.
+without injectivity. 
 We Claim:
 \begin{enumerate}
 \item
@@ -1444,8 +1483,7 @@ PDC.
 
 In order to prove SCT $\Rightarrow$ PDC, we recall 
 that Neil Jones in \cite{SCT-2001} 
-proved the equivalence of SCT and GTC with only
-assumption the composition-closure: 
+proved the equivalence of SCT and GTC 
 $$
 \forall \setR, \setG \mbox{ comp.-closed}.  \ \ 
 (SCT \Leftrightarrow GTC)
