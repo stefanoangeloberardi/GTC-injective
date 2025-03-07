@@ -71,16 +71,17 @@ infinite Ramsey theorem
 \section{Introduction}
 We want to study Size Change Termination condition 
 (from now on, SCT) for program termination, introduced by
-Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{2001-SCT}. 
-We are particulary interested to the case of transition graphs labeled by 
+Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{2001-SCT}
+in a particular case relevant for cyclic proofs. 
+We are interested to the case of transition graphs labeled by 
 \emph{injective} bi-colored relations.
 
-Our motivation is that this particular case is enough to check 
+Our motivation is that this particular case of SCT is enough to check 
 the correctness of a cyclic proof. 
 Cyclic proofs have been introduced independently as a tool for proof search
 by Brotherston and Simpson \cite{2011-Brotherston-Simpson}. 
-However, the algorithm checking cyclic proofs is a particular case of the
-algorithm checking SCT.
+Later, the algorithm checking correctness cyclic proofs turned out to be
+a particular case of the algorithm checking the SCT condition for programs.
 
 The algorithm checking SCT is PSPACE-complete (\cite{2001-SCT}).
 We suspect that SCT is PSPACE-complete 
@@ -88,12 +89,14 @@ also in the particular case of injective bi-colored relations required by cyclic
 proofs. However we will argue that checking SCT is simpler  
 and faster in this case.
 
-Another motivation we have in mind is defining an automatic translation from 
+As a future work, we plan to define an automatic translation from 
 cyclic proofs into more ordinary inductive proofs. This translation
 would be useful for cross-checking the result of a proof-search done 
-using cyclic proofs. 
+using cyclic proofs. We do not have such a translation yet, but we believe that from
+a simpler termination proof for SCT we will be able to define a simpler
+translation from cyclic proofs to inductive proofs.
 
-We prove termination for SCT in the case of injective relations only using 
+As a first step, we prove termination for SCT in the case of injective relations only using 
 first order induction. With respect to a previous work,
 we avoid the use Ramsey Theorem, and we use Intuitionistic Logic only.
 
@@ -104,38 +107,49 @@ Along this paper we suppose we have the main ingredients for an SCT problem,
 namely:
 \begin{enumerate}
 \item
-a \emph{finite set} $X=\{x_1, \ldots, x_n\}$;
+a \emph{finite set} $X=\{x_1, \ldots, x_n\}$, representing variables;
 
 \item
 a finite set $\setR$, with
 each $(\Stat, \Prog) \in \setR$ a \emph{pair of finite relations on $X$}
-such that \emph{$\Stat \cap \Prog = \emptyset$ for all $(\Stat, \Prog) \in \setR$};
+such that \emph{$\Stat \cap \Prog = \emptyset$ for all $(\Stat, \Prog) \in \setR$},
+representing bi-colored relations on variables;
 
 \item
-a finite non-empty set $G$ and a map $\setG: \dom(\setG) \rightarrow \setR$,
+a finite non-empty set $G$, representing abstract program states, 
+and a map $\setG: \dom(\setG) \rightarrow \setR$,
 such that $\dom(\setG) \subseteq G \times G$. 
 \end{enumerate}
 
-Implicitly, $\setG$ defines a graph with set of nodes $G$, set of
-edges $\dom(\setG) \subseteq G \times G$ and with edges labeled on $\setR$. 
+Implicitly, $\setG$ defines a labeled transition graph on program states.
+The set of nodes of the graph is $G$, the set of
+edges is $\dom(\setG) \subseteq G \times G$ and each edge $(a,b)$
+is labeled by some $\setG(a,b) \in \setR$. 
 
 We call each $(\Stat, \Prog) \in \setR$ just a \emph{pair} for short.
 If $x \Stat y$ we say that $x$ weakly progresses to $y$ in $(\Stat, \Prog)$,
 and if $x \Prog y$ we say that $x$ progresses to $y$ in $(\Stat, \Prog)$.
-We provide an interpretation of weak progression and progression later.
+Each label $\setG(a,b)  \in \setR$ on a transition from $a$ to $b$ in $G$ represented all
+we know about the relationship between the values of any two variables $x$, $y$ before
+and after the transition: either weak progression, or strict progression, 
+or no information at all, in the case $x \Stat y$ and $x \Prog y$ are both false.
 
 We define composition of pairs in $\setR$ by:
 $$
+\Stat'' = \Stat \Stat', 
+\ \ \ 
+\Prog'' = \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'
+$$
+$$
 (\Stat,\Prog)(\Stat',\Prog') 
 =
-(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
+(\Stat''\setminus\Prog'', \Prog'')
 $$
-Remark that the result of composition is a disjoint pair of finite relations on $X$.
-We interpret composition of pairs later. 
+By definition, the result of composition is a \emph{disjoint} 
+pair of finite relations on $X$, therefore again a bicolored relation.
+Two pairs are composable if they label some transition sequence in the
+graph defined by $\setG$.
 
-Sometimes we skip the index $\setG$
-and we write just $\composable{}{a}{b}{(\Stat,\Prog)}$.
-We use $\setG$ to restrict the set of compositions which are allowed.
 
 \begin{definition}[Composable pairs  in $\setG$]
 Assume $\setR, \setG$ are as above.
@@ -151,8 +165,8 @@ $\composable{\setG}{a}{c}{(\Stat,\Prog)(\Stat',\Prog')}$.
 
 
 \item
-We say that that $(\Stat,\Prog), (\Stat',\Prog')$ are
-\emph{composable in $\setG$}, just \emph{composable} for short
+We say that that two pairs of finite disjoint relations $(\Stat,\Prog), (\Stat',\Prog')$ on 
+$X$ are \emph{composable in $\setG$}, just \emph{composable} for short
 if and only if we have
 $\composable{\setG}{a}{b}{(\Stat,\Prog)}$ and
 $\composable{\setG}{b}{c}{(\Stat',\Prog')}$ for some $a,b,c, \in G$.
@@ -167,11 +181,13 @@ $\composable {\setG} {a} {a} {(\Stat,\Prog)}$ for some $a \in G$.
 
 \end{definition}
 
- We consider the elements of $X$ as variables to which we associate a value in 
- each instant of time.
+We skip the index $\setG$ when it can be deduced from the context
+and we write just $\composable{}{a}{b}{(\Stat,\Prog)}$.
+The role of $\setG$ is to restrict the set of compositions which are allowed.
 
-
-We will use each relation $x \Stat y$ to express the fact that 
+As we said, we consider the elements of $X$ as variables to which we associate a value 
+in each instant of time. A a consequence, 
+we will use each relation $x \Stat y$ to express the fact that 
 $x$ is associated in an instant $t$ to x value \emph{greater than or equal} 
 to the value associated to $y$ in the next instant $t+1$.
 We will use each relation $x \Prog y$ to express the fact that $x$
@@ -186,24 +202,28 @@ if we know that $x \Prog y$ (namely that
 the value of of $x$ is greater than the value of $y$), then the information
 $x \Stat y$ (namely that the value of of $x$ is greater \emph{or equal} 
 than the value of $y$) becomes redundant and we remove it from our records.
+Alternatively, the condition $\Stat \cap \Prog = \emptyset$ is required for
+$(\Stat,\Prog)$ to define a bicoloring on $\Stat \cup \Prog$ as done in
+\cite{2001-SCT}.
 \\
 
 We call \emph{trace} any sequence on $X$. 
 We call \emph{path} on $\setG$ 
-any sequence $b$ on $G$ such that $(b(i),b(i+1)) \in 
+any transition path in the graph defined by $\setG$.
+Alternatively, a path any sequence $b$ on $G$ such that $(b(i),b(i+1)) \in 
 \dom(\setG)$ for any two consecutive elements of the path.
-Implicitly, each path is a path in the graph associated to $G$ and labeled
-on $\setR$ by $\setG$.
+Each path is a path in the graph associated to $G$ and labeled on $\setR$ by $\setG$.
 Thus, each path $b$ is associated by $\setG$ to a sequence $r$ on $\setR$
 defined by $r(i) = (\Stat_i, \Prog_i) = \setG(b(i),b(i+1))$. If $b$
-is finite, then the pair sequence $r$ is one unit shorter than $b$. If
+is finite, then the sequence $r$ of pairs is one unit shorter than $b$. If
 $b$ is infinite then $r$ is infinite.
 
 We take the words \quotationMarks{trace} and \quotationMarks{path} 
 from cyclic proofs. The paper \cite{2001-SCT}
-uses for the same concepts the words \quotationMarks{thread}
+uses for the same concepts the words: \quotationMarks{thread}
 and \quotationMarks{multipath}, and states GTC, the Global Trace Condition,
-as: \quotationMarks{all multipaths are in $DESC^\omega$}, where $DESC^\omega$ is the set of multipaths having some infinite descending thread.
+as: \quotationMarks{all multipaths are in $DESC^\omega$}, 
+where $DESC^\omega$ is the set of multipaths having some infinite descending thread.
 
 The terminology of cite{2001-SCT} is probably more suitable when speaking
 of programs, while Brotherston and Simpson terminology,
@@ -211,11 +231,12 @@ trace and path, appears more suitable when speaking of a
 proof-graph, as we do in this paper. 
 
 We call value flow any assignment
-of values in $\N$ to each $x \in X$, the assignment 
-depends on a time parameter $t$. We require that the the set of instants
-of time is some initial segment of the set $\N$ of natural numbers.
+of values in $\N$ to each $x \in X$, with the assignment 
+depending on a time parameter $t$. We require that the the set of instants
+of time is some non-empty initial segment of the set $\N$ of natural numbers,
+possibly $\N$ itself.
 
-We repeat the same definitions more formally:
+We repeat the same definitions more formally.
 
 \begin{definition}[Path, Trace and Value Flow]
 Assume $\setR$, $\setG$ are as above.
@@ -226,8 +247,8 @@ is any non-empty initial segment of the order on natural numbers.
 We call any map $b:D \rightarrow G$ a multipath, a \emph{path} for short
 if and only if for all $i, i+1 \in D$ we have $(b(i),b(i+1)) \in \dom(\setG)$.
 \item
-We call any map $\pi:D \rightarrow X$ a \emph{trace} 
-(called a \emph{thread} in \cite{SCT-2001}): 
+We call any map $\tau:D \rightarrow X$ a \emph{trace} 
+(called a \emph{thread} in \cite{2001-SCT}): 
 a trace is any finite or infinite sequence over $X$.
 \item
 We call any map $\theta:D,X \rightarrow \N$ a \emph{value flow}. 
@@ -240,35 +261,37 @@ is finite when $D=[0,h]$ for some $h \in \N$, that it is infinite when $D = \N$.
 
 
 We are interested to a condition on $\setR, \setG$
-called the \quotationMarks{Global Trace Condition} (GTC), 
-equivalent to the 
+called the \quotationMarks{Global Trace Condition} (GTC).
+GTC is equivalent to the 
 termination of value flows \quotationMarks{compatible}
-with a path of $\setR, \setG$. GTC is expressed in term of traces.
+with a path of $\setR, \setG$, as we will prove in Appendix.
+
+GTC is expressed in term of traces.
 
 \begin{definition}[Global Trace Condition (GTC) and Injectivity]
 \label{definition-GTC-inj}
 Assume $\setR, \setG$ are as above.
 Suppose $X=\{x_1, \ldots, x_n\}$, $\setR =\{(\Stat_i, \Prog_i)| i \in [1,r]\}$
-and $b, \pi$ are a path of $\setR, \setG$ and a trace, all of domain $D$ 
+and $b, \tau$ are a path of $\setR, \setG$ and a trace, all of domain $D$ 
 $D=[0,h]$ for some $h \in \N$ or $D=\N$.
 
 \begin{enumerate}
 
 \item
-We say that the trace $\pi:D \rightarrow X$ is \emph{compatible} with the path
+We say that the trace $\tau:D \rightarrow X$ is \emph{compatible} with the path
 $b :D \rightarrow \setR$ on the same $D$, 
-and we write $\pi \models b$, if and only if :
+and we write $\tau \models b$, if and only if :
 whenever $t, t+1 \in D$ and $\setG(b(t),b(t+1)) = (\Stat,\Prog) \in \setR$,
 then the two consecutive values  of the trace are related by $\setR$, namely
- $\pi(t) (\Stat \cup \Prog) \pi(t+1)$.
-If furthermore we have $\pi(t) \Prog \pi(t+1)$,
-we say that $t \in D$ is a \emph{$b$-progress point} of the trace $\pi$.
+ $\tau(t) (\Stat \cup \Prog) \tau(t+1)$.
+If $\tau(t) \Prog \tau(t+1)$,
+we say that $t \in D$ is a \emph{$b$-progress point} of the trace $\tau$.
 
 \item
 $\setR,\setG$ satisfy the \emph{Global Trace Condition} (GTC) if and only if
 for all infinite paths $b$ in $\setR,\setG$
-there is some infinite trace $\pi:\N \rightarrow X$ such that
-$\pi \models b$ and $\pi$ has infinitely many $b$-progress points.
+there is some infinite trace $\tau:\N \rightarrow X$ such that
+$\tau \models b$ and $\tau$ has infinitely many $b$-progress points.
 
 \item
 We write $\universe{(\Stat, \Prog)}
@@ -284,16 +307,45 @@ for all $(\Stat, \Prog) \in \setR$.
 
 \end{definition}
 
+When we have injectivity, we could remove the substruction 
+\quotationMarks{$(\ldots) \setminus 
+\Prog''$} in the definition of composition , because in this case if $\Stat,\Prog$ 
+are disjoint and $\Stat', \Prog'$ are disjoint then  $\Stat \Stat'$ and $\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'$ are disjoint. In this case 
+we have $(\Stat,\Prog)(\Stat',\Prog')=(\Stat'',\Prog'')$.
+
+Again if we have injectivity, composition is
+compatible with the union operator $\universe{\cdot}$ for relation pairs. 
+Indeed we have
+$$
+\universe{(\Stat,\Prog)(\Stat',\Prog')} 
+= 
+\universe{
+(\Stat \Stat', 
+\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
+}
+=
+\Stat \Stat' \cup (\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog') 
+\setminus \Stat \Stat'
+=
+$$
+$$
+=
+\Stat \Stat' \cup \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'
+=
+(\Stat \cup \Prog) (\Stat' \cup \Prog') 
+= 
+\universe{(\Stat,\Prog)}\universe{(\Stat',\Prog')} 
+$$
 Lee and Ben-Aram considered in \cite{2009-Lee-Aram} the notion
 of fan-in free for $\setR$, $\setG$. 
 This notion is equivalent to our injectivity condition above 
-(\ref{definition-GTC-inj}). This equivalence requires to
+(\ref{definition-GTC-inj}). However, the equivalence requires to
 rename all sets $X$ in each node $f \in G$ to some set
 $\Var(f)$, in order to make pairwise distinct the set of variables associated
-to each node $f \in G$.
+to each node $f \in G$. We avoid renaming in this paper.
 
-If formulated as above, the Global Trace condition (GTC) is equivalent to
-Size Change Termination (SCT), introduced by Neil Jones \cite{2001-SCT}. 
+If formulated as above, the Global Trace condition (GTC) is equivalent to the criterion
+for Size Change Termination (SCT), introduced by Neil Jones \cite{2001-SCT}. 
 SCT was originally used as a sufficient, and quite broad too, 
 condition for termination of recursive calls. 
 When we use GTC as a correctness criterion for cyclic proofs,
@@ -314,7 +366,7 @@ $y_1 > y_2 \ge z$
 
 In this paper we study GTC in the case $\setR$ is injective, and from a
 purely combinatorial viewpoint, as a termination condition for value flows. 
-Our result can be used for checking termination of recursive calls, with a 
+Our result could also be used for checking termination of recursive calls, with a 
 faster algorithm but unfortunately under less general conditions than in 
 \cite{2001-SCT}. 
 We hope that our result will be used for translating cyclic proofs into 
@@ -340,119 +392,94 @@ $r_k \in [0, \Card(G){n \choose k }[$, a finite initial segment of $\N$.
 
 %11:44 06/03/2025
 
-\subsection{Comparing our Terminology 
-with the Terminology in Neil Jones SCT Paper}
-\label{subsection-comparing}
-The SCT paper uses $2$-coloring on the set of relations $[1,n] \times [1,n]$. 
-The choice of a color for a pair
-$(i,j)$ represents what we know about the relation between the value of
-variable $x_i$ at time $t$, and the value of variable $x_j$ at time $t+1$.
-What we know about the relation can be: either $\ge$ or $>$. No relation
-means \quotationMarks{no information at all}.
+%%%%%%%%%%%%%%%
+% 11:49 07/03/2025 This subsection is now a repetition
+%%%%%%%%%%%%%%%
+%\subsection{Comparing our Terminology 
+%with the Terminology in Neil Jones SCT Paper}
+%\label{subsection-comparing}
+%The SCT paper uses $2$-coloring on the set of relations $[1,n] \times [1,n]$. 
+%The choice of a color for a pair
+%$(i,j)$ represents what we know about the relation between the value of
+%variable $x_i$ at time $t$, and the value of variable $x_j$ at time $t+1$.
+%What we know about the relation can be: either $\ge$ or $>$. No relation
+%means \quotationMarks{no information at all}.
+%
+%We could interpret our relation pairs
+%$(\Stat,\Prog) \in \setR$ are a $2$-coloring in the sense of 
+%\cite{2001-SCT}. $x \Stat y$ for 
+%$x, y, \in X$ represents \quotationMarks{the value of $x$ is $\ge$ 
+%than the value of $y$}. $x \Prog y$ represents 
+%\quotationMarks{the value of $x$ is $>$ than the value of $y$}. 
+%If we do not have $x \Stat y$ nor $x \Prog y$ we represent the fact we do
+%not know what is the relation between the values of $x$ and $y$.
+%%%%%%%%%%%%%%%
 
-We could interpret our relation pairs
-$(\Stat,\Prog) \in \setR$ are a $2$-coloring in the sense of 
-\cite{2001-SCT}. $x \Stat y$ for 
-$x, y, \in X$ represents \quotationMarks{the value of $x$ is $\ge$ 
-than the value of $y$}. $x \Prog y$ represents 
-\quotationMarks{the value of $x$ is $>$ than the value of $y$}. 
-If we do not have $x \Stat y$ nor $x \Prog y$ we represent the fact we do
-not know what is the relation between the values of $x$ and $y$.
-
-
-In order to formulate SCT in our setting, we have first to recall the definition of
-composition of pairs in $\setR$ and and of composable pairs in $\setG$.
+In order to formulate SCT in our setting, we have first to define the
+closure by composition of $\setR$ in $\setG$.
 
 %13:50 04/03/2025
 
-\subsection{Definition of Composition of relation pairs}
+\subsection{Closure by Composition of $\setR$ in $\setG$}
 \label{subsection-composition}
 
-We defined composition in such a way that if  
-$(x,y), (y,z) \in X \times X$ 
-are two pairs on $X$,
-then $(x,z) \in X \times X$ is stationary in the composition  
-$(\Stat,\Prog)(\Stat',\Prog')$ if and only if both $(x,y)$ is stationary in 
-$\Stat$ and $(y,z)$ is stationary in $\Stat'$, for some $y \in X$. 
-Dually, $(x,z)$ is progressing in the  composition 
-$(\Stat,\Prog)(\Stat',\Prog') $ if and only if either $(x,y)$ is progressing in 
-$\Prog$ or $(y,z)$ is progressing in $\Prog'$ or both are, for some $y \in X$.
+%We defined composition in such a way that if  
+%$(x,y), (y,z) \in X \times X$ 
+%are two pairs on $X$,
+%then $(x,z) \in X \times X$ is stationary in the composition  
+%$(\Stat,\Prog)(\Stat',\Prog')$ if and only if both $(x,y)$ is stationary in 
+%$\Stat$ and $(y,z)$ is stationary in $\Stat'$, for some $y \in X$. 
+%Dually, $(x,z)$ is progressing in the  composition 
+%$(\Stat,\Prog)(\Stat',\Prog') $ if and only if either $(x,y)$ is progressing in 
+%$\Prog$ or $(y,z)$ is progressing in $\Prog'$ or both are, for some $y \in X$.
 
 
 \begin{definition}[States, Compositions and Transition Sequences]
 Assume $X = \{1, \ldots, n\}$ and $(\Stat,\Prog)$ is a pair
 of finite binary relations on $X$. 
-\begin{enumerate}
-\item
-\emph{Composition on relation pairs}.
-If $(\Stat,\Prog)$, $(\Stat',\Prog')$ are pairs of disjoint relations on $X$,
-then we define their composition by
-$$
-(\Stat'', \Prog'')
-=
-(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
-$$
-$$
-(\Stat,\Prog)(\Stat',\Prog')=(\Stat''\setminus\Prog'',\Prog'')
-$$
-
-\item
-\emph{(Closure by Composition)}
+%\begin{enumerate}
+%\item
+%\emph{Composition on relation pairs}.
+%If $(\Stat,\Prog)$, $(\Stat',\Prog')$ are pairs of disjoint relations on $X$,
+%then we define their composition by
+%$$
+%(\Stat'', \Prog'')
+%=
+%(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
+%$$
+%$$
+%(\Stat,\Prog)(\Stat',\Prog')=(\Stat''\setminus\Prog'',\Prog'')
+%$$
+%
+%\item
+%\emph{(Closure by Composition)}
 We say that $\setR^\setG$ is the
 \emph{closure of $\setR$ by $\setG$-composition} if and only if
-$\setR^\setG = \{(\Stat,\Prog) | \composable{\setG}{a}{b}{(\Stat,\Prog)}\}$.
-\footnote{
+$$\setR^\setG = \{(\Stat,\Prog) | \composable{\setG}{a}{b}{(\Stat,\Prog)}\}$$
+%\end{enumerate}
+\end{definition}
+
+Alternatively, 
 $\setR^\setG$ is the the smallest set including $\setR$ and such
 that for all $a,b,c \in G$, all $(\Stat,\Prog), (\Stat',\Prog') \in \setR^\setG$:
 if $\composable{\setG}{a}{b}{(\Stat,\Prog)}$
 and $\composable{\setG}{b}{c}{(\Stat',\Prog')}$
 then we have $(\Stat,\Prog)(\Stat',\Prog') \in \setR^\setG$.
-}
 
-\end{enumerate}
-\end{definition}
-
-When we have injectivity, we could remove the substruction 
-\quotationMarks{$(\ldots) \setminus 
-\Prog''$} in the definition of composition , because in this case if $\Stat,\Prog$ 
-are disjoint and $\Stat', \Prog'$ are disjoint then  $\Stat \Stat'$ and $\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'$ are disjoint. In this case 
-we have $(\Stat,\Prog)(\Stat',\Prog')=(\Stat'',\Prog'')$.
+%12:00 07/03/2025
 
 $\setR^\setG$ is finite and we can compute it from $\setR$ and 
 $\setG$, because $n = \Card(X)$ is finite.
 However, the cardinality of $\setR^\setG$ could be exponential in $n$. 
 
-
-Remark that we defined composition of relation pairs in such a way that it is
-compatible with the union operator $\universe{\cdot}$ for relation pairs. 
-Indeed we have
-$$
-\universe{(\Stat,\Prog)(\Stat',\Prog')} 
-= 
-\universe{
-(\Stat \Stat', 
-\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
-}
-=
-\Stat \Stat' \cup (\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog') 
-\setminus \Stat \Stat'
-=
-$$
-$$
-=
-\Stat \Stat' \cup \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'
-=
-(\Stat \cup \Prog) (\Stat' \cup \Prog') 
-= 
-\universe{(\Stat,\Prog)}\universe{(\Stat',\Prog')} 
-$$
-We can now define SCT.
+We can now define the SCT condition (as stated in see \cite{2001-SCT}, Theorem 4).
 
 \subsection{The Size Change Termination condition (SCT)
 and the Progressing Domain Condition (PDC)}
+\label{subsection-SCT}
 The SCT condition says:
 \quotationMarks{
-\emph{all self-composalbe relation pairs $(\Stat,\Prog)$
+\emph{all self-composable relation pairs $(\Stat,\Prog)$
 (i.e., such that $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ for some $a \in G$)
 have some finite power in which some $x \in X$ progresses to itself}
 }. 
@@ -463,8 +490,8 @@ $$
 \ \implies \exists n \in \N \exists x \in X. 
 \ (x \mbox{ progresses to $x$ in } (\Stat,\Prog)^n)
 $$
-In previous work we proved that SCT and GTC are equivalent,
-using Ramsey Theorem. 
+In previous work we proved that the equivalence between SCT and GTC 
+(already proved in \cite{2001-SCT}) is a corollary of Ramsey Theorem. 
 
 In this paper we are looking for a more
 constructive and elementary proof of an equivalent result, 
@@ -480,13 +507,11 @@ The Progressing Domain Condition (PDC) says:
 \quotationMarks{all self-progressing $(\Stat,\Prog) \in \setR^\setG$ 
 have a progression from $x$ to $y$ with both elements 
 included in the domain of $(\Stat,\Prog)$}, namely
-
 $$
 \forall (\Stat,\Prog) \in \setR, a \in G. 
 \ \ (\composable{\setG}{a}{a}{(\Stat,\Prog)}) \implies \exists x, y \in \dom(\Stat\cup\Prog). 
 \ (x \Prog y)
 $$
-
 PDC is weaker and it is easier to check than the SCT condition. 
 To check PDC, we do not have to look for some $x$ progressing to itself in 
 some power of any self-composable $(\Stat,\Prog)$. 
@@ -498,12 +523,12 @@ However, PDC has the drawback that it implies
 GTC and termination only for \emph{injective} relation pairs. 
 We explain why.
 
-
+%12:33 07/03/2025
 
 \subsubsection{PDC does not imply GTC,
 in the case of non injective family of relation pairs}
 \label{subsubsection-counterexample-PDC-GTC}
-Here is a counter-example $\setR_1$.
+Here is a counter-example $\setR_1,\setG_1$.
 Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$, $G_1=\{1\}$
 and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_2,x_1)\}$ and
 $\setG_1(1,1) = (\Stat,\Prog)$, 
@@ -532,7 +557,8 @@ $x_1 x_1 x_1 \ldots$ or $x_2 x_1 x_1 x_1 \ldots$. Thus, any infinite
 trace compatible with $b$ progresses \emph{at most once}. 
 The reason why the implication PDC $\implies$ GTC is false is because 
 $\setR_1$ is not injective. Indeed, the relation 
-$R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_2,x_1)\}$ is not injective.
+$R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_2,x_1)\}$ is not injective,
+$x_1$ and $x_2$ have the same image $x_1$.
 
 
 Instead, we will prove that PDC+injectivity imply finiteness of value flows,
@@ -580,7 +606,7 @@ We postpone the proof of Thm.
 %as an ordinary proof by adding first order intuitionistic reasoning and 
 %induction on $[0,\infty]$ nested $n$ times, 
 %where $n = \Card(X)$ is the cardinality of the set of variables,
-%together with induction on the finite sets $[1, \genfrac(){0pt}{0}{n}{k}[$ nested $n$ times,
+%together with induction on the finite sets $[1, \genfrac(){0pt}{1}{n}{k}[$ nested $n$ times,
 %for $k=1, \ldots, n$.
 %\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -705,15 +731,19 @@ Let $g = \Card(G)$. We equip the set
 $$
 \setL 
 \ \ \ = \ \ \ 
-\Pi_{k=1}^{k=n} \ [0,\infty] \times [0,g \genfrac(){0pt}{0}{n}{k}[ 
+\{ \ \ 
+(m_1,r_1, \ldots, m_n,r_n)
+  \ \  | \ \ 
+    m_i \in [0,\infty] \ \wedge \ r_n \in [0, g \genfrac(){0pt}{1}{n}{k}[, \ \forall i \in [1,n]
+\ \ \}
 $$
-with the lexicographic ordering on the components $(m_1,r_1), \ldots, 
-(m_n,r_n)$, with each pair $(m_i,r_i)$ ordered lexicographically. 
+with the lexicographic ordering. 
 \end{definition}
 
-To put otherwise, the ordering on $((m_1,r_1), \ldots, 
-(m_n,r_n)) \in \setL$ is the lexicographic ordering on 
-$(m_1,r_1, \ldots, m_n,r_n)$.
+$\setL$ is order-isomorphic to the set $((m_1,r_1), \ldots, 
+(m_n,r_n))$ of sequences of pairs, with
+$(m_i,r_i) \in [0,\infty] \times [0,g \genfrac(){0pt}{1}{n}{k}[$ and with
+the lexicographic ordering both on the sequence of pairs and on each pair.
 
 %We define a map 
 %$
@@ -879,7 +909,7 @@ does not mean that $R$ itself is a bijection. For instance, an element
 $x \in \dom(R)$ can have some image $y \not \in \dom(R)$. In this case $x$ 
 has at least two images and $R$ is no bijection, while $R\restr \dom(R)$ is.
 
-The last ingredient we need is a definition $\val(Y,\sigma)$ of value for 
+One more ingredient we need is a definition $\val(Y,\sigma)$ of value for 
 a subset $Y \subseteq X$ of $X$ w.r.t. a valuation 
 $\sigma:X \rightarrow \N$. 
 $\val(Y,\sigma)$ is the sum of all values of $\sigma$ on $X$ 
@@ -936,7 +966,9 @@ $,
 as wished. 
 \end{proof}
 
+
 \section{The notion of stable-cardinality path}
+%12:58 07/03/2025
 We need one last ingredients before proving the Termination Theorem.
 We recall all our assumptions.
 We supposed $\Card(X) = n$. We supposed $\setR$
@@ -948,7 +980,8 @@ $\dom(\setG)$.
 We now define larger and larger set of paths, and for each of them 
 we will prove that all value flows associated to the set of paths terminate.
 
-Assume $L:[1,l] \rightarrow \Pfin(\N \times \N)$ is a finite relation sequence,
+Assume $L:[1,l] \rightarrow \Pfin(\N \times \N)$ 
+is a finite sequence of relations on $X$,
 with $R_i = L(i)$ for all $i \in [1,l]$.
 Then for all $i,j \in [1,l]$, $i \le j$ we define
 $R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$.
@@ -957,10 +990,10 @@ By Lemma \ref{lemma-composition-injective-relations-01}
 and $\dom(R_{i,j+1}) = \dom(R_{i,j} R_{j+1})$ we have
 $\dom(R_{i,j})  \supseteq \dom(R_{i,j+1})$, that is,
 the sequence of sets $\dom(R_{i,j})$
-for $j \in [i,l]$ is weakly decreasing. The same holds for the sequence 
-$\{\Card(\dom(R_{i,j})) | j \in [i,l]\}$ on $\N$.
+for $j \in [i,l]$ is weakly decreasing w.r.t. inclusion. Thus, the sequence 
+$\{\Card(\dom(R_{i,j})) | j \in [i,l]\}$ is weakly decreasing w.r.t. the ordering on $\N$.
 When for each $i \in [1,l]$  the sequence $\{\Card(\dom(R_{i,j})) | j \in [i,l]\}$ 
-is constant we say that the list $L$ has stable-cardinality domains. 
+is constant we say that the list $L$ has \emph{stable-cardinality} domains. 
 When all cardinalities are $\Card(\dom(R_{i,j}))$ are the same we
 say that $L$ has constant-cardinality domains.
 
@@ -971,7 +1004,7 @@ Here is the formal definition.
 Assume $L:[1,l] \rightarrow \Pfin(X \times X)$
 is a finite relation sequence and
 $\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ is
-a finite sequence of relation pairs.
+a finite sequence of pairs of finite relations on $X$.
 
 \begin{enumerate}
 
@@ -1004,6 +1037,7 @@ We can now restate the Termination Theorem in a more detailed form, giving
 an upper bound to the height of the tree of all paths in various cases.
  
 %16:00 06/03/2025
+%13:27 07/03/2025
 
  \begin{theorem}[Finiteness of $\setR$-Compatible Transitions (Srong Form)]
 \label{theorem-finiteness-value-flow-2}
@@ -1013,15 +1047,17 @@ Let $g = \Card(G)$.
 \label{theorem-finiteness-value-flow-2-1}
 The value flows on $\setR, \setG$ 
 with \emph{constant-cardinality non-progressing domains} 
-terminate in $< g\genfrac(){0pt}{0}{n}{k}$ steps, where $k$ is 
+cannot have length $\ge g\genfrac(){0pt}{1}{n}{k}$, where $k$ is 
 the common cardinality of the domains.
-Therefore these value flows terminate.
+
+Besides, we can prove that these value flows terminate by induction on the distance
+between the length of the flow and $g\genfrac(){0pt}{1}{n}{k}$.
 
 \item 
 \label{theorem-finiteness-value-flow-2-2}
 There is a decreasing embedding $w$ from the value flows on $\setR, \setG$ 
 with \emph{constant-cardinality domains} to the set 
-$[0,\infty] \times [0,g\genfrac(){0pt}{0}{n}{k}[$. 
+$[0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
 Therefore these value flows terminate.
 
 \item
@@ -1041,23 +1077,28 @@ Therefore these value flows terminate.
 \end{theorem}
 
 We postpone the proof of Thm. \ref{theorem-finiteness-value-flow-2}.
+We first discuss some immediate consequences of our definitions.
+
 Assume $L = \{R_i | i \in [1,l\}$ and 
 $R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$
-for all $i,j \in [1,l]$, $i \le j$.
-If $L$ has stable-cardinality domains and $i \in [1,l]$, 
+for all $i,j \in [1,l]$, $i \le j$. We already remarked that 
+the sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ is weakly decreasing w.r.t. inclusion.
+THus, if $L$ has stable-cardinality domains and $i \in [1,l]$, 
 then the first set $\dom(R_{i,i})$ and the last set $\dom(R_{i,l})$ in the weakly 
 decreasing sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ have the same cardinality,
-therefore they are equal. 
+therefore they are equal, and so are all sets in the sequence. 
 Thus, if $L$ has stable-cardinality domains then $\dom(R_{i,i}) = \dom(R_{i,j})$
 for all $i,j \in [1,l]$, $i \le j$.
+
 The next Lemma describes in details more properties of a path $\pi$ 
-on a set $\setR$  with stable-cardinality domains.
+on a set $\setR$ of pairs of disjoint injective relations on $X$ 
+having stable-cardinality domains.
 
 \begin{lemma}
 [stable-cardinality domain injective bi-coloring and the Progressing Domain condition]
 \label{lemma-stable-cardinality domain-injective}
 Assume that 
-$\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ 
+$\pi:[1,l] \rightarrow \setR$ 
 is a \emph{stable-cardinality domain} finite list
 of \emph{injective} pairs of relations on $X$, 
 compatible with the assignment list 
@@ -1084,24 +1125,25 @@ $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
 \label{lemma-stable-cardinality domain-injective-03}
-If $i,j \in [1,l]$, $i < j$ and $\dom(R_i)) =\dom(R_j)$, and the pair
-from $i$ to $j$ is related to $(a,a)$ for some $a \in G$,
-and the composition closure of $\{\pi(i) | i \in [1,l]\}$ 
-satisfies the Progressing-domain condition, then 
+Assume $i,j \in [1,l]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
+$\pi(i) \ldots \pi(j)$ is self-composable
+and $\setR, \setG$ 
+satisfy the Progressing-Domain Condition. Then 
 $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 
 \item
 \label{lemma-stable-cardinality domain-injective-04}
 Let $k \in [1,n]$
 with $n = \Card(X)$.
-Assume that the composition closure $\setR$ of $\setR = \{\pi(i) | i \in [1,l]\}$ 
-satisfies the Progressing-domain condition PDC.
+Assume that $\setR, \setG$
+satisfy the Progressing-domain condition PDC.
 Then the number of indexes $i \in [1,l]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ is 
-$\le g\genfrac(){0pt}{0}{n}{k}$, for all $v \in \N$.
+$< g\genfrac(){0pt}{1}{n}{k}$, for all $v \in \N$.
 
 \end{enumerate}
 \end{lemma}
+
 
 \begin{proof}
 \begin{enumerate}
@@ -1120,7 +1162,9 @@ For all $i \in [1,l-1]$ by stability we have
 $\dom(R_i) = \dom(R_i R_{i+1})$, therefore 
 $\Card(\dom(R_i)) \le \Card(\dom(R_{i+1}))$
 and if $\Card(\dom(R_i)) = \Card(\dom(R_{i+1}))$ then 
-$R_i \restr \dom(R_i ), \dom(R_{i+1})$ is a bijection.
+$R_i \restr \dom(R_i R_{i+1}), \dom(R_{i+1})$ is a bijection,
+hence $R_i \restr \dom(R_i ), \dom(R_{i+1})$ is a bijection, too.
+
 
 \item
 %\label{lemma-stable-cardinality domain-injective-02}
@@ -1133,14 +1177,17 @@ Thus, $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
 %\label{lemma-stable-cardinality domain-injective-03}
-Assume $\dom(R_i) = \dom(R_j)$ and the pair between $i$ and $j$
-is related to $(a,a)$ for some $a \in G$. Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
-and the value of $\theta(i)$ on \emph{any} $x \in \dom(R_i)$ is 
+Assume $\dom(R_i) = \dom(R_j)$
+ and $\pi(i) \ldots \pi(j)$ is self-composable in $\setG$. 
+Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
+and by point \ref{lemma-stable-cardinality domain-injective-02} above
+the value of $\theta(i)$ on \emph{any} $x \in \dom(R_i)$ is 
 $\ge$ than the value of
 $\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
-By the Progressing Domain Condition, then $R_{i,j-1}$ progresses on
-$\dom(R_{i,j-1})$, that is, on $\dom(R_i)$, that is, between $\dom(R_i)$ 
-and $\dom(R_i) = \dom(R_j)$. 
+By the Progressing Domain Condition, $R_{i,j-1}$ progresses on
+$\dom(R_{i,j-1})$, which is equal to $\dom(R_i)$. 
+That is, $R_{i,j-1}$ progresses between $\dom(R_i)$ 
+and $\dom(R_i)$, which is equal to $\dom(R_j)$. 
 By compatibility between $\pi$ and $\theta$, 
 the value of $\theta(i)$ on \emph{some} $x \in \dom(R_i)$ is 
 $>$ than the value of
@@ -1153,14 +1200,15 @@ We conclude that $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 %\label{lemma-stable-cardinality domain-injective-04}
 Assume $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i))=\Card(\dom(R_j))=k$
 and $\val(\dom(R_i),\theta(i))=\val(\dom(R_j),\theta(j))=v$.
-By the previous point we deduce that $\dom(R_i) \not = \dom(R_j)$.
+By point \ref{lemma-stable-cardinality domain-injective-03} above
+we deduce that $\dom(R_i) \not = \dom(R_j)$.
 
-There are $g\genfrac(){0pt}{0}{n}{k}$ 
+There are $g\genfrac(){0pt}{1}{n}{k}$ 
 different cardinality $k$ subsets of an $n$ element
-set $X$ with , therefore at most $\genfrac(){0pt}{0}{n}{k}$ indexes for 
+set $X$ with , therefore at most $\genfrac(){0pt}{1}{n}{k}$ indexes for 
 $i\in [1,l]$ such that $\Card(\dom(R_i))=k$
-and $\val(\dom(R_i),\theta(i))=v$ and $R_i$ is related to $(a,b)$ and $R_j$
-to $(a,b')$, for some $a,b,b' \in G$.
+and $\val(\dom(R_i),\theta(i))=v$ and 
+$\pi(i) \ldots \pi(j)$ is self-composable in $\setG$. 
 
 \end{enumerate}
 \end{proof}
@@ -1168,6 +1216,8 @@ to $(a,b')$, for some $a,b,b' \in G$.
 We have now all ingredients for proving the the Termination Theorem
 in strong form (\ref{theorem-finiteness-value-flow-2}).
 \\
+
+
 
 \begin{proof}
 [Proof of Termination Theorem \ref{theorem-finiteness-value-flow-2}]
@@ -1181,33 +1231,35 @@ Let $g = \Card(G)$.
 Lemma \ref{lemma-stable-cardinality domain-injective}.
 \ref{lemma-stable-cardinality domain-injective-04} says that 
 each constant-cardinality non-progressing domain path on $\setR^\setG$
-has at most $g\genfrac(){0pt}{0}{n}{k}$ elements, that is, has
-length in $[0,  g\genfrac(){0pt}{0}{n}{k}[$. This is point $1$
-of Termination Theorem \ref{theorem-finiteness-value-flow-2}.
+has $<g\genfrac(){0pt}{1}{n}{k}$ elements, that is, has
+length in $[0,  g\genfrac(){0pt}{1}{n}{k}[$. Then we can prove
+point $1$ of Termination Theorem \ref{theorem-finiteness-value-flow-2}
+by induction on the distance between the length of the flow and
+$g\genfrac(){0pt}{1}{n}{k}$.
 
 \item
 %\label{theorem-finiteness-value-flow-2-2}
 We assume that $\pi:[1,l] \rightarrow \setR$ is a constant-cardinality domain
 path on $\setR$ and we define a decreasing map $w$ from
-$(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  g\genfrac(){0pt}{0}{n}{k}[$.
+$(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  g\genfrac(){0pt}{1}{n}{k}[$.
 We define $w(\pi,\theta) = (m,r)$ where 
 \begin{enumerate}
 \item
 $m = \val(\pi(l),\theta(l))$ is the last value of $\val(\pi(i),\theta(i))$ 
 \item
-$r = g\genfrac(){0pt}{0}{n}{k} - s$, 
+$r = g\genfrac(){0pt}{1}{n}{k} - s$, 
 where $s \ge 1$ is the number of $i \in [1,l]$ 
 such that $\val(\pi(i),\theta(i)) = m$.
 \end{enumerate}
 By point \ref{theorem-finiteness-value-flow-2-1} 
-above we have $s \le g\genfrac(){0pt}{0}{n}{k}$,
-therefore $r \in [0, g\genfrac(){0pt}{0}{n}{k}[$.
+above we have $s \le g\genfrac(){0pt}{1}{n}{k}$,
+therefore $r \in [0, g\genfrac(){0pt}{1}{n}{k}[$.
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have constant-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $w(\pi,\theta) >
 w(\pi',\theta')$ in the lexicographic ordering. Suppose $w(\pi,\theta) = (m,r)$
-and $w(\pi',\theta') = (m',r')$ with $r = \genfrac(){0pt}{0}{n}{k} - s$,
-$r' = g\genfrac(){0pt}{0}{n}{k} - s'$, in order to prove $(m,r) > (m',r')$.
+and $w(\pi',\theta') = (m',r')$ with $r = \genfrac(){0pt}{1}{n}{k} - s$,
+$r' = g\genfrac(){0pt}{1}{n}{k} - s'$, in order to prove $(m,r) > (m',r')$.
 We have $m = \val(\pi'(l),\theta') \ge m' = \val(\pi'(l+1),\theta')$.
 If $m > m'$ then $(m,r) > (m',r')$. Suppose now that $m=m'$.
 Then the number of of $i \in [1,l]$ such that $\val(\pi(i),\theta(i)) = m$
@@ -1231,7 +1283,8 @@ we have $\Card(\dom(R_{i,m})) = \Card(\dom(R_i R_{i+1,m})) \le
 is weakly increasing. 
 
 For all $k \in [1,n]$ and any domain stable $ \pi : [1,m] \rightarrow \setR $ 
-we define $S(\pi,k) = \{i \in [1,m] | \Card(\dom(R_i)) = k \}$. 
+we decompose $\pi$ in the union of $n$ adiacent segments as follows. We set
+ $S(\pi,k) = \{i \in [1,m] | \Card(\dom(R_i)) = k \}$. 
 We claim that each $S(\pi,k)$ is a possibly empty segment of $\pi$. 
 Indeed, if $i, j \in 
 S(\pi,k)$, $i \le h \le j$ then $k = \Card(\dom(R_i)) \le \Card(\dom(R_h))
@@ -1246,51 +1299,59 @@ a consecutive composition $\pi_1 \conc \ldots \conc \pi_n$,
 with each $\pi_k$ the possibly empty restriction of $\pi$ to $S(\pi,k)$.
 By definition, each $\pi_k$ is a \emph{constant cardinality domains} path,
 indeed for each $i, j \in S(\pi,k)$, $i \le j$ we have 
-$\Card(\dom(R_{i,j}))=\Card(\dom(R_i))=k$. 
+$\Card(\dom(R_{i}))=\Card(\dom(R_{j}))=k$. 
 
 Let $\theta_i$ be the restriction of $\theta$ to the segment in which is
 defined $\pi_1$.
 We define a list of $n$ weights $W(\pi,\theta) = (w(\pi_1, \theta_1),
-\ldots, w(\pi_n, \theta_n)$ 
-for a length $l$ path $\pi$ with stable-cardinality domains. 
+\ldots, w(\pi_n, \theta_n))$ 
+for a length $l$ path $\pi$ with stable-cardinality domains. Each weight
+is some pair $(m,r) \in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
 
 If there is no $i \in [1,l]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
-then we set $w(\pi,\theta)_k = (\infty,0)$.
+then we set $w(\pi,\theta)_k = (\infty,0)  
+\in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$.
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have stable-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $W(\pi,\theta) >
 W(\pi',\theta')$ in the lexicographic ordering. 
 Assume $\Card(\dom(\pi(l))) = k$. Then $\pi = \pi_1 \conc \ldots \pi_k$
 and $\pi_h=\nil$ for all $h \in [k+1,n]$. We have $\pi' = \pi \conc ((\Stat,\Prog))$
-for some $(\Stat,\Prog) \in \setR$ and $\Card(\dom((\Stat,\Prog))) \ge k$
-by stability. of $\pi'$. Therefore $\pi'_i = \pi_i$ for all $i \in [1,k-1]$
-and either $\pi'_k = \pi_k \conc ((\Stat,\Prog))$ or $\pi'_k = \pi_k$
-and $\pi'_{k+1} = ((\Stat,\Prog))$.
-In both cases we have $w(\pi_i,\theta_i) = w(\pi'_i,\theta'_i)_l$ for all 
-$i \in [1,k-1]$. 
+for some $(\Stat,\Prog) \in \setR$ and by stability of $\pi'$
+we have $\Card(\dom((\Stat,\Prog))) = h \ge k$ for some $h \in [k,n]$. 
+Therefore $\pi'_i = \pi_i$ for all $i \in [1,k-1]$
+and if $h=k$ then $\pi'_k = \pi_k \conc ((\Stat,\Prog))$ while if
+$h>k$ then $\pi'_k = \pi_k$, $\pi'_{h'} = \nil = \pi_{h'}$ for all $h' \in ]k,h[$
+and $\pi'_{h} = ((\Stat,\Prog))$, $\pi_{h} = \nil$, .
 
 In the case $\pi'_k = \pi_k \conc ((\Stat,\Prog))$ 
 we have  $w(\pi_k,\theta_k) > w(\pi'_k,\theta'_k)$ by point 
 \ref{theorem-finiteness-value-flow-2-2}  above. 
 We conclude $W(\pi,\theta) > W(\pi',\theta')$.
 
-In the case $\pi'_k = \pi_k$ and $\pi'_{k+1} = ((\Stat,\Prog))$
-we have $w(\pi_k,\theta_k) = w(\pi'_k,\theta'_k)$ and 
-$w(\pi_{k+1},\theta_{k+1}) = (\infty,0) > w(\pi'_{k+1},\theta'_{k+1})$.
+In the case $\pi'_k = \pi_k$ and $\pi'_{h} = ((\Stat,\Prog))$ 
+for some $h \in [k+1,n]$
+we have $w(\pi_k,\theta_k) = w(\pi'_k,\theta'_k)$ and
+$w(\pi_{h'},\theta_{h'}) = (\infty,0) = w(\pi'_{h'},\theta'_{h'})$ 
+for all $h' \in ]k,h[$. Instead, we have $w(\pi_{h},\theta_{h}) = (\infty,0)$
+and $w(\pi'_{h},\theta'_{h}) = (m,1)$ for 
+$m = \val(\dom(\Card(\universe{\pi(h)}))) \in \N$.
 We conclude $W(\pi,\theta) > W(\pi',\theta')$.
+
+%16:01 07/03/2025
 
 \item
 We assume that $\pi:[1,l] \rightarrow \setR$ is \emph{any}
 path on $\setR$ and we define a map $G$ from 
 $(\pi,\theta) \in \setS$ to $G(\pi,\theta) = (\pi',\theta') \in \setS$, 
-with $\pi'$ paths with stable-cardinality domains, in such a way that
+such that $\pi'$ is a path with stable-cardinality domains, and
 $WG$ is decreasing. We will conclude that
 \emph{all} value flows terminate. 
 
 %16:29 03/03/2025
 
 Assume $L=(c_1, \ldots, c_n)$ is any path on $\setR$ with $n\ge 1$. 
-We define a re-grouping $M$ of $L$ as any path
+We define a possible re-grouping $M$ of $L$ as any path
 $
 M = 
 (c_1\ldots c_{a_1},  
@@ -1300,26 +1361,27 @@ c_{a_1+1}\ldots c_{a_2},
 $ 
 of composition of 2-colorings taken from $L$, 
  with the same ordering as in $L$,
- and whose product is the same as $L$: $\Pi M = \Pi L$.
- $M$ is obtained by partitioning $L$ into $m \ge 1$ adjacent segments 
+ and whose composition is the same as the composition of $L$: $\Pi M = \Pi L$.
+ $M$ is obtained by partitioning $L$ into $m \ge 1$ non-empty adjacent segments 
 $[a_1,a_2-1], [a_2,a_3-1], \ldots, [a_{m-1},a_m - 1],[a_m,n]$,
 with $a_1=1$, 
 then composing all $c_{a_{i}},\ldots, c_{a_{i+1}-1}$ in the same segment
- into a single coloring $d_i = c_{a_{i}} \ldots c_{a_{i+1}-1}$.
+ into a single bicoloring $d_i = c_{a_{i}} \ldots c_{a_{i+1}-1}$.
  Say: we can group $L=(c_1,c_2,c_3,c_4,c_5,c_6)$ into
- $M=(c_1c_2,c_3,c_4,c_5,c_6)$, with $d_1 = c_1c_2$,
- $d_2 = c_3c_4$, $d_3=c_5$, $d_4=_6$ and in many more ways.
+ $M=(c_1c_2,\ c_3,\ c_4,\ c_5,\ c_6) = (d_1,d_2,d_3,d_4)$, with $d_1 = c_1c_2$,
+ $d_2 = c_3c_4$, $d_3=c_5$, $d_4=_6$. Many more re-grouping are possible.
 We call $a=a_1, \ldots, a_m$
-the adjacence sequence. If $n \ge 1$ there are $2^{n-1}$ coloring,
-exactly the number of subsets $\{a_1,\ldots, a_m\}$ of $[1,n]$ including 
- $a_1 = 1$.
+the adjacence sequence.
+If $n \ge 1$ there are $2^{n-1}$ coloring,
+exactly the number of subsets $\{a_1,\ldots, a_m\}$ of $[1,n]$ 
+having a first element $a_1 = 1$.
 
 Formally, we define re-grouping and the adjacence sequence 
 by induction on $n$. 
 \begin{enumerate}
 \item
 If $n=0$ then $M=()$
-is the only re-grouping of $L=()$ with adjacence sequence $a=()$.
+is the only re-grouping of $L=()$ with $a=()$.
 \item
 Suppose $n \ge 1$ and we defined re-grouping and adjacence for all lists
 of length $\le n-1$ and $L=L_1 \star L_2 \star (c_n)$ 
@@ -1358,7 +1420,7 @@ in the lexicographic ordering.
 Assume $(\pi,\theta) <_1 (\pi',\theta')$ and  $G(\pi,\theta) = (q,\eta)$, 
 $G(\pi',\theta') = (q',\eta')$. Suppose $q= q_1 \conc \ldots \conc q_n$,
 $q' = q'_1 \conc \ldots \conc q'_n$ are decomposition with each $q_k, q'_k$
- a path  with constant-cardinality domains, 
+ a possibly empty path  with constant-cardinality domains, 
  whose domains all have cardinality $k$.
 
 %16:42 21/02/2025
@@ -1375,12 +1437,12 @@ two sequences of length $l' = l+1$.
 
 \item
 Assume that $q \star (\Stat,\Prog)$ is \emph{not} stable. 
-Then we take the first $l' \in [1,l]$ such that 
+By definition, there is some $l' \in [1,l]$ such that 
 $
 \dom(q(l') \ldots q(l))
 \supset 
 \dom(q(l') \ldots q(l) (\Stat,\Prog))
-$.
+$. Take the first such $l'$.
 We define $q'(i) =  q(i)$ for all $i \in [1,l'-1]$ and
 $q'(l') = q(l') \ldots q(l)  (\Stat,\Prog)$.
 We define $\eta'(i) = \eta(i)$ for all $i \in [1,l']$. 
@@ -1443,10 +1505,10 @@ We Claim:
 \begin{enumerate}
 \item
 \label{property-1}
-We prove that SCT, GTC are equivalent with PDC given injectivity:
+SCT, GTC are equivalent with PDC given injectivity:
 $$
-\forall \setR, \setG \mbox{ comp.-closed}.  \ \ 
-\setR \mbox{ injective} 
+\forall \setR, \setG.  \ \ 
+(\setR \mbox{ injective}) 
 \implies 
 (SCT \Leftrightarrow PDC) \wedge 
 (GTC \Leftrightarrow PDC)
@@ -1455,7 +1517,7 @@ $$
 \label{property-2}
 Instead, in general we only have left-to-rigth implication
 $$
-\forall \setR, \setG \mbox{ comp.-closed}.  \ \ 
+\forall \setR, \setG.  \ \ 
 (SCT \Rightarrow PDC) \wedge 
 (GTC \Rightarrow PDC)
 $$
@@ -1463,7 +1525,7 @@ $$
 \label{property-3}
 while the opposite implication can fail:
 $$
-\exists \setR, \setG  \mbox{ comp.-closed}. \ \ 
+\exists \setR, \setG. \ \ 
 \neg(\setR \mbox{ injective}) \wedge 
 \neg SCT \wedge 
 \neg GTC \wedge 
@@ -1472,20 +1534,22 @@ $$
 \end{enumerate}
 
 The implication GTC $\Rightarrow$ PDC follows from the fact that
-for all self-composable $(\Stat,\Prog) \in \setR$ 
+for all self-composable $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ 
 there is some infinitely progressing trace $z_1,z_2,z_3,\ldots$
-in the path $R,R,R,R,...$ where $R = \universe{(\Stat,\Prog)}$. 
-In any progressing point we have $z_i \Prog z_{i+1}$
+in the path $a,a,a,a,\ldots$ labeled $R,R,R,R,...$ 
+where $R = \universe{(\Stat,\Prog)}$. 
+In any progressing point $i$ of the trace we have $z_i \Prog z_{i+1}$
 and $z_{i+1} R z_{i+2}$. We conclude that $z_i \Prog z_{i+1}$
 and $z_i, z_{i+1} \in \dom(R)$ for some $z_i, z_{i+1}$, that is,
-PDC.
+PDC for the self-composable pair $(\Stat,\Prog)$.
 \\
 
 In order to prove SCT $\Rightarrow$ PDC, we recall 
-that Neil Jones in \cite{SCT-2001} 
-proved the equivalence of SCT and GTC 
+that Neil Jones in \cite{2001-SCT} 
+proved the equivalence of the conditions called in this paper 
+SCT (\S \ref{subsection-SCT}) and GTC
 $$
-\forall \setR, \setG \mbox{ comp.-closed}.  \ \ 
+\forall \setR, \setG.  \ \ 
 (SCT \Leftrightarrow GTC)
 $$
 Thus, from GTC $\Rightarrow$ PDC just proved we deduce
@@ -1499,19 +1563,23 @@ if $\setR$ is injective then PDC $\Rightarrow$ GTC. We just
 proved the opposite implications.
 
 So it is enough to prove: ($\setR$ is injective, PCD $\Rightarrow$ SCT).
-By Ramsey Theorem, for all binary $\setG$-self-composable 
-relations $R$ on $X = \{x_1, \ldots, x_n\}$
-there is $m \in \N$, $m \ge 1$ such that $R^m$ is idempotent, namely
-such that $R^m = R^m R^m$. If we $R$ is injective, then $R^m$ is 
-is the identity on $\dom(R^m)$, as the next Lemma says.
+To this aim, we first characterize the 
+\emph{injective self-composable idempotent relations $R$}:
+they are are the identity when restricted to $\dom(R)$.
+
+$R$ is a finite relation on a finite set $X$, therefore there are finitely many
+values for $R^m$. We take the complete graph on $\N$, and we color the edge between $i$ and $j>i$ with $R^{j-i}$. By Ramsey Theorem there is 
+a monocromatic set with $3$ elements $i<j<k$. If the color of the set if $R^m$,
+then the edge between $i$ and $k$ is both $R^m$ and $R^mR^m$, therefore
+$R$ is idempotent. If we $R$ is injective, then $R^m$ is 
+also the identity on $\dom(R^m)$, as the next Lemma says.
 
 
 \begin{proposition}[Idempotent Injective Relations
 and the Global Trace Condition]
 \label{proposition-idempotent-relations}
-Assume a set $\setR$ of \emph{injective} relation pairs. 
-Assume $(\Stat,\Prog) \in \setR$ is self-composable, 
-$R = \universe{(\Stat,\Prog)}$ and $RR=R$. 
+Assume $(\Stat,\Prog) \in \setR^\setG$ is self-composable, 
+$R = \universe{(\Stat,\Prog)}$ is \emph{injective} and $RR=R$. 
 Then:
 \begin{enumerate}
 
@@ -1519,11 +1587,11 @@ Then:
 $R \restr \dom(R) $ is a bijection
 
 \item
-$R \restr \dom(R) $ is the identity
+$R \restr \dom(R) $ is the identity and all
+$x \in \dom(R)$ are weakly or strongly progressing to themselves.
 
 \item
-If PDC holds, then some $x \in \dom(R)$ is progressing to itself and all
-$x \in \dom(R)$ are weakly progressing to themselves.
+If PDC holds, then some $x \in \dom(R)$ is progressing to itself.
 \end{enumerate}
 \end{proposition}
 
@@ -1537,7 +1605,8 @@ from $R=RR$ we deduce that $y_i \in \dom(RR)$, therefore
 there are $(y_i,y) \in R$ and $(y,z) \in R$. From $(y,z) \in R$ 
 we obtain $y \in \dom(R)$. 
 Let $C_i = \{y \in \dom(R) |(y_i,y) \in R\}$ and $c_i = \Card(C_i)$. 
-By $(y_i,y) \in R$ we have $c_i \ge 1$, hence $\Sigma_{i \in [1,m]} c_i \ge m$. 
+By $y_i \in \dom(R)$ 
+we have $c_i \ge 1$, hence $\Sigma_{i \in [1,m]} c_i \ge m$. 
 By injectivity of $R$ if  $C_i \cap C_j \not = \emptyset$ then $i=j$, therefore 
 $\{C_i | i \in [1,m]\}$ are a partition of some subset of $\dom(R)$
 and we have $\Sigma_{i \in [1,m]} c_i \le m$. 
@@ -1560,24 +1629,19 @@ We conclude that $p=1$. Thus, all cycles in
 $R \restr \dom(R) $ are unary and therefore
 $R \restr \dom(R) $ is the identity.
 
-\item
-
-\begin{enumerate}
-
-\item 
-We prove that \emph{for some $x \in \dom(R)$, $x$ is progressing to itself}.
-By PDC there are some $y, z \in \dom(R)$ such that $y$ is progressing to $z$.
-From $R \restr \dom(R) $ identity (the previous point)
-we deduce that $y=z$ for some $x \in \dom(R)$. 
-Thus, some $y \in \dom(R)$ is progressing to itself.
-
-\item 
-We prove that \emph{for all $x \in \dom(R)$, $x$ is weakly progressing to itself}.
+We prove that \emph{for all $x \in \dom(R)$, $x$ is progressing or 
+weakly progressing to itself}.
 From $R \restr \dom(R)$ identity (the previous point)
 we deduce that $x R x$, either $x$ is progressing to $x$ or 
-$x$ is weakly progressing to $x$. In both cases $x$ is 
-is weakly progressing to $x$.
-\end{enumerate}
+$x$ is weakly progressing to $x$.
+
+\item
+We prove that \emph{for some $x \in \dom(R)$, $x$ is progressing to itself}.
+By PDC there are some $y, z \in \dom(R)$ such that $y$ is progressing to $z$.
+By the previous point $R \restr \dom(R) $ is an identity.
+We deduce that $y=z$. 
+Thus, some $y \in \dom(R)$ is progressing to itself.
+
 \end{enumerate}
 \end{proof}
 
@@ -1620,15 +1684,15 @@ we prove a stronger result: if GTC is false, there is some \emph{constant}
 infinite transition $s, s, s, \ldots$ for some $s = (\Stat,\Prog),\sigma) \in \setS$,
 in particular Termination of Computations (TC) fails.
 
-\begin{proof}[$\neg$ GTC $\implies$ $\neg$ TC]
-Assume $\neg$ GTC. By Neil Jones Thm we deduce $\neg$ SCT, namely
+\begin{proof}[Proof of $\neg$ GTC $\implies$ $\neg$ TC]
+Assume $\neg$ GTC. By Theorem 4, \cite{2001-SCT} 
+we deduce $\neg$ SCT, namely
 that there is some self-composable 
 $(\Stat,\Prog) \in \setR$ such that for no $m \in \N$, $m>0$, 
 $x \in X$ we have $x$ progressing to itself in $(\Stat,\Prog)^m$.
 
-We will define some \emph{constant}infinite transition 
-$\theta = (s, s, s, \ldots)$ for some 
-state $s = ((\Stat,\Prog),\sigma) \in \setS$.
+We define $s = ((\Stat,\Prog),\sigma) \in \setS$, then 
+some \emph{constant}infinite transition $\theta = (s, s, s, \ldots)$.
 
 We say that a trace $\tau:[1,t] \rightarrow X$ 
 is irredundant if and only if all its elements are 
@@ -1655,7 +1719,8 @@ We have to prove that for all $x,y \in X$ if $x \Stat y$ then $\sigma(x) \ge
 Assume $\sigma(x) = a$ and $\sigma(y) = b$.  
 By definition of $\sigma$ there is some irredundant trace $\tau$ from $y$ 
 whose progressing points in $\pi$ are in number of $b$. 
-We have to prove $a \ge b$ if $x \Stat y$ and $a \ge b+1$ if $x \Prog y$.
+We have to prove that $\sigma$ is compatible with $(\Stat,\Prog)$,
+namely that $a \ge b$ if $x \Stat y$ and $a \ge b+1$ if $x \Prog y$.
 \\
 
 For, we define a trace $\rho = (x) \conc \tau$.
