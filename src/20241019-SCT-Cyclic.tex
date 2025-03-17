@@ -509,8 +509,8 @@ injectivity are enough to describe cyclic proofs, and if we have injectivity
 proving a termination result requires a weaker hypothesis PDC (see below). 
 Besides, using PDC it is faster to check whether a cyclic proof is correct.
 
-\begin{definition}[The Progressing Domain Condition  (PDC)]
-\quotationMarks{All self-progressing $(\Stat,\Prog) \in \setR^\setG$ 
+The Progressing Domain Condition (PDC) says: 
+\quotationMarks{all self-progressing $(\Stat,\Prog) \in \setR^\setG$ 
 have a progression from $x$ to $y$ with both elements 
 included in the domain of $(\Stat,\Prog)$}, namely
 $$
@@ -518,11 +518,9 @@ $$
 \ \ (\composable{\setG}{a}{a}{(\Stat,\Prog)}) \implies \exists x, y \in \dom(\Stat\cup\Prog). 
 \ (x \Prog y)
 $$
-\end{definition}
-
 PDC is weaker and it is easier to check than the SCT condition. 
 To check PDC, we do not have to look for some $x$ progressing to itself in 
-some power of any self-composable $(\Stat,\Prog) \in \setR^\setG$.
+some power of any self-composable $(\Stat,\Prog)$. 
 Instead it is enough to find some $x$ progressing 
 to some $y$, such that both $x$, $y$ are in the domain of $\Stat \cup \Prog$,
 again in any self-composable $(\Stat,\Prog) \in \setR^\setG$.
@@ -537,14 +535,14 @@ We explain why.
 in the case of non injective family of relation pairs}
 \label{subsubsection-counterexample-PDC-GTC}
 Here is a counter-example $\setR_1,\setG_1$.
-Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$, $\dom(\setG_1)=\{a\}$
+Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$, $G_1=\{1\}$
 and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_2,x_1)\}$ and
-$\setG_1(a,a) = (\Stat,\Prog)$, 
+$\setG_1(1,1) = (\Stat,\Prog)$, 
 namely, the pair $(\Stat,\Prog)$ is self-composable. 
 Then $\setR_1$ is composition-closed in $\setG$ because 
 $
 \Stat\Prog \cup \Prog\Prog \cup \Prog\Stat =
-$ \ \ (by $\Stat\Prog = \Prog\Prog = \emptyset$) \ \ $
+$ (by $\Stat\Prog = \Prog\Prog = \emptyset$) $
 \Prog\Stat = 
 \Prog
 $
@@ -614,7 +612,7 @@ We postpone the proof of Thm.
 %as an ordinary proof by adding first order intuitionistic reasoning and 
 %induction on $[0,\infty]$ nested $n$ times, 
 %where $n = \Card(X)$ is the cardinality of the set of variables,
-%together with induction on the finite sets $[1, (n k)[$ nested $n$ times,
+%together with induction on the finite sets $[1, \genfrac(){0pt}{1}{n}{k}[$ nested $n$ times,
 %for $k=1, \ldots, n$.
 %\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -662,10 +660,8 @@ $b = R,R,R,R,\ldots$,
 and the unique infinite trace compatible with $b$ is 
 $x_1 x_1 x_1 \ldots$. Thus, the unique infinite trace \emph{never} progresses. 
 %17:24 03/02/2025
-\\
 
-Now we can back to the proof of the Termination Theorem.
-In order to prove it, we have to define States and
+In order to prove the Termination Theorem we have to define States and
 Transition chains first.
 
 
@@ -737,15 +733,14 @@ for all $n \in \N$. We define a well-founded order $\setL$:
 
 \begin{definition}[The well-founded order $\setL$]
 \label{definition-well-founded-order-L}
-Let $g = \Card(G)$, with $G$ the set of nodes of the graph defined by $\setG$. 
-We equip the set 
+Let $g = \Card(G)$. We equip the set 
 $$
 \setL 
 \ \ \ = \ \ \ 
 \{ \ \ 
 (m_1,r_1, \ldots, m_n,r_n)
   \ \  | \ \ 
-    m_i \in [0,\infty] \ \wedge \ r_n \in [0, g (k+1) [, \ \forall i \in [1,n]
+    m_i \in [0,\infty] \ \wedge \ r_n \in [0, g \genfrac(){0pt}{1}{n}{k}[, \ \forall i \in [1,n]
 \ \ \}
 $$
 with the lexicographic ordering. 
@@ -753,7 +748,7 @@ with the lexicographic ordering.
 
 $\setL$ is order-isomorphic to the set $((m_1,r_1), \ldots, 
 (m_n,r_n))$ of sequences of pairs, with
-$(m_i,r_i) \in [0,\infty] \times [0,g (k+1) [$ and with
+$(m_i,r_i) \in [0,\infty] \times [0,g \genfrac(){0pt}{1}{n}{k}[$ and with
 the lexicographic ordering both on the sequence of pairs and on each pair.
 
 %We define a map 
@@ -1058,17 +1053,17 @@ Let $g = \Card(G)$.
 \label{theorem-finiteness-value-flow-2-1}
 The value flows on $\setR, \setG$ 
 with \emph{constant-cardinality non-progressing domains} 
-cannot have length $\ge g$, where $k$ is 
+cannot have length $\ge g\genfrac(){0pt}{1}{n}{k}$, where $k$ is 
 the common cardinality of the domains.
 
 Besides, we can prove that these value flows terminate by induction on the distance
-between the length of the flow and $g$.
+between the length of the flow and $g\genfrac(){0pt}{1}{n}{k}$.
 
 \item 
 \label{theorem-finiteness-value-flow-2-2}
 There is a decreasing embedding $w$ from the value flows on $\setR, \setG$ 
 with \emph{constant-cardinality domains} to the set 
-$[0,\infty] \times [0,g (k+1) [$. 
+$[0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
 Therefore these value flows terminate.
 
 \item
@@ -1136,10 +1131,11 @@ $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
 \label{lemma-stable-cardinality domain-injective-03}
-Assume $i_1 < \ldots < i_h$ is an increasing sequence in $[1,l]$ with $\Card(\dom(R_{i_1})) = \ldots = \Card(\dom(R_{i_h}))$ and for some $a \in G$:
-$\pi(i_{j}) \ldots \pi(i_{j+1}-1):a \rightarrow a$ for all $j \in [1,h-1]$. 
-Assume that $\setR, \setG$ satisfy the Progressing-Domain Condition and
-$\val(\dom(R_{i_j}),\theta(i_j))$ is constant for $j \in [1,h]$. Then $h \le k+1$.
+Assume $i,j \in [1,l]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
+$\pi(i) \ldots \pi(j)$ is self-composable
+and $\setR, \setG$ 
+satisfy the Progressing-Domain Condition. Then 
+$\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 
 \item
 \label{lemma-stable-cardinality domain-injective-04}
@@ -1149,7 +1145,7 @@ Assume that $\setR, \setG$
 satisfy the Progressing-domain condition PDC.
 Then the number of indexes $i \in [1,l]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ is 
-$\le g(k+1)$, for all $v \in \N$.
+$< g\genfrac(){0pt}{1}{n}{k}$, for all $v \in \N$.
 
 \end{enumerate}
 \end{lemma}
@@ -1181,40 +1177,23 @@ hence $R_i \restr \dom(R_i ), \dom(R_{i+1})$ is a bijection, too.
 By the previous point we know that 
 $R_{i,j-1} \restr \dom(R_{i,j-1})$ is a bijection between $\dom(R_i)$
 and $\dom(R_j)$. By compatibility between $\pi$ and $\theta$, 
-the value of $\theta(i)(x)$ on any $x \in \dom(R_i)$ is $\ge$ than the value of
-$\theta(j)(y)$ on the corresponding point $y \in \dom(R_j)$.
+the value of $\theta(i)$ on any $x \in \dom(R_i)$ is $\ge$ than the value of
+$\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
 Thus, $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
 %\label{lemma-stable-cardinality domain-injective-03}
-Assume $a \in G$, and for all $j \in [1,h-1]$ we have:
-$\dom(R_{i_j}) = \dom(R_{i_{j+1}})$
- and $\pi(i_j) \ldots \pi(i_{j+1}-1): a \rightarrow a$ is self-composable in $\setG$. 
-Then  $\Card(\dom(R_{i_j})) =\Card(\dom(R_{i_{j+1}-1}))$
+Assume $\dom(R_i) = \dom(R_j)$
+ and $\pi(i) \ldots \pi(j)$ is self-composable in $\setG$. 
+Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
 and by point \ref{lemma-stable-cardinality domain-injective-02} above
-$R_{i_j,i_{j+1}-1} \restr \dom(R_{i_j,i_{j+1}-1})$ 
-is a bijection between $\dom(R_{i_j})$
-and $\dom(R_{i_{j+1}})$, 
-that the value of $\theta(i_j)(x)$ on any $x \in \dom(R_{i_j})$ is 
-$\ge$ than of $\theta(i_{j+1})(y)$ 
-on the corresponding point $y \in \dom(R_{i_{j+1}})$. 
-From $\val(\dom(R_{i_j}),\theta(i_j))$ constant for $j \in [1,h]$ we deduce
-that the value of $\theta(i_j)(x)$ on any $x \in \dom(R_{i_j})$ is \emph{equal} to 
-the value of $\theta(i_{j+1})(y)$ 
-on the corresponding point $y \in \dom(R_{i_{j+1}})$. 
-
-By the Progressing Domain Condition, $R_{i_{j+1}-1}:a \rightarrow a$ 
-progresses on its domain, which is equal in $\dom(R_i)$. 
-There is some progressing trace $x_{j,1}, \ldots, x_{j,j+1}$ whose first $j$
-elements are in
-$\dom(R_{i_1}), \ldots, \dom(\dom(R_{i_{j+1}})$ and therefore not
-progressing, and whose last step $x_{j,j}, x_{j,j+1}$ is progressing,
-therefore $x_{j,j+1} \not \in \dom(R_{i_{j+1}})$. All elements
-$x_{1,1},x_{2,1}, \ldots, x_{j,1}, \ldots x_{h-1,1} $ 
-are pairwise distinct, because $x_{j,1}$ is 
-the first element of a trace whose first progress point is $x_{j,j}$.
-We conclude that $h-1 \le \Card(\dom(R_{i_1})) = k$, namely $h \le k+1$.
-
+the value of $\theta(i)$ on \emph{any} $x \in \dom(R_i)$ is 
+$\ge$ than the value of
+$\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
+By the Progressing Domain Condition, $R_{i,j-1}$ progresses on
+$\dom(R_{i,j-1})$, which is equal to $\dom(R_i)$. 
+That is, $R_{i,j-1}$ progresses between $\dom(R_i)$ 
+and $\dom(R_i)$, which is equal to $\dom(R_j)$. 
 By compatibility between $\pi$ and $\theta$, 
 the value of $\theta(i)$ on \emph{some} $x \in \dom(R_i)$ is 
 $>$ than the value of
@@ -1228,11 +1207,14 @@ We conclude that $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 Assume $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i))=\Card(\dom(R_j))=k$
 and $\val(\dom(R_i),\theta(i))=\val(\dom(R_j),\theta(j))=v$.
 By point \ref{lemma-stable-cardinality domain-injective-03} above
-we deduce that for each $a \in G$ there are at most $k+1$ indexes for 
+we deduce that $\dom(R_i) \not = \dom(R_j)$.
+
+There are $g\genfrac(){0pt}{1}{n}{k}$ 
+different cardinality $k$ subsets of an $n$ element
+set $X$ with , therefore at most $\genfrac(){0pt}{1}{n}{k}$ indexes for 
 $i\in [1,l]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ and 
-$\pi(i) \ldots \pi(j-1):a \rightarrow a$ is self-composable. 
-Thus, the path has at most $\Card(G) (k+1)$ elements.
+$\pi(i) \ldots \pi(j)$ is self-composable in $\setG$. 
 
 \end{enumerate}
 \end{proof}
@@ -1255,35 +1237,35 @@ Let $g = \Card(G)$.
 Lemma \ref{lemma-stable-cardinality domain-injective}.
 \ref{lemma-stable-cardinality domain-injective-04} says that 
 each constant-cardinality non-progressing domain path on $\setR^\setG$
-has $\le g$ elements, that is, has
-length in $[0,  g (k+1) [$. Then we can prove
+has $<g\genfrac(){0pt}{1}{n}{k}$ elements, that is, has
+length in $[0,  g\genfrac(){0pt}{1}{n}{k}[$. Then we can prove
 point $1$ of Termination Theorem \ref{theorem-finiteness-value-flow-2}
 by induction on the distance between the length of the flow and
-$g$.
+$g\genfrac(){0pt}{1}{n}{k}$.
 
 \item
 %\label{theorem-finiteness-value-flow-2-2}
 We assume that $\pi:[1,l] \rightarrow \setR$ is a constant-cardinality domain
 path on $\setR$ and we define a decreasing map $w$ from
-$(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  g (k+1) [$.
+$(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  g\genfrac(){0pt}{1}{n}{k}[$.
 We define $w(\pi,\theta) = (m,r)$ where 
 \begin{enumerate}
 \item
 $m = \val(\pi(l),\theta(l))$ is the last value of $\val(\pi(i),\theta(i))$ 
 \item
-$r = g(k+1) - s$, 
+$r = g\genfrac(){0pt}{1}{n}{k} - s$, 
 where $s \ge 1$ is the number of $i \in [1,l]$ 
 such that $\val(\pi(i),\theta(i)) = m$.
 \end{enumerate}
 By point \ref{theorem-finiteness-value-flow-2-1} 
-above we have $s \le g$,
-therefore $r \in [0, g (k+1) [$.
+above we have $s \le g\genfrac(){0pt}{1}{n}{k}$,
+therefore $r \in [0, g\genfrac(){0pt}{1}{n}{k}[$.
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have constant-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $w(\pi,\theta) >
 w(\pi',\theta')$ in the lexicographic ordering. Suppose $w(\pi,\theta) = (m,r)$
-and $w(\pi',\theta') = (m',r')$ with $r = g(k+1) - s$,
-$r' = g(k+1) - s'$, in order to prove $(m,r) > (m',r')$.
+and $w(\pi',\theta') = (m',r')$ with $r = \genfrac(){0pt}{1}{n}{k} - s$,
+$r' = g\genfrac(){0pt}{1}{n}{k} - s'$, in order to prove $(m,r) > (m',r')$.
 We have $m = \val(\pi'(l),\theta') \ge m' = \val(\pi'(l+1),\theta')$.
 If $m > m'$ then $(m,r) > (m',r')$. Suppose now that $m=m'$.
 Then the number of of $i \in [1,l]$ such that $\val(\pi(i),\theta(i)) = m$
@@ -1330,11 +1312,11 @@ defined $\pi_1$.
 We define a list of $n$ weights $W(\pi,\theta) = (w(\pi_1, \theta_1),
 \ldots, w(\pi_n, \theta_n))$ 
 for a length $l$ path $\pi$ with stable-cardinality domains. Each weight
-is some pair $(m,r) \in [0,\infty] \times [0,g (k+1) [$. 
+is some pair $(m,r) \in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
 
 If there is no $i \in [1,l]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
 then we set $w(\pi,\theta)_k = (\infty,0)  
-\in [0,\infty] \times [0,g (k+1) [$.
+\in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$.
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have stable-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $W(\pi,\theta) >
