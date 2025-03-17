@@ -86,7 +86,7 @@ Then you get the thread preserver {xf, yg}.
  Amir
 
 -----------------------------------------------------------------------------------------
- CONCLUSION letter to Amir M. Ben-Amram Wed, 5 Mar 2025 at 11:14
+ LETTER to Amir M. Ben-Amram Wed, 5 Mar 2025 at 11:14
 -----------------------------------------------------------------------------------------
 
  Dear Amir,
@@ -101,3 +101,117 @@ in the graph.
 
 Note: {xf, yg} is the maximum thread preserver, if we start from f we need x and if we start
 from g we need y, and then we move to xf or to yg according if we move to f or to g.
+
+-----------------------------------------------------------------------------------------
+ LETTER to Amir M. Ben-Amram, Wed 05/03/2025, 20:28
+-----------------------------------------------------------------------------------------
+  Dear Amir,
+
+    thank you again for your previous answer. Here is another question for you: 
+I have the impression that the existence of a non-empty thread preserver P is guaranteed 
+whenever there is some infinite multipath f1 --> f2 --> f3 --> ... in the graph and we have SCT. 
+In this case there is some infinite progressing trace, whose elements are finitely many 
+and form a non-empty thread preserver P, provided we rename all variables in all Var(f) 
+in order to make  all Var(f) pairwise disjoint sets.
+
+    Am I rigtht?
+
+Stefano
+
+-----------------------------------------------------------------------------------------
+ ANSWER from Amir M. Ben-Amram Thur 06/03/2025, 09:04
+-----------------------------------------------------------------------------------------
+
+Dear Stefano,
+
+Your impression is not true in general. Here is a counter-example.
+G1:f-->g = { x-->y, x-->z }     G2:g-->f = {y-->x}   G3:g-->f = {z-->x}
+with all size-change arcs strict.
+There is no TP (but there is in the transposed system, as stated in Thm 3.8).
+
+Best regards,
+Amir
+
+-----------------------------------------------------------------------------------------
+ LETTER to Amir M. Ben-Amram, Thur 13/03/2025, 17:43 [corretto 09:20 14/03/2025]
+-----------------------------------------------------------------------------------------
+Dear Amir,
+
+possibly I understand your objection. After renaming, a non-empty TP P should include 
+either xf in P or yg in P or zg in P. If xf in P by applying G1 we deduce that yg in P or zg in P.
+Then for a non-empy TP P in all three cases we have: either yg in P or zg in P.
+If yg in P we have G3:g-->f and no image in P by G3 for the element yg in P, contradiction.
+If zg in P we have G2:g-->f and no image in P by G2 for the element zg in P, contradiction.
+
+Apparently, I did not consider the fact that two graphs G2, G3 can have a common domain g, 
+and will have a common domain g even if we rename the elements in f and the elements in g 
+in order to make them disjoint.
+
+I used in previous papers the SCT condition for checking correctness of cyclic proofs, 
+but without using renaming. So the effects of renaming all domains of all bipartite graphs 
+are a new thing for me.
+
+many thanks for your patience
+
+best regards
+
+stefano berardi
+
+-------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+
+14/03/2025 SOME NOTES ABOUT THE PAPERS:
+1. Amir M. Ben-Amram and Chin Soon Lee. Size-change analysis in polynomial time. ACM Transactions
+on Programming Languages and Systems, 29(1), 2007.
+2. RANKING FUNCTIONS FOR SIZE-CHANGE TERMINATION II
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+
+Lemma 3.4 (paper 2). Suppose that G is [strongly connected and] strict and fan-out free. 
+Then G is size-change terminating if and only if G has a non-empty thread-preserver.
+-------------------------------------------------------------------------------------------
+In in order to prove Lemma 3.4 I prove first:
+(my Lemma) Every non-empty thread-preserving P in a strongly connected graph G intersects Var(f)
+for all f in G. 
+
+(my Proof). If P is not empty, then there is some x in P/\Var(g) for some g in G. Since G
+is strongly connected there is a path from g to f, namely some G1:f_0-->f_1,..., Gn:f_{n-1}-->f_n 
+with g=f_0 and f_n=g. Since P is thread-preserving and x in P/\Var(g) there is a sequence 
+x=x_0 G1 x_1 ... x_{n-1} G_n x_n all included in P. In particular we have x_n in P/\Var(f_n) = 
+P/\Var(f). We conclude that P intersects Var(f).
+
+(my corollary) If P is non-empty thread-preserving and G is strongly connected and strict, then SCT holds.
+(my Proof). Assume f_0,f_1,f_2,... is any infinite path in G. By (my Lemma) there is some x in P/\Var(f_0).
+Since P is thread-preserving there is an infinite trace/thread x=x_0 G1 x_1 ... x_{n-1} G_n x_n ... all included 
+in P. Since G is strict then this infinite trace is progressing at each step. Thus, SCT holds.
+
+-------------------------------------------------------------------------------------------
+As a corollary of the corollary, convergence follows by a unary induction on the sum of values of P/\Var(f).
+-------------------------------------------------------------------------------------------
+
+Lemma 3.4 (paper 2). Suppose that G is [strongly connected and] strict and fan-out free. 
+Then G is size-change terminating if and only if G has a non-empty thread-preserver.
+
+(my proof).
+==>. In (my corollary) we proved right-to-left: P is non-empty thread-preserving ==> G is size-change terminating.
+
+<==. Now we assume that: G is size-change terminating, in order to prove that: there is some 
+non-empty thread-preserving P. 
+By renaming, we can assume that the set Var(f) are pairwise disjoint for each f in G.
+
+Let Q0 be the set y in Var(g) such that for some G:g-->h there is no y-->z in G. Let Q be the set of x in some
+Var(f) such that there is a trace from x to y. Let P = U_f Var(f) \ Q. P is thread preserving: if G:f-->g
+and y-->x in G then there y is not in Q, otherwise x would be in Q. We prove that P is not empty by contradiction.
+We assume that P is empty and we prove that there is some multipath with no infinite progressing trace.
+We start from any f and we choose any x in Q/\Var(f). By definition of Q, there is some multipath from f to some g 
+and some y in Q0/\Var(g) such that if we move to some h then the unique trace from x ends in y. We move to h,
+then we can move back from h to f by strong connection: there is no trace from x to any element of Var(f) 
+in the multipath, and any element of Var(f) has at most one image in the multipath. therefore some x_1 in Var(f) 
+is not reachable from any element of Var(f) in the multipath. We choose any x' in Var(f) different from x_1 such that
+there is some trace to x' in the multipath, and we find another multipath from f to f such that there is no trace from x'. 
+At each step we reduce by 1 the number of images of the elements of Var(f), until we reach zero. If we repeat cyclically 
+this multipath from f to f no trace can continue from the beginning to the end of one of these cycles, therefore
+there is no infinite trace in this infinite multipath.
