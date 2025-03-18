@@ -661,6 +661,11 @@ and the unique infinite trace compatible with $b$ is
 $x_1 x_1 x_1 \ldots$. Thus, the unique infinite trace \emph{never} progresses. 
 %17:24 03/02/2025
 
+
+
+
+
+
 In order to prove the Termination Theorem we have to define States and
 Transition chains first.
 
@@ -725,7 +730,9 @@ all transition sequences terminate.
 
 We will prove using Intuitionistic Logic  and First Order Arithmetic
 that the tree $\setT$ of transition sequences (having root the empty sequence)
-satisfies the induction schema.
+satisfies the induction schema. 
+
+
 
 To this aim, let $[0,\infty] = \N + \{\infty\}$ be $\N$ extended with an
 \quotationMarks{infinite} point $\infty$, and with the relation $n < \infty$
@@ -1053,11 +1060,13 @@ Let $g = \Card(G)$.
 \label{theorem-finiteness-value-flow-2-1}
 The value flows on $\setR, \setG$ 
 with \emph{constant-cardinality non-progressing domains} 
-cannot have length $\ge g\genfrac(){0pt}{1}{n}{k}$, where $k$ is 
+have length $\le g\genfrac(){0pt}{1}{n}{k}$, where $k$ is 
 the common cardinality of the domains.
 
-Besides, we can prove that these value flows terminate by induction on the distance
-between the length of the flow and $g\genfrac(){0pt}{1}{n}{k}$.
+Besides, we can prove that these value flows terminate 
+by induction on the distance
+between the length (number of elements)
+of the flow and $g\genfrac(){0pt}{1}{n}{k}$.
 
 \item 
 \label{theorem-finiteness-value-flow-2-2}
@@ -1089,7 +1098,7 @@ Assume $L = \{R_i | i \in [1,l\}$ and
 $R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$
 for all $i,j \in [1,l]$, $i \le j$. We already remarked that 
 the sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ is weakly decreasing w.r.t. inclusion.
-THus, if $L$ has stable-cardinality domains and $i \in [1,l]$, 
+Thus, if $L$ has stable-cardinality domains and $i \in [1,l]$, 
 then the first set $\dom(R_{i,i})$ and the last set $\dom(R_{i,l})$ in the weakly 
 decreasing sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ have the same cardinality,
 therefore they are equal, and so are all sets in the sequence. 
@@ -1132,7 +1141,7 @@ $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 \item
 \label{lemma-stable-cardinality domain-injective-03}
 Assume $i,j \in [1,l]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
-$\pi(i) \ldots \pi(j)$ is self-composable
+$\pi(i) \ldots \pi(j-1)$ is self-composable
 and $\setR, \setG$ 
 satisfy the Progressing-Domain Condition. Then 
 $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
@@ -1145,7 +1154,7 @@ Assume that $\setR, \setG$
 satisfy the Progressing-domain condition PDC.
 Then the number of indexes $i \in [1,l]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ is 
-$< g\genfrac(){0pt}{1}{n}{k}$, for all $v \in \N$.
+$\le g\genfrac(){0pt}{1}{n}{k}$, for all $v \in \N$.
 
 \end{enumerate}
 \end{lemma}
@@ -1184,7 +1193,7 @@ Thus, $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 \item
 %\label{lemma-stable-cardinality domain-injective-03}
 Assume $\dom(R_i) = \dom(R_j)$
- and $\pi(i) \ldots \pi(j)$ is self-composable in $\setG$. 
+ and $\pi(i) \ldots \pi(j-1)$ is self-composable in $\setG$. 
 Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
 and by point \ref{lemma-stable-cardinality domain-injective-02} above
 the value of $\theta(i)$ on \emph{any} $x \in \dom(R_i)$ is 
@@ -1209,12 +1218,12 @@ and $\val(\dom(R_i),\theta(i))=\val(\dom(R_j),\theta(j))=v$.
 By point \ref{lemma-stable-cardinality domain-injective-03} above
 we deduce that $\dom(R_i) \not = \dom(R_j)$.
 
-There are $g\genfrac(){0pt}{1}{n}{k}$ 
+There are $\genfrac(){0pt}{1}{n}{k}$ 
 different cardinality $k$ subsets of an $n$ element
-set $X$ with , therefore at most $\genfrac(){0pt}{1}{n}{k}$ indexes for 
+set $X$. Therefore there are at most $g\genfrac(){0pt}{1}{n}{k}$ indexes for 
 $i\in [1,l]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ and 
-$\pi(i) \ldots \pi(j)$ is self-composable in $\setG$. 
+$\pi(i) \ldots \pi(j-1):a \rightarrow a$ for some $a \in G$. 
 
 \end{enumerate}
 \end{proof}
@@ -1236,12 +1245,14 @@ Let $g = \Card(G)$.
 %\label{theorem-finiteness-value-flow-2-1}
 Lemma \ref{lemma-stable-cardinality domain-injective}.
 \ref{lemma-stable-cardinality domain-injective-04} says that 
-each constant-cardinality non-progressing domain path on $\setR^\setG$
-has $<g\genfrac(){0pt}{1}{n}{k}$ elements, that is, has
-length in $[0,  g\genfrac(){0pt}{1}{n}{k}[$. Then we can prove
+each non-empty 
+constant-cardinality non-progressing domain path on $\setR^\setG$
+has $\le g\genfrac(){0pt}{1}{n}{k}$ elements, that is, has
+length in $[1,  g\genfrac(){0pt}{1}{n}{k}]$. Then we can prove
 point $1$ of Termination Theorem \ref{theorem-finiteness-value-flow-2}
 by induction on the distance between the length of the flow and
-$g\genfrac(){0pt}{1}{n}{k}$.
+$g\genfrac(){0pt}{1}{n}{k}$. 
+This is a value in $[0,g\genfrac(){0pt}{1}{n}{k}[$.
 
 \item
 %\label{theorem-finiteness-value-flow-2-2}
