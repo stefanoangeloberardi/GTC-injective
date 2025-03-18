@@ -84,21 +84,25 @@ Later, the algorithm checking correctness cyclic proofs turned out to be
 a particular case of the algorithm checking the SCT condition for programs.
 
 The algorithm checking SCT is PSPACE-complete (\cite{2001-SCT}).
-We suspect that SCT is PSPACE-complete 
+SCT is PSPACE-complete 
 also in the particular case of injective bi-colored relations required by cyclic 
-proofs. However we will argue that checking SCT is simpler  
+proofs (\cite{2009-Lee-Aram}). 
+However we will argue that checking SCT is simpler  
 and faster in this case.
 
-As a future work, we plan to define an automatic translation from 
+
+
+We prove termination for SCT in the case of injective relations only using 
+first order induction. We use Intuitionistic Logic and Peano Induction only.
+With respect to the proof included in \cite{2009-Lee-Aram}, we try to reduce
+the proof size, because 
+our long-term goal is to define an automatic translation from 
 cyclic proofs into more ordinary inductive proofs. This translation
 would be useful for cross-checking the result of a proof-search done 
-using cyclic proofs. We do not have such a translation yet, but we believe that from
-a simpler termination proof for SCT we will be able to define a simpler
+using cyclic proofs. 
+We do not have such a translation yet, but we believe that from
+a shorter termination proof for SCT we will be able to define a simpler
 translation from cyclic proofs to inductive proofs.
-
-As a first step, we prove termination for SCT in the case of injective relations only using 
-first order induction. With respect to a previous work,
-we avoid the use Ramsey Theorem, and we use Intuitionistic Logic only.
 
 
 \section{Size Change Termination in the Case of Injective Relations}
