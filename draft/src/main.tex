@@ -11,7 +11,7 @@
 \maketitle
 
 \section{Introduction}
-\textit{Size change termination}, originally introduced in \cite{Lee1}, is a method used to prove the termination of recursive functions. The main idea behind size change termination lies in Fermat's proof principle of infinite descent: To proof a proposition $P$, assume $P$ is false and reach a contradiction by constructing an infinite descending chain in a well-order. This principle can be applied in the context of recursive functions as follows: if the parameters of a function belong to a well-order, we can assume the function execution does not terminates, and derive a contradiction by forming an infinite descending chain with the values of the parameters. These infinite descending chains are formed by analyzing the relationships between the parameters of the function in each recursive call. Each relationship is captured by a structure known as the \textit{size change graph}, which provides an abstract way to define how the parameters change during program execution. To understand the general idea behind this method, lets consider the following example of the Ackermann function, taken from \cite{Lee2}: 
+\textit{Size change termination} (SCT), originally introduced in \cite{Lee1}, is a method used to prove the termination of recursive functions. The main idea behind SCT lies in Fermat's proof principle of infinite descent: to proof a proposition $P$, assume $P$ is false and reach a contradiction by constructing an infinite descending chain in a well-order. This principle can be applied in the context of recursive functions as follows: if the variables of a function belong to a well-order, we can assume the function execution does not terminates, and derive a contradiction by forming an infinite descending chain with the values of the variables. These infinite descending chains are formed by analyzing the relationships between the variables of the function in each recursive call. Each relationship is captured by a structure known as the \textit{size change graph}, which provides an abstract way to define how the variables change during program execution. To understand the general idea behind this method, lets consider the following example of the Ackermann function, taken from \cite{Lee2}: 
 
 
 \begin{figure}[ht]
@@ -73,18 +73,75 @@ a(m,n) = if m=0 then n+1 else
   \label{figFuncF}
 \end{figure}
 
-For each recursive call, labeled with 1,2 and 3, we can respectively define the size change graphs $G_1$, $G_2$ and $G_3$, where the edges $x \xrightarrow{\gamma} y$ represent the relationship between the values of the parameters initially passed to the function, and the values after each recursive call. When $\gamma = \ \downarrow$, it specifies that the value of $x$ is strictly less than the value of $y$, and when $\gamma = \downmapsto$ , it specifies that the value of $x$ is less than or equal to the value of $y$. Using these graphs we can then analyze the function's execution: assume a hypothetical infinite execution of the program. This will induce an infinite sequence of recursive calls $c = c_1c_2c_3...$ where every $c_i \in \{1,2,3\}$, which also induces an infinite sequence of size change graphs $G_{c_1}G_{c_2}G_{c_3}...$ It is then possible to compose these graphs, to form infinite paths using the relations between each one of the variables. For example, suppose we get an infinite execution $(13)^{\omega}$, i.e. the recursive call 1 and 3 are used infinitely one after the other. This induces the sequences of graphs $(G_1G_3)^{\omega}$ and the infinite path $m \xrightarrow{\downarrow} m \xrightarrow{\downmapsto} m \xrightarrow{\downarrow} m ...$ over the variable $m$, which progresses infinitely often and implies that this infinite execution is impossible.
+For each recursive call, labeled with 1,2 and 3, we can respectively define the size change graphs $G_1$, $G_2$ and $G_3$, where the edges $x \xrightarrow{\gamma} y$ represent the relationship between the values of the variables initially passed to the function, and the values after each recursive call. When $\gamma = \ \downarrow$, we call it a \textit{progressing} edge and it specifies that the value of $x$ is strictly less than the value of $y$. When $\gamma = \downmapsto$, we call it a \textit{stationary} edge, and it specifies that the value of $x$ is less than or equal to the value of $y$. Using these graphs we can then analyze the function's execution: assume a hypothetical infinite execution of the program. This will induce an infinite sequence of recursive calls $c = c_1c_2c_3...$ where every $c_i \in \{1,2,3\}$, which also induces an infinite sequence of size change graphs $G_{c_1}G_{c_2}G_{c_3}...$ It is then possible to compose these graphs, to form infinite paths using the relations between each one of the variables. For example, suppose we get an infinite execution $(13)^{\omega}$, i.e. the recursive call 1 and 3 are used infinitely one after the other. This induces the sequence of graphs $(G_1G_3)^{\omega}$ and the infinite path $m \xrightarrow{\downarrow} m \xrightarrow{\downmapsto} m \xrightarrow{\downarrow} m ...$ over the variable $m$, which progresses infinitely often and implies that this infinite execution is impossible. Given this intuition, we can define the SCT property as follows:
+
+\begin{definition}
+ A program satisfies SCT if and only if for any possible infinite sequence of recursive calls $c = c_1c_2c_3...$, the induced composition of infinite size change graphs $G_{c_1}G_{c_2}G_{c_3}...$ has an infinite path that infinitely progresses, i.e. the edge .   
+\end{definition}
+ 
+
+This notion of SCT is closely related to the \textit{global trace condition} (GTC), which is used to define the validity of \textit{circular proofs}. More precisely, is has been known in the folk-lore that SCT is equivalent to GTC, and also proven for particular circular proof systems like in \textcolor{red}{[cite Mirai if possible]}. To explain the intuition behind this equivalence, consider the following example of a circular proof in the $\text{CLKID}^{\omega}$ circular proof system, taken from \cite{brotherston}:
+
+\begin{figure}
+\begin{minipage}{0.48\textwidth}
+\centering
+\begin{adjustbox}{scale=0.65}
+\begin{prooftree}
+        \hypo{}
+        \infer1[($Q\text{R}_1$)]{Nx \vdash Q(x,0)}
+        \infer1[($=$L)]{Nx, y=0 \vdash Q(x,y)}
+
+        \hypo{Nx, Ny \vdash Q(x,y) \ (\dag 1)}
+        \infer1[(Subst)]{Nx, Nz \vdash Q(x,z)}
+        
+        \hypo{Nx \vdash Px (*)}
+        \infer[double]2[($Q\text{R}_2$)]{Nx, Nz \vdash Q(x,sz)}
+        \infer1[($=$L)]{Nx, y = sz, Nz \vdash Q(x,y)}   
+        \infer2[(Case $N$)]{Nx, Ny \vdash Q(x,y) \ (\dag)}
+\end{prooftree}
+\end{adjustbox}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\begin{adjustbox}{scale=0.65}
+\begin{prooftree}
+    \hypo{}
+    \infer1[$P\text{R}_1$]{\vdash P0}
+    \infer1[(=L)]{x = 0 \vdash Px}
+
+    \hypo{Nx \vdash Px \  (*)}
+    \infer1[(Subst)]{Nz \vdash Pz}
+    
+    \hypo{Ny, Nx \vdash Q(x,y) \ (\dag2)}
+    \infer1[(Subst)]{Nsz, Nz \vdash Q(z, sz)}
+    \infer[double]2[($P\text{R}_2$)]{Nsz, Nz \vdash Psz}
+    \infer1[($=$L)]{Nx, x = sz, Nz \vdash Px}
+    \infer[double]2[(Case $N$)]{Nx, Nx \vdash Px}
+    \infer1[(ContrL)]{Nx \vdash Px \ (*)}
+\end{prooftree}
+ \end{adjustbox}
+\end{minipage}
+
+\caption{Example of a circular proof in $\text{CLKID}^{\omega}$. The rightmost branch $(*)$ on the proof on the left continues in the root of the proof on the right.}
+
+
+\end{figure}
 
 
 
 
-
-\textcolor{red}{\begin{enumerate}
-    \item Continue with Cyclic proofs (cite ikebuchi) and use an example to explain the intuition why GTC is STC.
-    \item Explain how this can be abstracted in a more general way for any circular system with progressing condition
-    \item Explain why in general circular proof systems satisfy injectivity
-    \item state what is the objective of the paper
-\end{enumerate}}
+\textcolor{red}{
+We are going to change the narrative of the introduction:
+\begin{enumerate}
+    \item We define and explain the generality of the size change termination condition (def + example).
+    \item We define and explain the generality of the global trace condion (def + example)
+    \item We remark that both of them are equivalent and can be seen as one definition given an abstract framework using only relations and the underlying structure of the program/proof tree
+    \item Then we introduce PDC with injectivity
+    \item We argue why circular proofs are in general injective
+    \item We explain what are the advantages of using PDC + Injectivity over the abstract version of STC/GTC
+\end{enumerate}
+}
 
 
 %BIBLIOGRAPHY:
