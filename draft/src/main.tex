@@ -11,6 +11,248 @@
 \maketitle
 
 \section{Introduction}
+
+\subsection{Introduction to Size Change Termination}
+
+\textit{Size-change termination} (SCT), initially proposed by Lee et al. \cite{Lee1}, is a technique for proving the termination of recursive functions. SCT leverages Fermat's principle of infinite descent: to prove a proposition $P$, assume its negation and derive a contradiction by constructing an infinite descending chain within a well-ordered set. In the context of recursive functions, if the function's variables are interpreted within a well-ordered domain, non-termination can be assumed, and a contradiction derived by demonstrating an impossible infinite descending sequence of variable values. These sequences are formed by analyzing the relationships between variables across recursive calls. Each relationship is abstracted as a \textit{size-change graph}, which represents variable transformations during program execution. To illustrate this concept, consider the following example of the Ackermann function, taken from \cite{Lee2}: 
+
+
+\begin{figure}[ht]
+  \centering
+  % Minipage for the code listing
+  \begin{minipage}[b]{0.45\textwidth}
+    \begin{lstlisting}[basicstyle=\normalsize\ttfamily]
+a(m,n) = if m=0 then n+1 else
+         if n=0 then *${}^{1}$*a(m-1,1) else
+         *${}^{2}$*a(m-1,*${}^{3}$*a(m,n-1))
+    \end{lstlisting}
+  \end{minipage}
+  % Minipage for the first TikZ figure
+  \begin{minipage}[b]{0.25\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.8]
+      % Draw the rectangle frame
+      \draw[thick] (-1.5,-1.0) rectangle (1.5,1.0);
+      % Place the nodes
+      \node at (-1.25, 0.5) {$m$};
+      \node at (1.25, 0.5) {$m$};
+      \node at (-1.25, -0.5) {$n$};
+      \node at (1.25, -0.5) {$n$};
+      % Draw arrows m -> m
+      \draw[thick, ->] (-1.0,0.5) -- (1.0,0.5);
+      \draw[->] (0, 0.9) -- (0, 0.6);
+    \end{tikzpicture}
+    
+    \vspace{0.1cm}
+    
+    $G_1, G_2$
+  \end{minipage}
+  % Minipage for the second TikZ figure
+  \begin{minipage}[b]{0.25\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.8]
+      % Draw the rectangle frame
+      \draw[thick] (-1.5,-1.0) rectangle (1.5,1.0);
+      % Place the nodes
+      \node at (-1.25, 0.5) {$m$};
+      \node at (1.25, 0.5) {$m$};
+      \node at (-1.25, -0.5) {$n$};
+      \node at (1.25, -0.5) {$n$};
+      % Draw arrows m -> m
+      \draw[thick, ->] (-1.0,0.5) -- (1.0,0.5);
+      \draw (-0.1, 0.9) -- (0.1, 0.9);
+      \draw (-0.1, 0.85) -- (0.1, 0.85);
+      \draw[->] (0, 0.9) -- (0, 0.6);
+      % Draw arrows n -> n
+      \draw[thick, ->] (-1.0,-0.5) -- (1.0,-0.5);
+      \draw[->] (0, -0.1) -- (0, -0.4);
+    \end{tikzpicture}
+    
+    \vspace{0.1cm}
+    
+    $G_3$
+  \end{minipage}
+  \caption{Definition of the Ackermann function \texttt{a} and size change graphs $G_1$, $G_2$ and $G_3$}
+  \label{figFuncF}
+\end{figure}
+
+For each recursive call, labeled with 1,2 and 3, we can respectively define the size change graphs $G_1$, $G_2$ and $G_3$, where the edges $x \xrightarrow{\gamma} y$ represent the relationship between the values of the variables initially passed to the function, and the values passed in each recursive call. When $\gamma = \ \downarrow$, we call it a \textit{progressing} edge and it specifies that the value of $x$ is strictly less than the value of $y$. When $\gamma = \downmapsto$, we call it a \textit{stationary} edge, and it specifies that the value of $x$ is less than or equal to the value of $y$. 
+
+Using these graphs we can then analyze the function's execution: assume a hypothetical infinite execution from an initial call of the program $a$. This will induce an infinite sequence of recursive calls $c = c_1c_2c_3...$ where every $c_i \in \{1,2,3\}$, which also induces an infinite sequence of size change graphs $G_{c_1}G_{c_2}G_{c_3}...$ It is then possible to compose these graphs, to form all the infinite paths using the relations between each one of the variables, named as a \textit{mutipath}. 
+
+For example, suppose we get an infinite execution $(13)^{\omega}$, i.e. the recursive call 1 and 3 are used infinitely one after the other. This induces the sequence of graphs $(G_1G_3)^{\omega}$, seen as a multipath in Figure \ref{multipath}. We can then identify the infinite path $m \xrightarrow{\downarrow} m \xrightarrow{\downmapsto} m \xrightarrow{\downarrow} m ...$ over the variable $m$, which progresses infinitely often and implies that this infinite execution is impossible, since the domain of the variable $m$ is $\mathbb{N}$. Given this intuition, we can generally define the SCT property programs as follows:
+
+\begin{definition}
+ \textbf{(Size Change Termination)} A program satisfies the SCT if and only if for any possible infinite sequence of recursive calls $c = c_1c_2c_3...$, the induced composition of infinite size change graphs $G_{c_1}G_{c_2}G_{c_3}...$ has an infinite path that infinitely progresses.   
+\end{definition}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale = 0.3]{example-image-a}
+    \caption{Multipath for $(13)^{\omega}$}
+    \label{multipath}
+\end{figure}
+
+
+\subsection{Introduction to Global Trace Condition}
+The \textit{Global trace condition} (GTC) is used to verify the validity of \textit{circular pre-proofs} in \textit{circular proof systems}. In this case, we are considering the general notion of the global trace condition, which is independent of the proof system, as presented in Brotherston's \cite{brotherston}, or Afshari and Wehr's \cite{Afshari_Wehr_2024} work (in the case of latter, we consider the $\mathbb{B}$-activated trace category $\mathcal{T}_{\mathbb{B}}$, where $\mathbb{B} = \{\top, \bot\}$ is the binary boolean algebra). For the sake of simplicity, we will rely on Brotherston's work to introduce this concept.
+
+Let $\text{CS}^{\omega}$ be a proof system, with $Seqs$ the set of well-formed sequents in $\text{CS}^{\omega}$, and $Rules$ be the set of logical rules in $\text{CS}^{\omega}$. A \textit{circular pre-proof} is represented by a tuple $\mathcal{P} = (\mathcal{D}, \mathcal{R})$. The \textit{derivation graph} $\mathcal{D}$, is a tuple $\mathcal{D} = (V, s, r, p)$, where $V$ is a set of vertices, $s: V \rightarrow Seqs$ is total function that labels vertices with sequents, $r: V \rightarrow Rules$ is partial function that labels vertices with inference rules in $\text{CS}^{\omega}$, and $p: \mathbb{N} \times V \rightarrow V$ is a partial function that maps a number $n$ and a vertex $v$, with a vertex $v'$, such that $v'$ is labeled by the $n$th premise rule $r(v)$ over the sequent $s(v)$. The idea then is that for every $v \in V$, the following inference is an instance of the rule $r(v)$ in $\text{CS}^{\omega}$, with $m$ premises:
+\begin{figure}[H]
+    \centering
+    \begin{prooftree}
+        \hypo{\{\vdash s(p(i,v))\}_{1 \leq i \leq m}}
+        \infer1[$(r(v))$]{\vdash s(v)}
+    \end{prooftree}
+\end{figure} 
+
+Moreover, a \textit{bud} node of $\mathcal{D}$ is a vertex $B \in V$ such that $r(B)$ is undefined. The partial function $\mathcal{R}: V \rightarrow V$, maps each one of the bud nodes to an internal node in the derivation graph, called a \textit{companion}. To understand the intuition behind these definitions, we will use an example of a circular pre-proof in the $\text{CLKID}^{\omega}$ proof system, taken from \cite{brotherston}. In this system, we allow the definition of inductive predicates, and we will assume that the variables are interpreted in $\mathbb{N}$. We represent inductively each natural number, as either $0$, or using the successor function $s$. We define the rules for the inductive predicates $N,P$ and $Q$ in Figure \ref{indRules}. $P$ and $Q$ are mutually dependent inductive predicates, while $N$ represents the usual definition of the natural numbers.
+
+
+\begin{figure}[h]
+    \centering
+\begin{minipage}{0.45\textwidth}
+\centering
+\begin{prooftree}
+    \centering
+    \hypo{}
+    \infer1[($P\text{R}_1$)]{\Gamma \vdash P0, \Delta}
+\end{prooftree}    
+\end{minipage}
+\hfill
+\begin{minipage}{0.5\textwidth}
+    \centering
+    \begin{prooftree}
+    \hypo{\Gamma \vdash Px, \Delta}
+    \hypo{\Gamma \vdash Q(x,sx), \Delta}
+    \infer2[($P\text{R}_2$)]{\Gamma \vdash Psx, \Delta}
+\end{prooftree}
+\end{minipage}
+
+\vspace{0.3cm}
+
+\begin{minipage}{.45\textwidth}
+    \centering
+    \begin{prooftree}
+    \hypo{}
+    \infer1[($Q\text{R}_1$)]{\Gamma \vdash Q(x,0), \Delta}
+    \end{prooftree}
+\end{minipage}
+\hfill
+\begin{minipage}{0.5\textwidth}
+    \centering
+    \begin{prooftree}
+    \hypo{\Gamma \vdash Q(x,y), \Delta}
+    \hypo{\Gamma \vdash Px, \Delta}
+    \infer2[($Q\text{R}_2$)]{\Gamma \vdash Q(x,sy), \Delta}
+\end{prooftree}
+\end{minipage}
+
+\begin{center}
+\begin{prooftree}
+    \hypo{\Gamma, x = 0 \vdash \Delta}
+    \hypo{\Gamma, x = sz, Nz \vdash \Delta}
+    \infer2[(Case $N$)]{\Gamma, Nx \vdash \Delta}
+\end{prooftree}    
+\end{center}
+
+\caption{Rules in $\text{CLKID}^{\omega}$, for the unary predicates $N, P$ and the binary predicate $Q$}
+\label{indRules}
+\end{figure}
+
+Figure \ref{exmplCircProof}, presents an example of a circular pre-proof in the $\text{CLKID}^{\omega}$ proof system, that uses the rules defined for the inductive predicates $P, Q$ and $N$, and other well known structural rules like contraction or weakening, and rules associate to first order proof systems like substitution and variable renaming. The derivation graph is given by the tree structure observed in Figure \ref{exmplCircProof} and the bud nodes correspond to the leaves in the tree that have no rule assocciated, e.g. the leaves labeled with the sequent $Nx, Ny \vdash Q(x,y)$. The function $\mathcal{R}$, is represented by labeling each bud and companion node with the same symbol, e.g. the buds labeled with $(\dag_1)$ and $(\dag_2)$ map to the companion labeled with $(\dag)$, and similarly for the vertices labeled with $(*)$.
+
+\begin{figure}[h]
+\centering
+\begin{adjustbox}{scale=0.75}
+\begin{prooftree}
+        \hypo{}
+        \infer1[($Q\text{R}_1$)]{Nx \vdash Q(x,0)}
+        \infer1[($=$L)]{Nx, y=0 \vdash Q(x,y)}
+
+        \hypo{Nx, Ny \vdash Q(x,y) \ (\dag_1)}
+        \infer1[(Subst)]{Nx, Nz \vdash Q(x,z)}
+        
+        \hypo{}
+        \infer1[$P\text{R}_1$]{\vdash P0}
+        \infer1[(=L)]{x = 0 \vdash Px}
+    
+        \hypo{Nx \vdash Px \  (*)}
+        \infer1[(Subst)]{Nz \vdash Pz}
+        
+        \hypo{Ny, Nx \vdash Q(x,y) \ (\dag_2)}
+        \infer1[(Subst)]{Nsz, Nz \vdash Q(z, sz)}
+        \infer[double]2[($P\text{R}_2$)]{Nsz, Nz \vdash Psz}
+        \infer1[($=$L)]{Nx, x = sz, Nz \vdash Px}
+        \infer[double]2[(Case $N$)]{Nx, Nx \vdash Px}
+        \infer1[(Contr L)]{Nx \vdash Px \ (*)}
+        \infer[double]2[($Q\text{R}_2$)]{Nx, Nz \vdash Q(x,sz)}
+        \infer1[($=$L)]{Nx, y = sz, Nz \vdash Q(x,y)}   
+        \infer2[(Case $N$)]{Nx, Ny \vdash Q(x,y) \ (\dag)}
+\end{prooftree}
+\end{adjustbox}
+
+\caption{Example of a circular proof in $\text{CLKID}^{\omega}$ of the sequent $Nx, Ny \vdash Q(x,y)$. The double horizontal lines in some of the rules represent a hidden weakening.}
+\label{exmplCircProof}
+\end{figure}
+
+It is then possible to extract the graph structure of $\mathcal{P}$, written as $\mathcal{G}_{\mathcal{P}}$, by adding the edges induced by $\mathcal{R}$ and deleting the bud vertices. Formally, $\mathcal{G}_{\mathcal{P}} = (V', s, r, p')$ where $V' = V \setminus Bud(\mathcal{D})$ and $p'$ is defined for some $j \in \mathbb{N}$, and $v \in V$ as $p'_j(v) = \mathcal{R}(p_j(v))$ if $p_j(v) \in Bud(\mathcal{D})$, and $p'_j(v) = p_j(v)$ otherwise. A \textit{path} in $\mathcal{G}_{\mathcal{P}}$, is then a finite or infinite sequence of vertices over $\mathcal{G}_{\mathcal{P}}$. Moreover, given a (possibly infinite) path $\pi$, over a graph $\mathcal{G}_{\mathcal{P}}$, it is possible to form (possibly infinite) sequences of logical formulas called \textit{traces}. 
+
+A trace $\uptau = F_1F_2F_3...$ over a path $\pi = v_1v_2v_3...$ must satisfy that for all $i$, $F_i$ belongs to the sequent $s(v_i)$, and $F_{i+1}$ must be a direct ancestor of $F_i$, after applying the rule $r(v_i)$. For example, let $v$ be the vertex labeled with $(\dag)$ and $v'$ be the vertex labeled with the sequent $Nx, Nz \vdash Q(x,z)$. We can then form the infinite path $\pi = v...v'v...v'v...$ over $\mathcal{G}_{\mathcal{P}}$ which starts at $v$ and infinitely travels through the cycle $C_1$, as seen in Figure \ref{proofDiagram}. We can then form the infinite trace $\uptau = Ny, Nz, Nz, Nz, Ny ...$, to cover the path $\pi$.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.35]{images/proofDiagram.png}
+    \caption{Abstraction of the graph structure of the Figure \ref{exmplCircProof}. Each basic cycle $C_i$ with $i \in \{1,2,3 \}$, corresponds to the unique path from each companion to itself, using the induced edge by its corresponding bud node.}
+    \label{proofDiagram}
+\end{figure}
+
+
+Moreover, we define a progress point $(F_i, F_{i+1})$ of a trace $\uptau$, as a point where the values of the variables in formula $F_i$ are strictly less than the value of the variables in formula $F_{i+1}$. For example, in the case of the previously defined trace $\uptau = Ny, Nz, Nz, Nz, Ny ...$, $(Ny, Nz)$ is a progress point, since $y > z$. In fact, the trace $\uptau$ contains infinitely many progress points $(Nz, Ny)$. Note that for the sake of simplicity, the definition of trace and progress point are oversimplifications of the formal notion of \textit{generalized trace and progress point} introduced by Brotherston in \cite{brotherston}, section 4.2.1. The curious reader is encouraged to review this definition, but for the moment we would not dive into the technicalities, since our main idea is only to provide a general intuition. 
+
+Using all of the previous definitions, it is now possible to define the GTC as follows:
+
+\begin{definition}
+    \textbf{(Global Trace Condition)} Let $\mathcal{P}$ be a $\text{CS}^{\omega}$ circular pre-proof. We say that $\mathcal{P}$ satisfies the GTC or $\mathcal{P}$ is a $\text{CS}^{\omega}$ \textit{circular proof}, if and only if every infinite path $\pi$ in $\mathcal{G}_{\mathcal{P}}$ has a trace $\uptau$ with infinitely many progress points.
+\end{definition}
+
+In the case of the circular pre-proof in Figure \ref{exmplCircProof}, it is easy to see that for any infinite path we can find an infinitely progressing trace. Furthermore, the GTC also uses Fermat's principle of infinite descent, in the sense that every infinite path in the pre-proof's graph has an infinitely descending chain of natural numbers, contained in the path's trace, and thus, these paths can be seen as logical reasonings that can be disrigarded, since they lead to a contradiction.
+ 
+
+
+\subsection{Generalized SCT and GTC}
+
+
+\subsection{MISC}
+
+In this case, we are considering the general notion of the global trace condition, which is independent of the proof system, as presented in Brotherston's \cite{brotherston}, or Afshari and Wehr's \cite{Afshari_Wehr_2024} work (in the case of latter, we consider the $\mathbb{B}$-activated trace category $\mathcal{T}_{\mathbb{B}}$, where $\mathbb{B} = \{\top, \bot\}$ is the binary boolean algebra). For the sake of simplicity, we will rely on Brotherston's work to introduce this concept.
+
+ 
+
+
+
+
+\textcolor{red}{
+We are going to change the narrative:
+\begin{enumerate}
+    \item We define and explain the generality of the size change termination condition (def + example).
+    \item We define and explain the generality of the global trace condion (def + example)
+    \item We remark that both of them are equivalent and can be seen as one definition given an abstract framework using only relations and the underlying structure of the program/proof tree
+    \item Then we introduce PDC with injectivity
+    \item We argue why circular proofs are in general injective
+    \item We explain what are the advantages of using PDC + Injectivity over the abstract version of STC/GTC
+\end{enumerate}
+}
+
+
+\begin{comment}
+    
+\section{Introduction}
+\textit{Size change termination} (SCT) \cite{Lee1, Lee2}, is a method used to prove the termination of recursive functions. The main idea behind SCT lies in Fermat's proof principle of infinite descent: to prove a proposition $P$, assume $P$ is false and reach a contradiction by constructing an infinite descending chain in a well-order. This principle can be applied in the context of recursive functions as follows: if the variables of a function belong to a well-order, we can assume the function execution does not terminates, and derive a contradiction by forming an infinite descending chain with the values of the variables. These infinite descending chains are formed by analyzing the relationships between the variables of the function in each recursive call.
+
+On the other hand, the \textit{Global Trace Condition} (GTC) is also based on the principle of infinite descent, and it used to verify the validity of proofs in non well-founded and circular proof systems.
+
+\section{Introduction Old}
 \textit{Size change termination} (SCT), originally introduced in \cite{Lee1}, is a method used to prove the termination of recursive functions. The main idea behind SCT lies in Fermat's proof principle of infinite descent: to proof a proposition $P$, assume $P$ is false and reach a contradiction by constructing an infinite descending chain in a well-order. This principle can be applied in the context of recursive functions as follows: if the variables of a function belong to a well-order, we can assume the function execution does not terminates, and derive a contradiction by forming an infinite descending chain with the values of the variables. These infinite descending chains are formed by analyzing the relationships between the variables of the function in each recursive call. Each relationship is captured by a structure known as the \textit{size change graph}, which provides an abstract way to define how the variables change during program execution. To understand the general idea behind this method, lets consider the following example of the Ackermann function, taken from \cite{Lee2}: 
 
 
@@ -82,19 +324,19 @@ For each recursive call, labeled with 1,2 and 3, we can respectively define the 
 
 This notion of SCT is closely related to the \textit{global trace condition} (GTC), which is used to define the validity of \textit{circular proofs}. More precisely, is has been known in the folk-lore that SCT is equivalent to GTC, and also proven for particular circular proof systems like in \textcolor{red}{[cite Mirai if possible]}. To explain the intuition behind this equivalence, consider the following example of a circular proof in the $\text{CLKID}^{\omega}$ circular proof system, taken from \cite{brotherston}:
 
-\begin{figure}
-\begin{minipage}{0.48\textwidth}
+\begin{figure}[h]
+\begin{minipage}{0.49\textwidth}
 \centering
-\begin{adjustbox}{scale=0.65}
+\begin{adjustbox}{scale=0.675}
 \begin{prooftree}
         \hypo{}
         \infer1[($Q\text{R}_1$)]{Nx \vdash Q(x,0)}
         \infer1[($=$L)]{Nx, y=0 \vdash Q(x,y)}
 
-        \hypo{Nx, Ny \vdash Q(x,y) \ (\dag 1)}
+        \hypo{Nx, Ny \vdash Q(x,y) \ (\dag_1)}
         \infer1[(Subst)]{Nx, Nz \vdash Q(x,z)}
         
-        \hypo{Nx \vdash Px (*)}
+        \hypo{Nx \vdash Px \ (*)}
         \infer[double]2[($Q\text{R}_2$)]{Nx, Nz \vdash Q(x,sz)}
         \infer1[($=$L)]{Nx, y = sz, Nz \vdash Q(x,y)}   
         \infer2[(Case $N$)]{Nx, Ny \vdash Q(x,y) \ (\dag)}
@@ -102,9 +344,9 @@ This notion of SCT is closely related to the \textit{global trace condition} (GT
 \end{adjustbox}
 \end{minipage}
 \hfill
-\begin{minipage}{0.48\textwidth}
+\begin{minipage}{0.45\textwidth}
 \centering
-\begin{adjustbox}{scale=0.65}
+\begin{adjustbox}{scale=0.675}
 \begin{prooftree}
     \hypo{}
     \infer1[$P\text{R}_1$]{\vdash P0}
@@ -113,35 +355,25 @@ This notion of SCT is closely related to the \textit{global trace condition} (GT
     \hypo{Nx \vdash Px \  (*)}
     \infer1[(Subst)]{Nz \vdash Pz}
     
-    \hypo{Ny, Nx \vdash Q(x,y) \ (\dag2)}
+    \hypo{Ny, Nx \vdash Q(x,y) \ (\dag_2)}
     \infer1[(Subst)]{Nsz, Nz \vdash Q(z, sz)}
     \infer[double]2[($P\text{R}_2$)]{Nsz, Nz \vdash Psz}
     \infer1[($=$L)]{Nx, x = sz, Nz \vdash Px}
     \infer[double]2[(Case $N$)]{Nx, Nx \vdash Px}
-    \infer1[(ContrL)]{Nx \vdash Px \ (*)}
+    \infer1[(Contr L)]{Nx \vdash Px \ (*)}
 \end{prooftree}
  \end{adjustbox}
 \end{minipage}
 
-\caption{Example of a circular proof in $\text{CLKID}^{\omega}$. The rightmost branch $(*)$ on the proof on the left continues in the root of the proof on the right.}
-
+\caption{Example of a circular proof in $\text{CLKID}^{\omega}$ of the sequent $Nx, Ny \vdash Q(x,y)$. The rightmost branch $(*)$ on the proof on the left continues in the root of the proof on the right. The double horizontal lines in some of the rules represent, a hidden weakening rule.}
+\label{exmplCircProof}
 
 \end{figure}
 
 
 
+\end{comment}
 
-\textcolor{red}{
-We are going to change the narrative of the introduction:
-\begin{enumerate}
-    \item We define and explain the generality of the size change termination condition (def + example).
-    \item We define and explain the generality of the global trace condion (def + example)
-    \item We remark that both of them are equivalent and can be seen as one definition given an abstract framework using only relations and the underlying structure of the program/proof tree
-    \item Then we introduce PDC with injectivity
-    \item We argue why circular proofs are in general injective
-    \item We explain what are the advantages of using PDC + Injectivity over the abstract version of STC/GTC
-\end{enumerate}
-}
 
 
 %BIBLIOGRAPHY:
