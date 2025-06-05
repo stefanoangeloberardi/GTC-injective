@@ -36,12 +36,46 @@ numpages = {42},
 keywords = {termination analysis, size-change termination, ranking function, multiple recursion, determinization, ω-Automaton}
 }
 
-@article{brotherston,
+@article{Brotherston1,
   title={Sequent calculus proof systems for inductive definitions},
   author={Brotherston, James},
   year={2006},
   publisher={University of Edinburgh. College of Science and Engineering. School of~…}
 }
+
+@InProceedings{Brotherston2,
+author="Brotherston, James",
+editor="Beckert, Bernhard",
+title="Cyclic Proofs for First-Order Logic with Inductive Definitions",
+booktitle="Automated Reasoning with Analytic Tableaux and Related Methods",
+year="2005",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="78--92",
+abstract="We consider a cyclic approach to inductive reasoning in the setting of first-order logic with inductive definitions. We present a proof system for this language in which proofs are represented as finite, locally sound derivation trees with a ``repeat function'' identifying cyclic proof sections. Soundness is guaranteed by a well-foundedness condition formulated globally in terms of traces over the proof tree, following an idea due to Sprenger and Dam. However, in contrast to their work, our proof system does not require an extension of logical syntax by ordinal variables.",
+isbn="978-3-540-31822-4"
+}
+
+@article{BrotherstonSimpson,
+author = {Brotherston, James and Simpson, Alex},
+title = {Sequent calculi for induction and infinite descent},
+year = {2011},
+issue_date = {December 2011},
+publisher = {Oxford University Press, Inc.},
+address = {USA},
+volume = {21},
+number = {6},
+issn = {0955-792X},
+url = {https://doi.org/10.1093/logcom/exq052},
+doi = {10.1093/logcom/exq052},
+abstract = {This article formalizes and compares two different styles of reasoning with inductively defined predicates, each style being encapsulated by a corresponding sequent calculus proof system.The first system, LKID, supports traditional proof by induction, with induction rules formulated as rules for introducing inductively defined predicates on the left of sequents.We show LKID to be cut-free complete with respect to a natural class of Henkin models; the eliminability of cut follows as a corollary. The second system, LKIDω, uses infinite (non-well-founded) proofs to represent arguments by infinite descent. In this system, the left-introduction rules for inductively defined predicates are simple case-split rules, and an infinitary, global condition on proof trees is required in order to ensure soundness.We show LKIDω to be cut-free complete with respect to standard models, and again infer the eliminability of cut. The infinitary system LKIDω is unsuitable for formal reasoning. However, it has a natural restriction to proofs given by regular trees, i.e. to those proofs representable by finite graphs, which is so suited. We demonstrate that this restricted ‘cyclic’ proof system, CLKIDω, subsumes LKID, and conjecture that CLKIDω and LKID are in fact equivalent, i.e. that proof by induction is equivalent to regular proof by infinite descent.},
+journal = {J. Log. and Comput.},
+month = dec,
+pages = {1177–1216},
+numpages = {40}
+}
+
+
 
 @article{Afshari_Wehr_2024, 
 title={Abstract cyclic proofs}, 
@@ -66,3 +100,34 @@ keywords = {Cyclic proof, Size-change termination, Intuitionistic logic},
 abstract = {A cyclic proof is a regular infinite proof tree with a global condition, and it is known that, under arithmetic, cyclic proofs with inductive definitions are equivalent to proofs with induction. A way to show this equivalence is by constructing a well-founded relation on tuples of natural numbers and then transforming a cyclic proof into a proof by well-founded induction with the relation. In this paper, we see the connection between cyclic proofs and size-change termination (SCT) of programs, and it provides a new well-founded relation for proof transformation.}
 }
 
+@InProceedings{Berardi,
+author="Berardi, Stefano
+and Tatsuta, Makoto",
+editor="C{\^i}rstea, Corina",
+title="Intuitionistic Podelski-Rybalchenko Theorem and Equivalence Between Inductive Definitions and Cyclic Proofs",
+booktitle="Coalgebraic Methods in Computer Science",
+year="2018",
+publisher="Springer International Publishing",
+address="Cham",
+pages="13--33",
+abstract="A cyclic proof system gives us another way of representing inductive and coinductive definitions and efficient proof search. Podelski-Rybalchenko termination theorem is important for program termination analysis. This paper first shows that Heyting arithmetic HA proves Kleene-Brouwer theorem for induction and Podelski-Rybalchenko theorem for induction. Then by using this theorem this paper proves the equivalence between the provability of the intuitionistic cyclic proof system and that of the intuitionistic system of Martin-Lof's inductive definitions when both systems contain HA.",
+isbn="978-3-030-00389-0"
+}
+
+
+@incollection{MartinLof,
+title = {Hauptsatz for the Intuitionistic Theory of Iterated Inductive Definitions},
+editor = {J.E. Fenstad},
+series = {Studies in Logic and the Foundations of Mathematics},
+publisher = {Elsevier},
+volume = {63},
+pages = {179-216},
+year = {1971},
+booktitle = {Proceedings of the Second Scandinavian Logic Symposium},
+issn = {0049-237X},
+doi = {https://doi.org/10.1016/S0049-237X(08)70847-4},
+url = {https://www.sciencedirect.com/science/article/pii/S0049237X08708474},
+author = {Per Martin-Löf},
+abstract = {Publisher Summary
+This chapter presents a proof theoretical analysis of the intuitionistic theory of generalized inductive definitions iterated an arbitrary finite number of times. Like the Hilbert type systems of first order predicate logic that are used, the theories of single and iterated generalized inductive definitions formulated do not lend themselves immediately to a proof theoretical analysis. Therefore, the chapter reformulates the axioms expressing the principles of definition and proof by generalized induction as rules of inference similar to those introduced by Gentzen in his system of natural deduction for first order predicate logic. As in Gentzen's case, this reformulation leads to a notable systematization that is already in the case of ordinary inductive definitions, the rules corresponding to the axioms that express the principle of definition by induction appearing as introduction rules for the inductively defined predicates, whereas the axioms that express the principle of proof by induction give rise to the corresponding elimination rules. Moreover, the generalized inductive definitions appear as inductive definitions iterated once and the iterated generalized inductive definitions as inductive definitions iterated twice or more.}
+}

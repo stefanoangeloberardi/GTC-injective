@@ -13,18 +13,18 @@
 \section{Introduction}
 
 \section{Size-change termination}
-\textit{Size-change termination} (SCT), initially proposed by Lee et al. \cite{Lee1}, is a technique for proving the termination of recursive functions. SCT leverages Fermat's principle of infinite descent: to prove a proposition $P$, assume its negation and derive a contradiction by constructing an infinite descending chain within a well-ordered set. In the context of recursive functions, if the function's variables are interpreted within a well-ordered domain, non-termination can be assumed, and a contradiction derived by demonstrating an impossible infinite descending sequence of variable values. These sequences are formed by analyzing the relationships between variables across recursive calls. Each relationship is abstracted as a \textit{size-change graph}, which represents variable transformations during program execution. To make this concept precise, we begin by presenting some preliminary definitions, following the exposition in \cite{Lee1, Mirai}.
+\emph{Size-change termination} (SCT), initially proposed by Lee et al. \cite{Lee1}, is a technique for proving the termination of recursive functions. SCT leverages Fermat's principle of infinite descent: to prove a proposition $P$, assume its negation and derive a contradiction by constructing an infinite descending chain within a well-ordered set. In the context of recursive functions, if the function's variables are interpreted within a well-ordered domain, non-termination can be assumed, and a contradiction derived by demonstrating an impossible infinite descending sequence of variable values. These sequences are formed by analyzing the relationships between variables across recursive calls. Each relationship is abstracted as a \emph{size-change graph}, which represents variable transformations during program execution. To make this concept precise, we begin by presenting some preliminary definitions, based on the work in \cite{Lee1, Mirai}.
 
 \begin{definition}
-    \textbf{(Function names and parameters, \cite{Lee1, Mirai}):}
-    For a program $P$, let $F$ be a finite set of \textit{function names} that appear in $P$, such that for each $f \in F$, we have $n$ distinct symbols $x_1^f,...,x_n^f$ named the \textit{parameters} of $f$, where the \textit{arity} of $f$ is defined as $arity(f) = n$. We define $Par(f) = \{x_1^f,...,x_n^f \}$ as the set of parameters of $f$.
+    \textbf{(Function names and parameters):}
+    For a program $P$, let $F$ be a finite set of \emph{function names} that appear in $P$, such that for each $f \in F$, we have $n$ distinct symbols $x_1^f,...,x_n^f$ named the \emph{parameters} of $f$, where the \emph{arity} of $f$ is defined as $arity(f) = n$. We define $Par(f) = \{x_1^f,...,x_n^f \}$ as the set of parameters of $f$.
 \end{definition}
 
 \begin{definition}
-    \textbf{(Size-change graphs, \cite{Lee1, Mirai}):} Let $P$ be a program and $F$ the set of function names, and $f,g \in F$. A size-change graph from $f$ to $g$, written $G: f \rightarrow g$, is a bipartite graph defined as $G = (Par(f), Par(g), E)$, where $E \subseteq Par(f) \times \{ \downarrow, \downmapsto \} \times Par(g) $ and $E$ does not contain both $x_i^f \xrightarrow{\downarrow} x_j^g$ and $x_i^f \xrightarrow{\downmapsto} x_j^g$.  
+    \textbf{(Size-change graphs):} Let $P$ be a program and $F$ the set of function names, and $f,g \in F$. A size-change graph from $f$ to $g$, written $G: f \rightarrow g$, is a bipartite graph defined as $G = (Par(f), Par(g), E)$, where $E \subseteq Par(f) \times \{ \downarrow, \downmapsto \} \times Par(g) $ and $E$ does not contain both $x_i^f \xrightarrow{\downarrow} x_j^g$ and $x_i^f \xrightarrow{\downmapsto} x_j^g$.  
 \end{definition}
 
-The edges $x_i^f \xrightarrow{\gamma} x_j^g$ represent the relationship between the values of the variables initially passed to the function, and the values passed in each recursive call. When $\gamma = \ \downarrow$, we call it a \textit{progressing} edge and it specifies that the value of $x_i^f$ is strictly less than the value of $x_j^g$. When $\gamma = \downmapsto$, we call it a \textit{weakly-progressing} edge, and it specifies that the value of $x_i^f$ is less than or equal to the value of $x_j^g$. To illustrate this concept, consider the following example of the Ackermann function, taken from \cite{Lee2}: 
+The edges $x_i^f \xrightarrow{\gamma} x_j^g$ represent the relationship between the values of the variables initially passed to the function, and the values passed in each recursive call. When $\gamma = \ \downarrow$, we call it a \emph{progressing} edge and it specifies that the value of $x_i^f$ is strictly less than the value of $x_j^g$. When $\gamma = \downmapsto$, we call it a \emph{weakly-progressing} edge, and it specifies that the value of $x_i^f$ is less than or equal to the value of $x_j^g$. To illustrate this concept, consider the following example of the Ackermann function, taken from \cite{Lee2}: 
 
 \begin{example}
 \label{ExampleSCT1}
@@ -92,20 +92,20 @@ ack(m,n) = if m=0 then n+1 else
 \end{figure}
 \end{example}
 
-The termination behavior of a program $P$ can be inferred by examining the size-change graphs it induces. In particular, we study how these graphs compose to form \textit{multipaths}, as they reveals whether infinite descending chains (indicatives of termination) can occur.
+The termination behavior of a program $P$ can be inferred by examining the size-change graphs it induces. In particular, we study how these graphs compose to form \emph{multipaths}, as they reveals whether infinite descending chains (indicatives of termination) can occur.
 
 \begin{definition}
-    \textbf{(Composable graphs, \cite{Lee1, Mirai}):} Let $f,g,g',h, \in F$, with $G_1 = (Par(f), Par(g), E)$ and $G_2 = (Par(g'), Par(h), E')$ two size-change graphs. We say that $G_1$ and $G_2$ are \textit{composable}, if $g = g'$. We write $G_1G_2 = (Par(f)\cup Par(g) \cup Par(h), E \cup E')$ for the directed graph obtained by the union of $G_1$ and $G_2$.
+    \textbf{(Composable graphs):} Let $f,g,g',h, \in F$, with $G_1 = (Par(f), Par(g), E)$ and $G_2 = (Par(g'), Par(h), E')$ two size-change graphs. We say that $G_1$ and $G_2$ are \emph{composable}, if $g = g'$. We write $G_1G_2 = (Par(f)\cup Par(g) \cup Par(h), E \cup E')$ for the directed graph obtained by the union of $G_1$ and $G_2$.
 \end{definition}
 
 \begin{definition}
-    \textbf{(Multipaths, threads and infinite descent\cite{Lee1, Mirai})} Let $\mathbb{G}$ be a set of size-change graphs: 
+    \textbf{(Multipaths, threads and infinite descent):} Let $\mathbb{G}$ be a set of size-change graphs: 
     \begin{enumerate}
-        \item A \textit{$\mathbb{G}$-multipath} is a finite or infinite sequence $\mathcal{M} = G_1G_2...$ of size-change graphs in $\mathbb{G}$, such that for every $i$, $G_i$ and $G_{i+1}$ are composable. $\mathcal{M}$ can be viewed as a (possibly infinite) directed graph.
+        \item A \emph{$\mathbb{G}$-multipath} is a finite or infinite sequence $\mathcal{M} = G_1G_2...$ of size-change graphs in $\mathbb{G}$, such that for every $i$, $G_i$ and $G_{i+1}$ are composable. $\mathcal{M}$ can be viewed as a (possibly infinite) directed graph.
         
-        \item A \textit{thread} in $\mathcal{M}$ is a (possibly infinite) directed path in $\mathcal{M}$. 
+        \item A \emph{thread} in $\mathcal{M}$ is a (possibly infinite) directed path in $\mathcal{M}$. 
         
-        \item We say that a thread is \textit{progressing} if it contains a progressing edge. Moreover, a thread is \textit{infinitely progressing} if it contains infinitely many progressing edges
+        \item We say that a thread is \emph{progressing} if it contains a progressing edge. Moreover, a thread is \emph{infinitely progressing} if it contains infinitely many progressing edges
         
         \item A multipath $\mathcal{M}$ has infinite descent if some thread thread in $\mathcal{M}$ is infinitely descending.
     \end{enumerate}  
@@ -211,18 +211,453 @@ Suppose there is a hypothetical infinite execution starting from an initial call
 The underlying idea of SCT is that, by appealing to the principle of infinite descent, we can prove that a program $P$ terminates if every possible infinite execution would necessarily result in an infinite descending chain of variable values within a well-ordered domain. In other words, given a program $P$ and its associated set of size-change graphs $\mathbb{G}$, we observe that every infinite sequence of recursive calls $c$ in $P$, induces a corresponding multipath $\mathcal{M}$. If every such multipath exhibits infinite descent, then $P$ cannot have an infinite execution and must terminate. This observation leads to the formal definition of size-change termination condition:
 
 \begin{definition}
-    \textbf{(Size-change termination, \cite{Lee1, Mirai}):} Let $\mathbb{G}$ be a set of size-change graphs. We say that $\mathbb{G}$ satisfies the size-change termination (SCT) condition if every infinite $\mathbb{G}$-multipath has infinite descent.
+    \textbf{(Size-change termination):} Let $\mathbb{G}$ be a set of size-change graphs. We say that $\mathbb{G}$ satisfies the size-change termination (SCT) condition if every infinite $\mathbb{G}$-multipath has infinite descent.
 \end{definition}
 
 
 
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
 
-\section{Circular proof systems and the global trace condition}
 
-The \textit{global trace condition} (GTC) is a criterion used to verify the validity of proofs in \textit{circular} and \textit{infinite proof systems}. In circular systems, proofs are represented as finite graphs with cycles, while in infinite systems, proofs take the form of infinite trees. Although the GTC admits different interpretations depending on the underlying proof system, a general abstraction can be formulated. In this work, we adopt a system-independent notion of the GTC, as presented by Brotherston \cite{brotherston} and further developed with a categorical framework by Afshari and Wehr \cite{Afshari_Wehr_2024}. In the case of latter, we consider the $\mathbb{B}$-activated trace category $\mathcal{T}_{\mathbb{B}}$, where $\mathbb{B} = \{\top, \bot\}$ is the binary boolean algebra. Although their framework provides a more general setting for describing trace conditions in circular proof systems, we will primarily rely on Brotherston's formulation to introduce the key concepts, for the sake of simplicity. Throughout this section, we focus exclusively on circular proof systems and do not consider infinite proof systems.
 
-\subsection{Arbitrary circular proof systems}
-An arbitrary \textit{circular proof system} $\text{CS}^{\omega}$ is given by a set of well-formed sequents $Seqs$, and a set of rules $Rules$, where each rule $R \in Rules$ is defined as:
+\section{Cyclic proof systems and the global trace condition}
+
+The \emph{global trace condition} (GTC) is a general criterion for verifying the correctness of proofs in \emph{cyclic proof systems}, where proofs are represented as finite graphs with cycles. Such systems naturally arise when inductive reasoning is expressed in a coinductive manner, resulting in infinite proof trees rather than well-founded ones. A prominent example is the system based on first-order intuitionistic logic with inductive definitions, denoted by $\text{LJID}$. In $\text{LJID}$, proofs are traditionally constructed as finite trees using the principle of induction. This system can be reformulated as an infinitary proof system, $\text{LJID}^{\omega}$, which replaces induction with the principle of infinite descent and represents proofs as infinite trees. To witness this infinite descent and ensure the soundness of $\text{LJID}^{\omega}$ proofs, the GTC must hold. In certain cases, these infinite trees contain only finitely many distinct subtrees, allowing them to be finitely represented as trees with back-edges. i.e. finite graphs with cycles. This gives rise to cyclic proofs in the system $\text{CLJID}^{\omega}$. In this section, we focus on such cyclic proofs and formalize the GTC condition for this system. The definitions given below are based on \cite{Brotherston1,Brotherston2,BrotherstonSimpson,Berardi,Mirai}.
+
+\subsection{Cyclic proofs for first order intuitionistic logic with inductive definitions}
+
+Since $\text{CLJID}^{\omega}$ is a first order logic, we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Predicate symbols are divided between finitely many \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and denumerable many \emph{ordinary predicates}, defined as usual predicates. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. Since our work is only concerned on the syntactic aspects of this logic, we will skip notion of interpretation between $\Sigma$-structures and formulas. The curious reader can refer to \cite{Brotherston1} for more information on this matter. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
+
+\begin{definition}
+    \label{defIndSet}
+    \textbf{(Inductive definition set):} An inductive definition set $\Phi$ is a finite set of \emph{productions} of the form:
+
+    \begin{figure}[H]
+        \centering
+        \begin{prooftree}
+            \hypo{Q_1\mathbf{u_1} \ldots Q_h\mathbf{u_h}}
+            \hypo{P_1\mathbf{t_1} \ldots P_m\mathbf{t_m}}
+            \infer2[]{P\mathbf{t}}
+        \end{prooftree}
+    \end{figure}
+
+    Where $Q_1, \ldots, Q_h$ are ordinary predicates symbols, $P_1, \ldots, P_m$ are inductive predicate symbols, and $\mathbf{u_1}, \ldots, \mathbf{u_h}$, $\mathbf{t_1}, \ldots, \mathbf{t_m}$, $\mathbf{u_1}, \ldots, \mathbf{t}$ are tuples of terms.
+\end{definition}
+
+
+\begin{example}
+    We define the inductive definition set $\Phi_{NPQ}$, taken from \cite{Brotherston1}, using the following productions rules:
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{0.10\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{}
+            \infer1[]{N0}
+        \end{prooftree}
+    \end{minipage}
+    \begin{minipage}{0.10\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{Nx}
+            \infer1[]{Nsx}
+        \end{prooftree}
+    \end{minipage}
+    \begin{minipage}{0.10\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{}
+            \infer1[]{P0}
+        \end{prooftree}
+    \end{minipage}
+    \begin{minipage}{0.15\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{Px}
+            \hypo{Q(x,sx)}
+            \infer2[]{Psx}
+        \end{prooftree}
+    \end{minipage}
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{}
+            \infer1[]{Q(x,0)}
+        \end{prooftree}
+    \end{minipage}
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{Q(x,y)}
+            \hypo{Px}
+            \infer2[]{Q(x,sy)}
+        \end{prooftree}
+    \end{minipage}
+\end{figure}
+
+Where $0$ is a constant representing the number zero and $s$ is a unary function representing the successor function. The predicate $N$ is used to inductively represent the natural numbers, while $P$ and $Q$ are \emph{mutually defined} inductive predicates.
+\end{example}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale = 0.5]{example-image}
+    \caption{Rules of $\text{LJ}_{=}$.}
+    \label{LJrules}
+\end{figure}
+
+We define the \emph{proof system} for $\text{CLJID}^{\omega}$ as the extension of $\text{LJ}_{=}$, whose rules are given in Figure~\ref{LJrules}, with additional rules used to handle inductive predicates on the right and left of the sequent. These rules for inductive predicates are defined as follows:
+
+\begin{itemize}
+    \item Let $P$ be an inductive predicate, and let $\{\Phi_1, \ldots, \Phi_n\}$be the set of productions in an inductive definition set $\Phi$ whose conclusion is $P$. For each production $\Phi_i$, as defined in Definition \ref{defIndSet}), the system $\text{CLJID}^{\omega}$ includes a corresponding right introduction rule, denoted $P\text{R}_i$:
+
+    \begin{figure}[H]
+        \centering
+        \begin{prooftree}
+            \hypo{\Gamma \vdash Q_1\mathbf{u_1} \ldots \Gamma \vdash Q_h\mathbf{u_h}}
+            \hypo{\Gamma \vdash P_1\mathbf{t_1} \ldots \Gamma \vdash P_m\mathbf{t_m}}
+            \infer2[($P\text{R}_i$)]{\Gamma \vdash P\mathbf{t}}
+        \end{prooftree}
+    \end{figure}
+
+
+    \item For each inductive predicate $P$ there is a left introduction rule, denoted \emph{case split rule}:
+
+    \begin{figure}[H]
+        \centering
+        \begin{prooftree}
+            \hypo{\text{case distinctions}}
+            \infer1[(Case $P$)]{\Gamma, P\mathbf{u} \vdash \phi}
+        \end{prooftree}
+    \end{figure}
+
+    Where for each production having conclusion $P$, as in Definition \ref{defIndSet}, there is a corresponding case distinction of the form $\Gamma, \mathbf{u} = \mathbf{t}, Q_1\mathbf{u_1}, \ldots , Q_h\mathbf{u_h}, P_1\mathbf{t_1}, \ldots, P_m\mathbf{t_m} \vdash \phi$ subject to the restriction that any free variable in $\mathbf{u_1},...,\mathbf{u_h},\mathbf{t_1},...,\mathbf{t_m}$, or $\mathbf{t}$, does not occur in $\Gamma, \phi$ and $\mathbf{u}$.
+\end{itemize} 
+
+
+
+\begin{example}
+For the previously defined inductive predicates $N$, $P$ and $Q$, we can associate the following rules based on the previous definitions:    
+
+\begin{figure}[h]
+    \centering
+\begin{minipage}{0.45\textwidth}
+\centering
+\begin{prooftree}
+    \centering
+    \hypo{}
+    \infer1[($P\text{R}_1$)]{\Gamma \vdash P0, \phi}
+\end{prooftree}    
+\end{minipage}
+\hfill
+\begin{minipage}{0.5\textwidth}
+    \centering
+    \begin{prooftree}
+    \hypo{\Gamma \vdash Px, \phi}
+    \hypo{\Gamma \vdash Q(x,sx), \phi}
+    \infer2[($P\text{R}_2$)]{\Gamma \vdash Psx, \phi}
+\end{prooftree}
+\end{minipage}
+
+\vspace{0.3cm}
+
+\begin{minipage}{.45\textwidth}
+    \centering
+    \begin{prooftree}
+    \hypo{}
+    \infer1[($Q\text{R}_1$)]{\Gamma \vdash Q(x,0), \phi}
+    \end{prooftree}
+\end{minipage}
+\hfill
+\begin{minipage}{0.5\textwidth}
+    \centering
+    \begin{prooftree}
+    \hypo{\Gamma \vdash Q(x,y), \phi}
+    \hypo{\Gamma \vdash Px, \phi}
+    \infer2[($Q\text{R}_2$)]{\Gamma \vdash Q(x,sy), \phi}
+\end{prooftree}
+\end{minipage}
+
+\begin{center}
+\begin{prooftree}
+    \hypo{\Gamma, x = 0 \vdash \phi}
+    \hypo{\Gamma, x = sz, Nz \vdash \phi}
+    \infer2[(Case $N$)]{\Gamma, Nx \vdash \phi}
+\end{prooftree}    
+\end{center}
+
+\caption{Rules in $\text{CLJID}^{\omega}$, for the unary predicates $N, P$ and the binary predicate $Q$}
+\label{indRules}
+\end{figure}
+
+\end{example}
+
+To formally represent the graph structure of a derivation in $\text{CLJID}^{\omega}$, we define the notions of a \emph{derivation graph} and a $\text{CLJID}^{\omega}$ \emph{pre-proof}.
+
+\begin{definition}
+    \textbf{(Derivation graph):} A $\text{CLJID}^{\omega}$ derivation graph, is a tuple $\mathcal{D} = (V, s, r, p)$ where: $V$ is a set of vertices, $s: V \rightarrow Seqs$ is total function that labels vertices with sequents in $\text{CLJID}^{\omega}$, $r: V \rightarrow Rules$ is partial function that labels vertices with inference rules in $\text{CLJID}^{\omega}$, $p: \mathbb{N} \times V \rightarrow V$ is a partial function that maps a number $n$ and a vertex $v$, with a vertex $v'$, such that $v'$ is labeled by the $n^{\text{th}}$ premise of the rule $r(v)$ over the sequent $s(v)$, and for every $v \in V$, the following inference is an instance of the rule $r(v)$ in $S$, with $m$ premises:
+    
+    \begin{figure}[H]
+        \centering
+        \begin{prooftree}
+            \hypo{\{\vdash s(p(i,v))\}_{1 \leq i \leq m}}
+            \infer1[$(r(v))$]{\vdash s(v)}
+        \end{prooftree}
+    \end{figure}
+
+    A derivation graph $\mathcal{D}$ is called a \emph{derivation tree} if its directed graph is a tree. Moreover, $\mathcal{D}$ is \emph{finite} (resp. \emph{infinite}) if the cardinality of $V$ is finite (resp. infinite). We say that $S$ is the \emph{endsequent} of a derivation tree $\mathcal{D}$, if the root node of the tree is labeled by $S$. A vertex $B \in V$ such that $r(B)$ is undefined. The set of bud nodes of a derivation graph $\mathcal{D}$, is written as $Bud(\mathcal{D})$.
+\end{definition}
+
+
+\begin{definition}
+    \textbf{(cyclic pre-proof):} A $\text{CLJID}^{\omega}$ pre-proof of a sequent $\Gamma \vdash \phi$, is represented by a tuple $\mathcal{P} = (\mathcal{D}, \mathcal{R})$, where $\mathcal{D}$, is a $\text{CLJID}^{\omega}$ finite derivation tree with endsequent $\Gamma \vdash \phi$, and $\mathcal{R}: V \rightarrow V$ is a partial function, that maps each one of the bud nodes in $Bud(\mathcal{D})$ to an internal node in the derivation tree, called a \emph{companion}, satisfying that if $B \in Bud(\mathcal{D})$ and $\mathcal{R}(B) = C$, then $r(C)$ is defined and $s(B) = s(C)$. We define the set of bud nodes of $\mathcal{D}$, as $Com(\mathcal{D})$.
+\end{definition}
+
+
+The combination of both the derivation tree $\mathcal{D}$ and the map $\mathcal{R}$ of a pre-proof $\mathcal{P}$, form a graph that can contain cycles. We call this graph $\mathcal{G}_{\mathcal{P}}$, and it is formally defined as:
+
+\begin{definition}
+    \textbf{(Pre-proof graph):} Let $\mathcal{P} = (\mathcal{D} = (V, s, r, p), \mathcal{R})$ be a $\text{CLJID}^{\omega}$ pre-proof. The graph of $\mathcal{P}$, written as $\mathcal{G}_{\mathcal{P}}$, is defined as $\mathcal{G}_{\mathcal{P}} = (V', s, r, p')$ where:
+    \begin{itemize}
+        \item $V' = V \setminus Bud(\mathcal{D})$
+        \item $p'$ is defined as:
+        \begin{align*}
+            p'_j(v) \simeq 
+            \begin{cases} 
+                \mathcal{R}(p_j(v)) & \text{if $p_j(v) \in Bud(\mathcal{D})$} \\
+                p_j(v) & \text{otherwise}
+            \end{cases}
+        \end{align*}
+    for some $j \in \mathbb{N}$. We write $\simeq$ to say that $p'_j(v)$ is defined iff $\mathcal{R}(p_j(v))$ or $p_j(v)$ are defined, depending on the case. 
+    \end{itemize}
+    A pre-proof graph $\mathcal{G}_{\mathcal{P}}$ can be seen as a directed graph $(V', E)$ where the set of edges is defined as $E = \{(v, p'_j(v)) \ | \ v \in V \ \text{and $p'_j(v)$ is defined} \}$. A \emph{path} in $\mathcal{G}_{\mathcal{P}}$ is a finite or infinite sequence of vertices $v_0j_0v_1j_1v_2j_2...$ such that for all $i \geq 0$, $v_i \in V$, $j_i \in \mathbb{N}$ and $v_{i+1} = p'_{j_i}(v_{i})$. Sometimes, we will also write only $v_0v_1v_2...$ to specify a path without the successor indexes.
+\end{definition}
+
+\begin{example}
+\label{exampleCircProof}
+Consider the following example of a cyclic pre-proof, taken from \cite{Brotherston1}:
+
+\begin{figure}[h]
+\centering
+\begin{adjustbox}{scale=0.75}
+\begin{prooftree}
+        \hypo{}
+        \infer1[($Q\text{R}_1$)]{Nx \vdash Q(x,0)}
+        \infer1[($=$L)]{Nx, y=0 \vdash Q(x,y)}
+
+        \hypo{Nx, Ny \vdash Q(x,y) \ (\dag_1)}
+        \infer1[(Subst)]{Nx, Nz \vdash Q(x,z)}
+        
+        \hypo{}
+        \infer1[$P\text{R}_1$]{\vdash P0}
+        \infer1[(=L)]{x = 0 \vdash Px}
+    
+        \hypo{Nx \vdash Px \  (*)}
+        \infer1[(Subst)]{Nz \vdash Pz}
+        
+        \hypo{Ny, Nx \vdash Q(x,y) \ (\dag_2)}
+        \infer1[(Subst)]{Nsz, Nz \vdash Q(z, sz)}
+        \infer[double]2[($P\text{R}_2$)]{Nsz, Nz \vdash Psz}
+        \infer1[($=$L)]{Nx, x = sz, Nz \vdash Px}
+        \infer[double]2[(Case $N$)]{Nx, Nx \vdash Px}
+        \infer1[(Contr L)]{Nx \vdash Px \ (*)}
+        \infer[double]2[($Q\text{R}_2$)]{Nx, Nz \vdash Q(x,sz)}
+        \infer1[($=$L)]{Nx, y = sz, Nz \vdash Q(x,y)}   
+        \infer2[(Case $N$)]{Nx, Ny \vdash Q(x,y) \ (\dag)}
+\end{prooftree}
+\end{adjustbox}
+\caption{Example of a cyclic proof in $\text{CLJID}^{\omega}$ of the sequent $Nx, Ny \vdash Q(x,y)$. The double horizontal lines in some of the rules represent a hidden weakening rule.}
+\label{circPreProof}
+\end{figure}
+\end{example}
+
+Figure \ref{circPreProof}  uses the rules defined in Figure \ref{indRules} for the inductive predicates $P$, $Q$, and $N$, along with standard rules for $\text{LJ}_=$ defined in Figure \ref{LJrules}. The derivation graph corresponds to the tree structure shown in Figure \ref{circPreProof}, where the bud nodes are the leaves that have no rule associated with them, e.g. the leaves labeled with the sequent $Nx, Ny \vdash Q(x,y)$. The function $\mathcal{R}$ is represented by labeling each bud and its corresponding companion node with the same symbol, for example, the buds labeled $(\dag_1)$ and $(\dag_2)$ map to the companion labeled $(\dag)$, and similarly for the vertices labeled with $(*)$. The graph $\mathcal{G}_{\mathcal{P}}$ is then obtained by adding the edges induced by $\mathcal{R}$ and deleting the bud nodes from Figure \ref{circPreProof}.
+
+\subsection{The global trace condition}
+As previously discussed, the Global Trace Condition (GTC) is used as a criterion to verify the soundness of cyclic pre-proofs. Intuitively, the condition states: ``A cyclic pre-proof satisfies the GTC, if and only if every infinite path in its induced graph, has a \emph{trace} that \emph{infinitely progresses}". In the following subsection, we formalize both the notions of trace, progress and GTC in the setting of the $\text{CLJID}^{\omega}$ proof system.
+
+
+\begin{definition}
+    \textbf{(Trace):} Let $\mathcal{P}$ be a $\text{CLJID}^{\omega}$ pre-proof and let $(v_i)$ be a path in $\mathcal{G}_{\mathcal{P}}$. A trace over $(v_i)$ is a sequence $(\uptau_i)$ such that, for all $i$:
+
+    \begin{itemize}
+          \item $\uptau_i = P_i\mathbf{t_i} \in \Gamma_i$, where $P_i$ as and inductive predicate and $s(v_i) = \Gamma_i \vdash \phi_i$.
+
+          \item If $r(v_i)$ is (Subst) then $\uptau_i = \uptau_{i+1}[\theta]$, where $\theta$ is the substitution associated with the rule instance.
+
+          \item If $r(v_i)$ is (=L2) with active formula $t = u$ then there exists a formula $F$ and variables $x$ and $y$ such that $\uptau_i = F[t / x, u/y]$ and $\uptau_{i+1} = F[u / x, t/y]$
+
+          \item If $r(v_i)$ is some case split rule (Case $P_k$) then either $\uptau_{i+1} = \uptau_i$, or $\uptau_i$ is the active formula of the rule instance and $\uptau_{i+1}$ is a case-descendant of $\uptau_i$. In the latter case, $i$ is said to be a \emph{progress point} of the trace.
+
+          \item If $r(v_i)$ is no (Subst),(=L) or a casesplit rule, the $\uptau_{i+1} = \uptau_i$
+    \end{itemize}  
+
+\end{definition}
+
+
+\begin{definition}
+    \textbf{(Global trace condition):} An $\text{CLJID}^{\omega}$ pre-proof $\mathcal{P}$ is said to be a $\text{CLJID}^{\omega}$ \emph{proof}, if for every infinite path in $\mathcal{G}_{\mathcal{P}}$, there is an infinitely progressing trace following some tail of the path.
+\end{definition}
+
+
+\begin{example}
+    Consider the cyclic pre-proof in Figure \ref{circPreProof}. The trace $\uptau = (Ny, Nz, Nz, Nz, Ny)^{\omega}$ is infinitely progressing, since it contains the progressing point $(Ny,Nz)$ given by the (Case N) rule. Moreover, this trace can be used to validate all the infinite paths contained in the cycle from $(\dag)$ to $(\dag_1)$. It is easy to see that this cyclic pre-proof is a proof, since every infinite path is supported by a infinitely progressing trace.
+\end{example}
+
+%----------------------------------------------------
+%----------------------------------------------------
+%----------------------------------------------------
+%----------------------------------------------------
+%----------------------------------------------------
+
+
+\section{Equivalence between GTC and SCT}
+It has long been part of the folklore that the GTC and the SCT principle are equivalent. However, to the best of the authors' knowledge, this equivalence has only been formally established in the work of Ikebuchi \cite{Mirai}, specifically for the $\text{CLJID}^{\omega}$ cyclic proof system. For this reason, the following section is entirely based on her result. The main objective of this section is to shed light on the formal correspondence between GTC and SCT. The general idea is as follows: given a cyclic pre-proof $\mathcal{P} = (\mathcal{D}, \mathcal{R})$ with a set of companion nodes $Com(\mathcal{D}) = \{C_1, \ldots, C_n\}$, we consider each companion node $C_i$ as a function, as in the size-change graphs case. For every $C_i$, if $s(C_i) = \Gamma_i \vdash \phi_i$, its arity is given by the size of $\Gamma_i$. With this in mind, we define the size-change graphs associated with a cyclic pre-proof and the corresponding equivalence between GTC and SCT.
+
+
+\begin{definition}
+    \textbf{(Size-change graphs of a cyclic pre-proof):} Let $\mathcal{P} = (\mathcal{D, \mathcal{R}})$ be a cyclic pre-proof in $\text{CLJID}^{\omega}$, with $Bud(\mathcal{D}) = \{B_1,...,B_n \}$ and $Com(\mathcal{D}) = \{C_1,...,C_m \}$. Now consider any $B_i \in Bud(\mathcal{D})$ and $C_j \in Com(\mathcal{D})$, such that $C_j$ is an ancestor of $B_i$, i.e. there is a path from $C_j$ to $B_i$ in $\mathcal{D}$. Moreover, let $s(C_j) = \Gamma_j \vdash \phi_j$ and $s(\mathcal{R}(B_i)) = \Gamma_i \vdash \phi_i$, where $\Gamma_j$ (resp. $\Gamma_i$) has inductive predicates $P_1\mathbf{t_1}, \ldots, P_n\mathbf{t_n}$ (resp. $Q_1\mathbf{s_1}, \ldots, Q_m\mathbf{s_m}$). Then, we define the size-change graph $G_{C_j, \mathcal{R}(B_i)} = (\Gamma_j, \Gamma_i, E)$, where $E$ is defined as:
+    
+    \begin{itemize}
+        \item $G_{C_j, \mathcal{R}(B_i)}$ has an arc $x^{C_j}_k \xrightarrow{\downarrow} x^{\mathcal{R}(B_i)}_l$ iff there is a progressing trace from $P_k\mathbf{t_k}$ in $\Gamma_j$, to $Q_l\mathbf{s_l}$ in $\Gamma_i$.
+        \item $G_{C_j, \mathcal{R}(B_i)}$ has an arc $x^{C_j}_k \xrightarrow{\downmapsto} x^{\mathcal{R}(B_i)}_l$ iff there is a non-progressing trace from $P_k\mathbf{t_k}$ in $\Gamma_j$, to $Q_l\mathbf{s_l}$ in $\Gamma_i$.    
+    \end{itemize}
+
+    We define $\mathbb{G}_{\mathcal{P}}$, as the set of all such size-change graphs in $\mathcal{P}$.
+\end{definition}
+
+\begin{proposition}
+    \label{PropEqualCond}
+    \textbf{(GTC and SCT equivalence):} For any $\text{CLJID}^{\omega}$ proof $\mathcal{P}$, $\mathbb{G}_{\mathcal{P}}$ satisfies the SCT condition. Conversly, for any $\text{CLJID}^{\omega}$ pre-proof $\mathcal{P}$, if $\mathbb{G}_{\mathcal{P}}$ satisfies the SCT condition, then $\mathcal{P}$ is a proof.
+\end{proposition}
+
+The proof of this proposition can be consulted in \cite{Mirai}. Although Ikebuchi's result is presented in the specific context of the $\text{CLJID}^{\omega}$ proof system, we believe that the underlying reasoning is sufficiently general to extend to arbitrary cyclic proof systems, as stated in Brotherson work \cite{Brotherston1} and further developed with a categorical framework by Afshari and Wehr \cite{Afshari_Wehr_2024}. In the case of latter, we consider the $\mathbb{B}$-activated trace category $\mathcal{T}_{\mathbb{B}}$, where $\mathbb{B} = \{\top, \bot\}$ is the binary boolean algebra.
+
+
+\begin{example}
+    \textcolor{red}{(Write some of the size change graphs obtained from the proof in Figure \ref{circPreProof})}
+\end{example}
+
+
+%----------------------------------------------------
+%----------------------------------------------------
+%----------------------------------------------------
+%----------------------------------------------------
+%----------------------------------------------------
+
+\section{Abstract SCT/GTC and the progress domain condition:}
+
+Given the equivalence between SCT and GTC established in Proposition \ref{PropEqualCond}, it becomes evident that both conditions share two key characteristics: (1) both can be formulated using size-change graphs, and (2) the composition of these graphs relies on an underlying structure. In the case of SCT, this structure arises from the control flow between function calls. For GTC, it is determined by the position of the companion nodes in the cyclic pre-proofs. Motivated by these commonalities, we now introduce a unified abstraction that captures both SCT and GTC within a single formal definition. 
+
+\subsection{Bi-colored relation transition graphs:}
+Building on observation (1), we begin by abstracting size-change graphs as \emph{bi-colored relations} over a finite set of variables.
+
+\begin{definition}
+    \textbf{(Bi-colored relations and pair composition):} Let $X = \{x_1, ..., x_n\}$ be a finite set of variables. A bi-colored relation over $X$, is a pair $(S,P)$ such that $S, P \subseteq X \times X$ where $S_i \cap P_i = \emptyset$. For two variables $x,y \in X$, If $xSy$ (resp. $xPy$) we say that $x$ \emph{weakly progresses} (resp. \emph{progresses}) to $y$ in $(S, P)$. Moreover, we define the composition of two pairs $(S,P)$ and $(S',P')$ as:
+    \begin{align*}
+    (S, P)(S', P') &= (S'' \setminus P'',\; P'')
+    \end{align*}
+    where $S''$ and $P''$ are defined as:
+    \begin{align*}
+    S'' = S \circ S  \quad P'' = (S \circ P') \cup (P \circ S') \cup (P \circ P')
+    \end{align*}
+\end{definition}
+
+To capture observation (2), we introduce a transition system whose edges are labeled by bi-colored relations, abstracting both the control flow between function calls in SCT and the proof structure in cyclic pre-proofs for GTC. This general notion provides a common foundation for the unified treatment of SCT and GTC.
+
+\begin{definition}
+    \textbf{(Bi-colored relation transition graph):} Let $\mathcal{B} = \{(S_1,P_1),...,(S_n,P_n) \}$ be a set of bi-colored relations. We define a \emph{bi-colored relation transition graph}, as a labeled transition system represented by the tuple $\mathcal{T} =(V, \mathcal{B}, E)$ where: $V$ is a finite non-empty set of vertices and $E \subseteq V \times \mathcal{B}\times V$ is a set of directed edges labeled by bi-colored relations in $\mathcal{B}$.   
+\end{definition}
+
+\begin{definition}
+    \textbf{(Composable)}
+\end{definition}
+
+\begin{example}
+    \textcolor{red}{[Include here an example (THE SAME AS FOR SECTION 4) of how the three defintions SCT <-> GTC <-> transition graph interact][Make basically a triangle where each corner is each representation and each edge is a biconditional <->]}
+\end{example}
+
+
+%BIBLIOGRAPHY:
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+\end{document}
+
+
+\begin{comment}
+\begin{definition}
+    \textbf{($\rho$-interpreted cyclic proof system):} Let $\text{CS}^{\omega}$ be a cyclic proof system interpreted by $\mathbb{I}$. We say that $\text{CS}^{\omega}$ is \emph{$\rho$-interpreted}, if all sequents $S$ in $\text{CS}^{\omega}$ have a set of variables, and for any interpretation $I$ in $\mathbb{I}$ such that $I \models S$, then $I$ contains an environment $\rho$ for the value of the variables in $S$. 
+\end{definition}
+\end{comment}
+
+\begin{comment}
+    With this in mind, we explain the general intuition behind the GTC and why it ensure the soundness of cyclic pre-proofs. Consider then any pre-proof $\mathcal{P}$ of a sequent $S$ in a cyclic proof system $\mathcal{\text{CS}^{\omega}}$ interpreted by a set of interpretations $\mathbb{I}$. Usually, to prove the soundness of well founded proof systems, i.e. proof systems where the derivation is represented by a finite tree, it is sufficient to prove the local soundness of every rule, and use induction to prove the soundness of all proofs. In the case of cyclic pre-proofs, even though we can apply the same method to prove the soundness of branches that end in axiom rules, for the braches that cycle back to internal nodes it is not possible since they are non-well founded. The principle that is used to verify the soundness of branches with cycles is Fermats principle of infinite descent: To prove a proposition $P$, we assume its negation $\neg P$ and form an infinite descending chain of values using $\neg P$ in a well-order, which is impossible and hence we conclude by contradiction $P$. 
+
+The way this principle is applied for cyclic proofs consists of assuming that the sequent $S$ is not valid
+\end{comment}
+
+\begin{comment}
+    \subsection{Arbitrary finite proof systems}
+First we define the notion of an arbitrary \emph{finite proof system}. An arbitrary finite proof system $S$ is given by a set of well-formed sequents $Seqs$, and a set of rules $Rules$, where each rule $R \in Rules$ is defined as:
+\begin{figure}[H]
+    \centering
+    \begin{prooftree}
+        \hypo{\Gamma_1 \vdash \phi_1...\Gamma_n \vdash \phi_n}
+        \infer1[$(R)$]{S}
+    \end{prooftree}
+\end{figure}
+where $n \in \mathbb{N}$ and each $\Gamma_i \vdash \phi_i$ and $S$ belong to $Seqs$. To formally represent the graph structure of a derivation in $S$, we define a \emph{derivation graph}. An $S$ derivation graph, is a tuple $\mathcal{D} = (V, s, r, p)$, where $V$ is a set of vertices, $s: V \rightarrow Seqs$ is total function that labels vertices with sequents in $S$, $r: V \rightarrow Rules$ is partial function that labels vertices with inference rules in $S$, and $p: \mathbb{N} \times V \rightarrow V$ is a partial function that maps a number $n$ and a vertex $v$, with a vertex $v'$, such that $v'$ is labeled by the $n$th premise rule $r(v)$ over the sequent $s(v)$. The idea then is that for every $v \in V$, the following inference is an instance of the rule $r(v)$ in $S$, with $m$ premises:
+
+\begin{figure}[H]
+    \centering
+    \begin{prooftree}
+        \hypo{\{\vdash s(p(i,v))\}_{1 \leq i \leq m}}
+        \infer1[$(r(v))$]{\vdash s(v)}
+    \end{prooftree}
+\end{figure}
+
+Moreover, a derivation graph $\mathcal{D}$ is called a \emph{derivation tree} if its directed graph is a tree. We say that $S$ is the \emph{endsequent} or \emph{conclusion} of a derivation tree $\mathcal{D}$, if the root node of the tree is labeled by $S$. Since $r$ is partial function, a \emph{bud} node of $\mathcal{D}$ is a vertex $B \in V$ such that $r(B)$ is undefined. The set of bud nodes of a derivation graph $\mathcal{D}$, is written as $Bud(\mathcal{D})$. We then say that a \emph{finite proof} in $S$ of a sequent $S$, is a \emph{finite derivation tree} (i.e. a derivation tree with finite vertices) where the endsequent is $S$ and $Bud(\mathcal{D}) = \emptyset$.
+\end{comment}
+
+
+
+
+\begin{comment}
+In the case of a finite proof system $S$, proving its soundness comes down to proving that every rule in $S$ is locally sound and then use induction over the inductive structure of the derivation trees to prove the soundness of all proofs. However, in the case of a cyclic proof system $\text{CS}^{\omega}$ this is not the same case. The main issue is that pre-proofs in $\text{CS}^{\omega}$ are not always trees, since their structure allow to form cycles. For this reason, the inductive reasoning used to proof soundness in finite proof systems can only be used in branches of the pre-proof that end in axiomatic leaves, i.e. leaves that end with an axiom rule, but branches that end with bud nodes can not be validated in this way, since they are non-well founded. Therefore, the soundness of the non-well founded branches of pre-proofs in $\text{CS}^{\omega}$, depend on a special criteria known as the global trace condition. The main intuition behind the global trace condition, used to prove the validity of pre-proofs lies on the following key points:
+\begin{enumerate}
+    \item First, we assume that the domain of interpretation of our interpretations $I$, is well-ordered.
+    \item We use Fermat's principle of infinite descent, to prove that all infinite paths  
+\end{enumerate}
+
+
+Note that we call $\mathcal{P}$ a pre-proof, since we have not ensured that it represents a sound argument. Of course, this notion of soundness is dependent of the interpretation and semantics of the proof system in question. For this reason, we will assume an abstract notion of interpretation. We then define $\mathbb{I}$ as a set of interpretations
+
+
+
+witand we have a semantic notion of satisfaction between interpretations. 
+
+
+In the case of a finite proof system $S$, we prove that the system is sound by proving the local soundness of the rules 
+
+given that a the soundness of the system has already been proven, we can always ensure that any derivation tree $\mathcal{D}$ in $S$ must be sound. However, this is not the case for cyclic proof systems $\text{CS}^{\omega}$
+
+
+To do this, we must first define the GTC for $\text{CS}^{\omega}$ pre-proofs. The GTC leverages Fermat's principle of infinite descent: constructing an infinite descending chain of elements within a well-ordered set entails a contradiction. In the context of cyclic proofs, we need to make sure that every infinite path that    
+\end{comment}
+
+
+
+\begin{comment}
+    \section{cyclic proof systems and the global trace condition}
+
+The \emph{global trace condition} (GTC) is a criterion used to verify the validity of proofs in \emph{cyclic} and \emph{infinite proof systems}. In cyclic systems, proofs are represented as finite graphs with cycles, while in infinite systems, proofs take the form of infinite trees. Although the GTC admits different interpretations depending on the underlying proof system, a general abstraction can be formulated. In this work, we adopt a system-independent notion of the GTC, as presented by Brotherston \cite{Brotherston1} and further developed with a categorical framework by Afshari and Wehr \cite{Afshari_Wehr_2024}. In the case of latter, we consider the $\mathbb{B}$-activated trace category $\mathcal{T}_{\mathbb{B}}$, where $\mathbb{B} = \{\top, \bot\}$ is the binary boolean algebra. Although their framework provides a more general setting for describing trace conditions in cyclic proof systems, we will primarily rely on Brotherston's formulation to introduce the key concepts, for the sake of simplicity. Throughout this section, we focus exclusively on cyclic proof systems and do not consider infinite proof systems.
+
+\subsection{Arbitrary cyclic proof systems}
+An arbitrary \emph{cyclic proof system} $\text{CS}^{\omega}$ is given by a set of well-formed sequents $Seqs$, and a set of rules $Rules$, where each rule $R \in Rules$ is defined as:
 \begin{figure}[H]
     \centering
     \begin{prooftree}
@@ -230,10 +665,10 @@ An arbitrary \textit{circular proof system} $\text{CS}^{\omega}$ is given by a s
         \infer1[$(R)$]{S}
     \end{prooftree}
 \end{figure}
-where $n \in \mathbb{N}$ and each $S_i$ and $S$ belong to $Seqs$. To formally represent the graph structure of a derivation in $\text{CS}^{\omega}$, we define the notions of a \textit{derivation graph} and a $\text{CS}^{\omega}$ \textit{pre-proof}.
+where $n \in \mathbb{N}$ and each $S_i$ and $S$ belong to $Seqs$. To formally represent the graph structure of a derivation in $\text{CS}^{\omega}$, we define the notions of a \emph{derivation graph} and a $\text{CS}^{\omega}$ \emph{pre-proof}.
 
 \begin{definition}
-    \textbf{(Derivation graph, \cite{brotherston}):} A $\text{CS}^{\omega}$ derivation graph, is a tuple $\mathcal{D} = (V, s, r, p)$ where:
+    \textbf{(Derivation graph, \cite{Brotherston1}):} A $\text{CS}^{\omega}$ derivation graph, is a tuple $\mathcal{D} = (V, s, r, p)$ where:
     \begin{itemize}
         \item $V$ is a set of vertices
         \item $s: V \rightarrow Seqs$ is total function that labels vertices with sequents in $\text{CS}^{\omega}$
@@ -249,18 +684,18 @@ where $n \in \mathbb{N}$ and each $S_i$ and $S$ belong to $Seqs$. To formally re
             \end{figure}
     \end{itemize}
 
-A derivation graph $\mathcal{D}$ is called a \textit{derivation tree} if its directed graph is a tree. Moreover, $\mathcal{D}$ is \textit{finite} (resp. \textit{infinite}) if the cardinality of $V$ is finite (resp. infinite). We say that $S$ is the \textit{endsequent} of a derivation tree $\mathcal{D}$, if the root node of the tree is labeled by $S$. A vertex $B \in V$ such that $r(B)$ is undefined. The set of bud nodes of a derivation graph $\mathcal{D}$, is written as $Bud(\mathcal{D})$.
+A derivation graph $\mathcal{D}$ is called a \emph{derivation tree} if its directed graph is a tree. Moreover, $\mathcal{D}$ is \emph{finite} (resp. \emph{infinite}) if the cardinality of $V$ is finite (resp. infinite). We say that $S$ is the \emph{endsequent} of a derivation tree $\mathcal{D}$, if the root node of the tree is labeled by $S$. A vertex $B \in V$ such that $r(B)$ is undefined. The set of bud nodes of a derivation graph $\mathcal{D}$, is written as $Bud(\mathcal{D})$.
 \end{definition}
 
 
 \begin{definition}
-    \textbf{(Circular pre-proof, \cite{brotherston}):} A $\text{CS}^{\omega}$ pre-proof of a sequent $S$, is represented by a tuple $\mathcal{P} = (\mathcal{D}, \mathcal{R})$, where $\mathcal{D}$, is a $\text{CS}^{\omega}$ finite derivation tree with endsequent $S$, and $\mathcal{R}: V \rightarrow V$ is a partial function, that maps each one of the bud nodes in $Bud(\mathcal{D})$ to an internal node in the derivation tree, called a \textit{companion}, satisfying that if $B \in Bud(\mathcal{D})$ and $\mathcal{R}(B) = C$, then $r(C)$ is defined and $s(B) = s(C)$. We define the set of bud nodes of $\mathcal{D}$, as $Com(\mathcal{D})$.
+    \textbf{(cyclic pre-proof, \cite{Brotherston1}):} A $\text{CS}^{\omega}$ pre-proof of a sequent $S$, is represented by a tuple $\mathcal{P} = (\mathcal{D}, \mathcal{R})$, where $\mathcal{D}$, is a $\text{CS}^{\omega}$ finite derivation tree with endsequent $S$, and $\mathcal{R}: V \rightarrow V$ is a partial function, that maps each one of the bud nodes in $Bud(\mathcal{D})$ to an internal node in the derivation tree, called a \emph{companion}, satisfying that if $B \in Bud(\mathcal{D})$ and $\mathcal{R}(B) = C$, then $r(C)$ is defined and $s(B) = s(C)$. We define the set of bud nodes of $\mathcal{D}$, as $Com(\mathcal{D})$.
 \end{definition}
 
 The combination of both the derivation tree $\mathcal{D}$ and the map $\mathcal{R}$ of a pre-proof $\mathcal{P}$, form a graph that can contain cycles. We call this graph $\mathcal{G}_{\mathcal{P}}$, and it is formally defined as:
 
 \begin{definition}
-    \textbf{(Pre-proof graph, \cite{brotherston}):} Let $\mathcal{P} = (\mathcal{D} = (V, s, r, p), \mathcal{R})$ be a $\text{CS}^{\omega}$ pre-proof. The graph of $\mathcal{P}$, written as $\mathcal{G}_{\mathcal{P}}$, is defined as $\mathcal{G}_{\mathcal{P}} = (V', s, r, p')$ where:
+    \textbf{(Pre-proof graph, \cite{Brotherston1}):} Let $\mathcal{P} = (\mathcal{D} = (V, s, r, p), \mathcal{R})$ be a $\text{CS}^{\omega}$ pre-proof. The graph of $\mathcal{P}$, written as $\mathcal{G}_{\mathcal{P}}$, is defined as $\mathcal{G}_{\mathcal{P}} = (V', s, r, p')$ where:
     \begin{itemize}
         \item $V' = V \setminus Bud(\mathcal{D})$
         \item $p'$ is defined as:
@@ -273,12 +708,12 @@ The combination of both the derivation tree $\mathcal{D}$ and the map $\mathcal{
         \end{align*}
     for some $j \in \mathbb{N}$. We write $\simeq$ to say that $p'_j(v)$ is defined iff $\mathcal{R}(p_j(v))$ or $p_j(v)$ are defined, depending on the case. 
     \end{itemize}
-    A pre-proof graph $\mathcal{G}_{\mathcal{P}}$ can be seen as a directed graph $(V', E)$ where the set of edges is defined as $E = \{(v, p'_j(v)) \ | \ v \in V \ \text{and $p'_j(v)$ is defined} \}$. A \textit{path} in $\mathcal{G}_{\mathcal{P}}$ is a finite or infinite sequence of vertices $v_0j_0v_1j_1v_2j_2...$ such that for all $i \geq 0$, $v_i \in V$, $j_i \in \mathbb{N}$ and $v_{i+1} = p'_{j_i}(v_{i})$. Sometimes, we will also write only $v_0v_1v_2...$ to specify a path without the succesor indexes.
+    A pre-proof graph $\mathcal{G}_{\mathcal{P}}$ can be seen as a directed graph $(V', E)$ where the set of edges is defined as $E = \{(v, p'_j(v)) \ | \ v \in V \ \text{and $p'_j(v)$ is defined} \}$. A \emph{path} in $\mathcal{G}_{\mathcal{P}}$ is a finite or infinite sequence of vertices $v_0j_0v_1j_1v_2j_2...$ such that for all $i \geq 0$, $v_i \in V$, $j_i \in \mathbb{N}$ and $v_{i+1} = p'_{j_i}(v_{i})$. Sometimes, we will also write only $v_0v_1v_2...$ to specify a path without the succesor indexes.
 \end{definition}
 
 \begin{example}
 \label{exampleCircProof}
-We will use an example of a circular pre-proof in the $\text{CLKID}^{\omega}$ proof system, taken from \cite{brotherston}, to illustrate the previous definitions. In this system, inductive predicates are allowed, and we assume that the domain of the variables is $\mathbb{N}$ (or any other standard model of arithmetic). Each natural number is represented inductively, either as $0$ or using the successor function $s$. The rules for the inductive predicates $N$, $P$, and $Q$ are defined in Figure \ref{indRules}. Here, $P$ and $Q$ are mutually dependent inductive predicates, while $N$ corresponds to the standard inductive definition of the natural numbers.
+We will use an example of a cyclic pre-proof in the $\text{CLJID}^{\omega}$ proof system, taken from \cite{Brotherston1}, to illustrate the previous definitions. In this system, inductive predicates are allowed, and we assume that the domain of the variables is $\mathbb{N}$ (or any other standard model of arithmetic). Each natural number is represented inductively, either as $0$ or using the successor function $s$. The rules for the inductive predicates $N$, $P$, and $Q$ are defined in Figure \ref{indRules}. Here, $P$ and $Q$ are mutually dependent inductive predicates, while $N$ corresponds to the standard inductive definition of the natural numbers.
 
 
 \begin{figure}[h]
@@ -288,16 +723,16 @@ We will use an example of a circular pre-proof in the $\text{CLKID}^{\omega}$ pr
 \begin{prooftree}
     \centering
     \hypo{}
-    \infer1[($P\text{R}_1$)]{\Gamma \vdash P0, \Delta}
+    \infer1[($P\text{R}_1$)]{\Gamma \vdash P0, \phi}
 \end{prooftree}    
 \end{minipage}
 \hfill
 \begin{minipage}{0.5\textwidth}
     \centering
     \begin{prooftree}
-    \hypo{\Gamma \vdash Px, \Delta}
-    \hypo{\Gamma \vdash Q(x,sx), \Delta}
-    \infer2[($P\text{R}_2$)]{\Gamma \vdash Psx, \Delta}
+    \hypo{\Gamma \vdash Px, \phi}
+    \hypo{\Gamma \vdash Q(x,sx), \phi}
+    \infer2[($P\text{R}_2$)]{\Gamma \vdash Psx, \phi}
 \end{prooftree}
 \end{minipage}
 
@@ -307,32 +742,32 @@ We will use an example of a circular pre-proof in the $\text{CLKID}^{\omega}$ pr
     \centering
     \begin{prooftree}
     \hypo{}
-    \infer1[($Q\text{R}_1$)]{\Gamma \vdash Q(x,0), \Delta}
+    \infer1[($Q\text{R}_1$)]{\Gamma \vdash Q(x,0), \phi}
     \end{prooftree}
 \end{minipage}
 \hfill
 \begin{minipage}{0.5\textwidth}
     \centering
     \begin{prooftree}
-    \hypo{\Gamma \vdash Q(x,y), \Delta}
-    \hypo{\Gamma \vdash Px, \Delta}
-    \infer2[($Q\text{R}_2$)]{\Gamma \vdash Q(x,sy), \Delta}
+    \hypo{\Gamma \vdash Q(x,y), \phi}
+    \hypo{\Gamma \vdash Px, \phi}
+    \infer2[($Q\text{R}_2$)]{\Gamma \vdash Q(x,sy), \phi}
 \end{prooftree}
 \end{minipage}
 
 \begin{center}
 \begin{prooftree}
-    \hypo{\Gamma, x = 0 \vdash \Delta}
-    \hypo{\Gamma, x = sz, Nz \vdash \Delta}
-    \infer2[(Case $N$)]{\Gamma, Nx \vdash \Delta}
+    \hypo{\Gamma, x = 0 \vdash \phi}
+    \hypo{\Gamma, x = sz, Nz \vdash \phi}
+    \infer2[(Case $N$)]{\Gamma, Nx \vdash \phi}
 \end{prooftree}    
 \end{center}
 
-\caption{Rules in $\text{CLKID}^{\omega}$, for the unary predicates $N, P$ and the binary predicate $Q$}
+\caption{Rules in $\text{CLJID}^{\omega}$, for the unary predicates $N, P$ and the binary predicate $Q$}
 \label{indRules}
 \end{figure}
 
-Figure \ref{circPreProof} presents an example of a circular pre-proof in the $\text{CLKID}^{\omega}$ proof system, which uses the rules defined for the inductive predicates $P$, $Q$, and $N$, along with standard structural rules such as contraction and weakening, as well as rules associated with first-order proof systems, such as equality substitution and variable renaming. The derivation graph corresponds to the tree structure shown in Figure \ref{circPreProof}, where the bud nodes are the leaves that have no rule associated with them, e.g. the leaves labeled with the sequent $Nx, Ny \vdash Q(x,y)$. The function $\mathcal{R}$ is represented by labeling each bud and its corresponding companion node with the same symbol, for example, the buds labeled $(\dag_1)$ and $(\dag_2)$ map to the companion labeled $(\dag)$, and similarly for the vertices labeled with $(*)$. The graph $\mathcal{G}_{\mathcal{P}}$ is then obtained by adding the edges induced by $\mathcal{R}$ and deleting the bud vertices from Figure \ref{circPreProof}.
+Figure \ref{circPreProof} presents an example of a cyclic pre-proof in the $\text{CLJID}^{\omega}$ proof system, which uses the rules defined for the inductive predicates $P$, $Q$, and $N$, along with standard structural rules such as contraction and weakening, as well as rules associated with first-order proof systems, such as equality substitution and variable renaming. The derivation graph corresponds to the tree structure shown in Figure \ref{circPreProof}, where the bud nodes are the leaves that have no rule associated with them, e.g. the leaves labeled with the sequent $Nx, Ny \vdash Q(x,y)$. The function $\mathcal{R}$ is represented by labeling each bud and its corresponding companion node with the same symbol, for example, the buds labeled $(\dag_1)$ and $(\dag_2)$ map to the companion labeled $(\dag)$, and similarly for the vertices labeled with $(*)$. The graph $\mathcal{G}_{\mathcal{P}}$ is then obtained by adding the edges induced by $\mathcal{R}$ and deleting the bud vertices from Figure \ref{circPreProof}.
 
 
 \begin{figure}[h]
@@ -365,22 +800,28 @@ Figure \ref{circPreProof} presents an example of a circular pre-proof in the $\t
 \end{prooftree}
 \end{adjustbox}
 
-\caption{Example of a circular proof in $\text{CLKID}^{\omega}$ of the sequent $Nx, Ny \vdash Q(x,y)$. The double horizontal lines in some of the rules represent a hidden weakening rule.}
+\caption{Example of a cyclic proof in $\text{CLJID}^{\omega}$ of the sequent $Nx, Ny \vdash Q(x,y)$. The double horizontal lines in some of the rules represent a hidden weakening rule.}
 \label{circPreProof}
 \end{figure}
 \end{example}
 
+\end{comment}
+
+
+
+\begin{comment}
+    
 
 \subsection{Generalized GTC}
 
-In most circular proof systems, the validity or soundness of circular pre-proofs is expressed via the global trace condition (GTC). This condition can be generally stated as follows: ``A $\text{CS}^{\omega}$ pre-proof $\mathcal{P}$ satisfies the global trace condition, in which case we call it a $\text{CS}^{\omega}$ proof, if and only if every infinite path in $\mathcal{G}_{\mathcal{P}}$ has a \textit{trace} that \textit{infinitely progresses}.'' However, both the notion of a ``trace'' and what it means to ``infinitely progressing'' are defined differently depending on the circular proof system under consideration. Moreover, the \textit{semantic interpretation} of the GTC, which provides the soundness criterion for each system, also varies based on the specific characteristics of the circular proof system. For these reasons, we will devote the remainder of this section to presenting a generalized version of these concepts.
+In most cyclic proof systems, the validity or soundness of cyclic pre-proofs is expressed via the global trace condition (GTC). This condition can be generally stated as follows: ``A $\text{CS}^{\omega}$ pre-proof $\mathcal{P}$ satisfies the global trace condition, in which case we call it a $\text{CS}^{\omega}$ proof, if and only if every infinite path in $\mathcal{G}_{\mathcal{P}}$ has a \emph{trace} that \emph{infinitely progresses}.'' However, both the notion of a ``trace'' and what it means to ``infinitely progressing'' are defined differently depending on the cyclic proof system under consideration. Moreover, the \emph{semantic interpretation} of the GTC, which provides the soundness criterion for each system, also varies based on the specific characteristics of the cyclic proof system. For these reasons, we will devote the remainder of this section to presenting a generalized version of these concepts.
 
-First, we introduce an abstract notion of semantics for a circular proof system. Given a circular proof system $\text{CS}^{\omega}$, we define $\mathbb{I}$ as a set of \textit{interpretations}, and write $I \models S$ to mean that the sequent $S$ is satisfied by the interpretation $I \in \mathbb{I}$. Moreover, a sequent $S$ is said to be \textit{valid} if it is satisfied by every interpretation $I \in \mathbb{I}$. The definition of each individual interpretation $I$ depends on the characteristics of the proof system. For example, a circular proof system involving predicates and first-order quantification, like $\text{CLKID}^{\omega}$ \cite{brotherston}, may be interpreted by a first-order structure $\mathcal{M}$ together with an environment $\rho$, whereas other systems such as the $\mu$-calculus \textcolor{red}{[CITATIONS]} use only an environment for the interpretation of the variables of a sequent over a particular domain. Therefore, to define the general notion of a trace, we introduce a \textit{trace function}:
+First, we introduce an abstract notion of semantics for a cyclic proof system. Given a cyclic proof system $\text{CS}^{\omega}$, we define $\mathbb{I}$ as a set of \emph{interpretations}, and write $I \models S$ to mean that the sequent $S$ is satisfied by the interpretation $I \in \mathbb{I}$. Moreover, a sequent $S$ is said to be \emph{valid} if it is satisfied by every interpretation $I \in \mathbb{I}$. The definition of each individual interpretation $I$ depends on the characteristics of the proof system. For example, a cyclic proof system involving predicates and first-order quantification, like $\text{CLJID}^{\omega}$ \cite{Brotherston1}, may be interpreted by a first-order structure $\mathcal{M}$ together with an environment $\rho$, whereas other systems such as the $\mu$-calculus \textcolor{red}{[CITATIONS]} use only an environment for the interpretation of the variables of a sequent over a particular domain. Therefore, to define the general notion of a trace, we introduce a \emph{trace function}:
 
 
 \begin{definition}
 \label{defTrace}
-    \textbf{(Trace function \& trace, \cite{brotherston}):} Let $\mathcal{T}$ be a set, $\text{CS}^{\omega}$ a circular proof system, and $TVal \subseteq \mathcal{T} \times Seqs$ a relation satisfying that for all $S \in Seqs$, there are finitely many $\uptau \in \mathcal{T}$ such that $TVal(\uptau, S)$, and we define $TVal_S = \{\uptau \ | \ TVal(\uptau, S) \}$. Moreover, let $TPair: (\mathcal{T} \times \mathcal{T}) \rightarrow (Seqs \times Rules \times Seqs) \rightarrow \{0,1,2\}$ be a computable function satisfying:
+    \textbf{(Trace function \& trace, \cite{Brotherston1}):} Let $\mathcal{T}$ be a set, $\text{CS}^{\omega}$ a cyclic proof system, and $TVal \subseteq \mathcal{T} \times Seqs$ a relation satisfying that for all $S \in Seqs$, there are finitely many $\uptau \in \mathcal{T}$ such that $TVal(\uptau, S)$, and we define $TVal_S = \{\uptau \ | \ TVal(\uptau, S) \}$. Moreover, let $TPair: (\mathcal{T} \times \mathcal{T}) \rightarrow (Seqs \times Rules \times Seqs) \rightarrow \{0,1,2\}$ be a computable function satisfying:
     \begin{align*}
         \forall \uptau, \uptau', s, r, s'. \neg TVal(\uptau, s) \lor \neg TVal(\uptau', s') \Rightarrow TPair(\uptau , \uptau')(s, r, s') = 0
     \end{align*}
@@ -391,172 +832,32 @@ First, we introduce an abstract notion of semantics for a circular proof system.
         & \text{and} \ TPair(\uptau, \uptau')(s(v), r(v), s(v')) = 1 \Rightarrow \sigma(\uptau', I') \leq \sigma(\uptau, I) \\
         & \text{and} \ TPair(\uptau, \uptau')(s(v), r(v), s(v')) = 2 \Rightarrow \sigma(\uptau', I') < \sigma(\uptau, I) \tag{1}
     \end{align*}
-$TVal$ is called a \textit{trace value relation} and $TPair$ is called a \textit{trace pair function} for the proof system, and $\sigma$ is the \textit{ordinal trace function} associated with $TPair$ and $TVal$. The pair $(\uptau, \uptau')$ is said to be a \textit{valid trace pair} on $(v,v')$ if $TPair(\uptau, \uptau')(s(v), r(v), s(v')) \neq 0$, a \textit{weakly-progressing trace pair} on $(v,v')$ if $TPair(\uptau, \uptau')(s(v), r(v), s(v')) = 1$, and a \textit{progressing trace pair} on $(v,v')$ if $TPair(\uptau, \uptau')(s(v), r(v), s(v')) = 2$. Moreover, a sequence $(\uptau_i)$ of elements in $\mathcal{T}$ is a \textit{trace} on a path $(v_i)$, if for all $i$, $(\uptau_i,\uptau_{i+1})$ is a valid trace pair on $(v_i, v_{i+1})$. A trace $(\uptau_i)$ is said to \textit{progress} at $j$ if $(\uptau_j, \uptau_{j+1})$ is a progressing trace pair, and is said to be \textit{infinitely progressing} if there are infinitely many points at which it progresses.
+$TVal$ is called a \emph{trace value relation} and $TPair$ is called a \emph{trace pair function} for the proof system, and $\sigma$ is the \emph{ordinal trace function} associated with $TPair$ and $TVal$. The pair $(\uptau, \uptau')$ is said to be a \emph{valid trace pair} on $(v,v')$ if $TPair(\uptau, \uptau')(s(v), r(v), s(v')) \neq 0$, a \emph{weakly-progressing trace pair} on $(v,v')$ if $TPair(\uptau, \uptau')(s(v), r(v), s(v')) = 1$, and a \emph{progressing trace pair} on $(v,v')$ if $TPair(\uptau, \uptau')(s(v), r(v), s(v')) = 2$. Moreover, a sequence $(\uptau_i)$ of elements in $\mathcal{T}$ is a \emph{trace} on a path $(v_i)$, if for all $i$, $(\uptau_i,\uptau_{i+1})$ is a valid trace pair on $(v_i, v_{i+1})$. A trace $(\uptau_i)$ is said to \emph{progress} at $j$ if $(\uptau_j, \uptau_{j+1})$ is a progressing trace pair, and is said to be \emph{infinitely progressing} if there are infinitely many points at which it progresses.
 \end{definition}
 
 \begin{example}
-To understand the intuition behind the previous definitions, we use the Example \ref{exampleCircProof}. In the case of the $\text{CLKID}^{\omega}$ circular proof system, as stated earlier, an interpretation $I$ for a sequent $\Gamma \vdash \Delta$ is given by the structure $\mathbb{N}$ together with an environment $\rho$ for the values of the variables, written as $\mathbb{N} \models_{\rho} \Gamma \vdash \Delta$. The relation $TVal$ associates inductive predicates $P(\vec{x})$ with sequents, meaning that if $P(\vec{x})$ is a formula occurring in the sequent $S$, then $TVal(P(\vec{x}), S)$ holds. The function $TPair$ describes how inductive predicates transform after the application of each rule in the proof system. For example, consider the first instance of the rule (Case $N$), with $v$ the root node, and $v_l$ and $v_r$ its left and right child nodes, respectively. Then, $TPair(Nx, Nx)(s(v), r(v), s(v_l)) = 1$, since the value of the variable $x$ remains unchanged after the application of the rule, and $TPair(Ny, Nz)(s(v), r(v), s(v_r)) = 2$, since the value of the variable $y$ is strictly decreased after the application of the rule.
+To understand the intuition behind the previous definitions, we use the Example \ref{exampleCircProof}. In the case of the $\text{CLJID}^{\omega}$ cyclic proof system, as stated earlier, an interpretation $I$ for a sequent $\Gamma \vdash \phi$ is given by the structure $\mathbb{N}$ together with an environment $\rho$ for the values of the variables, written as $\mathbb{N} \models_{\rho} \Gamma \vdash \phi$. The relation $TVal$ associates inductive predicates $P(\vec{x})$ with sequents, meaning that if $P(\vec{x})$ is a formula occurring in the sequent $S$, then $TVal(P(\vec{x}), S)$ holds. The function $TPair$ describes how inductive predicates transform after the application of each rule in the proof system. For example, consider the first instance of the rule (Case $N$), with $v$ the root node, and $v_l$ and $v_r$ its left and right child nodes, respectively. Then, $TPair(Nx, Nx)(s(v), r(v), s(v_l)) = 1$, since the value of the variable $x$ remains unchanged after the application of the rule, and $TPair(Ny, Nz)(s(v), r(v), s(v_r)) = 2$, since the value of the variable $y$ is strictly decreased after the application of the rule.
 
 The function $\sigma$ is defined as follows: given an interpretation $I = (\mathbb{N}, \rho)$ and the inductive predicate $Nx$, we have $\sigma(Nx, I) = \rho(x)$. In the case where the inductive predicate involves $n$ variables, we use the valuation $\rho(\vec{x}) = (\rho(x_1), \dots, \rho(x_n))$ and apply the lexicographical order. Then, the trace $\uptau = (Ny, Nz, Nz, Nz, Ny)^{\omega}$ is infinitely progressing, since the pair $TPair(Ny, Nz)(s(v), r(v), s(v_r))$ is progressing. Moreover, this trace can be used to validate all the infinite paths contained in the cycle from $(\dag)$ to $(\dag_1)$.  
 \end{example}
  
-Having defined the notion of a trace, we can now formally define the generalized version of the GTC. With this notion of the GTC, Brotherston proved that the generalized GTC implies the soundness of proofs in infinitary proof systems, by relying in the infinite descent method and the condition (1) of the Definition \ref{defTrace}. Moreover, his proof also implies the soundness of $\text{CS}^{\omega}$ proofs, since circular proofs can be viewed as a susbset of infinite proofs.
+Having defined the notion of a trace, we can now formally define the generalized version of the GTC. With this notion of the GTC, Brotherston proved that the generalized GTC implies the soundness of proofs in infinitary proof systems, by relying in the infinite descent method and the condition (1) of the Definition \ref{defTrace}. Moreover, his proof also implies the soundness of $\text{CS}^{\omega}$ proofs, since cyclic proofs can be viewed as a susbset of infinite proofs.
 
 \begin{definition}
-    \textbf{(Generalized global trace condition, \cite{brotherston}):} An $\text{CS}^{\omega}$ pre-proof $\mathcal{P}$ is said to be an $\text{CS}^{\omega}$ \textit{proof} if, for every infinte path in $\mathcal{G}_{\mathcal{P}}$ there is an infinitely progressing trace following some tail of the path.  
+    \textbf{(Generalized global trace condition, \cite{Brotherston1}):} An $\text{CS}^{\omega}$ pre-proof $\mathcal{P}$ is said to be an $\text{CS}^{\omega}$ \emph{proof} if, for every infinte path in $\mathcal{G}_{\mathcal{P}}$ there is an infinitely progressing trace following some tail of the path.  
 \end{definition}
 
 \begin{proposition}
     \label{PropGTC}
-    \textbf{(Soundness of generalized circular proofs, \cite{brotherston}):} If there is a $\text{CS}^{\omega}$ proof of the sequent $S$, then $S$ is valid.
+    \textbf{(Soundness of generalized cyclic proofs, \cite{Brotherston1}):} If there is a $\text{CS}^{\omega}$ proof of the sequent $S$, then $S$ is valid.
 \end{proposition}
 
 \begin{example}
-    We do not include the full proof of Proposition \ref{PropGTC}, as it can be found in the original work by Brotherston \cite{brotherston}. Instead, we provide an informal explanation using Example \ref{exampleCircProof}. The goal is to justify that in the circular proof shown in Figure   \ref{circPreProof}, the sequent $Nx, Ny \vdash Q(x,y)$ is valid, i.e. that for any environment $\rho$, $\mathbb{N} \models_{\rho} Nx, Ny \vdash Q(x,y)$. For those branches of the proof ending in axiomatic rules, validity can be established directly by induction on the rules themselves. However, this approach does not work for branches whose leaves are bud nodes, as these branches are not well-founded. In such cases, validity is established using the method of infinite descent. 
+    We do not include the full proof of Proposition \ref{PropGTC}, as it can be found in the original work by Brotherston \cite{Brotherston1}. Instead, we provide an informal explanation using Example \ref{exampleCircProof}. The goal is to justify that in the cyclic proof shown in Figure   \ref{circPreProof}, the sequent $Nx, Ny \vdash Q(x,y)$ is valid, i.e. that for any environment $\rho$, $\mathbb{N} \models_{\rho} Nx, Ny \vdash Q(x,y)$. For those branches of the proof ending in axiomatic rules, validity can be established directly by induction on the rules themselves. However, this approach does not work for branches whose leaves are bud nodes, as these branches are not well-founded. In such cases, validity is established using the method of infinite descent. 
     
-    Suppose, for contradiction, that there exists an environment $\rho$ such that $\mathbb{N} \nvDash_{\rho} Nx, Ny \vdash Q(x,y)$. Consider the branch corresponding to the bud node labeled $(\dag_1)$. Since we know this path has an infinitely progressing trace, namely $\uptau = (Ny, Nz, Nz, Nz, Ny)^{\omega}$, the interpretation of this trace under $\rho$ would yield an infinite descending chain of natural numbers. But this is impossible in $\mathbb{N}$, and thus our assumption must be false. Therefore, $\mathbb{N} \models_{\rho} Nx, Ny \vdash Q(x,y)$. Since each infinite path in $\mathcal{G}_{\mathcal{P}}$ represents a derivation, we must find an infinitely progressing trace for each one in order to establish the validity of the entire circular proof. It is easy to see, that for the pre-proof in Figure \ref{circPreProof}, every infinite path has a infinitely progressing trace, hence it is a $\text{CLKID}^{\omega}$ proof.
+    Suppose, for contradiction, that there exists an environment $\rho$ such that $\mathbb{N} \nvDash_{\rho} Nx, Ny \vdash Q(x,y)$. Consider the branch corresponding to the bud node labeled $(\dag_1)$. Since we know this path has an infinitely progressing trace, namely $\uptau = (Ny, Nz, Nz, Nz, Ny)^{\omega}$, the interpretation of this trace under $\rho$ would yield an infinite descending chain of natural numbers. But this is impossible in $\mathbb{N}$, and thus our assumption must be false. Therefore, $\mathbb{N} \models_{\rho} Nx, Ny \vdash Q(x,y)$. Since each infinite path in $\mathcal{G}_{\mathcal{P}}$ represents a derivation, we must find an infinitely progressing trace for each one in order to establish the validity of the entire cyclic proof. It is easy to see, that for the pre-proof in Figure \ref{circPreProof}, every infinite path has a infinitely progressing trace, hence it is a $\text{CLJID}^{\omega}$ proof.
 \end{example}
 
-\section{Equivalence between GTC and SCT}
-It has long been part of the folklore that the GTC and the SCT principle are equivalent. However, to the best of the authors' knowledge, this equivalence has only been formally established in the work of Ikebuchi \cite{Mirai}, specifically for the $\text{CLKID}^{\omega}$ circular proof system. For this reason, the following section is based on her results, with adaptations to the setting of the generalized GTC introduced earlier. The main objective of this section is to shed light on the formal correspondence between the generalized global trace condition and size-change termination. 
 
-The general idea is as follows: given a circular pre-proof $\mathcal{P} = (\mathcal{D}, \mathcal{R})$ with a set of companion nodes $Com(\mathcal{D}) = \{C_1, \ldots, C_n\}$, we associate each companion node $C_i$ with a function symbol in the size-change framework. The arity of this function is given by $|TVal_{s(C_i)}|$, that is, the number of values associated with the sequent $s(C_i)$. With this in mind, we are now ready to define the size-change graphs associated with a circular pre-proof.
-
-
-\begin{definition}
-    \textbf{(Size-change graphs of a circular pre-proof, \cite{Mirai}):} Let $\mathcal{P} = (\mathcal{D, \mathcal{R}})$ be a circular pre-proof in $\text{CS}^{\omega}$, with $Bud(\mathcal{D}) = \{B_1,...,B_n \}$ and $Com(\mathcal{D}) = \{C_1,...,C_m \}$. Now consider any $B_i \in Bud(\mathcal{D})$ and $C_j \in Com(\mathcal{D})$, such that $C_j$ is an ancestor of $B_i$, i.e. there is a path from $C_j$ to $B_i$ in $\mathcal{D}$. Then, we define the size-change graph $G_{C_j, \mathcal{R}(B_i)} = (TVal_{s(C_j)}, TVal_{s(\mathcal{R}(B_i))}, E)$, where $E$ is defined as:
     
-    \begin{itemize}
-        \item $G_{C_j, \mathcal{R}(B_i)}$ has an arc $\uptau^{C_j}_k \xrightarrow{\downarrow} \uptau^{\mathcal{R}(B_i)}_l$ iff there is a progressing trace from $\uptau_k \in TVal_{s(C_j)}$, to $\uptau_l \in TVal_{s(\mathcal{R}(B_i))}$.
-        \item $G_{C_j, \mathcal{R}(B_i)}$ has an arc $\uptau^{C_j}_k \xrightarrow{\downmapsto} \uptau^{\mathcal{R}(B_i)}_l$ iff there is a non-progressing trace from $\uptau_k \in TVal_{s(C_j)}$, to $\uptau_l \in TVal_{s(\mathcal{R}(B_i))}$.    
-    \end{itemize}
-
-    We define $\mathbb{G}_{\mathcal{P}}$, as the set of all such size-change graphs in $\mathcal{P}$.
-\end{definition}
-
-The equivalence between the GTC and the SCT principle was formally established by Ikebuchi~\cite{Mirai} for the $\text{CLKID}^{\omega}$ circular proof system. We now restate this result in a generalized setting, applying it to abstract circular proof systems.
-
-
-\begin{proposition}
-    \label{PropEqualCond}
-    \textbf{(GTC and SCT equivalence, \cite{Mirai}):} For any $\text{CS}^{\omega}$ proof $\mathcal{P}$, $\mathbb{G}_{\mathcal{P}}$ satisfies the SCT condition. Conversly, for any $\text{CS}^{\omega}$ pre-proof $\mathcal{P}$, if $\mathbb{G}_{\mathcal{P}}$ satisfies the SCT condition, then $\mathcal{P}$ is a proof.
-\end{proposition}
-
-This proposition can be proved using the original proof strategy given by Ikebuchi in \cite{Mirai}. While her result was presented in the specific context of $\text{CLKID}^{\omega}$, the underlying reasoning is sufficiently general to apply to arbitrary circular proof systems.
-
-\begin{example}
-    \textcolor{red}{(USE IKEBUCHI'S OR ANOTHER EXAMPLE, TO GIVE INTUITION BEHIND THE PROPOSITION)}
-\end{example}
-
-%----------------------------------------------------
-%----------------------------------------------------
-%----------------------------------------------------
-%----------------------------------------------------
-%----------------------------------------------------
-
-\section{Abstract SCT/GTC and the progress domain condition:}
-
-Given the equivalence between SCT and GTC established in Proposition \ref{PropEqualCond}, it becomes evident that both conditions share two key characteristics: (1) both can be formulated using size-change graphs, and (2) the composition of these graphs relies on an underlying structure. In the case of SCT, this structure arises from the control flow between function calls. For GTC, it is determined by the position of the companion nodes in the graph structure of circular pre-proofs. Motivated by these commonalities, we now introduce a unified abstraction that captures both SCT and GTC within a single formal definition. 
-
-\subsection{Bi-colored relation transition graphs:}
-Building on observation (1), we begin by abstracting size-change graphs as \emph{bi-colored relations} over a finite set of variables. which will allow for a uniform treatment of both SCT and GTC.
-
-\begin{definition}
-    \textbf{(Bi-colored relations and pair composition):} Let $X = \{x_1, ..., x_n\}$ be a finite set of variables. A bi-colored relation over $X$, is a pair $(S,P)$ such that $S, P \subseteq X \times X$ where $S_i \cap P_i = \emptyset$. For two variables $x,y \in X$, If $xSy$ (resp. $xPy$) we say that $x$ \textit{weakly progresses} (resp. \textit{progresses}) to $y$ in $(S, P)$. Moreover, we define the composition of two pairs $(S,P)$ and $(S',P')$ as:
-    \begin{align*}
-    (S, P)(S', P') &= (S'' \setminus P'',\; P'')
-    \end{align*}
-    where $S''$ and $P''$ are defined as:
-    \begin{align*}
-    S'' = S \circ S  \quad P'' = (S \circ P') \cup (P \circ S') \cup (P \circ P')
-    \end{align*}
-\end{definition}
-
-To capture observation (2), we introduce a transition system whose edges are labeled by bi-colored relations, abstracting both the control flow between function calls in SCT and the proof structure in circular pre-proofs for GTC. This general notion provides a common foundation for the unified treatment of SCT and GTC.
-
-\begin{definition}
-    \textbf{(Bi-colored relation transition graph):} Let $\mathcal{B} = \{(S_1,P_1),...,(S_n,P_n) \}$ be a set of bi-colored relations. We define a \textit{bi-colored relation transition graph}, as a labeled transition system represented by the tuple $\mathcal{T} =(V, \mathcal{B}, E)$ where: $V$ is a finite non-empty set of vertices and $E \subseteq V \times \mathcal{B}\times V$ is a set of directed edges labeled by bi-colored relations in $\mathcal{B}$.   
-\end{definition}
-
-\begin{definition}
-    \textbf{(Composable)}
-\end{definition}
-
-\begin{example}
-    \textcolor{red}{[Include here an example (THE SAME AS FOR SECTION 4) of how the three defintions SCT <-> GTC <-> transition graph interact][Make basically a triangle where each corner is each representation and each edge is a biconditional <->]}
-\end{example}
-
-
-
-\subsection{sdas}
-
-
-
-
-%BIBLIOGRAPHY:
-\bibliographystyle{ieeetr}
-\bibliography{references}
-
-\end{document}
-
-
-\begin{comment}
-\begin{definition}
-    \textbf{($\rho$-interpreted circular proof system):} Let $\text{CS}^{\omega}$ be a circular proof system interpreted by $\mathbb{I}$. We say that $\text{CS}^{\omega}$ is \textit{$\rho$-interpreted}, if all sequents $S$ in $\text{CS}^{\omega}$ have a set of variables, and for any interpretation $I$ in $\mathbb{I}$ such that $I \models S$, then $I$ contains an environment $\rho$ for the value of the variables in $S$. 
-\end{definition}
-\end{comment}
-
-\begin{comment}
-    With this in mind, we explain the general intuition behind the GTC and why it ensure the soundness of circular pre-proofs. Consider then any pre-proof $\mathcal{P}$ of a sequent $S$ in a circular proof system $\mathcal{\text{CS}^{\omega}}$ interpreted by a set of interpretations $\mathbb{I}$. Usually, to prove the soundness of well founded proof systems, i.e. proof systems where the derivation is represented by a finite tree, it is sufficient to prove the local soundness of every rule, and use induction to prove the soundness of all proofs. In the case of circular pre-proofs, even though we can apply the same method to prove the soundness of branches that end in axiom rules, for the braches that cycle back to internal nodes it is not possible since they are non-well founded. The principle that is used to verify the soundness of branches with cycles is Fermats principle of infinite descent: To prove a proposition $P$, we assume its negation $\neg P$ and form an infinite descending chain of values using $\neg P$ in a well-order, which is impossible and hence we conclude by contradiction $P$. 
-
-The way this principle is applied for circular proofs consists of assuming that the sequent $S$ is not valid
-\end{comment}
-
-\begin{comment}
-    \subsection{Arbitrary finite proof systems}
-First we define the notion of an arbitrary \textit{finite proof system}. An arbitrary finite proof system $S$ is given by a set of well-formed sequents $Seqs$, and a set of rules $Rules$, where each rule $R \in Rules$ is defined as:
-\begin{figure}[H]
-    \centering
-    \begin{prooftree}
-        \hypo{\Gamma_1 \vdash \Delta_1...\Gamma_n \vdash \Delta_n}
-        \infer1[$(R)$]{S}
-    \end{prooftree}
-\end{figure}
-where $n \in \mathbb{N}$ and each $\Gamma_i \vdash \Delta_i$ and $S$ belong to $Seqs$. To formally represent the graph structure of a derivation in $S$, we define a \textit{derivation graph}. An $S$ derivation graph, is a tuple $\mathcal{D} = (V, s, r, p)$, where $V$ is a set of vertices, $s: V \rightarrow Seqs$ is total function that labels vertices with sequents in $S$, $r: V \rightarrow Rules$ is partial function that labels vertices with inference rules in $S$, and $p: \mathbb{N} \times V \rightarrow V$ is a partial function that maps a number $n$ and a vertex $v$, with a vertex $v'$, such that $v'$ is labeled by the $n$th premise rule $r(v)$ over the sequent $s(v)$. The idea then is that for every $v \in V$, the following inference is an instance of the rule $r(v)$ in $S$, with $m$ premises:
-
-\begin{figure}[H]
-    \centering
-    \begin{prooftree}
-        \hypo{\{\vdash s(p(i,v))\}_{1 \leq i \leq m}}
-        \infer1[$(r(v))$]{\vdash s(v)}
-    \end{prooftree}
-\end{figure}
-
-Moreover, a derivation graph $\mathcal{D}$ is called a \textit{derivation tree} if its directed graph is a tree. We say that $S$ is the \textit{endsequent} or \textit{conclusion} of a derivation tree $\mathcal{D}$, if the root node of the tree is labeled by $S$. Since $r$ is partial function, a \textit{bud} node of $\mathcal{D}$ is a vertex $B \in V$ such that $r(B)$ is undefined. The set of bud nodes of a derivation graph $\mathcal{D}$, is written as $Bud(\mathcal{D})$. We then say that a \textit{finite proof} in $S$ of a sequent $S$, is a \textit{finite derivation tree} (i.e. a derivation tree with finite vertices) where the endsequent is $S$ and $Bud(\mathcal{D}) = \emptyset$.
-\end{comment}
-
-
-
-
-\begin{comment}
-In the case of a finite proof system $S$, proving its soundness comes down to proving that every rule in $S$ is locally sound and then use induction over the inductive structure of the derivation trees to prove the soundness of all proofs. However, in the case of a circular proof system $\text{CS}^{\omega}$ this is not the same case. The main issue is that pre-proofs in $\text{CS}^{\omega}$ are not always trees, since their structure allow to form cycles. For this reason, the inductive reasoning used to proof soundness in finite proof systems can only be used in branches of the pre-proof that end in axiomatic leaves, i.e. leaves that end with an axiom rule, but branches that end with bud nodes can not be validated in this way, since they are non-well founded. Therefore, the soundness of the non-well founded branches of pre-proofs in $\text{CS}^{\omega}$, depend on a special criteria known as the global trace condition. The main intuition behind the global trace condition, used to prove the validity of pre-proofs lies on the following key points:
-\begin{enumerate}
-    \item First, we assume that the domain of interpretation of our interpretations $I$, is well-ordered.
-    \item We use Fermat's principle of infinite descent, to prove that all infinite paths  
-\end{enumerate}
-
-
-Note that we call $\mathcal{P}$ a pre-proof, since we have not ensured that it represents a sound argument. Of course, this notion of soundness is dependent of the interpretation and semantics of the proof system in question. For this reason, we will assume an abstract notion of interpretation. We then define $\mathbb{I}$ as a set of interpretations
-
-
-
-witand we have a semantic notion of satisfaction between interpretations. 
-
-
-In the case of a finite proof system $S$, we prove that the system is sound by proving the local soundness of the rules 
-
-given that a the soundness of the system has already been proven, we can always ensure that any derivation tree $\mathcal{D}$ in $S$ must be sound. However, this is not the case for circular proof systems $\text{CS}^{\omega}$
-
-
-To do this, we must first define the GTC for $\text{CS}^{\omega}$ pre-proofs. The GTC leverages Fermat's principle of infinite descent: constructing an infinite descending chain of elements within a well-ordered set entails a contradiction. In the context of circular proofs, we need to make sure that every infinite path that    
 \end{comment}
