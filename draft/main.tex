@@ -13,7 +13,7 @@
 \section{Introduction}
 
 \section{Size-change termination}
-\emph{Size-change termination} (SCT), initially proposed by Lee et al. \cite{Lee1}, is a technique for proving the termination of recursive functions. SCT leverages Fermat's principle of infinite descent: to prove a proposition $P$, assume its negation and derive a contradiction by constructing an infinite descending chain within a well-ordered set. In the context of recursive functions, if the function's variables are interpreted within a well-ordered domain, non-termination can be assumed, and a contradiction derived by demonstrating an impossible infinite descending sequence of variable values. These sequences are formed by analyzing the relationships between variables across recursive calls. Each relationship is abstracted as a \emph{size-change graph}, which represents variable transformations during program execution. To make this concept precise, we begin by presenting some preliminary definitions, based on the work in \cite{Lee1, Mirai}.
+\emph{Size-change termination} (SCT), initially proposed by Lee et al. \cite{Lee1}, is a technique for proving the termination of recursive functions. SCT leverages Fermat's principle of infinite descent, namely to prove a proposition $P$, assume its negation, and derive a contradiction by constructing an infinite descending chain within a well-ordered set. In the context of recursive functions, if the function's variables are interpreted within a well-ordered domain, non-termination can be assumed, and a contradiction derived by demonstrating an impossible infinite descending sequence of variable values. These sequences are formed by analyzing the relationships between variables across recursive calls. Each relationship is abstracted as a \emph{size-change graph}, which represents variable transformations during program execution. To make this concept precise, we begin by presenting some preliminary definitions, based on the work in \cite{Lee1, Mirai}.
 
 \begin{definition}
     \textbf{(Function names and parameters):}
@@ -24,11 +24,11 @@
     \textbf{(Size-change graphs):} Let $P$ be a program and $F$ the set of function names, and $f,g \in F$. A size-change graph from $f$ to $g$, written $G: f \rightarrow g$, is a bipartite graph defined as $G = (Par(f), Par(g), E)$, where $E \subseteq Par(f) \times \{ \downarrow, \downmapsto \} \times Par(g) $ and $E$ does not contain both $x_i^f \xrightarrow{\downarrow} x_j^g$ and $x_i^f \xrightarrow{\downmapsto} x_j^g$.  
 \end{definition}
 
-The edges $x_i^f \xrightarrow{\gamma} x_j^g$ represent the relationship between the values of the variables initially passed to the function, and the values passed in each recursive call. When $\gamma = \ \downarrow$, we call it a \emph{progressing} edge and it specifies that the value of $x_i^f$ is strictly less than the value of $x_j^g$. When $\gamma = \downmapsto$, we call it a \emph{weakly-progressing} edge, and it specifies that the value of $x_i^f$ is less than or equal to the value of $x_j^g$. To illustrate this concept, consider the following example of the Ackermann function, taken from \cite{Lee2}: 
+The edges $x_i^f \xrightarrow{\gamma} x_j^g$ represent the relationship between the values of the variables initially passed to the function and the values passed in each recursive call. When $\gamma = \ \downarrow$, we call it a \emph{progressing} edge and it specifies that the value of $x_i^f$ is strictly less than the value of $x_j^g$. When $\gamma = \downmapsto$, we call it a \emph{weakly-progressing} edge, and it specifies that the value of $x_i^f$ is less than or equal to the value of $x_j^g$. To illustrate this concept, consider the following example of the Ackermann function, taken from \cite{Lee2}: 
 
 \begin{example}
 \label{ExampleSCT1}
-For the program in Figure \ref{figFuncF}, we set $F = \{ ack\}$, with $arity(ack) = 2$. For each recursive call, labeled with 1,2 and 3, we can respectively define the size-change graphs $G_1$, $G_2$ and $G_3$. Note that even though the recursive calls 1 and 2 have different input values, their size-change graphs are exactly the same.
+For the program in Figure \ref{figFuncF}, we set $F = \{ ack\}$, with $arity(ack) = 2$. For each recursive call, labeled with 1,2, and 3, we can respectively define the size-change graphs $G_1$, $G_2$, and $G_3$. Note that even though the recursive calls 1 and 2 have different input values, their size-change graphs are exactly the same.
 
 
 \begin{figure}[ht]
@@ -92,7 +92,7 @@ ack(m,n) = if m=0 then n+1 else
 \end{figure}
 \end{example}
 
-The termination behavior of a program $P$ can be inferred by examining the size-change graphs it induces. In particular, we study how these graphs compose to form \emph{multipaths}, as they reveals whether infinite descending chains (indicatives of termination) can occur.
+The termination behavior of a program $P$ can be inferred by examining the size-change graphs it induces. In particular, we study how these graphs compose to form \emph{multipaths}, as they reveal whether infinite descending chains (indicative of termination) can occur.
 
 \begin{definition}
     \textbf{(Composable graphs):} Let $f,g,g',h, \in F$, with $G_1 = (Par(f), Par(g), E)$ and $G_2 = (Par(g'), Par(h), E')$ two size-change graphs. We say that $G_1$ and $G_2$ are \emph{composable}, if $g = g'$. We write $G_1G_2 = (Par(f)\cup Par(g) \cup Par(h), E \cup E')$ for the directed graph obtained by the union of $G_1$ and $G_2$.
@@ -101,21 +101,21 @@ The termination behavior of a program $P$ can be inferred by examining the size-
 \begin{definition}
     \textbf{(Multipaths, threads and infinite descent):} Let $\mathbb{G}$ be a set of size-change graphs: 
     \begin{enumerate}
-        \item A \emph{$\mathbb{G}$-multipath} is a finite or infinite sequence $\mathcal{M} = G_1G_2...$ of size-change graphs in $\mathbb{G}$, such that for every $i$, $G_i$ and $G_{i+1}$ are composable. $\mathcal{M}$ can be viewed as a (possibly infinite) directed graph.
+        \item A \emph{$\mathbb{G}$-multipath} is a finite or infinite sequence $\mathcal{M} = G_1G_2 \ldots$ of size-change graphs in $\mathbb{G}$, such that for every $i$, $G_i$ and $G_{i+1}$ are composable. $\mathcal{M}$ can be viewed as a (possibly infinite) directed graph.
         
         \item A \emph{thread} in $\mathcal{M}$ is a (possibly infinite) directed path in $\mathcal{M}$. 
         
         \item We say that a thread is \emph{progressing} if it contains a progressing edge. Moreover, a thread is \emph{infinitely progressing} if it contains infinitely many progressing edges
         
-        \item A multipath $\mathcal{M}$ has infinite descent if some thread thread in $\mathcal{M}$ is infinitely descending.
+        \item A multipath $\mathcal{M}$ has {\em infinite descent} if some thread in $\mathcal{M}$ is infinitely progressing.
     \end{enumerate}  
 \end{definition}
 
 \begin{example}
 \label{ExampleSCT2}
-Suppose there is a hypothetical infinite execution starting from an initial call of the program \texttt{ack}, introduced in Example \ref{ExampleSCT1}. This execution is represented by the infinite sequence of recursive calls $c = 1313...$ or more compactly $(13)^{\omega}$. It induces the corresponding multipath $\mathcal{M} = G_1 G_3 G_1 G_3 ...$ as shown in Figure \ref{multipath}. Within this multipath, we can identify an infinitely progressing thread over the variable $m$, given by the sequence $m \xrightarrow{\downarrow} m \xrightarrow{\downmapsto} m \xrightarrow{\downarrow} m \ldots$.
+Suppose there is a hypothetical infinite execution starting from an initial call of the program \texttt{ack}, introduced in Example \ref{ExampleSCT1}. This execution is represented by the infinite sequence of recursive calls ${}^1\texttt{ack}\,{}^3\texttt{ack}\,{}^1\texttt{ack}\,{}^3\texttt{ack}\ldots$ or more compactly $({}^1\texttt{ack}\,{}^3\texttt{ack})^{\omega}$. It induces the corresponding multipath $\mathcal{M} = G_1 G_3 G_1 G_3 \ldots$ as shown in Figure \ref{multipath}. Within this multipath, we can identify an infinitely progressing thread over the variable $m$, given by the sequence $m \xrightarrow{\downarrow} m \xrightarrow{\downmapsto} m \xrightarrow{\downarrow} m \ldots$.
 
-
+%${}^1\texttt{ack}$
 
 \begin{figure}[h]
 \vspace{0.5cm}
