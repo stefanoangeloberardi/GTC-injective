@@ -556,7 +556,7 @@ Given the equivalence between SCT and GTC established in Proposition \ref{PropEq
 Building on observation (1), we begin by abstracting size-change graphs as \emph{bi-colored relations} over a finite set of variables.
 
 \begin{definition}
-    \textbf{(Bi-colored relations and pair composition):} Let $X = \{x_1, ..., x_n\}$ be a finite set of variables. A bi-colored relation over $X$, is a pair $(S,P)$ such that $S, P \subseteq X \times X$ where $S_i \cap P_i = \emptyset$. For two variables $x,y \in X$, If $xSy$ (resp. $xPy$) we say that $x$ \emph{weakly progresses} (resp. \emph{progresses}) to $y$ in $(S, P)$. Moreover, we define the composition of two pairs $(S,P)$ and $(S',P')$ as:
+    \textbf{(Bi-colored relations and pair composition):} Let $X = \{x_1, ..., x_n\}$ be a finite set of variables. A bi-colored relation over $X$, is a pair $(S,P)$ such that $S, P \subseteq X \times X$ where $S \cap P = \emptyset$. For two variables $x,y \in X$, If $xSy$ (resp. $xPy$) we say that $x$ \emph{weakly progresses} (resp. \emph{progresses}) to $y$ in $(S, P)$. Moreover, we define the composition of two pairs $(S,P)$ and $(S',P')$ as:
     \begin{align*}
     (S, P)(S', P') &= (S'' \setminus P'',\; P'')
     \end{align*}
