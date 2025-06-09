@@ -40,6 +40,12 @@ $\mathcal{B}$ is a tuple $\mathcal{G} =(V, \mathcal{B}, E)$ where $V$ is a finit
 is a (finite) set of labeled edges.
 \end{definition}
 
+Given a transition graph $\mathcal{G}$ we define its {\em transitive closure} as the graph $\mathcal{G}^* = (V, \mathcal{B}^*, E^*)$, where
+$\mathcal{B}^*$ is the closure of $\mathcal{B}$ under composition of bi-colored relations and $E^* \subseteq V \times \mathcal{B}^* \times V$
+is the smallest set such that $E \subseteq E^*$ and
+\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Longrightarrow (u, (S,P) \circ (S',P'), w) \in E^*\]
+If $(u, (S,P) \circ (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composed} in $\mathcal{G}$; we say
+that $(S,P)$ is {\em self-composed} in $\mathcal{G}$ if $(u, (S,P), u) \in E^*$ for some vertex $u$.
 
 \newpage
 %To capture observation (2), we introduce a transition system whose edges are labeled by bi-colored relations, abstracting both the control flow between function calls in SCT and the proof structure in cyclic pre-proofs for GTC. This general notion provides a common foundation for the unified treatment of SCT and GTC.
