@@ -1,0 +1,28 @@
+%math environments
+%\theoremstyle{definition}
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{corollary}{Corollary}[section]
+%\newtheorem{proposition}{Proposition}[section]
+%\newtheorem{lemma}{Lemma}[section]
+%\newtheorem{definition}{Definition}[section]
+%\newtheorem{observation}{Observation}[section]
+%\newtheorem{conjecture}{Conjecture}[section]
+%\newtheorem{notation}{Notation}[section]
+%\newtheorem{example}{Example}[section]
+
+%exponents in code
+%\lstset{
+%    basicstyle=\ttfamily\scriptsize,  % Monospace font like verbatim
+%    columns=fullflexible,  % Ensures proper spacing
+%    breaklines=true,       % Allows line breaking
+%    frame=none,            % Removes the box around the listing
+%    escapeinside={*}{*},
+%    keepspaces=true        % Preserves spaces
+%}
+
+
+% Custom mapsto with tail
+\newcommand{\mmapsto}{\mapstochar\relbar\mathrel{\mkern-12mu}\mapsto}
+
+% Smaller downward version, scaled and rotated
+\newcommand{\downmapsto}{\mathrel{\scalebox{0.7}[0.7]{\rotatebox[origin=c]{270}{$\mmapsto$}}}}
