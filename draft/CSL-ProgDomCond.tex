@@ -7,10 +7,13 @@
 %\subsection{Bi-colored relation transition graphs}
 %Building on observation (1), we begin by abstracting size-change graphs as \emph{bi-colored relations} over a finite set.
 
+%\newcommand{\biRel}{\mathcal{R}}
+%\newcommand{\Graph}{\mathcal{G}}
+
 Let $RR'$ be the ordinary relation composition; we also write $x R y$ for $(x,y) \in R$.
 
 \begin{definition}[Bi-colored relations]\label{def:bi-coloredRelations}
-Let $X = \{x_1, ..., x_n\}$ be a finite set of names. A {\em bi-colored relation} over $X$, is a pair $(S,P)$ such that $S, P \subseteq X \times X$ where $S \cap P = \emptyset$. For two names $x,y \in X$, if $x S y$ (resp. $xPy$) we say that $x$ \emph{weakly progresses} (resp. \emph{progresses}) to $y$ in $(S, P)$. 
+Let $X = \{x_1, ..., x_n\}$ be a finite set. A {\em bi-colored relation} over $X$, is a pair $(S,P)$ such that $S, P \subseteq X \times X$ where $S \cap P = \emptyset$. For any $x,y \in X$, if $x S y$ (resp. $xPy$) we say that $x$ \emph{weakly progresses} (resp. \emph{progresses}) to $y$ in $(S, P)$. 
 If $(S,P)$ and $(S',P')$ are bi-colored relations over the same set $X$ then we define the {\em composition} $(S, P) \circ (S', P') = (S'' \setminus P'',\; P'')$
 where
 \[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
@@ -25,14 +28,14 @@ $|(S,P)| = S \cup P$, then
 
 
 \begin{definition}[Transition graph]\label{def:transitionGraph}
-Let $\mathcal{B} = \{(S_1,P_1),...,(S_n,P_n) \}$ be a set of bi-colored relations over the same set $X$ of names. A {\em transition graph} of
-$\mathcal{B}$ is a tuple $\mathcal{G} =(V, \mathcal{B}, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \mathcal{B}\times V$
+Let $\biRel = \{(S_1,P_1),...,(S_n,P_n) \}$ be finite a set of bi-colored relations over the same set $X$. A {\em transition graph} of
+$\mathcal{B}$ is a tuple $\Graph =(V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$
 is a (finite) set of labeled edges.
 \end{definition}
 
 \begin{definition}[Transitive closure graph]\label{def:transClosure}
-Given a transition graph $\mathcal{G}$ we define its {\em transitive closure} as the graph $\mathcal{G}^* = (V, \mathcal{B}^*, E^*)$, where
-$\mathcal{B}^*$ is the closure of $\mathcal{B}$ under composition of bi-colored relations and $E^* \subseteq V \times \mathcal{B}^* \times V$
+Given a transition graph $\Graph$ we define its {\em transitive closure} as the graph $\Graph^* = (V, \biRel^*, E^*)$, where
+$\biRel^*$ is the closure of $\biRel$ under composition of bi-colored relations and $E^* \subseteq V \times \biRel^* \times V$
 is the smallest set such that $E \subseteq E^*$ and
 \[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Longrightarrow (u, (S,P) \circ (S',P'), w) \in E^*\]
 If $(u, (S,P) \circ (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composed} in $\mathcal{G}$; we say
