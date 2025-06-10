@@ -42,14 +42,33 @@ If $(u, (S,P) \circ (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say th
 that $(S,P)$ is {\em self-composed} in $\mathcal{G}$ if $(u, (S,P), u) \in E^*$ for some vertex $u$.
 \end{definition}
 
+In the following, fix a set $\biRel$ of bi-colored relations over $X$, and a transition graph $\Graph$ labelled over $\biRel$.
+
+\begin{definition}[Trace and path]\label{def:TracePath}
+Let $\alpha \leq \omega$ be an ordinal, then:
+\begin{enumerate}[i)]
+\item a {\em trace} is a map $\tau:\alpha \to X$;
+\item a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$;
+\item a {\em path} is a map $\ppath:\alpha \to V$ such that fo all $h < \alpha$ the triple $(p(h), (S, P), p(h+1))$ 
+	belongs to $E$ (is an edge of $\Graph$) for some $(S,P) \in \biRel$;
+\item a trace $\tau$ is compatible with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if whenever
+	$(p(h), (S, P), p(h+1)) \in E$ we have that $\tau(h) (S \cup P) \tau(h+1)$, and $h$ is a {\em progress point} if $\tau(h) P \tau(h+1)$.
+\end{enumerate}
+\end{definition}
+
+Remark: $\Nat$ could be any well-founded set; the role of $\theta$ will be clarified later.
+
+\begin{definition}[Global Trace Condition (GTC)]
+$\biRel$ and $\Graph$ satisfy the {\em Global Trace Condition} if for  all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
+$\tau \models \ppath$ and it has infinitely many progress points.
+
+%$\biRel$ is {\em injective} if for all $(S, P) \in \biRel$ the relation $|(S, P)| = S \cup P$ is injective.
+\end{definition}
+
+
 \newpage
 %To capture observation (2), we introduce a transition system whose edges are labeled by bi-colored relations, abstracting both the control flow between function calls in SCT and the proof structure in cyclic pre-proofs for GTC. This general notion provides a common foundation for the unified treatment of SCT and GTC.
 
-\begin{definition}[Bi-colored relation transition graph]
-% \textbf{(Bi-colored relation transition graph):} 
-Let $\mathcal{B} = \{(S_1,P_1),...,(S_n,P_n) \}$ be a set of bi-colored relations over the same set of names. 
-We define a \emph{bi-colored relation transition graph}, as a labeled transition system represented by the tuple $\mathcal{T} =(V, \mathcal{B}, E)$ where: $V$ is a finite non-empty set of vertices and $E \subseteq V \times \mathcal{B}\times V$ is a set of directed edges labeled by bi-colored relations in $\mathcal{B}$.   
-\end{definition}
 
 \begin{definition}
     \textbf{(Composable)}
