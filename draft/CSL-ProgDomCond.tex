@@ -31,10 +31,10 @@ where
 
 We observe that the composition of bi-colored relations is compatible with the union and ordinary composition of binary relations: let's write 
 $|(S,P)| = S \cup P$, then
-\begin{align*}
-|(S,P) \circ (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \\
+\begin{align}\label{eq:unionComp}
+|(S,P) \circ (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
 & = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
-\end{align*}
+\end{align}
 
 We say that $(S, P)$ is injective if $|(S, P)| = S \cup P$ is such in the ordinary sense.
 
@@ -66,27 +66,34 @@ If $(u, (S,P) \circ (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say th
 that $(S,P)$ is {\em self-composed} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
 \end{definition}
 
-Notice that if $(v, (S,P), v) \in E^*$, namely it is self-composed, 
-then for any $n > 0$, $(v, (S,P)^n, v) \in E^*$, where $(S,P)^n$ is the $n$-times composition of $(S,P)$ with itself, hence the name.
-
+%\medskip
+Let $\Graph = (V, \biRel, E)$; we abbreviate $(u, (S,P), v) \in E$ by $\edgeG{(S,P)}{u}{v}{\Graph}$ and
+$(u, (S,P), v) \in E^*$ by $\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
 In the following, fix a set $\biRel$ of bi-colored relations over $X$, and a transition graph $\Graph$ labelled over $\biRel$.
+As $\Graph$ is understood, we omit the subscript in $\edge{(S,P)}{u}{v}$ and $\edgestar{(S,P)}{u}{v}$
+
+If $\edgestar{(S,P)}{v}{v}$ then $\edgestar{(S,P)^n}{v}{v}$ for all $n > 0$ by definition of composition over the edges of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itslef $n$-times, hence the name.
 
 \begin{definition}[Trace and path]\label{def:TracePath}
 Let $\alpha \leq \omega$ be an ordinal, then:
 \begin{enumerate}[i)]
 \item a {\em trace} is a map $\tau:\alpha \to X$;
-\item a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$;
+\item a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$; (to be moved)
 \item a {\em path} is a map $\ppath:\alpha \to V$ such that fo all $h < \alpha$ the triple $(p(h), (S, P), p(h+1))$ 
 	belongs to $E$ (is an edge of $\Graph$) for some $(S,P) \in \biRel$;
 \item a trace $\tau$ is compatible with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if whenever
-	$(p(h), (S, P), p(h+1)) \in E$ we have that $\tau(h) (S \cup P) \tau(h+1)$, and $h$ is a {\em progress point} if $\tau(h) P \tau(h+1)$.
+	%$(p(h), (S, P), p(h+1)) \in E$ 
+	$\edge{(S,P)}{p(h)}{p(h+1)}$
+	we have that $\tau(h) (S \cup P) \tau(h+1)$, and $h$ is a {\em progress point} if $\tau(h) P \tau(h+1)$.
 \end{enumerate}
 \end{definition}
+
+A trace $\tau:\alpha \to X$, respectively a path $\ppath:\alpha \to V$ are infinite if $\alpha = \omega$, finite otherwise.
 
 Remark: $\Nat$ could be any well-founded set; the role of $\theta$ will be clarified later.
 
 \begin{definition}[Global Trace Condition - GTC]
-$\biRel$ and $\Graph$ satisfy the {\em Global Trace Condition} if for  all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
+The transition graph $\Graph$ satisfies the {\em Global Trace Condition} if for all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
 $\tau \models \ppath$ and it has infinitely many progress points.
 
 %$\biRel$ is {\em injective} if for all $(S, P) \in \biRel$ the relation $|(S, P)| = S \cup P$ is injective.
@@ -97,14 +104,73 @@ This is the same as the Size-Change-Termination condition (SCT).
 Recall that if $R$ is a binary relation, $\dom{R} = \Set{x \mid \exists y.\; x R y}$.
 
 \begin{definition}[Prograss Domain Condition - PDC]\label{def:PDC}
-$\biRel$ and $\Graph$ satisfy the {\em Prograss Domain Condition} if for all self composed $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
+$\Graph$ satisfies the {\em Prograss Domain Condition} if for all self composed $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
 $x$ progresses to $y$:
 \[\forall (S,P) \in \biRel^*, v\in V.\; (v, (S,P), v) \in E^* \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
 \end{definition}
 
-\begin{proposition}
+%\begin{lemma}
+%Suppose that $\edgestar{(S_1,P_1)}{u}{v}$ and $\edgestar{(S_2,P_2)}{v}{w}$ and let $\edgestar{(S,P)}{u}{w}$ where
+%$(S,P) = (S_1,P_1)\circ (S_1,P_1)$. Let $p$ be the path along such composition, where $u = p(i)$, $v = p(j)$ and $w = p(k)$ for some $i < j < k$.
+%
+%If $\tau$ is a trace such that $\tau \models p$ with either $\tau(i) P_1 \tau(j)$ or $\tau(j) P_2 \tau(k)$ then $\tau(i) P \tau(k)$ 
+%%\bigskip
+%%
+%%$(S,P) = (S_1,P_1)\circ (S_1,P_1)$;
+%%let $p$ be a path such that $p(i) = u$, $p(j) = v$ and $p(k) = w$ for some $i < j < k$, and $\tau$ be a trace such that $\tau \models p$.
+%%
+%%Setting $x = \tau(i)$, $y = \tau(j)$, and $z = \tau(k)$, if $\tau$ has a progressing point $h \in [i, k]$ then 
+%
+%%if $x (S \cup P) z$ and $x P_1 y$ or $y P_2 z$ for some $y$, then $x P z$.
+%\end{lemma}
+%
+%\begin{proof}
+%By definition of composition, we have $S = S_1S_2 \setminus P$ and $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$.
+%By equation (\ref{eq:unionComp}) we know that $S \cup P = (S_1 \cup P_1)(S_2 \cup P_2)$ then
+%\[ x (S \cup P) z \;\land\; \]
+%\end{proof}
 
+\begin{lemma}\label{lem:P-lemma}
+Let $(S,P) = (S_1,P_1)\circ (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
+\begin{enumerate}[i)]
+\item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
+\item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
+\end{enumerate}
+%\[ x P_1 y \myor y P_2 z \Then x P z \]
+\end{lemma}
+
+\begin{proof}
+By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
+
+Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $P_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$.
+\end{proof}
+
+\begin{proposition}
+If $\Graph$ satisfies the GTC, it satisfies PDC, not vice versa.
 \end{proposition}
+
+\begin{proof}
+Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $p$ 
+\[p : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
+such that $p(i) = p(0) = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $p(k) = u$ and 
+if $0 < j < k$ then $p(j) \neq u$; w.l.o.g. we also assume
+that the the subpaths $\edgestar{(S,P)}{u}{u}$ are the same sequence of edges and labels.
+
+By GTC there is a trace $\tau \models p$ that is infinitely progressing. Let $(S, P) = (S_0,P_0)\circ \cdots \circ (S_{k-1},P_{k-1})$ where the
+$(S_i,P_i)$ are the bi-colored relations associated with the edges of the path from $p(0)$ to $p(k)$; hence, there is $h$ with $0 \leq h < k$ such that
+$\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. to $P_h$.
+
+Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\tau \models p$ we know that 
+\[x = \tau(0) (S_0 \cup P_0) \tau(1) \cdots \tau(k-1) (S_{k-1} \cup P_{k-1}) \tau(k) = y\]
+so that $x \in \dom{(S_0 \cup P_0) \cdots  (S_{k-1} \cup P_{k-1})} = \dom{S \cup P}$ by (\ref{eq:unionComp}). On the other hand, we have assumed that 
+$\edgestar{(S,P)}{p(k)}{p(2k)}$ where $p(k) = u = p(2k)$, hence by the same argument we conclude that $y \in \dom{S \cup P}$.
+
+We know that $(S, P) = (S',P') \circ (S_h,P_h) \circ (S'',P'')$, where $(S',P')= (S_0,P_0)\circ \cdots \circ (S_{h-1},P_{h-1})$ and 
+$(S'',P'')= (S_{h+1},P_{h+1})\circ \cdots \circ (S_{k-1},P_{k-1})$. By $\tau \models p$ and that $z P_h z'$ we deduce that
+\[x (S' \cup P') z P_h z' (S'' \cup P'') y\]
+If $(\hat{S},\hat{P}) = (S',P') \circ (S_h,P_h)$ then by (\ref{lem:P-lemma-2}) of Lemma \ref{lem:P-lemma} we have $x \hat{P} z'$; since
+$(S,P) = (\hat{S},\hat{P}) \circ (S'' \cup P'')$, by (\ref{lem:P-lemma-1}) of the same Lemma we conclude $x P z$, as desired.
+\end{proof}
 
 \newpage
 %To capture observation (2), we introduce a transition system whose edges are labeled by bi-colored relations, abstracting both the control flow between function calls in SCT and the proof structure in cyclic pre-proofs for GTC. This general notion provides a common foundation for the unified treatment of SCT and GTC.
