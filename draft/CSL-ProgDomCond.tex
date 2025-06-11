@@ -24,7 +24,7 @@ which implies that $y = z$ by the injectivity of $R'$.
 
 \begin{definition}[Bi-colored relations]\label{def:bi-coloredRelations}
 Let $X = \{x_1, ..., x_n\}$ be a finite set. A {\em bi-colored relation} over $X$, is a pair $(S,P)$ such that $S, P \subseteq X \times X$ where $S \cap P = \emptyset$. For any $x,y \in X$, if $x S y$ (resp. $xPy$) we say that $x$ \emph{weakly progresses} (resp. \emph{progresses}) to $y$ in $(S, P)$. 
-If $(S,P)$ and $(S',P')$ are bi-colored relations over the same set $X$ then we define the {\em composition} $(S, P) \circ (S', P') = (S'' \setminus P'',\; P'')$
+If $(S,P)$ and $(S',P')$ are bi-colored relations over the same set $X$ then we define the {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
 where
 \[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
 \end{definition}
@@ -32,18 +32,18 @@ where
 It is easy to see \marginpar{Really?} that the composition of bi-colored relations is associative. Also, we observe that it is compatible with the union and ordinary composition of binary relations: let's write 
 $|(S,P)| = S \cup P$, then
 \begin{align}\label{eq:unionComp}
-|(S,P) \circ (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
+|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
 & = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
 \end{align}
 
 We say that $(S, P)$ is injective if $|(S, P)| = S \cup P$ is such in the ordinary sense.
 
 \begin{lemma}\label{lem:biRelInjectiveComp}
-If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \circ (S',P')$ is injective.
+If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injective.
 \end{lemma}
 
 \begin{proof}
-By the above we know that $|(S,P) \circ (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reation $S \cup P$ with the injective
+By the above we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reation $S \cup P$ with the injective
 relation $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
 \end{proof}
 
@@ -61,8 +61,8 @@ is a (finite) set of labeled edges.
 Given a transition graph $\Graph$ we define its {\em transitive closure} as the graph $\Graph^* = (V, \biRel^*, E^*)$, where
 $\biRel^*$ is the closure of $\biRel$ under composition of bi-colored relations and $E^* \subseteq V \times \biRel^* \times V$
 is the smallest set such that $E \subseteq E^*$ and
-\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \circ (S',P'), w) \in E^*\]
-If $(u, (S,P) \circ (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composed} in $\mathcal{G}$; we say
+\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
+If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composed} in $\mathcal{G}$; we say
 that $(S,P)$ is {\em self-composed} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
 \end{definition}
 
@@ -111,12 +111,12 @@ $x$ progresses to $y$:
 
 %\begin{lemma}
 %Suppose that $\edgestar{(S_1,P_1)}{u}{v}$ and $\edgestar{(S_2,P_2)}{v}{w}$ and let $\edgestar{(S,P)}{u}{w}$ where
-%$(S,P) = (S_1,P_1)\circ (S_1,P_1)$. Let $p$ be the path along such composition, where $u = p(i)$, $v = p(j)$ and $w = p(k)$ for some $i < j < k$.
+%$(S,P) = (S_1,P_1)\comp (S_1,P_1)$. Let $p$ be the path along such composition, where $u = p(i)$, $v = p(j)$ and $w = p(k)$ for some $i < j < k$.
 %
 %If $\tau$ is a trace such that $\tau \models p$ with either $\tau(i) P_1 \tau(j)$ or $\tau(j) P_2 \tau(k)$ then $\tau(i) P \tau(k)$ 
 %%\bigskip
 %%
-%%$(S,P) = (S_1,P_1)\circ (S_1,P_1)$;
+%%$(S,P) = (S_1,P_1)\comp (S_1,P_1)$;
 %%let $p$ be a path such that $p(i) = u$, $p(j) = v$ and $p(k) = w$ for some $i < j < k$, and $\tau$ be a trace such that $\tau \models p$.
 %%
 %%Setting $x = \tau(i)$, $y = \tau(j)$, and $z = \tau(k)$, if $\tau$ has a progressing point $h \in [i, k]$ then 
@@ -131,7 +131,7 @@ $x$ progresses to $y$:
 %\end{proof}
 
 \begin{lemma}\label{lem:P-lemma}
-Let $(S,P) = (S_1,P_1)\circ (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
+Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
 \begin{enumerate}[i)]
 \item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
 \item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
@@ -156,7 +156,7 @@ such that $p(i) = p(0) = u$ for infinitely many $i < \omega$; let $k > 0$ be the
 if $0 < j < k$ then $p(j) \neq u$; w.l.o.g. we also assume
 that the the subpaths $\edgestar{(S,P)}{u}{u}$ are the same sequence of edges and labels.
 
-By GTC there is a trace $\tau \models p$ that is infinitely progressing. Let $(S, P) = (S_0,P_0)\circ \cdots \circ (S_{k-1},P_{k-1})$ where the
+By GTC there is a trace $\tau \models p$ that is infinitely progressing. Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
 $(S_i,P_i)$ are the bi-colored relations associated with the edges of the path from $p(0)$ to $p(k)$; hence, there is $h$ with $0 \leq h < k$ such that
 $\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. to $P_h$.
 
@@ -165,11 +165,11 @@ Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\t
 so that $x \in \dom{(S_0 \cup P_0) \cdots  (S_{k-1} \cup P_{k-1})} = \dom{S \cup P}$ by (\ref{eq:unionComp}). On the other hand, we have assumed that 
 $\edgestar{(S,P)}{p(k)}{p(2k)}$ where $p(k) = u = p(2k)$, hence by the same argument we conclude that $y \in \dom{S \cup P}$.
 
-We know that $(S, P) = (S',P') \circ (S_h,P_h) \circ (S'',P'')$, where $(S',P')= (S_0,P_0)\circ \cdots \circ (S_{h-1},P_{h-1})$ and 
-$(S'',P'')= (S_{h+1},P_{h+1})\circ \cdots \circ (S_{k-1},P_{k-1})$. By $\tau \models p$ and that $z P_h z'$ we deduce that
+We know that $(S, P) = (S',P') \comp (S_h,P_h) \comp (S'',P'')$, where $(S',P')= (S_0,P_0)\comp \cdots \comp (S_{h-1},P_{h-1})$ and 
+$(S'',P'')= (S_{h+1},P_{h+1})\comp \cdots \comp (S_{k-1},P_{k-1})$. By $\tau \models p$ and that $z P_h z'$ we deduce that
 \[x (S' \cup P') z P_h z' (S'' \cup P'') y\]
-If $(\hat{S},\hat{P}) = (S',P') \circ (S_h,P_h)$ then by (\ref{lem:P-lemma-2}) of Lemma \ref{lem:P-lemma} we have $x \hat{P} z'$; from this and since
-$(S,P) = (\hat{S},\hat{P}) \circ (S'', P'')$, by (\ref{lem:P-lemma-1}) of the same Lemma we conclude $x P y$, as desired.
+If $(\hat{S},\hat{P}) = (S',P') \comp (S_h,P_h)$ then by (\ref{lem:P-lemma-2}) of Lemma \ref{lem:P-lemma} we have $x \hat{P} z'$; from this and since
+$(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, by (\ref{lem:P-lemma-1}) of the same Lemma we conclude $x P y$, as desired.
 \end{proof}
 
 \newpage
