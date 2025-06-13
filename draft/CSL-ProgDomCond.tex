@@ -118,7 +118,7 @@ This is the same as the Size-Change-Termination condition (SCT).
 Recall that if $R$ is a binary relation, $\dom{R} = \Set{x \mid \exists y.\; x R y}$.
 
 \begin{definition}[Prograss Domain Condition - PDC]\label{def:PDC}
-$\Graph$ satisfies the {\em Prograss Domain Condition} if for all self composed $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
+$\Graph$ satisfies the {\em Prograss Domain Condition} if for all self-composable $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
 $x$ progresses to $y$:
 \[\forall (S,P) \in \biRel^*, v\in V.\; (v, (S,P), v) \in E^* \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
 \end{definition}
@@ -155,12 +155,11 @@ Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$
 
 \begin{proof}
 By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
-
 Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $P_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$.
 \end{proof}
 
 \begin{proposition}
-If $\Graph$ satisfies the GTC, it satisfies PDC, not vice versa.
+If $\Graph$ satisfies the GTC, it satisfies PDC.
 \end{proposition}
 
 \begin{proof}
