@@ -51,19 +51,33 @@ We shall be interested in (finite) sets of bi-colored relations $\biRel = \Set{(
 Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-colored relations; then we use labeled graphs to select some bi-colored relations
 in $\biRel^*$.
 
+%\begin{definition}[Transition graph]\label{def:transitionGraph}
+%Let $\biRel = \Set{(S_1,P_1),...,(S_n,P_n) }$ be a finite set of bi-colored relations over the same set $X$. A {\em transition graph} of
+%$\biRel$ is a tuple $\Graph =(V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$
+%is a (finite) set of labeled edges.
+%\end{definition}
+
 \begin{definition}[Transition graph]\label{def:transitionGraph}
-Let $\biRel = \Set{(S_1,P_1),...,(S_n,P_n) }$ be a finite set of bi-colored relations over the same set $X$. A {\em transition graph} of
-$\biRel$ is a tuple $\Graph =(V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$
+A {\em transition graph} of $\biRel$ is a tuple $\Graph = (V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$
 is a (finite) set of labeled edges.
 \end{definition}
 
+%\begin{definition}[Transitive closure graph]\label{def:transClosure}
+%Given a transition graph $\Graph$ we define its {\em transitive closure} as the graph $\Graph^* = (V, \biRel^*, E^*)$, where
+%$\biRel^*$ is the closure of $\biRel$ under composition of bi-colored relations and $E^* \subseteq V \times \biRel^* \times V$
+%is the smallest set such that $E \subseteq E^*$ and
+%\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
+%If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\mathcal{G}$; we say
+%that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
+%\end{definition}
+
 \begin{definition}[Transitive closure graph]\label{def:transClosure}
-Given a transition graph $\Graph$ we define its {\em transitive closure} as the graph $\Graph^* = (V, \biRel^*, E^*)$, where
-$\biRel^*$ is the closure of $\biRel$ under composition of bi-colored relations and $E^* \subseteq V \times \biRel^* \times V$
+Given a transition graph $\Graph = (V, \biRel, E)$ we define its {\em transitive closure} as the graph $\Graph^* = (V, \biRel^*, E^*)$, where
+$E^* \subseteq V \times \biRel^* \times V$
 is the smallest set such that $E \subseteq E^*$ and
 \[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
-If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composed} in $\mathcal{G}$; we say
-that $(S,P)$ is {\em self-composed} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
+If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\mathcal{G}$; we say
+that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
 \end{definition}
 
 %\medskip
@@ -75,7 +89,7 @@ As $\Graph$ is understood, we omit the subscript in $\edge{(S,P)}{u}{v}$ and $\e
 If $\edgestar{(S,P)}{v}{v}$ then $\edgestar{(S,P)^n}{v}{v}$ for all $n > 0$ by definition of composition over the edges of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itslef $n$-times, hence the name.
 
 \begin{definition}[Trace and path]\label{def:TracePath}
-Let $\alpha \leq \omega$ be an ordinal, then:
+Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
 \begin{enumerate}[i)]
 \item a {\em trace} is a map $\tau:\alpha \to X$;
 \item a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$; (to be moved)
@@ -84,7 +98,7 @@ Let $\alpha \leq \omega$ be an ordinal, then:
 \item a trace $\tau$ is compatible with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if whenever
 	%$(p(h), (S, P), p(h+1)) \in E$ 
 	$\edge{(S,P)}{p(h)}{p(h+1)}$
-	we have that $\tau(h) (S \cup P) \tau(h+1)$, and $h$ is a {\em progress point} if $\tau(h) P \tau(h+1)$.
+	we have that $\tau(h) (S \cup P) \tau(h+1)$; we say that $h$ is a {\em progress point} of $\tau$ if $\tau(h) P \tau(h+1)$.
 \end{enumerate}
 \end{definition}
 
@@ -94,7 +108,7 @@ Remark: $\Nat$ could be any well-founded set; the role of $\theta$ will be clari
 
 \begin{definition}[Global Trace Condition - GTC]
 The transition graph $\Graph$ satisfies the {\em Global Trace Condition} if for all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
-$\tau \models \ppath$ and it has infinitely many progress points.
+$\tau \models \ppath$ which has infinitely many progress points.
 
 %$\biRel$ is {\em injective} if for all $(S, P) \in \biRel$ the relation $|(S, P)| = S \cup P$ is injective.
 \end{definition}
