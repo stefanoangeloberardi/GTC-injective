@@ -166,12 +166,11 @@ If $\Graph$ satisfies the GTC, it satisfies PDC.
 Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $p$ 
 \[p : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
 such that $p(i) = p(0) = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $p(k) = u$ and 
-if $0 < j < k$ then $p(j) \neq u$; w.l.o.g. we also assume
-that the the subpaths $\edgestar{(S,P)}{u}{u}$ are the same sequence of edges and labels.
+if $0 < j < k$ then $p(j) \neq u$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{u}{u}$ of $p$ are the same sequence of edges and labels.
 
 By GTC there is a trace $\tau \models p$ that is infinitely progressing. Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
-$(S_i,P_i)$ are the bi-colored relations associated with the edges of the path from $p(0)$ to $p(k)$; hence, there is $h$ with $0 \leq h < k$ such that
-$\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. to $P_h$.
+$(S_i,P_i) \in \biRel$ are the bi-colored relations associated with the edges of the path from $p(0)$ to $p(k)$; hence, there is $h$ with $0 \leq h < k$ such that
+$\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. $P_h$.
 
 Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\tau \models p$ we know that 
 \[x = \tau(0) (S_0 \cup P_0) \tau(1) \cdots \tau(k-1) (S_{k-1} \cup P_{k-1}) \tau(k) = y\]
