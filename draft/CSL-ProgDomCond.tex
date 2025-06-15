@@ -223,7 +223,7 @@ If $\biRel$ is injective and $\Graph$ satisfies PDC then $\Graph$ satisfies GTC.
 Toward a contradiction, let us assume that $\Graph$ does not satisfy GTG. Then there exists an infinite path $\pi:\omega \to V$ 
 such that no trace $\tau: \omega \to X$ such that $\tau \models \ppath$ is infinitely progressing.
 
-Since $\Graph$ is finite, we assume w.l.o.g. that $\ppath$ has the shape
+Since $\Graph$ is finite, we assume w.l.o.g. that $\ppath$ has the shape of a cicle
 \[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
 where $\edgeGstar{(S,P)}{u}{u}{\Graph}$ is self composable, and 
 $(S,P) = (S_0,P_0) \comp \cdots \comp (S_{k-1},P_{k-1})$ for some $k$ and $(S_i,P_i) \in \biRel$ for all $0 \leq i < k$.
@@ -232,7 +232,7 @@ By the hypothesis that $\biRel$ is injective, we know that $(S,P)$ and all the $
 By PDC, there exist $x, y \in \dom{S \cup P}$ such that $x P y$. As $(S,P)$ is self-composable and injective $\cod{S \cup P} = \dom{S \cup P}$,
 hence $x,y \in \dom{S_i \cup P_i}$ for all $0 \leq i < k$. Let $\tau : \omega \to X$ be the trace such that $\tau(0) = x$, 
 $\tau(i+1)$ is the unique $z \in X$ such that $\tau(i) (S_j \cup P_j) z$, where $\edge{(S_j,P_j)}{\ppath(i)}{\ppath(i+1)}$. Now $x P y$ implies
-that $\tau(k-1) P_{k-1} \tau(k)$ and $\tau(k) = y$; moreover, as $S \cup P$ is injective and $Y = \cod{S \cup P} = \dom{S \cup P} \subseteq X$ and $X$ is finite, $Y$ is finite, and $(S,P)$ induces a permutation $|(S,P)^n|$ (where $(S,P)^n$ is the $n$-times self-composition of $(S,P)$) of $Y$ that is periodically equal to $S \cup P$; hence there are infinitely many $i < \omega$ such that $\tau(i) = y$.
+that $\tau(k-1) P_{k-1} \tau(k)$ and $\tau(k) = y$; moreover, as $S \cup P$ is injective and $Y = \cod{S \cup P} = \dom{S \cup P} \subseteq X$ with $X$ finite, $Y$ is finite and $(S,P)$ induces a permutation $|(S,P)^n|$ (where $(S,P)^n$ is the $n$-times self-composition of $(S,P)$) of $Y$ that is periodically equal to $S \cup P$; hence there are infinitely many $i < \omega$ such that $\tau(i) = y$.
 
 By construction, $\tau \models \ppath$; on the other hand, we observe that for all $i < \omega$ exactly one of 
 $\tau(i) S_{j} \tau(i+1)$ and $\tau(i) P_{j} \tau(i+1)$ must hold, where $\edge{(S_j,P_j)}{\ppath(i)}{\ppath(i+1)}$, hence the map $\theta: \omega \times X \to \Nat$
@@ -243,3 +243,14 @@ $\tau(i) S_{j} \tau(i+1)$ and $\tau(i) P_{j} \tau(i+1)$ must hold, where $\edge{
 \]
 and $\theta(i, z) = 0$ if $z$ is not in the image of $\tau$, is well defined and a value flow for $\tau$ which is infinite, contradicting Theorem \ref{thm:weak-termination}.
 \end{proof}
+
+Ugo: perhaps we could prove the following lemma:
+
+\begin{lemma}
+Let $\biRel$ be injective. If $\edgestar{(S,P)}{u}{v}$ is the initial segment of $\ppath: \alpha \to V$
+with $(S,P) = (S_0,P_0) \comp \cdots \comp (S_{k-1},P_{k-1})$ and the $(S_i,P_i) \in \biRel$, then $x P y$ if and only if
+there is a trace $\tau:\alpha \to X$ compatible with $\ppath$ that has a progressing point within the length of $\edgestar{(S,P)}{u}{v}$.
+\end{lemma}
+
+Using this lemma, once we have constructed $\tau$ as in the proof of the corollary, we conclude that it has infinitely many progress points contradicting
+the absurd hypothesis. This has the advantage of avoiding any reference to the value flows $\theta$ and to Theorem \ref{thm:weak-termination}.
