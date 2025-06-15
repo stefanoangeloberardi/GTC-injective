@@ -157,19 +157,19 @@ If $\Graph$ satisfies GTC then it satisfies PDC.
 \end{proposition}
 
 \begin{proof}
-Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $p$ 
-\[p : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
-such that $p(i) = p(0) = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $p(k) = u$ and 
+Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $\ppath$ 
+\[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
+such that $\ppath(i) = \ppath(0) = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $\ppath(k) = u$ and 
 if $0 < j < k$ then $p(j) \neq u$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{u}{u}$ of $p$ are the same sequence of edges and labels.
 
 By GTC there is a trace $\tau \models p$ that is infinitely progressing. Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
 $(S_i,P_i) \in \biRel$ are the bi-colored relations associated with the edges of the path from $p(0)$ to $p(k)$; hence, there is $h$ with $0 \leq h < k$ such that
 $\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. $P_h$.
 
-Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\tau \models p$ we know that 
+Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\tau \models \ppath$ we know that 
 \[x = \tau(0) (S_0 \cup P_0) \tau(1) \cdots \tau(k-1) (S_{k-1} \cup P_{k-1}) \tau(k) = y\]
 so that $x \in \dom{(S_0 \cup P_0) \cdots  (S_{k-1} \cup P_{k-1})} = \dom{S \cup P}$ by (\ref{eq:unionComp}). On the other hand, we have assumed that 
-$\edgestar{(S,P)}{p(k)}{p(2k)}$ where $p(k) = u = p(2k)$, hence by the same argument we conclude that $y \in \dom{S \cup P}$.
+$\edgestar{(S,P)}{\ppath(k)}{\ppath(2k)}$ where $\ppath(k) = u = \ppath(2k)$, hence by the same argument we conclude that $y \in \dom{S \cup P}$.
 
 We know that $(S, P) = (S',P') \comp (S_h,P_h) \comp (S'',P'')$, where $(S',P')= (S_0,P_0)\comp \cdots \comp (S_{h-1},P_{h-1})$ and 
 $(S'',P'')= (S_{h+1},P_{h+1})\comp \cdots \comp (S_{k-1},P_{k-1})$. By $\tau \models p$ and that $z P_h z'$ we deduce that
@@ -191,8 +191,8 @@ but $\tau'$ is not progressing, while $\tau''$ has only one progressing point, h
 
 \begin{definition}[Value flow]\label{lab:valueFlow}
 Let $\biRel, \Graph$ be as above; a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$, which is 
-{\em compatible} with $\biRel, \Graph$ if for all path $\ppath: \alpha \to V$ of $\Graph$, trace $\tau: \alpha \to X$ 
-such that $\tau \models \ppath$, and $i < \alpha$, if $\edge{(S,P)}{\ppath(i)}{\ppath(i+1)}$ it holds that
+{\em compatible} with $\biRel, \Graph$ if for all path $\ppath: \alpha \to V$ of $\Graph$ there exists a trace $\tau: \alpha \to X$ 
+such that $\tau \models \ppath$, and for all $i < \alpha$, if $\edge{(S,P)}{\ppath(i)}{\ppath(i+1)}$ it holds that
 %\[ \tau(i) P \tau(i+1) \Then \theta(i,\tau(i)) > \theta(i+1,\tau(i+1)) \]
 \begin{enumerate}[i)]
 \item $\tau(i) S \tau(i+1) \Then \theta(i,\tau(i)) \geq \theta(i+1,\tau(i+1))$
@@ -212,5 +212,8 @@ If $\biRel$ is injective and $\Graph$ satisfies PDC then it satisfies GTC.
 \end{corollary}
 
 \begin{proof}
-bla
+Since $\Graph$ is finite, if it has an infinite path $\pi:\omega \to V$ then there exists $(S,P) \in \biRel^*$ such that $\edgeGstar{(S,P)}{u}{u}{\Graph}$ for
+some $u \in V$. W.l.o.g. we assume that $\ppath$ has the shape
+\[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
+As $(S,P)$ is self-composable, by PDC there exist $x, y \in \dom{S \cup P}$ such that $x P y$.
 \end{proof}
