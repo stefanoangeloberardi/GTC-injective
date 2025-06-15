@@ -87,10 +87,9 @@ If $\edgestar{(S,P)}{v}{v}$ then $\edgestar{(S,P)^n}{v}{v}$ for all $n > 0$ by d
 Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
 \begin{enumerate}[i)]
 \item a {\em trace} is a map $\tau:\alpha \to X$;
-\item a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$; (to be moved)
 \item a {\em path} is a map $\ppath:\alpha \to V$ such that fo all $h < \alpha$ the triple $(p(h), (S, P), p(h+1))$ 
 	belongs to $E$ (is an edge of $\Graph$) for some $(S,P) \in \biRel$;
-\item a trace $\tau$ is compatible with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if whenever
+\item a trace $\tau$ is {\em compatible} with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if whenever
 	%$(p(h), (S, P), p(h+1)) \in E$ 
 	$\edge{(S,P)}{p(h)}{p(h+1)}$
 	we have that $\tau(h) (S \cup P) \tau(h+1)$; we say that $h$ is a {\em progress point} of $\tau$ if $\tau(h) P \tau(h+1)$.
@@ -154,7 +153,7 @@ Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $P_2 z \Then x (S_1P_2 \cup P_1
 \end{proof}
 
 \begin{proposition}\label{prop:GTCimplPDC}
-If $\Graph$ satisfies GTC, it satisfies PDC.
+If $\Graph$ satisfies GTC then it satisfies PDC.
 \end{proposition}
 
 \begin{proof}
@@ -190,14 +189,28 @@ On the other hand, there is an infinite path $p_0 = v v \cdots$, and the only in
 but $\tau'$ is not progressing, while $\tau''$ has only one progressing point, hence $\Graph_0$ does not satisfy GTC.
 \end{remark}
 
-\newpage
-%To capture observation (2), we introduce a transition system whose edges are labeled by bi-colored relations, abstracting both the control flow between function calls in SCT and the proof structure in cyclic pre-proofs for GTC. This general notion provides a common foundation for the unified treatment of SCT and GTC.
-
-
-\begin{definition}
-    \textbf{(Composable)}
+\begin{definition}[Value flow]\label{lab:valueFlow}
+Let $\biRel, \Graph$ be as above; a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$, which is 
+{\em compatible} with $\biRel, \Graph$ if for all path $\ppath: \alpha \to V$ of $\Graph$, trace $\tau: \alpha \to X$ 
+such that $\tau \models \ppath$, and $i < \alpha$, if $\edge{(S,P)}{\ppath(i)}{\ppath(i+1)}$ it holds that
+%\[ \tau(i) P \tau(i+1) \Then \theta(i,\tau(i)) > \theta(i+1,\tau(i+1)) \]
+\begin{enumerate}[i)]
+\item $\tau(i) S \tau(i+1) \Then \theta(i,\tau(i)) \geq \theta(i+1,\tau(i+1))$
+\item $\tau(i) P \tau(i+1) \Then \theta(i,\tau(i)) > \theta(i+1,\tau(i+1))$
+\end{enumerate}
 \end{definition}
 
-\begin{example}
-    \textcolor{red}{[Include here an example (THE SAME AS FOR SECTION 4) of how the three defintions SCT <-> GTC <-> transition graph interact][Make basically a triangle where each corner is each representation and each edge is a biconditional <->]}
-\end{example}
+We say that the (finite) set $\biRel$ of bi-colored relations is {\em injective} if all $(S, P) \in \biRel$ are injective.
+By Lemma \ref{lem:comInjective}, if $\biRel$ is injective then the (infinite) set $\biRel^*$ is injective as well.
+
+\begin{theorem}[Termination of value flows]\label{thm:weak-termination}
+If $\biRel$ is injective and $\Graph$ satisfies PDC, than any value flow compatible with $\biRel, \Graph$ is finite.
+\end{theorem}
+
+\begin{corollary}
+If $\biRel$ is injective and $\Graph$ satisfies PDC then it satisfies GTC.
+\end{corollary}
+
+\begin{proof}
+bla
+\end{proof}
