@@ -83,11 +83,11 @@ As $\Graph$ is understood, we omit the subscript in $\edge{(S,P)}{u}{v}$ and $\e
 
 If $\edgestar{(S,P)}{v}{v}$ then $\edgestar{(S,P)^n}{v}{v}$ for all $n > 0$ by definition of composition over the edges of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itslef $n$-times, hence the name.
 
-\begin{definition}[Trace and path]\label{def:TracePath}
+\begin{definition}[Trace, path and progress]\label{def:TracePath}
 Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
 \begin{enumerate}[i)]
 \item a {\em trace} is a map $\tau:\alpha \to X$;
-\item a {\em path} is a map $\ppath:\alpha \to V$ such that fo all $h < \alpha$ the triple $(p(h), (S, P), p(h+1))$ 
+\item a {\em path} of $\Graph$ is a map $\ppath:\alpha \to V$ such that fo all $h < \alpha$ the triple $(p(h), (S, P), p(h+1))$ 
 	belongs to $E$ (is an edge of $\Graph$) for some $(S,P) \in \biRel$;
 \item a trace $\tau$ is {\em compatible} with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if whenever
 	%$(p(h), (S, P), p(h+1)) \in E$ 
@@ -97,8 +97,7 @@ Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transiti
 \end{definition}
 
 A trace $\tau:\alpha \to X$, respectively a path $\ppath:\alpha \to V$ are infinite if $\alpha = \omega$, finite otherwise.
-
-Remark: $\Nat$ could be any well-founded set; the role of $\theta$ will be clarified later.
+We say that $\tau$ is a trace of $\Graph$ if $\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
 
 \begin{definition}[Global Trace Condition - GTC]
 The transition graph $\Graph$ satisfies the {\em Global Trace Condition} if for all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
@@ -114,7 +113,7 @@ Recall that if $R$ is a binary relation, $\dom{R} = \Set{x \mid \exists y.\; x R
 \begin{definition}[Prograss Domain Condition - PDC]\label{def:PDC}
 $\Graph$ satisfies the {\em Prograss Domain Condition} if for all self-composable $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
 $x$ progresses to $y$:
-\[\forall (S,P) \in \biRel^*, v\in V.\; (v, (S,P), v) \in E^* \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
+\[\forall (S,P) \in \biRel^*, u \in V.\;\edge{(S,P)}{u}{u} \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
 \end{definition}
 
 %\begin{lemma}
@@ -189,31 +188,58 @@ On the other hand, there is an infinite path $p_0 = v v \cdots$, and the only in
 but $\tau'$ is not progressing, while $\tau''$ has only one progressing point, hence $\Graph_0$ does not satisfy GTC.
 \end{remark}
 
+%\begin{definition}[Value flow]\label{lab:valueFlow}
+%Let $\biRel, \Graph$ be as above; a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$, which is 
+%{\em compatible} with $\biRel, \Graph$ if for all path $\ppath: \alpha \to V$ of $\Graph$ there exists a trace $\tau: \alpha \to X$ 
+%such that $\tau \models \ppath$, and for all $i < \alpha$, if $\edge{(S,P)}{\ppath(i)}{\ppath(i+1)}$ it holds that
+%\begin{enumerate}[i)]
+%\item $\tau(i) S \tau(i+1) \Then \theta(i,\tau(i)) \geq \theta(i+1,\tau(i+1))$
+%\item $\tau(i) P \tau(i+1) \Then \theta(i,\tau(i)) > \theta(i+1,\tau(i+1))$
+%\end{enumerate}
+%\end{definition}
+
 \begin{definition}[Value flow]\label{lab:valueFlow}
-Let $\biRel, \Graph$ be as above; a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$, which is 
-{\em compatible} with $\biRel, \Graph$ if for all path $\ppath: \alpha \to V$ of $\Graph$ there exists a trace $\tau: \alpha \to X$ 
-such that $\tau \models \ppath$, and for all $i < \alpha$, if $\edge{(S,P)}{\ppath(i)}{\ppath(i+1)}$ it holds that
-%\[ \tau(i) P \tau(i+1) \Then \theta(i,\tau(i)) > \theta(i+1,\tau(i+1)) \]
+Let $\biRel, \Graph$ be as above, $\ppath: \alpha \to V$ a path of $\Graph$ and $\tau: \alpha \to X$ a trace such that $\tau \models \ppath$.
+A map $\theta: \alpha \times X \to \Nat$ is a {\em value flow} for $\tau$ if
 \begin{enumerate}[i)]
-\item $\tau(i) S \tau(i+1) \Then \theta(i,\tau(i)) \geq \theta(i+1,\tau(i+1))$
-\item $\tau(i) P \tau(i+1) \Then \theta(i,\tau(i)) > \theta(i+1,\tau(i+1))$
+\item $\tau(i) S \tau(i+1) \Then \theta(i,\tau(i)) \geq \theta(i+1,\tau(i+1))$;
+\item $\tau(i) P \tau(i+1) \Then \theta(i,\tau(i)) > \theta(i+1,\tau(i+1))$.
 \end{enumerate}
 \end{definition}
+
 
 We say that the (finite) set $\biRel$ of bi-colored relations is {\em injective} if all $(S, P) \in \biRel$ are injective.
 By Lemma \ref{lem:comInjective}, if $\biRel$ is injective then the (infinite) set $\biRel^*$ is injective as well.
 
 \begin{theorem}[Termination of value flows]\label{thm:weak-termination}
-If $\biRel$ is injective and $\Graph$ satisfies PDC, than any value flow compatible with $\biRel, \Graph$ is finite.
+If $\biRel$ is injective and $\Graph$ satisfies PDC, than any value flow for a trace of $\Graph$ is finite.
 \end{theorem}
 
-\begin{corollary}
-If $\biRel$ is injective and $\Graph$ satisfies PDC then it satisfies GTC.
+\begin{corollary}\label{cor:PDC+inToGTC}
+If $\biRel$ is injective and $\Graph$ satisfies PDC then $\Graph$ satisfies GTC.
 \end{corollary}
 
 \begin{proof}
-Since $\Graph$ is finite, if it has an infinite path $\pi:\omega \to V$ then there exists $(S,P) \in \biRel^*$ such that $\edgeGstar{(S,P)}{u}{u}{\Graph}$ for
-some $u \in V$. W.l.o.g. we assume that $\ppath$ has the shape
+Toward a contradiction, let us assume that $\Graph$ does not satisfy GTG. Then there exists an infinite path $\pi:\omega \to V$ 
+such that no trace $\tau: \omega \to X$ such that $\tau \models \ppath$ is infinitely progressing.
+
+Since $\Graph$ is finite, we assume w.l.o.g. that $\ppath$ has the shape
 \[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
-As $(S,P)$ is self-composable, by PDC there exist $x, y \in \dom{S \cup P}$ such that $x P y$.
+where $\edgeGstar{(S,P)}{u}{u}{\Graph}$ is self composable, and 
+$(S,P) = (S_0,P_0) \comp \cdots \comp (S_{k-1},P_{k-1})$ for some $k$ and $(S_i,P_i) \in \biRel$ for all $0 \leq i < k$.
+By the hypothesis that $\biRel$ is injective, we know that $(S,P)$ and all the $(S_i,P_i)$ are injective. 
+
+By PDC, there exist $x, y \in \dom{S \cup P}$ such that $x P y$. As $(S,P)$ is self-composable and injective $\cod{S \cup P} = \dom{S \cup P}$,
+hence $x,y \in \dom{S_i \cup P_i}$ for all $0 \leq i < k$. Let $\tau : \omega \to X$ be the trace such that $\tau(0) = x$, 
+$\tau(i+1)$ is the unique $z \in X$ such that $\tau(i) (S_j \cup P_j) z$, where $\edge{(S_j,P_j)}{\ppath(i)}{\ppath(i+1)}$. Now $x P y$ implies
+that $\tau(k-1) P_{k-1} \tau(k)$ and $\tau(k) = y$; moreover, as $S \cup P$ is injective and $Y = \cod{S \cup P} = \dom{S \cup P} \subseteq X$ and $X$ is finite, $Y$ is finite, and $(S,P)$ induces a permutation $|(S,P)^n|$ (where $(S,P)^n$ is the $n$-times self-composition of $(S,P)$) of $Y$ that is periodically equal to $S \cup P$; hence there are infinitely many $i < \omega$ such that $\tau(i) = y$.
+
+By construction, $\tau \models \ppath$; on the other hand, we observe that for all $i < \omega$ exactly one of 
+$\tau(i) S_{j} \tau(i+1)$ and $\tau(i) P_{j} \tau(i+1)$ must hold, where $\edge{(S_j,P_j)}{\ppath(i)}{\ppath(i+1)}$, hence the map $\theta: \omega \times X \to \Nat$
+\[ \theta(i, \tau(i)) = \left\{ \begin{array}{ll}
+				1 & \mbox{if $\tau(i) S_j \tau(i+1)$} \\
+				0 & \mbox{if $\tau(i) P_j \tau(i+1)$}
+			    \end{array} \right.
+\]
+and $\theta(i, z) = 0$ if $z$ is not in the image of $\tau$, is well defined and a value flow for $\tau$ which is infinite, contradicting Theorem \ref{thm:weak-termination}.
 \end{proof}
