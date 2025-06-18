@@ -1519,7 +1519,7 @@ Oxford University Press.
 
 \newpage
 
-\section{Appendix: PDC and SCT are Equivalent Given Injectivity}
+\section{Appendix: PDC, GTC and SCT are Equivalent Given Injectivity}
 The goal of this section is to compare PDC with the GTC with and 
 without injectivity. 
 We Claim:
@@ -1574,26 +1574,87 @@ $$
 (SCT \Leftrightarrow GTC)
 $$
 Thus, from GTC $\Rightarrow$ PDC just proved we deduce
-SCT $\Rightarrow$ PDC. We proved the property \ref{property-2}.
+SCT $\Rightarrow$ PDC and GTC $\Rightarrow$ PDC. We proved one direction, namely
+point \label{property-2} of the Claim.
 \\
 
-Now we prove the property \ref{property-1}.
-We first prove that if $\setR$ is injective then
-PCD $\Rightarrow$ SCT. If will follow
-if $\setR$ is injective then PDC $\Rightarrow$ GTC. We just
-proved the opposite implications.
+Now we prove the other direction, namely point \label{property-1} of the Claim.
+It is enough to prove that if $\setR$ is injective then PCD $\Rightarrow$ SCT. If will follow
+if $\setR$ is injective then PDC $\Rightarrow$ SCT and PDC $\Rightarrow$ GTC. 
 
-So it is enough to prove: ($\setR$ is injective, PCD $\Rightarrow$ SCT).
-To this aim, we first characterize the 
-\emph{injective self-composable idempotent relations $R$}:
-they are are the identity when restricted to $\dom(R)$.
+We first prove a property of injective transitive relation: this property does not
+involve coloring.
 
-$R$ is a finite relation on a finite set $X$, therefore there are finitely many
-values for $R^m$. We take the complete graph on $\N$, and we color the edge between $i$ and $j>i$ with $R^{j-i}$. By Ramsey Theorem there is 
-a monocromatic set with $3$ elements $i<j<k$. If the color of the set if $R^m$,
+\begin{proposition}[Transitive Injective Relations]
+\label{proposition-transitive-injective}
+Assume $X$ is any set and $R \subseteq X \times X$ is any binary relation.
+If $R$ is transitive and injective, then any two elements of $\dom(R)$ related by $R$ are equal.
+\end{proposition}
+
+\begin{proof}
+Assume $x, y \in \dom(R)$ and $x R y$ in order to prove $x = y$. 
+From $y \in \dom(R)$ we deduce that for some
+$z \in X$ we have $y R z$. By transitivity of $R$ we have $x R z$. By $y R z$ and injectivity
+we conclude that $x = y$, as wished.
+\end{proof}
+
+We now prove that all finite relations have some positive power which is idempotent
+
+\begin{proposition}
+\label{proposition-idempotent-power}
+Assume $X$ is any finite set and $R \subseteq X \times X$ is any finite binary relation.
+Then for some $n>0$ we have $R^n=R^nR^n$.
+\end{proposition}
+
+\begin{proof}
+Since $R$ is finite, there are only finitely many powers of $R$, therefore 
+for some $a,b>0$ we have $R^a = R^{a+b}$. Then for all $c \ge a$ we have $R^c = R^{c+b}$,
+hence $R^c = R^{c+db}$ for all $d>0$. Take the first $d>0$ such that $db \ge a$: then 
+$R^{db} = R^{c+db}$. We take $n=db$.\footnote{There is an alternative proof using
+Finite Ramsey Theorem. We take the complete graph on $\N$, and we color the 
+edge between $i$ and any $j>i$ with $R^{j-i}$. By Ramsey Theorem there is 
+a monocromatic set with $3$ elements $i<j<k$. If the color of the set is $R^m$,
 then the edge between $i$ and $k$ is both $R^m$ and $R^mR^m$, therefore
-$R$ is idempotent. If we $R$ is injective, then $R^m$ is 
-also the identity on $\dom(R^m)$, as the next Lemma says.
+$R^m$ is idempotent. }
+\end{proof}
+
+We can now prove that  PDC $\Rightarrow$ SCT.
+
+\begin{theorem}
+Assume $X$ is any finite set and $\setR \subseteq X \times X$ is any composition-closed
+finite family of finite bi-colored 
+\emph{injective} binary relations. If $\setR$ satisfies PDC and is then $\setR$ satisfies SCT.
+\end{theorem}
+
+
+\begin{proof}
+Assume that $(S,P) \in \setR$ is some bi-colored finite relation on $X$,
+in order to prove that for some $n \in \N$, $n>0$ there is some
+$x \in X$ such that if $(S,P)^n = (S_n,P_n)$ the $x P_n x$. 
+
+Let $R = \universe{(S,P)} = S \cup P$. $R$ is finite, therefore by Prop. 
+\ref{proposition-idempotent-power}for some $n \in \N$ we have $R^n = R^nR^n$. 
+In particular, $R^n$ is transitive. 
+We have $R^n = \universe{(S,P)}^n = \universe{(S,P)^n}$. By composition-closure of 
+$\setR$ we deduce  $(S,P)^n \in \setR$, hence $R^n$ is injective and $(S,P)^n$ satisfies PDC. 
+Thus, there are $x, y \in \dom(\universe{(S,P)^n}) = \dom(R^n)$ such that $x P_n y$, 
+hence $x R^n y$. By proposition \ref{proposition-transitive-injective} we obtain that $x = y$.
+We conclude that $x P_n x$, as wished.
+\end{proof}
+
+
+\section{An alternative proof of (PDC implies SCT)}
+We first characterize the \emph{injective self-composable idempotent relations $R$} 
+and we prove that all such relations are are the identity relation when restricted to $\dom(R)$.
+In Prop. \ref{proposition-transitive-injective} we already proved that if $R$ is injective and
+transitive, namely if $RR \subseteq R$, then $R \restr \dom(R) $ is \emph{included}
+in the identity relation on $\dom(R)$.
+
+As a corollary we will deduce that (PDC $\Rightarrow$ SCT), in an alternative way.
+
+$R$ is a finite relation on a finite set $X$, therefore by Prop. 
+\ref{proposition-idempotent-power} for some $m>0$ we have $R^m=R^mR^m$. 
+If $R$ is injective, then $R^m$ is also the identity on $\dom(R^m)$, as the next Lemma says.
 
 
 \begin{proposition}[Idempotent Injective Relations
@@ -1660,16 +1721,14 @@ $x$ is weakly progressing to $x$.
 We prove that \emph{for some $x \in \dom(R)$, $x$ is progressing to itself}.
 By PDC there are some $y, z \in \dom(R)$ such that $y$ is progressing to $z$.
 By the previous point $R \restr \dom(R) $ is an identity.
-We deduce that $y=z$. 
-Thus, some $y \in \dom(R)$ is progressing to itself.
+We deduce that $y=z$. Thus, some $y \in \dom(R)$ is progressing to itself.
 
 \end{enumerate}
 \end{proof}
 
-We already said that for all finite relations $R$ 
+By Prop. \ref{proposition-idempotent-power} for all finite relations $R$ 
 there is $m \in \N$, $m \ge 1$ such that $R^m = R^m R^m$. By the previous
-Lemma, if $\setR$ is injective, 
-$(\Stat,\Prog) \in \setR$ is self-composable  in $\setG$, 
+Lemma, if $\setR$ is injective, $(\Stat,\Prog) \in \setR$ is self-composable  in $\setG$, 
 we deduce that some $x$ in progressing to itself 
 in $(\Stat,\Prog)^m$. This proves SCT, hence GTC.
 \\
@@ -1684,6 +1743,7 @@ PDC
 $,
 was already proved with the counter-example $\setR_2$
 in \S \ \ref{subsubsection-counterexample-PDC-GTC}.
+
 
 
 \section{Appendix: Comparing Global Trace Condition (GTC) 
