@@ -1554,11 +1554,15 @@ PDC
 $$
 \end{enumerate}
 
+Point \ref{property-3} of the Claim
+was already proved with the counter-example $\setR_2$
+in \S \ \ref{subsubsection-counterexample-PDC-GTC}.
+
 The implication GTC $\Rightarrow$ PDC follows from the fact that
 for all self-composable $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ 
-there is some infinitely progressing trace $z_1,z_2,z_3,\ldots$
-in the path $a,a,a,a,\ldots$ labeled $R,R,R,R,...$ 
-where $R = \universe{(\Stat,\Prog)}$. 
+there is some path $\pi = a,a,a,a,\ldots$ labeled $R,R,R,R,...$,
+where $R = \universe{(\Stat,\Prog)} = \Stat \cup \Prog$. By GTC,
+there is some infinitely progressing trace $z_1,z_2,z_3,\ldots$ in $\pi$.  
 In any progressing point $i$ of the trace we have $z_i \Prog z_{i+1}$
 and $z_{i+1} R z_{i+2}$. We conclude that $z_i \Prog z_{i+1}$
 and $z_i, z_{i+1} \in \dom(R)$ for some $z_i, z_{i+1}$, that is,
@@ -1573,32 +1577,54 @@ $$
 \forall \setR, \setG.  \ \ 
 (SCT \Leftrightarrow GTC)
 $$
-Thus, from GTC $\Rightarrow$ PDC just proved we deduce
-SCT $\Rightarrow$ PDC and GTC $\Rightarrow$ PDC. We proved one direction, namely
-point \label{property-2} of the Claim.
+Thus, from GTC $\Rightarrow$ PDC just proved we deduce SCT $\Rightarrow$ PDC. 
+We proved one direction, namely point \label{property-2} of the Claim.
 \\
 
 Now we prove the other direction, namely point \label{property-1} of the Claim.
 It is enough to prove that if $\setR$ is injective then PCD $\Rightarrow$ SCT. If will follow
-if $\setR$ is injective then PDC $\Rightarrow$ SCT and PDC $\Rightarrow$ GTC. 
+if $\setR$ is injective then PDC $\Rightarrow$ GTC. 
 
 We first prove a property of injective transitive relation: this property does not
-involve coloring.
+involve coloring, nor the fact that the relation is finite.
 
 \begin{proposition}[Transitive Injective Relations]
 \label{proposition-transitive-injective}
 Assume $X$ is any set and $R \subseteq X \times X$ is any binary relation.
-If $R$ is transitive and injective, then any two elements of $\dom(R)$ related by $R$ are equal.
-\end{proposition}
+\begin{enumerate}
+\item
+\label{proposition-transitive-injective-01}
+If $R$ is transitive and $R$ is injective, then any two elements of $\dom(R)$ related by $R$ 
+are equal, namely $R \restr \dom(R) \subseteq \id_{\dom(R)}$.
+\item
+\label{proposition-transitive-injective-02}
+If $R=RR$ and $R$ is injective, then two elements of $\dom(R)$ are related by $R$ 
+\emph{if and only if} they are equal, namely $R \restr \dom(R) = \id_{\dom(R)}$.
+\end{enumerate}
+\end{proposition} 
 
 \begin{proof}
+\begin{enumerate}
+\item
+%\label{proposition-transitive-injective-01}
 Assume $x, y \in \dom(R)$ and $x R y$ in order to prove $x = y$. 
 From $y \in \dom(R)$ we deduce that for some
 $z \in X$ we have $y R z$. By transitivity of $R$ we have $x R z$. By $y R z$ and injectivity
 we conclude that $x = y$, as wished.
+
+\item
+%\label{proposition-transitive-injective-02}
+Assume $x, y \in \dom(R)$ in order to prove $x = y$ if and only if $x R y$. By $R=RR$
+we deduce that $R$ is transitive, and by point \ref{proposition-transitive-injective-01} above,
+that $x R y$ implies $x=y$. Now we assume $x=y$ in order to prove $x R y$. 
+From $x \in \dom(R)$ we deduce $x R z$ for some $z \in X$. From $R =RR$ we deduce
+that for some $v \in X$ we have $x R v$ and $v R z$. From $x R z$, $v R z$ and injectivity
+we obtain $x = v$. From $x R v$ and $x = y$ we conclude that $x R y$,
+as wished.
+\end{enumerate}
 \end{proof}
 
-We now prove that all finite relations have some positive power which is idempotent
+We now prove that all \emph{finite} relations have some positive power which is idempotent.
 
 \begin{proposition}
 \label{proposition-idempotent-power}
@@ -1610,51 +1636,51 @@ Then for some $n>0$ we have $R^n=R^nR^n$.
 Since $R$ is finite, there are only finitely many powers of $R$, therefore 
 for some $a,b>0$ we have $R^a = R^{a+b}$. Then for all $c \ge a$ we have $R^c = R^{c+b}$,
 hence $R^c = R^{c+db}$ for all $d>0$. Take the first $d>0$ such that $db \ge a$: then 
-$R^{db} = R^{c+db}$. We take $n=db$.\footnote{There is an alternative proof using
+$R^{db} = R^{db+db}$. We take $n=db$.\footnote{There is an alternative proof using
 Finite Ramsey Theorem. We take the complete graph on $\N$, and we color the 
-edge between $i$ and any $j>i$ with $R^{j-i}$. By Ramsey Theorem there is 
-a monocromatic set with $3$ elements $i<j<k$. If the color of the set is $R^m$,
-then the edge between $i$ and $k$ is both $R^m$ and $R^mR^m$, therefore
-$R^m$ is idempotent. }
+edge between $i$ and any $j>i$ with $R^{j-i}$. There are finitely many colors.
+By Finite Ramsey Theorem there is a monocromatic set with $3$ elements $i<j<k$. 
+If the color of the set is $R^m$, then the edge between $i$ and $j$ and between $j$ and $k$
+is $R^m$. By definition of coloring, the edge between $i$ and $k$ is $R^mR^m$, 
+by Ramsey Theorem it is $R^m$. We conclude that $R^m = R^mR^m$. }
 \end{proof}
 
-We can now prove that  PDC $\Rightarrow$ SCT.
+We can now prove that if we have injectivity then PDC $\Rightarrow$ SCT.
 
 \begin{theorem}
 Assume $X$ is any finite set and $\setR \subseteq X \times X$ is any composition-closed
-finite family of finite bi-colored 
-\emph{injective} binary relations. If $\setR$ satisfies PDC and is then $\setR$ satisfies SCT.
+finite family of finite bi-colored \emph{injective} binary relations. If $\setR$ satisfies PDC and 
+is \emph{injective} then $\setR$ satisfies SCT.
 \end{theorem}
 
 
 \begin{proof}
 Assume that $(S,P) \in \setR$ is some bi-colored finite relation on $X$,
-in order to prove that for some $n \in \N$, $n>0$ there is some
-$x \in X$ such that if $(S,P)^n = (S_n,P_n)$ the $x P_n x$. 
+in order to prove that for some $n \in \N$, $n>0$, for $(S_n,P_n) = (S,P)^n$ there is some
+$x \in X$ such that $x P_n x$. 
 
 Let $R = \universe{(S,P)} = S \cup P$. $R$ is finite, therefore by Prop. 
-\ref{proposition-idempotent-power}for some $n \in \N$ we have $R^n = R^nR^n$. 
+\ref{proposition-idempotent-power} for some $n \in \N$ we have $R^n = R^nR^n$. 
 In particular, $R^n$ is transitive. 
 We have $R^n = \universe{(S,P)}^n = \universe{(S,P)^n}$. By composition-closure of 
 $\setR$ we deduce  $(S,P)^n \in \setR$, hence $R^n$ is injective and $(S,P)^n$ satisfies PDC. 
 Thus, there are $x, y \in \dom(\universe{(S,P)^n}) = \dom(R^n)$ such that $x P_n y$, 
-hence $x R^n y$. By proposition \ref{proposition-transitive-injective} we obtain that $x = y$.
-We conclude that $x P_n x$, as wished.
+hence $x R^n y$. By proposition 
+\ref{proposition-transitive-injective}.\ref{proposition-transitive-injective-01} 
+we obtain that $x = y$. We conclude that $x P_n x$, as wished.
 \end{proof}
 
 
 \section{An alternative proof of (PDC implies SCT)}
-We first characterize the \emph{injective self-composable idempotent relations $R$} 
-and we prove that all such relations are are the identity relation when restricted to $\dom(R)$.
-In Prop. \ref{proposition-transitive-injective} we already proved that if $R$ is injective and
-transitive, namely if $RR \subseteq R$, then $R \restr \dom(R) $ is \emph{included}
-in the identity relation on $\dom(R)$.
+We provide an alternative proof that 
+the \emph{injective self-composable idempotent relations $R$} are the identity relation when 
+restricted to $\dom(R)$. This proof only works in the case of finite relations.
 
 As a corollary we will deduce that (PDC $\Rightarrow$ SCT), in an alternative way.
 
 $R$ is a finite relation on a finite set $X$, therefore by Prop. 
 \ref{proposition-idempotent-power} for some $m>0$ we have $R^m=R^mR^m$. 
-If $R$ is injective, then $R^m$ is also the identity on $\dom(R^m)$, as the next Lemma says.
+If $R$ is injective, then $R^m$ is also the identity on $\dom(R^m)$.
 
 
 \begin{proposition}[Idempotent Injective Relations
@@ -1733,24 +1759,25 @@ we deduce that some $x$ in progressing to itself
 in $(\Stat,\Prog)^m$. This proves SCT, hence GTC.
 \\
 
-The last property, namely
-$
-\exists \setR, \setG  \mbox{ comp.-closed}. \ \ 
-\neg(\setR \mbox{ injective}) \wedge 
-\neg SCT \wedge 
-\neg GTC \wedge 
-PDC
-$,
-was already proved with the counter-example $\setR_2$
-in \S \ \ref{subsubsection-counterexample-PDC-GTC}.
 
 
 
 \section{Appendix: Comparing Global Trace Condition (GTC) 
 with Termination of Computations (TC)}
 In this section we prove that the Global Trace Condition is equivalent to
-the Termination of all possible computation flows, from now on, just TC
-for short.
+the termination of all computation flows, from now on, just TC for short.
+
+We recall that a computation flow is some sequence 
+$((a_1,(\Stat_1,\Prog_1),a_2),\sigma_1)$,
+$((a_2,(\Stat_2,\Prog_2),a_3),\sigma_2), \ \ldots$ of states, such that
+$$\composable{\setG}{a_1}{a_2}{(\Stat_1,\Prog_1)}, \ \ \ 
+\composable{\setG}{a_2}{a_3}{(\Stat_2,\Prog_2)}, \ldots$$ and
+for all $x, y \in X$, whenever $x \Stat_i y$ then $\sigma_i(x) \ge \sigma_{i+1}(y)$,
+whenever $x \Prog_i y$ then $\sigma_i(x) > \sigma_{i+1}(y)$.
+
+\begin{definition}[TC]
+TC is short for: all possible computation flows terminate.
+\end{definition}
 
 Using Classical Logic, 
 it is immediate that GTC $\implies$ TC. Indeed, in any infinite computation 
@@ -1763,13 +1790,14 @@ The converse TC $\implies$ GTC is true but not immediate. Using Classical
 Logic, we prove it in the form $\neg$ GTC $\implies$ $\neg$ TC. Actually
 we prove a stronger result: if GTC is false, there is some \emph{constant}
 infinite transition $s, s, s, \ldots$ for some $s = (\Stat,\Prog),\sigma) \in \setS$,
-in particular Termination of Computations (TC) fails.
+in particular Termination of Computations (TC) fails. In this infinite
+transition all traces progresses at most $n-1$ times, with $n=\Card(X)$.
 
 \begin{proof}[Proof of $\neg$ GTC $\implies$ $\neg$ TC]
 Assume $\neg$ GTC. By Theorem 4, \cite{2001-SCT} 
 we deduce $\neg$ SCT, namely
 that there is some self-composable 
-$(\Stat,\Prog) \in \setR$ such that for no $m \in \N$, $m>0$, 
+$(a,(\Stat,\Prog),a) \in \setR$ such that for no $m \in \N$, $m>0$, 
 $x \in X$ we have $x$ progressing to itself in $(\Stat,\Prog)^m$.
 
 We define $s = ((\Stat,\Prog),\sigma) \in \setS$, then 
