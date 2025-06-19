@@ -5,9 +5,10 @@
 \newcommand{\CLJIDomega}{\textit{CLJID}^\omega}
 \newcommand{\CLKIDomega}{\textit{CLKID}^\omega}
 
-We define the injective bi-partite relations and argue that they suffice for the GTC in case of the systems $\CLJIDomega$ and $\CLKIDomega$
+We define the injective bi-partite relations and argue that they suffice for the GTC in case of the systems $\CLJIDomega$ and $\CLKIDomega$.
+\bigskip
 
-A relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$.
+In general, a relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$.
 Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint.
 
 \begin{lemma}\label{lem:comInjective}
@@ -19,7 +20,7 @@ If $xRR'z$ and $x'RR'z$ then there are $y,y' \in Y$ such that $xRy$ and $yR'z$, 
 hence $x = x'$ by the injectivity of $R$.
 \end{proof}
 
-We say that $(S, P)$ is injective if $|(S, P)| = S \cup P$ is such in the above sense.
+We say that $(S, P)$ is {\em injective} if $|(S, P)| = S \cup P$ is such in the above sense.
 
 \begin{lemma}\label{lem:biRelInjectiveComp}
 If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injective.
@@ -29,3 +30,6 @@ If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injec
 By the above we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reation $S \cup P$ with the injective
 relation $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
 \end{proof}
+
+We say that the set of bi-partite relations $\biRel$ is injective if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$
+is injective then $\biRel^*$ is such.

@@ -7,40 +7,44 @@ This section includes the definitions and technical macinery defining bi-partite
  
  \bigskip
  
- If $R \subseteq X \times Y$ is a binary relation, then we write $x R y$ for $(x,y) \in R$. Thinking $R$ as a function $R: X \to \wp(Y)$, we set
-$R(x) = \Set{y \in Y \mid x R y}$. Then we define 
-$\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} = \Set{x \in X \mid R(x) \neq \emptyset}$, and
+Let $R \subseteq X \times Y$ be a binary relation, then we write $x R y$ for $(x,y) \in R$. 
+Thinking of $R$ as a function $R: X \to \wp(Y)$, we set $R(x) = \Set{y \in Y \mid x R y}$. 
+Then we define $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} = \Set{x \in X \mid R(x) \neq \emptyset}$, and
 $\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x \in X}$. 
-We say that $R$ is {\em everywhere defined} if $\dom{R} = X$.
+%We say that $R$ is {\em everywhere defined} if $\dom{R} = X$.
 
-If $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
-$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$.
+Binary relations compose: if $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
+$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$. In this work we shall consider binary relations over some fixed finite set 
+$X = \Set{x_1, ..., x_n}$, which are themeslves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$
+and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$.
 
-\begin{definition}[Bi-partite relations]\label{def:bi-partiteRelations}
-Let $X = \{x_1, ..., x_n\}$ be a finite set. A {\em bi-partite relation} over $X$, is a pair $(S,P)$ such that $S, P \subseteq X \times X$ where $S \cap P = \emptyset$. For any $x,y \in X$, if $x S y$ (resp. $xPy$) we say that $x$ \emph{weakly progresses} (resp. \emph{progresses}) to $y$ in $(S, P)$. 
-If $(S,P)$ and $(S',P')$ are bi-colored relations over the same set $X$ then we define the {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
+
+\begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
+Let $(S,P), (S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
 where
 \[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
 \end{definition}
 
-It is easy to see \marginpar{Really?} that the composition of bi-partite relations is associative. Also, we observe that it is compatible with the union and ordinary composition of binary relations: let's write 
-$|(S,P)| = S \cup P$, then
+The composition of bi-partite relations is associative. We observe that it is compatible 
+with the union and ordinary composition of binary relations: 
+let's write $|(S,P)| = S \cup P$, then
 \begin{align}\label{eq:unionComp}
 |(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
 & = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
 \end{align}
 
-We say that $(S, P)$ is injective if $|(S, P)| = S \cup P$ is such in the ordinary sense.
+%We say that $(S, P)$ is injective if $|(S, P)| = S \cup P$ is such in the ordinary sense.
+%
+%\begin{lemma}\label{lem:biRelInjectiveComp}
+%If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injective.
+%\end{lemma}
+%
+%\begin{proof}
+%By the above we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reation $S \cup P$ with the injective
+%relation $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
+%\end{proof}
 
-\begin{lemma}\label{lem:biRelInjectiveComp}
-If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injective.
-\end{lemma}
+We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_n,P_n)}$ over the same set $X$.
+Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
+is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
 
-\begin{proof}
-By the above we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reation $S \cup P$ with the injective
-relation $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
-\end{proof}
-
-We shall be interested in (finite) sets of bi-colored relations $\biRel = \Set{(S_1,P_1),...,(S_n,P_n)}$ over the same set $X$.
-Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-colored relations; then we use labeled graphs to select some bi-colored relations
-in $\biRel^*$.
