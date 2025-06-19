@@ -1,0 +1,272 @@
+% !TEX root = CSL-main.tex
+\section{Progress Domain Condition}
+\label{sec:progressDomainCond}
+
+%Given the equivalence between SCT and GTC established in Proposition \ref{PropEqualCond}, it becomes evident that both conditions share two key characteristics: (1) both can be formulated using size-change graphs, and (2) the composition of these graphs relies on an underlying structure. In the case of SCT, this structure arises from the control flow between function calls. For GTC, it is determined by the position of the companion nodes in the cyclic pre-proofs. Motivated by these commonalities, we now introduce a unified abstraction that captures both SCT and GTC within a single formal definition. 
+
+\subsection{Binary relations}
+
+If $R \subseteq X \times Y$ is a binary relation, then we write $x R y$ for $(x,y) \in R$. Thinking $R$ as a function $R: X \to \wp(Y)$, we set
+$R(x) = \Set{y \in Y \mid x R y}$. Then we define 
+then we set $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} = \Set{x \in X \mid R(x) \neq \emptyset}$, and
+$\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x \in X}$. 
+We say that $R$ is {\em everywhere defined} if $\dom{R} = X$.
+
+If $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
+$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$.
+
+A relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$.
+Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint.
+
+\begin{lemma}\label{lem:comInjective}
+If both $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ are injective, then $RR' \subseteq X \times Z$ is injective.
+\end{lemma}
+
+\begin{proof}
+If $xRR'z$ and $x'RR'z$ then there are $y,y' \in Y$ such that $xRy$ and $yR'z$, and $x'Ry'$ and $y'R'z$. By the injectivity of $R'$ we have $y = y'$,
+hence $x = x'$ by the injectivity of $R$.
+\end{proof}
+
+
+\subsection{Bi-colored relations}
+
+\begin{definition}[Bi-colored relations]\label{def:bi-coloredRelations}
+Let $X = \{x_1, ..., x_n\}$ be a finite set. A {\em bi-colored relation} over $X$, is a pair $(S,P)$ such that $S, P \subseteq X \times X$ where $S \cap P = \emptyset$. For any $x,y \in X$, if $x S y$ (resp. $xPy$) we say that $x$ \emph{weakly progresses} (resp. \emph{progresses}) to $y$ in $(S, P)$. 
+If $(S,P)$ and $(S',P')$ are bi-colored relations over the same set $X$ then we define the {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
+where
+\[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
+\end{definition}
+
+It is easy to see \marginpar{Really?} that the composition of bi-colored relations is associative. Also, we observe that it is compatible with the union and ordinary composition of binary relations: let's write 
+$|(S,P)| = S \cup P$, then
+\begin{align}\label{eq:unionComp}
+|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
+& = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
+\end{align}
+
+We say that $(S, P)$ is injective if $|(S, P)| = S \cup P$ is such in the ordinary sense.
+
+\begin{lemma}\label{lem:biRelInjectiveComp}
+If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injective.
+\end{lemma}
+
+\begin{proof}
+By the above we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reation $S \cup P$ with the injective
+relation $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
+\end{proof}
+
+We shall be interested in (finite) sets of bi-colored relations $\biRel = \Set{(S_1,P_1),...,(S_n,P_n)}$ over the same set $X$.
+Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-colored relations; then we use labeled graphs to select some bi-colored relations
+in $\biRel^*$.
+
+%\begin{definition}[Transition graph]\label{def:transitionGraph}
+%Let $\biRel = \Set{(S_1,P_1),...,(S_n,P_n) }$ be a finite set of bi-colored relations over the same set $X$. A {\em transition graph} of
+%$\biRel$ is a tuple $\Graph =(V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$
+%is a (finite) set of labeled edges.
+%\end{definition}
+
+\begin{definition}[Transition graph]\label{def:transitionGraph}
+A {\em transition graph} of $\biRel$ is a tuple $\Graph = (V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$
+is a (finite) set of labeled edges.
+\end{definition}
+
+
+
+%\begin{definition}[Transitive closure graph]\label{def:transClosure}
+%Given a transition graph $\Graph$ we define its {\em transitive closure} as the graph $\Graph^* = (V, \biRel^*, E^*)$, where
+%$\biRel^*$ is the closure of $\biRel$ under composition of bi-colored relations and $E^* \subseteq V \times \biRel^* \times V$
+%is the smallest set such that $E \subseteq E^*$ and
+%\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
+%If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\mathcal{G}$; we say
+%that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
+%\end{definition}
+
+\begin{definition}[Transitive closure graph]\label{def:transClosure}
+Given a transition graph $\Graph = (V, \biRel, E)$ we define its {\em transitive closure} as the graph $\Graph^* = (V, \biRel^*, E^*)$, where
+$E^* \subseteq V \times \biRel^* \times V$
+is the smallest set such that $E \subseteq E^*$ and
+\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
+If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\mathcal{G}$; we say
+that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
+\end{definition}
+
+%\medskip
+Let $\Graph = (V, \biRel, E)$; we abbreviate $(u, (S,P), v) \in E$ by $\edgeG{(S,P)}{u}{v}{\Graph}$ and
+$(u, (S,P), v) \in E^*$ by $\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
+Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em source}, {\em target}, and {\em label}
+of $e$ respectively.
+If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
+When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$ and $\edgestar{(S,P)}{u}{v}$.
+
+
+\begin{definition}[Trace, path and progress]\label{def:TracePath}
+Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
+\begin{enumerate}[i)]
+\item a {\em trace} is a map $\tau:\alpha \to X$;
+\item a {\em path} of $\Graph$ is a map $\ppath:\alpha \to E$ such that for all $i + 1 < \alpha$, $\target{\ppath(i)} = \source{\ppath(i+1)}$
+\item a trace $\tau$ is {\em compatible} with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if 
+	for all $i + 1< \alpha$, if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$, and if $\tau(i) P \tau(i + 1)$ then $i$
+	is a {\em progress point} of $\tau$ in $\ppath$.
+%\item a {\em trace} of $\Graph$ is a trace $\tau$ such that $\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
+\end{enumerate}
+\end{definition}
+
+A trace $\tau:\alpha \to X$, respectively a path $\ppath:\alpha \to E$ are infinite if $\alpha = \omega$, finite otherwise.
+We say that $\tau$ is a trace of $\Graph$ if $\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
+
+\begin{definition}[Global Trace Condition - GTC]
+The transition graph $\Graph$ satisfies the {\em Global Trace Condition} if for all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
+$\tau \models \ppath$ which has infinitely many progress points.
+
+%$\biRel$ is {\em injective} if for all $(S, P) \in \biRel$ the relation $|(S, P)| = S \cup P$ is injective.
+\end{definition}
+
+This is the same as the Size-Change-Termination condition (SCT). (TO BE EXPLAINED)
+
+%Recall that if $R$ is a binary relation, $\dom{R} = \Set{x \mid \exists y.\; x R y}$.
+
+\begin{definition}[Prograss Domain Condition - PDC]\label{def:PDC}
+$\Graph$ satisfies the {\em Prograss Domain Condition} if for all self-composable $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
+$x$ progresses to $y$:
+\[\forall (S,P) \in \biRel^*, u \in V.\;\edge{(S,P)}{u}{u} \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
+\end{definition}
+
+%\begin{lemma}
+%Suppose that $\edgestar{(S_1,P_1)}{u}{v}$ and $\edgestar{(S_2,P_2)}{v}{w}$ and let $\edgestar{(S,P)}{u}{w}$ where
+%$(S,P) = (S_1,P_1)\comp (S_1,P_1)$. Let $p$ be the path along such composition, where $u = p(i)$, $v = p(j)$ and $w = p(k)$ for some $i < j < k$.
+%
+%If $\tau$ is a trace such that $\tau \models p$ with either $\tau(i) P_1 \tau(j)$ or $\tau(j) P_2 \tau(k)$ then $\tau(i) P \tau(k)$ 
+%%\bigskip
+%%
+%%$(S,P) = (S_1,P_1)\comp (S_1,P_1)$;
+%%let $p$ be a path such that $p(i) = u$, $p(j) = v$ and $p(k) = w$ for some $i < j < k$, and $\tau$ be a trace such that $\tau \models p$.
+%%
+%%Setting $x = \tau(i)$, $y = \tau(j)$, and $z = \tau(k)$, if $\tau$ has a progressing point $h \in [i, k]$ then 
+%
+%%if $x (S \cup P) z$ and $x P_1 y$ or $y P_2 z$ for some $y$, then $x P z$.
+%\end{lemma}
+%
+%\begin{proof}
+%By definition of composition, we have $S = S_1S_2 \setminus P$ and $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$.
+%By equation (\ref{eq:unionComp}) we know that $S \cup P = (S_1 \cup P_1)(S_2 \cup P_2)$ then
+%\[ x (S \cup P) z \;\land\; \]
+%\end{proof}
+
+\begin{lemma}\label{lem:P-lemma}
+Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
+\begin{enumerate}[i)]
+\item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
+\item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
+\item\label{lem:P-lemma-2} $x S_1 y \And y S_2 z \Then x S z$
+\end{enumerate}
+%\[ x P_1 y \myor y P_2 z \Then x P z \]
+\end{lemma}
+
+\begin{proof}
+By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
+Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $P_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$.
+\end{proof}
+
+\begin{proposition}\label{prop:GTCimplPDC}
+If $\Graph$ satisfies GTC then it satisfies PDC.
+\end{proposition}
+
+\begin{proof}
+Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $\ppath$ 
+\[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
+such that $\ppath(i) = \ppath(0) = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $\ppath(k) = u$ and 
+if $0 < j < k$ then $p(j) \neq u$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{u}{u}$ of $p$ are the same sequence of edges and labels.
+
+By GTC there is a trace $\tau \models p$ that is infinitely progressing. Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
+$(S_i,P_i) \in \biRel$ are the bi-colored relations associated with the edges of the path from $p(0)$ to $p(k)$; hence, there is $h$ with $0 \leq h < k$ such that
+$\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. $P_h$.
+
+Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\tau \models \ppath$ we know that 
+\[x = \tau(0) (S_0 \cup P_0) \tau(1) \cdots \tau(k-1) (S_{k-1} \cup P_{k-1}) \tau(k) = y\]
+so that $x \in \dom{(S_0 \cup P_0) \cdots  (S_{k-1} \cup P_{k-1})} = \dom{S \cup P}$ by (\ref{eq:unionComp}). On the other hand, we have assumed that 
+$\edgestar{(S,P)}{\ppath(k)}{\ppath(2k)}$ where $\ppath(k) = u = \ppath(2k)$, hence by the same argument we conclude that $y \in \dom{S \cup P}$.
+
+We know that $(S, P) = (S',P') \comp (S_h,P_h) \comp (S'',P'')$, where $(S',P')= (S_0,P_0)\comp \cdots \comp (S_{h-1},P_{h-1})$ and 
+$(S'',P'')= (S_{h+1},P_{h+1})\comp \cdots \comp (S_{k-1},P_{k-1})$. By $\tau \models p$ and that $z P_h z'$ we deduce that
+\[x (S' \cup P') z P_h z' (S'' \cup P'') y\]
+If $(\hat{S},\hat{P}) = (S',P') \comp (S_h,P_h)$ then by (\ref{lem:P-lemma-2}) of Lemma \ref{lem:P-lemma} we have $x \hat{P} z'$; from this and 
+$(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, we conclude that $x P y$  by (\ref{lem:P-lemma-1}) of the same Lemma, as desired.
+\end{proof}
+
+\begin{remark}\label{rem:PDCnotGTC}
+The inverse of Proposition \ref{prop:GTCimplPDC} does not hold. Consider $X_0 = \Set{x_1, x_2}$ and $\biRel_0 = \Set{(S_0,P_0)}$ where
+$S_0 = \Set{(x_1, x_1)}$ and $P_0 = \Set{(x_2, x_1)}$. Let $\Graph_0 = (\Set{v}, \biRel_0, \Set{\edge{(S_0,P_0)}{v}{v}})$.
+See Figure \ref{fig:PDC-counterexample}.
+\input{CSL-PDC-figure}
+
+Now $(S_0,P_0)$ is self-composable; $x_1,x_2 \in \dom{S_0 \cup P_0}$, and $x_2 P_0 x_1$, hence $\Graph_0$ satisfies PDC.
+On the other hand, there is an infinite path $p_0 = v v \cdots$, and the only infinite traces compatible with $p$ are $\tau' = x_1 x_1 \cdots $ and $\tau'' = x_2 x_1 x_1 \cdots$;
+but $\tau'$ is not progressing, while $\tau''$ has only one progressing point, hence $\Graph_0$ does not satisfy GTC.
+\end{remark}
+
+%\begin{definition}[Value flow]\label{lab:valueFlow}
+%Let $\biRel, \Graph$ be as above; a {\em value flow} is a map $\theta: \alpha \times X \to \Nat$, which is 
+%{\em compatible} with $\biRel, \Graph$ if for all path $\ppath: \alpha \to V$ of $\Graph$ there exists a trace $\tau: \alpha \to X$ 
+%such that $\tau \models \ppath$, and for all $i < \alpha$, if $\edge{(S,P)}{\ppath(i)}{\ppath(i+1)}$ it holds that
+%\begin{enumerate}[i)]
+%\item $\tau(i) S \tau(i+1) \Then \theta(i,\tau(i)) \geq \theta(i+1,\tau(i+1))$
+%\item $\tau(i) P \tau(i+1) \Then \theta(i,\tau(i)) > \theta(i+1,\tau(i+1))$
+%\end{enumerate}
+%\end{definition}
+
+\begin{definition}[Value flow]\label{lab:valueFlow}
+Let $\biRel, \Graph$ be as above, $\ppath: \alpha \to V$ a path of $\Graph$ and $\tau: \alpha \to X$ a trace such that $\tau \models \ppath$.
+A map $\theta: \alpha \times X \to \Nat$ is a {\em value flow} for $\tau$ if
+\begin{enumerate}[i)]
+\item $\tau(i) S \tau(i+1) \Then \theta(i,\tau(i)) \geq \theta(i+1,\tau(i+1))$;
+\item $\tau(i) P \tau(i+1) \Then \theta(i,\tau(i)) > \theta(i+1,\tau(i+1))$.
+\end{enumerate}
+\end{definition}
+
+
+We say that the (finite) set $\biRel$ of bi-colored relations is {\em injective} if all $(S, P) \in \biRel$ are injective.
+By Lemma \ref{lem:comInjective}, if $\biRel$ is injective then the (infinite) set $\biRel^*$ is injective as well.
+
+\begin{theorem}[Termination of value flows]\label{thm:weak-termination}
+If $\biRel$ is injective and $\Graph$ satisfies PDC, than any value flow for a trace of $\Graph$ is finite.
+\end{theorem}
+
+\begin{corollary}\label{cor:PDC+inToGTC}
+If $\biRel$ is injective and $\Graph$ satisfies PDC then $\Graph$ satisfies GTC.
+\end{corollary}
+
+\begin{proof}
+Toward a contradiction, let us assume that $\Graph$ does not satisfy GTG. Then there exists an infinite path $\pi:\omega \to V$ 
+such that no trace $\tau: \omega \to X$ such that $\tau \models \ppath$ is infinitely progressing.
+
+Since $\Graph$ is finite, we assume w.l.o.g. that $\ppath$ has the shape of a cicle
+\[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
+where $\edgeGstar{(S,P)}{u}{u}{\Graph}$ is self composable, and 
+$(S,P) = (S_0,P_0) \comp \cdots \comp (S_{k-1},P_{k-1})$ for some $k$ and $(S_i,P_i) \in \biRel$ for all $0 \leq i < k$.
+By the hypothesis that $\biRel$ is injective, we know that $(S,P)$ and all the $(S_i,P_i)$ are injective. 
+
+By PDC, there exist $x, y \in \dom{S \cup P}$ such that $x P y$. As $(S,P)$ is self-composable and injective $\cod{S \cup P} = \dom{S \cup P}$,
+hence $x,y \in \dom{S_i \cup P_i}$ for all $0 \leq i < k$. Let $\tau : \omega \to X$ be the trace such that $\tau(0) = x$, 
+$\tau(i+1)$ is the unique $z \in X$ such that $\tau(i) (S_j \cup P_j) z$, where $\edge{(S_j,P_j)}{\ppath(i)}{\ppath(i+1)}$. Now $x P y$ implies
+that $\tau(k-1) P_{k-1} \tau(k)$ and $\tau(k) = y$; moreover, as $S \cup P$ is injective and $Y = \cod{S \cup P} = \dom{S \cup P} \subseteq X$ with $X$ finite, $Y$ is finite and $(S,P)$ induces a permutation $|(S,P)^n|$ (where $(S,P)^n$ is the $n$-times self-composition of $(S,P)$) of $Y$ that is periodically equal to $S \cup P$; hence there are infinitely many $i < \omega$ such that $\tau(i) = y$.
+
+By construction, $\tau \models \ppath$; on the other hand, we observe that for all $i < \omega$ exactly one of 
+$\tau(i) S_{j} \tau(i+1)$ and $\tau(i) P_{j} \tau(i+1)$ must hold, where $\edge{(S_j,P_j)}{\ppath(i)}{\ppath(i+1)}$, hence the map $\theta: \omega \times X \to \Nat$
+\[ \theta(i, \tau(i)) = \left\{ \begin{array}{ll}
+				1 & \mbox{if $\tau(i) S_j \tau(i+1)$} \\
+				0 & \mbox{if $\tau(i) P_j \tau(i+1)$}
+			    \end{array} \right.
+\]
+and $\theta(i, z) = 0$ if $z$ is not in the image of $\tau$, is well defined and a value flow for $\tau$ which is infinite, contradicting Theorem \ref{thm:weak-termination}.
+\end{proof}
+
+Ugo: perhaps we could prove the following lemma:
+
+\begin{lemma}
+Let $\biRel$ be injective. If $\edgestar{(S,P)}{u}{v}$ is the initial segment of $\ppath: \alpha \to V$
+with $(S,P) = (S_0,P_0) \comp \cdots \comp (S_{k-1},P_{k-1})$ and the $(S_i,P_i) \in \biRel$, then $x P y$ if and only if
+there is a trace $\tau:\alpha \to X$ compatible with $\ppath$ that has a progressing point within the length of $\edgestar{(S,P)}{u}{v}$.
+\end{lemma}
+
+Using this lemma, once we have constructed $\tau$ as in the proof of the corollary, we conclude that it has infinitely many progress points contradicting
+the absurd hypothesis. This has the advantage of avoiding any reference to the value flows $\theta$ and to Theorem \ref{thm:weak-termination}.
