@@ -1,0 +1,33 @@
+% !TEX root = CSL-main.tex
+\section{Global Trace Condition and Injective Relations}
+\label{sec:injective}
+
+We define the injective bi-partite relations and argue that they suffice for the GTC in case of the cyclic
+systems $\CLJIDomega$ and $\CLKIDomega$.
+\bigskip
+
+In general, a relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$.
+Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint.
+
+\begin{lemma}\label{lem:comInjective}
+If both $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ are injective, then $RR' \subseteq X \times Z$ is injective.
+\end{lemma}
+
+\begin{proof}
+If $xRR'z$ and $x'RR'z$ then there are $y,y' \in Y$ such that $xRy$ and $yR'z$, and $x'Ry'$ and $y'R'z$. By the injectivity of $R'$ we have $y = y'$,
+hence $x = x'$ by the injectivity of $R$.
+\end{proof}
+
+We say that $(S, P)$ is {\em injective} if $|(S, P)| = S \cup P$ is such in the above sense.
+
+\begin{lemma}\label{lem:biRelInjectiveComp}
+If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injective.
+\end{lemma}
+
+\begin{proof}
+By the above we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reation $S \cup P$ with the injective
+relation $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
+\end{proof}
+
+We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$
+is injective then $\biRel^*$ is such.
