@@ -10,35 +10,27 @@
 \usepackage{wasysym}
 \usepackage{hyperref}
 \usepackage{graphicx}
-
-
 \usepackage{amssymb,amsmath,graphicx,color}
 \usepackage{mymath,proof,latexsym}
 \usepackage{xcolor}
 \usepackage[pdftex,outline]{contour}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % WE ADD THE COMMANDS 
 % theorem lemma proposition corollary definition  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{definition}[theorem]{Definition}
-
 %\newenvironment{proof}[1][Proof]{\begin{trivlist}
 %\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-
 \newenvironment{example}[1][Example]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
 \newenvironment{remark}[1][Remark]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-
 %\bibliographystyle{plainurl}% the mandatory bibstyle for CSL2024
-
 \begin{document}
 \sloppy 
 \hbadness=10000
@@ -69,32 +61,34 @@ infinite Ramsey theorem
 \maketitle
 
 \section{Introduction}
-We want to study Size Change Termination condition 
-(from now on, SCT) for program termination, introduced by
-Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{2001-SCT}
-in a particular case relevant for cyclic proofs. 
-We are interested to the case of transition graphs labeled by 
-\emph{injective} bi-colored relations.
+We want to study the \emph{algorithm condition for Size Change Termination}
+(from now on, SCT for short), introduced by
+Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{2001-SCT}, \S 3.2, Theorem 4.
+The algorithmic condition SCT was introduced in order to prove program termination: 
+we formally define SCT in the next section.\footnote{The name \quotationMarks{SCT} for the condition of Theorem 4 is ours, this condition has no name in \cite{2001-SCT}} 
+In this paper, we are interested to SCT in a particular case which is relevant for cyclic proofs:
+we are interested to the case of transition multi-graphs labeled by 
+\emph{injective} bi-colored relations.  
 
 Our motivation is that this particular case of SCT is enough to check 
-the correctness of a cyclic proof. 
+the correctness of cyclic proofs. 
 Cyclic proofs have been introduced independently as a tool for proof search
 by Brotherston and Simpson \cite{2011-Brotherston-Simpson}. 
 Later, the algorithm checking correctness cyclic proofs turned out to be
 a particular case of the algorithm checking the SCT condition for programs.
 
-The algorithm checking SCT is PSPACE-complete (\cite{2001-SCT}).
+The algorithm checking the condition of SCT as stated in Theorem 4 of \cite{2001-SCT}
+is PSPACE-complete: this is proved in the same paper.
 SCT is PSPACE-complete 
 also in the particular case of injective bi-colored relations required by cyclic 
 proofs (\cite{2009-Lee-Aram}). 
 However we will argue that checking SCT is simpler  
 and faster in this case.
 
-
-
 We prove termination for SCT in the case of injective relations only using 
 first order induction. We use Intuitionistic Logic and Peano Induction only.
-With respect to the proof included in \cite{2009-Lee-Aram} (where the injectivity condition is called the \emph{fan-in-free} condition), we try to reduce
+With respect to the proof included in \cite{2009-Lee-Aram} 
+(where the injectivity condition is called the \emph{fan-in-free} condition), we try to reduce
 the proof size. This is because
 our long-term goal is to define an automatic translation from 
 cyclic proofs into more ordinary inductive proofs. This translation
@@ -105,40 +99,58 @@ a shorter termination proof for SCT we will be able to define a simpler
 translation from cyclic proofs to inductive proofs. 
 
 
-\section{Size Change Termination in the Case of Injective Relations}
+\section{Size Change Termination and the Particular Case of Injective Relations}
+\label{section-SCT}
 %14:03 30/10/2024 
 Along this paper we suppose we have the main ingredients for an SCT problem,
-namely:
+namely a multi-graph, consisting of:
+
+\begin{definition}[Multigraphs for SCT]
+\label{definition-multigraphs}
+
 \begin{enumerate}
 \item
-a \emph{finite set} $X=\{x_1, \ldots, x_n\}$, representing variables;
+a \emph{finite set} $X=\{x_1, \ldots, x_n\}$, representing variables of a program;
 
 \item
-a finite set $\setR$, with
+A finite set $V$ representing abstract program states.
+
+\item
+a finite set $\setR \subseteq \setP(X^2)^2$, with
 each $(\Stat, \Prog) \in \setR$ a \emph{pair of finite relations on $X$}
 such that \emph{$\Stat \cap \Prog = \emptyset$ for all $(\Stat, \Prog) \in \setR$},
-representing bi-colored relations on variables;
+and representing bi-colored relations on variables.
+We call each $(\Stat, \Prog) \in \setR$ just a \emph{pair} for short.
 
 \item
-a finite non-empty set $G$, representing abstract program states, 
-and a map $\setG: \dom(\setG) \rightarrow \setR$,
-such that $\dom(\setG) \subseteq G \times G$. 
+a finite labeled multi-graph $\setG=(V,E)$, with labeled edges
+$E \subseteq V \times \setR \times V$.
+
+\item
+For any $e = (a, (\Stat, \Prog), b) \in E$ we set  
+$\dom(e) = a$, $\Label(e) = (\Stat, \Prog)$ and $\codom(e) = a$
 \end{enumerate}
+\end{definition}
 
-Implicitly, $\setG$ defines a labeled transition graph on program states.
-The set of nodes of the graph is $G$, the set of
-edges is $\dom(\setG) \subseteq G \times G$ and each edge $(a,b)$
-is labeled by some $\setG(a,b) \in \setR$. 
+$\setG=(V,E)$ is a labeled graph, and the labels $e = (a, (\Stat, \Prog), b) \in E$ of each edge
+define a bi-colored graph on $X$, with $\Stat$ the set of edges of the first color
+and $\Prog$ the set of edges of the second color.
+This is why, following Neil Jones, we call $\setG$ a multi-graph.
 
-We call each $(\Stat, \Prog) \in \setR$ just a \emph{pair} for short.
-If $x \Stat y$ we say that $x$ weakly progresses to $y$ in $(\Stat, \Prog)$,
-and if $x \Prog y$ we say that $x$ progresses to $y$ in $(\Stat, \Prog)$.
-Each label $\setG(a,b)  \in \setR$ on a transition from $a$ to $b$ in $G$ represented all
-we know about the relationship between the values of any two variables $x$, $y$ before
-and after the transition: either weak progression, or strict progression, 
+If $x \Stat y$ (if the edge from $x$ to $iy$ has the first color)
+we say that $x$ weakly progresses to $y$ in $(\Stat, \Prog)$.
+If $x \Prog y$ (if the edge from $x$ to $iy$ has the color color)
+we say that $x$ progresses to $y$ in $(\Stat, \Prog)$.
+Each labeled edge $e = (a, (\Stat, \Prog), b) \in E$ represents all
+we assume about the relationship between the values of any two variables $x$, $y$ before
+and after some possible transition of a program from state $a$ to state $b$: 
+either weak progression, or strict progression, 
 or no information at all, in the case $x \Stat y$ and $x \Prog y$ are both false.
 
-We define composition of pairs in $\setR$ by:
+We define composition of pairs in $\setR$ by saying that a composition is weakly
+progressing if can only be obtained by composing a pair of weakly progressing edges,
+and that it is strictly progressing if it can be obtain by composing a pair of edge including
+some strictly progressing pair.
 $$
 \Stat'' = \Stat \Stat', 
 \ \ \ 
@@ -152,42 +164,50 @@ $$
 By definition, the result of composition is a \emph{disjoint} 
 pair of finite relations on $X$, therefore again a bicolored relation.
 Two pairs are composable if they label some transition sequence in the
-graph defined by $\setG$.
+multi-graph $\setG$.
 
 
 \begin{definition}[Composable pairs  in $\setG$]
-Assume $\setR, \setG$ are as above.
+Assume $\setR, V, E, \setG$ are as in  Def. \ref{definition-multigraphs}.
 
 \begin{enumerate}
 
 \item
 We write $\composable{\setG}{a}{b}{(\Stat,\Prog)}$
-for the smallest relation including $\setG(a,b) = (\Stat,\Prog)$ and closed
-by composition: if $\composable{\setG}{a}{b}{(\Stat,\Prog)}$ and
+for the smallest ternary relation $E^*$ including $E$ and closed
+by composition: if $(a,(\Stat,\Prog),b) \in E$ then
+$\composable{\setG}{a}{b}{(\Stat,\Prog)}$, and
+if $\composable{\setG}{a}{b}{(\Stat,\Prog)}$ and
 $\composable{\setG}{b}{c}{(\Stat',\Prog')}$ then  
 $\composable{\setG}{a}{c}{(\Stat,\Prog)(\Stat',\Prog')}$.
 
+\item
+$\setR^\setG$ is
+the set of bi-colored relations $(\Stat,\Prog)$ on $X$
+such that  $\composable{\setG}{a}{b}{(\Stat,\Prog)}$ for some $a,b \in V$.
+
+%\item
+%We say that that two pairs of finite disjoint relations $(\Stat,\Prog), (\Stat',\Prog')$ on 
+%$X$ are \emph{composable in $\setG$}, just \emph{composable} for short
+%if and only if we have
+%$\composable{\setG}{a}{b}{(\Stat,\Prog)}$ and
+%$\composable{\setG}{b}{c}{(\Stat',\Prog')}$ for some $a,b,c, \in G$.
 
 \item
-We say that that two pairs of finite disjoint relations $(\Stat,\Prog), (\Stat',\Prog')$ on 
-$X$ are \emph{composable in $\setG$}, just \emph{composable} for short
-if and only if we have
-$\composable{\setG}{a}{b}{(\Stat,\Prog)}$ and
-$\composable{\setG}{b}{c}{(\Stat',\Prog')}$ for some $a,b,c, \in G$.
-
-\item
-We say that $(\Stat,\Prog) \in \setR$
+We say that $(\Stat,\Prog) \in \setR^\setG$
 is \emph{self-composable in $\setG$}, just \emph{self-composable}
 for short, if and only if we have 
-$\composable {\setG} {a} {a} {(\Stat,\Prog)}$ for some $a \in G$.
+$\composable {\setG} {a} {a} {(\Stat,\Prog)}$ for some $a \in V$.
 
 \end{enumerate}
 
 \end{definition}
 
-We skip the index $\setG$ when it can be deduced from the context
+We skip the multigraph $\setG$ when it can be deduced from the context
 and we write just $\composable{}{a}{b}{(\Stat,\Prog)}$.
-The role of $\setG$ is to restrict the set of compositions which are allowed.
+The role of $\setG$ is to restrict the set of transitioin between to state to those satisfying 
+some request about weak and strong progressing of variables, and to restrict the 
+set of compositions which are allowed.
 
 As we said, we consider the elements of $X$ as variables to which we associate a value 
 in each instant of time. A a consequence, 
@@ -206,17 +226,17 @@ if we know that $x \Prog y$ (namely that
 the value of of $x$ is greater than the value of $y$), then the information
 $x \Stat y$ (namely that the value of of $x$ is greater \emph{or equal} 
 than the value of $y$) becomes redundant and we remove it from our records.
-Alternatively, the condition $\Stat \cap \Prog = \emptyset$ is required for
-$(\Stat,\Prog)$ to define a bicoloring on $\Stat \cup \Prog$ as done in
+In this paper, the condition $\Stat \cap \Prog = \emptyset$ is required for
+$(\Stat,\Prog)$ to define a bicoloring on $\Stat \cup \Prog$, as it was done in
 \cite{2001-SCT}.
 \\
 
 We call \emph{trace} any sequence on $X$. 
 We call \emph{path} on $\setG$ 
-any transition path in the graph defined by $\setG$.
-Alternatively, a path any sequence $b$ on $G$ such that $(b(i),b(i+1)) \in 
-\dom(\setG)$ for any two consecutive elements of the path.
-Each path is a path in the graph associated to $G$ and labeled on $\setR$ by $\setG$.
+any transition path in the labeled graph defined by $\setG$.
+Alternatively, a path is any sequence $b$ on $G$ such that $\codom(b(i)) = \dom(b(i+1))$
+ for any two consecutive elements of the path.
+Each path is a path in the graph associated to $G$ and labeled on $\setR$.
 Thus, each path $b$ is associated by $\setG$ to a sequence $r$ on $\setR$
 defined by $r(i) = (\Stat_i, \Prog_i) = \setG(b(i),b(i+1))$. If $b$
 is finite, then the sequence $r$ of pairs is one unit shorter than $b$. If
@@ -320,7 +340,8 @@ for all $(\Stat, \Prog) \in \setR$.
 When we have injectivity, we could remove the substruction 
 \quotationMarks{$(\ldots) \setminus 
 \Prog''$} in the definition of composition , because in this case if $\Stat,\Prog$ 
-are disjoint and $\Stat', \Prog'$ are disjoint then  $\Stat \Stat'$ and $\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'$ are disjoint. In this case 
+are disjoint and $\Stat', \Prog'$ are disjoint then  $\Stat \Stat'$ and 
+$\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'$ are disjoint. In this case 
 we have $(\Stat,\Prog)(\Stat',\Prog')=(\Stat'',\Prog'')$.
 
 Again if we have injectivity, composition is
@@ -354,11 +375,68 @@ rename all sets $X$ in each node $f \in G$ to some set
 $\Var(f)$, in order to make pairwise distinct the set of variables associated
 to each node $f \in G$. We avoid renaming in this paper.
 
-If formulated as above, the Global Trace condition (GTC) is equivalent to the criterion
-for Size Change Termination (SCT), introduced by Neil Jones \cite{2001-SCT}. 
+If formulated as above, the Global Trace condition (GTC) is equivalent to the algorithmic 
+criterion for Size Change Termination (SCT), introduced by Neil Jones in \cite{2001-SCT},
+Theorem 4.
+
+\begin{definition}[SCT algorithmic condition]
+\label{definition-SCT}
+Assume $\setG=(V,E)$ is a labeled graph as in \ref{definition-multigraphs} for some
+finite set $X$.
+We say that $\setG$ satisfies SCT if and only if for all self-composable 
+$\composable{\setG}{a}{a}{(\Stat,\Prog)}$ such that 
+$(\Stat,\Prog) (\Stat,\Prog) = (\Stat,\Prog)$ there is some $x \in X$ such that $x \Prog x$.
+\end{definition}
+
+SCT can be formulated in many equivalent way, for instance as Finite Power Condition (FPC):
+
+\begin{definition}[Finite Power Condition (FPC)]
+$\setG$ satisfies FPC if and only if for all self-composable 
+$\composable{\setG}{a}{a}{(\Stat,\Prog)}$ there is some $n > 0 $, some
+$x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
+\end{definition}
+
+For proving SCT $\Leftrightarrow$ FPC we use a folk-lore
+algebraic property, that all elements of all finite monoids have some positive idempotent power.
+
+\begin{proposition}[Idempotent Power]
+\label{proposition-idempotent-power}
+If $M$ is a finite monoid and $x \in M$ then for some $n>0$ we have $x^nx^n=x^n$.
+\end{proposition}
+
+\begin{proof}
+Since $M$ is finite, there are only finitely many powers of $x$, therefore 
+for some $a,b>0$ we have $x^a = x^{a+b}$. Then for all $c \ge a$ we have $x^c = x^{c+b}$,
+hence $x^c = x^{c+db}$ for all $d>0$. Take the first $d>0$ such that $db \ge a$: then 
+$x^{db} = x^{db+db}$. We take $n=db$.
+\end{proof}
+
+\begin{proposition}[FPC and SCT are equivalent]
+\label{proposition-SCT}
+SCT $\Leftrightarrow$ FPC
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}
+\item
+Assume SCT, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ in order to prove that 
+there is some $n > 0 $, some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
+By Prop. {proposition-idempotent-power} and finiteness of the bi-colored graphs on $X$
+there is some $n > 0$ such that $(\Stat,\Prog)^n(\Stat,\Prog)^n=(\Stat,\Prog)^n$. By SCT,
+there is some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
+\item
+Assume FPC, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ and 
+$(\Stat,\Prog)(\Stat,\Prog)=(\Stat,\Prog)$ in order to prove that 
+there is some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)$.
+By FPC, there is some $n > 0 $, some $x \in X$ such that $x$ progresses to $x$ in 
+$(\Stat,\Prog)^n$. By $(\Stat,\Prog)(\Stat,\Prog)=(\Stat,\Prog)$ we deduce that 
+$(\Stat,\Prog)^n=(\Stat,\Prog)$, hence $x$ progresses to $x$ in $(\Stat,\Prog)$.
+\end{enumerate}
+\end{proof}
+
 SCT was originally used as a sufficient, and quite broad too, 
 condition for termination of recursive calls. 
-When we use GTC as a correctness criterion for cyclic proofs,
+When we use GTC as a correctness criterion for cyclic proofs, often in this paper 
 \emph{we add one more condition, \underline{injectivity} of the trace relations}, 
 a condition which is missing in the original SCT paper. 
 
@@ -394,112 +472,6 @@ of GTC which can expressed in First Order Aritmetic, and such that
 the finiteness of all compatible value flows can be proved
 in Intuitionistic Arithmetic.
 
-We anticipate that when $n = \Card(X) \ge 1$, we will 
-use lexicographic induction on a length $2n$ sequence 
-$( m_1,r_1, \ldots, m_n,r_n)$.
-For all $k \in [1,n]$, we will have $m_k \in \N \cup \{\infty\}$ and 
-$r_k \in [0, \Card(G){n \choose k }[$, a finite initial segment of $\N$. 
-
-%11:44 06/03/2025
-
-%%%%%%%%%%%%%%%
-% 11:49 07/03/2025 This subsection is now a repetition
-%%%%%%%%%%%%%%%
-%\subsection{Comparing our Terminology 
-%with the Terminology in Neil Jones SCT Paper}
-%\label{subsection-comparing}
-%The SCT paper uses $2$-coloring on the set of relations $[1,n] \times [1,n]$. 
-%The choice of a color for a pair
-%$(i,j)$ represents what we know about the relation between the value of
-%variable $x_i$ at time $t$, and the value of variable $x_j$ at time $t+1$.
-%What we know about the relation can be: either $\ge$ or $>$. No relation
-%means \quotationMarks{no information at all}.
-%
-%We could interpret our relation pairs
-%$(\Stat,\Prog) \in \setR$ are a $2$-coloring in the sense of 
-%\cite{2001-SCT}. $x \Stat y$ for 
-%$x, y, \in X$ represents \quotationMarks{the value of $x$ is $\ge$ 
-%than the value of $y$}. $x \Prog y$ represents 
-%\quotationMarks{the value of $x$ is $>$ than the value of $y$}. 
-%If we do not have $x \Stat y$ nor $x \Prog y$ we represent the fact we do
-%not know what is the relation between the values of $x$ and $y$.
-%%%%%%%%%%%%%%%
-
-In order to formulate SCT in our setting, we have first to define the
-closure by composition of $\setR$ in $\setG$.
-
-%13:50 04/03/2025
-
-\subsection{Closure by Composition of $\setR$ in $\setG$}
-\label{subsection-composition}
-
-%We defined composition in such a way that if  
-%$(x,y), (y,z) \in X \times X$ 
-%are two pairs on $X$,
-%then $(x,z) \in X \times X$ is stationary in the composition  
-%$(\Stat,\Prog)(\Stat',\Prog')$ if and only if both $(x,y)$ is stationary in 
-%$\Stat$ and $(y,z)$ is stationary in $\Stat'$, for some $y \in X$. 
-%Dually, $(x,z)$ is progressing in the  composition 
-%$(\Stat,\Prog)(\Stat',\Prog') $ if and only if either $(x,y)$ is progressing in 
-%$\Prog$ or $(y,z)$ is progressing in $\Prog'$ or both are, for some $y \in X$.
-
-
-\begin{definition}[States, Compositions and Transition Sequences]
-Assume $X = \{1, \ldots, n\}$ and $(\Stat,\Prog)$ is a pair
-of finite binary relations on $X$. 
-%\begin{enumerate}
-%\item
-%\emph{Composition on relation pairs}.
-%If $(\Stat,\Prog)$, $(\Stat',\Prog')$ are pairs of disjoint relations on $X$,
-%then we define their composition by
-%$$
-%(\Stat'', \Prog'')
-%=
-%(\Stat \Stat', \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
-%$$
-%$$
-%(\Stat,\Prog)(\Stat',\Prog')=(\Stat''\setminus\Prog'',\Prog'')
-%$$
-%
-%\item
-%\emph{(Closure by Composition)}
-We say that $\setR^\setG$ is the
-\emph{closure of $\setR$ by $\setG$-composition} if and only if
-$$\setR^\setG = \{(\Stat,\Prog) | \composable{\setG}{a}{b}{(\Stat,\Prog)}\}$$
-%\end{enumerate}
-\end{definition}
-
-Alternatively, 
-$\setR^\setG$ is the the smallest set including $\setR$ and such
-that for all $a,b,c \in G$, all $(\Stat,\Prog), (\Stat',\Prog') \in \setR^\setG$:
-if $\composable{\setG}{a}{b}{(\Stat,\Prog)}$
-and $\composable{\setG}{b}{c}{(\Stat',\Prog')}$
-then we have $(\Stat,\Prog)(\Stat',\Prog') \in \setR^\setG$.
-
-%12:00 07/03/2025
-
-$\setR^\setG$ is finite and we can compute it from $\setR$ and 
-$\setG$, because $n = \Card(X)$ is finite.
-However, the cardinality of $\setR^\setG$ could be exponential in $n$. 
-
-We can now define the SCT condition (as stated in see \cite{2001-SCT}, Theorem 4).
-
-\subsection{The Size Change Termination condition (SCT)
-and the Progressing Domain Condition (PDC)}
-\label{subsection-SCT}
-The SCT condition says:
-\quotationMarks{
-\emph{all self-composable relation pairs $(\Stat,\Prog)$
-(i.e., such that $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ for some $a \in G$)
-have some finite power in which some $x \in X$ progresses to itself}
-}. 
-We can write SCT as follows:
-$$
-\forall (\Stat,\Prog) \in \setR, a \in G. 
-\ (\composable{\setG}{a}{a}{(\Stat,\Prog)})
-\ \implies \exists n \in \N \exists x \in X. 
-\ (x \mbox{ progresses to $x$ in } (\Stat,\Prog)^n)
-$$
 In previous work we proved that the equivalence between SCT and GTC 
 (already proved in \cite{2001-SCT}) is a corollary of Ramsey Theorem. 
 
@@ -516,17 +488,20 @@ Besides, using PDC it is faster to check whether a cyclic proof is correct.
 The Progressing Domain Condition (PDC) says: 
 \quotationMarks{all self-progressing $(\Stat,\Prog) \in \setR^\setG$ 
 have a progression from $x$ to $y$ with both elements 
-included in the domain of $(\Stat,\Prog)$}, namely
+included in the domain of $(\Stat,\Prog)$}. Equivalenty, we can write PCD as
 $$
 \forall (\Stat,\Prog) \in \setR, a \in G. 
-\ \ (\composable{\setG}{a}{a}{(\Stat,\Prog)}) \implies \exists x, y \in \dom(\Stat\cup\Prog). 
-\ (x \Prog y)
+\ \ (\composable{\setG}{a}{a}{(\Stat,\Prog)}) \implies \exists x, y, z \in X. 
+\ (x \Prog y) \wedge (y \Stat \cup \Prog z)
 $$
 PDC is weaker and it is easier to check than the SCT condition. 
-To check PDC, we do not have to look for some $x$ progressing to itself in 
-some power of any self-composable $(\Stat,\Prog)$. 
-Instead it is enough to find some $x$ progressing 
-to some $y$, such that both $x$, $y$ are in the domain of $\Stat \cup \Prog$,
+
+To check SCT, we do not have to check for any self-composable $(\Stat,\Prog) \in \setR^\setG$
+whether $(\Stat,\Prog)$ is idempotent. If it is not idempotent, this is fine, if it is, we have to 
+look for some $x$ progressing to itself in $(\Stat,\Prog)$.
+
+In order to check PDC, instead, it is enough to find some $x$ progressing 
+to some $y$, such that $y$ is weakly progressing or progressing to some $z$,
 again in any self-composable $(\Stat,\Prog) \in \setR^\setG$.
 
 However, PDC has the drawback that it implies 
@@ -535,7 +510,7 @@ We explain why.
 
 %12:33 07/03/2025
 
-\subsubsection{PDC does not imply GTC,
+\subsection{PDC does not imply GTC,
 in the case of non injective family of relation pairs}
 \label{subsubsection-counterexample-PDC-GTC}
 Here is a counter-example $\setR_1,\setG_1$.
@@ -576,12 +551,44 @@ or, using Classical Logic, GTC:
 
 \begin{theorem}[Finiteness of $\setR$-compatible transitions (weak form)]
 \label{theorem-finiteness-value-flow-1}
-If $\setR$ is any finite list of \emph{injective} relation pairs 
-satisfying the Progressing Domain Condition (PDC)  in $\setG$
-then any value flow compatible with $\setR,\setG$ is finite.
+If $\setG$ is any multigraph with \emph{injective} relation pairs 
+and satisfying the Progressing Domain Condition (PDC)  in $\setG$
+then GTC holds, in particular any value flow compatible with $\setR,\setG$ is finite.
 \end{theorem}
 
-We postpone the proof of Thm. 
+
+We first include a short equivalence proof, building on the results of Neil Jones.
+
+\begin{proof}(First Proof of of Thm. \ref{theorem-finiteness-value-flow-1})
+We recall that \cite{2001-SCT}, Theorem 4, proved that SCT $\Leftrightarrow$ GTC
+(the name \quotationMarks{SCT} for the condition of Theorem 4 is ours, this condition 
+has no name in \cite{2001-SCT}). 
+Therefore in order to prove GTC $\Rightarrow$ PDC in the case on injectivity, 
+it is enough to prove that in this case we have GTC $\Rightarrow$ PDC $\Rightarrow$ SCT.
+
+\begin{enumerate}
+
+\item
+We assume GTC in order to prove PDC. For,
+we assume $\composable{\setG}{a}{(\Stat,\Prog)}{a}$ in order to prove that
+for some $x,y,z \in X$ we have $x \Prog y (\Stat \cup \Prog) z$. We consider the infinite path 
+$\pi =  \composable{\setG}{a}{(\Stat,\Prog)}{a}, \composable{\setG}{a}{(\Stat,\Prog)}{a}, 
+\ldots$. By GTC there is some infinitely progressing trace $\tau:\N \rightarrow X$, 
+in particular $\tau$ is progressing at some step $i$. Therefore
+$\tau(i) \Prog \tau(i+1) \Stat \cup \Prog \tau(i+2)$, we conclude our thesis. 
+
+\item
+We assume PDC in order to prove SCT \emph{(here we need injectivity)}.
+For, we assume $\composable{\setG}{a}{(\Stat,\Prog)}{a}$ and 
+$(\Stat,\Prog)(\Stat,\Prog) = (\Stat,\Prog)$ in order to find some $x \in X$ such 
+that $x \Prog x$. By PDC, for some $x,y,z \in X$ we have $x \Prog y (\Stat \cup \Prog) z$. 
+By $(\Stat,\Prog)(\Stat,\Prog) = (\Stat,\Prog)$ we deduce $x \Stat \cup \Prog z$.
+\emph{By injectivity} we obtain $x=y$. From $x \Prog y$ we conclude that $x \Prog x$.
+
+\end{enumerate}
+\end{proof}
+
+Later, we will include  a more elementar and direct proof of Thm. 
 \ref{theorem-finiteness-value-flow-1}.
 
 %Before we remark that the Termination Theorem for $\setR, \setG$ 
@@ -633,7 +640,7 @@ If we have PC in the place of PDC then the Termination Theorem fails, even if
 we assume injectivity
 of $\setR$. We explain why.
 
-\subsubsection{PC and injectivity does not imply GTC}
+\subsection{PC and injectivity does not imply GTC}
 \label{subsubsection-counterexample-PC-PDC}
 Here is a counter-example $\setR_2$. 
 Let $X = \{x_1,x_2\}$, $\setR_2=\{(\Stat,\Prog)\}$
@@ -1520,9 +1527,14 @@ Oxford University Press.
 \newpage
 
 \section{Appendix: PDC, GTC and SCT are Equivalent Given Injectivity}
-The goal of this section is to compare PDC with the GTC with and 
-without injectivity. 
-We Claim:
+This section includes older proofs of the equivalence of PDC, SCT and GTC 
+in the case of injectivity, in sub-sections 
+\ref{subsection-SCT-PDC}, \ref{subsection-SCT-PDC-old}. They are only included for record.
+In sub-section \ref{subsection-TC}, instead, we will prove a new result:
+the equivalence between GTC
+and TC (termination of all computation flow).
+
+In this paper we already proved:
 \begin{enumerate}
 \item
 \label{property-1}
@@ -1554,9 +1566,18 @@ PDC
 $$
 \end{enumerate}
 
-Point \ref{property-3} of the Claim
-was already proved with the counter-example $\setR_2$
+Points \ref{property-1}, \ref{property-2} were proved in the first
+proof of Thm. \ref{theorem-finiteness-value-flow-1}
 in \S \ \ref{subsubsection-counterexample-PDC-GTC}.
+
+Point \ref{property-3} of the Claim
+was proved with the counter-example $\setR_2$
+
+Here in this section we include two older proofs of the same result, only for record.
+
+\subsection{GTC, SCT are equivalent to PDC in the case of injectivity}(Old proof, only
+included for record)
+\label{subsection-SCT-PDC}
 
 The implication GTC $\Rightarrow$ PDC follows from the fact that
 for all self-composable $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ 
@@ -1572,7 +1593,7 @@ PDC for the self-composable pair $(\Stat,\Prog)$.
 In order to prove SCT $\Rightarrow$ PDC, we recall 
 that Neil Jones in \cite{2001-SCT} 
 proved the equivalence of the conditions called in this paper 
-SCT (\S \ref{subsection-SCT}) and GTC
+SCT (\S \ref{section-SCT}) and GTC
 $$
 \forall \setR, \setG.  \ \ 
 (SCT \Leftrightarrow GTC)
@@ -1582,7 +1603,7 @@ We proved one direction, namely point \label{property-2} of the Claim.
 \\
 
 Now we prove the other direction, namely point \label{property-1} of the Claim.
-It is enough to prove that if $\setR$ is injective then PCD $\Rightarrow$ SCT. If will follow
+It is enough to prove that if $\setR$ is injective then PDC $\Rightarrow$ SCT. If will follow
 if $\setR$ is injective then PDC $\Rightarrow$ GTC. 
 
 We first prove a property of injective transitive relation: this property does not
@@ -1656,8 +1677,9 @@ is \emph{injective} then $\setR$ satisfies SCT.
 
 \begin{proof}
 Assume that $(S,P) \in \setR$ is some bi-colored finite relation on $X$,
-in order to prove that for some $n \in \N$, $n>0$, for $(S_n,P_n) = (S,P)^n$ there is some
-$x \in X$ such that $x P_n x$. 
+in order to prove the version this equivalent version of SCT:
+that for some $n \in \N$, $n>0$, for $(S_n,P_n) = (S,P)^n$ there is some
+$x \in X$ such that $x P_n x$ (Prop. \ref{proposition-SCT}).
 
 Let $R = \universe{(S,P)} = S \cup P$. $R$ is finite, therefore by Prop. 
 \ref{proposition-idempotent-power} for some $n \in \N$ we have $R^n = R^nR^n$. 
@@ -1671,8 +1693,10 @@ we obtain that $x = y$. We conclude that $x P_n x$, as wished.
 \end{proof}
 
 
-\section{An alternative proof of (PDC implies SCT)}
-We provide an alternative proof that 
+\subsection{GTC, SCT, PDC  are equivalent in the case of injectivity: an older proof}
+(proof only included for record)
+\label{subsection-SCT-PDC-old}
+We first provided an alternative proof that 
 the \emph{injective self-composable idempotent relations $R$} are the identity relation when 
 restricted to $\dom(R)$. This proof only works in the case of finite relations.
 
@@ -1762,10 +1786,10 @@ in $(\Stat,\Prog)^m$. This proves SCT, hence GTC.
 
 
 
-\section{Appendix: Comparing Global Trace Condition (GTC) 
-with Termination of Computations (TC)}
+\subsection{Global Trace Condition (GTC) is equivalent toTermination of Computations (TC)}
+\label{subsection-TC}
 In this section we prove that the Global Trace Condition is equivalent to
-the termination of all computation flows, from now on, just TC for short.
+the \emph{termination of all computation flows}, from now on, just TC for short.
 
 We recall that a computation flow is some sequence 
 $((a_1,(\Stat_1,\Prog_1),a_2),\sigma_1)$,
@@ -1791,7 +1815,8 @@ Logic, we prove it in the form $\neg$ GTC $\implies$ $\neg$ TC. Actually
 we prove a stronger result: if GTC is false, there is some \emph{constant}
 infinite transition $s, s, s, \ldots$ for some $s = (\Stat,\Prog),\sigma) \in \setS$,
 in particular Termination of Computations (TC) fails. In this infinite
-transition all traces progresses at most $n-1$ times, with $n=\Card(X)$.
+transition all variables are constant, and all 
+traces progress at most $n-1$ times, with $n=\Card(X)$.
 
 \begin{proof}[Proof of $\neg$ GTC $\implies$ $\neg$ TC]
 Assume $\neg$ GTC. By Theorem 4, \cite{2001-SCT} 
@@ -1847,7 +1872,8 @@ otherwise there would be some power of $(\Stat,\Prog)$ and some $z \in X$
 Remark that in fact we proved a stronger property: either we have SCT and
 GTC and TC, or we have $\neg$ SCT and $\neg$ GTC and $\neg$ TC. In the
 second case we also have an infinite constant transition $\theta = (s, s, s, \ldots)$
-in which all traces progresses at most $n-1$ times, with $n=\Card(X)$.
+with $s = ((\Stat,\Prog),\sigma) \in \setS$, in which each variable $x \in X$ has constant
+value $\sigma(x)$, and all traces progresses at most $n-1$ times, where $n=\Card(X)$.
 
 \end{document}
 
