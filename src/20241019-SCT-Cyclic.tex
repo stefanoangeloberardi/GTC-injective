@@ -391,6 +391,7 @@ $(\Stat,\Prog) (\Stat,\Prog) = (\Stat,\Prog)$ there is some $x \in X$ such that 
 SCT can be formulated in many equivalent way, for instance as Finite Power Condition (FPC):
 
 \begin{definition}[Finite Power Condition (FPC)]
+\label{definition-FPC}
 $\setG$ satisfies FPC if and only if for all self-composable 
 $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ there is some $n > 0 $, some
 $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
@@ -1527,12 +1528,11 @@ Oxford University Press.
 \newpage
 
 \section{Appendix: PDC, GTC and SCT are Equivalent Given Injectivity}
-This section includes older proofs of the equivalence of PDC, SCT and GTC 
+This section includes two previous proofs of the equivalence of PDC, SCT and GTC 
 in the case of injectivity, in sub-sections 
 \ref{subsection-SCT-PDC}, \ref{subsection-SCT-PDC-old}. They are only included for record.
 In sub-section \ref{subsection-TC}, instead, we will prove a new result:
-the equivalence between GTC
-and TC (termination of all computation flow).
+the equivalence between GTC and TC (termination of all computation flow).
 
 In this paper we already proved:
 \begin{enumerate}
@@ -1573,9 +1573,9 @@ in \S \ \ref{subsubsection-counterexample-PDC-GTC}.
 Point \ref{property-3} of the Claim
 was proved with the counter-example $\setR_2$
 
-Here in this section we include two older proofs of the same result, only for record.
+Here in this section we include two previous proofs of the same result, only for record.
 
-\subsection{GTC, SCT are equivalent to PDC in the case of injectivity}(Old proof, only
+\subsection{GTC, SCT are equivalent to PDC in the case of injectivity}(Previous proof, only
 included for record)
 \label{subsection-SCT-PDC}
 
@@ -1645,7 +1645,9 @@ as wished.
 \end{enumerate}
 \end{proof}
 
-We now prove that all \emph{finite} relations have some positive power which is idempotent.
+We now prove that all \emph{finite} relations have some positive power which is idempotent:
+this is a particular case of the fact that all elements of a finite monoid 
+have some positive power which is idempotent (Prop. \ref{proposition-idempotent-power}).
 
 \begin{proposition}
 \label{proposition-idempotent-power}
@@ -1677,9 +1679,9 @@ is \emph{injective} then $\setR$ satisfies SCT.
 
 \begin{proof}
 Assume that $(S,P) \in \setR$ is some bi-colored finite relation on $X$,
-in order to prove the version this equivalent version of SCT:
+in order to prove Finite Power Condition FPC (Def. \ref{definition-FPC}): namely, 
 that for some $n \in \N$, $n>0$, for $(S_n,P_n) = (S,P)^n$ there is some
-$x \in X$ such that $x P_n x$ (Prop. \ref{proposition-SCT}).
+$x \in X$ such that $x P_n x$. By Prop. \ref{proposition-SCT}, we will conclude SCT.
 
 Let $R = \universe{(S,P)} = S \cup P$. $R$ is finite, therefore by Prop. 
 \ref{proposition-idempotent-power} for some $n \in \N$ we have $R^n = R^nR^n$. 
@@ -1693,12 +1695,14 @@ we obtain that $x = y$. We conclude that $x P_n x$, as wished.
 \end{proof}
 
 
-\subsection{GTC, SCT, PDC  are equivalent in the case of injectivity: an older proof}
-(proof only included for record)
+\subsection{GTC, SCT, PDC  are equivalent in the case of injectivity: yet another proof proof}
+(proof included for record)
 \label{subsection-SCT-PDC-old}
 We first provided an alternative proof that 
 the \emph{injective self-composable idempotent relations $R$} are the identity relation when 
-restricted to $\dom(R)$. This proof only works in the case of finite relations.
+restricted to $\dom(R)$. This proof only works in the case of \emph{finite} relations,
+so it is weaker than 
+\ref{proposition-transitive-injective}.\ref{proposition-transitive-injective-02}.
 
 As a corollary we will deduce that (PDC $\Rightarrow$ SCT), in an alternative way.
 
@@ -1710,8 +1714,8 @@ If $R$ is injective, then $R^m$ is also the identity on $\dom(R^m)$.
 \begin{proposition}[Idempotent Injective Relations
 and the Global Trace Condition]
 \label{proposition-idempotent-relations}
-Assume $(\Stat,\Prog) \in \setR^\setG$ is self-composable, 
-$R = \universe{(\Stat,\Prog)}$ is \emph{injective} and $RR=R$. 
+Assume $\setG$ is a multi-graph, $(\Stat,\Prog) \in \setR^\setG$ is self-composable, 
+$R = \universe{(\Stat,\Prog)}$ is an \emph{injective} relation on a finite set $X$ and $RR=R$. 
 Then:
 \begin{enumerate}
 
@@ -1723,7 +1727,7 @@ $R \restr \dom(R) $ is the identity and all
 $x \in \dom(R)$ are weakly or strongly progressing to themselves.
 
 \item
-If PDC holds, then some $x \in \dom(R)$ is progressing to itself.
+PDC $\Rightarrow$ SCT.
 \end{enumerate}
 \end{proposition}
 
@@ -1768,22 +1772,15 @@ we deduce that $x R x$, either $x$ is progressing to $x$ or
 $x$ is weakly progressing to $x$.
 
 \item
-We prove that \emph{for some $x \in \dom(R)$, $x$ is progressing to itself}.
-By PDC there are some $y, z \in \dom(R)$ such that $y$ is progressing to $z$.
+We assume PCD and that $R = \universe{(\Stat,\Prog)}$ and $(\Stat,\Prog) (\Stat,\Prog) = 
+(\Stat,\Prog)$, hence $R=RR$, 
+in order to prove that \emph{for some $x \in X$, $x$ is progressing to itself}.
+By PDC there are some $x,y \in \dom(R)$ such that $x$ is progressing to $y$.
 By the previous point $R \restr \dom(R) $ is an identity.
-We deduce that $y=z$. Thus, some $y \in \dom(R)$ is progressing to itself.
+We deduce that $x=y$. Thus, some $x \in \dom(R) \subseteq X$ is progressing to itself.
 
 \end{enumerate}
 \end{proof}
-
-By Prop. \ref{proposition-idempotent-power} for all finite relations $R$ 
-there is $m \in \N$, $m \ge 1$ such that $R^m = R^m R^m$. By the previous
-Lemma, if $\setR$ is injective, $(\Stat,\Prog) \in \setR$ is self-composable  in $\setG$, 
-we deduce that some $x$ in progressing to itself 
-in $(\Stat,\Prog)^m$. This proves SCT, hence GTC.
-\\
-
-
 
 
 \subsection{Global Trace Condition (GTC) is equivalent toTermination of Computations (TC)}
