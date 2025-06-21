@@ -36,17 +36,6 @@ let's write $|(S,P)| = S \cup P$, then
 & = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
 \end{align}
 
-%We say that $(S, P)$ is injective if $|(S, P)| = S \cup P$ is such in the ordinary sense.
-%
-%\begin{lemma}\label{lem:biRelInjectiveComp}
-%If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injective.
-%\end{lemma}
-%
-%\begin{proof}
-%By the above we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reation $S \cup P$ with the injective
-%relation $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
-%\end{proof}
-
 We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
 Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
 is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
@@ -77,21 +66,26 @@ A  {\em directed hypergraph} is a pair $G = (X, \mathcal{E})$ where $\mathcal{E}
 more explicitly, and edge in $\mathcal{E}$ is a pair $(Y,Z)$ with $Y, Z \subseteq X$.
 A {\em coloring} $c:  \mathcal{E} \to \Set{1, \ldots, k}$ is a map associating a ``color''  $1 \leq i \leq k$ to each edge; otherways said, a hypergraph $G$ with coloring $c$ can be regarded as a directed labelled graph with vertexes in $\wp(X)$ and edge labels in $\Set{1, \ldots, k}$.
 
-A slight generalization of this notion consists in replacing $\wp(X)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $X$ indexed over $V$, so
-that we can say that the edges $(Y_u, Z_v)$ 
+A slight generalization of this notion consists in replacing $\wp(X)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $X$ indexed over a set $V$, so that we can say that the edges $(Y_u, Z_v)$ and $(Y_v, Z_w)$ are incident in the same vertex $v$ even if $Z_v$ and $Y_v$ do not necessarily coincide.
+With this proviso, both a transition graph $\Graph = (V, \biRel, E)$ and its transitive closure $\Graph^* = (V, \biRel^*, E^*)$ are {\em generalized hypergraphs}, where each edge $\edge{(S,P)}{u}{v}$, $\edgestar{(S,P)}{u}{v}$ respectively, is identified with the hyperedge $(Y_u, Z_v)$, where
+$Y_u = \dom{S \cup P}$ and $Z_v = \cod{S \cup V}$, and $c(Y_u, Z_v) = (S,P)$ in $\biRel$ and in $\biRel^*$ respectively.
+
+
 %$G$ is said $m$-regular if for all edges $(Y,Z) \in \mathcal{E}$ it is $|Y \cup Z| = m$. 
 \newpage
 
 \newcommand{\leqdownarrow}{\downarrow^{\hspace{-2mm}=}}
 
 \begin{remark}\label{rem:hypergraph}
-Our transition graphs are an abstract presentation of (compositions of) {\em size-change} graphs in \cite{Lee1}. More precisely, 
-a size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, $\texttt{g}$ out of some functional program $\texttt{p}$
-is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), E)$, where $E \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $\texttt{f}^{(i)} \subseteq \textit{Param}(\texttt{f})$ to
+Our transition graphs are a generalization {\em size-change} graphs in \cite{Lee1}. 
+A size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, $\texttt{g}$ out of some functional program $\texttt{p}$
+is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$, where $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $\texttt{f}^{(i)} \subseteq \textit{Param}(\texttt{f})$ to
 $\texttt{g}^{(j)} \subseteq \textit{Param}(\texttt{g})$ labelled with $\leqdownarrow$ and
-$\downarrow$ in $E$.
+$\downarrow$ in $\textsf{E}$.
 
-In our view $G$ corresponds to $\edge{(S,P)}{u}{v}$ where 
+In our view $G$ corresponds to $\edgeG{(S,P)}{u}{v}{\Graph}$ where $X$ is the set of all parameters occurring in the program $\texttt{p}$, 
+$S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \textsf{E}}$ and
+$P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. Looking at $\Graph$ as a (generalized) hypergraph, we have that $u$ is associated with the set $\bigcup\Set{\texttt{f}^{(i)} \mid \exists  \texttt{g}^{(j)}.\; (\texttt{f}^{(i)}, \dagger, \texttt{g}^{(j)}) \in \textsf{E} \; \mbox{with $\dagger \in \Set{\leqdownarrow, \downarrow}$}}$, and similary for $v$ by interchanging the $\texttt{f}^{(i)}$ and $\texttt{g}^{(j)}$ in the above.
 \end{remark}
 
 \subsection{The Global Trace Condition}
@@ -105,7 +99,6 @@ Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transiti
 \item a trace $\tau$ is {\em compatible} with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if 
 	for all $i + 1< \alpha$, if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$, and if $\tau(i) P \tau(i + 1)$ then $i$
 	is a {\em progress point} of $\tau$ in $\ppath$.
-%\item a {\em trace} of $\Graph$ is a trace $\tau$ such that $\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
 \end{enumerate}
 \end{definition}
 
@@ -114,8 +107,6 @@ We say that $\tau$ is a trace of $\Graph$ if $\tau \models \ppath$ for some path
 
 \begin{definition}[Global Trace Condition - GTC]
 The transition graph $\Graph$ satisfies the {\em Global Trace Condition} if for all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
-$\tau \models \ppath$ which has infinitely many progress points.
-
-%$\biRel$ is {\em injective} if for all $(S, P) \in \biRel$ the relation $|(S, P)| = S \cup P$ is injective.
+$\tau \models \ppath$, which has infinitely many progress points.
 \end{definition}
 
