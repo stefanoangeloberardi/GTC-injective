@@ -41,7 +41,7 @@ Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$
 
 \begin{proof}
 By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
-Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $P_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$.
+Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$.
 \end{proof}
 
 \begin{proposition}\label{prop:GTCimplPDC}
@@ -80,5 +80,5 @@ $\tau_0 : x_1 , x_1, \cdots$ and $\tau_1 : x_2, x_1 , x_1, \cdots$, and neither 
 \end{remark}
 
 \begin{theorem}[Main Theorem]\label{lem:PDC+injImpliesGTC}
-Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$, then $\Graph$ satisfies PDC implies that it satisfies GTC.
+Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if $\Graph$ satisfies PDC then it satisfies GTC.
 \end{theorem}
