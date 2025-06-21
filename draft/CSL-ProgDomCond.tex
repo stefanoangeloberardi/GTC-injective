@@ -106,12 +106,16 @@ For all $m, k \in \Nat\setminus \Set{0}$ and any coloring $c[\Nat]^m \to \Set{1,
 
 \begin{corollary}
 Fix $m \in \Nat$ and consider the complete directed hypergraph $(\Nat, \mathcal{E})$, where $\mathcal{E} = [\Nat]^m \times [\Nat]^m$.
-Then for any coloring $c:\mathcal{E} \to \Set{1,\ldots, k}$  there exists an infinite $H \subseteq \mathcal{E}$ such that $H$ is $c$-homogeneous.
+Then for any coloring $c:\mathcal{E} \to \Set{1,\ldots, k}$  there exists an infinite $H \subseteq \Nat$ and an $i \in \Set{1,\ldots, k}$ such that 
+for all $(Y,Z) \in  [H]^m \times [H]^m \subseteq \mathcal{E}$, $c(Y,Z) = i$.
 \end{corollary}
 
 \begin{proof}
-Let $\mathcal{E} = [\Nat]^m \times [\Nat]^m$, then $\mathcal{E}$ is bijective with $[\Nat]^{2m}$ via the map $(Y, Z) \mapsto Y \uplus Z$, where $\uplus$ is the disjoint union. The coloring $c:\mathcal{E} \to \Set{1,\ldots, k}$ of $\mathcal{E}$ determines the coloring $\bar{c}: [\Nat]^{2m} \to \Set{1,\ldots, k}$ with
-$\bar{c}(Y \uplus Z) = c(Y, Z)$. By Theorem \ref{thr:Ramsey} there is an infinite $\bar{H} \subseteq \Nat$ which is $\bar{c}$-homogeneous
+Observe that $[\Nat]^m \times [\Nat]^m$ is bijective with $[\Nat]^{2m}$ via the map $(Y, Z) \mapsto Y \uplus Z$, where $\uplus$ is the disjoint union.
+The coloring $c:\mathcal{E} \to \Set{1,\ldots, k}$ of $\mathcal{E}$ determines the coloring $\bar{c}: [\Nat]^{2m} \to \Set{1,\ldots, k}$ with
+$\bar{c}(Y \uplus Z) = c(Y, Z)$. By Theorem \ref{thr:Ramsey} there is an infinite $H \subseteq \Nat$ which is $\bar{c}$-homogeneous,
+namely $\bar{c}''[H]^{2m} = \Set{i}$ for some $i \in  \Set{1,\ldots, k}$; it follows that $c(Y,Z) = \bar{c}(Y \uplus Z) = i$ for all
+$(Y,Z) \in  [H]^m \times [H]^m$.
 \end{proof}
 
 \begin{theorem}[Main Theorem]\label{thr:PDC+injImpliesGTC}
