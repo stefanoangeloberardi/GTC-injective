@@ -25,9 +25,12 @@ If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injec
 \end{lemma}
 
 \begin{proof}
-By the above we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reation $S \cup P$ with the injective
-relation $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
+By (\ref{eq:unionComp}) in Section \ref{sec:size-change},  we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reations $S \cup P$ and $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
 \end{proof}
+
+In case of injective bi-partite relations, composition can be simplified by:
+\[ (S,P) \comp (S',P') = (SS', SP' \cup PS' \cup PP') \]
+Indeed, by injectivity 
 
 We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$
 is injective then $\biRel^*$ is such.
