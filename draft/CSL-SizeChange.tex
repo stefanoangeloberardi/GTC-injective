@@ -1,10 +1,10 @@
 % !TEX root = CSL-main.tex
-\section{Size-change Graphs and Global Trace Condition}
+\section{Transition Graphs and Global Trace Condition}
 \label{sec:size-change}
 
 This section includes the definitions and technical machinery defining bi-partite relations (formerly called bi-colored) until the definition of GTC.
  
- \bigskip
+ \subsection{Bi-partite Relations and Transition Graphs}
  
 Let $R \subseteq X \times Y$ be a binary relation, then we write $x R y$ for $(x,y) \in R$. 
 Thinking of $R$ as a function $R: X \to \wp(Y)$, we set $R(x) = \Set{y \in Y \mid x R y}$. 
@@ -47,7 +47,7 @@ let's write $|(S,P)| = S \cup P$, then
 %relation $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
 %\end{proof}
 
-We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_n,P_n)}$ over the same set $X$.
+We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
 Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
 is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
 
@@ -69,6 +69,33 @@ of $e$ respectively.
 If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
 of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
 When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$ and $\edgestar{(S,P)}{u}{v}$.
+
+\subsection{Relating Transition Graphs to Directed Hypergraphs}
+\label{subsec:trans-hypergraph}
+
+A  {\em directed hypergraph} is a pair $G = (X, \mathcal{E})$ where $\mathcal{E} \subseteq \wp(X)^2$ is the set of the {\em hyperedges} of $G$;
+more explicitly, and edge in $\mathcal{E}$ is a pair $(Y,Z)$ with $Y, Z \subseteq X$.
+A {\em coloring} $c:  \mathcal{E} \to \Set{1, \ldots, k}$ is a map associating a ``color''  $1 \leq i \leq k$ to each edge; otherways said, a hypergraph $G$ with coloring $c$ can be regarded as a directed labelled graph with vertexes in $\wp(X)$ and edge labels in $\Set{1, \ldots, k}$.
+
+A slight generalization of this notion consists in replacing $\wp(X)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $X$ indexed over $V$, so
+that we can say that the edges $(Y_u, Z_v)$ 
+%$G$ is said $m$-regular if for all edges $(Y,Z) \in \mathcal{E}$ it is $|Y \cup Z| = m$. 
+\newpage
+
+\newcommand{\leqdownarrow}{\downarrow^{\hspace{-2mm}=}}
+
+\begin{remark}\label{rem:hypergraph}
+Our transition graphs are an abstract presentation of (compositions of) {\em size-change} graphs in \cite{Lee1}. More precisely, 
+a size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, $\texttt{g}$ out of some functional program $\texttt{p}$
+is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), E)$, where $E \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $\texttt{f}^{(i)} \subseteq \textit{Param}(\texttt{f})$ to
+$\texttt{g}^{(j)} \subseteq \textit{Param}(\texttt{g})$ labelled with $\leqdownarrow$ and
+$\downarrow$ in $E$.
+
+In our view $G$ corresponds to $\edge{(S,P)}{u}{v}$ where 
+\end{remark}
+
+\subsection{The Global Trace Condition}
+\label{subsec:GTC}
 
 \begin{definition}[Trace, path and progress]\label{def:TracePath}
 Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
