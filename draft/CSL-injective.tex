@@ -30,7 +30,8 @@ By (\ref{eq:unionComp}) in Section \ref{sec:size-change},  we know that $|(S,P) 
 
 In case of injective bi-partite relations, composition can be simplified by:
 \[ (S,P) \comp (S',P') = (SS', SP' \cup PS' \cup PP') \]
-Indeed, by injectivity 
+Indeed, by injectivity if $xSyS'z$ then $y \not \in \cod{P} \cup \dom{P'}$ hence $(x,z) \not \in ( SP' \cup PS' \cup PP')$.
 
+\medskip
 We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$
 is injective then $\biRel^*$ is such.
