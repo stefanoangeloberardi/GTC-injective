@@ -59,33 +59,30 @@ If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ fo
 of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
 When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$ and $\edgestar{(S,P)}{u}{v}$.
 
-\subsection{Relating Transition Graphs to Directed Hypergraphs}
+\subsection{Relating Transition Graphs to Colored Hypergraphs}
 \label{subsec:trans-hypergraph}
 
-A  {\em directed hypergraph} is a pair $G = (X, \mathcal{E})$ where $\mathcal{E} \subseteq \wp(X)^2$ is the set of the {\em hyperedges} of $G$;
+A  {\em directed hypergraph} is a pair $(X, \mathcal{E})$ where $\mathcal{E} \subseteq \wp(X)^2$ is the set of the {\em hyperedges} of $G$;
 more explicitly, and edge in $\mathcal{E}$ is a pair $(Y,Z)$ with $Y, Z \subseteq X$.
-A {\em coloring} $c:  \mathcal{E} \to \Set{1, \ldots, k}$ is a map associating a ``color''  $1 \leq i \leq k$ to each edge; otherways said, a hypergraph $G$ with coloring $c$ can be regarded as a directed labelled graph with vertexes in $\wp(X)$ and edge labels in $\Set{1, \ldots, k}$.
+A {\em coloring} $c:  \mathcal{E} \to \Set{1, \ldots, k}$ is a map associating a ``color''  $1 \leq i \leq k$ to each edge; otherways said, a hypergraph $(X, \mathcal{E})$ with coloring $c$ can be regarded as a directed labelled graph with vertexes in $\wp(X)$ and edge labels in $\Set{1, \ldots, k}$.
+We dub $(X, \mathcal{E}, c)$ a {\em colored hypergraph}.
 
 A slight generalization of this notion consists in replacing $\wp(X)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $X$ indexed over a set $V$, so that we can say that the edges $(Y_u, Z_v)$ and $(Y_v, Z_w)$ are incident in the same vertex $v$ even if $Z_v$ and $Y_v$ do not necessarily coincide.
-With this proviso, both a transition graph $\Graph = (V, \biRel, E)$ and its transitive closure $\Graph^* = (V, \biRel^*, E^*)$ are {\em generalized hypergraphs}, where each edge $\edge{(S,P)}{u}{v}$, $\edgestar{(S,P)}{u}{v}$ respectively, is identified with the hyperedge $(Y_u, Z_v)$, where
+With this proviso, both a transition graph $\Graph = (V, \biRel, E)$ and its transitive closure $\Graph^* = (V, \biRel^*, E^*)$ are {\em generalized colored hypergraphs}, where each edge $\edge{(S,P)}{u}{v}$, $\edgestar{(S,P)}{u}{v}$ respectively, is identified with the hyperedge $(Y_u, Z_v)$, where
 $Y_u = \dom{S \cup P}$ and $Z_v = \cod{S \cup V}$, and $c(Y_u, Z_v) = (S,P)$ in $\biRel$ and in $\biRel^*$ respectively.
-
-
-%$G$ is said $m$-regular if for all edges $(Y,Z) \in \mathcal{E}$ it is $|Y \cup Z| = m$. 
-\newpage
-
-\newcommand{\leqdownarrow}{\downarrow^{\hspace{-2mm}=}}
+By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.
 
 \begin{remark}\label{rem:hypergraph}
-Our transition graphs are a generalization {\em size-change} graphs in \cite{Lee1}. 
+Transition graphs are a generalization of {\em size-change} graphs in \cite{Lee1}. 
 A size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, $\texttt{g}$ out of some functional program $\texttt{p}$
-is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$, where $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $\texttt{f}^{(i)} \subseteq \textit{Param}(\texttt{f})$ to
+is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$, where $\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g})$
+are sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{g}$, $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $\texttt{f}^{(i)} \subseteq \textit{Param}(\texttt{f})$ to
 $\texttt{g}^{(j)} \subseteq \textit{Param}(\texttt{g})$ labelled with $\leqdownarrow$ and
 $\downarrow$ in $\textsf{E}$.
 
 In our view $G$ corresponds to $\edgeG{(S,P)}{u}{v}{\Graph}$ where $X$ is the set of all parameters occurring in the program $\texttt{p}$, 
 $S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \textsf{E}}$ and
-$P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. Looking at $\Graph$ as a (generalized) hypergraph, we have that $u$ is associated with the set $\bigcup\Set{\texttt{f}^{(i)} \mid \exists  \texttt{g}^{(j)}.\; (\texttt{f}^{(i)}, \dagger, \texttt{g}^{(j)}) \in \textsf{E} \; \mbox{with $\dagger \in \Set{\leqdownarrow, \downarrow}$}}$, and similary for $v$ by interchanging the $\texttt{f}^{(i)}$ and $\texttt{g}^{(j)}$ in the above.
+$P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. Looking at $\Graph$ as a colored hypergraph, we have that $u$ is associated with the set $\bigcup\Set{\texttt{f}^{(i)} \mid \exists  \texttt{g}^{(j)}.\; (\texttt{f}^{(i)}, \dagger, \texttt{g}^{(j)}) \in \textsf{E} \; \mbox{with $\dagger \in \Set{\leqdownarrow, \downarrow}$}}$, and similary for $v$ by interchanging the $\texttt{f}^{(i)}$ and $\texttt{g}^{(j)}$ in the above.
 \end{remark}
 
 \subsection{The Global Trace Condition}
