@@ -79,11 +79,19 @@ On the other hand, the infinite path $\ppath_0$ represented in Figure \ref{fig:P
 $\tau_0 : x_1 , x_1, \cdots$ and $\tau_1 : x_2, x_1 , x_1, \cdots$, and neither of them is infinitely progressing. \input{CSL-PDC-figure}
 \end{remark}
 
+
 We say that $(S,P)$ is {\em transitive} if $S \cup P$ is such, namely $x(S \cup P)y(S \cup P)z$ implies $x(S \cup P) z$, for all $x, y, z \in X$.
 
 \begin{lemma}\label{lem:transitivity}
-If $(S,P)$ is self-composing in $\Graph$ and $\Graph$ satisfies PDC then $(S,P)$ is transitive.
+Let $\Graph$ be injective and satisfy the PDC.
+If $(S,P)$ is self-composing in $\Graph$ with transitive $(S,P)$ then there exists $x \in X$ such that $xPx$.
 \end{lemma}
+
+\begin{proof}
+By the hypothesis that $\Graph$ satisfies PDC, there exist $x,y \in \dom{S \cup P}$ such that $xPy$. Since $P \subseteq S \cup P$ we also
+have that $x(S \cup P)y$. On the other hand, since $y \in \dom{S \cup P}$, there is $z \in X$ such that $y(S \cup P)z$. From this, by transitivity, it follows that
+$x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective.
+\end{proof}
 
 \begin{theorem}[Main Theorem]\label{lem:PDC+injImpliesGTC}
 Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if $\Graph$ satisfies PDC then it satisfies GTC.
