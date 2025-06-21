@@ -73,12 +73,12 @@ $(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, we conclude that $x P y$  by (\ref
 \begin{remark}\label{rem:PDCnotGTC}
 The inverse of Proposition \ref{prop:GTCimplPDC} does not hold. Consider $X_0 = \Set{x_1, x_2}$ and $\biRel_0 = \Set{(S_0,P_0)}$ where
 $S_0 = \Set{(x_1, x_1)}$ and $P_0 = \Set{(x_2, x_1)}$. Let $\Graph_0 = (\Set{v}, \biRel_0, \Set{\edge{(S_0,P_0)}{v}{v}})$. Then $(S_0,P_0)$
-is self-composing, $x_1, x_2 \in \dom{S_0 \cup P_0}$ and $x_2 P_0 x_1$, hence $\Graph_0$ satisfies the PCD.
+is self-composing, $x_1, x_2 \in \dom{S_0 \cup P_0}$ and $x_2 P_0 x_1$, hence $\Graph_0$ satisfies the PD.
 
 On the other hand, the infinite path $\ppath_0$ represented in Figure \ref{fig:PDC-counterexample} is such that the only infinite traces compatible with it are
 $\tau_0 : x_1 , x_1, \cdots$ and $\tau_1 : x_2, x_1 , x_1, \cdots$, and neither of them is infinitely progressing. \input{CSL-PDC-figure}
 \end{remark}
 
 \begin{theorem}[Main Theorem]\label{lem:PDC+injImpliesGTC}
-Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$, then $\Graph$ satifies PDC implies that it satisfies GTC.
+Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$, then $\Graph$ satisfies PDC implies that it satisfies GTC.
 \end{theorem}
