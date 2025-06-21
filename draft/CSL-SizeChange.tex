@@ -41,8 +41,7 @@ Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-partite relati
 is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
 
 \begin{definition}[Transition graph]\label{def:transitionGraph}
-A {\em transition graph} of $\biRel$ is a tuple $\Graph = (V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$
-is a (finite) set of labeled edges.
+A {\em transition graph} of $\biRel$ is a tuple $\Graph = (V, \biRel, E)$ where $V$ is a set of vertices, and $E \subseteq V \times \biRel\times V$ is a (finite) set of labeled edges.
 \end{definition}
 
 We say that  the graph $\Graph^* = (V, \biRel^*, E^*)$ is the {\em transitive closure} of $\Graph = (V, \biRel, E)$ if
@@ -62,12 +61,14 @@ When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P
 \subsection{Relating Transition Graphs to Colored Hypergraphs}
 \label{subsec:trans-hypergraph}
 
-A  {\em directed hypergraph} is a pair $(X, \mathcal{E})$ where $\mathcal{E} \subseteq \wp(X)^2$ is the set of the {\em hyperedges} of $G$;
-more explicitly, and edge in $\mathcal{E}$ is a pair $(Y,Z)$ with $Y, Z \subseteq X$.
-A {\em coloring} $c:  \mathcal{E} \to \Set{1, \ldots, k}$ is a map associating a ``color''  $1 \leq i \leq k$ to each edge; otherways said, a hypergraph $(X, \mathcal{E})$ with coloring $c$ can be regarded as a directed labelled graph with vertexes in $\wp(X)$ and edge labels in $\Set{1, \ldots, k}$.
-We dub $(X, \mathcal{E}, c)$ a {\em colored hypergraph}.
+Let $N$ be a set. A {\em undirected hypergraph}
 
-A slight generalization of this notion consists in replacing $\wp(X)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $X$ indexed over a set $V$, so that we can say that the edges $(Y_u, Z_v)$ and $(Y_v, Z_w)$ are incident in the same vertex $v$ even if $Z_v$ and $Y_v$ do not necessarily coincide.
+A  {\em directed hypergraph} is a pair $(N, \mathcal{E})$ where $N$ is a set and $\mathcal{E} \subseteq \wp(N)^2$ is the set of the {\em hyperedges} of $G$;
+more explicitly, and edge in $\mathcal{E}$ is a pair $(Y,Z)$ with $Y, Z \subseteq N$.
+A {\em coloring} $c:  \mathcal{E} \to \Set{1, \ldots, k}$ is a map associating a ``color''  $1 \leq i \leq k$ to each edge; otherways said, a hypergraph $(N, \mathcal{E})$ with coloring $c$ can be regarded as a directed labelled graph with vertexes in $\wp(N)$ and edge labels in $\Set{1, \ldots, k}$.
+We dub $(N, \mathcal{E}, c)$ a {\em colored hypergraph}.
+
+A slight generalization of this notion consists in replacing $\wp(N)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $N$ indexed over a set $V$, so that we can say that the edges $(Y_u, Z_v)$ and $(Y_v, Z_w)$ are incident in the same vertex $v$ even if $Z_v$ and $Y_v$ do not necessarily coincide.
 With this proviso, both a transition graph $\Graph = (V, \biRel, E)$ and its transitive closure $\Graph^* = (V, \biRel^*, E^*)$ are {\em generalized colored hypergraphs}, where each edge $\edge{(S,P)}{u}{v}$, $\edgestar{(S,P)}{u}{v}$ respectively, is identified with the hyperedge $(Y_u, Z_v)$, where
 $Y_u = \dom{S \cup P}$ and $Z_v = \cod{S \cup V}$, and $c(Y_u, Z_v) = (S,P)$ in $\biRel$ and in $\biRel^*$ respectively.
 By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.

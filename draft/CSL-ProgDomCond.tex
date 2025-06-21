@@ -93,6 +93,10 @@ have that $x(S \cup P)y$. On the other hand, since $y \in \dom{S \cup P}$, there
 $x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective.
 \end{proof}
 
-\begin{theorem}[Main Theorem]\label{lem:PDC+injImpliesGTC}
+In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use (a form of) Ramsey's Theorem. We preliminarily introduce some terminology.
+Let $N \subseteq \Nat$, then $[N]^m = \Set{Y \subseteq N \mid |Y| = m}$ can be regarded as the complete (undirected) hypergraph where
+all edges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).\marginpar{where?}
+
+\begin{theorem}[Main Theorem]\label{thr:PDC+injImpliesGTC}
 Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if $\Graph$ satisfies PDC then it satisfies GTC.
 \end{theorem}
