@@ -95,7 +95,19 @@ $x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective.
 
 In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use (a form of) Ramsey's Theorem. We preliminarily introduce some terminology.
 Let $N \subseteq \Nat$, then $[N]^m = \Set{Y \subseteq N \mid |Y| = m}$ can be regarded as the complete (undirected) hypergraph where
-all edges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).\marginpar{where?}
+all hyperedges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).\marginpar{where?}
+Given a coloring $c: [N]^m \to \Set{1,\ldots, k}$ and $Z \subseteq N$ we define $c''[Z]^m$ as the set of colors of the hyperedges in $[Z]^m$:
+\[c''[Z]^m = \Set{i \mid \exists U \in [Z]^m.\; c(U) = i} \]
+A set $H \subseteq N$ is {\em $c$-homogeneous} if $c''[H]^m$ is a singleton.
+
+\begin{theorem}[Ramsey's Theorem]\label{thr:Ramsey}
+For all $m, k \in \Nat\setminus \Set{0}$ and any coloring $c[\Nat]^m \to \Set{1,\ldots, k}$, there exists an infinite $H \subseteq \Nat$ which is $c$-homogeneous.
+\end{theorem}
+
+\begin{corollary}
+Fix $m \in \Nat$ and consider the complete directed hypergraph $(\Nat, \mathcal{E})$, where $ \mathcal{E} = [\Nat]^m \times [\Nat]^m$.
+Then for any coloring $c:\mathcal{E} \to \Set{1,\ldots, k}$  there exists an infinite $H \subseteq \mathcal{E}$ such that $H$ is $c$-homogeneous.
+\end{corollary}
 
 \begin{theorem}[Main Theorem]\label{thr:PDC+injImpliesGTC}
 Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if $\Graph$ satisfies PDC then it satisfies GTC.

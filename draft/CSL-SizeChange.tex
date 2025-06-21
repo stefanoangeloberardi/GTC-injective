@@ -59,16 +59,14 @@ of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-tim
 When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$ and $\edgestar{(S,P)}{u}{v}$.
 
 \subsection{Relating Transition Graphs to Colored Hypergraphs}
-\label{subsec:trans-hypergraph}
+\label{subsec:trans-hypergraph} 
 
-Let $N$ be a set. A {\em undirected hypergraph}
-
-A  {\em directed hypergraph} is a pair $(N, \mathcal{E})$ where $N$ is a set and $\mathcal{E} \subseteq \wp(N)^2$ is the set of the {\em hyperedges} of $G$;
-more explicitly, and edge in $\mathcal{E}$ is a pair $(Y,Z)$ with $Y, Z \subseteq N$.
-A {\em coloring} $c:  \mathcal{E} \to \Set{1, \ldots, k}$ is a map associating a ``color''  $1 \leq i \leq k$ to each edge; otherways said, a hypergraph $(N, \mathcal{E})$ with coloring $c$ can be regarded as a directed labelled graph with vertexes in $\wp(N)$ and edge labels in $\Set{1, \ldots, k}$.
+An {\em undirected hypergraph} is a pair $(N, \mathcal{E})$ where $N$ is a set and $\mathcal{E} \subseteq \wp(N)$ is the set of its {\em hyperedges}. It is
+{\em directed} if $\mathcal{E} \subseteq \wp(N)^2$ instead, so that a hyperedge is a pair $(Y,Z)$ with $Y, Z \subseteq N$.
+A {\em coloring} $c:\mathcal{E} \to \Set{1, \ldots, k}$, is a map associating a ``color''  $1 \leq i \leq k$ to each hyperedge; otherways said, a hypergraph $(N, \mathcal{E})$ with coloring $c$ can be regarded as a labelled graph with vertexes in $\wp(N)$ and edge labels in $\Set{1, \ldots, k}$.
 We dub $(N, \mathcal{E}, c)$ a {\em colored hypergraph}.
 
-A slight generalization of this notion consists in replacing $\wp(N)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $N$ indexed over a set $V$, so that we can say that the edges $(Y_u, Z_v)$ and $(Y_v, Z_w)$ are incident in the same vertex $v$ even if $Z_v$ and $Y_v$ do not necessarily coincide.
+A slight generalization of the notion of directed hypergraphs consists in replacing $\wp(N)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $N$ indexed over a set $V$, so that we can say that the edges $(Y_u, Z_v)$ and $(Y_v, Z_w)$ are incident in the same vertex $v$ even if $Z_v$ and $Y_v$ do not necessarily coincide.
 With this proviso, both a transition graph $\Graph = (V, \biRel, E)$ and its transitive closure $\Graph^* = (V, \biRel^*, E^*)$ are {\em generalized colored hypergraphs}, where each edge $\edge{(S,P)}{u}{v}$, $\edgestar{(S,P)}{u}{v}$ respectively, is identified with the hyperedge $(Y_u, Z_v)$, where
 $Y_u = \dom{S \cup P}$ and $Z_v = \cod{S \cup V}$, and $c(Y_u, Z_v) = (S,P)$ in $\biRel$ and in $\biRel^*$ respectively.
 By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.
