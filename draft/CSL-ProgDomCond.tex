@@ -84,7 +84,7 @@ We say that $(S,P)$ is {\em transitive} if $S \cup P$ is such, namely $x(S \cup 
 
 \begin{lemma}\label{lem:transitivity}
 Let $\Graph$ be injective and satisfy the PDC.
-If $(S,P)$ is self-composing in $\Graph$ with transitive $(S,P)$ then there exists $x \in X$ such that $xPx$.
+If $(S,P)$ is self-composing in $\Graph$ and transitive then there exists $x \in X$ such that $xPx$.
 \end{lemma}
 
 \begin{proof}
@@ -93,7 +93,7 @@ have that $x(S \cup P)y$. On the other hand, since $y \in \dom{S \cup P}$, there
 $x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective.
 \end{proof}
 
-In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use (a form of) Ramsey's Theorem. We preliminarily introduce some terminology.
+In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use infinite Ramsey's Theorem. We preliminarily introduce some terminology.
 Let $N \subseteq \Nat$, then $[N]^m = \Set{Y \subseteq N \mid |Y| = m}$ can be regarded as the complete (undirected) hypergraph where
 all hyperedges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).\marginpar{where?}
 Given a coloring $c: [N]^m \to \Set{1,\ldots, k}$ and $Z \subseteq N$ we define $c''[Z]^m$ as the set of colors of the hyperedges in $[Z]^m$:
@@ -110,10 +110,16 @@ then there exists an infinite $H \subseteq V$ that is a complete subgraph of $G$
 \end{corollary}
 
 \begin{proof}
-As $V$ is denumerable, it can be identified with $\Nat$; now the corollary immediately follows from Theorem \ref{thr:Ramsey} taking $m = 2$.
+As $V$ is denumerable, it can be identified with $\Nat$. Then the set of edges $E = \Set{ \Set{u, v} \subseteq V \mid u \neq v} = [V]^2$;
+now the corollary is a particular case of Theorem \ref{thr:Ramsey}.
 \end{proof}
 
 
 \begin{theorem}[Main Theorem]\label{thr:PDC+injImpliesGTC}
 Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if $\Graph$ satisfies PDC then it satisfies GTC.
 \end{theorem}
+
+\begin{proof}
+Let \[\ppath : v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \stackrel{(S_1,P_1)}{\longrightarrow} v_2 \stackrel{(S_2,P_2)}{\longrightarrow}\cdots\]
+be an infinite path of $\Graph$
+\end{proof}
