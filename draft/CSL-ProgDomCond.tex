@@ -104,27 +104,15 @@ A set $H \subseteq N$ is {\em $c$-homogeneous} if $c''[H]^m$ is a singleton.
 For all $m, k \in \Nat\setminus \Set{0}$ and any coloring $c[\Nat]^m \to \Set{1,\ldots, k}$, there exists an infinite $H \subseteq \Nat$ which is $c$-homogeneous.
 \end{theorem}
 
-\begin{corollary}
-Fix $m \in \Nat$ and consider the complete directed hypergraph $(\Nat, \mathcal{E})$, where $\mathcal{E} = [\Nat]^m \times [\Nat]^m$.
-Then for any coloring $c:\mathcal{E} \to \Set{1,\ldots, k}$  there exists an infinite $H \subseteq \Nat$ and an $i \in \Set{1,\ldots, k}$ such that 
-for all $(Y,Z) \in  [H]^m \times [H]^m \subseteq \mathcal{E}$, $c(Y,Z) = i$.
+\begin{corollary}\label{cor:Ramsey}
+Let $G = (V, E)$ be a complete undirected graph with infinite denumerable $V$, and let $c: E \to \Set{1,\ldots, k}$ be a finite coloring of its edges,
+then there exists an infinite $H \subseteq V$ that is a complete subgraph of $G$ and such that for all distinct $u, v \in H$ we have $c(u) = i = c(v)$ for some $i \in \Set{1,\ldots, k}$.
 \end{corollary}
 
-%\begin{proof}
-%Observe that $[\Nat]^m \times [\Nat]^m$ is bijective with $[\Nat]^{2m}$ via the map $(Y, Z) \mapsto Y \uplus Z$, where $\uplus$ is the disjoint union.
-%The coloring $c:\mathcal{E} \to \Set{1,\ldots, k}$ of $\mathcal{E}$ determines the coloring $\bar{c}: [\Nat]^{2m} \to \Set{1,\ldots, k}$ with
-%$\bar{c}(Y \uplus Z) = c(Y, Z)$. By Theorem \ref{thr:Ramsey} there is an infinite $H \subseteq \Nat$ which is $\bar{c}$-homogeneous,
-%namely $\bar{c}''[H]^{2m} = \Set{i}$ for some $i \in  \Set{1,\ldots, k}$; it follows that $c(Y,Z) = \bar{c}(Y \uplus Z) = i$ for all
-%$(Y,Z) \in  [H]^m \times [H]^m$.
-%\end{proof}
-
 \begin{proof}
-Observe that $[\Nat]^m \times [\Nat]^m$ is bijective with $[\Nat]^{2m}$ via the map $(Y, Z) \mapsto Y \uplus Z$, where $\uplus$ is the disjoint union.
-The coloring $c:\mathcal{E} \to \Set{1,\ldots, k}$ of $\mathcal{E}$ determines the coloring $\bar{c}: [\Nat]^{2m} \to \Set{1,\ldots, k}$ with
-$\bar{c}(Y \uplus Z) = c(Y, Z)$. By Theorem \ref{thr:Ramsey} there is an infinite $H \subseteq \Nat$ which is $\bar{c}$-homogeneous,
-namely $\bar{c}''[H]^{2m} = \Set{i}$ for some $i \in  \Set{1,\ldots, k}$; it follows that $c(Y,Z) = \bar{c}(Y \uplus Z) = i$ for all
-$(Y,Z) \in  [H]^m \times [H]^m$.
+As $V$ is denumerable, it can be identified with $\Nat$; now the corollary immediately follows from Theorem \ref{thr:Ramsey} taking $m = 2$.
 \end{proof}
+
 
 \begin{theorem}[Main Theorem]\label{thr:PDC+injImpliesGTC}
 Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if $\Graph$ satisfies PDC then it satisfies GTC.
