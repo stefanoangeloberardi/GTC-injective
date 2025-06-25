@@ -58,18 +58,18 @@ If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ fo
 of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
 When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$ and $\edgestar{(S,P)}{u}{v}$.
 
-\subsection{Relating Transition Graphs to Colored Hypergraphs}
-\label{subsec:trans-hypergraph} 
-
-An {\em undirected hypergraph} is a pair $(N, \mathcal{E})$ where $N$ is a set and $\mathcal{E} \subseteq \wp(N)$ is the set of its {\em hyperedges}. It is
-{\em directed} if $\mathcal{E} \subseteq \wp(N)^2$ instead, so that a hyperedge is a pair $(Y,Z)$ with $Y, Z \subseteq N$.
-A {\em coloring} $c:\mathcal{E} \to \Set{1, \ldots, k}$, is a map associating a ``color''  $1 \leq i \leq k$ to each hyperedge; otherways said, a hypergraph $(N, \mathcal{E})$ with coloring $c$ can be regarded as a labelled graph with vertexes in $\wp(N)$ and edge labels in $\Set{1, \ldots, k}$.
-We dub $(N, \mathcal{E}, c)$ a {\em colored hypergraph}.
-
-A slight generalization of the notion of directed hypergraphs consists in replacing $\wp(N)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $N$ indexed over a set $V$, so that we can say that the edges $(Y_u, Z_v)$ and $(Y_v, Z_w)$ are incident in the same vertex $v$ even if $Z_v$ and $Y_v$ do not necessarily coincide.
-With this proviso, both a transition graph $\Graph = (V, \biRel, E)$ and its transitive closure $\Graph^* = (V, \biRel^*, E^*)$ are {\em generalized colored hypergraphs}, where each edge $\edge{(S,P)}{u}{v}$, $\edgestar{(S,P)}{u}{v}$ respectively, is identified with the hyperedge $(Y_u, Z_v)$, where
-$Y_u = \dom{S \cup P}$ and $Z_v = \cod{S \cup V}$, and $c(Y_u, Z_v) = (S,P)$ in $\biRel$ and in $\biRel^*$ respectively.
-By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.
+%\subsection{Relating Transition Graphs to Colored Hypergraphs}
+%\label{subsec:trans-hypergraph} 
+%
+%An {\em undirected hypergraph} is a pair $(N, \mathcal{E})$ where $N$ is a set and $\mathcal{E} \subseteq \wp(N)$ is the set of its {\em hyperedges}. It is
+%{\em directed} if $\mathcal{E} \subseteq \wp(N)^2$ instead, so that a hyperedge is a pair $(Y,Z)$ with $Y, Z \subseteq N$.
+%A {\em coloring} $c:\mathcal{E} \to \Set{1, \ldots, k}$, is a map associating a ``color''  $1 \leq i \leq k$ to each hyperedge; otherways said, a hypergraph $(N, \mathcal{E})$ with coloring $c$ can be regarded as a labelled graph with vertexes in $\wp(N)$ and edge labels in $\Set{1, \ldots, k}$.
+%We dub $(N, \mathcal{E}, c)$ a {\em colored hypergraph}.
+%
+%A slight generalization of the notion of directed hypergraphs consists in replacing $\wp(N)$ in the above with a family $\Set{Y_v}_{v \in V}$ of subsets of $N$ indexed over a set $V$, so that we can say that the edges $(Y_u, Z_v)$ and $(Y_v, Z_w)$ are incident in the same vertex $v$ even if $Z_v$ and $Y_v$ do not necessarily coincide.
+%With this proviso, both a transition graph $\Graph = (V, \biRel, E)$ and its transitive closure $\Graph^* = (V, \biRel^*, E^*)$ are {\em generalized colored hypergraphs}, where each edge $\edge{(S,P)}{u}{v}$, $\edgestar{(S,P)}{u}{v}$ respectively, is identified with the hyperedge $(Y_u, Z_v)$, where
+%$Y_u = \dom{S \cup P}$ and $Z_v = \cod{S \cup V}$, and $c(Y_u, Z_v) = (S,P)$ in $\biRel$ and in $\biRel^*$ respectively.
+%By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.
 
 \begin{remark}\label{rem:hypergraph}
 Transition graphs are a generalization of {\em size-change} graphs in \cite{Lee1}. 
@@ -84,25 +84,27 @@ $S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \te
 $P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. Looking at $\Graph$ as a colored hypergraph, we have that $u$ is associated with the set $\bigcup\Set{\texttt{f}^{(i)} \mid \exists  \texttt{g}^{(j)}.\; (\texttt{f}^{(i)}, \dagger, \texttt{g}^{(j)}) \in \textsf{E} \; \mbox{with $\dagger \in \Set{\leqdownarrow, \downarrow}$}}$, and similary for $v$ by interchanging the $\texttt{f}^{(i)}$ and $\texttt{g}^{(j)}$ in the above.
 \end{remark}
 
-\subsection{The Global Trace Condition}
-\label{subsec:GTC}
+%\subsection{The Global Trace Condition}
+%\label{subsec:GTC}
+%
+%\begin{definition}[Trace, path and progress]\label{def:TracePath}
+%Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
+%\begin{enumerate}[i)]
+%\item a {\em trace} is a map $\tau:\alpha \to X$;
+%\item a {\em path} is a map $\ppath:\alpha \to E$ such that for all $i + 1 < \alpha$, $\target{\ppath(i)} = \source{\ppath(i+1)}$;
+%\item a trace $\tau$ is {\em compatible} with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if 
+%	there is $i_0 < \alpha$ such that for all $i_0 \leq i < i+1 < \alpha$,
+%	if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$, and if $\tau(i) P \tau(i + 1)$ then $i$
+%	is a {\em progress point} of $\tau$ in $\ppath$.
+%\end{enumerate}
+%\end{definition}
+%
+%A trace $\tau:\alpha \to X$, respectively a path $\ppath:\alpha \to E$ are infinite if $\alpha = \omega$, finite otherwise.
+%We say that $\tau$ is a trace of $\Graph$ if $\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
+%
+%\begin{definition}[Global Trace Condition - GTC]
+%The transition graph $\Graph$ satisfies the {\em Global Trace Condition} if for all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
+%$\tau \models \ppath$, which has infinitely many progress points.
+%\end{definition}
 
-\begin{definition}[Trace, path and progress]\label{def:TracePath}
-Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
-\begin{enumerate}[i)]
-\item a {\em trace} is a map $\tau:\alpha \to X$;
-\item a {\em path} is a map $\ppath:\alpha \to E$ such that for all $i + 1 < \alpha$, $\target{\ppath(i)} = \source{\ppath(i+1)}$;
-\item a trace $\tau$ is {\em compatible} with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if 
-	for all $i + 1< \alpha$, if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$, and if $\tau(i) P \tau(i + 1)$ then $i$
-	is a {\em progress point} of $\tau$ in $\ppath$.
-\end{enumerate}
-\end{definition}
-
-A trace $\tau:\alpha \to X$, respectively a path $\ppath:\alpha \to E$ are infinite if $\alpha = \omega$, finite otherwise.
-We say that $\tau$ is a trace of $\Graph$ if $\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
-
-\begin{definition}[Global Trace Condition - GTC]
-The transition graph $\Graph$ satisfies the {\em Global Trace Condition} if for all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
-$\tau \models \ppath$, which has infinitely many progress points.
-\end{definition}
 

@@ -51,11 +51,11 @@ If $\Graph$ satisfies GTC then it satisfies PDC.
 \begin{proof}
 Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $\ppath$ \marginpar{to be checked}
 \[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
-such that $\ppath(i) = \ppath(0) = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $\ppath(k) = u$ and 
-if $0 < j < k$ then $p(j) \neq u$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{u}{u}$ of $p$ are the same sequence of edges and labels.
+such that $\source{\ppath(i)} = \source{\ppath(0)} = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $\source{\ppath(k)} = u$ and 
+if $0 < j < k$ then $\source{\ppath(j)} \neq u$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{u}{u}$ of $p$ are the same sequence of edges and labels.
 
-By GTC there is a trace $\tau \models p$ that is infinitely progressing. Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
-$(S_i,P_i) \in \biRel$ are the bi-colored relations associated with the edges of the path from $p(0)$ to $p(k)$; hence, there is $h$ with $0 \leq h < k$ such that
+By GTC there is a trace $\tau \models \ppath$ that is infinitely progressing. Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
+$(S_i,P_i) \in \biRel$ are the bi-partite relations associated with the edges of the path from $p(0)$ to $p(k)$; hence, there is $h$ with $0 \leq h < k$ such that
 $\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. $P_h$.
 
 Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\tau \models \ppath$ we know that 
@@ -121,7 +121,7 @@ Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if 
 
 \begin{proof}
 Let \[\ppath : v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \stackrel{(S_1,P_1)}{\longrightarrow} v_2 \stackrel{(S_2,P_2)}{\longrightarrow}\cdots\]
-be an infinite path of $\Graph = (V, \biRel, E)$, where $v_i = \ppath(i)$ for $i < \omega$.
+be an infinite path of $\Graph = (V, \biRel, E)$, where $v_i = \source{\ppath(i)}$ for $i < \omega$.
 Also, $\ppath$ is a path of $\Graph^*$, where for all $0 \leq i < j < \omega$ there is an edge $\edgestar{(S_{i,j}, P_{i,j})}{v_i}{v_j}$, where
 $(S_{i,j}, P_{i,j}) = (S_{i}, P_{i}) \comp \cdots \comp (S_{j-1}, P_{j-1})$.
 
