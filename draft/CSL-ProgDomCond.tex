@@ -34,14 +34,15 @@ Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$
 \begin{enumerate}[i)]
 \item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
 \item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
-\item\label{lem:P-lemma-2} $x S_1 y \And y S_2 z \Then x S z$
+\item\label{lem:P-lemma-3} $x S_1 y \And y S_2 z \Then x S z$
 \end{enumerate}
 %\[ x P_1 y \myor y P_2 z \Then x P z \]
 \end{lemma}
 
 \begin{proof}
 By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
-Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$.
+Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$, establishing 
+(\ref{lem:P-lemma-1}) and (\ref{lem:P-lemma-2}). Parth (\ref{lem:P-lemma-3}) is immediate by definition of $S$.
 \end{proof}
 
 \begin{proposition}\label{prop:GTCimplPDC}
@@ -49,7 +50,7 @@ If $\Graph$ satisfies GTC then it satisfies PDC.
 \end{proposition}
 
 \begin{proof}
-Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $\ppath$ \marginpar{to be checked}
+Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $\ppath$ 
 \[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
 such that $\source{\ppath(i)} = \source{\ppath(0)} = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $\source{\ppath(k)} = u$ and 
 if $0 < j < k$ then $\source{\ppath(j)} \neq u$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{u}{u}$ of $\ppath$ are the same sequence of edges and labels.
@@ -57,9 +58,6 @@ if $0 < j < k$ then $\source{\ppath(j)} \neq u$; w.l.o.g. we also assume that th
 By GTC there is a trace $\tau \models \ppath$ that is infinitely progressing; hence, there is an $i_0 \geq 0$ such that for all $j > i_0$ we have
 $\tau(j) \lbl{\ppath(j)} \tau(j+1)$ and $\tau(h)P_h \tau(h+1)$ for infinitely many $h > i_0$. Since the sequences of indexes $i$ such that $\source{\ppath(i)} = u$
 and those that are progressing points of $\tau$ are cofinal, we freely assume that $i_0 = 0$.
-
-\bigskip
-
 
 Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
 $(S_i,P_i) \in \biRel$ are the bi-partite relations associated with the edges of the path $\edgestar{(S,P)}{u}{u}$; hence, there is $h$ with $0 \leq h < k$ such that
@@ -81,12 +79,14 @@ $(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, we conclude that $x P y$  by (\ref
 \begin{remark}\label{rem:PDCnotGTC}
 The inverse of Proposition \ref{prop:GTCimplPDC} does not hold. Consider $X_0 = \Set{x_1, x_2}$ and $\biRel_0 = \Set{(S_0,P_0)}$ where
 $S_0 = \Set{(x_1, x_1)}$ and $P_0 = \Set{(x_2, x_1)}$. Let $\Graph_0 = (\Set{v}, \biRel_0, \Set{\edge{(S_0,P_0)}{v}{v}})$. Then $(S_0,P_0)$
-is self-composing, $x_1, x_2 \in \dom{S_0 \cup P_0}$ and $x_2 P_0 x_1$, hence $\Graph_0$ satisfies the PD.
+is self-composing, $x_1, x_2 \in \dom{S_0 \cup P_0}$ and $x_2 P_0 x_1$, hence $\Graph_0$ satisfies the PDC.
 
 On the other hand, the infinite path $\ppath_0$ represented in Figure \ref{fig:PDC-counterexample} is such that the only infinite traces compatible with it are
 $\tau_0 : x_1 , x_1, \cdots$ and $\tau_1 : x_2, x_1 , x_1, \cdots$, and neither of them is infinitely progressing. \input{CSL-PDC-figure}
 \end{remark}
 
+The key point in the counterexample of Remark \ref{rem:PDCnotGTC} is that $\biRel_0$ is not injective. Toward establishing that PDC implies GTC
+in case of an injective $\biRel$, we prove the lemma bolow. 
 
 We say that $(S,P)$ is {\em transitive} if $S \cup P$ is such, namely $x(S \cup P)y(S \cup P)z$ implies $x(S \cup P) z$, for all $x, y, z \in X$.
 
@@ -146,7 +146,7 @@ $(S, P) \in \biRel^*$.
 
 As $V$ is finite, there exists $u \in V$ such that, for infinitely many $i < \omega$, $(i, u) \in \mathcal{H}$.
 This determines a cofinal subpath $\ppath_{\mathcal{H}} : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \cdots$ of $\ppath$ where, $(S,P)$ is self-composing and, by the above, $(S,P)\comp (S,P) = (S,P)$, hence $(S,P)$ is transitive. By the hypotheses that $\Graph$ is
-injective and satisfies PDC, the Lemma \ref{lem:transitivity} implies that there exists $x \in X$ such that $x P x$. Then it remains to show that there is a trace $\tau$ such that $\tau \models \ppath$ and that whenever $v_i = u$, $\tau(i) = x$: then $x P x$ implies that $\tau$ is infinitely progressing.
+injective and satisfies PDC, the Lemma \ref{lem:transitivity} implies that there exists $x \in X$ such that $x P x$. Then it remains to show that there is a trace $\tau$ such that $\tau \models \ppath$ and that, whenever $v_i = u$, $\tau(i) = x$. %; since $x P x$, this implies that $\tau$ is infinitely progressing.
 
 %By construction, $(S,P) = (S_{i,j}, P_{i,j})$ for some $i < j$ where $v_i = u = v_j$, which is a composition of bi-partite relations in $\biRel$.
 %By injectivity of $\biRel$ and Lemma \ref{lem:biRelInjectiveComp}, even $\biRel^*$ is injective; therefore, $(S,P)$ itself is injective.
@@ -157,7 +157,7 @@ where we assume that the $v_k \neq u$ for all $i_0 < k < j_0$.
 Since $x P x$ and clearly $P \subseteq S \cup P = (S_{i_0} \cup P_{i_0}) \cdots (S_{j_0-1} \cup P_{j_0-1})$, there is a sequence $x = x_{i_0}, \ldots , x_{j_0} =x$ such that for all $i_{0} \leq i < j_0$, $(S_{i} \cup P_{i})(x_{i}) = \Set{x_{i+1}}$
 and $\Set{x_{j_0}} = \Set{x} = (S \cup P)(x)$, where we use the hypothesis that $\biRel$ is injective, and hence $\biRel^*$ is such by Lemma \ref{lem:biRelInjectiveComp}.
 
-Now, by repeating the same construction for all the paths $u \stackrel{(S,P)}{\longrightarrow} u$ in $\ppath_{\mathcal{H}}$, we obtain a trace $\tau$ such that $\tau \models \ppath$, $\tau(i) = x$ for infinitely many $i$, which are progress points w.r.t. $P$. Hence $\Graph$ satisfies GTC.
+Now, by repeating the same construction for all the paths $\edgestar{(S,P)}{u}{u}$ in $\ppath_{\mathcal{H}}$, we obtain a trace $\tau$ such that $\tau \models \ppath$, $\tau(i) = x$ for infinitely many $i$, which are progress points w.r.t. $P$. Hence $\Graph$ satisfies GTC by the arbitrary choice of $\ppath$.
 %$x_i = (S_{i_0} \cup P_{i_0})(x_{i_0}) \cdots (S_{i-1} \cup P_{i-1})(x_{i-1}) (x_{x{i-1}
 
 
