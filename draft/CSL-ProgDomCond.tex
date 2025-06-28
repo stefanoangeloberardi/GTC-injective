@@ -52,16 +52,24 @@ If $\Graph$ satisfies GTC then it satisfies PDC.
 Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $\ppath$ \marginpar{to be checked}
 \[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
 such that $\source{\ppath(i)} = \source{\ppath(0)} = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $\source{\ppath(k)} = u$ and 
-if $0 < j < k$ then $\source{\ppath(j)} \neq u$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{u}{u}$ of $p$ are the same sequence of edges and labels.
+if $0 < j < k$ then $\source{\ppath(j)} \neq u$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{u}{u}$ of $\ppath$ are the same sequence of edges and labels.
 
-By GTC there is a trace $\tau \models \ppath$ that is infinitely progressing. Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
-$(S_i,P_i) \in \biRel$ are the bi-partite relations associated with the edges of the path from $p(0)$ to $p(k)$; hence, there is $h$ with $0 \leq h < k$ such that
+By GTC there is a trace $\tau \models \ppath$ that is infinitely progressing; hence, there is an $i_0 \geq 0$ such that for all $j > i_0$ we have
+$\tau(j) \lbl{\ppath(j)} \tau(j+1)$ and $\tau(h)P_h \tau(h+1)$ for infinitely many $h > i_0$. Since the sequences of indexes $i$ such that $\source{\ppath(i)} = u$
+and those that are progressing points of $\tau$ are cofinal, we freely assume that $i_0 = 0$.
+
+\bigskip
+
+
+Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
+$(S_i,P_i) \in \biRel$ are the bi-partite relations associated with the edges of the path $\edgestar{(S,P)}{u}{u}$; hence, there is $h$ with $0 \leq h < k$ such that
 $\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. $P_h$.
 
 Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\tau \models \ppath$ we know that 
 \[x = \tau(0) (S_0 \cup P_0) \tau(1) \cdots \tau(k-1) (S_{k-1} \cup P_{k-1}) \tau(k) = y\]
 so that $x \in \dom{(S_0 \cup P_0) \cdots  (S_{k-1} \cup P_{k-1})} = \dom{S \cup P}$ by (\ref{eq:unionComp}). On the other hand, we have assumed that 
-$\edgestar{(S,P)}{\ppath(k)}{\ppath(2k)}$ where $\ppath(k) = u = \ppath(2k)$, hence by the same argument we conclude that $y \in \dom{S \cup P}$.
+$\edgestar{(S,P)}{\source{\ppath(k)}}{\target{\ppath(2k)}}$ where $\source{\ppath(k)} = u = \target{\ppath(2k)}$, 
+hence by the same argument we conclude that $y \in \dom{S \cup P}$.
 
 We know that $(S, P) = (S',P') \comp (S_h,P_h) \comp (S'',P'')$, where $(S',P')= (S_0,P_0)\comp \cdots \comp (S_{h-1},P_{h-1})$ and 
 $(S'',P'')= (S_{h+1},P_{h+1})\comp \cdots \comp (S_{k-1},P_{k-1})$. By $\tau \models p$ and that $z P_h z'$ we deduce that
