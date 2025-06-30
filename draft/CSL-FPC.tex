@@ -8,14 +8,14 @@ Theorem 4.
 
 
 
-\begin{definition}[SCT algorithmic condition]
+\begin{definition}[Size-Change Termination - SCT]
 \label{def:SCT}
-We say that $\Graph$ satisfies SCT if and only if for all self-composable 
-$\edgestar{(S,P)}{u}{u}$ such that 
+We say that $\Graph$ satisfies {\em Size-Change Termination} if and only if for all self-composable 
+$\edgeGstar{(S,P)}{u}{u}{\Graph}$ such that 
 $(S,P) \comp (S,P) = (S,P)$ there is some $x \in X$ such that $x P x$.
 \end{definition}
 
-SCT can be formulated in many equivalent way, for instance as Finite Power Condition (FPC):
+SCT can be formulated in many equivalent ways, for instance as Finite Power Condition (FPC):
 
 \begin{definition}[Finite Power Condition - FPC]
 \label{def:FPC}
@@ -49,15 +49,15 @@ SCT $\Leftrightarrow$ FPC
 \begin{enumerate}
 \item
 Assume SCT, $\edgeGstar{(S,P)}{u}{u}{\Graph}$.
-By Proposition \ref{prop:idempotent-power} and finiteness of the bi-partite graphs on $X$
-there is some $n > 0$ such that $(S,P)^n(S,P)^n=(S,P)^n$. By SCT,
+By Proposition \ref{prop:idempotent-power} and finiteness of the bi-partite graph $\Graph$
+there is some $n > 0$ such that $(S,P)^n \comp (S,P)^n=(S,P)^n$. By SCT,
 there is some $x \in X$ such that $x$ progresses to $x$ in $(S,P)^n$.
 \item
-Assume FPC, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ and 
-$(\Stat,\Prog)(\Stat,\Prog)=(\Stat,\Prog)$ in order to prove that 
-there is some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)$.
-By FPC, there is some $n > 0 $, some $x \in X$ such that $x$ progresses to $x$ in 
-$(\Stat,\Prog)^n$. By $(\Stat,\Prog)(\Stat,\Prog)=(\Stat,\Prog)$ we deduce that 
-$(\Stat,\Prog)^n=(\Stat,\Prog)$, hence $x$ progresses to $x$ in $(\Stat,\Prog)$.
+Assume FPC, $\edgeGstar{(S,P)}{u}{u}{\Graph}$ and 
+$(S,P) \comp (S,P)=(S,P)$ in order to prove that 
+there is some $x \in X$ such that $x$ progresses to $x$ in $(S,P)$.
+By FPC, there are some $n > 0 $ and $x \in X$ such that $x$ progresses to $x$ in 
+$(S,P)^n$. By $(S,P)\comp (S,P)=(S,P)$ we deduce that 
+$(S,P)^n=(S,P)$, hence $x$ progresses to $x$ in $(S,P)$.
 \end{enumerate}
 \end{proof}
