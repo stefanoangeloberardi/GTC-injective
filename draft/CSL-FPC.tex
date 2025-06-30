@@ -5,6 +5,9 @@ If formulated as in Definition \ref{def:GTC}, the Global Trace condition (GTC) i
 criterion for Size Change Termination (SCT), introduced by Neil Jones in \cite{Lee1},
 Theorem 4.
 
+
+
+
 \begin{definition}[SCT algorithmic condition]
 \label{def:SCT}
 We say that $\Graph$ satisfies SCT if and only if for all self-composable 
@@ -26,7 +29,7 @@ For proving the equivalence among SCT and FPC we use a folklore
 algebraic property, that all elements of all finite monoids have some positive idempotent power.
 
 \begin{proposition}[Idempotent Power]
-\label{proposition-idempotent-power}
+\label{prop:idempotent-power}
 If $M$ is a finite monoid and $x \in M$ then for some $n>0$ we have $x^nx^n=x^n$.
 \end{proposition}
 
@@ -45,11 +48,10 @@ SCT $\Leftrightarrow$ FPC
 \begin{proof}
 \begin{enumerate}
 \item
-Assume SCT, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ in order to prove that 
-there is some $n > 0 $, some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
-By Prop. {proposition-idempotent-power} and finiteness of the bi-colored graphs on $X$
-there is some $n > 0$ such that $(\Stat,\Prog)^n(\Stat,\Prog)^n=(\Stat,\Prog)^n$. By SCT,
-there is some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
+Assume SCT, $\edgeGstar{(S,P)}{u}{u}{\Graph}$.
+By Proposition \ref{prop:idempotent-power} and finiteness of the bi-partite graphs on $X$
+there is some $n > 0$ such that $(S,P)^n(S,P)^n=(S,P)^n$. By SCT,
+there is some $x \in X$ such that $x$ progresses to $x$ in $(S,P)^n$.
 \item
 Assume FPC, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ and 
 $(\Stat,\Prog)(\Stat,\Prog)=(\Stat,\Prog)$ in order to prove that 
