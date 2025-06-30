@@ -2,9 +2,252 @@
 \section{Global Trace Condition and Injective Relations}
 \label{sec:injective}
 
-We define the injective bi-partite relations and argue that they suffice for the GTC in the case of the cyclic
-systems $\CLJIDomega$ and $\CLKIDomega$.
-\medskip
+
+Our main objective for this section is to define the global trace condition (GTC), using transition graphs with bi-partite relations. In particular, we use as an example the $\CLKIDomega$ and $\CLJIDomega$  cyclic proof systems, and show how the GTC for both systems can be expressed in our framework. 
+
+Note that our approach comes from a well-known relationship in the folklore between the GTC and size-change termination (SCT) in size change graphs. To the best of the authors' knowledge, this relationship has only been formally stated by Ikebuchi in \cite{Mirai}. For this reason, we follow her same method of extracting the size-change graphs of a cyclic proof, and proving the equivalence between the GTC of a cyclic proof and the SCT of the extracted size change graphs.
+
+\subsection{Cyclic Proof Systems}
+
+$\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Predicate symbols are divided between finitely many \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and denumerable many \emph{ordinary predicates}, defined as usual predicates. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are sets of formulas, and $\phi$ is a single formula. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
+
+
+\begin{definition}[Inductive definition set]
+    \label{defIndSet}
+    An inductive definition set $\Phi$ is a finite set of \emph{productions} of the form:
+
+    \begin{center}
+        \centering
+        \begin{prooftree}
+            \hypo{Q_1\mathbf{u_1} \ldots Q_h\mathbf{u_h}}
+            \hypo{P_1\mathbf{t_1} \ldots P_m\mathbf{t_m}}
+            \infer2[]{P\mathbf{t}}
+        \end{prooftree}
+    \end{center}
+
+    Where $Q_1, \ldots, Q_h$ are ordinary predicates symbols, $P_1, \ldots, P_m$ are inductive predicate symbols, and $\mathbf{u_1}, \ldots, \mathbf{u_h}$, $\mathbf{t_1}, \ldots, \mathbf{t_m}$, $\mathbf{u_1}, \ldots, \mathbf{t}$ are tuples of terms.
+\end{definition}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale = 0.5]{example-image}
+    \caption{Rules of LK.}
+    \label{LKrules}
+\end{figure}
+
+
+\begin{example}
+We define the inductive definition set $\Phi_{NEO}$, using the following productions rules:
+
+\begin{center}
+    \centering
+    \begin{minipage}{0.10\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{}
+            \infer1[]{N0}
+        \end{prooftree}
+    \end{minipage}
+    \begin{minipage}{0.10\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{Nx}
+            \infer1[]{Nsx}
+        \end{prooftree}
+    \end{minipage}
+    \begin{minipage}{0.10\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{}
+            \infer1[]{E0}
+        \end{prooftree}
+    \end{minipage}
+    \begin{minipage}{0.15\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{Ox}
+            \infer1[]{Esx}
+        \end{prooftree}
+    \end{minipage}
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \begin{prooftree}
+            \hypo{Ex}
+            \infer1[]{Osx}
+        \end{prooftree}
+    \end{minipage}
+\end{center}
+
+Where $0$ is a constant representing the number zero and $s$ is a unary function representing the successor function. The predicate $N$ is used to inductively represent the natural numbers, while $E$ and $O$ are \emph{mutually defined} inductive predicates defining even and odd numbers respectively.
+\end{example}
+
+We define the proof system for $\CLKIDomega$ as the extension of the classical logic LK, defined in Figure \ref{LKrules}, with additional rules used to handle inductive predicates on the right and left part of the sequent. These rules for inductive predicates are defined as follows:
+
+\begin{itemize}
+    \item Let $P$ be an inductive predicate, and let $\{\Phi_1, \ldots, \Phi_n\}$ be the set of productions in an inductive definition set $\Phi$ whose conclusion is $P$. For each production $\Phi_i$, as defined in Definition \ref{defIndSet}), the system $\CLKIDomega$ includes a corresponding right introduction rule, denoted $P\text{R}_i$:
+
+    \begin{center}
+        \centering
+        \begin{prooftree}
+            \hypo{\Gamma \vdash Q_1\mathbf{u_1}, \Delta \ldots \Gamma \vdash Q_h\mathbf{u_h}, \Delta}
+            \hypo{\Gamma \vdash P_1\mathbf{t_1}, \Delta \ldots \Gamma \vdash P_m\mathbf{t_m}, \Delta}
+            \infer2[($P\text{R}_i$)]{\Gamma \vdash P\mathbf{t}, \Delta}
+        \end{prooftree}
+    \end{center}
+
+
+    \item For each inductive predicate $P$ there is a left introduction rule, denoted \emph{case split rule}:
+
+    \begin{center}
+        \centering
+        \begin{prooftree}
+            \hypo{\text{case distinctions}}
+            \infer1[(Case $P$)]{\Gamma, P\mathbf{u} \vdash \Delta}
+        \end{prooftree}
+    \end{center}
+
+    Where for each production having conclusion $P$, as in Definition \ref{defIndSet}, there is a corresponding case distinction of the form $\Gamma, \mathbf{u} = \mathbf{t}, Q_1\mathbf{u_1}, \ldots , Q_h\mathbf{u_h}, P_1\mathbf{t_1}, \ldots, P_m\mathbf{t_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u_1},...,\mathbf{u_h},\mathbf{t_1},...,\mathbf{t_m}$, or $\mathbf{t}$, does not occur in $\Gamma, \Delta$ and $\mathbf{u}$.
+\end{itemize}
+
+The proof system for $\CLJIDomega$ is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, and replacing LK with its intuitionistic version, named LJ and presented in \cite{Berardi}.
+
+\begin{example}
+For the previously defined inductive predicates $N$, $E$ and $O$, we can associate the following rules:    
+
+\begin{center}
+    \centering
+    \begin{minipage}{0.2\textwidth}
+        \adjustbox{scale=0.8}{
+        \begin{prooftree}
+            \hypo{}
+            \infer1[($E\text{R}_1$)]{\Gamma \vdash E0, \Delta}
+        \end{prooftree}
+        }
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.2\textwidth}
+        \adjustbox{scale=0.8}{
+        \begin{prooftree}
+            \hypo{\Gamma \vdash Ox, \Delta}
+            \infer1[($E\text{R}_2$)]{\Gamma \vdash Esx, \Delta}
+        \end{prooftree}
+        }
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.2\textwidth}
+        \adjustbox{scale=0.8}{
+        \begin{prooftree}
+            \hypo{\Gamma \vdash Ex, \Delta}
+            \infer1[($O\text{R}_1$)]{\Gamma \vdash Osx, \Delta}
+        \end{prooftree}
+        }
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.35\textwidth}
+        \adjustbox{scale=0.8}{
+        \begin{prooftree}
+            \hypo{\Gamma, x = 0 \vdash \Delta}
+            \hypo{\Gamma, x = sz, Nz \vdash \Delta}
+            \infer2[(Case $N$)]{\Gamma, Nx \vdash \Delta}
+        \end{prooftree}
+        }
+    \end{minipage}
+
+\end{center}
+\end{example}
+
+\emph{Cyclic pre-proofs} are used to formally represent the graph structure of a derivation in $\CLKIDomega$ and $\CLJIDomega$.
+
+\begin{definition}[Cyclic pre-proof] A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof of sequent $\Gamma \vdash \Delta$ (resp. $\Gamma \vdash \phi$), is a tuple $\mathcal{P} = (\mathcal{D}, \mathcal{F})$, where:
+
+    \begin{itemize}
+        \item $\mathcal{D} = (V, s, r, p)$ is a derivation tree where $V$ is a finite set of vertices, $s: V \rightarrow Seqs$ is a total function labelling vertices with sequents in $\CLKIDomega$ (resp. $\CLJIDomega$), $r: V \rightarrow Rules$ is a partial function labelling vertices with inference rules in $\CLKIDomega$ (resp. $\CLJIDomega$), $p: \mathbb{N} \times V \rightarrow V$ is a partial function that maps a number $n$ and a vertex $v$, with a vertex $v'$, such that $v'$ is labeled by the $n^{\text{th}}$ premise of the rule $r(v)$ over the sequent $s(v)$, and for every $v \in V$, 
+            \begin{prooftree}
+                \hypo{\vdash s(p_1(v)) \quad \dots \quad \vdash s(p_m(v))}
+                \infer1[$(r(v))$]{\vdash s(v)}
+            \end{prooftree} 
+        is an instance of the rule $r(v)$ in $\CLKIDomega$ (resp. $\CLJIDomega$), with $m$ premises. A vertex $B \in V$ such that $r(B)$ is undefined is called a bud node. The set of bud nodes of a derivation tree $\mathcal{D}$, is written as $Bud(\mathcal{D})$.
+
+        \item $\mathcal{F}: V \rightarrow V$ is a partial function, that maps each one of the bud nodes in $Bud(\mathcal{D})$ to an internal node in the derivation tree, called a companion, satisfying that if $B \in Bud(\mathcal{D})$ and $\mathcal{F}(B) = C$, then $r(C)$ is defined and $s(B) = s(C)$.
+    \end{itemize}
+
+Moreover, the graph of $\mathcal{P}$, written as $G_{\mathcal{P}}$, is the graph obtained after adding the edges induced by $\mathcal{F}$ and deleting the bud vertices. Specifically, $G_{\mathcal{P}} = (V', s, r, p')$ where, $V' = V \setminus Bud(\mathcal{D})$ and $p'$ is defined for any $j$ as: $p'_j(v) = \mathcal{F}(p_j(v))$ if $p_j(v) \in Bud(\mathcal{D})$, or $p'_j(v) = p_j(v)$ otherwise.
+\end{definition}
+
+\begin{example}
+
+\begin{figure}
+\centering
+
+\adjustbox{scale=0.8}{
+\begin{prooftree}
+	\hypo{}
+	\infer1[($E\text{R}_1$)]{\vdash E0, O0}
+
+	\hypo{Nx \vdash Ox, Ex \ (\dag)}
+	\infer1[(Subst)]{Ny \vdash Oy, Ey}
+	\infer1[($O\text{R}_1$)]{Ny \vdash Oy, Osy}
+	\infer1[($E\text{R}_2$)]{Ny \vdash Esy, Osy}
+	\infer1[($=$L)]{x = sy, Ny \vdash Ex, Ox}
+	\infer2[Case $N$]{Nx \vdash Ex, Ox \ (\dag)}
+	\infer1[($\lor$R)]{Nx \vdash Ex \lor Ox}
+\end{prooftree}
+}
+
+\caption{$\CLKIDomega$ cyclic pre-proof of the sequent $Nx \vdash Ex \lor Ox$. The function $\mathcal{F}$ is represented by labeling each bud and its corresponding companion node with the $(\dag)$ symbol.}
+\label{exampleCircProof}
+\end{figure}
+
+Figure \ref{exampleCircProof} is an example of a $\CLKIDomega$ cyclic pre-proof, taken from \cite{Brotherston1}.
+
+\end{example}
+
+The GTC is used as a criterion to verify the soundness of cyclic pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. To define it, is necessary to formalize both the notions of \emph{trace} and \emph{progress point}.
+
+
+\begin{definition}[Trace and Progress Point]
+    Let $\mathcal{P}$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof and let $(v_i)$ be a path in $G_{\mathcal{P}}$. A trace over $(v_i)$ is a sequence $(\uptau_i)$ such that, for all $i$:
+
+    \begin{itemize}
+          \item $\uptau_i = P_i\mathbf{t_i} \in \Gamma_i$, where $P_i$ as and inductive predicate and $s(v_i) = \Gamma_i \vdash \Delta_i$ (resp. $s(v_i) = \Gamma_i \vdash \phi_i$).
+
+          \item If $r(v_i)$ is (Subst) then $\uptau_i = \uptau_{i+1}[\theta]$, where $\theta$ is the substitution associated with the rule instance.
+
+          \item If $r(v_i)$ is (=L2) with active formula $t = u$ then there exists a formula $F$ and variables $x$ and $y$ such that $\uptau_i = F[t / x, u/y]$ and $\uptau_{i+1} = F[u / x, t/y]$
+
+          \item If $r(v_i)$ is some case split rule (Case $P_k$) then either $\uptau_{i+1} = \uptau_i$, or $\uptau_i$ is the active formula of the rule instance and $\uptau_{i+1}$ is a case-descendant of $\uptau_i$. In the latter case, $i$ is said to be a progress point of the trace.
+
+          \item If $r(v_i)$ is no (Subst),(=L) or a casesplit rule, the $\uptau_{i+1} = \uptau_i$
+    \end{itemize}  
+
+\end{definition}
+
+
+\begin{definition}[Global Trace Condition]
+    A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof $\mathcal{P}$ is said to be a $\CLKIDomega$ (resp. $\CLJIDomega$) \emph{proof}, if for every infinite path in $G_{\mathcal{P}}$, there is an infinitely progressing trace following some tail of the path.
+\end{definition}
+
+\begin{example}
+    Consider the cyclic pre-proof in Figure \ref{exampleCircProof}. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny, Nx)^{\omega}$ is infinitely progressing, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC.
+\end{example}
+
+%----------------------------------------------------
+%----------------------------------------------------
+%----------------------------------------------------
+%----------------------------------------------------
+%----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsection{The Global Trace Condition}
 \label{subsec:GTC}
@@ -32,8 +275,6 @@ $\tau \models \ppath$, which has infinitely many progress points.
 \medskip Here we introduce the system $\CLKIDomega$ and its particular case $\CLJIDomega$, and show that our GTC is the same as the correctness condition in \cite{BrotherstonSimpson}.
 
 Using \cite{Mirai}, we argue that GTC = SCT. 
-
-\input{CSL-FPC}
 
 \subsection{Injective bi-partite relations}
 \label{subsec:injective}
@@ -72,3 +313,6 @@ Then we prove:
 \begin{theorem}
 If $\Graph_\Pi$ is the transition graph associated with a cyclic proof $\Pi$ of $\CLKIDomega$, then $\Graph_\Pi$ is injective.
 \end{theorem}
+
+
+\input{CSL-FPC}
