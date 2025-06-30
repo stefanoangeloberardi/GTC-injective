@@ -1,3 +1,61 @@
 % !TEX root = CSL-main.tex
-\subsection{FPC}
-Here we introduce the Finite Power Condition (FPC) and prove it equivalent to GTC.
+\subsection{Size Change Termination and Finite Power Condition}
+
+If formulated as in Definition \ref{def:GTC}, the Global Trace condition (GTC) is equivalent to the algorithmic 
+criterion for Size Change Termination (SCT), introduced by Neil Jones in \cite{Lee1},
+Theorem 4.
+
+\begin{definition}[SCT algorithmic condition]
+\label{def:SCT}
+We say that $\Graph$ satisfies SCT if and only if for all self-composable 
+$\edgestar{(S,P)}{u}{u}$ such that 
+$(S,P) \comp (S,P) = (S,P)$ there is some $x \in X$ such that $x P x$.
+\end{definition}
+
+SCT can be formulated in many equivalent way, for instance as Finite Power Condition (FPC):
+
+\begin{definition}[Finite Power Condition - FPC]
+\label{def:FPC}
+$\Graph$ satisfies the {\em Finite Power Condition} if for all self-composable 
+$\edgestar{(S,P)}{u}{u}$ there are some $n > 0 $ and
+$x \in X$ such that $x$ progresses to $x$ in $(S,P)^n$.
+\end{definition}
+
+
+For proving the equivalence among SCT and FPC we use a folklore
+algebraic property, that all elements of all finite monoids have some positive idempotent power.
+
+\begin{proposition}[Idempotent Power]
+\label{proposition-idempotent-power}
+If $M$ is a finite monoid and $x \in M$ then for some $n>0$ we have $x^nx^n=x^n$.
+\end{proposition}
+
+\begin{proof}
+Since $M$ is finite, there are only finitely many powers of $x$, therefore 
+for some $a,b>0$ we have $x^a = x^{a+b}$. Then for all $c \ge a$ we have $x^c = x^{c+b}$,
+hence $x^c = x^{c+db}$ for all $d>0$. Take the first $d>0$ such that $db \ge a$: then 
+$x^{db} = x^{db+db}$. We take $n=db$.
+\end{proof}
+
+\begin{proposition}[FPC and SCT are equivalent]
+\label{proposition-SCT}
+SCT $\Leftrightarrow$ FPC
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}
+\item
+Assume SCT, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ in order to prove that 
+there is some $n > 0 $, some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
+By Prop. {proposition-idempotent-power} and finiteness of the bi-colored graphs on $X$
+there is some $n > 0$ such that $(\Stat,\Prog)^n(\Stat,\Prog)^n=(\Stat,\Prog)^n$. By SCT,
+there is some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
+\item
+Assume FPC, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ and 
+$(\Stat,\Prog)(\Stat,\Prog)=(\Stat,\Prog)$ in order to prove that 
+there is some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)$.
+By FPC, there is some $n > 0 $, some $x \in X$ such that $x$ progresses to $x$ in 
+$(\Stat,\Prog)^n$. By $(\Stat,\Prog)(\Stat,\Prog)=(\Stat,\Prog)$ we deduce that 
+$(\Stat,\Prog)^n=(\Stat,\Prog)$, hence $x$ progresses to $x$ in $(\Stat,\Prog)$.
+\end{enumerate}
+\end{proof}
