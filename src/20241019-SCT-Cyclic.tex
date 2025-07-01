@@ -285,33 +285,34 @@ The same condition GTC  is formulated in Brotherston and Simpson as:
 
 %01/07/ 11:33
 
-We call value flow any assignment
+We call value flow for a path $b$ any assignment $\theta:D,X\rightarrow \N$
 of values in $\N$ to each $x \in X$, with the assignment 
-depending on a time parameter $t$. We require that the the set of instants
+depending on a time parameter $t \in D$. We require that the the set $D$ of instants
 of time is some non-empty initial segment of the set $\N$ of natural numbers,
-possibly $\N$ itself.
-
-We repeat the same definitions more formally.
-
-\begin{definition}[Path, Trace and Value Flow]
-Assume $\setR$, $\setG$ are as above.
-Assume $D = [0,h]$ for some $h \in \N$ or $D=\N$ 
-is any non-empty initial segment of the order on natural numbers.
-\begin{enumerate}
-\item
-We call any map $b:D \rightarrow G$ a multipath, a \emph{path} for short
-if and only if for all $i, i+1 \in D$ we have $(b(i),b(i+1)) \in \dom(\setG)$.
-\item
-We call any map $\tau:D \rightarrow X$ a \emph{trace} 
-(called a \emph{thread} in \cite{2001-SCT}): 
-a trace is any finite or infinite sequence over $X$.
-\item
-We call any map $\theta:D,X \rightarrow \N$ a \emph{value flow}. 
-We call $\theta(t,x) \in \N$ the value of $x \in X$ at time $t \in D$.
-\end{enumerate}
-We say that a path, trace, value flow 
-is finite when $D=[0,h]$ for some $h \in \N$, that it is infinite when $D = \N$.
-\end{definition}
+possibly $\N$ itself. We will prove that GTC implies that all value flows are finite:
+as a corollary, we will derive that any cyclic proof satisfying GTC is correct.
+%
+%We repeat the definitions above more formally.
+%
+%\begin{definition}[Path, Trace and Value Flow]
+%Assume $\setR$, $\setG=(V,E)$ are as in Def. \ref{definition-multigraphs}.
+%Assume $D = [0,n]$ for some $n \in \N$ or $D=\N$ 
+%is any non-empty initial segment of the order on natural numbers.
+%\begin{enumerate}
+%\item
+%We call any map $b:D \rightarrow E$ a multipath, a \emph{path} for short
+%if and only if for all $i \in D$ we have $\dom(b(i))=\codom(b(i+1))$.
+%\item
+%We call any map $\tau:D \rightarrow X$ a \emph{trace} 
+%(it is called a \emph{thread} in \cite{2001-SCT}): 
+%a trace is any finite or infinite sequence over $X$.
+%\item
+%We call any map $\theta:D,X \rightarrow \N$ a \emph{value flow}. 
+%We call $\theta(t,x) \in \N$ the value of $x \in X$ at time $t \in D$.
+%\end{enumerate}
+%We say that a path, trace, value flow 
+%is finite when $D=[0,n]$ for some $n \in \N$, that it is infinite when $D = \N$.
+%\end{definition}
 
 
 
@@ -321,13 +322,15 @@ GTC is equivalent to the
 termination of value flows \quotationMarks{compatible}
 with a path of $\setR, \setG$, as we will prove in Appendix.
 
-GTC is expressed in term of traces.
+GTC is expressed by saying that in all infinite path there is some trace compatible
+with infinitely many elements related to the next element by the $\Prog$-part of
+the trace.
 
 \begin{definition}[Global Trace Condition (GTC) and Injectivity]
 \label{definition-GTC-inj}
-Assume $\setR, \setG$ are as above.
+Assume $\setR, \setG$ are as in  Def. \ref{definition-multigraphs}.
 Suppose $X=\{x_1, \ldots, x_n\}$, $\setR =\{(\Stat_i, \Prog_i)| i \in [1,r]\}$
-and $b, \tau$ are a path of $\setR, \setG$ and a trace, all of domain $D$ 
+and $b, \tau$ are a path of $\setR, \setG$ and a trace, all of domain 
 $D=[0,h]$ for some $h \in \N$ or $D=\N$.
 
 \begin{enumerate}
@@ -336,8 +339,8 @@ $D=[0,h]$ for some $h \in \N$ or $D=\N$.
 We say that the trace $\tau:D \rightarrow X$ is \emph{compatible} with the path
 $b :D \rightarrow \setR$ on the same $D$, 
 and we write $\tau \models b$, if and only if :
-whenever $t, t+1 \in D$ and $\setG(b(t),b(t+1)) = (\Stat,\Prog) \in \setR$,
-then the two consecutive values  of the trace are related by $\setR$, namely
+whenever $t, t+1 \in D$ and $b(t) = (a,(\Stat,\Prog),b) \in E$,
+then the two consecutive elements  of the trace are related by $(\Stat,\Prog)$, namely
  $\tau(t) (\Stat \cup \Prog) \tau(t+1)$.
 If $\tau(t) \Prog \tau(t+1)$,
 we say that $t \in D$ is a \emph{$b$-progress point} of the trace $\tau$.
@@ -362,12 +365,13 @@ for all $(\Stat, \Prog) \in \setR$.
 
 \end{definition}
 
-When we have injectivity, we could remove the substruction 
-\quotationMarks{$(\ldots) \setminus 
-\Prog''$} in the definition of composition , because in this case if $\Stat,\Prog$ 
+
+When we have injectivity, we could remove the set difference 
+\quotationMarks{$\Stat'' \setminus 
+\Prog''$} in the definition of composition, because in this case if $\Stat,\Prog$ 
 are disjoint and $\Stat', \Prog'$ are disjoint then  $\Stat \Stat'$ and 
-$\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'$ are disjoint. In this case 
-we have $(\Stat,\Prog)(\Stat',\Prog')=(\Stat'',\Prog'')$.
+$\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'$ are disjoint. 
+%In this case we have $(\Stat,\Prog)(\Stat',\Prog')=(\Stat'',\Prog'')$.
 
 Again if we have injectivity, composition is
 compatible with the union operator $\universe{\cdot}$ for relation pairs. 
@@ -377,32 +381,29 @@ $$
 = 
 \universe{
 (\Stat \Stat', 
-\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' \setminus \Stat \Stat')
+\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog')
 }
-=
-\Stat \Stat' \cup (\Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog') 
-\setminus \Stat \Stat'
-=
-$$
-$$
 =
 \Stat \Stat' \cup \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'
 =
+$$
+$$
 (\Stat \cup \Prog) (\Stat' \cup \Prog') 
 = 
 \universe{(\Stat,\Prog)}\universe{(\Stat',\Prog')} 
 $$
+%12:31 01/07/2025
 Lee and Ben-Aram considered in \cite{2009-Lee-Aram} the notion
 of fan-in free for $\setR$, $\setG$. 
 This notion is equivalent to our injectivity condition above 
-(\ref{definition-GTC-inj}). However, the equivalence requires to
+(Def. \ref{definition-GTC-inj}). In the cited paper, the equivalence requires to
 rename all sets $X$ in each node $f \in G$ to some set
 $\Var(f)$, in order to make pairwise distinct the set of variables associated
 to each node $f \in G$. We avoid renaming in this paper.
 
-If formulated as above, the Global Trace condition (GTC) is equivalent to the algorithmic 
-criterion for Size Change Termination ($\SCTa$), introduced by Neil Jones in \cite{2001-SCT},
-Theorem 4.
+The Global Trace condition (GTC) is equivalent to the algorithmic 
+criterion for Size Change Termination ($\SCTa$), even without assuming injectivity.
+%, introduced by Neil Jones in \cite{2001-SCT},Theorem 4.
 
 \begin{definition}[The SCT-a Algorithmic Condition]
 \label{definition-SCT}
@@ -432,9 +433,10 @@ If $M$ is a finite monoid and $x \in M$ then for some $n>0$ we have $x^nx^n=x^n$
 
 \begin{proof}
 Since $M$ is finite, there are only finitely many powers of $x$, therefore 
-for some $a,b>0$ we have $x^a = x^{a+b}$. Then for all $c \ge a$ we have $x^c = x^{c+b}$,
-hence $x^c = x^{c+db}$ for all $d>0$. Take the first $d>0$ such that $db \ge a$: then 
-$x^{db} = x^{db+db}$. We take $n=db$.
+for some $a,b>0$ we have $x^a = x^{a+b}$. Then for all $c \ge a$ we have $x^c = x^{c+b}$.
+We deduce $x^c = x^{c+db}$ for all $d>0$. Take the first $d>0$ such that $db \ge a$,
+and choose $c=db$: we conclude that 
+$x^{db} = x^{db+db}$, for some $db >0$, as wished.
 \end{proof}
 
 \begin{proposition}[FPC and SCT-a are equivalent]
@@ -463,28 +465,29 @@ $(\Stat,\Prog)^n=(\Stat,\Prog)$, hence $x$ progresses to $x$ in $(\Stat,\Prog)$.
 $\SCTa$ was originally used as a sufficient, and quite broad too, 
 condition for termination of recursive calls. 
 When we use GTC as a correctness criterion for cyclic proofs, often in this paper 
-\emph{we add one more condition, \underline{injectivity} of the trace relations}, 
+\emph{we add one more condition, \underline{injectivity} of the bi-partite graphs}, 
 a condition which is missing in the original $\SCTa$ paper. 
 
-Injectivity implies that in cyclic proofs two traces of different
-variables never cross each other. This significantly simplifies traces.
-Instead, in the original $\SCTa$ formulation two traces, 
-say, $x_1 \ge x_2 > x_3$ and
-$y_1 > y_2$, from two different variables $x_1$, $y_1$,
-can meet into a single variable $z$. For instance, we can have:
-\begin{center}
-$x_1 \ge x_2 > x_3 \ge z$ 
-\ \ \ and \ \ \ 
-$y_1 > y_2 \ge z$
-\end{center}
-
-In this paper we study GTC in the case $\setR$ is injective, and from a
-purely combinatorial viewpoint, as a termination condition for value flows. 
-Our result could also be used for checking termination of recursive calls, with a 
-faster algorithm but unfortunately under less general conditions than in 
-\cite{2001-SCT}. 
-We hope that our result will be used for translating cyclic proofs into 
-ordinary proofs, but for the moment we do not provide such translation.
+%
+%Injectivity implies that in cyclic proofs two traces of different
+%variables never cross each other. This significantly simplifies traces.
+%Instead, in the original $\SCTa$ formulation two traces, 
+%say, $x_1 \ge x_2 > x_3$ and
+%$y_1 > y_2$, from two different variables $x_1$, $y_1$,
+%can meet into a single variable $z$. For instance, we can have:
+%\begin{center}
+%$x_1 \ge x_2 > x_3 \ge z$ 
+%\ \ \ and \ \ \ 
+%$y_1 > y_2 \ge z$
+%\end{center}
+%
+%In this paper we study GTC in the case $\setR$ is injective, and from a
+%purely combinatorial viewpoint, as a termination condition for value flows. 
+%Our result could also be used for checking termination of recursive calls, with a 
+%faster algorithm but unfortunately under less general conditions than in 
+%\cite{2001-SCT}. 
+%We hope that our result will be used for translating cyclic proofs into 
+%ordinary proofs, but for the moment we do not provide such translation.
 
 We find a termination proof using Intuitionistic Logic, First 
 Order Arithmetic and nested induction.
@@ -498,8 +501,48 @@ of GTC which can expressed in First Order Aritmetic, and such that
 the finiteness of all compatible value flows can be proved
 in Intuitionistic Arithmetic.
 
-In previous work we proved that the equivalence between $\SCTa$ and GTC 
+S. Berardi and M. Tatsuta proved that the equivalence between $\SCTa$ and GTC 
 (already proved in \cite{2001-SCT}) is a corollary of Ramsey Theorem. 
+We briefly recall this proof here.
+In order to prove that $\SCTa \Rightarrow GTC$ 
+we need the Infinite Ramsey Theorem, which we briefly recall here. 
+
+We consider the graph $(\N,<)$ with set of vertices $\N$ and set of edges the order relation
+$<$ on $\N$. A finite coloring of $(\N,<)$ is any function 
+$f : \{(a,b) \in \N \times \N | a < b \}  \rightarrow \{1,...,c\}$, where $c$ is the number of colors. 
+
+Infinite Ramsey Theorem says: for any finite coloring $f$, 
+there exists an infinite subset $M\subseteq \N$ that is 
+\emph{monochromatic}, that is, such that for some $i \in\{1,...,c\}$ and all $a,b \in M$,
+$a<b$ we have $f(a,b)=i$. 
+
+In our case the \quotationMarks{colors}
+are in turn the set $\setG^\setR$ of bi-colored and oriented graphs 
+$G = (\Stat,\Prog)$ on a finite set $X$, obtained by closing by composition
+some set $\setG = (V,E)$ of multi-graphs.
+
+\begin{proposition}
+The Infinite Ramsey Theorem implies that $\SCTa \Rightarrow GTC$. 
+\end{proposition}
+
+\begin{proof}
+Suppose we have an infinite path $\pi : \N \rightarrow E$ 
+to find an infinitely progressing trace compatible with $\pi$. 
+We choose as coloring for the pair $(i,j)\in \N \times \N$, $i<j$ 
+the composition of multi-graphs between $i$ and $j$: we set 
+$f(i,j) = \label(\pi(i)) \label(\pi(i+1)) \ldots \label(\pi(j))$. 
+For Infinite Ramsey there exists an infinite set $M$ of indices $i_0 < i_1 < i_2 < \ldots$ 
+and a "color" $(\Stat,\Prog)$ such that $f(i_k,i_h) = (\Stat,\Prog)$ 
+for every k<h in NxN. In particular we have $f(0,1) = f(0,2) = f(1,2) = (S,P)$ by Ramsey
+and $f(0,2) = f(0,1)f(1,2) = (\Stat,\Prog)(\Stat,\Prog)$ by definition
+of $f$. We derive that $(\Stat,\Prog)(\Stat,\Prog) = (\Stat,\Prog)$. 
+If $\SCTa$ holds, then from $(\Stat,\Prog)(\Stat,\Prog) = (\Stat,\Prog)$ 
+we deduce that there exists an $x \in X$ such that $x \Prog x$. 
+This defines a cyclic trace $\theta$ that progresses between node $i_k$ and node $i_{k+1}$, 
+the same trace for each $k \in \N$. 
+We conclude that there an infinitely progressing trace $\tau = \theta \theta \theta \ldots$ 
+compatible with $\pi$.
+\end{proof}
 
 In this paper we are looking for a more
 constructive and elementary proof of an equivalent result, 
@@ -509,7 +552,7 @@ The proof should be suitable to a formalization in a proof assistant.
 We add the injectivity assumption because relation pairs with
 injectivity are enough to describe cyclic proofs, and if we have injectivity
 proving a termination result requires a weaker hypothesis PDC (see below). 
-Besides, using PDC it is faster to check whether a cyclic proof is correct.
+
 
 The Progressing Domain Condition (PDC) says: 
 \quotationMarks{all self-progressing $(\Stat,\Prog) \in \setR^\setG$ 
@@ -522,13 +565,15 @@ $$
 $$
 PDC is weaker and it is easier to check than the $\SCTa$ condition. 
 
-To check $\SCTa$, we do not have to check for any self-composable $(\Stat,\Prog) \in \setR^\setG$
+To check $\SCTa$, we have to check for any self-composable $(\Stat,\Prog) \in \setR^\setG$
 whether $(\Stat,\Prog)$ is idempotent. If it is not idempotent, this is fine, if it is, we have to 
 look for some $x$ progressing to itself in $(\Stat,\Prog)$.
 
 In order to check PDC, instead, it is enough to find some $x$ progressing 
 to some $y$, such that $y$ is weakly progressing or progressing to some $z$,
 again in any self-composable $(\Stat,\Prog) \in \setR^\setG$.
+
+Besides, using PDC it is faster to check whether a cyclic proof is correct.
 
 However, PDC has the drawback that it implies 
 GTC and termination only for \emph{injective} relation pairs. 
@@ -539,10 +584,10 @@ We explain why.
 \subsection{PDC does not imply GTC,
 in the case of non injective family of relation pairs}
 \label{subsubsection-counterexample-PDC-GTC}
-Here is a counter-example $\setR_1,\setG_1$.
-Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$, $G_1=\{1\}$
+Here is a counter-example $X, \setR_1, \setG_1=(V,E)$.
+Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$, $V=\{1\}$
 and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_2,x_1)\}$ and
-$\setG_1(1,1) = (\Stat,\Prog)$, 
+$E = \{(1, (\Stat,\Prog), 1)\}$, 
 namely, the pair $(\Stat,\Prog)$ is self-composable. 
 Then $\setR_1$ is composition-closed in $\setG$ because 
 $
@@ -558,17 +603,18 @@ $
 (\Stat \setminus \Prog,\Prog) = 
 (\Stat,\Prog)
 $.
-The unique pair $(\Stat,\Prog)$ satisfies PDC 
+The unique pair $(\Stat,\Prog) \in \setR$ satisfies PDC 
 because $x_2 \in \dom((\Stat,\Prog))$
 is progressing to  $x_1 \in \dom((\Stat,\Prog))$. However, $\setR_1$
 does not satisfy GTC. Indeed, the unique infinite path in $\setR_1,\setG_1$ is 
-$b = 1,1,1,\ldots$, labeled $(\Stat,\Prog),(\Stat,\Prog),(\Stat,\Prog),\ldots$.
+$b = (1, (\Stat,\Prog), 1), (1, (\Stat,\Prog), 1), \ldots$, 
+labeled with the graphs $(\Stat,\Prog),(\Stat,\Prog),(\Stat,\Prog),\ldots$.
 Any infinite trace compatible with $b$ is either
-$x_1 x_1 x_1 \ldots$ or $x_2 x_1 x_1 x_1 \ldots$. Thus, any infinite
+$\tau = x_1 x_1 x_1 \ldots$ or $\tau = x_2 x_1 x_1 x_1 \ldots$. Thus, any infinite
 trace compatible with $b$ progresses \emph{at most once}. 
 The reason why the implication PDC $\implies$ GTC is false is because 
 $\setR_1$ is not injective. Indeed, the relation 
-$R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_2,x_1)\}$ is not injective,
+$R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_2,x_1)\}$ is not injective:
 $x_1$ and $x_2$ have the same image $x_1$.
 
 
@@ -583,14 +629,16 @@ then GTC holds, in particular any value flow compatible with $\setR,\setG$ is fi
 \end{theorem}
 
 
-We first include a short equivalence proof, building on the results of Neil Jones.
+We first include a short equivalence proof, by building on the results of Neil Jones.
+
+
 
 \begin{proof}(First Proof of of Thm. \ref{theorem-finiteness-value-flow-1})
-We recall that \cite{2001-SCT}, Theorem 4, proved that $\SCTa$ $\Leftrightarrow$ GTC
-(the name \quotationMarks{$\SCTa$} for the condition of Theorem 4 is ours, this condition 
-has no name in \cite{2001-SCT}). 
+In our terminology, Theorem 4, \cite{2001-SCT} is a proof of  
+$\SCTa$ $\Leftrightarrow$ GTC. 
 Therefore in order to prove GTC $\Rightarrow$ PDC in the case on injectivity, 
-it is enough to prove that in this case we have GTC $\Rightarrow$ PDC $\Rightarrow$ $\SCTa$.
+it is enough to prove that in this case we have GTC $\Rightarrow$ PDC and
+PDC $\Rightarrow$ $\SCTa$.
 
 \begin{enumerate}
 
@@ -614,8 +662,8 @@ By $(\Stat,\Prog)(\Stat,\Prog) = (\Stat,\Prog)$ we deduce $x \Stat \cup \Prog z$
 \end{enumerate}
 \end{proof}
 
-Later, we will include  a more elementar and direct proof of Thm. 
-\ref{theorem-finiteness-value-flow-1}.
+Later, we will include  a more direct proof of Thm \ref{theorem-finiteness-value-flow-1}, 
+bypassing the use of Ramsey.
 
 %Before we remark that the Termination Theorem for $\setR, \setG$ 
 %can be reformulated as an induction schema on $\N^n$, as follows.
@@ -671,7 +719,8 @@ of $\setR$. We explain why.
 Here is a counter-example $\setR_2$. 
 Let $X = \{x_1,x_2\}$, $\setR_2=\{(\Stat,\Prog)\}$
 and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_1,x_2)\}$. 
-We define $\setG$ in such a way that the pair $(\Stat,\Prog)$ is self-composable. 
+We define $\setG=(V,E)$, $V=\{1\}$, $E=(1,(\Stat,\Prog),1)$, 
+in such a way that the pair $(\Stat,\Prog)$ is self-composable. 
 Then $\setR_2$ is composition-closed because 
 $
 \Stat\Prog \cup \Prog\Prog \cup \Prog\Stat = 
@@ -693,9 +742,10 @@ because $x_1 \in \dom((\Stat,\Prog))$
 is progressing to  $x_2$. Remark that $x_2 \not \in \dom((\Stat,\Prog))$
 and $x_1$ does not progress to $x_1$, therefore PDC fails while PC holds. 
 $\setR_2$ does \emph{not} satisfy GTC, because the unique infinite path is 
-$b = R,R,R,R,\ldots$,
-and the unique infinite trace compatible with $b$ is 
-$x_1 x_1 x_1 \ldots$. Thus, the unique infinite trace \emph{never} progresses. 
+$b = (1,(\Stat,\Prog),1), (1,(\Stat,\Prog),1), (1,(\Stat,\Prog),1), \ldots$,
+and the unique infinite trace $\tau$ compatible with $b$ is 
+$x_1,x_1,x_1, \ldots$. 
+Thus, the unique infinite trace \emph{never} progresses. 
 %17:24 03/02/2025
 
 
@@ -714,8 +764,9 @@ We define the set $\setS$ of computation states and the set $\setT$ of
 transition chains from a computation state to another one.
 
 \begin{definition}[States, Compositions and Transition Sequences]
-Assume $\setR, \setG$ are as above.
-Assume $X = \{x_1, \ldots, x_n\}$ and $(\Stat,\Prog)$ is a pair
+Assume $X= \{x_1, \ldots, x_n\}, \setR, \setG=(V,E)$ 
+are as in  Def. \ref{definition-multigraphs}.
+Assume $(\Stat,\Prog)$ is a pair
 of \emph{disjoint} finite binary relations on $X$. 
 \begin{enumerate}
 
@@ -724,9 +775,8 @@ We denote with $\Val$ the set of \emph{value assignment}
 $\sigma: X \rightarrow \N$ for variables. 
 
 \item
-We denote with $\setS = G \times \Val$ the set of \emph{computation states},
-each $s=(G,\sigma)$ consists of a pair of a node $a \in G$ of the labeled graph 
-defined by $\setG$
+We denote with $\setS = V \times \Val$ the set of \emph{computation states},
+each $s=(V,\sigma) \in \setS$ consists of a pair of a node $a \in V$
 and a value assignment $\sigma: X \rightarrow \N$.
 
 \item
@@ -735,8 +785,7 @@ Assume $s=(a, \sigma)$, $s'=(a', \sigma')$, $s, s' \in \setS$
 are states. 
 We call $(s,s')$ a \emph{transition in $\setG$}, just
 a \emph{transition} for short,  if and only if
-$(a,a') \in \dom(\setG)$ and if $\setG(a,a') = (\Stat,\Prog) \in \setR$ is
-the labeling of $(a,a')$ then
+for \emph{some} $(a,(\Stat,\Prog),a') \in E$ we have:
 $\forall (x,y) \in \Stat. \sigma(x) \ge \sigma'(y)$
 and $\forall (x,y) \in \Prog. \sigma(x) > \sigma'(y)$.
 
@@ -750,8 +799,8 @@ We denote the set of transition sequences with $\setT$.
 \end{definition}
 
 
-%13:34 06/03/2025
-
+% 13:34 06/03/2025
+% 01/07/2025 15:25
 
 \subsection{Some Ingredient for a Proof of the Termination Theorem 
 \ref{theorem-finiteness-value-flow-1}}
@@ -1720,7 +1769,8 @@ we obtain that $x = y$. We conclude that $x P_n x$, as wished.
 \end{proof}
 
 
-\subsection{GTC, SCT-a, PDC  are equivalent in the case of injectivity: yet another proof proof}
+\subsection{GTC, SCT-a, PDC  are equivalent in the case of injectivity: 
+yet another proof proof}
 (proof included for record)
 \label{subsection-SCT-PDC-old}
 We first provided an alternative proof that 
