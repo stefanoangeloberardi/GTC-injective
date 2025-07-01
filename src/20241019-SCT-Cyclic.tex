@@ -34,7 +34,7 @@
 
 \input{macro}
 
-\title{An Intuitionistic and First Order proof that Size Change Termination Condition for Injective Relations implies Termination}
+\title{An Intuitionistic and First Order proof that GTC implies Correctness}
 \date{}
 
 \author[S. Berardi]{Stefano Berardi}
@@ -56,73 +56,88 @@ infinite Ramsey theorem
 \maketitle
 
 \section{Introduction}
-We want to find a proof that the Global Trace Condition implies termination which is both intuitionistic  and first order.  The \emph{algorithm condition for Size Change Termination}
-(from now on, $\SCTa$ for short) was introduced by
-Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{2001-SCT}, \S 3.2, Theorem 4.
-$\SCTa$ was introduced in order to prove program termination: 
-we formally define $\SCTa$ in the next section.\footnote{
-The name \quotationMarks{$\SCTa$} for the condition of Theorem 4 is ours, 
-this condition has no name in \cite{2001-SCT}} 
-In this paper, we are interested to $\SCTa$ in a particular case which is relevant for cyclic proofs:
-we are interested to the case of transition multi-graphs labeled by 
-\emph{injective} bi-colored relations.  
+Global Trace Condition (from now on, GTC) implies correctness for a cyclic proof.
+We want to find a proof of this fact that the  which is both intuitionistic, 
+first order arithmetical and with human-readable intermediate step.  
 
-Our motivation is that this particular case of $\SCTa$ is enough to check 
-the correctness of cyclic proofs. 
-Cyclic proofs have been introduced independently as a tool for proof search
+Cyclic proofs are an interesting tool for proof search and have been introduced as
 by Brotherston and Simpson \cite{2011-Brotherston-Simpson}. 
-Later, the algorithm checking correctness cyclic proofs turned out to be
-a particular case of the algorithm checking the $\SCTa$ condition for programs.
+Later, the algorithm checking correctness for cyclic proofs turned out to be
+a particular case of the algorithm checking the \emph{algorithm condition for Size Change Termination} condition for programs. 
 
-The algorithm checking the condition of $\SCTa$ as stated in Theorem 4 of \cite{2001-SCT}
-is PSPACE-complete: this is proved in the same paper.
-$\SCTa$ is PSPACE-complete 
-also in the particular case of injective bi-colored relations required by cyclic 
-proofs (\cite{2009-Lee-Aram}). 
-However we will argue that checking $\SCTa$ is simpler  
-and faster in this case.
+The \emph{algorithm condition for Size Change Termination}
+(from now on, $\SCTa$ for short) was introduced by
+Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{2001-SCT}, 
+\S 3.2, Theorem 4. The proof that Global Trace Condition implies correctness 
+can be seen as a particular of this Theorem. We are interested to find
+an intuitionistic, first order and human-readable alternative proof of this result. 
 
-We prove termination for $\SCTa$ in the case of injective relations only using 
+The name \quotationMarks{$\SCTa$} for the condition of Theorem 4 is ours, 
+this condition has no name in \cite{2001-SCT}.
+$\SCTa$ was introduced in order to prove program termination: 
+we formally define $\SCTa$ in the next section.
+In our paper, we are interested to $\SCTa$ in a particular case which is relevant for cyclic proofs:
+we are interested to the case of transition multi-graphs labeled by 
+\emph{injective} bi-colored relations. This condition is called 
+the \emph{fan-in-free} condition in \cite{2009-Lee-Aram}.
+
+As we said, our motivation is that this particular case of $\SCTa$ is enough to check 
+the correctness of cyclic proofs. 
+
+%The algorithm checking the condition of $\SCTa$ as stated in Theorem 4 of \cite{2001-SCT}
+%is PSPACE-complete: this is proved in the same paper.
+%$\SCTa$ is PSPACE-complete 
+%also in the particular case of injective bi-colored relations required by cyclic 
+%proofs (\cite{2009-Lee-Aram}). 
+%However we will argue that checking $\SCTa$ is simpler  
+%and faster in this case.
+
+We will prove termination for $\SCTa$ in the case of injective relations only using 
 first order induction. We use Intuitionistic Logic and Peano Induction only.
-With respect to the proof included in \cite{2009-Lee-Aram} 
-(where the injectivity condition is called the \emph{fan-in-free} condition), we try to reduce
-the proof size. This is because
-our long-term goal is to define an automatic translation from 
+%With respect to the proof included in \cite{2009-Lee-Aram} 
+%(where the injectivity condition is called the \emph{fan-in-free} condition), we try to reduce
+%the proof size. This is because
+Our long-term goal (not to be achieved in this paper) is to define an automatic translation from 
 cyclic proofs into more ordinary inductive proofs. This translation
 would be useful for cross-checking the result of a proof-search done 
 using cyclic proofs using an ordinary proof assistant not including cyclic proofs. 
-We do not have such a translation yet, but we believe that from
-a shorter termination proof for $\SCTa$ we will be able to define a simpler
-translation from cyclic proofs to inductive proofs. 
+%We do not have such a translation yet, but we believe that from
+%a shorter termination proof for $\SCTa$ we will be able to define a simpler
+%translation from cyclic proofs to inductive proofs. 
 
 
-%\section{Size Change Termination and the Particular Case of Injective Relations}
-%\label{section-SCT}
+\section{Size Change Termination and the Particular Case of Injective Relations}
+\label{section-SCT}
 
 %14:03 30/10/2024 
-Along this paper we suppose we have the main ingredients for an $\SCTa$ problem,
-namely a multi-graph, consisting of:
+Along this paper we suppose we have the main ingredients for a cyclic proof
+or for an $\SCTa$ problem.
+Namely we assume having a multi-graph, whose definition can be given independently
+from its particular interpretation: it could describe
+a cyclic proof or a mutual recursive definition.
 
-\begin{definition}[Multigraphs for $\SCTa$]
+
+\begin{definition}[Multigraphs]
 \label{definition-multigraphs}
 
 \begin{enumerate}
 \item
-a \emph{finite set} $X=\{x_1, \ldots, x_n\}$, representing variables of a program;
+a \emph{finite set} $X = \{ x_1, \ldots, x_n \} $
+ (representing parameters of a proof or variables of a program);
 
 \item
-A finite set $V$ representing abstract program states.
+A finite set $V$ (representing judgment of a cyclic proof or abstract program states).
 
 \item
 a finite set $\setR \subseteq \setP(X^2)^2$, with
 each $(\Stat, \Prog) \in \setR$ a \emph{pair of finite relations on $X$}
 such that \emph{$\Stat \cap \Prog = \emptyset$ for all $(\Stat, \Prog) \in \setR$},
-and representing bi-colored relations on variables.
+and representing bi-partite graphs (i.e., bi-colored relations) on $X$.
 We call each $(\Stat, \Prog) \in \setR$ just a \emph{pair} for short.
 
 \item
-a finite labeled multi-graph $\setG=(V,E)$, with labeled edges
-$E \subseteq V \times \setR \times V$.
+a finite labeled multi-graph $\setG=(V,E)$, with a set 
+$E \subseteq V \times \setR \times V$ of labeled edges.
 
 \item
 For any $e = (a, (\Stat, \Prog), b) \in E$ we set  
@@ -135,10 +150,10 @@ define a bi-colored graph on $X$, with $\Stat$ the set of edges of the first col
 and $\Prog$ the set of edges of the second color.
 This is why, following Neil Jones, we call $\setG$ a multi-graph.
 
-If $x \Stat y$ (if the edge from $x$ to $iy$ has the first color)
-we say that $x$ weakly progresses to $y$ in $(\Stat, \Prog)$.
+If $x \Stat y$ (if the edge from $x$ to $y$ has the first color)
+we say that $x$ weakly progresses to $y$ in $(\Stat, \Prog)$, and we mean that $x \ge y$.
 If $x \Prog y$ (if the edge from $x$ to $iy$ has the color color)
-we say that $x$ progresses to $y$ in $(\Stat, \Prog)$.
+we say that $x$ progresses to $y$ in $(\Stat, \Prog)$, and we mean that $x > y$.
 Each labeled edge $e = (a, (\Stat, \Prog), b) \in E$ represents all
 we assume about the relationship between the values of any two variables $x$, $y$ before
 and after some possible transition of a program from state $a$ to state $b$: 
@@ -146,7 +161,8 @@ either weak progression, or strict progression,
 or no information at all, in the case $x \Stat y$ and $x \Prog y$ are both false.
 
 We define composition of pairs in $\setR$ by saying that a composition is weakly
-progressing if can only be obtained by composing a pair of weakly progressing edges,
+progressing if can be obtained by composing a pair of weakly progressing edges,
+and \emph{only in this way};
 and that it is strictly progressing if it can be obtain by composing a pair of edge including
 some strictly progressing pair.
 $$
@@ -161,7 +177,9 @@ $$
 $$
 By definition, the result of composition is a \emph{disjoint} 
 pair of finite relations on $X$, therefore again a bicolored relation.
-Two pairs are composable if they label some transition sequence in the
+Two pairs $(\Stat, \Prog), (\Stat', \Prog') \in \setR$ are composable
+if we have $(a, (\Stat, \Prog), b), (b, (\Stat', \Prog'), c) \in E$ for some $a,b,c \in V$.
+namely, if $(\Stat, \Prog), (\Stat', \Prog')$ label some transition sequence in the
 multi-graph $\setG$.
 
 
@@ -203,20 +221,18 @@ $\composable {\setG} {a} {a} {(\Stat,\Prog)}$ for some $a \in V$.
 
 We skip the multigraph $\setG$ when it can be deduced from the context
 and we write just $\composable{}{a}{b}{(\Stat,\Prog)}$.
-The role of $\setG$ is to restrict the set of transitioin between to state to those satisfying 
-some request about weak and strong progressing of variables, and to restrict the 
-set of compositions which are allowed.
+The role of $\setG$ is to restrict the set of compositions which are allowed.
 
-As we said, we consider the elements of $X$ as variables to which we associate a value 
-in each instant of time. A a consequence, 
-we will use each relation $x \Stat y$ to express the fact that 
-$x$ is associated in an instant $t$ to x value \emph{greater than or equal} 
-to the value associated to $y$ in the next instant $t+1$.
-We will use each relation $x \Prog y$ to express the fact that $x$
-is associated in an instant $t$
-to x value \emph{greater than} the value associated to $y$ in the next
-instant $t+1$.
-\\
+%As we said, we consider the elements of $X$ as variables to which we associate a value 
+%in each instant of time. A a consequence, 
+%we will use each relation $x \Stat y$ to express the fact that 
+%$x$ is associated in an instant $t$ to x value \emph{greater than or equal} 
+%to the value associated to $y$ in the next instant $t+1$.
+%We will use each relation $x \Prog y$ to express the fact that $x$
+%is associated in an instant $t$
+%to x value \emph{greater than} the value associated to $y$ in the next
+%instant $t+1$.
+%\\
 
 The requirement $\Stat \cap \Prog = \emptyset$ 
 on any $(\Stat,\Prog) \in \setR$ expresses the fact that
@@ -224,39 +240,50 @@ if we know that $x \Prog y$ (namely that
 the value of of $x$ is greater than the value of $y$), then the information
 $x \Stat y$ (namely that the value of of $x$ is greater \emph{or equal} 
 than the value of $y$) becomes redundant and we remove it from our records.
-In this paper, the condition $\Stat \cap \Prog = \emptyset$ is required for
+The condition $\Stat \cap \Prog = \emptyset$ is required for
 $(\Stat,\Prog)$ to define a bicoloring on $\Stat \cup \Prog$, as it was done in
 \cite{2001-SCT}.
 \\
 
 We call \emph{trace} any sequence on $X$. 
 We call \emph{path} on $\setG$ 
-any transition path in the labeled graph defined by $\setG$.
-Alternatively, a path is any sequence $b$ on $G$ such that $\codom(b(i)) = \dom(b(i+1))$
- for any two consecutive elements of the path.
-Each path is a path in the graph associated to $G$ and labeled on $\setR$.
-Thus, each path $b$ is associated by $\setG$ to a sequence $r$ on $\setR$
-defined by $r(i) = (\Stat_i, \Prog_i) = \setG(b(i),b(i+1))$. If $b$
-is finite, then the sequence $r$ of pairs is one unit shorter than $b$. If
-$b$ is infinite then $r$ is infinite.
+any transition path $(a_0,(\Stat_0,\Prog_0),a_1), (a_1,\Stat_1,\Prog_1),a_2), \ldots$
+in the labeled graph defined by $\setG$.
+Alternatively, a path is any sequence $b:\dom(b) \rightarrow E$ such that $\dom(b) = [0,n]$ 
+for some $n \in \N$, or $\dom (b)=\N$, and such that $\codom(b(i)) = \dom(b(i+1))$
+for all $i \in \dom(d)$ (such that the codomain of each labeled edge of the path is equal
+to the domain of the next edge).
+%Each path is a path in the graph associated to $G$ and labeled on $\setR$.
+Thus, each path $b$ is associated by $\setG$ to a sequence 
+$r = (\Stat_0,\Prog_0), (\Stat_1,\Prog_1), \ldots$ on $\setR$ defined by $r(i) = \Label(b(i))$. 
+%If $b$ is finite, then the sequence $r$ of pairs is one unit shorter than $b$. If
+%$b$ is infinite then $r$ is infinite.
 
-We take the words \quotationMarks{trace}. The paper \cite{2001-SCT}
-uses for the same concepts the word \quotationMarks{thread}. We use
-\emph{path} for a finite or infinite path $f_0, f_1, f_2, \ldots$ 
-in the graph define by $\setG$,
-and \emph{multipath } for the image of a path under $\setG$:
-$\setG(f_0, f_1), \setG(f_1, f_2), \ldots$ .
-The paper \cite{2001-SCT} GTC, the Global Trace Condition,
-as: \quotationMarks{all multipaths are in $DESC^\omega$}, 
+The paper \cite{2001-SCT}
+uses the word \quotationMarks{thread} instead of the word \quotationMarks{trace} ,
+the word \quotationMarks{descending} instead of \quotationMarks{progressing},
+and the word  \quotationMarks{multipath} instead of \quotationMarks{path}.
+In this paper, we consider these words as synonimous.
+
+%We use
+%\emph{path} for a finite or infinite path $f_0, f_1, f_2, \ldots$ 
+%in the graph define by $\setG$,
+%and \emph{multipath} for the image of a path under $\setG$:
+%$\setG(f_0, f_1), \setG(f_1, f_2), \ldots$ .
+The paper \cite{2001-SCT} formulates GTC, the Global Trace Condition,
+as: \quotationMarks{all infinite multipaths are in $DESC^\omega$}, 
 where $DESC^\omega$ is the set of multipaths having some infinite descending thread.
+The same condition GTC  is formulated in Brotherston and Simpson as: 
+\quotationMarks{all infinite paths have some infinitely progressing trace}.
 
-We use \quotationMarks{thread}
-and \quotationMarks{trace} as synonimous.
-The terminology \quotationMarks{thread}
-of cite{2001-SCT} is probably more suitable when speaking
-of programs, while Brotherston and Simpson terminology,
-\quotationMarks{trace}, appears more suitable when speaking of a 
-proof-graph, as we do in this paper. 
+
+%The terminology \quotationMarks{thread}
+%of cite{2001-SCT} is probably more suitable when speaking
+%of programs, while Brotherston and Simpson terminology,
+%\quotationMarks{trace}, appears more suitable when speaking of a 
+%proof-graph, as we do in this paper. 
+
+%01/07/ 11:33
 
 We call value flow any assignment
 of values in $\N$ to each $x \in X$, with the assignment 
@@ -377,7 +404,7 @@ If formulated as above, the Global Trace condition (GTC) is equivalent to the al
 criterion for Size Change Termination ($\SCTa$), introduced by Neil Jones in \cite{2001-SCT},
 Theorem 4.
 
-\begin{definition}[The SCT-a algorithmic condition]
+\begin{definition}[The SCT-a Algorithmic Condition]
 \label{definition-SCT}
 Assume $\setG=(V,E)$ is a labeled graph as in \ref{definition-multigraphs} for some
 finite set $X$.
@@ -1549,7 +1576,7 @@ $$
 Instead, in general we only have left-to-rigth implication
 $$
 \forall \setR, \setG.  \ \ 
-($\SCTa$ \Rightarrow PDC) \wedge 
+(\SCTa \Rightarrow PDC) \wedge 
 (GTC \Rightarrow PDC)
 $$
 \item
@@ -1558,7 +1585,7 @@ while the opposite implication can fail:
 $$
 \exists \setR, \setG. \ \ 
 \neg(\setR \mbox{ injective}) \wedge 
-\neg $\SCTa$ \wedge 
+\neg \SCTa \wedge 
 \neg GTC \wedge 
 PDC
 $$
@@ -1573,7 +1600,7 @@ was proved with the counter-example $\setR_2$
 
 Here in this section we include two previous proofs of the same result, only for record.
 
-\subsection{GTC, $\SCTa$ are equivalent to PDC in the case of injectivity}(Previous proof, only
+\subsection{GTC, SCT-a are equivalent to PDC in the case of injectivity}(Previous proof, only
 included for record)
 \label{subsection-SCT-PDC}
 
@@ -1594,14 +1621,14 @@ proved the equivalence of the conditions called in this paper
 $\SCTa$ (\S \ref{section-SCT}) and GTC
 $$
 \forall \setR, \setG.  \ \ 
-($\SCTa$ \Leftrightarrow GTC)
+(\SCTa \Leftrightarrow GTC)
 $$
-Thus, from GTC $\Rightarrow$ PDC just proved we deduce $\SCTa$ $\Rightarrow$ PDC. 
+Thus, from GTC $\Rightarrow$ PDC just proved we deduce $\SCTa \Rightarrow$ PDC. 
 We proved one direction, namely point \label{property-2} of the Claim.
 \\
 
 Now we prove the other direction, namely point \label{property-1} of the Claim.
-It is enough to prove that if $\setR$ is injective then PDC $\Rightarrow$ $\SCTa$. If will follow
+It is enough to prove that if $\setR$ is injective then PDC $\Rightarrow \SCTa$. If will follow
 if $\setR$ is injective then PDC $\Rightarrow$ GTC. 
 
 We first prove a property of injective transitive relation: this property does not
@@ -1666,7 +1693,7 @@ is $R^m$. By definition of coloring, the edge between $i$ and $k$ is $R^mR^m$,
 by Ramsey Theorem it is $R^m$. We conclude that $R^m = R^mR^m$. }
 \end{proof}
 
-We can now prove that if we have injectivity then PDC $\Rightarrow$ $\SCTa$.
+We can now prove that if we have injectivity then PDC $\Rightarrow \SCTa$.
 
 \begin{theorem}
 Assume $X$ is any finite set and $\setR \subseteq X \times X$ is any composition-closed
@@ -1693,7 +1720,7 @@ we obtain that $x = y$. We conclude that $x P_n x$, as wished.
 \end{proof}
 
 
-\subsection{GTC, $\SCTa$, PDC  are equivalent in the case of injectivity: yet another proof proof}
+\subsection{GTC, SCT-a, PDC  are equivalent in the case of injectivity: yet another proof proof}
 (proof included for record)
 \label{subsection-SCT-PDC-old}
 We first provided an alternative proof that 
