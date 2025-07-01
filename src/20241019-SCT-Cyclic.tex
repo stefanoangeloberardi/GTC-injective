@@ -771,8 +771,9 @@ of \emph{disjoint} finite binary relations on $X$.
 \begin{enumerate}
 
 \item
-We denote with $\Val$ the set of \emph{value assignment} 
-$\sigma: X \rightarrow \N$ for variables. 
+We denote with $\Val$ the set $\N^n$ consisting of one value for each element of $X$.
+Equivalently, every $\sigma \in \Val$ can be considered as a map 
+$\sigma: X \rightarrow \N$ assigning a value to each element of $X$. 
 
 \item
 We denote with $\setS = V \times \Val$ the set of \emph{computation states},
@@ -789,6 +790,9 @@ for \emph{some} $(a,(\Stat,\Prog),a') \in E$ we have:
 $\forall (x,y) \in \Stat. \sigma(x) \ge \sigma'(y)$
 and $\forall (x,y) \in \Prog. \sigma(x) > \sigma'(y)$.
 
+%\item
+%If there is a transition from $s$ to $s'$ we write $s' <_\setG s$.
+
 \item
 \emph{(Transition Sequence)}
 A \emph{transition sequence} 
@@ -798,9 +802,20 @@ We denote the set of transition sequences with $\setT$.
 \end{enumerate}
 \end{definition}
 
+Our goal is to prove that all transition sequences are finite, or, equivalently, that
+the extension order $>$ on lists is a well-founded order on the set $\setT$ of
+transition sequences. This can be formulated in a first order way
+as an induction schema for the order $>$, as done in S.Berardi and M.Tatsuta.
+The induction schema is: for any unary predicate $P$ on $\setT$ definable in first order
+arithmetic,
+$$
+(\forall t' \in \setT. (\forall t'' \in \setT. t'' > t' \implies P(t'')) \implies P(t')) 
+\implies 
+\forall t \in \setT.P(t)
+$$
 
 % 13:34 06/03/2025
-% 01/07/2025 15:25
+
 
 \subsection{Some Ingredient for a Proof of the Termination Theorem 
 \ref{theorem-finiteness-value-flow-1}}
@@ -811,18 +826,17 @@ satisfies PDC, namely: for all $(\Stat,\Prog) \in \setR^\setG$ self-composable
 in $\setG$ we have $x \Prog y$ for
 some $x, y \in \dom(\Stat \cup \Prog)$.
 Let $\setT$ be the set of transition sequences for $\setR, \setG$. 
-We want to prove the Termination Theorem: 
-all transition sequences terminate.
+We want to prove that $>$ is a well-founded order on the set $\setT$ of transitions. 
+Using Classical Logic and a second order quantification,
+this can be formsulated as: all transition sequences terminate.
 
 We will prove using Intuitionistic Logic  and First Order Arithmetic
-that the tree $\setT$ of transition sequences (having root the empty sequence)
-satisfies the induction schema. 
-
-
+that the order $<_\setG$ satisfies the induction schema. 
 
 To this aim, let $[0,\infty] = \N + \{\infty\}$ be $\N$ extended with an
 \quotationMarks{infinite} point $\infty$, and with the relation $n < \infty$
-for all $n \in \N$. We define a well-founded order $\setL$:
+for all $n \in \N$. We define a well-founded order $\setL$, which we use to prove
+that $<_\setG$ is well-founded.
 
 \begin{definition}[The well-founded order $\setL$]
 \label{definition-well-founded-order-L}
@@ -833,7 +847,7 @@ $$
 \{ \ \ 
 (m_1,r_1, \ldots, m_n,r_n)
   \ \  | \ \ 
-    m_i \in [0,\infty] \ \wedge \ r_n \in [0, g \genfrac(){0pt}{1}{n}{k}[, \ \forall i \in [1,n]
+    m_i \in [0,\infty] \ \wedge \ r_n \in [0, g \cdot \genfrac(){0pt}{1}{n}{k}[, \ \forall i \in [1,n]
 \ \ \}
 $$
 with the lexicographic ordering. 
@@ -859,14 +873,14 @@ the lexicographic ordering both on the sequence of pairs and on each pair.
 We need some more ingredients for a proof of the Termination 
 Theorem \ref{theorem-finiteness-value-flow-1}. 
 The first one is the following folk-lore Proposition, some sufficient condition
-for an injective relation $R$ on $X$ to be a bijection.
+for an injective relation $R$ on a \emph{finite} set $X$ to be a bijection.
 
 %14:30 06/03/2025
 
 \begin{proposition}[Injective Relations and Cardinality]
 \label{proposition-injective-relation}
 Assume that $R \subseteq X \times Y$ is \emph{everywhere defined} 
-and is \emph{injective}. Then 
+and is \emph{injective} and $X$, $Y$ are finite. Then 
 \begin{enumerate}
 \item
 \label{proposition-injective-relation-01}
@@ -946,6 +960,7 @@ then $R\restr \dom(R)$ is a bijection.
 
 \begin{proof}
 %11:52 06/02/2025
+% 01/07/2025 17:12
 
 \begin{enumerate}
 \item
@@ -1069,21 +1084,27 @@ as wished.
 \section{The notion of stable-cardinality path}
 %12:58 07/03/2025
 We need one last ingredients before proving the Termination Theorem.
-We recall all our assumptions.
-We supposed $\Card(X) = n$. We supposed $\setR$
-is any finite set of pairs of disjoint relations on $X$, 
-and $\setG: \dom(\setG)  \rightarrow \setR$ with
-$\dom(\setG) \subseteq G \times G$ is a labeling on $\setR$ of the graph 
-$\dom(\setG)$. 
+%We recall all our assumptions.
+%We supposed $\Card(X) = n$. We supposed $\setR$
+%is any finite set of pairs of disjoint relations on $X$, 
+%and $\setG: \dom(\setG)  \rightarrow \setR$ with
+%$\dom(\setG) \subseteq G \times G$ is a labeling on $\setR$ of the graph 
+%$\dom(\setG)$. 
 
-We now define larger and larger set of paths, and for each of them 
-we will prove that all value flows associated to the set of paths terminate.
+We now define larger and larger subsets of $\setT$, and for each of them 
+we will prove well-foundedness for the extension relation $>$.
 
 Assume $L:[1,l] \rightarrow \Pfin(\N \times \N)$ 
-is a finite sequence of relations on $X$,
-with $R_i = L(i)$ for all $i \in [1,l]$.
+is a finite sequence on the set $E$ of labeled edges of a multigraph $\setG$,
+with $(\Stat_i,\Prog_i) = \Label(L(i))$ for all $i \in [1,l]$.
 Then for all $i,j \in [1,l]$, $i \le j$ we define
-$R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$.
+$$
+(\Stat_{i,j},\Prog_{i,j}) \ \ \ = \ \ \
+\Pi_{h=i}^{h=j} (\Stat_h,\Prog_h) \ \ \ = \ \ \
+(\Stat_i,\Prog_i) \ldots (\Stat_j,\Prog_j)
+\mbox{ \ \ \ and \ \ \ }
+R_{i,j} = \universe{(\Stat_{i,j},\Prog_{i,j})}
+$$
 
 By Lemma \ref{lemma-composition-injective-relations-01} 
 and $\dom(R_{i,j+1}) = \dom(R_{i,j} R_{j+1})$ we have
@@ -1091,12 +1112,14 @@ $\dom(R_{i,j})  \supseteq \dom(R_{i,j+1})$, that is,
 the sequence of sets $\dom(R_{i,j})$
 for $j \in [i,l]$ is weakly decreasing w.r.t. inclusion. Thus, the sequence 
 $\{\Card(\dom(R_{i,j})) | j \in [i,l]\}$ is weakly decreasing w.r.t. the ordering on $\N$.
-When for each $i \in [1,l]$  the sequence $\{\Card(\dom(R_{i,j})) | j \in [i,l]\}$ 
-is constant we say that the list $L$ has \emph{stable-cardinality} domains. 
-When all cardinalities are $\Card(\dom(R_{i,j}))$ are the same we
+When for each $i \in [1,l]$  the sequence $\Card(\dom(R_{i,i})), \ldots, \Card(\dom(R_{i,l}))$ 
+is constant we say that the list $L$ has \emph{stable-cardinality} domains: the cardinality
+of $\dom(R_{1})$ and $\dom(R_{2})$ can still be different
+When all cardinalities of \emph{all} $\Card(\dom(R_{i,j}))$ are the same we
 say that $L$ has constant-cardinality domains.
 
 Here is the formal definition.
+
 
 \begin{definition}
 [Stable-Cardinality Domain for a sequence on $\setR$]
@@ -1120,8 +1143,8 @@ we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l}))$.
 $\pi$ has \emph{stable-cardinality domains} 
 (respectively, has \emph{constant cardinality domains})
 if and only if the associated relation sequence 
-$\{\universe{\pi(i)} | i \in [1,l]\}$, obtained by taking the union
-of each pair $\pi(i) = (\Stat_i,\Prog_i) \in \setR$, has stable-cardinality domains 
+$\{\universe{\Label\pi(i)} | i \in [1,l]\}$, obtained by taking the union
+of each pair $\Label\pi(i) = (\Stat_i,\Prog_i) \in \setR$, has stable-cardinality domains 
 (respectively, has constant cardinality domains).
 
 \item
@@ -1132,11 +1155,14 @@ $x \in \dom(\pi(i))$, $y \in \dom(\pi(j))$.
 
 \end{definition}
 
+A path with non-progressing domains is a particulary unfavourable situation in which the
+value of $\val(\dom(R_i),\sigma)$ could be not-decreasing. 
 We can now restate the Termination Theorem in a more detailed form, giving
 an upper bound to the height of the tree of all paths in various cases.
  
 %16:00 06/03/2025
 %13:27 07/03/2025
+%19:12 01/07/2025
 
  \begin{theorem}[Finiteness of $\setR$-Compatible Transitions (Srong Form)]
 \label{theorem-finiteness-value-flow-2}
