@@ -1,9 +1,5 @@
 % lmcs, 2018.5.2, 2019.9.9, 2020.2.10
-
-
 \documentclass{lmcs}
-
-
 %\usepackage{fouriernc}
 %\setmathfont[FakeBold=0.5]{Latin Modern Math}
 
@@ -38,8 +34,7 @@
 
 \input{macro}
 
-\title{Size Change Termination Condition 
-for Injective Relations}
+\title{An Intuitionistic and First Order proof that Size Change Termination Condition for Injective Relations implies Termination}
 \date{}
 
 \author[S. Berardi]{Stefano Berardi}
@@ -61,31 +56,33 @@ infinite Ramsey theorem
 \maketitle
 
 \section{Introduction}
-We want to study the \emph{algorithm condition for Size Change Termination}
-(from now on, SCT for short), introduced by
+We want to find a proof that the Global Trace Condition implies termination which is both intuitionistic  and first order.  The \emph{algorithm condition for Size Change Termination}
+(from now on, $\SCTa$ for short) was introduced by
 Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{2001-SCT}, \S 3.2, Theorem 4.
-The algorithmic condition SCT was introduced in order to prove program termination: 
-we formally define SCT in the next section.\footnote{The name \quotationMarks{SCT} for the condition of Theorem 4 is ours, this condition has no name in \cite{2001-SCT}} 
-In this paper, we are interested to SCT in a particular case which is relevant for cyclic proofs:
+$\SCTa$ was introduced in order to prove program termination: 
+we formally define $\SCTa$ in the next section.\footnote{
+The name \quotationMarks{$\SCTa$} for the condition of Theorem 4 is ours, 
+this condition has no name in \cite{2001-SCT}} 
+In this paper, we are interested to $\SCTa$ in a particular case which is relevant for cyclic proofs:
 we are interested to the case of transition multi-graphs labeled by 
 \emph{injective} bi-colored relations.  
 
-Our motivation is that this particular case of SCT is enough to check 
+Our motivation is that this particular case of $\SCTa$ is enough to check 
 the correctness of cyclic proofs. 
 Cyclic proofs have been introduced independently as a tool for proof search
 by Brotherston and Simpson \cite{2011-Brotherston-Simpson}. 
 Later, the algorithm checking correctness cyclic proofs turned out to be
-a particular case of the algorithm checking the SCT condition for programs.
+a particular case of the algorithm checking the $\SCTa$ condition for programs.
 
-The algorithm checking the condition of SCT as stated in Theorem 4 of \cite{2001-SCT}
+The algorithm checking the condition of $\SCTa$ as stated in Theorem 4 of \cite{2001-SCT}
 is PSPACE-complete: this is proved in the same paper.
-SCT is PSPACE-complete 
+$\SCTa$ is PSPACE-complete 
 also in the particular case of injective bi-colored relations required by cyclic 
 proofs (\cite{2009-Lee-Aram}). 
-However we will argue that checking SCT is simpler  
+However we will argue that checking $\SCTa$ is simpler  
 and faster in this case.
 
-We prove termination for SCT in the case of injective relations only using 
+We prove termination for $\SCTa$ in the case of injective relations only using 
 first order induction. We use Intuitionistic Logic and Peano Induction only.
 With respect to the proof included in \cite{2009-Lee-Aram} 
 (where the injectivity condition is called the \emph{fan-in-free} condition), we try to reduce
@@ -95,17 +92,18 @@ cyclic proofs into more ordinary inductive proofs. This translation
 would be useful for cross-checking the result of a proof-search done 
 using cyclic proofs using an ordinary proof assistant not including cyclic proofs. 
 We do not have such a translation yet, but we believe that from
-a shorter termination proof for SCT we will be able to define a simpler
+a shorter termination proof for $\SCTa$ we will be able to define a simpler
 translation from cyclic proofs to inductive proofs. 
 
 
-\section{Size Change Termination and the Particular Case of Injective Relations}
-\label{section-SCT}
+%\section{Size Change Termination and the Particular Case of Injective Relations}
+%\label{section-SCT}
+
 %14:03 30/10/2024 
-Along this paper we suppose we have the main ingredients for an SCT problem,
+Along this paper we suppose we have the main ingredients for an $\SCTa$ problem,
 namely a multi-graph, consisting of:
 
-\begin{definition}[Multigraphs for SCT]
+\begin{definition}[Multigraphs for $\SCTa$]
 \label{definition-multigraphs}
 
 \begin{enumerate}
@@ -376,19 +374,19 @@ $\Var(f)$, in order to make pairwise distinct the set of variables associated
 to each node $f \in G$. We avoid renaming in this paper.
 
 If formulated as above, the Global Trace condition (GTC) is equivalent to the algorithmic 
-criterion for Size Change Termination (SCT), introduced by Neil Jones in \cite{2001-SCT},
+criterion for Size Change Termination ($\SCTa$), introduced by Neil Jones in \cite{2001-SCT},
 Theorem 4.
 
-\begin{definition}[SCT algorithmic condition]
+\begin{definition}[The SCT-a algorithmic condition]
 \label{definition-SCT}
 Assume $\setG=(V,E)$ is a labeled graph as in \ref{definition-multigraphs} for some
 finite set $X$.
-We say that $\setG$ satisfies SCT if and only if for all self-composable 
+We say that $\setG$ satisfies $\SCTa$ if and only if for all self-composable 
 $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ such that 
 $(\Stat,\Prog) (\Stat,\Prog) = (\Stat,\Prog)$ there is some $x \in X$ such that $x \Prog x$.
 \end{definition}
 
-SCT can be formulated in many equivalent way, for instance as Finite Power Condition (FPC):
+$\SCTa$ can be formulated in many equivalent way, for instance as Finite Power Condition (FPC):
 
 \begin{definition}[Finite Power Condition (FPC)]
 \label{definition-FPC}
@@ -397,7 +395,7 @@ $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ there is some $n > 0 $, some
 $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
 \end{definition}
 
-For proving SCT $\Leftrightarrow$ FPC we use a folk-lore
+For proving $\SCTa$ $\Leftrightarrow$ FPC we use a folk-lore
 algebraic property, that all elements of all finite monoids have some positive idempotent power.
 
 \begin{proposition}[Idempotent Power]
@@ -412,18 +410,18 @@ hence $x^c = x^{c+db}$ for all $d>0$. Take the first $d>0$ such that $db \ge a$:
 $x^{db} = x^{db+db}$. We take $n=db$.
 \end{proof}
 
-\begin{proposition}[FPC and SCT are equivalent]
+\begin{proposition}[FPC and SCT-a are equivalent]
 \label{proposition-SCT}
-SCT $\Leftrightarrow$ FPC
+$\SCTa$ $\Leftrightarrow$ FPC
 \end{proposition}
 
 \begin{proof}
 \begin{enumerate}
 \item
-Assume SCT, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ in order to prove that 
+Assume $\SCTa$, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ in order to prove that 
 there is some $n > 0 $, some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
 By Prop. {proposition-idempotent-power} and finiteness of the bi-colored graphs on $X$
-there is some $n > 0$ such that $(\Stat,\Prog)^n(\Stat,\Prog)^n=(\Stat,\Prog)^n$. By SCT,
+there is some $n > 0$ such that $(\Stat,\Prog)^n(\Stat,\Prog)^n=(\Stat,\Prog)^n$. By $\SCTa$,
 there is some $x \in X$ such that $x$ progresses to $x$ in $(\Stat,\Prog)^n$.
 \item
 Assume FPC, $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ and 
@@ -435,15 +433,15 @@ $(\Stat,\Prog)^n=(\Stat,\Prog)$, hence $x$ progresses to $x$ in $(\Stat,\Prog)$.
 \end{enumerate}
 \end{proof}
 
-SCT was originally used as a sufficient, and quite broad too, 
+$\SCTa$ was originally used as a sufficient, and quite broad too, 
 condition for termination of recursive calls. 
 When we use GTC as a correctness criterion for cyclic proofs, often in this paper 
 \emph{we add one more condition, \underline{injectivity} of the trace relations}, 
-a condition which is missing in the original SCT paper. 
+a condition which is missing in the original $\SCTa$ paper. 
 
 Injectivity implies that in cyclic proofs two traces of different
 variables never cross each other. This significantly simplifies traces.
-Instead, in the original SCT formulation two traces, 
+Instead, in the original $\SCTa$ formulation two traces, 
 say, $x_1 \ge x_2 > x_3$ and
 $y_1 > y_2$, from two different variables $x_1$, $y_1$,
 can meet into a single variable $z$. For instance, we can have:
@@ -473,7 +471,7 @@ of GTC which can expressed in First Order Aritmetic, and such that
 the finiteness of all compatible value flows can be proved
 in Intuitionistic Arithmetic.
 
-In previous work we proved that the equivalence between SCT and GTC 
+In previous work we proved that the equivalence between $\SCTa$ and GTC 
 (already proved in \cite{2001-SCT}) is a corollary of Ramsey Theorem. 
 
 In this paper we are looking for a more
@@ -495,9 +493,9 @@ $$
 \ \ (\composable{\setG}{a}{a}{(\Stat,\Prog)}) \implies \exists x, y, z \in X. 
 \ (x \Prog y) \wedge (y \Stat \cup \Prog z)
 $$
-PDC is weaker and it is easier to check than the SCT condition. 
+PDC is weaker and it is easier to check than the $\SCTa$ condition. 
 
-To check SCT, we do not have to check for any self-composable $(\Stat,\Prog) \in \setR^\setG$
+To check $\SCTa$, we do not have to check for any self-composable $(\Stat,\Prog) \in \setR^\setG$
 whether $(\Stat,\Prog)$ is idempotent. If it is not idempotent, this is fine, if it is, we have to 
 look for some $x$ progressing to itself in $(\Stat,\Prog)$.
 
@@ -561,11 +559,11 @@ then GTC holds, in particular any value flow compatible with $\setR,\setG$ is fi
 We first include a short equivalence proof, building on the results of Neil Jones.
 
 \begin{proof}(First Proof of of Thm. \ref{theorem-finiteness-value-flow-1})
-We recall that \cite{2001-SCT}, Theorem 4, proved that SCT $\Leftrightarrow$ GTC
-(the name \quotationMarks{SCT} for the condition of Theorem 4 is ours, this condition 
+We recall that \cite{2001-SCT}, Theorem 4, proved that $\SCTa$ $\Leftrightarrow$ GTC
+(the name \quotationMarks{$\SCTa$} for the condition of Theorem 4 is ours, this condition 
 has no name in \cite{2001-SCT}). 
 Therefore in order to prove GTC $\Rightarrow$ PDC in the case on injectivity, 
-it is enough to prove that in this case we have GTC $\Rightarrow$ PDC $\Rightarrow$ SCT.
+it is enough to prove that in this case we have GTC $\Rightarrow$ PDC $\Rightarrow$ $\SCTa$.
 
 \begin{enumerate}
 
@@ -579,7 +577,7 @@ in particular $\tau$ is progressing at some step $i$. Therefore
 $\tau(i) \Prog \tau(i+1) \Stat \cup \Prog \tau(i+2)$, we conclude our thesis. 
 
 \item
-We assume PDC in order to prove SCT \emph{(here we need injectivity)}.
+We assume PDC in order to prove $\SCTa$ \emph{(here we need injectivity)}.
 For, we assume $\composable{\setG}{a}{(\Stat,\Prog)}{a}$ and 
 $(\Stat,\Prog)(\Stat,\Prog) = (\Stat,\Prog)$ in order to find some $x \in X$ such 
 that $x \Prog x$. By PDC, for some $x,y,z \in X$ we have $x \Prog y (\Stat \cup \Prog) z$. 
@@ -1527,8 +1525,8 @@ Oxford University Press.
 
 \newpage
 
-\section{Appendix: PDC, GTC and SCT are Equivalent Given Injectivity}
-This section includes two previous proofs of the equivalence of PDC, SCT and GTC 
+\section{Appendix: PDC, GTC and $\SCTa$ are Equivalent Given Injectivity}
+This section includes two previous proofs of the equivalence of PDC, $\SCTa$ and GTC 
 in the case of injectivity, in sub-sections 
 \ref{subsection-SCT-PDC}, \ref{subsection-SCT-PDC-old}. They are only included for record.
 In sub-section \ref{subsection-TC}, instead, we will prove a new result:
@@ -1538,12 +1536,12 @@ In this paper we already proved:
 \begin{enumerate}
 \item
 \label{property-1}
-SCT, GTC are equivalent with PDC given injectivity:
+$\SCTa$, GTC are equivalent with PDC given injectivity:
 $$
 \forall \setR, \setG.  \ \ 
 (\setR \mbox{ injective}) 
 \implies 
-(SCT \Leftrightarrow PDC) \wedge 
+(\SCTa \Leftrightarrow PDC) \wedge 
 (GTC \Leftrightarrow PDC)
 $$
 \item
@@ -1551,7 +1549,7 @@ $$
 Instead, in general we only have left-to-rigth implication
 $$
 \forall \setR, \setG.  \ \ 
-(SCT \Rightarrow PDC) \wedge 
+($\SCTa$ \Rightarrow PDC) \wedge 
 (GTC \Rightarrow PDC)
 $$
 \item
@@ -1560,7 +1558,7 @@ while the opposite implication can fail:
 $$
 \exists \setR, \setG. \ \ 
 \neg(\setR \mbox{ injective}) \wedge 
-\neg SCT \wedge 
+\neg $\SCTa$ \wedge 
 \neg GTC \wedge 
 PDC
 $$
@@ -1575,7 +1573,7 @@ was proved with the counter-example $\setR_2$
 
 Here in this section we include two previous proofs of the same result, only for record.
 
-\subsection{GTC, SCT are equivalent to PDC in the case of injectivity}(Previous proof, only
+\subsection{GTC, $\SCTa$ are equivalent to PDC in the case of injectivity}(Previous proof, only
 included for record)
 \label{subsection-SCT-PDC}
 
@@ -1590,20 +1588,20 @@ and $z_i, z_{i+1} \in \dom(R)$ for some $z_i, z_{i+1}$, that is,
 PDC for the self-composable pair $(\Stat,\Prog)$.
 \\
 
-In order to prove SCT $\Rightarrow$ PDC, we recall 
+In order to prove $\SCTa$ $\Rightarrow$ PDC, we recall 
 that Neil Jones in \cite{2001-SCT} 
 proved the equivalence of the conditions called in this paper 
-SCT (\S \ref{section-SCT}) and GTC
+$\SCTa$ (\S \ref{section-SCT}) and GTC
 $$
 \forall \setR, \setG.  \ \ 
-(SCT \Leftrightarrow GTC)
+($\SCTa$ \Leftrightarrow GTC)
 $$
-Thus, from GTC $\Rightarrow$ PDC just proved we deduce SCT $\Rightarrow$ PDC. 
+Thus, from GTC $\Rightarrow$ PDC just proved we deduce $\SCTa$ $\Rightarrow$ PDC. 
 We proved one direction, namely point \label{property-2} of the Claim.
 \\
 
 Now we prove the other direction, namely point \label{property-1} of the Claim.
-It is enough to prove that if $\setR$ is injective then PDC $\Rightarrow$ SCT. If will follow
+It is enough to prove that if $\setR$ is injective then PDC $\Rightarrow$ $\SCTa$. If will follow
 if $\setR$ is injective then PDC $\Rightarrow$ GTC. 
 
 We first prove a property of injective transitive relation: this property does not
@@ -1668,12 +1666,12 @@ is $R^m$. By definition of coloring, the edge between $i$ and $k$ is $R^mR^m$,
 by Ramsey Theorem it is $R^m$. We conclude that $R^m = R^mR^m$. }
 \end{proof}
 
-We can now prove that if we have injectivity then PDC $\Rightarrow$ SCT.
+We can now prove that if we have injectivity then PDC $\Rightarrow$ $\SCTa$.
 
 \begin{theorem}
 Assume $X$ is any finite set and $\setR \subseteq X \times X$ is any composition-closed
 finite family of finite bi-colored \emph{injective} binary relations. If $\setR$ satisfies PDC and 
-is \emph{injective} then $\setR$ satisfies SCT.
+is \emph{injective} then $\setR$ satisfies $\SCTa$.
 \end{theorem}
 
 
@@ -1681,7 +1679,7 @@ is \emph{injective} then $\setR$ satisfies SCT.
 Assume that $(S,P) \in \setR$ is some bi-colored finite relation on $X$,
 in order to prove Finite Power Condition FPC (Def. \ref{definition-FPC}): namely, 
 that for some $n \in \N$, $n>0$, for $(S_n,P_n) = (S,P)^n$ there is some
-$x \in X$ such that $x P_n x$. By Prop. \ref{proposition-SCT}, we will conclude SCT.
+$x \in X$ such that $x P_n x$. By Prop. \ref{proposition-SCT}, we will conclude $\SCTa$.
 
 Let $R = \universe{(S,P)} = S \cup P$. $R$ is finite, therefore by Prop. 
 \ref{proposition-idempotent-power} for some $n \in \N$ we have $R^n = R^nR^n$. 
@@ -1695,7 +1693,7 @@ we obtain that $x = y$. We conclude that $x P_n x$, as wished.
 \end{proof}
 
 
-\subsection{GTC, SCT, PDC  are equivalent in the case of injectivity: yet another proof proof}
+\subsection{GTC, $\SCTa$, PDC  are equivalent in the case of injectivity: yet another proof proof}
 (proof included for record)
 \label{subsection-SCT-PDC-old}
 We first provided an alternative proof that 
@@ -1704,7 +1702,7 @@ restricted to $\dom(R)$. This proof only works in the case of \emph{finite} rela
 so it is weaker than 
 \ref{proposition-transitive-injective}.\ref{proposition-transitive-injective-02}.
 
-As a corollary we will deduce that (PDC $\Rightarrow$ SCT), in an alternative way.
+As a corollary we will deduce that (PDC $\Rightarrow$ $\SCTa$), in an alternative way.
 
 $R$ is a finite relation on a finite set $X$, therefore by Prop. 
 \ref{proposition-idempotent-power} for some $m>0$ we have $R^m=R^mR^m$. 
@@ -1727,7 +1725,7 @@ $R \restr \dom(R) $ is the identity and all
 $x \in \dom(R)$ are weakly or strongly progressing to themselves.
 
 \item
-PDC $\Rightarrow$ SCT.
+PDC $\Rightarrow$ $\SCTa$.
 \end{enumerate}
 \end{proposition}
 
@@ -1817,7 +1815,7 @@ traces progress at most $n-1$ times, with $n=\Card(X)$.
 
 \begin{proof}[Proof of $\neg$ GTC $\implies$ $\neg$ TC]
 Assume $\neg$ GTC. By Theorem 4, \cite{2001-SCT} 
-we deduce $\neg$ SCT, namely
+we deduce $\neg$ $\SCTa$, namely
 that there is some self-composable 
 $(a,(\Stat,\Prog),a) \in \setR$ such that for no $m \in \N$, $m>0$, 
 $x \in X$ we have $x$ progressing to itself in $(\Stat,\Prog)^m$.
@@ -1866,8 +1864,8 @@ otherwise there would be some power of $(\Stat,\Prog)$ and some $z \in X$
  $a \ge b$ if $x \Stat y$ and $a \ge b+1$ if $x \Prog y$, as wished.
 \end{proof}
 
-Remark that in fact we proved a stronger property: either we have SCT and
-GTC and TC, or we have $\neg$ SCT and $\neg$ GTC and $\neg$ TC. In the
+Remark that in fact we proved a stronger property: either we have $\SCTa$ and
+GTC and TC, or we have $\neg$ $\SCTa$ and $\neg$ GTC and $\neg$ TC. In the
 second case we also have an infinite constant transition $\theta = (s, s, s, \ldots)$
 with $s = ((\Stat,\Prog),\sigma) \in \setS$, in which each variable $x \in X$ has constant
 value $\sigma(x)$, and all traces progresses at most $n-1$ times, where $n=\Card(X)$.
