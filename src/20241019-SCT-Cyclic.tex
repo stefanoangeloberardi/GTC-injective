@@ -189,18 +189,20 @@ Assume $\setR, V, E, \setG$ are as in  Def. \ref{definition-multigraphs}.
 \begin{enumerate}
 
 \item
-We write $\composable{\setG}{a}{b}{(\Stat,\Prog)}$
-for the smallest ternary relation $E^*$ including $E$ and closed
-by composition: if $(a,(\Stat,\Prog),b) \in E$ then
-$\composable{\setG}{a}{b}{(\Stat,\Prog)}$, and
-if $\composable{\setG}{a}{b}{(\Stat,\Prog)}$ and
-$\composable{\setG}{b}{c}{(\Stat',\Prog')}$ then  
-$\composable{\setG}{a}{c}{(\Stat,\Prog)(\Stat',\Prog')}$.
+$E^+$ is the smallest ternary relation including $E$ and closed
+by domain-compatible composition: 
+if $(a,(\Stat,\Prog),b),  (b,(\Stat,\Prog),c)\in E^+$ then  
+$(a,(\Stat,\Prog)(\Stat',\Prog'),c) \in E^+$.
+
+We write $\setG^+$ for the graph $(V,E^+)$.
 
 \item
-$\setR^\setG$ is
-the set of bi-colored relations $(\Stat,\Prog)$ on $X$
-such that  $\composable{\setG}{a}{b}{(\Stat,\Prog)}$ for some $a,b \in V$.
+We write  $\composable{\setG}{a}{b}{(\Stat,\Prog)}$
+for if $(a,(\Stat,\Prog),b) \in E^+$.
+
+\item
+$\setR^\setG =  \{(\Stat,\Prog) | \exists a,b \in V. \composable{\setG}{a}{b}{(\Stat,\Prog)} \}$
+is the set of bi-colored relations labeling some $e \in E^+$.
 
 %\item
 %We say that that two pairs of finite disjoint relations $(\Stat,\Prog), (\Stat',\Prog')$ on 
@@ -210,7 +212,7 @@ such that  $\composable{\setG}{a}{b}{(\Stat,\Prog)}$ for some $a,b \in V$.
 %$\composable{\setG}{b}{c}{(\Stat',\Prog')}$ for some $a,b,c, \in G$.
 
 \item
-We say that $(\Stat,\Prog) \in \setR^\setG$
+$(\Stat,\Prog) \in \setR^\setG$
 is \emph{self-composable in $\setG$}, just \emph{self-composable}
 for short, if and only if we have 
 $\composable {\setG} {a} {a} {(\Stat,\Prog)}$ for some $a \in V$.
@@ -248,8 +250,8 @@ $(\Stat,\Prog)$ to define a bicoloring on $\Stat \cup \Prog$, as it was done in
 We call \emph{trace} any sequence on $X$. 
 We call \emph{path} on $\setG$ 
 any transition path $(a_0,(\Stat_0,\Prog_0),a_1), (a_1,\Stat_1,\Prog_1),a_2), \ldots$
-in the labeled graph defined by $\setG$.
-Alternatively, a path is any sequence $b:\dom(b) \rightarrow E$ such that $\dom(b) = [0,n]$ 
+in the labeled graph defined by $\setG^+$.
+Alternatively, a path is any sequence $b:\dom(b) \rightarrow E^+$ such that $\dom(b) = [0,n]$ 
 for some $n \in \N$, or $\dom (b)=\N$, and such that $\codom(b(i)) = \dom(b(i+1))$
 for all $i \in \dom(d)$ (such that the codomain of each labeled edge of the path is equal
 to the domain of the next edge).
@@ -526,7 +528,7 @@ The Infinite Ramsey Theorem implies that $\SCTa \Rightarrow GTC$.
 \end{proposition}
 
 \begin{proof}
-Suppose we have an infinite path $\pi : \N \rightarrow E$ 
+Suppose we have an infinite path $\pi : \N \rightarrow E^+$ 
 to find an infinitely progressing trace compatible with $\pi$. 
 We choose as coloring for the pair $(i,j)\in \N \times \N$, $i<j$ 
 the composition of multi-graphs between $i$ and $j$: we set 
@@ -720,32 +722,39 @@ Here is a counter-example $\setR_2$.
 Let $X = \{x_1,x_2\}$, $\setR_2=\{(\Stat,\Prog)\}$
 and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_1,x_2)\}$. 
 We define $\setG=(V,E)$, $V=\{1\}$, $E=(1,(\Stat,\Prog),1)$, 
-in such a way that the pair $(\Stat,\Prog)$ is self-composable. 
-Then $\setR_2$ is composition-closed because 
+in such a way that the unique pair $(\Stat,\Prog)$ is self-composable. 
+
+We prove that $\setR_2$ is composition-closed.
+Let us abbreviate $(\Stat',\Prog') =(\Stat,\Prog)(\Stat,\Prog)$
+We have 
 $
+\Prog' =
 \Stat\Prog \cup \Prog\Prog \cup \Prog\Stat = 
-$(by $\Prog\Prog = \Prog\Stat = \emptyset$)$
+$ \ (by $\Prog\Prog = \Prog\Stat = \emptyset$) \ $
 \Stat\Prog = 
 \Prog
+$, therefore
+$\Stat' = \Stat\Stat \setminus \Prog' = \Stat \setminus \Prog = \Stat$.
+We proved that
 $
-therefore
-$
-(\Stat,\Prog)(\Stat,\Prog) = 
-(\Stat\Stat \setminus \Prog,\Prog) = 
-(\Stat \setminus \Prog,\Prog) = 
-(\Stat,\Prog)
+(\Stat',\Prog') =
+(\Stat,\Prog) \in \setR_2
 $.
+
 $\setR_2$ is injective, because the relation 
 $R = \universe{(\Stat,\Prog)} = \{(x_1,x_1), (x_1,x_2)\}$ is injective.
+
 The unique $2$-coloring $(\Stat,\Prog)$ satisfies PC 
 because $x_1 \in \dom((\Stat,\Prog))$
 is progressing to  $x_2$. Remark that $x_2 \not \in \dom((\Stat,\Prog))$
 and $x_1$ does not progress to $x_1$, therefore PDC fails while PC holds. 
-$\setR_2$ does \emph{not} satisfy GTC, because the unique infinite path is 
+
+Eventually, $\setR_2$ does \emph{not} satisfy GTC, because the unique infinite path is 
 $b = (1,(\Stat,\Prog),1), (1,(\Stat,\Prog),1), (1,(\Stat,\Prog),1), \ldots$,
 and the unique infinite trace $\tau$ compatible with $b$ is 
 $x_1,x_1,x_1, \ldots$. 
 Thus, the unique infinite trace \emph{never} progresses. 
+\\
 %17:24 03/02/2025
 
 
@@ -1094,8 +1103,8 @@ We need one last ingredients before proving the Termination Theorem.
 We now define larger and larger subsets of $\setT$, and for each of them 
 we will prove well-foundedness for the extension relation $>$.
 
-Assume $\pi:[1,l] \rightarrow E$ 
-is any path of labeled edges of a multigraph $\setG=(V,E)$,
+Assume $\pi:[1,l] \rightarrow E^+$ 
+is any path of labeled edges of a multigraph $\setG^+=(V,E^+)$,
 with $(\Stat_i,\Prog_i) = \Label(\pi(i))$ for all $i \in [1,l]$.
 Then for all $i,j \in [1,l]$, $i \le j$ we define
 $$
@@ -1117,15 +1126,15 @@ $\Card(\dom(R_{i,i})) = \Card(\dom(R_{i,i+1})) = \ldots = \Card(\dom(R_{i,l}))$
 we say that the list $L$ has \emph{stable-cardinality} domains: the cardinality
 of $\dom(R_{1,1})$ and $\dom(R_{2,2})$ can still be different.
 When \emph{all} $\Card(\dom(R_{i,j}))$ are the same we
-say that $L$ has constant-cardinality domains.
+say that $L$ has constant-cardinality domain.
 
 Here is the formal definition.
 
 
 \begin{definition}
 [Stable-Cardinality Domain for a sequence on $\setR$]
-Assume $\pi:[1,l] \rightarrow E$ 
-is any path of labeled edges of a multigraph $\setG=(V,E)$
+Assume $\pi:[1,l] \rightarrow E^+$ 
+is any path of labeled edges of a multigraph $\setG^+=(V,E^+)$
 and $(\Stat_{i,j},\Prog_{i,j}) =
 (\Stat_i,\Prog_i) \ldots (\Stat_j,\Prog_j)$
 and $R_{i,j} = \universe{(\Stat_{i,j},\Prog_{i,j})}$
@@ -1135,7 +1144,7 @@ for all $i,j \in [1,l]$, $i \le j$.
 \begin{enumerate}
 
 \item
-$\pi$ has \emph{stable-cardinality domains} if and only if all $i \in [1,l]$ 
+$\pi$ has \emph{stable-cardinality domain} if and only if all $i \in [1,l]$ 
 we have $\Card(\dom(R_i)) = \Card(\dom(R_{i,l}))$.
 
 \item
@@ -1144,11 +1153,11 @@ $i,j \in [1,l]$, $i \le j$
 we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l}))$.
 
 \item 
-$\pi$ has \emph{stable-cardinality domains} 
+$\pi$ has \emph{stable-cardinality domain} 
 (respectively, has \emph{constant cardinality domains})
 if and only if the associated relation sequence 
 $\{\universe{\Label\pi(i)} | i \in [1,l]\}$, obtained by taking the union
-of each pair $\Label\pi(i) = (\Stat_i,\Prog_i) \in \setR$, has stable-cardinality domains 
+of each pair $\Label\pi(i) = (\Stat_i,\Prog_i) \in \setR$, has stable-cardinality domain 
 (respectively, has constant cardinality domains).
 
 \item
@@ -1187,7 +1196,7 @@ of the flow and $g\genfrac(){0pt}{1}{n}{k}$.
 \item 
 \label{theorem-finiteness-value-flow-2-2}
 There is a decreasing embedding $w$ from the value flows on $\setR, \setG$ 
-with \emph{constant-cardinality domains} to the set 
+with \emph{constant-cardinality domain} to the set 
 $[0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
 Therefore these value flows terminate.
 
@@ -1195,7 +1204,7 @@ Therefore these value flows terminate.
 \label{theorem-finiteness-value-flow-2-3}
 There is a decreasing embedding $W$ 
 from the value flows on $\setR, \setG$ with 
-\emph{stable-cardinality domains} to the well-order $\setL$ 
+\emph{stable-cardinality domain} to the well-order $\setL$ 
 (Def. \ref{definition-well-founded-order-L}).
 Therefore these value flows terminate.
 
@@ -1210,38 +1219,40 @@ Therefore these value flows terminate.
 We postpone the proof of Thm. \ref{theorem-finiteness-value-flow-2}.
 We first discuss some immediate consequences of our definitions.
 
-Assume $\pi:[1,l] \rightarrow E$ 
+Assume $\pi:[1,l] \rightarrow E^+$ 
 and $R_{i,j}$ are as in Thm. \ref{theorem-finiteness-value-flow-2}. We already remarked that 
 the sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ is weakly decreasing w.r.t. inclusion.
-Thus, if $\pi$ has stable-cardinality domains and $i \in [1,l]$, 
+Thus, if $\pi$ has stable-cardinality domain and $i \in [1,l]$, 
 then the first set $\dom(R_{i,i})$ and the last set $\dom(R_{i,l})$ in the weakly 
 decreasing sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ have the same cardinality,
 therefore they are equal, and so are all sets in the sequence. 
-Thus, if $\pi$ has stable-cardinality domains then $\dom(R_{i,i}) = \dom(R_{i,j})$
+Thus, if $\pi$ has stable-cardinality domain then $\dom(R_{i,i}) = \dom(R_{i,j})$
 for all $i,j \in [1,l]$, $i \le j$.
 
 The next Lemma describes in details more properties of a path
-$\pi:[1,l] \rightarrow E$ having stable-cardinality domains, in the case of \emph{injective}
+$\pi:[1,l] \rightarrow E^+$ having stable-cardinality domain, in the case of \emph{injective}
 relations satisfying PDC. 
 In this case we have $\Card(\dom(R_{1})) \le \Card(\dom(R_{2})) \le \ldots \le 
 \Card(\dom(R_{l}))$, and if $\Card(\dom(R_{1})) = \Card(\dom(R_{2})) = \ldots = 
 \Card(\dom(R_{l}))=k$ then 
 the sum of values of the elements of $\dom(R_i)$ weakly decreases,
-and after $g\genfrac(){0pt}{1}{n}{k}$ strictly decreases.
+and within $g\genfrac(){0pt}{1}{n}{k}$ steps strictly decreases.
 
 \begin{lemma}
 [stable-cardinality domain injective bi-coloring and the Progressing Domain condition]
 \label{lemma-stable-cardinality domain-injective}
 Assume that 
-$\pi:[1,l] \rightarrow \setR$ 
+$\pi:[1,l] \rightarrow E^+$ 
 is a \emph{stable-cardinality domain} finite list
 of \emph{injective} pairs of relations on $X$, 
 compatible with the assignment list 
 $\theta:[1,l] \rightarrow (X \rightarrow \N)$.
 
-For all $i \in [1,l]$ suppose that $R_i = \universe{\Label\pi(i)}$. 
+For all $i \in [1,l]$ suppose that $(\Stat_i,\Prog_i) = \Label\pi(i)$.
 For all $j \in [1,l]$, $i \le j$
-suppose that $R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$.
+suppose that $(\Stat_{i,j},\Prog_{i,j}) = (\Stat_i,\Prog_i) \ldots (\Stat_j,\Prog_j)$
+and $R_{i,j} = \universe{(\Stat_{i,j},\Prog_{i,j})}$, 
+$R_i = \universe{(\Stat_{i},\Prog_{i})}$
 
 \begin{enumerate}
 \item
@@ -1261,18 +1272,18 @@ $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 \item
 \label{lemma-stable-cardinality domain-injective-03}
 Assume $i,j \in [1,l]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
-and $\setG$ 
-satisfy the Progressing-Domain Condition (PDC). Then 
+$\dom(\pi(i)) = \dom(\pi(j)) $ 
+and $\setG$ satisfies the Progressing-Domain Condition (PDC). Then 
 $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 
 \item
 \label{lemma-stable-cardinality domain-injective-04}
 Let $k \in [1,n]$
 with $n = \Card(X)$.
-Assume that $\setR, \setG$
-satisfy the Progressing-domain condition PDC.
+Assume that $\setG=(V,E)$
+satisfies the Progressing-domain condition PDC.
 Then the number of indexes $i \in [1,l]$ such that $\Card(\dom(R_i))=k$
-and $\val(\dom(R_i),\theta(i))=v$ is 
+and $\val(\dom(R_i),\theta(i))=v$ is
 $\le g\genfrac(){0pt}{1}{n}{k}$, for all $v \in \N$.
 
 \end{enumerate}
@@ -1312,17 +1323,20 @@ Thus, $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
 %\label{lemma-stable-cardinality domain-injective-03}
-Assume $\dom(R_i) = \dom(R_j)$
- and $\pi(i) \ldots \pi(j-1)$ is self-composable in $\setG$. 
+Assume $i,j \in [1,l]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
+and $\setG$ 
+satisfy the Progressing-Domain Condition (PDC).  
 Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
 and by point \ref{lemma-stable-cardinality domain-injective-02} above
 the value of $\theta(i)$ on \emph{any} $x \in \dom(R_i)$ is 
 $\ge$ than the value of
 $\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
-By the Progressing Domain Condition, $R_{i,j-1}$ progresses on
-$\dom(R_{i,j-1})$, which is equal to $\dom(R_i)$. 
+From $\dom(\pi(i)) = \dom(\pi(j))$ and $\composable {\setG} {\dom(\pi(i))} {\dom(\pi(j))} {(\Stat_{i,j},\Prog_{i,j})}$ we deduce that $\Stat_{i,j},\Prog_{i,j}$ is self-composable.
+By the Progressing Domain Condition and $\dom(\pi(i)) = \dom(\pi(j))$, 
+$R_{i,j-1}$ progresses on
+$\dom(R_{i,j-1})$, which is equal to $\dom(R_i)$ and therefore to $\dom(R_j)$.
 That is, $R_{i,j-1}$ progresses between $\dom(R_i)$ 
-and $\dom(R_i)$, which is equal to $\dom(R_j)$. 
+and $\dom(R_j)$. 
 By compatibility between $\pi$ and $\theta$, 
 the value of $\theta(i)$ on \emph{some} $x \in \dom(R_i)$ is 
 $>$ than the value of
@@ -1333,23 +1347,26 @@ We conclude that $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 
 \item
 %\label{lemma-stable-cardinality domain-injective-04}
-Assume $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i))=\Card(\dom(R_j))=k$
+Assume $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i))=\Card(\dom(R_j))=k$,
+$\dom(\pi(i)) = \dom(\pi(j))$
 and $\val(\dom(R_i),\theta(i))=\val(\dom(R_j),\theta(j))=v$.
 By point \ref{lemma-stable-cardinality domain-injective-03} above
 we deduce that $\dom(R_i) \not = \dom(R_j)$.
 
-There are $\genfrac(){0pt}{1}{n}{k}$ 
-different cardinality $k$ subsets of an $n$ element
-set $X$. Therefore there are at most $g\genfrac(){0pt}{1}{n}{k}$ indexes for 
+If $n = \Card(X)$ there are $\genfrac(){0pt}{1}{n}{k}$ 
+different cardinality $k$ subsets of a set $X$. 
+If $g=\Card(V)$ there are at most $g\genfrac(){0pt}{1}{n}{k}$ indexes 
 $i\in [1,l]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ and 
-$\pi(i) \ldots \pi(j-1):a \rightarrow a$ for some $a \in G$. 
+$\dom(\pi(i)) = \dom(\pi(j))$. 
 
+% 02/07/2025
+% PERCHE' CHIEDERE $\pi(i) \ldots \pi(j-1):a \rightarrow a$ for some $a \in G$ ???
 \end{enumerate}
 \end{proof}
 
 We have now all ingredients for proving the the Termination Theorem
-in strong form (\ref{theorem-finiteness-value-flow-2}).
+in strong form (\ref{theorem-finiteness-value-flow-2}) for a multigraph $\setG=(V,E)$.
 \\
 
 
@@ -1357,7 +1374,7 @@ in strong form (\ref{theorem-finiteness-value-flow-2}).
 \begin{proof}
 [Proof of Termination Theorem \ref{theorem-finiteness-value-flow-2}]
 %13:44 03/03/2025
-Let $g = \Card(G)$.
+Let $g = \Card(V)$.
 
 \begin{enumerate}
 
@@ -1366,7 +1383,7 @@ Let $g = \Card(G)$.
 Lemma \ref{lemma-stable-cardinality domain-injective}.
 \ref{lemma-stable-cardinality domain-injective-04} says that 
 each non-empty 
-constant-cardinality non-progressing domain path on $\setR^\setG$
+constant-cardinality \emph{non-progressing} domain path on $\setR^\setG$
 has $\le g\genfrac(){0pt}{1}{n}{k}$ elements, that is, has
 length in $[1,  g\genfrac(){0pt}{1}{n}{k}]$. Then we can prove
 point $1$ of Termination Theorem \ref{theorem-finiteness-value-flow-2}
@@ -1376,8 +1393,9 @@ This is a value in $[0,g\genfrac(){0pt}{1}{n}{k}[$.
 
 \item
 %\label{theorem-finiteness-value-flow-2-2}
-We assume that $\pi:[1,l] \rightarrow \setR$ is a constant-cardinality domain
-path on $\setR$ and we define a decreasing map $w$ from
+We assume that $\pi:[1,l] \rightarrow E^+$ is a constant-cardinality domain
+path on $E$: we dropped the \quotationMarks{non-progressing} assumption. 
+We define a decreasing map $w$ from
 $(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  g\genfrac(){0pt}{1}{n}{k}[$.
 We define $w(\pi,\theta) = (m,r)$ where 
 \begin{enumerate}
@@ -1405,23 +1423,29 @@ $m=m'$, $r' < r'$. Also in this case we conclude $(m,r) > (m',r')$.
 
 \item
 %\label{theorem-finiteness-value-flow-2-2} 
-We assume that $\pi:[1,l] \rightarrow \setR$ is a stable-cardinality domain
-path on $\setR$, in order to define a decreasing map $W$ from
+We assume that $\pi:[1,l] \rightarrow E^+$ is a stable-cardinality domain
+path on $E$: we weakened the \quotationMarks{constant-cardinality domain} assumption.
+ We will define a strictly decreasing map $W$ from
 $(\pi,\theta) \in \setS$ to $\setL$ (Def. \ref{definition-well-founded-order-L}).
 
-In each stable-cardinality domains path by Lemma 
-\ref{lemma-composition-injective-relations}.
-\ref{lemma-composition-injective-relations-02}
-we have $\Card(\dom(R_{i,m})) = \Card(\dom(R_i R_{i+1,m})) \le
-\Card(\dom(R_{i+1,m}))$. By stability we have $\dom(R_{i}) =
-\dom(R_{i,m})$ and $\dom(R_{i+1}) =
-\dom(R_{i+1,m})$. We deduce that $\Card(\dom(R_{i})) 
+In each stable-cardinality domain path 
+%by Lemma 
+%\ref{lemma-composition-injective-relations}.
+%\ref{lemma-composition-injective-relations-02}
+%we have $\Card(\dom(R_{i,l})) = \Card(\dom(R_i R_{i+1,l})) \le
+%\Card(\dom(R_{i+1,l}))$. By stability we have $\dom(R_{i}) =
+%\dom(R_{i,l})$ and $\dom(R_{i+1}) =
+%\dom(R_{i+1,l})$. 
+by Lemma 
+\label{lemma-stable-cardinality domain-injective}.
+\label{lemma-stable-cardinality domain-injective-01}
+we have $\Card(\dom(R_{i})) 
 \le \Card(\dom(R_{i+1}))$: the domain cardinality in a stable-cardinality path
 is weakly increasing. 
 
-For all $k \in [1,n]$ and any domain stable $ \pi : [1,m] \rightarrow \setR $ 
+For all $k \in [1,n]$ and any domain stable $ \pi : [1,l] \rightarrow \setR $ 
 we decompose $\pi$ in the union of $n$ adiacent segments as follows. We set
- $S(\pi,k) = \{i \in [1,m] | \Card(\dom(R_i)) = k \}$. 
+ $S(\pi,k) = \{i \in [1,l] | \Card(\dom(R_i)) = k \}$. 
 We claim that each $S(\pi,k)$ is a possibly empty segment of $\pi$. 
 Indeed, if $i, j \in 
 S(\pi,k)$, $i \le h \le j$ then $k = \Card(\dom(R_i)) \le \Card(\dom(R_h))
@@ -1430,8 +1454,8 @@ From $\Card(\dom(R_{i}))$ weakly increasing
 we deduce that $S(\pi,k)$ is to the left
 of $S(\pi,k')$ whenever $k,k' \in [1,n]$ and $k < k'$.
 
-Thus, we can decompose each stable-cardinality domains path 
-$\pi:[1,m] \rightarrow \setR$ into
+Thus, we can decompose each stable-cardinality domain path 
+$\pi:[1,l] \rightarrow \setR$ into
 a consecutive composition $\pi_1 \conc \ldots \conc \pi_n$, 
 with each $\pi_k$ the possibly empty restriction of $\pi$ to $S(\pi,k)$.
 By definition, each $\pi_k$ is a \emph{constant cardinality domains} path,
@@ -1442,8 +1466,8 @@ Let $\theta_i$ be the restriction of $\theta$ to the segment in which is
 defined $\pi_1$.
 We define a list of $n$ weights $W(\pi,\theta) = (w(\pi_1, \theta_1),
 \ldots, w(\pi_n, \theta_n))$ 
-for a length $l$ path $\pi$ with stable-cardinality domains. Each weight
-is some pair $(m,r) \in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
+for a length $l$ path $\pi$ with stable-cardinality domain. Each weight
+is some pair $(l,r) \in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
 
 If there is no $i \in [1,l]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
 then we set $w(\pi,\theta)_k = (\infty,0)  
@@ -1452,43 +1476,51 @@ then we set $w(\pi,\theta)_k = (\infty,0)
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have stable-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $W(\pi,\theta) >
 W(\pi',\theta')$ in the lexicographic ordering. 
-Assume $\Card(\dom(\pi(l))) = k$. Then $\pi = \pi_1 \conc \ldots \pi_k$
-and $\pi_h=\nil$ for all $h \in [k+1,n]$. We have $\pi' = \pi \conc ((\Stat,\Prog))$
-for some $(\Stat,\Prog) \in \setR$ and by stability of $\pi'$
-we have $\Card(\dom((\Stat,\Prog))) = h \ge k$ for some $h \in [k,n]$. 
-Therefore $\pi'_i = \pi_i$ for all $i \in [1,k-1]$
-and if $h=k$ then $\pi'_k = \pi_k \conc ((\Stat,\Prog))$ while if
-$h>k$ then $\pi'_k = \pi_k$, $\pi'_{h'} = \nil = \pi_{h'}$ for all $h' \in ]k,h[$
-and $\pi'_{h} = ((\Stat,\Prog))$, $\pi_{h} = \nil$, .
 
-In the case $\pi'_k = \pi_k \conc ((\Stat,\Prog))$ 
-we have  $w(\pi_k,\theta_k) > w(\pi'_k,\theta'_k)$ by point 
+%10:26 02/07/2025
+
+Assume $\Card(\dom(\pi(l))) = k$. Then $\pi = \pi_1 \conc \ldots \pi_k$
+and $\pi_h=\nil$ for all $h \in [k+1,n]$. We have $\pi' = \pi \conc (a,(\Stat,\Prog),b)$
+for some $(\Stat,\Prog) \in \setR$ and by stability of $\pi'$
+we have $\Card(\dom(\universe{(\Stat,\Prog)})) = h \ge k$ for some $h \in [k,n]$. 
+Therefore $\pi'_i = \pi_i$ for all $i \in [1,k-1]$
+and if $h=k$ then $\pi'_k = \pi_k \conc (a,(\Stat,\Prog),b)$ while if
+$h>k$ then $\pi'_{h'} = \nil = \pi_{h'}$ for all $h' \in ]k,h[$
+and $\pi'_{h} = \nil \conc (a,(\Stat,\Prog),b)$, $\pi_{h} = \nil$.
+
+In the case $h=k$, we have $\pi'_k = \pi_k \conc (a,(\Stat,\Prog),b)$,
+therefore  $w(\pi_k,\theta_k) > w(\pi'_k,\theta'_k)$ by point 
 \ref{theorem-finiteness-value-flow-2-2}  above. 
 We conclude $W(\pi,\theta) > W(\pi',\theta')$.
 
-In the case $\pi'_k = \pi_k$ and $\pi'_{h} = ((\Stat,\Prog))$ 
-for some $h \in [k+1,n]$
-we have $w(\pi_k,\theta_k) = w(\pi'_k,\theta'_k)$ and
-$w(\pi_{h'},\theta_{h'}) = (\infty,0) = w(\pi'_{h'},\theta'_{h'})$ 
-for all $h' \in ]k,h[$. Instead, we have $w(\pi_{h},\theta_{h}) = (\infty,0)$
-and $w(\pi'_{h},\theta'_{h}) = (m,1)$ for 
-$m = \val(\dom(\Card(\universe{\pi(h)}))) \in \N$.
+In the case $h>k$ we have:
+\begin{enumerate}
+\item $\pi'_k = \pi_k$,
+therefore $w(\pi_k,\theta_k) = w(\pi'_k,\theta'_k)$. 
+\item
+$\pi'_{h'} = \nil = \pi_{h'}$ for all $h' \in ]k,h[$, therefore
+$w(\pi_{h'},\theta_{h'}) = (\infty,0) = w(\pi'_{h'},\theta'_{h'})$. 
+\item $\pi'_{h} = \nil \conc (a,(\Stat,\Prog),b)$, $\pi_{h} = \nil$, 
+therefore $w(\pi_{h},\theta_{h}) = (\infty,0)$
+and $w(\pi'_{h},\theta'_{h}) = (l,1)$ for 
+$l = \val(\Card(\dom(\universe{\pi(h)}))) \in \N$.
+\end{enumerate}
 We conclude $W(\pi,\theta) > W(\pi',\theta')$.
 
 %16:01 07/03/2025
 
 \item
-We assume that $\pi:[1,l] \rightarrow \setR$ is \emph{any}
-path on $\setR$ and we define a map $G$ from 
+We assume that $\pi:[1,l] \rightarrow E^+$ is \emph{any}
+path on $E$ and we define a map $G$ from 
 $(\pi,\theta) \in \setS$ to $G(\pi,\theta) = (\pi',\theta') \in \setS$, 
-such that $\pi'$ is a path with stable-cardinality domains, and
+such that $\pi'$ is a path with stable-cardinality domain, and
 $WG$ is decreasing. We will conclude that
 \emph{all} value flows terminate. 
 
 %16:29 03/03/2025
 
-Assume $L=(c_1, \ldots, c_n)$ is any path on $\setR$ with $n\ge 1$. 
-We define a possible re-grouping $M$ of $L$ as any path
+Assume $\pi=(c_1, \ldots, c_n)$ is any path on $E$ with $n\ge 1$. 
+We define a possible re-grouping $M$ of $\pi$ as any path
 $
 M = 
 (c_1\ldots c_{a_1},  
@@ -1496,15 +1528,15 @@ c_{a_1+1}\ldots c_{a_2},
 \ldots,
  c_{a_{m-1}+1}\ldots c_{n})
 $ 
-of composition of 2-colorings taken from $L$, 
- with the same ordering as in $L$,
- and whose composition is the same as the composition of $L$: $\Pi M = \Pi L$.
- $M$ is obtained by partitioning $L$ into $m \ge 1$ non-empty adjacent segments 
+of composition of edges taken from $\pi$, 
+ with the same ordering as in $\pi$,
+ and whose composition is the same as the composition of $\pi$: $\Pi M = \Pi \pi$.
+ $M$ is obtained by partitioning $\pi$ into $m \ge 1$ non-empty adjacent segments 
 $[a_1,a_2-1], [a_2,a_3-1], \ldots, [a_{m-1},a_m - 1],[a_m,n]$,
 with $a_1=1$, 
 then composing all $c_{a_{i}},\ldots, c_{a_{i+1}-1}$ in the same segment
  into a single bicoloring $d_i = c_{a_{i}} \ldots c_{a_{i+1}-1}$.
- Say: we can group $L=(c_1,c_2,c_3,c_4,c_5,c_6)$ into
+ Say: we can group $\pi=(c_1,c_2,c_3,c_4,c_5,c_6)$ into
  $M=(c_1c_2,\ c_3,\ c_4,\ c_5,\ c_6) = (d_1,d_2,d_3,d_4)$, with $d_1 = c_1c_2$,
  $d_2 = c_3c_4$, $d_3=c_5$, $d_4=_6$. Many more re-grouping are possible.
 We call $a=a_1, \ldots, a_m$
@@ -1518,16 +1550,16 @@ by induction on $n$.
 \begin{enumerate}
 \item
 If $n=0$ then $M=()$
-is the only re-grouping of $L=()$ with $a=()$.
+is the only re-grouping of $\pi=()$ with $a=()$.
 \item
 Suppose $n \ge 1$ and we defined re-grouping and adjacence for all lists
-of length $\le n-1$ and $L=L_1 \star L_2 \star (c_n)$ 
-is any decomposition of $L$ into two possibly empty 
-consecutive sublists $L_1$, $L_2$, plus one element. 
-Assume $M$ is any re-grouping of $L_1$ with adjacence sequence $a$.
-Assume $d$ is the composition of all pairs in $L_2 \star (c_n)$.
-Then $M \star (d)$ is one of the re-groupings of $L$, the re-grouping 
-with adjacence sequence $a \star (\length(L_1)+1)$.
+of length $\le n-1$ and $\pi=\pi_1 \star \pi_2 \star (c_n)$ 
+is any decomposition of $\pi$ into two possibly empty 
+consecutive sublists $\pi_1$, $\pi_2$, plus one element. 
+Assume $M$ is any re-grouping of $\pi_1$ with adjacence sequence $a$.
+Assume $d$ is the composition of all edges in $\pi_2 \star (c_n)$.
+Then $M \star (d)$ is one of the re-groupings of $\pi$, the re-grouping 
+with adjacence sequence $a \star (\length(\pi_1)+1)$.
 \end{enumerate}
 %15:18 21/02/2025
 
@@ -1546,30 +1578,33 @@ is a re-grouping of $\pi$ with adjacence sequence $a$,
 $\eta=\theta \comp a$, namely $\eta(t,x) = \theta(a(t),x)$ for all
  $t \in [1,m]$, $x \in X$. 
 \item
-$q$ has stable-cardinality domains and  
+$q$ has stable-cardinality domain and  
 \item
 $(\pi,\theta) <_1 (\pi',\theta')$ implies $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$
 in the lexicographic ordering.
 \end{enumerate}
 
 %17:00 03/03/2025
+%11:20 02/07/2025
 
 Assume $(\pi,\theta) <_1 (\pi',\theta')$ and  $G(\pi,\theta) = (q,\eta)$, 
 $G(\pi',\theta') = (q',\eta')$. Suppose $q= q_1 \conc \ldots \conc q_n$,
-$q' = q'_1 \conc \ldots \conc q'_n$ are decomposition with each $q_k, q'_k$
- a possibly empty path  with constant-cardinality domains, 
- whose domains all have cardinality $k$.
+is a decomposition with each $q_k, q'_k$
+a possibly empty path  with constant-cardinality domain, 
+whose domains all have cardinality $k$.
+$q' = q'_1 \conc \ldots \conc q'_n$ are 
 
 %16:42 21/02/2025
-Suppose $\pi' = \pi \star (\Stat,\Prog)$ and $\theta' = \theta \star \sigma$
+Suppose $\pi' = \pi \star (a,(\Stat,\Prog),b)$ and $\theta' = \theta \star \sigma$
 and $G(\pi,\theta) = (q,\eta)$ with $\length(q) = \length(\eta) = m$ in order to
-define $G(\pi',\theta') = (q',\eta')$, sequences of length $m'$. 
+define $G(\pi',\theta') = (q',\eta')$, sequences of length $m'$,
+and $q' = q'_1 \conc \ldots \conc q'_n$. 
 We distinguish two cases.
 
 \begin{enumerate}
 \item
-Assume that $q \star (\Stat,\Prog)$ is stable. 
-Then we set $q' = q \star ((\Stat,\Prog))$ and $\eta' = \eta \star (n+1)$,
+Assume that $q \star (a,(\Stat,\Prog),b)$ is stable. 
+Then we set $q' = q \star (a,(\Stat,\Prog),b)$ and $\eta' = \eta \star (n+1)$,
 two sequences of length $l' = l+1$. 
 
 \item
@@ -1581,10 +1616,10 @@ $
 \dom(q(l') \ldots q(l) (\Stat,\Prog))
 $. Take the first such $l'$.
 We define $q'(i) =  q(i)$ for all $i \in [1,l'-1]$ and
-$q'(l') = q(l') \ldots q(l)  (\Stat,\Prog)$.
+$q'(l') = q(l') \ldots q(l)  (a,(\Stat,\Prog),b)$.
 We define $\eta'(i) = \eta(i)$ for all $i \in [1,l']$. 
 \end{enumerate}
-This is $(\pi',\theta')=G(\pi,\eta)$, a path with stable-cardinality domains. 
+This is $(\pi',\theta')=G(\pi,\eta)$, a path with stable-cardinality domain. 
 
 In the first case of definition of $G$ we have 
 $q' = q \star ((\Stat,\Prog))$ and $\eta' = \eta \star (n+1)$, namely
@@ -1593,7 +1628,7 @@ by point \ref{theorem-finiteness-value-flow-2-3}
 above and $(\pi',\theta')$ stable.
 
 In the second case of definition of $G$ we have: 
-for $k = \Card(\dom(q'(l')))$ we have $q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$
+for $k = \Card(\dom(\universe{q'(l')}))$ we have $q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$
 and $q_k <_1 q'_k$ and $q' = q'_1 \conc \ldots \conc q'_k$. 
 By point \ref{theorem-finiteness-value-flow-2-2} above, 
 this implies that we have $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
