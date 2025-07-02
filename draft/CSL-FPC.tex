@@ -1,9 +1,9 @@
 % !TEX root = CSL-main.tex
 \subsection{Size Change Termination and Finite Power Condition}
 
-If formulated as in Definition \ref{def:GTC}, the Global Trace Condition (GTC) is equivalent to the algorithmic 
-criterion for Size Change Termination (SCT), introduced by Neil Jones in \cite{Lee1},
-Theorem 4. We define SCT in our formalism.
+%If formulated as in Definition \ref{def:GTC}, the Global Trace Condition (GTC) is equivalent to the algorithmic 
+%criterion for Size Change Termination (SCT), introduced by Neil Jones in \cite{Lee1},
+%Theorem 4. We define SCT in our formalism.
 
 \begin{definition}[Size-Change Termination - SCT]
 \label{def:SCT}
@@ -23,26 +23,27 @@ $x \in X$ such that $x$ progresses to $x$ in $(S,P)^n$.
 
 
 To prove the equivalence between SCT and FPC we use a folklore
-algebraic property, that all elements of a finite monoid have some positive idempotent power.
+algebraic property, that all elements of a finite monoid have some positive idempotent power. For $n > 0$, define $(S,P)^n$ as the $n$-times
+self-composition of $(S,P)$.
 
-\begin{proposition}[Idempotent Power]
-\label{prop:idempotent-power}
-Let $M$ be a finite monoid and $x \in M$, then for some $n>0$ we have $x^nx^n=x^n$, where $x^n$ is the $n$-times product of $x$ with itself.
-\end{proposition}
+\begin{lemma}[Idempotent Power]
+\label{lem:idempotent-power}
+For all $(S,P) \in \biRel^*$ there is $n > 0$ such that $(S,P)^n = (S,P)^n \comp (S,P)^n$.
+%Let $M$ be a finite monoid and $x \in M$, then for some $n>0$ we have $x^nx^n=x^n$, where $x^n$ is the $n$-times product of $x$ with itself.
+\end{lemma}
 
 \begin{proof}
-Since $M$ is finite, there are only finitely many powers of $x$, therefore 
-for some $a,b>0$ we have $x^a = x^{a+b}$. Then for all $c \ge a$ we have $x^c = x^{c+b}$,
-hence $x^c = x^{c+db}$ for all $d>0$. Take the first $d>0$ such that $db \ge a$: then 
-$x^{db} = x^{db+db}$. We take $n=db$.
+Since $\biRel^*$ is finite, there are only finitely many powers of $(S,P)$, therefore 
+for some $a,b>0$ we have $(S,P)^a = (S,P)^{a+b}$. Then for all $c \ge a$ we have $(S,P)^c = (S,P)^{c+b}$,
+hence $(S,P)^c = (S,P)^{c+db}$ for all $d>0$. Take the first $d>0$ such that $db \ge a$: then 
+$(S,P)^{db} = (S,P)^{db+db} = (S,P)^{db} \comp (S,P)^{db}$. We take $n=db$.
 \end{proof}
 
-\begin{remark}\label{rem:idempotent-power}
-Neither $\biRel^*$ nor the set of bi-partite relations that are composable in $\Graph$ is a monoid because of the lack of identities, hence
-of the unit w.r.t. the composition $\comp$, which is associative. 
-Nonetheless, the proof of the above proposition does not rely on the existence of the unit in $M$, hence it applies
-to $\biRel^*$, which is finite.
-\end{remark}
+%\begin{remark}\label{rem:idempotent-power}
+%Now $\biRel^*$, which is finite, but neither $\biRel^*$ nor the set of bi-partite relations that are composable in $\Graph$ is a monoid because of the lack of identities, hence of the unit w.r.t. the composition $\comp$. 
+%Nonetheless, the proof of the above proposition does not rely on the existence of the unit in $M$, only on the associativity of its product, hence it applies
+%to $(\biRel^*, \comp)$.
+%\end{remark}
 
 \begin{proposition}[FPC and SCT are equivalent]
 \label{proposition-SCT}
@@ -53,7 +54,7 @@ SCT $\Leftrightarrow$ FPC
 \begin{enumerate}
 \item
 Assume SCT, $\edgeGstar{(S,P)}{u}{u}{\Graph}$.
-By Proposition \ref{prop:idempotent-power} and finiteness of the bi-partite graph $\Graph$
+By Lemma \ref{lem:idempotent-power} and finiteness of the bi-partite graph $\Graph$
 there is some $n > 0$ such that $(S,P)^n \comp (S,P)^n=(S,P)^n$. By SCT,
 there is some $x \in X$ such that $x$ progresses to $x$ in $(S,P)^n$.
 \item
