@@ -825,29 +825,29 @@ injective and that $\setR, \setG$
 satisfies PDC, namely: for all $(\Stat,\Prog) \in \setR^\setG$ self-composable
 in $\setG$ we have $x \Prog y$ for
 some $x, y \in \dom(\Stat \cup \Prog)$.
-Let $\setT$ be the set of transition sequences for $\setR, \setG$. 
+Let $\setT$ be the set of transition sequences for the multigraph $\setG=(V,E)$. 
 We want to prove that $>$ is a well-founded order on the set $\setT$ of transitions. 
 Using Classical Logic and a second order quantification,
 this can be formsulated as: all transition sequences terminate.
 
 We will prove using Intuitionistic Logic  and First Order Arithmetic
-that the order $<_\setG$ satisfies the induction schema. 
+that the order $>$ satisfies the induction schema. 
 
 To this aim, let $[0,\infty] = \N + \{\infty\}$ be $\N$ extended with an
 \quotationMarks{infinite} point $\infty$, and with the relation $n < \infty$
 for all $n \in \N$. We define a well-founded order $\setL$, which we use to prove
-that $<_\setG$ is well-founded.
+that $>$ is well-founded.
 
 \begin{definition}[The well-founded order $\setL$]
 \label{definition-well-founded-order-L}
-Let $g = \Card(G)$. We equip the set 
+Let $\setG=(V,E)$ be a multigraph and $g = \Card(V)$. We equip the set 
 $$
 \setL 
 \ \ \ = \ \ \ 
 \{ \ \ 
 (m_1,r_1, \ldots, m_n,r_n)
   \ \  | \ \ 
-    m_i \in [0,\infty] \ \wedge \ r_n \in [0, g \cdot \genfrac(){0pt}{1}{n}{k}[, \ \forall i \in [1,n]
+    m_i \in [0,\infty] \ \wedge \ r_i \in [0, g \cdot \genfrac(){0pt}{1}{n}{k}[, \ \forall i \in [1,n]
 \ \ \}
 $$
 with the lexicographic ordering. 
@@ -1094,9 +1094,9 @@ We need one last ingredients before proving the Termination Theorem.
 We now define larger and larger subsets of $\setT$, and for each of them 
 we will prove well-foundedness for the extension relation $>$.
 
-Assume $L:[1,l] \rightarrow \Pfin(\N \times \N)$ 
-is a finite sequence on the set $E$ of labeled edges of a multigraph $\setG$,
-with $(\Stat_i,\Prog_i) = \Label(L(i))$ for all $i \in [1,l]$.
+Assume $\pi:[1,l] \rightarrow E$ 
+is any path of labeled edges of a multigraph $\setG=(V,E)$,
+with $(\Stat_i,\Prog_i) = \Label(\pi(i))$ for all $i \in [1,l]$.
 Then for all $i,j \in [1,l]$, $i \le j$ we define
 $$
 (\Stat_{i,j},\Prog_{i,j}) \ \ \ = \ \ \
@@ -1109,13 +1109,14 @@ $$
 By Lemma \ref{lemma-composition-injective-relations-01} 
 and $\dom(R_{i,j+1}) = \dom(R_{i,j} R_{j+1})$ we have
 $\dom(R_{i,j})  \supseteq \dom(R_{i,j+1})$, that is,
-the sequence of sets $\dom(R_{i,j})$
-for $j \in [i,l]$ is weakly decreasing w.r.t. inclusion. Thus, the sequence 
-$\{\Card(\dom(R_{i,j})) | j \in [i,l]\}$ is weakly decreasing w.r.t. the ordering on $\N$.
-When for each $i \in [1,l]$  the sequence $\Card(\dom(R_{i,i})), \ldots, \Card(\dom(R_{i,l}))$ 
-is constant we say that the list $L$ has \emph{stable-cardinality} domains: the cardinality
-of $\dom(R_{1})$ and $\dom(R_{2})$ can still be different
-When all cardinalities of \emph{all} $\Card(\dom(R_{i,j}))$ are the same we
+$\Card(\dom(R_{i,i})) \supseteq \Card(\dom(R_{i,i+1}))
+\supseteq \ldots \supseteq \Card(\dom(R_{i,l}))$. Thus, 
+$\Card(\dom(R_{i,i})) \ge \Card(\dom(R_{i,i+1})) \ge \ldots \ge \Card(\dom(R_{i,l}))$.
+When for each $i \in [1,l]$  we have 
+$\Card(\dom(R_{i,i})) = \Card(\dom(R_{i,i+1})) = \ldots = \Card(\dom(R_{i,l}))$ 
+we say that the list $L$ has \emph{stable-cardinality} domains: the cardinality
+of $\dom(R_{1,1})$ and $\dom(R_{2,2})$ can still be different.
+When \emph{all} $\Card(\dom(R_{i,j}))$ are the same we
 say that $L$ has constant-cardinality domains.
 
 Here is the formal definition.
@@ -1123,19 +1124,22 @@ Here is the formal definition.
 
 \begin{definition}
 [Stable-Cardinality Domain for a sequence on $\setR$]
-Assume $L:[1,l] \rightarrow \Pfin(X \times X)$
-is a finite relation sequence and
-$\pi:[1,l] \rightarrow \Pfin(X \times X)^2$ is
-a finite sequence of pairs of finite relations on $X$.
+Assume $\pi:[1,l] \rightarrow E$ 
+is any path of labeled edges of a multigraph $\setG=(V,E)$
+and $(\Stat_{i,j},\Prog_{i,j}) =
+(\Stat_i,\Prog_i) \ldots (\Stat_j,\Prog_j)$
+and $R_{i,j} = \universe{(\Stat_{i,j},\Prog_{i,j})}$
+for all $i,j \in [1,l]$, $i \le j$.
+
 
 \begin{enumerate}
 
 \item
-$L$ has \emph{stable-cardinality domains} if and only if all $i \in [1,l]$ 
+$\pi$ has \emph{stable-cardinality domains} if and only if all $i \in [1,l]$ 
 we have $\Card(\dom(R_i)) = \Card(\dom(R_{i,l}))$.
 
 \item
-$L$ has \emph{constant cardinality domains} if and only if all 
+$\pi$ has \emph{constant cardinality domains} if and only if all 
 $i,j \in [1,l]$, $i \le j$ 
 we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l}))$.
 
@@ -1206,20 +1210,24 @@ Therefore these value flows terminate.
 We postpone the proof of Thm. \ref{theorem-finiteness-value-flow-2}.
 We first discuss some immediate consequences of our definitions.
 
-Assume $L = \{R_i | i \in [1,l\}$ and 
-$R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$
-for all $i,j \in [1,l]$, $i \le j$. We already remarked that 
+Assume $\pi:[1,l] \rightarrow E$ 
+and $R_{i,j}$ are as in Thm. \ref{theorem-finiteness-value-flow-2}. We already remarked that 
 the sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ is weakly decreasing w.r.t. inclusion.
-Thus, if $L$ has stable-cardinality domains and $i \in [1,l]$, 
+Thus, if $\pi$ has stable-cardinality domains and $i \in [1,l]$, 
 then the first set $\dom(R_{i,i})$ and the last set $\dom(R_{i,l})$ in the weakly 
 decreasing sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ have the same cardinality,
 therefore they are equal, and so are all sets in the sequence. 
-Thus, if $L$ has stable-cardinality domains then $\dom(R_{i,i}) = \dom(R_{i,j})$
+Thus, if $\pi$ has stable-cardinality domains then $\dom(R_{i,i}) = \dom(R_{i,j})$
 for all $i,j \in [1,l]$, $i \le j$.
 
-The next Lemma describes in details more properties of a path $\pi$ 
-on a set $\setR$ of pairs of disjoint injective relations on $X$ 
-having stable-cardinality domains.
+The next Lemma describes in details more properties of a path
+$\pi:[1,l] \rightarrow E$ having stable-cardinality domains, in the case of \emph{injective}
+relations satisfying PDC. 
+In this case we have $\Card(\dom(R_{1})) \le \Card(\dom(R_{2})) \le \ldots \le 
+\Card(\dom(R_{l}))$, and if $\Card(\dom(R_{1})) = \Card(\dom(R_{2})) = \ldots = 
+\Card(\dom(R_{l}))=k$ then 
+the sum of values of the elements of $\dom(R_i)$ weakly decreases,
+and after $g\genfrac(){0pt}{1}{n}{k}$ strictly decreases.
 
 \begin{lemma}
 [stable-cardinality domain injective bi-coloring and the Progressing Domain condition]
@@ -1231,7 +1239,7 @@ of \emph{injective} pairs of relations on $X$,
 compatible with the assignment list 
 $\theta:[1,l] \rightarrow (X \rightarrow \N)$.
 
-For all $i \in [1,l]$ suppose that $R_i = \universe{\pi(i)}$. 
+For all $i \in [1,l]$ suppose that $R_i = \universe{\Label\pi(i)}$. 
 For all $j \in [1,l]$, $i \le j$
 suppose that $R_{i,j} = \Pi_{h=i}^{h=j} R_j = R_i \ldots R_j$.
 
@@ -1253,9 +1261,8 @@ $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 \item
 \label{lemma-stable-cardinality domain-injective-03}
 Assume $i,j \in [1,l]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
-$\pi(i) \ldots \pi(j-1)$ is self-composable
-and $\setR, \setG$ 
-satisfy the Progressing-Domain Condition. Then 
+and $\setG$ 
+satisfy the Progressing-Domain Condition (PDC). Then 
 $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 
 \item
@@ -1271,6 +1278,7 @@ $\le g\genfrac(){0pt}{1}{n}{k}$, for all $v \in \N$.
 \end{enumerate}
 \end{lemma}
 
+%02/07/2025 08:25
 
 \begin{proof}
 \begin{enumerate}
