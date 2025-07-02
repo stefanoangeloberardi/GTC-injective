@@ -5,8 +5,8 @@
 
 In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs, using transition graphs with bi-partite relations. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$, and show how the GTC for both systems can be expressed in our framework. Our approach is motivated by a well-known relationship in the folklore and formally stated by Ikebuchi in \cite{Mirai}, between the GTC and size-change termination (SCT). Specifically, it consists of extracting a transition graph with bi-partite relations, of a cyclic proof in either $\CLKIDomega$ or $\CLJIDomega$. Moreover, we argue that for these particular proof systems, the obtained bi-partite relations are always injective. This condition will play a key role in establishing our main result later in the paper. We begin by introducing cyclic proofs in both $\CLKIDomega$ and $\CLJIDomega$.
 
-\subsection{Cyclic Proof Systems}
-\label{subsec:cyclicProof}
+%\subsection{Cyclic Proof Systems}
+%\label{subsec:cyclicProof}
 
 %$\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Predicate symbols are divided between finitely many \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and denumerable many \emph{ordinary predicates}, defined as usual predicates. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are sets of formulas, and $\phi$ is a single formula. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
 %
