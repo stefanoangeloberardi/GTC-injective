@@ -3,11 +3,10 @@
 \label{sec:injective}
 
 
-Our main objective for this section is to define the global trace condition (GTC), using transition graphs with bi-partite relations. In particular, we use as an example the $\CLKIDomega$ and $\CLJIDomega$  cyclic proof systems, and show how the GTC for both systems can be expressed in our framework. 
-
-Note that our approach comes from a well-known relationship in the folklore between the GTC and size-change termination (SCT) in size change graphs. To the best of the authors' knowledge, this relationship has only been formally stated by Ikebuchi in \cite{Mirai}. For this reason, we follow her same method of extracting the size-change graphs of a cyclic proof, and proving the equivalence between the GTC of a cyclic proof and the SCT of the extracted size change graphs.
+In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs, using transition graphs with bi-partite relations. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$, and show how the GTC for both systems can be expressed in our framework. Our approach is motivated by a well-known relationship in the folklore and formally stated by Ikebuchi in \cite{Mirai}, between the GTC and size-change termination (SCT). Specifically, it consists of extracting a transition graph with bi-partite relations, of a cyclic proof in either $\CLKIDomega$ or $\CLJIDomega$. Moreover, we argue that for these particular proof systems, the obtained bi-partite relations are always injective. This condition will play a key role in establishing our main result later in the paper. We begin by introducing cyclic proofs in both $\CLKIDomega$ and $\CLJIDomega$.
 
 \subsection{Cyclic Proof Systems}
+\label{subsec:cyclicProof}
 
 $\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Predicate symbols are divided between finitely many \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and denumerable many \emph{ordinary predicates}, defined as usual predicates. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are sets of formulas, and $\phi$ is a single formula. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
 
@@ -109,7 +108,7 @@ We define the proof system for $\CLKIDomega$ as the extension of the classical l
     Where for each production having conclusion $P$, as in Definition \ref{defIndSet}, there is a corresponding case distinction of the form $\Gamma, \mathbf{u} = \mathbf{t}, Q_1\mathbf{u_1}, \ldots , Q_h\mathbf{u_h}, P_1\mathbf{t_1}, \ldots, P_m\mathbf{t_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u_1},...,\mathbf{u_h},\mathbf{t_1},...,\mathbf{t_m}$, or $\mathbf{t}$, does not occur in $\Gamma, \Delta$ and $\mathbf{u}$.
 \end{itemize}
 
-The proof system for $\CLJIDomega$ is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, and replacing LK with its intuitionistic version, named LJ and presented in \cite{Berardi}.
+The proof system for $\CLJIDomega$ is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, and replacing LK with its intuitionistic version, named LJ, which is presented in \cite{Berardi}.
 
 \begin{example}
 For the previously defined inductive predicates $N$, $E$ and $O$, we can associate the following rules:    
@@ -158,7 +157,7 @@ For the previously defined inductive predicates $N$, $E$ and $O$, we can associa
 
 \emph{Cyclic pre-proofs} are used to formally represent the graph structure of a derivation in $\CLKIDomega$ and $\CLJIDomega$.
 
-\begin{definition}[Cyclic pre-proof] A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof of sequent $\Gamma \vdash \Delta$ (resp. $\Gamma \vdash \phi$), is a tuple $\mathcal{P} = (\mathcal{D}, \mathcal{F})$, where:
+\begin{definition}[Cyclic pre-proof] A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof of sequent $\Gamma \vdash \Delta$ (resp. $\Gamma \vdash \phi$), is a tuple $\Pi = (\mathcal{D}, \mathcal{F})$, where:
 
     \begin{itemize}
         \item $\mathcal{D} = (V, s, r, p)$ is a derivation tree where $V$ is a finite set of vertices, $s: V \rightarrow Seqs$ is a total function labelling vertices with sequents in $\CLKIDomega$ (resp. $\CLJIDomega$), $r: V \rightarrow Rules$ is a partial function labelling vertices with inference rules in $\CLKIDomega$ (resp. $\CLJIDomega$), $p: \mathbb{N} \times V \rightarrow V$ is a partial function that maps a number $n$ and a vertex $v$, with a vertex $v'$, such that $v'$ is labeled by the $n^{\text{th}}$ premise of the rule $r(v)$ over the sequent $s(v)$, and for every $v \in V$, 
@@ -171,7 +170,7 @@ For the previously defined inductive predicates $N$, $E$ and $O$, we can associa
         \item $\mathcal{F}: V \rightarrow V$ is a partial function, that maps each one of the bud nodes in $Bud(\mathcal{D})$ to an internal node in the derivation tree, called a companion, satisfying that if $B \in Bud(\mathcal{D})$ and $\mathcal{F}(B) = C$, then $r(C)$ is defined and $s(B) = s(C)$.
     \end{itemize}
 
-Moreover, the graph of $\mathcal{P}$, written as $G_{\mathcal{P}}$, is the graph obtained after adding the edges induced by $\mathcal{F}$ and deleting the bud vertices. Specifically, $G_{\mathcal{P}} = (V', s, r, p')$ where, $V' = V \setminus Bud(\mathcal{D})$ and $p'$ is defined for any $j$ as: $p'_j(v) = \mathcal{F}(p_j(v))$ if $p_j(v) \in Bud(\mathcal{D})$, or $p'_j(v) = p_j(v)$ otherwise.
+Moreover, the graph of $\Pi$, written as $G_{\Pi}$, is the graph obtained after adding the edges induced by $\mathcal{F}$ and deleting the bud vertices. Specifically, $G_{\Pi} = (V', s, r, p')$ where, $V' = V \setminus Bud(\mathcal{D})$ and $p'$ is defined for any $j$ as: $p'_j(v) = \mathcal{F}(p_j(v))$ if $p_j(v) \in Bud(\mathcal{D})$, or $p'_j(v) = p_j(v)$ otherwise.
 \end{definition}
 
 \begin{example}
@@ -189,7 +188,7 @@ Moreover, the graph of $\mathcal{P}$, written as $G_{\mathcal{P}}$, is the graph
 	\infer1[($O\text{R}_1$)]{Ny \vdash Oy, Osy}
 	\infer1[($E\text{R}_2$)]{Ny \vdash Esy, Osy}
 	\infer1[($=$L)]{x = sy, Ny \vdash Ex, Ox}
-	\infer2[Case $N$]{Nx \vdash Ex, Ox \ (\dag)}
+	\infer2[(Case $N$)]{Nx \vdash Ex, Ox \ (\dag)}
 	\infer1[($\lor$R)]{Nx \vdash Ex \lor Ox}
 \end{prooftree}
 }
@@ -206,7 +205,7 @@ The GTC is used as a criterion to verify the soundness of cyclic pre-proofs in $
 
 
 \begin{definition}[Trace and Progress Point]
-    Let $\mathcal{P}$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof and let $(v_i)$ be a path in $G_{\mathcal{P}}$. A trace over $(v_i)$ is a sequence $(\uptau_i)$ such that, for all $i$:
+    Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof and let $(v_i)$ be a path in $G_{\Pi}$. A trace over $(v_i)$ is a sequence $(\uptau_i)$ such that, for all $i$:
 
     \begin{itemize}
           \item $\uptau_i = P_i\mathbf{t_i} \in \Gamma_i$, where $P_i$ as and inductive predicate and $s(v_i) = \Gamma_i \vdash \Delta_i$ (resp. $s(v_i) = \Gamma_i \vdash \phi_i$).
@@ -222,9 +221,8 @@ The GTC is used as a criterion to verify the soundness of cyclic pre-proofs in $
 
 \end{definition}
 
-
-\begin{definition}[Global Trace Condition]
-    A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof $\mathcal{P}$ is said to be a $\CLKIDomega$ (resp. $\CLJIDomega$) \emph{proof}, if for every infinite path in $G_{\mathcal{P}}$, there is an infinitely progressing trace following some tail of the path.
+\begin{definition}[Global Trace Condition - Pre-Proofs]
+    A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof $\Pi$ is said to be a $\CLKIDomega$ (resp. $\CLJIDomega$) \emph{proof}, if for every infinite path in $G_{\Pi}$, there is an infinitely progressing trace following some tail of the path.
 \end{definition}
 
 \begin{example}
@@ -237,20 +235,31 @@ The GTC is used as a criterion to verify the soundness of cyclic pre-proofs in $
 %----------------------------------------------------
 %----------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-\subsection{The Global Trace Condition}
+\subsection{Transition Graphs of Cyclic Pre-Proofs}
 \label{subsec:GTC}
+
+Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations. This construction follows the same method used by Ikebuchi in \cite{Mirai}.
+
+
+\begin{definition}[Transition Graph of a Pre-Proof]
+\label{def:preProofTrans}
+
+Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ or $\CLJIDomega$ pre-proof with a graph $G_{\Pi} = (V',s,r,p')$. We note $\mathcal{G}_{\Pi} = (V', \mathcal{R}, E)$ as the transition graph over bi-partite relations induced by $\Pi$, where:
+\begin{itemize}
+     \item Let $v_1,v_2 \in V'$ such that there exists a $j$ such that $p'_j(v_1) = v_2$. Moreover, let $s(v_1) = \Gamma_1 \vdash \Delta_1$ (resp. $s(v_2) = \Gamma_2 \vdash \Delta_2$) where $\Gamma_1$ (resp. $\Gamma_2$) contains the inductive predicates $P_1\mathbf{t_1}, \ldots, P_n\mathbf{t_n}$ (resp. $Q_1\mathbf{s_1}, \ldots, Q_m\mathbf{s_m}$). We define the bi-partite relation $(S,P)_{v_1,v_2}$ as follows:
+        \begin{enumerate}[i)]
+            \item The domain and codomain of $(S,P)_{v_1,v_2}$ are $\{P_1\mathbf{t_1}, \ldots, P_n\mathbf{t_n} \}$ and $\{Q_1\mathbf{s_1}, \ldots, Q_m\mathbf{s_m} \}$ respectively.
+            \item $(P_k\mathbf{t_k}) S (Q_l\mathbf{s_l})$ if and only if there is a non-progressing trace $\uptau = (P_k\mathbf{t_k},Q_l\mathbf{s_l})$, for any $k$ and $l$.
+            \item $(P_k\mathbf{t_k}) P (Q_l\mathbf{s_l})$ if and only if there is a progressing trace $\uptau = (P_k\mathbf{t_k},Q_l\mathbf{s_l})$, for any $k$ and $l$.
+        \end{enumerate}
+    
+    \item For all vertices $v_1,v_2 \in V'$ such that there exists a $j$ such that $p'_j(v_1) = v_2$, then $(S,P)_{v_1,v_2} \in \mathcal{R}$ and $\edge{(S,P)_{v_1,v_2}}{v_1}{v_2} \in E$.
+ 
+ \end{itemize} 
+
+\end{definition}
+
+The next step is to provide a formal definition of the GTC in the context of transition graphs with bi-partite relations, and show its equivalence to the GTC for pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. 
 
 \begin{definition}[Trace, path and progress]\label{def:TracePath}
 Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
@@ -270,17 +279,27 @@ We say that $\tau$ is a trace of $\Graph$ if $\tau \models \ppath$ for some path
 %If $\tau \models\ppath$ in $\Graph$
 %and $\ppath$ is the path $\edgeGstar{(S,P)}{u}{v}{\Graph}$ then we say that $\tau$ progresses in $(S,P)$ if 
 
-\begin{definition}[Global Trace Condition - GTC]\label{def:GTC}
+
+
+\begin{definition}[Global Trace Condition - Transition Graphs \textcolor{red}{(I would suggest calling this SCT instead of GTC, since )}]
+\label{def:GTC}
 The transition graph $\Graph$ satisfies the {\em Global Trace Condition} if for all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
 $\tau \models \ppath$, which has infinitely many progress points.
 \end{definition}
 
-\medskip Here we introduce the system $\CLKIDomega$ and its particular case $\CLJIDomega$, and show that our GTC is the same as the correctness condition in \cite{BrotherstonSimpson}.
+\begin{proposition}
+Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof. Then $\Pi$ is a $\CLKIDomega$ (resp. $\CLJIDomega$) proof if and only if $\mathcal{G}_{\Pi}$ satisfies the global trace condition.
+\end{proposition}
 
-Using \cite{Mirai}, we argue that GTC = SCT. 
 
-\subsection{Injective bi-partite relations}
+%\medskip Here we introduce the system $\CLKIDomega$ and its particular case $\CLJIDomega$, and show that our GTC is the same as the correctness condition in \cite{BrotherstonSimpson}.
+
+%Using \cite{Mirai}, we argue that GTC = SCT. 
+
+\subsection{Injective Bi-partite Relations}
 \label{subsec:injective}
+
+\textcolor{red}{(short paragraph introducing injective relations. Then list the order of explanations in this subsection)}
 
 In general, a relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$.
 Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint.
@@ -312,10 +331,15 @@ Indeed, by injectivity if $xSyS'z$ then $y \not \in \cod{P} \cup \dom{P'}$ hence
 We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$
 is injective then $\biRel^*$ is such. If $\Graph = (V, \biRel, E)$ with injective $\biRel$, by abuse of language we say that $\Graph$ is injective.
 
-Then we prove:
+\textcolor{red}{(We argue here that in both $\CLKIDomega$ and $\CLJIDomega$ they have injective relations, then we formally prove it in the following theorem)}
+
 \begin{theorem}
 If $\Graph_\Pi$ is the transition graph associated with a cyclic proof $\Pi$ of $\CLKIDomega$, then $\Graph_\Pi$ is injective.
 \end{theorem}
+
+\begin{remark}
+    \textcolor{red}{(Provide here the explanation on how to proceed/prove the same theorem with multisets instead of sets)}
+\end{remark}
 
 
 \input{CSL-FPC}
