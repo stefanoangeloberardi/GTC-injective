@@ -2,7 +2,7 @@
 \section{Transition Graphs and Global Trace Condition}
 \label{sec:size-change}
 
-This section includes the definitions and technical machinery defining bi-partite relations (formerly called bi-colored) until the definition of GTC.
+This section includes the definitions and technical machinery defining bi-partite relations (formerly called bi-colored) up to the definition of SCT.
  
  \subsection{Bi-partite Relations and Transition Graphs}
  
@@ -79,10 +79,16 @@ are sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{
 $\texttt{g}^{(j)} \subseteq \textit{Param}(\texttt{g})$ labelled with $\leqdownarrow$ and
 $\downarrow$ in $\textsf{E}$.
 
-In our view $G$ corresponds to $\edgeG{(S,P)}{u}{v}{\Graph}$ where $X$ is the set of all parameters occurring in the program $\texttt{p}$, 
-$S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \textsf{E}}$ and
-$P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. Looking at $\Graph$ as a colored hypergraph, we have that $u$ is associated with the set $\bigcup\Set{\texttt{f}^{(i)} \mid \exists  \texttt{g}^{(j)}.\; (\texttt{f}^{(i)}, \dagger, \texttt{g}^{(j)}) \in \textsf{E} \; \mbox{with $\dagger \in \Set{\leqdownarrow, \downarrow}$}}$, and similary for $v$ by interchanging the $\texttt{f}^{(i)}$ and $\texttt{g}^{(j)}$ in the above.
+In our view, $G:\texttt{f} \to \texttt{g}$ corresponds 
+to $\edgeG{(S,P)}{u}{v}{\Graph}$ where $X$ is the set of all parameters occurring in the program $\texttt{p}$, 
+$S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \textsf{E}}$ so that $\dom{S} = \texttt{f}^{(i)}$ and $\cod{S} = \texttt{g}^{(j)}$. Similarly,
+$P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. 
+
+
+%Looking at $\Graph$ as a colored hypergraph, we have that $u$ is associated with the set $\bigcup\Set{\texttt{f}^{(i)} \mid \exists  \texttt{g}^{(j)}.\; (\texttt{f}^{(i)}, \dagger, \texttt{g}^{(j)}) \in \textsf{E} \; \mbox{with $\dagger \in \Set{\leqdownarrow, \downarrow}$}}$, and similary for $v$ by interchanging the $\texttt{f}^{(i)}$ and $\texttt{g}^{(j)}$ in the above.
 \end{remark}
+
+\input{CSL-FPC}
 
 %\subsection{The Global Trace Condition}
 %\label{subsec:GTC}
