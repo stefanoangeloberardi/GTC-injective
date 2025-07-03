@@ -1,0 +1,69 @@
+
+
+
+Il 11/06/2025 23:28, Ugo de Liguoro ha scritto:
+> Caro Stefano,
+>
+> nella tua nota su GCT-injective (attuale versione) la Def. 2.3 definisce la CGT in un modo che a me pare coincida con la definizione della SCT in Lee et alii, Def. 11. Nel tuo testo, invece, la SCT è definita come progresso di x in (S,P)^n per qualche x ed n che esistono se (S,P) è auto componibile. Ora, sebbene mi pare che le due definizioni siano equivalenti, non vedo dove questo sia dimostrato: né in Lee et alii né in quale tuo precedente lavoro questa dimostrazione sarebbe un corollario del teorema di Ramsey. Potresti spiegrami (anche a voce se ti è più comodo)?
+
+    Provo a ricostruire le prove a memoria, sono diversi anni che non le scrivo più.
+
+    SCT dice: se esiste un cammino da un nodo theta a se stesso, allora per ogni relazione R = (S,P) da theta a theta esiste una variabile x e un n in N tale che x R^n x progredisce.
+
+    Assumiamo GTC per provare SCT. Prendiamo una relazione R da un nodo theta in se stesso. R è ottenuta componendo le relazioni in qualche cammino pi da theta a theta. Prendiamo il ramo infinito r = pi pi pi pi ... . Per GTC esiste una traccia tau  che progredisce infinite volte nel ramo r, e che passa infinite volte da theta. siano x_1, ..., x_k le variabili di theta per cui passa la traccia tau. allora x_1 R x_2 R x_3 R x_4 ... perché ogni volta che ripassiamo da theta la composizione delle relazioni dà risultato R. Deve esistere una  variabile x ripetuta all'infinito: x R^{n_1} x  R^{n_2} x ... Dato che la traccia progredisce infinitamente, tra almeno due x c'è un progresso, altrimenti la traccia sarebbe stazionaria. Dunque x R^{n_i} x progredisce per qualche n_i.
+    Assumiamo SCT per provare GTC. Qui sta il difficile, conosco solo prove che usano Ramsey. Prendiamo un ramo infinito r. esiste un nodo theta ripetuto infinite volte in r, ovvero esistono infiniti i_1 < i_2 < i_3 < ... . tali che theta = r_{i_1} = r_{i_2} = r_{i_3} = ... Indichiamo con R_{a,b} la relazione tra r_{i_a} e r_{i_b} per a, b interi positivi e a< b. Allora R_{a,b} è una colorazione finita, ci sono solo un numero finito di relazioni. Sia s_a = r_{i_a}. Per il Teorema di Ramsey, esiste una sotto-sequenza infinita e monocromatica di s_a, di colore R. R è il colore di s_1--->s_2, di s_2 --->s_3 e di s_1 ---> s_3. Ne segue che R=RR e dunque R^n = R per ogni n>0. R è una relazione da theta a theta. Per SCT, esiste un x e un n>0 tale che x R^n x progredisce, dunque x R x progredisce. R è definito da una composizione di relazioni tra x e x, dunque definisce una traccia da x a x che progredisce. Se ripetiamo la traccia lungo s otteniamo una traccia che progredisce all'infinito.
+
+    Nota che non abbiamo usato l'iniettività.
+
+    A presto Stefano
+
+     I wrote explicitly a condition which I called SCT, and which is the statement of Theorem 4 of Neil Jones. It had no name in Neil Jones, it was called "an algorithmic criterion for SCT". I propose call it SCT because it deserves a name, being the first decidable version of GTC.
+
+    There is a detail to stress, however. SCT, originally, was: "for all idempotent (S,P) in the composition-closure of edges there is some x in X such that x P x". In the paper, instead, I called SCT an equivalent condition:
+
+"for all (S,P) in the composition-closure of edges there is some x in X progressing to x in some positive power of (S,P)"
+
+    The two versions are equivalent, I do not remind where I found the second one: it is not of mine. We should use two different names, say we could call the second one the Finite Power Condition (FPC). Proofs are slightly shorter with the original SCT condition of Theorem 4 of Neil Jones. Anyway the equivalence SCT<--->FPC only requires folk-lore properties.
+
+    In the updated paper you find: the equivalence SCT<--->FPC, then the equivalence SCT<--->PDC given injectivity. It is in page 6 (First Proof of of Thm. 2.9) and it is short.
+
+
+
+
+    Per studiare SCT e GTC noi abbiamo bisogno di Ramsey Infinito. Enuncio brevemente questo Teorema. 
+
+    Una colorazione finita è una funzione 
+
+f :     {(a,b) in NxN | a < b}    --->    {1,...,c}
+
+dove c è il numero dei colori. Si considera un grafo completo su N non orientato e loopless: nessun elemento del grafo è connesso con se stesso.
+
+    Ramsey Infinito dice: esiste un sotto-insieme infinito M di N monocromatico, tale cioè che f ristretta a {(a,b) in MxM | a < b} è costante. 
+
+    Nel nostro caso i "colori" sono a loro volta grafi bi-colorati e orientati G = (S,P) sull'insieme finito X delle variabili, ottenuti chiudendo per composizione un insieme finito di grafi di base quando componibili. 
+
+    Proviamo ora che SCT ===> GTC usando Ramsey Infinito. Supponiamo di avere una path infinita pi: G_1 G_2 G_3 ... per trovare una traccia tau che progredisce infinitamente e compatibile con pi. Scegliamo come colorazione: f(i,j) = G_i G_{i+1} ... G_j. Per Ramsey Infinito esiste un insieme M infinito di indici i_1 < i_2 < i_3 < ... e un "colore" (S,P) tale che f(i_k,i_h) = (S,P) per ogni k<h in NxN. In particolare abbiamo f(1,3) = (S,P) per Ramsey e f(1,3) = (S,P)(S,P) per definizione di f, ne segue che (S,P) = (S,P)(S,P). Se vale il criterio algoritmico per Size Change Termination del Teorema 4 di Neil Jones (quello che io chiamo SCT per brevità) allora dato che (S,P) = (S,P)(S,P) esiste un x in X tale che x P x. Questo definisce una traccia ciclica theta che progredisce tra il nodo i_k e il nodo i_{k+1}, la stessa traccia per ogni k in N. Dunque definisce una traccia infinita tau = theta theta theta ... compatibile con , tale che tau progredisce infinitamente.
+
+    Stefano
+
+
+Il 22/06/2025 11:45, Ugo de'Liguoro ha scritto:
+>
+> Non trovo una formulazione del Teorema di Ramsey adatta alla dimostrazione di 2, che è la stessa usata per dimostrare che PDC + inj implica GTC. Avresti un riferimento ad un enunciato preciso?
+>
+> Ugo
+> On 6/12/25 7:54 PM, Stefano Berardi wrote:
+>>
+>>
+>> Il 11/06/2025 23:28, Ugo de Liguoro ha scritto:
+>>> Caro Stefano,
+>>>
+>>> nella tua nota su GCT-injective (attuale versione) la Def. 2.3 definisce la CGT in un modo che a me pare coincida con la definizione della SCT in Lee et alii, Def. 11. Nel tuo testo, invece, la SCT è definita come progresso di x in (S,P)^n per qualche x ed n che esistono se (S,P) è auto componibile. Ora, sebbene mi pare che le due definizioni siano equivalenti, non vedo dove questo sia dimostrato: né in Lee et alii né in quale tuo precedente lavoro questa dimostrazione sarebbe un corollario del teorema di Ramsey. Potresti spiegrami (anche a voce se ti è più comodo)?
+>>
+>>     Provo a ricostruire le prove a memoria, sono diversi anni che non le scrivo più.
+>>
+>>     SCT dice: se esiste un cammino da un nodo theta a se stesso, allora per ogni relazione R = (S,P) da theta a theta esiste una variabile x e un n in N tale che x R^n x progredisce.
+>>
+>>     Assumiamo GTC per provare SCT. Prendiamo una relazione R da un nodo theta in se stesso. R è ottenuta componendo le relazioni in qualche cammino pi da theta a theta. Prendiamo il ramo infinito r = pi pi pi pi ... . Per GTC esiste una traccia tau  che progredisce infinite volte nel ramo r, e che passa infinite volte da theta. siano x_1, ..., x_k le variabili di theta per cui passa la traccia tau. allora x_1 R x_2 R x_3 R x_4 ... perché ogni volta che ripassiamo da theta la composizione delle relazioni dà risultato R. Deve esistere una  variabile x ripetuta all'infinito: x R^{n_1} x  R^{n_2} x ... Dato che la traccia progredisce infinitamente, tra almeno due x c'è un progresso, altrimenti la traccia sarebbe stazionaria. Dunque x R^{n_i} x progredisce per qualche n_i.
+>>     Assumiamo SCT per provare GTC. Qui sta il difficile, conosco solo prove che usano Ramsey. Prendiamo un ramo infinito r. esiste un nodo theta ripetuto infinite volte in r, ovvero esistono infiniti i_1 < i_2 < i_3 < ... . tali che theta = r_{i_1} = r_{i_2} = r_{i_3} = ... Indichiamo con R_{a,b} la relazione tra r_{i_a} e r_{i_b} per a, b interi positivi e a< b. Allora R_{a,b} è una colorazione finita, ci sono solo un numero finito di relazioni. Sia s_a = r_{i_a}. Per il Teorema di Ramsey, esiste una sotto-sequenza infinita e monocromatica di s_a, di colore R. R è il colore di s_1--->s_2, di s_2 --->s_3 e di s_1 ---> s_3. Ne segue che R=RR e dunque R^n = R per ogni n>0. R è una relazione da theta a theta. Per SCT, esiste un x e un n>0 tale che x R^n x progredisce, dunque x R x progredisce. R è definito da una composizione di relazioni tra x e x, dunque definisce una traccia da x a x che progredisce. Se ripetiamo la traccia lungo s otteniamo una traccia che progredisce all'infinito.
+
