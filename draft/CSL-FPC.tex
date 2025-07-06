@@ -34,6 +34,9 @@ If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say th
 that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
 \end{definition}
 
+In words, $\Graph^*$ is the transitive closure of the graph $\Graph$ with edges labeled by the composition of the labels of the corresponding edges in $\Graph$. 
+As such, it is essentially a category, but for the lack of identities.
+
 Let $\Graph^* = (V, \biRel^*, E^*)$; we abbreviate $(u, (S,P), v) \in E^*$ by %$\edgeG{(S,P)}{u}{v}{\Graph}$ and $(u, (S,P), v) \in E^*$ by 
 $\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
 %Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em source}, {\em target}, and {\em label}
