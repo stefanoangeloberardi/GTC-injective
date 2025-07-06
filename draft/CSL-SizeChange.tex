@@ -6,18 +6,18 @@ This section includes the definitions and technical machinery defining bi-partit
  
  \subsection{Bi-partite Relations and Transition Graphs}
  
-%Let $R \subseteq X \times Y$ be a binary relation, then we write $x R y$ for $(x,y) \in R$. 
-%Thinking of $R$ as a function $R: X \to \wp(Y)$, we set $R(x) = \Set{y \in Y \mid x R y}$. 
-%Then we define $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} = \Set{x \in X \mid R(x) \neq \emptyset}$, and
-%$\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x \in X}$. 
-%%We say that $R$ is {\em everywhere defined} if $\dom{R} = X$.
+Let $R \subseteq X \times Y$ be a binary relation, then we write $x R y$ for $(x,y) \in R$. 
+Thinking of $R$ as a function $R: X \to \wp(Y)$, we set $R(x) = \Set{y \in Y \mid x R y}$. 
+Then we define $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} = \Set{x \in X \mid R(x) \neq \emptyset}$, and
+$\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x \in X}$. 
+%We say that $R$ is {\em everywhere defined} if $\dom{R} = X$.
 %
 %Binary relations compose: if $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
 %$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, which we abbreviate by $xRyR'z$. Relation compositions are associtaive 
 %and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units.
 
 In this work, we shall consider binary relations over some fixed finite set 
-$X = \Set{x_1, ..., x_n}$, which are themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$
+$X = \Set{x_1, ..., x_n}$, which are consequently themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$
 and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$.
 
 
