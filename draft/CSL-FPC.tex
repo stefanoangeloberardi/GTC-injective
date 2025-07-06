@@ -50,12 +50,16 @@ Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transiti
 \begin{enumerate}[i)]
 \item a {\em trace} is a map $\tau:\alpha \to X$;
 \item a {\em path} is a map $\ppath:\alpha \to E$ such that for all $i + 1 < \alpha$, $\target{\ppath(i)} = \source{\ppath(i+1)}$;
-\item a trace $\tau$ is {\em compatible} with a path $\ppath$ (with the same domain $\alpha$), written $\tau \models \ppath$, if 
+\item a trace $\tau:\alpha + 1 \to X$ is {\em compatible} with a path $\ppath: \alpha \to E$ written $\tau \models \ppath$, if 
 	there is $i_0 < \alpha$ such that for all $i_0 \leq i < i+1 < \alpha$,
 	if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$, and if $\tau(i) P \tau(i + 1)$ then $i$
 	is a {\em progress point} of $\tau$ in $\ppath$.
 \end{enumerate}
 \end{definition}
+
+\begin{remark}
+Explain why $\tau:\alpha + 1 \to X$ is a trace for $\ppath: \alpha \to E$.
+\end{remark}
 
 We say that $\tau$ is a trace of $\Graph$ if $\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
 In our terminology, the path $\ppath$ and the trace $\tau$ correspond to a {\em multipath} $\mathcal{M}$ and a {\em thread} $\textit{th}$ in \cite{Lee1}, respectively.
@@ -65,6 +69,27 @@ $(S,P)$ which is self-composable in $\Graph^*$.
 
 \medskip
 In the following lemmas, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ to the composition of the bi-partite relations labeling the edges in $\ppath$.
+
+\begin{lemma}\label{lem:P-lemma}
+Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
+\begin{enumerate}[i)]
+\item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
+\item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
+\item\label{lem:P-lemma-3} $x S_1 y \And y S_2 z \Then x S z$
+\end{enumerate}
+%\[ x P_1 y \myor y P_2 z \Then x P z \]
+\end{lemma}
+
+\begin{proof}
+By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
+Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$, establishing 
+(\ref{lem:P-lemma-1}) and (\ref{lem:P-lemma-2}). Part (\ref{lem:P-lemma-3}) is immediate by definition of $S$.
+\end{proof}
+
+\begin{corollary}
+Let $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{k-2} \stackrel{(S_{k-1},P_{k-1})}{\longrightarrow} v_{k}$ be a finite path 
+and $\tau = x_0, \ldots , x_{k}$ a trace such that $\tau \models \ppath$
+\end{corollary}
 
 %If $\tau \models\ppath$ in $\Graph$
 %and $\ppath$ is the path $\edgeGstar{(S,P)}{u}{v}{\Graph}$ then we say that $\tau$ progresses in $(S,P)$ if 

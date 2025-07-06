@@ -29,21 +29,21 @@ $x$ progresses to $y$:
 %\[ x (S \cup P) z \;\land\; \]
 %\end{proof}
 
-\begin{lemma}\label{lem:P-lemma}
-Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
-\begin{enumerate}[i)]
-\item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
-\item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
-\item\label{lem:P-lemma-3} $x S_1 y \And y S_2 z \Then x S z$
-\end{enumerate}
-%\[ x P_1 y \myor y P_2 z \Then x P z \]
-\end{lemma}
-
-\begin{proof}
-By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
-Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$, establishing 
-(\ref{lem:P-lemma-1}) and (\ref{lem:P-lemma-2}). Part (\ref{lem:P-lemma-3}) is immediate by definition of $S$.
-\end{proof}
+%\begin{lemma}\label{lem:P-lemma}
+%Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
+%\begin{enumerate}[i)]
+%\item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
+%\item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
+%\item\label{lem:P-lemma-3} $x S_1 y \And y S_2 z \Then x S z$
+%\end{enumerate}
+%%\[ x P_1 y \myor y P_2 z \Then x P z \]
+%\end{lemma}
+%
+%\begin{proof}
+%By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
+%Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$, establishing 
+%(\ref{lem:P-lemma-1}) and (\ref{lem:P-lemma-2}). Part (\ref{lem:P-lemma-3}) is immediate by definition of $S$.
+%\end{proof}
 
 \begin{proposition}\label{prop:GTCimplPDC}
 If $\Graph$ satisfies GTC then it satisfies PDC.
