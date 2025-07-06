@@ -72,20 +72,38 @@ $(S,P)$ which is self-composable in $\Graph^*$.
 In the following, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ to the composition $(S,P)$ of the bi-partite relations labeling the edges in $\ppath$,
 and show that progressing is equivalent to having $x, y$ in the image of $\tau$ such that $x$ precedes $y$ in $\tau$ and $xPy$.
 
+%\begin{lemma}\label{lem:P-lemma}
+%Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
+%\begin{enumerate}[i)]
+%\item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
+%\item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
+%\item\label{lem:P-lemma-3} $x S_1 y \And y S_2 z \Then x S z$
+%\end{enumerate}
+%\end{lemma}
+
 \begin{lemma}\label{lem:P-lemma}
-Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
+Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ then %and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
 \begin{enumerate}[i)]
-\item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
-\item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
-\item\label{lem:P-lemma-3} $x S_1 y \And y S_2 z \Then x S z$
+\item\label{lem:P-lemma-1} $x P z \iff \exists y. \; x P_1 y \myor y P_2 z$
+\item\label{lem:P-lemma-2} $x S z \iff \exists y. \; x S_1 y \And y S_2 z$
 \end{enumerate}
 \end{lemma}
 
-\begin{proof}\label{cor:P-lemma}
-By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
-Now $x P_1 y$ implies $x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z$ implies $x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$, establishing 
-(\ref{lem:P-lemma-1}) and (\ref{lem:P-lemma-2}). Part (\ref{lem:P-lemma-3}) is immediate by definition of $S$.
+\begin{proof}
+By definition $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$ and $S = S_1 S_2 \setminus P$. %Since $S_1 \cap P_1 = S_2 \cap P_2 = \emptyset$,
+The hypothesis $x (S_1 \cup P_1) y (S_2 \cup P_2) z$ implies that $x P z$ if and only if either $x (S_1 \cup P_1) y P_2 z$, or $x P_1 (S_2 \cup P_2) z$, which is 
+(\ref{lem:P-lemma-1}). 
+
+On the other hand, since $S_1 \cap P_1 = S_2 \cap P_2 = \emptyset$,
+%since $S_1 \cap P_1 = \emptyset$, if  $x P_1 y$
+%on the other hand $S \cap P = S_1 \cap P_1 = S_2 \cap P_2 = \emptyset$
 \end{proof}
+
+%\begin{proof}
+%By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
+%Now $x P_1 y$ implies $x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z$ implies $x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$, establishing 
+%(\ref{lem:P-lemma-1}) and (\ref{lem:P-lemma-2}). Part (\ref{lem:P-lemma-3}) is immediate by definition of $S$.
+%\end{proof}
 
 If $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{k-1} \stackrel{(S_{k-1},P_{k-1})}{\longrightarrow} v_{k}$ is a (finite) path of $\Graph$, for $0 \leq i < j < k$
 we abbreviate $(S_{i,j}, P_{i,j}) = \bigcomp_{p = i}^{j} (S_p,P_p) = (S_i,P_i) \comp \cdots \comp (S_j,P_j)$. %The next Proposition states that
