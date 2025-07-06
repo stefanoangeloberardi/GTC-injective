@@ -6,15 +6,15 @@ This section includes the definitions and technical machinery defining bi-partit
  
  \subsection{Bi-partite Relations and Transition Graphs}
  
-Let $R \subseteq X \times Y$ be a binary relation, then we write $x R y$ for $(x,y) \in R$. 
-Thinking of $R$ as a function $R: X \to \wp(Y)$, we set $R(x) = \Set{y \in Y \mid x R y}$. 
-Then we define $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} = \Set{x \in X \mid R(x) \neq \emptyset}$, and
-$\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x \in X}$. 
-%We say that $R$ is {\em everywhere defined} if $\dom{R} = X$.
-
-Binary relations compose: if $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
-$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, which we abbreviate by $xRyR'z$. Relation compositions are associtaive 
-and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units.
+%Let $R \subseteq X \times Y$ be a binary relation, then we write $x R y$ for $(x,y) \in R$. 
+%Thinking of $R$ as a function $R: X \to \wp(Y)$, we set $R(x) = \Set{y \in Y \mid x R y}$. 
+%Then we define $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} = \Set{x \in X \mid R(x) \neq \emptyset}$, and
+%$\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x \in X}$. 
+%%We say that $R$ is {\em everywhere defined} if $\dom{R} = X$.
+%
+%Binary relations compose: if $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
+%$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, which we abbreviate by $xRyR'z$. Relation compositions are associtaive 
+%and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units.
 
 In this work we shall consider binary relations over some fixed finite set 
 $X = \Set{x_1, ..., x_n}$, which are themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$
@@ -44,18 +44,18 @@ is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is f
 A {\em transition graph} of $\biRel$ is a tuple $\Graph = (V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$ is a (finite) set of labeled edges.
 \end{definition}
 
-We say that  the graph $\Graph^* = (V, \biRel^*, E^*)$ is the {\em transitive closure} of $\Graph = (V, \biRel, E)$ if
-$E^* \subseteq V \times \biRel^* \times V$ is the smallest set such that $E \subseteq E^*$ and
-\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
-If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\mathcal{G}$; we say
-that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
+%We say that  the graph $\Graph^* = (V, \biRel^*, E^*)$ is the {\em transitive closure} of $\Graph = (V, \biRel, E)$ if
+%$E^* \subseteq V \times \biRel^* \times V$ is the smallest set such that $E \subseteq E^*$ and
+%\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
+%If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\mathcal{G}$; we say
+%that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
 
-Let $\Graph = (V, \biRel, E)$; we abbreviate $(u, (S,P), v) \in E$ by $\edgeG{(S,P)}{u}{v}{\Graph}$ and
-$(u, (S,P), v) \in E^*$ by $\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
+Let $\Graph = (V, \biRel, E)$; we abbreviate $(u, (S,P), v) \in E$ by $\edgeG{(S,P)}{u}{v}{\Graph}$.
+%and $(u, (S,P), v) \in E^*$ by $\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
 Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em source}, {\em target}, and {\em label}
 of $e$ respectively.
-If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
-of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
+%If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
+%of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
 When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$ and $\edgestar{(S,P)}{u}{v}$.
 
 %\subsection{Relating Transition Graphs to Colored Hypergraphs}
