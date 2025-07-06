@@ -80,7 +80,7 @@ Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$
 %\[ x P_1 y \myor y P_2 z \Then x P z \]
 \end{lemma}
 
-\begin{proof}
+\begin{proof}\label{cor:P-lemma}
 By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
 Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z \Then x (S_1P_2 \cup P_1P_2) z$ and we are done by definition of $P$, establishing 
 (\ref{lem:P-lemma-1}) and (\ref{lem:P-lemma-2}). Part (\ref{lem:P-lemma-3}) is immediate by definition of $S$.
@@ -89,7 +89,7 @@ Now $x P_1 y \Then x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z \Then x (S_1P_2 \cup P_
 \begin{corollary}
 Let $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{k-1} \stackrel{(S_{k-1},P_{k-1})}{\longrightarrow} v_{k}$ be a finite path 
 and $\tau = x_0, \ldots , x_{k}$ be a trace such that $\tau \models \ppath$. Then $\tau$ has a progress point in $\ppath$ if and only if
-
+there exists $0 \leq i_0 < k$ such that $x_{i_0} P x_k$ where $(S,P) = \bigotimes_{i = i_0}^{k-1} (S_i,P_i)$.
 \end{corollary}
 
 %If $\tau \models\ppath$ in $\Graph$
