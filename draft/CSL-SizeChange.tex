@@ -16,29 +16,29 @@ This section includes the definitions and technical machinery defining bi-partit
 %$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, which we abbreviate by $xRyR'z$. Relation compositions are associtaive 
 %and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units.
 
-In this work we shall consider binary relations over some fixed finite set 
+In this work, we shall consider binary relations over some fixed finite set 
 $X = \Set{x_1, ..., x_n}$, which are themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$
 and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$.
 
 
-\begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
-Let $(S,P), (S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
-where
-\[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
-\end{definition}
-
-The composition of bi-partite relations is bi-partite by construction; also, it is associative
-but there is no unique identity as $I_X = S \cup P$ holds for different disjoint $S,P$ as soon $X$ has more than one element. 
-We observe that composition is compatible with the union and ordinary composition of binary relations: 
-let's write $|(S,P)| = S \cup P$, then
-\begin{align}\label{eq:unionComp}
-|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
-& = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
-\end{align}
-
-We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
-Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
-is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
+%\begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
+%Let $(S,P), (S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
+%where
+%\[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
+%\end{definition}
+%
+%The composition of bi-partite relations is bi-partite by construction; also, it is associative
+%but there is no unique identity as $I_X = S \cup P$ holds for different disjoint $S,P$ as soon $X$ has more than one element. 
+%We observe that composition is compatible with the union and ordinary composition of binary relations: 
+%let's write $|(S,P)| = S \cup P$, then
+%\begin{align}\label{eq:unionComp}
+%|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
+%& = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
+%\end{align}
+%
+%We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
+%Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
+%is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
 
 \begin{definition}[Transition graph]\label{def:transitionGraph}
 A {\em transition graph} of $\biRel$ is a tuple $\Graph = (V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$ is a (finite) set of labeled edges.
