@@ -5,7 +5,7 @@
 \begin{definition}[Prograss Domain Condition - PDC]\label{def:PDC}
 $\Graph$ satisfies the {\em Prograss Domain Condition} if for all self-composable $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
 $x$ progresses to $y$:
-\[\forall (S,P) \in \biRel^*, u \in V.\;\edge{(S,P)}{u}{u} \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
+\[\forall (S,P) \in \biRel^*, v \in V.\;\edgestar{(S,P)}{v}{v} \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
 \end{definition}
 
 %\begin{lemma}
@@ -50,31 +50,41 @@ If $\Graph$ satisfies GTC then it satisfies PDC.
 \end{proposition}
 
 \begin{proof}
-Suppose that $\edgestar{(S,P)}{u}{u}$; then there exists an infinite path $\ppath$ 
-\[\ppath : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow}\cdots\]
-such that $\source{\ppath(i)} = \source{\ppath(0)} = u$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $\source{\ppath(k)} = u$ and 
-if $0 < j < k$ then $\source{\ppath(j)} \neq u$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{u}{u}$ of $\ppath$ are the same sequence of edges and labels.
+Let $\edgestar{(S,P)}{v}{v}$ be a self-composable path of $\Graph^*$. Then there is a cycle in $\Graph^*$ and an infinite path
+\[\ppath : v \stackrel{(S,P)}{\longrightarrow} v \stackrel{(S,P)}{\longrightarrow} v \stackrel{(S,P)}{\longrightarrow}\cdots\]
+where $(S,P) = (S_{0,k-1},P_{0,k-1})$ where $k > 0$ is the length of the cycle. By GTC, there is a trace $\tau = x_0, x_1, \ldots$ such that $\tau\models\ppath$ which is infinitely progressing. Therefore, $\tau$ must be compatible with $\ppath$ since the index $0$, and it must progress in all the finite subpaths $\edgestar{(S,P)}{v}{v}$.
 
-By GTC there is a trace $\tau \models \ppath$ that is infinitely progressing; hence, there is an $i_0 \geq 0$ such that for all $j > i_0$ we have
-$\tau(j) \lbl{\ppath(j)} \tau(j+1)$ and $\tau(h)P_h \tau(h+1)$ for infinitely many $h > i_0$. Since the sequences of indexes $i$ such that $\source{\ppath(i)} = u$
-and those that are progressing points of $\tau$ are cofinal, we freely assume that $i_0 = 0$.
-
-Let $(S, P) = (S_0,P_0)\comp \cdots \comp (S_{k-1},P_{k-1})$ where the
-$(S_i,P_i) \in \biRel$ are the bi-partite relations associated with the edges of the path $\edgestar{(S,P)}{u}{u}$; hence, there is $h$ with $0 \leq h < k$ such that
-$\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. $P_h$.
-
-Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\tau \models \ppath$ we know that 
-\[x = \tau(0) (S_0 \cup P_0) \tau(1) \cdots \tau(k-1) (S_{k-1} \cup P_{k-1}) \tau(k) = y\]
-so that $x \in \dom{(S_0 \cup P_0) \cdots  (S_{k-1} \cup P_{k-1})} = \dom{S \cup P}$ by (\ref{eq:unionComp}). On the other hand, we have assumed that 
-$\edgestar{(S,P)}{\source{\ppath(k)}}{\target{\ppath(2k)}}$ where $\source{\ppath(k)} = u = \target{\ppath(2k)}$, 
-hence by the same argument we conclude that $y \in \dom{S \cup P}$.
-
-We know that $(S, P) = (S',P') \comp (S_h,P_h) \comp (S'',P'')$, where $(S',P')= (S_0,P_0)\comp \cdots \comp (S_{h-1},P_{h-1})$ and 
-$(S'',P'')= (S_{h+1},P_{h+1})\comp \cdots \comp (S_{k-1},P_{k-1})$. By $\tau \models p$ and that $z P_h z'$ we deduce that
-\[x (S' \cup P') z P_h z' (S'' \cup P'') y\]
-If $(\hat{S},\hat{P}) = (S',P') \comp (S_h,P_h)$ then by (\ref{lem:P-lemma-2}) of Lemma \ref{lem:P-lemma} we have $x \hat{P} z'$; from this and 
-$(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, we conclude that $x P y$  by (\ref{lem:P-lemma-1}) of the same Lemma, as desired.
+By Proposition \ref{prop:progresing-and-P}, it follows that $x_h P x_k$ for some $0 \leq h < k$; now $x_h \in \dom{P} \subseteq \dom{S\cup P}$, and $x_k \in \dom{S \cup P}$ since
+$\tau\models \ppath$. It follows that $\Graph$ satisfies PDC.
 \end{proof}
+
+%\begin{proof}
+%Suppose that $\edgestar{(S,P)}{v}{v}$; then there exists an infinite path $\ppath$ in $\Graph$, and hence in $\Graph^*$,
+%\[\ppath : v \stackrel{(S,P)}{\longrightarrow^*} v \stackrel{(S,P)}{\longrightarrow^*} v \stackrel{(S,P)}{\longrightarrow^*}\cdots\]
+%such that $\source{\ppath(i)} = \source{\ppath(0)} = v$ for infinitely many $i < \omega$; let $k > 0$ be the least one such that $\source{\ppath(k)} = v$ and 
+%if $0 < j < k$ then $\source{\ppath(j)} \neq v$; w.l.o.g. we also assume that the subpaths $\edgestar{(S,P)}{v}{v}$ of $\ppath$ are the same sequence of edges and labels, since the path $\ppath$ must be made of the edges of a cycle in $\Graph$, which is a finite graph.
+%
+%By GTC there is a trace $\tau = x_0, x_1, \ldots$ such that $\tau \models \ppath$ that is infinitely progressing; 
+%hence, there is an $i_0 \geq 0$ such that for all $j > i_0$ we have
+%$\tau(j) \lbl{\ppath(j)} \tau(j+1)$ and $\tau(h)P_h \tau(h+1)$ for infinitely many $h > i_0$. Since the sequences of indexes $i$ such that $\source{\ppath(i)} = v$
+%and those that are progressing points of $\tau$ are cofinal, we freely assume that $i_0 = 0$.
+%
+%Let $(S, P) = (S_{0,k-1},P_{0,k-1})$ where the
+%$(S_i,P_i) \in \biRel$ are the bi-partite relations associated with the edges of the path $\edgestar{(S,P)}{v}{v}$; hence, there is $h$ with $0 \leq h < k$ such that
+%$\tau(h)P_h \tau(h+1)$, namely $h$ is a progressing point w.r.t. $P_h$. Now, by Proposition \ref{} we conclude that 
+%
+%%Let $x = \tau(0)$, $z = \tau(h)$, $z' = \tau(h+1)$, and $y = \tau(k)$. Since $\tau \models \ppath$ we know that 
+%%\[x = \tau(0) (S_0 \cup P_0) \tau(1) \cdots \tau(k-1) (S_{k-1} \cup P_{k-1}) \tau(k) = y\]
+%%so that $x \in \dom{(S_0 \cup P_0) \cdots  (S_{k-1} \cup P_{k-1})} = \dom{S \cup P}$ by (\ref{eq:unionComp}). On the other hand, we have assumed that 
+%%$\edgestar{(S,P)}{\source{\ppath(k)}}{\target{\ppath(2k)}}$ where $\source{\ppath(k)} = u = \target{\ppath(2k)}$, 
+%%hence by the same argument we conclude that $y \in \dom{S \cup P}$.
+%%
+%%We know that $(S, P) = (S',P') \comp (S_h,P_h) \comp (S'',P'')$, where $(S',P')= (S_0,P_0)\comp \cdots \comp (S_{h-1},P_{h-1})$ and 
+%%$(S'',P'')= (S_{h+1},P_{h+1})\comp \cdots \comp (S_{k-1},P_{k-1})$. By $\tau \models p$ and that $z P_h z'$ we deduce that
+%%\[x (S' \cup P') z P_h z' (S'' \cup P'') y\]
+%%If $(\hat{S},\hat{P}) = (S',P') \comp (S_h,P_h)$ then by (\ref{lem:P-lemma-2}) of Lemma \ref{lem:P-lemma} we have $x \hat{P} z'$; from this and 
+%%$(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, we conclude that $x P y$  by (\ref{lem:P-lemma-1}) of the same Lemma, as desired.
+%\end{proof}
 
 \begin{remark}\label{rem:PDCnotGTC}
 The inverse of Proposition \ref{prop:GTCimplPDC} does not hold. Consider $X_0 = \Set{x_1, x_2}$ and $\biRel_0 = \Set{(S_0,P_0)}$ where
