@@ -71,7 +71,8 @@ When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P
 %$Y_u = \dom{S \cup P}$ and $Z_v = \cod{S \cup V}$, and $c(Y_u, Z_v) = (S,P)$ in $\biRel$ and in $\biRel^*$ respectively.
 %By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.
 
-\begin{remark}\label{rem:hypergraph}
+\medskip
+%\begin{remark}\label{rem:hypergraph}
 A transition graph is the composition into a single structure of finitely many {\em size-change} graphs as defined in \cite{Lee1}. 
 A size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, $\texttt{g}$ out of some functional program $\texttt{p}$
 is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$, where $\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g})$
@@ -87,7 +88,7 @@ $P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \texts
 
 
 %Looking at $\Graph$ as a colored hypergraph, we have that $u$ is associated with the set $\bigcup\Set{\texttt{f}^{(i)} \mid \exists  \texttt{g}^{(j)}.\; (\texttt{f}^{(i)}, \dagger, \texttt{g}^{(j)}) \in \textsf{E} \; \mbox{with $\dagger \in \Set{\leqdownarrow, \downarrow}$}}$, and similary for $v$ by interchanging the $\texttt{f}^{(i)}$ and $\texttt{g}^{(j)}$ in the above.
-\end{remark}
+%\end{remark}
 
 \input{CSL-FPC}
 
