@@ -68,7 +68,8 @@ Of course, both $\Graph$ and $\Graph^*$ are finite, so that an infinite path $\p
 $(S,P)$ which is self-composable in $\Graph^*$.
 
 \medskip
-In the following lemmas, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ to the composition of the bi-partite relations labeling the edges in $\ppath$.
+In the following, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ to the composition $(S,P)$ of the bi-partite relations labeling the edges in $\ppath$,
+and show that progressing is equivalent to having $x, y$ in the image of $\tau$ such that $x$ precedes $y$ in $\tau$ and $xPy$.
 
 \begin{lemma}\label{lem:P-lemma}
 Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
@@ -92,6 +93,19 @@ and $\tau = x_0, \ldots , x_{k}$ be a trace such that $\tau \models \ppath$. The
 there exists $0 \leq i_0 < k$ such that $x_{i_0} P x_k$ where $(S,P) = \bigotimes_{i = i_0}^{k-1} (S_i,P_i)$.
 \end{corollary}
 
+
+\begin{proof} The if part is immediate. To prove the only if part, let us
+assume that $\tau\models\ppath$, hence there is $i_0$ such that $x_j (S_j \cup P_j) x_{j+1}$ for all $i_0 \leq j < k$, and that there is 
+$i_0 \leq h < k$ such that $x_h P_h x_{h+1}$ which is a progress point of $\tau$ in $\ppath$; w.l.o.g. let us assume that $i_0 = 0$.
+
+
+We know that $(S, P) = (S',P') \comp (S_h,P_h) \comp (S'',P'')$, where $(S',P')= (S_0,P_0)\comp \cdots \comp (S_{h-1},P_{h-1})$ and 
+$(S'',P'')= (S_{h+1},P_{h+1})\comp \cdots \comp (S_{k-1},P_{k-1})$, and 
+\[x_0 (S' \cup P') x_h P_h x_{h+1} (S'' \cup P'') x_k \]
+
+If $(\hat{S},\hat{P}) = (S',P') \comp (S_h,P_h)$ then by (\ref{lem:P-lemma-2}) of Lemma \ref{lem:P-lemma} we have $x_0 \hat{P} x_{h+1}$; from this and 
+$(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, we conclude that $x_0 P x_k$  by (\ref{lem:P-lemma-1}) of the same Lemma, as desired.
+\end{proof}
 %If $\tau \models\ppath$ in $\Graph$
 %and $\ppath$ is the path $\edgeGstar{(S,P)}{u}{v}{\Graph}$ then we say that $\tau$ progresses in $(S,P)$ if 
 
