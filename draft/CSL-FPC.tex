@@ -23,9 +23,10 @@ let's write $|(S,P)| = S \cup P$, then
 %We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
 Let $\biRel^*$ be the closure of a set $\biRel$ of bi-partite relations under composition. Notice that the set of bi-partite relations over the finite set $X$
 is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
+The role of a transition graph $\Graph$ with labels in $\biRel$ is to pick certain compositions of bipartite relations in $\biRel^*$. We formalize this notion
+by adapting the usual definition of transitive closure of a graph.
 
-
-\begin{definition}
+\begin{definition}[Tranistive closure of a transition graph]\label{def:transitiveClosure}
 We say that  the graph $\Graph^* = (V, \biRel^*, E^*)$ is the {\em transitive closure} of $\Graph = (V, \biRel, E)$ if
 $E^* \subseteq V \times \biRel^* \times V$ is the smallest set such that $E \subseteq E^*$ and
 \[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
@@ -39,7 +40,8 @@ $\edgeGstar{(S,P)}{u}{v}{\Graph}$.
 %of $e$ respectively.
 If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ is self-composable then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
 of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
-When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$ and $\edgestar{(S,P)}{u}{v}$.
+As before, we omit the subscripts in $\edgestar{(S,P)}{u}{v}$, when $\biRel$ and $\Graph$ are understood,
+
 \begin{definition}[Trace, path and progress]\label{def:TracePath}
 Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
 \begin{enumerate}[i)]
