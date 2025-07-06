@@ -1,10 +1,12 @@
 % !TEX root = CSL-main.tex
-\section{Global Trace Condition and Injective Relations}
+\section{Injective Bi-partite Relations}
 \label{sec:injective}
 
 
-In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs, using transition graphs with bi-partite relations. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$, and show how the GTC for both systems can be expressed in our framework. Our approach is motivated by a well-known relationship in the folklore and formally stated by Ikebuchi in \cite{Mirai}, between the GTC and size-change termination (SCT). Specifically, it consists of extracting a transition graph with bi-partite relations, of a cyclic proof in either $\CLKIDomega$ or $\CLJIDomega$. Moreover, we argue that for these particular proof systems, the obtained bi-partite relations are always injective. This condition will play a key role in establishing our main result later in the paper. We begin by introducing cyclic proofs in both $\CLKIDomega$ and $\CLJIDomega$.
 
+%-----------------------------------------------------------------
+%-----------------------------------------------------------------
+%-----------------------------------------------------------------
 %\subsection{Cyclic Proof Systems}
 %\label{subsec:cyclicProof}
 
@@ -299,10 +301,14 @@ In this section we define the global trace condition (GTC), a validity criteria 
 %\subsection{Injective Bi-partite Relations}
 %\label{subsec:injective}
 
-\textcolor{red}{(short paragraph introducing injective relations. Then list the order of explanations in this subsection)}
+%-----------------------------------------------------------------
+%-----------------------------------------------------------------
+%-----------------------------------------------------------------
+%-----------------------------------------------------------------
+%-----------------------------------------------------------------
+%-----------------------------------------------------------------
 
-In general, a relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$.
-Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint.
+We argue that for both $\CLKIDomega$ and $\CLJIDomega$, the obtained bi-partite relations when constructing the transition graph of a cyclic pre-proof, using Definition \ref{def:preProofTrans}, are always injective. This condition will play a key role in establishing our main result later in the paper. Before stating the proof of this claim, we define injectivity over relations and some of its properties. In general, a relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$. Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint. Moreover, the composition of two injective relations is always injective.
 
 \begin{lemma}\label{lem:comInjective}
 If both $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ are injective, then $RR' \subseteq X \times Z$ is injective.
@@ -313,7 +319,7 @@ If $xRR'z$ and $x'RR'z$ then there are $y,y' \in Y$ such that $xRy$ and $yR'z$, 
 hence $x = x'$ by the injectivity of $R$.
 \end{proof}
 
-We say that $(S, P)$ is {\em injective} if $|(S, P)| = S \cup P$ is such in the above sense.
+We say that a bi-partite relation $(S, P)$ is {\em injective} if $|(S, P)| = S \cup P$ is such in the above sense. We can then extend the previous lemma in the case of injective bi-partite relations.
 
 \begin{lemma}\label{lem:biRelInjectiveComp}
 If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injective.
@@ -325,17 +331,16 @@ By (\ref{eq:unionComp}) in Section \ref{sec:size-change},  we know that $|(S,P) 
 
 In case of injective bi-partite relations, composition can be simplified by:
 \[ (S,P) \comp (S',P') = (SS', SP' \cup PS' \cup PP') \]
-Indeed, by injectivity if $xSyS'z$ then $y \not \in \cod{P} \cup \dom{P'}$ hence $(x,z) \not \in ( SP' \cup PS' \cup PP')$.
-
-\medskip
-We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$
-is injective then $\biRel^*$ is such. If $\Graph = (V, \biRel, E)$ with injective $\biRel$, by abuse of language we say that $\Graph$ is injective.
-
-\textcolor{red}{(We argue here that in both $\CLKIDomega$ and $\CLJIDomega$ they have injective relations, then we formally prove it in the following theorem)}
+Indeed, by injectivity if $xSyS'z$ then $y \not \in \cod{P} \cup \dom{P'}$ hence $(x,z) \not \in ( SP' \cup PS' \cup PP')$. We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$ is injective then $\biRel^*$ is such. If $\Graph = (V, \biRel, E)$ with injective $\biRel$, by abuse of language we say that $\Graph$ is injective. It is now possible to state the main result of this section:
 
 \begin{theorem}
-If $\Graph_\Pi$ is the transition graph associated with a cyclic proof $\Pi$ of $\CLKIDomega$, then $\Graph_\Pi$ is injective.
+Let $\Pi$ be any $\CLKIDomega$ or $\CLKIDomega$ pre-proof. Then $\Graph_\Pi$ is injective.
 \end{theorem}
+
+\begin{proof}
+    We proceed by case analysis on the construction of the bi-partite relations $(S,P)_{v,v'}$ specified in Definition \ref{def:preProofTrans}.
+\end{proof}
+
 
 \begin{remark}
     \textcolor{red}{(Provide here the explanation on how to proceed/prove the same theorem with multisets instead of sets)}

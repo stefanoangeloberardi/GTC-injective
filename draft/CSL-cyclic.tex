@@ -1,6 +1,12 @@
 % !TEX root = CSL-main.tex
-\section{Cyclic Proofs}
+\section{Cyclic Proofs and the Global Trace Condition}
 \label{sec:cyclic}
+
+In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$, and show how the GTC for both systems is equivalent to the SCT condition in Definition \ref{def:SCT}. Our approach is motivated by Ikebuchi's work \cite{Mirai}, where she formally stated the equivalence between the GTC and SCT, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process. We begin by introducing the notion of cyclic pre-proofs.
+
+
+\subsection{Cyclic Pre-Proofs}
+\label{subsec:cyclicPreProofs}
 
 $\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Predicate symbols are divided between finitely many \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and denumerable many \emph{ordinary predicates}, defined as usual predicates. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are sets of formulas, and $\phi$ is a single formula. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
 
@@ -74,13 +80,12 @@ We define the inductive definition set $\Phi_{NEO}$, using the following product
 Where $0$ is a constant representing the number zero and $s$ is a unary function representing the successor function. The predicate $N$ is used to inductively represent the natural numbers, while $E$ and $O$ are \emph{mutually defined} inductive predicates defining even and odd numbers respectively.
 \end{example}
 
-We define the proof system for $\CLKIDomega$ as the extension of the classical logic LK, defined in Figure \ref{LKrules}, with additional rules used to handle inductive predicates on the right and left part of the sequent. These rules for inductive predicates are defined as follows:
+We define the proof system for $\CLKIDomega$ as the extension of the classical logic LK, defined in Figure \ref{LKrules}, with additional rules used to handle inductive predicates on the right and left part of the sequent. These rules for inductive predicates are defined as follows: let $P$ be an inductive predicate, and let $\Phi = \{\Phi_1, \ldots, \Phi_n\}$ be the inductive definition set, such that all $\Phi_i$ are defined as in Definition \ref{defIndSet} and have as conclusion $P$.
 
 \begin{itemize}
-    \item Let $P$ be an inductive predicate, and let $\{\Phi_1, \ldots, \Phi_n\}$ be the set of productions in an inductive definition set $\Phi$ whose conclusion is $P$. For each production $\Phi_i$, as defined in Definition \ref{defIndSet}), the system $\CLKIDomega$ includes a corresponding right introduction rule, denoted $P\text{R}_i$:
+    \item For each production $\Phi_i$, the system $\CLKIDomega$ includes a corresponding right introduction rule, denoted ($P\text{R}_i$):
 
     \begin{center}
-        \centering
         \begin{prooftree}
             \hypo{\Gamma \vdash Q_1\mathbf{u_1}, \Delta \ldots \Gamma \vdash Q_h\mathbf{u_h}, \Delta}
             \hypo{\Gamma \vdash P_1\mathbf{t_1}, \Delta \ldots \Gamma \vdash P_m\mathbf{t_m}, \Delta}
@@ -89,17 +94,15 @@ We define the proof system for $\CLKIDomega$ as the extension of the classical l
     \end{center}
 
 
-    \item For each inductive predicate $P$ there is a left introduction rule, denoted \emph{case split rule}:
-
-    \begin{center}
-        \centering
-        \begin{prooftree}
-            \hypo{\text{case distinctions}}
-            \infer1[(Case $P$)]{\Gamma, P\mathbf{u} \vdash \Delta}
-        \end{prooftree}
-    \end{center}
-
-    Where for each production having conclusion $P$, as in Definition \ref{defIndSet}, there is a corresponding case distinction of the form $\Gamma, \mathbf{u} = \mathbf{t}, Q_1\mathbf{u_1}, \ldots , Q_h\mathbf{u_h}, P_1\mathbf{t_1}, \ldots, P_m\mathbf{t_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u_1},...,\mathbf{u_h},\mathbf{t_1},...,\mathbf{t_m}$, or $\mathbf{t}$, does not occur in $\Gamma, \Delta$ and $\mathbf{u}$.
+    \item There is a left introduction rule associated to $P$ in $\CLKIDomega$, denoted \emph{case split rule } or (Case $P$):
+    \begin{equation}
+    \label{def:caseRule}
+    \begin{prooftree}
+        \hypo{ \{ \Gamma, \mathbf{u} = \mathbf{t^i}, Q^i_1\mathbf{u^i_1}, \ldots , Q^i_h\mathbf{u^i_h}, P^i_1\mathbf{t^i_1}, \ldots, P^i_m\mathbf{t^i_m} \vdash \Delta \}_{1 \leq i \leq n} }
+        \infer1[(Case $P$)]{\Gamma, P\mathbf{u} \vdash \Delta}
+    \end{prooftree}    
+    \end{equation}
+    Where for each production $\Phi_i$, there is a corresponding sequent in the premises of the form $\Gamma, \mathbf{u} = \mathbf{t^i}, Q^i_1\mathbf{u^i_1}, \ldots , Q^i_h\mathbf{u^i_h}, P^i_1\mathbf{t^i_1}, \ldots, P^i_m\mathbf{t^i_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u^i_1},...,\mathbf{u^i_h},\mathbf{t^i_1},...,\mathbf{t^i_m}$, or $\mathbf{t^i}$, does not occur in $\Gamma, \Delta$ and $\mathbf{u}$.
 \end{itemize}
 
 The proof system for $\CLJIDomega$ is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, and replacing LK with its intuitionistic version, named LJ, which is presented in \cite{Berardi}.
@@ -191,48 +194,15 @@ Moreover, the graph of $\Pi$, written as $G_{\Pi}$, is the graph obtained after 
 \label{exampleCircProof}
 \end{figure}
 
-Figure \ref{exampleCircProof} is an example of a $\CLKIDomega$ cyclic pre-proof, taken from \cite{Brotherston1}.
+Figure \ref{exampleCircProof} is an example of a $\CLKIDomega$ cyclic pre-proof, taken from \cite{BrotherstonSimpson}.
 
 \end{example}
 
-The GTC is used as a criterion to verify the soundness of cyclic pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. To define it, is necessary to formalize both the notions of \emph{trace} and \emph{progress point}.
 
-
-\begin{definition}[Trace and Progress Point]
-    Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof and let $(v_i)$ be a path in $G_{\Pi}$. A trace over $(v_i)$ is a sequence $(\uptau_i)$ such that, for all $i$:
-
-    \begin{itemize}
-          \item $\uptau_i = P_i\mathbf{t_i} \in \Gamma_i$, where $P_i$ as and inductive predicate and $s(v_i) = \Gamma_i \vdash \Delta_i$ (resp. $s(v_i) = \Gamma_i \vdash \phi_i$).
-
-          \item If $r(v_i)$ is (Subst) then $\uptau_i = \uptau_{i+1}[\theta]$, where $\theta$ is the substitution associated with the rule instance.
-
-          \item If $r(v_i)$ is (=L2) with active formula $t = u$ then there exists a formula $F$ and variables $x$ and $y$ such that $\uptau_i = F[t / x, u/y]$ and $\uptau_{i+1} = F[u / x, t/y]$
-
-          \item If $r(v_i)$ is some case split rule (Case $P_k$) then either $\uptau_{i+1} = \uptau_i$, or $\uptau_i$ is the active formula of the rule instance and $\uptau_{i+1}$ is a case-descendant of $\uptau_i$. In the latter case, $i$ is said to be a progress point of the trace.
-
-          \item If $r(v_i)$ is no (Subst),(=L) or a casesplit rule, the $\uptau_{i+1} = \uptau_i$
-    \end{itemize}  
-
-\end{definition}
-
-\begin{definition}[Global Trace Condition - Pre-Proofs]
-    A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof $\Pi$ is said to be a $\CLKIDomega$ (resp. $\CLJIDomega$) \emph{proof}, if for every infinite path in $G_{\Pi}$, there is an infinitely progressing trace following some tail of the path.
-\end{definition}
-
-\begin{example}
-    Consider the cyclic pre-proof in Figure \ref{exampleCircProof}. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny, Nx)^{\omega}$ is infinitely progressing, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC.
-\end{example}
-
-%----------------------------------------------------
-%----------------------------------------------------
-%----------------------------------------------------
-%----------------------------------------------------
-%----------------------------------------------------
-
-\subsection{Transition Graphs of Cyclic Pre-Proofs}
+\subsection{Transition Graphs of Cyclic Pre-Proofs and the Global Trace Condition}
 \label{subsec:GTC}
 
-Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations. This construction follows the same method used by Ikebuchi in \cite{Mirai}.
+Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations.
 
 
 \begin{definition}[Transition Graph of a Pre-Proof]
@@ -240,20 +210,89 @@ Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct
 
 Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ or $\CLJIDomega$ pre-proof with a graph $G_{\Pi} = (V',s,r,p')$. We note $\mathcal{G}_{\Pi} = (V', \mathcal{R}, E)$ as the transition graph over bi-partite relations induced by $\Pi$, where:
 \begin{itemize}
-     \item Let $v_1,v_2 \in V'$ such that there exists a $j$ such that $p'_j(v_1) = v_2$. Moreover, let $s(v_1) = \Gamma_1 \vdash \Delta_1$ (resp. $s(v_2) = \Gamma_2 \vdash \Delta_2$) where $\Gamma_1$ (resp. $\Gamma_2$) contains the inductive predicates $P_1\mathbf{t_1}, \ldots, P_n\mathbf{t_n}$ (resp. $Q_1\mathbf{s_1}, \ldots, Q_m\mathbf{s_m}$). We define the bi-partite relation $(S,P)_{v_1,v_2}$ as follows:
+     \item $\mathcal{R} \subseteq X \times X$ where $X = \{ P_i\mathbf{t_i} \ | \ \text{$P_i\mathbf{t_i}$ is inductive, $\exists v \in V'$ s.t. $s(v) = \Gamma \vdash \Delta$ and $P_i\mathbf{t_i} \in \Gamma$} \}$
+     \item Let $v,v' \in V'$ such that both vertices share and edge, i.e. there exists a $j$ such that $p'_j(v) = v'$. Moreover, let $s(v) = \Gamma \vdash \Delta$ (resp. $s(v') = \Gamma' \vdash \Delta'$) where $\Psi \subseteq \Gamma$ (resp. $\Theta \subseteq \Gamma'$)
+     contains only the inductive predicates of $\Gamma$ (resp. $\Gamma'$). We define the bi-partite relation $(S,P)_{v,v'}$ as follows:
         \begin{enumerate}[i)]
-            \item The domain and codomain of $(S,P)_{v_1,v_2}$ are $\{P_1\mathbf{t_1}, \ldots, P_n\mathbf{t_n} \}$ and $\{Q_1\mathbf{s_1}, \ldots, Q_m\mathbf{s_m} \}$ respectively.
-            \item $(P_k\mathbf{t_k}) S (Q_l\mathbf{s_l})$ if and only if there is a non-progressing trace $\uptau = (P_k\mathbf{t_k},Q_l\mathbf{s_l})$, for any $k$ and $l$.
-            \item $(P_k\mathbf{t_k}) P (Q_l\mathbf{s_l})$ if and only if there is a progressing trace $\uptau = (P_k\mathbf{t_k},Q_l\mathbf{s_l})$, for any $k$ and $l$.
+            \item The domain and codomain of $|(S,P)_{v,v'}|$ are $\Psi$ and $\Theta$ respectively.
+            
+            \item If $r(v)$ is (Subst), then for every $P_i\mathbf{t_i} \in \Psi$ we relate $(P_i\mathbf{t_i}) S (P_i\mathbf{t_i}[\theta])$, where $\theta$ is the substitution associated with the rule instance.
+            
+            \item If $r(v)$ is (=L2) with active formula $t = u$, then for every $P_i\mathbf{t_i} \in \Psi$ we relate $(P_i\mathbf{t_i}[t / x, u/y]) S (P_i\mathbf{t_i}[u / x, t/y])$
+
+            \item Let $r(v)$ be (Case $P$) with $P\mathbf{u} \in \Phi$ being the active formula of the rule. Then $(P\mathbf{u}) P (P^i_k\mathbf{t^i_k})$, for every $(P^i_k\mathbf{t^i_k}) \in \Theta$, such that $(P^i_k\mathbf{t^i_k})$ is a case descendant in one of the productions rules of $P\mathbf{u}$, in the $i^{\text{th}}$ premise, as in the Formula \ref{def:caseRule}. For any other $P_i\mathbf{t_i} \in \Phi$ such that $P_i\mathbf{t_i} \neq P\mathbf{u}$, then $(P_i\mathbf{t_i}) S (P_i\mathbf{t_i})$.
+
+            \item If $r(v)$ is different from (Subst), (=L2) or a case split rule, then for every $P_i\mathbf{t_i} \in \Psi$ we relate $(P_i\mathbf{t_i}) P (P_i\mathbf{t_i})$.
         \end{enumerate}
-    
-    \item For all vertices $v_1,v_2 \in V'$ such that there exists a $j$ such that $p'_j(v_1) = v_2$, then $(S,P)_{v_1,v_2} \in \mathcal{R}$ and $\edge{(S,P)_{v_1,v_2}}{v_1}{v_2} \in E$.
- 
+
+    \item $\mathcal{R} = \{(S,P)_{v,v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
+
+    \item $E = \{\edge{(S,P)_{v,v'}}{v}{v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
  \end{itemize} 
 
 \end{definition}
 
-The next step is to provide a formal definition of the GTC in the context of transition graphs with bi-partite relations, and show its equivalence to the GTC for pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. 
+Note that this construction defines an isomorphism between graphs. Specifically, $G_{\Pi}$ is isomorphic to $\mathcal{G}_{\Pi}$, in the sense that for all $v,v' \in V'$ then $p'_j(v) = v'$ if and only if $\edge{(S,P)_{v,v'}}{v}{v'}$, for some bi-partite relation $(S,P)$ and index $j$.
+
+\begin{example}
+    Put here the example of the transition graph obtained from the cyclic proof in example \ref{exampleCircProof}.
+\end{example}
+
+The next step is to define the GTC over cyclic pre-proofs. As mentioned before, this condition is used as a criterion to verify the soundness of cyclic pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. To define it, it is first necessary to formalize both the notions of \emph{trace} and \emph{progress point}.
+
+
+\begin{definition}[Trace and Progress Point]
+    \label{def:traceCyclic}
+    Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof and let $(v_i)$ be a path in $G_{\Pi}$. A trace over $(v_i)$ is a sequence $\uptau$ such that, for all $i$:
+
+    \begin{itemize}
+          \item $\uptau(i) = P_i\mathbf{t_i} \in \Gamma_i$, where $P_i$ as and inductive predicate and $s(v_i) = \Gamma_i \vdash \Delta_i$ (resp. $s(v_i) = \Gamma_i \vdash \phi_i$).
+
+          \item If $r(v_i)$ is (Subst) then $\uptau(i) = \uptau(i+1)[\theta]$, where $\theta$ is the substitution associated with the rule instance.
+
+          \item If $r(v_i)$ is (=L2) with active formula $t = u$ then there exists a formula $F$ and variables $x$ and $y$ such that $\uptau(i) = F[t / x, u/y]$ and $\uptau(i+1) = F[u / x, t/y]$
+
+          \item If $r(v_i)$ is some case split rule (Case $P_k$) then either $\uptau(i+1) = \uptau(i)$, or $\uptau(i)$ is the active formula of the rule instance and $\uptau(i+1)$ is a case-descendant of $\uptau(i)$. In the latter case, $i$ is said to be a progress point of the trace.
+
+          \item If $r(v_i)$ is no (Subst),(=L) or a casesplit rule, the $\uptau(i+1) = \uptau(i)$
+    \end{itemize}  
+
+\end{definition}
+
+\begin{definition}[Global Trace Condition]
+    \label{def:GTC}
+    A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof $\Pi$ is said to be a $\CLKIDomega$ (resp. $\CLJIDomega$) \emph{proof}, if for every infinite path in $G_{\Pi}$, there is an infinitely progressing trace following some tail of the path.
+\end{definition}
+
+\begin{example}
+    Consider the cyclic pre-proof in Figure \ref{exampleCircProof}. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny, Nx)^{\omega}$ is infinitely progressing, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC.
+\end{example}
+
+Using the construction specified in Definition \ref{def:preProofTrans}, and the Definitions \ref{def:TracePath} and \ref{def:traceCyclic} of path and traces for transitions graphs and cyclic pre-proofs, it can be derived that:
+
+
+%the notion of path and trace are not exactly the same given the defintions, but they describe the same object in different ways 
+\begin{proposition}
+For any circular pre-proof $\Pi$, $\uptau$ is a trace over a path in $G_{\Pi}$ if and only if $\uptau$ is compatible over the same path in $\mathcal{G}_{\Pi}$. 
+\end{proposition}
+
+Then, using the previous proposition and the definitions \ref{def:GTC} and \ref{def:SCT}, the equivalence between GTC and SCT follows:
+
+\begin{proposition}
+Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof. Then $\Pi$ is a $\CLKIDomega$ (resp. $\CLJIDomega$) proof if and only if $\mathcal{G}_{\Pi}$ satisfies the size-change termination condition.
+\end{proposition}
+
+
+
+%----------------------------------------------
+%----------------------------------------------
+%----------------------------------------------
+%----------------------------------------------
+%----------------------------------------------
+%----------------------------------------------
+
+
+%The next step is to provide a formal definition of the GTC in the context of transition graphs with bi-partite relations, and show its equivalence to the GTC for pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. 
 
 %\begin{definition}[Trace, path and progress]\label{def:TracePath}
 %Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
@@ -281,11 +320,15 @@ The next step is to provide a formal definition of the GTC in the context of tra
 %$\tau \models \ppath$, which has infinitely many progress points.
 %\end{definition}
 
-\begin{proposition}
-Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof. Then $\Pi$ is a $\CLKIDomega$ (resp. $\CLJIDomega$) proof if and only if $\mathcal{G}_{\Pi}$ satisfies the global trace condition.
-\end{proposition}
-
 
 %\medskip Here we introduce the system $\CLKIDomega$ and its particular case $\CLJIDomega$, and show that our GTC is the same as the correctness condition in \cite{BrotherstonSimpson}.
 
 %Using \cite{Mirai}, we argue that GTC = SCT. 
+
+%----------------------------------------------
+%----------------------------------------------
+%----------------------------------------------
+%----------------------------------------------
+%----------------------------------------------
+
+
