@@ -1657,7 +1657,7 @@ this implies that we have $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
 \end{proof}
 
 This ends the proof of Termination Theorem 
-(\ref{theorem-finiteness-value-flow-1}).
+(\ref{theorem-finiteness-value-flow-2}).
 
 \begin{thebibliography}{9}
 
@@ -1727,7 +1727,7 @@ we can have without a progress in a constant-cardinality path in a multigraph
 which satisfies PCD. 
 
 \begin{definition}[$\kappa(g,n,k)$]
-Let $n,k \in \N$ with $1 \le n$ and $k \le n$.
+Let $n,k \in \N$ with $1 \le k \le n$.
 
 \begin{enumerate}
 \item
@@ -1742,10 +1742,13 @@ with a unique vertex.
 \end{enumerate}
 \end{definition}
 
-We already proved that $\kappa(g,n,k) \le g  \genfrac(){0pt}{1}{n}{k}-1$,
-and when $g=1$ that $\kappa(n,k) \le \genfrac(){0pt}{1}{n}{k}-1$. 
+We already proved that $\kappa(g,n,k) \le g  \genfrac(){0pt}{1}{n}{k}-1$:
+see Theorem 
+\ref{theorem-finiteness-value-flow-2}.{theorem-finiteness-value-flow-2-1}.
+When $g=1$ we have $\kappa(n,k) \le \genfrac(){0pt}{1}{n}{k}-1$. 
 
-Our aim is to prove the following results for one-vertex multigraph: $\kappa(n,k) \ge (n-k)k$
+Our aim is to prove the following lower bound result
+for one-vertex multigraph: $\kappa(n,k) \ge (n-k)k$
 and the following results for any multigraph: $\kappa(g,n,k) \ge g(n-k)k + (g-1)$
 We will obtain in this way a more precise interval for the value $\kappa(n,k)$:
 
@@ -1759,7 +1762,7 @@ $\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \genfrac(){0pt}{1}{n}{k}-1 ]$.
 
 \begin{lemma}[Lower bound for the Worst Case of 
 non-Progressing Constant-cardinality Path]
-$\kappa(n,k) \ge (n-k)k$
+For all $n,k \in \N$ with $1 \le k \le n$ we have $\kappa(n,k) \ge (n-k)k$.
 \end{lemma}
 
 \begin{proof}
@@ -1786,7 +1789,7 @@ Namely: $\forall x,y,z \in X$, if $x \Stat y$ and $x \Prog z$ then $x < y$.
 \end{enumerate}
 
 Now we define a multigraph $\setG=(V,E,X)$, with $V=\{1\}$ and 
-$E = V \times \setR \times V$. 
+$E = V \times \setR \times V$ and $X = [1,n]$. 
 
 \emph{Claim}. 
 $\setR$ is closed by composition, in particular $E^+ = V \times \setR \times V$. 
@@ -1794,7 +1797,8 @@ $\setR$ is closed by composition, in particular $E^+ = V \times \setR \times V$.
 Assume that $(\Stat,\Prog),(\Stat',\Prog') \in \setR$ and 
 $(\Stat'',\Prog'') = (\Stat,\Prog)(\Stat',\Prog')$ in order to prove that 
 $(\Stat'',\Prog'')  \in \setR$. Remark that $R = \universe{(\Stat'',\Prog'')} = 
-\universe{(\Stat,\Prog)} \universe{(\Stat',\Prog')}$. 
+\universe{(\Stat,\Prog)} \universe{(\Stat',\Prog')}$.
+ 
 \begin{enumerate}
 \item
 $R$ is injective and surjective, being the composition of two relations which are injective and surjective. We have $\dom(R) \not = X$, because 
@@ -1803,6 +1807,7 @@ $\dom(R) \subseteq \dom(\universe{(\Stat,\Prog)} \subset X$.
 \item
 $\Stat'' = \Stat\Stat'$ is an extending weakly increasing partial function, being the
 composition of two extending weakly increasing partial functions. 
+
 \item
 Assume $x,y,z \in X$, $x \Stat'' y$ and $x \Prog'' z$ in order to prove that $x < y$. 
 From $x \Stat'' y$ we deduce $x \Stat t \Stat' y$ for some $t \in X$, with $x \le t \le y$. 
@@ -1816,6 +1821,7 @@ $t \Stat' y$ we obtain that $t < y$. We deduce that $x < y$.
 From the Claim we prove that:
 
 \begin{enumerate}
+
 \item 
 $\setG$ satisfies PDC.  We proved that any pair $(\Stat, \Prog)$ labeling an edge in $E^+$
 is in $\setR$. From $R = \Stat \cup \Prog$ surjective and $\dom(R) \subset X = \codom(R)$ 
@@ -1830,18 +1836,42 @@ such that $v \Prog x$. This is PDC.
 
 \item 
 There is some non-progressing $k$-constant-cardinality path $\pi:[1,m] \rightarrow E^+$
-such that $m=(n-k)k$.  
-%17:18 07/07/2025
-\ldots
+such that $m=(n-k)k$.  For any $a \in [1,k]$, $b \in [1,n-k]$
+we define $(\Stat_{a,b},\Prog_{a,b}) \in \setR$. We define $\Stat_{a,b}$ the identity on 
+$[1,k-a] $, union $\{(k-a+b, \ k-a+b+1)\}$, union the identity on $[n-a+2,n]$. 
+We have $k-a+b \ge k - k + b = b \ge 1$, and from $k < n$
+we deduce that $k-a+b+1 \le k - 1 + b  +1 = k + b \le k + (n-k) = n$.
+We have $k-a+b+1 \le k - a + n - k +1 = n - a +1 < n-a+2$.
+We proved that $(k-a+b, \ k-a+b+1) \in X \times X$ and that the codomains of .
+$\Stat_{a,b}$ is extending, weakly increasing, injective and $\Card(\dom(\Stat_{a,b})$
+is $(k-a) +1 + n-(n-a+2)+1 = k-a+1+n-n+a-2+1= k$.
+
+We define $\Prog_{a,b}$ by connecting
+$(k-a+b) \in X$ with all elements in $[1,n]$ and not in 
+$[1,k-a] \cup \{k-a+b+1\} \cup [n-a+2,n]$. $\Stat_{a,b}$ and $\Prog_{a,b}$ are injective
+and have disjoint codomains. Their union is surjective by definition.
+We obtained an injective and surjective relation $R_{a,b} = \Stat_{a,b} \cup \Prog_{a,b}$,
+with $\Stat_{a,b}$ strictly extending in the unique progressing element $k-a+b$. 
+
+
+We deduce that $(\Stat_{a,b},\Prog_{a,b}) \in \setR$. 
+
+We define $\pi:[1,(n-k)k] 
+\rightarrow \setR$ by: $\pi(i) = (1,\Stat_{a,b},1)$, for the unique decomposition
+$i = (a-1) + (b-1)k$ such that $a \in [1,k]$, $b \in [1,n-k]$.
+
+We claim that
+$\pi:[1,(n-k)k] \rightarrow E^+$ is a non-progressing $k$-constant-cardinality path.
+%18:28 07/07/2025
+\ldots\ldots\ldots
 \end{enumerate}
-
-
 \end{proof}
 
 \begin{corollary}[Lower bound for the Worst Case of 
 non-Progressing Constant-cardinality Path]
 $\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \genfrac(){0pt}{1}{n}{k}-1 ]$.
 \end{corollary}
+
 
 
 \subsection{PDC, GTC and $\SCTa$ are Equivalent Given Injectivity}
