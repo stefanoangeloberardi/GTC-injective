@@ -2,6 +2,9 @@
 \section{Progress Domain Condition}
 \label{sec:progressDomainCond}
 
+In the previous section we have seen that the SCT condition for transition graphs and the GCT condition for cyclic proofs coincide up to rephrasing GTC in terms of transition graphs. We have also proved that the transition graphs associated to cyclic pre-proofs in systems $\CLJIDomega$ and $\CLKIDomega$ are injective. In this section we formalize a new condition
+on transition graphs, which we call {\em Progress Domain Condition}, shortly PDC, and show that, although it is strictly weaker than GCT, it implies GTC in the case of injective graphs. 
+
 \begin{definition}[Prograss Domain Condition - PDC]\label{def:PDC}
 $\Graph$ satisfies the {\em Prograss Domain Condition} if for all self-composable $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
 $x$ progresses to $y$:
@@ -113,7 +116,7 @@ $x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective.
 
 In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use infinite Ramsey's Theorem. We preliminarily introduce some terminology.
 Let $N \subseteq \Nat$, then $[N]^m = \Set{Y \subseteq N \mid |Y| = m}$ can be regarded as the complete (undirected) hypergraph where
-all hyperedges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).\marginpar{where?}
+all hyperedges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).
 Given a coloring $c: [N]^m \to \Set{1,\ldots, k}$ and $Z \subseteq N$ we define $c''[Z]^m$ as the set of colors of the hyperedges in $[Z]^m$:
 \[c''[Z]^m = \Set{i \mid \exists U \in [Z]^m.\; c(U) = i} \]
 A set $H \subseteq N$ is {\em $c$-homogeneous} if $c''[H]^m$ is a singleton.
