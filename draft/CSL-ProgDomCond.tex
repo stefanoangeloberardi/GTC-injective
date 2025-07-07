@@ -119,9 +119,16 @@ $x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective.
 In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use infinite Ramsey's Theorem. We preliminarily introduce some terminology.
 Let $N \subseteq \Nat$, then $[N]^m = \Set{Y \subseteq N \mid |Y| = m}$ can be regarded as the complete (undirected) hypergraph where
 all hyperedges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).
-Given a coloring $c: [N]^m \to \Set{1,\ldots, k}$ and $Z \subseteq N$ we define $c''[Z]^m$ as the set of colors of the hyperedges in $[Z]^m$:
-\[c''[Z]^m = \Set{i \mid \exists U \in [Z]^m.\; c(U) = i} \]
-A set $H \subseteq N$ is {\em $c$-homogeneous} if $c''[H]^m$ is a singleton.
+Taking $m = 2$, we have that $[N]^2 = \Set{\Set{x,y} \subseteq N \mid x \neq y}$ is the set of edges of the complete undirected graph whose vertices are in $N$. 
+
+Let $\underline{k} = \Set{0, \ldots , k-1}$ be the set of the first $k$ natural numbers; then a {\em $k$-coloring} of $[N]^2$ is a map  
+$c:[N]^2 \to \underline{k}$; a subset $[A]^2 \subseteq [N]^2$ is {\em monocromatic} if there is $i \in \underline{k}$ such that  $c(Y) = i$ for all
+$Y \in [A]^2$.
+
+
+%Given a coloring $c: [N]^m \to \Set{1,\ldots, k}$ and $Z \subseteq N$ we define $c''[Z]^m$ as the set of colors of the hyperedges in $[Z]^m$:
+%\[c''[Z]^m = \Set{i \mid \exists U \in [Z]^m.\; c(U) = i} \]
+%A set $H \subseteq N$ is {\em $c$-homogeneous} if $c''[H]^m$ is a singleton.
 
 \begin{theorem}[Ramsey's Theorem]\label{thr:Ramsey}
 For all $m, k \in \Nat\setminus \Set{0}$ and any coloring $c[\Nat]^m \to \Set{1,\ldots, k}$, there exists an infinite $H \subseteq \Nat$ which is $c$-homogeneous.
