@@ -89,7 +89,7 @@ $S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \te
 Similarly, $P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. 
 
 The composition $G,G'$ of $G:\texttt{f} \to \texttt{g}$ with $G':\texttt{g} \to \texttt{h}$
-requires that the target function symbols of $G$ and the source function symbol of $G'$ coincide; we remove the restriction by taking the unique finite set of ``symbols'' $X$, that could be a set of any other concrete entities such as sequents of formulas in a logical system, and introducing the sets of vertexes $V$ and of edges $E$ to structure the graph. As a consequence, we do not have  a single pair of relations $ \leqdownarrow, \downarrow$, but a finite set of them 
+requires that the target function symbols of $G$ and the source function symbol of $G'$ coincide; we remove the restriction by taking the unique finite set of ``symbols'' $X$, that could be a set of any other concrete entities such as sequents of formulas in a logical system, and introducing the sets of vertexes $V$ and of edges $E \subseteq V \times \biRel \times V$ to structure the graph. As a consequence, we do not have  a single pair of relations $ \leqdownarrow, \downarrow$, but a finite set of them 
 $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ labeling the edges in $E$, which is our notation for the set of bipartite relations $(\leqdownarrow_i, \downarrow_i)$ in Figure ...
 
 
