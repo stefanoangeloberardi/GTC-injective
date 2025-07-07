@@ -19,14 +19,19 @@
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{definition}[theorem]{Definition}
+
 %\newenvironment{proof}[1][Proof]{\begin{trivlist}
 %\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-\newenvironment{example}[1][Example]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 
-\newenvironment{remark}[1][Remark]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]
+{\begin{trivlist} \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{remark}[1][Remark]
+{\begin{trivlist}\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
 %\bibliographystyle{plainurl}% the mandatory bibstyle for CSL2024
+
+
 \begin{document}
 \sloppy 
 \hbadness=10000
@@ -118,37 +123,49 @@ a cyclic proof or a mutual recursive definition.
 
 
 \begin{definition}[Multigraphs]
-\label{definition-multigraphs}
+\label{definition-multigraph}
+Suppose be given:
 
 \begin{enumerate}
 \item
 a \emph{finite set} $X = \{ x_1, \ldots, x_n \} $
- (representing parameters of a proof or variables of a program);
+ (it could represent parameters of a proof or variables of a program);
 
 \item
-A finite set $V$ (representing judgment of a cyclic proof or abstract program states).
+A finite set $V$ of vertices
+ (it could represent judgment of a cyclic proof or abstract program states).
+
+%\item
+%a finite set $\setR \subseteq \setP(X^2)^2$, with
+%each $(\Stat, \Prog) \in \setR$ a \emph{pair of finite relations on $X$}
+%such that \emph{$\Stat \cap \Prog = \emptyset$ for all $(\Stat, \Prog) \in \setR$},
+%and representing bi-partite graphs (i.e., bi-colored relations) on $X$.
+%We call each $(\Stat, \Prog) \in \setR$ just a \emph{pair} for short.
 
 \item
-a finite set $\setR \subseteq \setP(X^2)^2$, with
-each $(\Stat, \Prog) \in \setR$ a \emph{pair of finite relations on $X$}
-such that \emph{$\Stat \cap \Prog = \emptyset$ for all $(\Stat, \Prog) \in \setR$},
-and representing bi-partite graphs (i.e., bi-colored relations) on $X$.
-We call each $(\Stat, \Prog) \in \setR$ just a \emph{pair} for short.
+a finite set 
+$E \subseteq V \times \setP(X^2)^2 \times V$ of labeled edges,
+with each edge including two disjoint relations:
+ \emph{$\Stat \cap \Prog = \emptyset$ for all $(a,(\Stat, \Prog),b) \in E$}
+\end{enumerate}
 
-\item
-a finite labeled multi-graph $\setG=(V,E)$, with a set 
-$E \subseteq V \times \setR \times V$ of labeled edges.
+The we call $\setG= (V,E,X)$ a multigraph. We introduce the following abbreviations:
 
+\begin{enumerate}
 \item
 For any $e = (a, (\Stat, \Prog), b) \in E$ we set  
-$\dom(e) = a$, $\Label(e) = (\Stat, \Prog)$ and $\codom(e) = a$
+$\dom(e) = a$, $\Label(e) = (\Stat, \Prog)$ and $\codom(e) = a$.
+
+\item
+We write $\setR = \Label(E)$ for the set of pairs $(\Stat, \Prog)$ 
+labeling the edges of $\setG$.
 \end{enumerate}
 \end{definition}
 
-$\setG=(V,E)$ is a labeled graph, and the labels $e = (a, (\Stat, \Prog), b) \in E$ of each edge
+$\setG=(V,E,X)$ is a labeled graph, and the labels $e = (a, (\Stat, \Prog), b) \in E$ of each edge
 define a bi-colored graph on $X$, with $\Stat$ the set of edges of the first color
 and $\Prog$ the set of edges of the second color.
-This is why, following Neil Jones, we call $\setG$ a multi-graph.
+Following Neil Jones, we call $\setG$ a multi-graph.
 
 If $x \Stat y$ (if the edge from $x$ to $y$ has the first color)
 we say that $x$ weakly progresses to $y$ in $(\Stat, \Prog)$, and we mean that $x \ge y$.
@@ -184,7 +201,7 @@ multi-graph $\setG$.
 
 
 \begin{definition}[Composable pairs  in $\setG$]
-Assume $\setR, V, E, \setG$ are as in  Def. \ref{definition-multigraphs}.
+Assume $\setG=(V,E,X)$ is a multigraph  (Def. \ref{definition-multigraph}).
 
 \begin{enumerate}
 
@@ -194,15 +211,20 @@ by domain-compatible composition:
 if $(a,(\Stat,\Prog),b),  (b,(\Stat,\Prog),c)\in E^+$ then  
 $(a,(\Stat,\Prog)(\Stat',\Prog'),c) \in E^+$.
 
-We write $\setG^+$ for the graph $(V,E^+)$.
+We write $\setG^+$ for the multigraph $(V,E^+,X)$.
 
 \item
 We write  $\composable{\setG}{a}{b}{(\Stat,\Prog)}$
 for if $(a,(\Stat,\Prog),b) \in E^+$.
 
 \item
-$\setR^\setG =  \{(\Stat,\Prog) | \exists a,b \in V. \composable{\setG}{a}{b}{(\Stat,\Prog)} \}$
-is the set of bi-colored relations labeling some $e \in E^+$.
+We write 
+$
+\setR^\setG 
+=  
+\{(\Stat,\Prog) | \exists a,b \in V. \composable{\setG}{a}{b}{(\Stat,\Prog)} \}
+$
+for the set of bi-colored relations labeling some $e \in E^+$.
 
 %\item
 %We say that that two pairs of finite disjoint relations $(\Stat,\Prog), (\Stat',\Prog')$ on 
@@ -212,7 +234,7 @@ is the set of bi-colored relations labeling some $e \in E^+$.
 %$\composable{\setG}{b}{c}{(\Stat',\Prog')}$ for some $a,b,c, \in G$.
 
 \item
-$(\Stat,\Prog) \in \setR^\setG$
+A relation pair $(\Stat,\Prog) \in \setR^\setG$
 is \emph{self-composable in $\setG$}, just \emph{self-composable}
 for short, if and only if we have 
 $\composable {\setG} {a} {a} {(\Stat,\Prog)}$ for some $a \in V$.
@@ -223,7 +245,8 @@ $\composable {\setG} {a} {a} {(\Stat,\Prog)}$ for some $a \in V$.
 
 We skip the multigraph $\setG$ when it can be deduced from the context
 and we write just $\composable{}{a}{b}{(\Stat,\Prog)}$.
-The role of $\setG$ is to restrict the set of compositions which are allowed.
+The role of the domain and the codomain of edges in 
+$\setG$ is to restrict the set of compositions which are allowed.
 
 %As we said, we consider the elements of $X$ as variables to which we associate a value 
 %in each instant of time. A a consequence, 
@@ -247,6 +270,7 @@ $(\Stat,\Prog)$ to define a bicoloring on $\Stat \cup \Prog$, as it was done in
 \cite{2001-SCT}.
 \\
 
+Assume $\setG = (V,E,X)$ is any multigraph (\ref{definition-multigraph}). 
 We call \emph{trace} any sequence on $X$. 
 We call \emph{path} on $\setG$ 
 any transition path $(a_0,(\Stat_0,\Prog_0),a_1), (a_1,\Stat_1,\Prog_1),a_2), \ldots$
@@ -297,7 +321,7 @@ as a corollary, we will derive that any cyclic proof satisfying GTC is correct.
 %We repeat the definitions above more formally.
 %
 %\begin{definition}[Path, Trace and Value Flow]
-%Assume $\setR$, $\setG=(V,E)$ are as in Def. \ref{definition-multigraphs}.
+%Assume $\setR$, $\setG=(V,E,X)$ are as in Def. \ref{definition-multigraph}.
 %Assume $D = [0,n]$ for some $n \in \N$ or $D=\N$ 
 %is any non-empty initial segment of the order on natural numbers.
 %\begin{enumerate}
@@ -330,7 +354,7 @@ the trace.
 
 \begin{definition}[Global Trace Condition (GTC) and Injectivity]
 \label{definition-GTC-inj}
-Assume $\setR, \setG$ are as in  Def. \ref{definition-multigraphs}.
+Assume $\setR, \setG$ are as in  Def. \ref{definition-multigraph}.
 Suppose $X=\{x_1, \ldots, x_n\}$, $\setR =\{(\Stat_i, \Prog_i)| i \in [1,r]\}$
 and $b, \tau$ are a path of $\setR, \setG$ and a trace, all of domain 
 $D=[0,h]$ for some $h \in \N$ or $D=\N$.
@@ -399,9 +423,9 @@ Lee and Ben-Aram considered in \cite{2009-Lee-Aram} the notion
 of fan-in free for $\setR$, $\setG$. 
 This notion is equivalent to our injectivity condition above 
 (Def. \ref{definition-GTC-inj}). In the cited paper, the equivalence requires to
-rename all sets $X$ in each node $f \in G$ to some set
-$\Var(f)$, in order to make pairwise distinct the set of variables associated
-to each node $f \in G$. We avoid renaming in this paper.
+rename all sets $X$ associated to each node $f \in V$ to some set
+$\Var(f)$, in order to make disjoint the sets of variables associated
+to different nodes. We avoid renaming in this paper.
 
 The Global Trace condition (GTC) is equivalent to the algorithmic 
 criterion for Size Change Termination ($\SCTa$), even without assuming injectivity.
@@ -409,7 +433,7 @@ criterion for Size Change Termination ($\SCTa$), even without assuming injectivi
 
 \begin{definition}[The SCT-a Algorithmic Condition]
 \label{definition-SCT}
-Assume $\setG=(V,E)$ is a labeled graph as in \ref{definition-multigraphs} for some
+Assume $\setG=(V,E,X)$ is a labeled graph as in \ref{definition-multigraph} for some
 finite set $X$.
 We say that $\setG$ satisfies $\SCTa$ if and only if for all self-composable 
 $\composable{\setG}{a}{a}{(\Stat,\Prog)}$ such that 
@@ -496,7 +520,7 @@ Order Arithmetic and nested induction.
 
 Several decidable equivalent are known for GTC. In Classical Logic, GTC for 
 $\setR,\setG$ is equivalent to the fact that all value flows compatible 
-with some path are finite: we postpone the proof to the Appendix.
+with some path are finite: we postpone the proof to the Appendix \ref{section-appendix}.
 
 We assume injectivity and we are looking for an equivalent version
 of GTC which can expressed in First Order Aritmetic, and such that
@@ -583,8 +607,7 @@ We explain why.
 
 %12:33 07/03/2025
 
-\subsection{PDC does not imply GTC,
-in the case of non injective family of relation pairs}
+\subsection{PDC does not imply GTC, in the case of non injective family of relation pairs}
 \label{subsubsection-counterexample-PDC-GTC}
 Here is a counter-example $X, \setR_1, \setG_1=(V,E)$.
 Let $X = \{x_1,x_2\}$, $\setR_1=\{(\Stat,\Prog)\}$, $V=\{1\}$
@@ -625,9 +648,10 @@ or, using Classical Logic, GTC:
 
 \begin{theorem}[Finiteness of $\setR$-compatible transitions (weak form)]
 \label{theorem-finiteness-value-flow-1}
-If $\setG$ is any multigraph with \emph{injective} relation pairs 
+If $\setG=(V,E,X)$ is any multigraph (ref{definition-multigraph})
+with \emph{injective} relation pairs 
 and satisfying the Progressing Domain Condition (PDC)  in $\setG$
-then GTC holds, in particular any value flow compatible with $\setR,\setG$ is finite.
+then GTC holds, in particular any value flow compatible with $\setG$ is finite.
 \end{theorem}
 
 
@@ -638,14 +662,15 @@ We first include a short equivalence proof, by building on the results of Neil J
 \begin{proof}(First Proof of of Thm. \ref{theorem-finiteness-value-flow-1})
 In our terminology, Theorem 4, \cite{2001-SCT} is a proof of  
 $\SCTa$ $\Leftrightarrow$ GTC. 
-Therefore in order to prove GTC $\Rightarrow$ PDC in the case on injectivity, 
-it is enough to prove that in this case we have GTC $\Rightarrow$ PDC and
-PDC $\Rightarrow$ $\SCTa$.
+Therefore in order to prove GTC $\Rightarrow$ PDC for a multigraph $\setG$
+with injective relations, it is enough to prove that in the case of injective relations
+we have GTC $\Rightarrow$ PDC and PDC $\Rightarrow$ $\SCTa$.
 
 \begin{enumerate}
 
 \item
-We assume GTC in order to prove PDC. For,
+Assume $\setG = (V,E,X)$ is any multigraph (\ref{definition-multigraph}).
+We assume GTC for $\setG$ in order to prove PDC for $\setG$. For,
 we assume $\composable{\setG}{a}{(\Stat,\Prog)}{a}$ in order to prove that
 for some $x,y,z \in X$ we have $x \Prog y (\Stat \cup \Prog) z$. We consider the infinite path 
 $\pi =  \composable{\setG}{a}{(\Stat,\Prog)}{a}, \composable{\setG}{a}{(\Stat,\Prog)}{a}, 
@@ -721,7 +746,7 @@ of $\setR$. We explain why.
 Here is a counter-example $\setR_2$. 
 Let $X = \{x_1,x_2\}$, $\setR_2=\{(\Stat,\Prog)\}$
 and $\Stat =\{(x_1,x_1)\}$, $\Prog =\{(x_1,x_2)\}$. 
-We define $\setG=(V,E)$, $V=\{1\}$, $E=(1,(\Stat,\Prog),1)$, 
+We define $\setG=(V,E,X)$, $V=\{1\}$, $E=(1,(\Stat,\Prog),1)$, 
 in such a way that the unique pair $(\Stat,\Prog)$ is self-composable. 
 
 We prove that $\setR_2$ is composition-closed.
@@ -773,10 +798,10 @@ We define the set $\setS$ of computation states and the set $\setT$ of
 transition chains from a computation state to another one.
 
 \begin{definition}[States, Compositions and Transition Sequences]
-Assume $X= \{x_1, \ldots, x_n\}, \setR, \setG=(V,E)$ 
-are as in  Def. \ref{definition-multigraphs}.
-Assume $(\Stat,\Prog)$ is a pair
-of \emph{disjoint} finite binary relations on $X$. 
+Assume $\setG=(V,E,X)$ is a multigraph (Def. \ref{definition-multigraph},
+with $X= \{x_1, \ldots, x_n\}$ and $\setR = \Label(E)$ the set of relations of $\setG$.  
+Assume $(\Stat,\Prog) \in \setR$ 
+($(\Stat,\Prog)$ is a pair of \emph{disjoint} finite binary relations on $X$). 
 \begin{enumerate}
 
 \item
@@ -806,7 +831,7 @@ and $\forall (x,y) \in \Prog. \sigma(x) > \sigma'(y)$.
 \emph{(Transition Sequence)}
 A \emph{transition sequence} 
 is any sequence $(s_1, \ldots, s_n) \in \setS$ of states
-such that $(s_i, s_{i+1})$ is a transition in $\setR,\setG$ for all $i \in [1,n[$. 
+such that $(s_i, s_{i+1})$ is a transition in $\setG$ for all $i \in [1,n[$. 
 We denote the set of transition sequences with $\setT$.
 \end{enumerate}
 \end{definition}
@@ -826,15 +851,14 @@ $$
 % 13:34 06/03/2025
 
 
-\subsection{Some Ingredient for a Proof of the Termination Theorem 
-\ref{theorem-finiteness-value-flow-1}}
+\subsection{Some Ingredient for a Proof of the Termination Theorem}
 \label{subsection-proof-termination}
-Assume that $\setR$ is
-injective and that $\setR, \setG$
+Assume that $\setG=(V,E,X)$ is a multigraph (\ref{definition-multigraph})
+with injective relations and which
 satisfies PDC, namely: for all $(\Stat,\Prog) \in \setR^\setG$ self-composable
-in $\setG$ we have $x \Prog y$ for
-some $x, y \in \dom(\Stat \cup \Prog)$.
-Let $\setT$ be the set of transition sequences for the multigraph $\setG=(V,E)$. 
+in $\setG$ we have $x \Prog y$ for some $x, y \in \dom(\Stat \cup \Prog)$.
+
+Let $\setT$ be the set of transition sequences for the multigraph $\setG=(V,E,X)$. 
 We want to prove that $>$ is a well-founded order on the set $\setT$ of transitions. 
 Using Classical Logic and a second order quantification,
 this can be formsulated as: all transition sequences terminate.
@@ -849,7 +873,7 @@ that $>$ is well-founded.
 
 \begin{definition}[The well-founded order $\setL$]
 \label{definition-well-founded-order-L}
-Let $\setG=(V,E)$ be a multigraph. We call $g = \Card(V)$ the cardinality of the graph. 
+Let $\setG=(V,E,X)$ be a multigraph. We call $g = \Card(V)$ the cardinality of the graph. 
 We equip the set 
 $$
 \setL 
@@ -1104,10 +1128,10 @@ We need one last ingredients before proving the Termination Theorem.
 We now define larger and larger subsets of $\setT$, and for each of them 
 we will prove well-foundedness for the extension relation $>$.
 
-Assume $\pi:[1,l] \rightarrow E^+$ 
-is any path of labeled edges of a multigraph $\setG^+=(V,E^+)$,
-with $(\Stat_i,\Prog_i) = \Label(\pi(i))$ for all $i \in [1,l]$.
-Then for all $i,j \in [1,l]$, $i \le j$ we define
+Assume $\setG=(V,E,X)$ is a multigraph and $\pi:[1,l] \rightarrow E^+$ 
+is any path on the transitive closure $\setG^+=(V,E^+,X)$,
+with $(\Stat_i,\Prog_i) = \Label(\pi(i))$ for all $i \in[1,m]$.
+Then for all $i,j \in[1,m]$, $i \le j$ we define
 $$
 (\Stat_{i,j},\Prog_{i,j}) \ \ \ = \ \ \
 \Pi_{h=i}^{h=j} (\Stat_h,\Prog_h) \ \ \ = \ \ \
@@ -1122,48 +1146,41 @@ $\dom(R_{i,j})  \supseteq \dom(R_{i,j+1})$, that is,
 $\Card(\dom(R_{i,i})) \supseteq \Card(\dom(R_{i,i+1}))
 \supseteq \ldots \supseteq \Card(\dom(R_{i,l}))$. Thus, 
 $\Card(\dom(R_{i,i})) \ge \Card(\dom(R_{i,i+1})) \ge \ldots \ge \Card(\dom(R_{i,l}))$.
-When for each $i \in [1,l]$  we have 
+When for each $i \in[1,m]$  we have 
 $\Card(\dom(R_{i,i})) = \Card(\dom(R_{i,i+1})) = \ldots = \Card(\dom(R_{i,l}))$ 
-we say that the list $L$ has \emph{stable-cardinality} domains: the cardinality
+we say that the path $\pi$ has \emph{stable-cardinality}: the cardinality
 of $\dom(R_{1,1})$ and $\dom(R_{2,2})$ can still be different.
 When \emph{all} $\Card(\dom(R_{i,j}))$ are the same we
-say that $L$ has constant-cardinality domain.
+say that $\pi$ has constant-cardinality.
 
 Here is the formal definition.
 
 
 \begin{definition}
-[Stable-Cardinality Domain for a sequence on $E^+$]
-Assume $\pi:[1,l] \rightarrow E^+$ 
-is any path of labeled edges of a multigraph $\setG^+=(V,E^+)$
-and $(\Stat_{i,j},\Prog_{i,j}) =
-(\Stat_i,\Prog_i) \ldots (\Stat_j,\Prog_j)$
+[Stable-Cardinality Path for a sequence on $E^+$]
+Assume $\setG=(V,E,X)$ is a multigraph (\ref{definition-multigraph})
+and $\pi:[1,l] \rightarrow E^+$ is any path on $\setG^+=(V,E^+,X)$
+and $(\Stat_{i,j},\Prog_{i,j}) = (\Stat_i,\Prog_i) \ldots (\Stat_j,\Prog_j)$
 and $R_{i,j} = \universe{(\Stat_{i,j},\Prog_{i,j})}$
-for all $i,j \in [1,l]$, $i \le j$.
+for all $i,j \in[1,m]$, $i \le j$.
 
 
 \begin{enumerate}
 
 \item
-$\pi$ has \emph{stable-cardinality domain} if and only if all $i \in [1,l]$ 
+$\pi$ has \emph{stable-cardinality} if and only if all $i \in[1,m]$ 
 we have $\Card(\dom(R_i)) = \Card(\dom(R_{i,l}))$.
 
 \item
-$\pi$ has \emph{constant cardinality domains} if and only if all 
-$i,j \in [1,l]$, $i \le j$ 
+$\pi$ has \emph{constant-cardinality} if and only if all 
+$i,j \in[1,m]$, $i \le j$ 
 we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l}))$.
-
-\item 
-$\pi$ has \emph{stable-cardinality domain} 
-(respectively, has \emph{constant cardinality domains})
-if and only if the associated relation sequence 
-$\{\universe{\Label\pi(i)} | i \in [1,l]\}$, obtained by taking the union
-of each pair $\Label\pi(i) = (\Stat_i,\Prog_i) \in \setR$, has stable-cardinality domain 
-(respectively, has constant cardinality domains).
+If furthermore we have $m \ge 1$ and $k = \dom(R_1)$ we say that $k$ is
+the domain-cardinality of $\pi$.
 
 \item
-$\pi$ has \emph{non-progressing domains} if and only if for all 
-$i, j \in [1,l]$, $i < j$ we have $\neg (x \Prog_{i,j} y)$ for all 
+$\pi$ is \emph{non-progressing} if and only if for all 
+$i, j \in[1,m]$, $i < j$ we have $\neg (x \Prog_{i,j} y)$ for all 
 $x \in \dom(\pi(i))$, $y \in \dom(\pi(j))$.
 \end{enumerate}
 
@@ -1180,11 +1197,12 @@ an upper bound to the height of the tree of all paths in various cases.
 
  \begin{theorem}[Finiteness of $\setR$-Compatible Transitions (Srong Form)]
 \label{theorem-finiteness-value-flow-2}
-Let $g = \Card(G)$. 
+Let $\setG=(V,E,X)$ be a multigraph (\ref{definition-multigraph}) 
+$g = \Card(V)$. 
 \begin{enumerate}
 \item
 \label{theorem-finiteness-value-flow-2-1}
-The value flows on $\setR, \setG$ 
+The value flows on $\setG$ 
 with \emph{constant-cardinality non-progressing domains} 
 have length $\le g\genfrac(){0pt}{1}{n}{k}$, where $k$ is 
 the common cardinality of the domains.
@@ -1197,7 +1215,7 @@ of the flow and $g\genfrac(){0pt}{1}{n}{k}$.
 \item 
 \label{theorem-finiteness-value-flow-2-2}
 There is a decreasing embedding $w$ from the value flows on $\setR, \setG$ 
-with \emph{constant-cardinality domain} to the set 
+with \emph{constant-cardinality} to the set 
 $[0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
 Therefore these value flows terminate.
 
@@ -1205,7 +1223,7 @@ Therefore these value flows terminate.
 \label{theorem-finiteness-value-flow-2-3}
 There is a decreasing embedding $W$ 
 from the value flows on $\setR, \setG$ with 
-\emph{stable-cardinality domain} to the well-order $\setL$ 
+\emph{stable-cardinality} to the well-order $\setL$ 
 (Def. \ref{definition-well-founded-order-L}).
 Therefore these value flows terminate.
 
@@ -1223,15 +1241,15 @@ We first discuss some immediate consequences of our definitions.
 Assume $\pi:[1,l] \rightarrow E^+$ 
 and $R_{i,j}$ are as in Thm. \ref{theorem-finiteness-value-flow-2}. We already remarked that 
 the sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ is weakly decreasing w.r.t. inclusion.
-Thus, if $\pi$ has stable-cardinality domain and $i \in [1,l]$, 
+Thus, if $\pi$ has stable-cardinality and $i \in[1,m]$, 
 then the first set $\dom(R_{i,i})$ and the last set $\dom(R_{i,l})$ in the weakly 
 decreasing sequence $\{\dom(R_{i,j}) | j \in [i,l]\}$ have the same cardinality,
 therefore they are equal, and so are all sets in the sequence. 
-Thus, if $\pi$ has stable-cardinality domain then $\dom(R_{i,i}) = \dom(R_{i,j})$
-for all $i,j \in [1,l]$, $i \le j$.
+Thus, if $\pi$ has stable-cardinality then $\dom(R_{i,i}) = \dom(R_{i,j})$
+for all $i,j \in[1,m]$, $i \le j$.
 
 The next Lemma describes in details more properties of a path
-$\pi:[1,l] \rightarrow E^+$ having stable-cardinality domain, in the case of \emph{injective}
+$\pi:[1,l] \rightarrow E^+$ having stable-cardinality, in the case of \emph{injective}
 relations satisfying PDC. 
 In this case we have $\Card(\dom(R_{1})) \le \Card(\dom(R_{2})) \le \ldots \le 
 \Card(\dom(R_{l}))$, and if $\Card(\dom(R_{1})) = \Card(\dom(R_{2})) = \ldots = 
@@ -1240,50 +1258,50 @@ the sum of values of the elements of $\dom(R_i)$ weakly decreases,
 and within $g\genfrac(){0pt}{1}{n}{k}$ steps strictly decreases.
 
 \begin{lemma}
-[stable-cardinality domain injective bi-coloring and the Progressing Domain condition]
-\label{lemma-stable-cardinality domain-injective}
+[stable-cardinality injective bi-coloring and the Progressing Domain condition]
+\label{lemma-stable-cardinality-injective}
 Assume that 
 $\pi:[1,l] \rightarrow E^+$ 
-is a \emph{stable-cardinality domain} finite list
+is a \emph{stable-cardinality} finite list
 of \emph{injective} pairs of relations on $X$, 
 compatible with the assignment list 
 $\theta:[1,l] \rightarrow (X \rightarrow \N)$.
 
-For all $i \in [1,l]$ suppose that $(\Stat_i,\Prog_i) = \Label\pi(i)$.
-For all $j \in [1,l]$, $i \le j$
+For all $i \in[1,m]$ suppose that $(\Stat_i,\Prog_i) = \Label\pi(i)$.
+For all $j \in[1,m]$, $i \le j$
 suppose that $(\Stat_{i,j},\Prog_{i,j}) = (\Stat_i,\Prog_i) \ldots (\Stat_j,\Prog_j)$
 and $R_{i,j} = \universe{(\Stat_{i,j},\Prog_{i,j})}$, 
 $R_i = \universe{(\Stat_{i},\Prog_{i})}$
 
 \begin{enumerate}
 \item
-\label{lemma-stable-cardinality domain-injective-01}
-If $i,j \in [1,l]$, $i < j$ we have $\Card(\dom(R_i)) \le \Card(\dom(R_j))$.
+\label{lemma-stable-cardinality-injective-01}
+If $i,j \in[1,m]$, $i < j$ we have $\Card(\dom(R_i)) \le \Card(\dom(R_j))$.
 If furthermore $\Card(\dom(R_i)) = \Card(\dom(R_j))$,
 then $R_{i,j-1} \restr \dom(R_{i}), \dom(R_{j})$ is a bijection from $\dom(R_{i})$
 to $\dom(R_{j})$.
 
 \item
-\label{lemma-stable-cardinality domain-injective-02}
-If $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$, then 
+\label{lemma-stable-cardinality-injective-02}
+If $i,j \in[1,m]$, $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$, then 
 the value of $\theta(i)$ on any $x \in \dom(R_i)$ is $\ge$ than the value of
 $\theta(j)$ on the corresponding point $y \in \dom(R_j)$ and
 $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
-\label{lemma-stable-cardinality domain-injective-03}
-Assume $i,j \in [1,l]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
+\label{lemma-stable-cardinality-injective-03}
+Assume $i,j \in[1,m]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
 $\dom(\pi(i)) = \dom(\pi(j)) $ 
 and $\setG$ satisfies the Progressing-Domain Condition (PDC). Then 
 $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 
 \item
-\label{lemma-stable-cardinality domain-injective-04}
+\label{lemma-stable-cardinality-injective-04}
 Let $k \in [1,n]$
 with $n = \Card(X)$.
-Assume that $\setG=(V,E)$
+Assume that $\setG=(V,E,X)$
 satisfies the Progressing-domain condition PDC.
-Then the number of indexes $i \in [1,l]$ such that $\Card(\dom(R_i))=k$
+Then the number of indexes $i \in[1,m]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ is
 $\le g\genfrac(){0pt}{1}{n}{k}$, for all $v \in \N$.
 
@@ -1296,8 +1314,8 @@ $\le g\genfrac(){0pt}{1}{n}{k}$, for all $v \in \N$.
 \begin{enumerate}
 
 \item
-%\label{lemma-stable-cardinality domain-injective-01}
-If $L$ is a stable-cardinality domain sequence of injective relations then by Lemma 
+%\label{lemma-stable-cardinality-injective-01}
+If $L$ is a stable-cardinality sequence of injective relations then by Lemma 
 \ref{lemma-composition-injective-relations}.
 \ref{lemma-composition-injective-relations-02},
 \ref{lemma-composition-injective-relations-03} 
@@ -1314,7 +1332,7 @@ hence $R_i \restr \dom(R_i ), \dom(R_{i+1})$ is a bijection, too.
 
 
 \item
-%\label{lemma-stable-cardinality domain-injective-02}
+%\label{lemma-stable-cardinality-injective-02}
 By the previous point we know that 
 $R_{i,j-1} \restr \dom(R_{i,j-1})$ is a bijection between $\dom(R_i)$
 and $\dom(R_j)$. By compatibility between $\pi$ and $\theta$, 
@@ -1323,12 +1341,12 @@ $\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
 Thus, $\val(\dom(R_i),\theta(i)) \ge \val(\dom(R_j),\theta(j))$.
 
 \item
-%\label{lemma-stable-cardinality domain-injective-03}
-Assume $i,j \in [1,l]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
+%\label{lemma-stable-cardinality-injective-03}
+Assume $i,j \in[1,m]$, $i < j$, $\dom(R_i)) =\dom(R_j)$, 
 and $\setG$ 
 satisfy the Progressing-Domain Condition (PDC).  
 Then  $\Card(\dom(R_i)) =\Card(\dom(R_j))$
-and by point \ref{lemma-stable-cardinality domain-injective-02} above
+and by point \ref{lemma-stable-cardinality-injective-02} above
 the value of $\theta(i)$ on \emph{any} $x \in \dom(R_i)$ is 
 $\ge$ than the value of
 $\theta(j)$ on the corresponding point $y \in \dom(R_j)$.
@@ -1347,17 +1365,17 @@ We conclude that $\val(\dom(R_i),\theta(i)) > \val(\dom(R_j),\theta(j))$.
 %10:56 16/11/2024
 
 \item
-%\label{lemma-stable-cardinality domain-injective-04}
-Assume $i,j \in [1,l]$, $i < j$ and $\Card(\dom(R_i))=\Card(\dom(R_j))=k$,
+%\label{lemma-stable-cardinality-injective-04}
+Assume $i,j \in[1,m]$, $i < j$ and $\Card(\dom(R_i))=\Card(\dom(R_j))=k$,
 $\dom(\pi(i)) = \dom(\pi(j))$
 and $\val(\dom(R_i),\theta(i))=\val(\dom(R_j),\theta(j))=v$.
-By point \ref{lemma-stable-cardinality domain-injective-03} above
+By point \ref{lemma-stable-cardinality-injective-03} above
 we deduce that $\dom(R_i) \not = \dom(R_j)$.
 
 If $n = \Card(X)$ there are $\genfrac(){0pt}{1}{n}{k}$ 
 different cardinality $k$ subsets of a set $X$. 
 If $g=\Card(V)$ there are at most $g\genfrac(){0pt}{1}{n}{k}$ indexes 
-$i\in [1,l]$ such that $\Card(\dom(R_i))=k$
+$i\in[1,m]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ and 
 $\dom(\pi(i)) = \dom(\pi(j))$. 
 
@@ -1367,7 +1385,7 @@ $\dom(\pi(i)) = \dom(\pi(j))$.
 \end{proof}
 
 We have now all ingredients for proving the the Termination Theorem
-in strong form (\ref{theorem-finiteness-value-flow-2}) for a multigraph $\setG=(V,E)$.
+in strong form (\ref{theorem-finiteness-value-flow-2}) for a multigraph $\setG=(V,E,X)$.
 \\
 
 
@@ -1381,8 +1399,8 @@ Let $g = \Card(V)$.
 
 \item
 %\label{theorem-finiteness-value-flow-2-1}
-Lemma \ref{lemma-stable-cardinality domain-injective}.
-\ref{lemma-stable-cardinality domain-injective-04} says that 
+Lemma \ref{lemma-stable-cardinality-injective}.
+\ref{lemma-stable-cardinality-injective-04} says that 
 each non-empty 
 constant-cardinality \emph{non-progressing} domain path on $\setR^\setG$
 has $\le g\genfrac(){0pt}{1}{n}{k}$ elements, that is, has
@@ -1394,7 +1412,7 @@ This is a value in $[0,g\genfrac(){0pt}{1}{n}{k}[$.
 
 \item
 %\label{theorem-finiteness-value-flow-2-2}
-We assume that $\pi:[1,l] \rightarrow E^+$ is a constant-cardinality domain
+We assume that $\pi:[1,l] \rightarrow E^+$ is a constant-cardinality
 path on $E$: we dropped the \quotationMarks{non-progressing} assumption. 
 We define a decreasing map $w$ from
 $(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  g\genfrac(){0pt}{1}{n}{k}[$.
@@ -1404,7 +1422,7 @@ We define $w(\pi,\theta) = (m,r)$ where
 $m = \val(\pi(l),\theta(l))$ is the last value of $\val(\pi(i),\theta(i))$ 
 \item
 $r = g\genfrac(){0pt}{1}{n}{k} - s$, 
-where $s \ge 1$ is the number of $i \in [1,l]$ 
+where $s \ge 1$ is the number of $i \in[1,m]$ 
 such that $\val(\pi(i),\theta(i)) = m$.
 \end{enumerate}
 By point \ref{theorem-finiteness-value-flow-2-1} 
@@ -1418,18 +1436,18 @@ and $w(\pi',\theta') = (m',r')$ with $r = \genfrac(){0pt}{1}{n}{k} - s$,
 $r' = g\genfrac(){0pt}{1}{n}{k} - s'$, in order to prove $(m,r) > (m',r')$.
 We have $m = \val(\pi'(l),\theta') \ge m' = \val(\pi'(l+1),\theta')$.
 If $m > m'$ then $(m,r) > (m',r')$. Suppose now that $m=m'$.
-Then the number of of $i \in [1,l]$ such that $\val(\pi(i),\theta(i)) = m$
+Then the number of of $i \in[1,m]$ such that $\val(\pi(i),\theta(i)) = m$
 is greater in $\pi'$ than in $\pi$. Namely we have $s' > s'$, we deduce that
 $m=m'$, $r' < r'$. Also in this case we conclude $(m,r) > (m',r')$. 
 
 \item
 %\label{theorem-finiteness-value-flow-2-2} 
-We assume that $\pi:[1,l] \rightarrow E^+$ is a stable-cardinality domain
-path on $E$: we weakened the \quotationMarks{constant-cardinality domain} assumption.
+We assume that $\pi:[1,l] \rightarrow E^+$ is a stable-cardinality
+path on $E$: we weakened the \quotationMarks{constant-cardinality} assumption.
  We will define a strictly decreasing map $W$ from
 $(\pi,\theta) \in \setS$ to $\setL$ (Def. \ref{definition-well-founded-order-L}).
 
-In each stable-cardinality domain path 
+In each stable-cardinality path 
 %by Lemma 
 %\ref{lemma-composition-injective-relations}.
 %\ref{lemma-composition-injective-relations-02}
@@ -1438,15 +1456,15 @@ In each stable-cardinality domain path
 %\dom(R_{i,l})$ and $\dom(R_{i+1}) =
 %\dom(R_{i+1,l})$. 
 by Lemma 
-\label{lemma-stable-cardinality domain-injective}.
-\label{lemma-stable-cardinality domain-injective-01}
+\label{lemma-stable-cardinality-injective}.
+\label{lemma-stable-cardinality-injective-01}
 we have $\Card(\dom(R_{i})) 
 \le \Card(\dom(R_{i+1}))$: the domain cardinality in a stable-cardinality path
 is weakly increasing. 
 
-For all $k \in [1,n]$ and any domain stable $ \pi : [1,l] \rightarrow \setR $ 
+For all $k \in [1,n]$ and any domain stable $ \pi :[1,m] \rightarrow \setR $ 
 we decompose $\pi$ in the union of $n$ adiacent segments as follows. We set
- $S(\pi,k) = \{i \in [1,l] | \Card(\dom(R_i)) = k \}$. 
+ $S(\pi,k) = \{i \in[1,m] | \Card(\dom(R_i)) = k \}$. 
 We claim that each $S(\pi,k)$ is a possibly empty segment of $\pi$. 
 Indeed, if $i, j \in 
 S(\pi,k)$, $i \le h \le j$ then $k = \Card(\dom(R_i)) \le \Card(\dom(R_h))
@@ -1455,11 +1473,11 @@ From $\Card(\dom(R_{i}))$ weakly increasing
 we deduce that $S(\pi,k)$ is to the left
 of $S(\pi,k')$ whenever $k,k' \in [1,n]$ and $k < k'$.
 
-Thus, we can decompose each stable-cardinality domain path 
+Thus, we can decompose each stable-cardinality path 
 $\pi:[1,l] \rightarrow \setR$ into
 a consecutive composition $\pi_1 \conc \ldots \conc \pi_n$, 
 with each $\pi_k$ the possibly empty restriction of $\pi$ to $S(\pi,k)$.
-By definition, each $\pi_k$ is a \emph{constant cardinality domains} path,
+By definition, each $\pi_k$ is a \emph{constant-cardinality} path,
 indeed for each $i, j \in S(\pi,k)$, $i \le j$ we have 
 $\Card(\dom(R_{i}))=\Card(\dom(R_{j}))=k$. 
 
@@ -1467,10 +1485,10 @@ Let $\theta_i$ be the restriction of $\theta$ to the segment in which is
 defined $\pi_1$.
 We define a list of $n$ weights $W(\pi,\theta) = (w(\pi_1, \theta_1),
 \ldots, w(\pi_n, \theta_n))$ 
-for a length $l$ path $\pi$ with stable-cardinality domain. Each weight
+for a length $l$ path $\pi$ with stable-cardinality. Each weight
 is some pair $(l,r) \in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
 
-If there is no $i \in [1,l]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
+If there is no $i \in[1,m]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
 then we set $w(\pi,\theta)_k = (\infty,0)  
 \in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$.
 
@@ -1514,7 +1532,7 @@ We conclude $W(\pi,\theta) > W(\pi',\theta')$.
 We assume that $\pi:[1,l] \rightarrow E^+$ is \emph{any}
 path on $E$ and we define a map $G$ from 
 $(\pi,\theta) \in \setS$ to $G(\pi,\theta) = (\pi',\theta') \in \setS$, 
-such that $\pi'$ is a path with stable-cardinality domain, and
+such that $\pi'$ is a path with stable-cardinality, and
 $WG$ is decreasing. We will conclude that
 \emph{all} value flows terminate. 
 
@@ -1579,7 +1597,7 @@ is a re-grouping of $\pi$ with adjacence sequence $a$,
 $\eta=\theta \comp a$, namely $\eta(t,x) = \theta(a(t),x)$ for all
  $t \in [1,m]$, $x \in X$. 
 \item
-$q$ has stable-cardinality domain and  
+$q$ has stable-cardinality and  
 \item
 $(\pi,\theta) <_1 (\pi',\theta')$ implies $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$
 in the lexicographic ordering.
@@ -1591,7 +1609,7 @@ in the lexicographic ordering.
 Assume $(\pi,\theta) <_1 (\pi',\theta')$ and  $G(\pi,\theta) = (q,\eta)$, 
 $G(\pi',\theta') = (q',\eta')$. Suppose $q= q_1 \conc \ldots \conc q_n$,
 is a decomposition with each $q_k, q'_k$
-a possibly empty path  with constant-cardinality domain, 
+a possibly empty path  with constant-cardinality, 
 whose domains all have cardinality $k$.
 $q' = q'_1 \conc \ldots \conc q'_n$ are 
 
@@ -1606,21 +1624,21 @@ We distinguish two cases.
 \item
 Assume that $q \star (a,(\Stat,\Prog),b)$ is stable. 
 Then we set $q' = q \star (a,(\Stat,\Prog),b)$ and $\eta' = \eta \star (n+1)$,
-two sequences of length $l' = l+1$. 
+two sequences of length $m' = l+1$. 
 
 \item
 Assume that $q \star (\Stat,\Prog)$ is \emph{not} stable. 
-By definition, there is some $l' \in [1,l]$ such that 
+By definition, there is some $m' \in[1,m]$ such that 
 $
-\dom(q(l') \ldots q(l))
+\dom(q(m') \ldots q(l))
 \supset 
-\dom(q(l') \ldots q(l) (\Stat,\Prog))
-$. Take the first such $l'$.
-We define $q'(i) =  q(i)$ for all $i \in [1,l'-1]$ and
-$q'(l') = q(l') \ldots q(l)  (a,(\Stat,\Prog),b)$.
-We define $\eta'(i) = \eta(i)$ for all $i \in [1,l']$. 
+\dom(q(m') \ldots q(l) (\Stat,\Prog))
+$. Take the first such $m'$.
+We define $q'(i) =  q(i)$ for all $i \in [1,m'-1]$ and
+$q'(m') = q(m') \ldots q(l)  (a,(\Stat,\Prog),b)$.
+We define $\eta'(i) = \eta(i)$ for all $i \in [1,m']$. 
 \end{enumerate}
-This is $(\pi',\theta')=G(\pi,\eta)$, a path with stable-cardinality domain. 
+This is $(\pi',\theta')=G(\pi,\eta)$, a path with stable-cardinality. 
 
 In the first case of definition of $G$ we have 
 $q' = q \star ((\Stat,\Prog))$ and $\eta' = \eta \star (n+1)$, namely
@@ -1629,9 +1647,9 @@ by point \ref{theorem-finiteness-value-flow-2-3}
 above and $(\pi',\theta')$ stable.
 
 In the second case of definition of $G$ we have: 
-for $k = \Card(\dom(\universe{q'(l')}))$ we have $q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$
-and $q_k <_1 q'_k$ and $q' = q'_1 \conc \ldots \conc q'_k$. 
-By point \ref{theorem-finiteness-value-flow-2-2} above, 
+for $k = \Card(\dom(\universe{q'(m')}))$ we have 
+$q_1 = q'_1$, \ldots, $q_{k-1} = q'_{k-1}$ and $q_k <_1 q'_k$ and 
+$q' = q'_1 \conc \ldots \conc q'_k$. By point \ref{theorem-finiteness-value-flow-2-2} above, 
 this implies that we have $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
 
 \end{enumerate}
@@ -1671,12 +1689,55 @@ Oxford University Press.
 
 \newpage
 
-\section{Appendix: PDC, GTC and $\SCTa$ are Equivalent Given Injectivity}
+
+\section{Appendix}
+\label{section-appendix}
+
+We relegate to this Appendix some result which 
+we do not wish to include in the main paper, at least for the moment. 
+Here is a temporary list of them. Let $\setG=(V,E,X)$ be a multigraph. By definition 
+$X$ is finite, we have
+$\setG = (V,E)$, for some finite set $V$ of vertices and some finite set $E \subseteq
+V \times \setP(X^2)^2 \times V$ of labeled edges, and we have $\Stat \cap \Prog =
+\emptyset$ for all $(a,(\Stat, \Prog),b) \in E$.
+
+\begin{enumerate}
+\item
+In sub-section \ref{subsection-constant-cardinality}
+we estimate the maximum length of a non-progressing 
+constant-cardinality path $\pi$ in a multigraph $\setG$ which satisfies $PDC$.
+
+\item
 This section includes two previous proofs of the equivalence of PDC, $\SCTa$ and GTC 
 in the case of injectivity, in sub-sections 
 \ref{subsection-SCT-PDC}, \ref{subsection-SCT-PDC-old}. They are only included for record.
+
+\item
 In sub-section \ref{subsection-TC}, instead, we will prove a new result:
 the equivalence between GTC and TC (termination of all computation flow).
+\end{enumerate}
+
+\subsection{The Maximum Length of a non-Progressing constant-cardinality Path}
+\label{subsection-constant-cardinality}
+
+Our aim is to prove the following result.
+Suppose $n = \Card(X)$ and 
+the domains of the constant-cardinality path $\pi$ on $\setG$ have cardinality $k$. 
+The length of a path from some vertex is the number of edges, 
+equivalently is one less than the number of vertices.
+Let $\kappa(V,E,X)$ be the maximum
+of $\length(\pi)$, for $\pi$ constant-cardinality path on $\setG$. This is
+the worst-case for a constant-cardinality path.
+We already proved that $\kappa(V,E,X) \le \genfrac(){0pt}{1}{n}{k}-1$. 
+We will give a more precise interval for this worst-case:
+
+$$
+\kappa(V,E,X) \ \in \ [(n-k)k,  \ \genfrac(){0pt}{1}{n}{k}-1]
+$$
+
+
+\subsection{PDC, GTC and $\SCTa$ are Equivalent Given Injectivity}
+\label{subsection-equivalent-SCTa}
 
 In this paper we already proved:
 \begin{enumerate}
@@ -1967,8 +2028,8 @@ that there is some self-composable
 $(a,(\Stat,\Prog),a) \in \setR$ such that for no $m \in \N$, $m>0$, 
 $x \in X$ we have $x$ progressing to itself in $(\Stat,\Prog)^m$.
 
-We define $s = ((\Stat,\Prog),\sigma) \in \setS$, then 
-some \emph{constant}infinite transition $\theta = (s, s, s, \ldots)$.
+We first define: $s = ((\Stat,\Prog),\sigma) \in \setS$; then
+some \emph{constant }infinite transition by: $\theta = (s, s, s, \ldots)$.
 
 We say that a trace $\tau:[1,t] \rightarrow X$ 
 is irredundant if and only if all its elements are 
