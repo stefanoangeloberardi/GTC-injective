@@ -1172,11 +1172,12 @@ $\pi$ has \emph{stable-cardinality} if and only if all $i \in[1,m]$
 we have $\Card(\dom(R_i)) = \Card(\dom(R_{i,l}))$.
 
 \item
-$\pi$ has \emph{constant-cardinality} if and only if all 
+$\pi$ has \emph{$k$-constant-cardinality} if and only if $k \le n$ and for all 
 $i,j \in[1,m]$, $i \le j$ 
-we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l}))$.
-If furthermore we have $m \ge 1$ and $k = \dom(R_1)$ we say that $k$ is
-the domain-cardinality of $\pi$.
+we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l})) = k$.
+
+\item
+$\pi$ has \emph{constant-cardinality} if $\pi$ has $k$-constant-cardinality for some $k \le n$.
 
 \item
 $\pi$ is \emph{non-progressing} if and only if for all 
@@ -1695,17 +1696,16 @@ Oxford University Press.
 
 We relegate to this Appendix some result which 
 we do not wish to include in the main paper, at least for the moment. 
-Here is a temporary list of them. Let $\setG=(V,E,X)$ be a multigraph. By definition 
-$X$ is finite, we have
-$\setG = (V,E)$, for some finite set $V$ of vertices and some finite set $E \subseteq
-V \times \setP(X^2)^2 \times V$ of labeled edges, and we have $\Stat \cap \Prog =
-\emptyset$ for all $(a,(\Stat, \Prog),b) \in E$.
+Here is a temporary list of them. 
+Let $\setG=(V,E,X)$ be a multigraph (Def.\ref{definition-multigraph}).
 
 \begin{enumerate}
 \item
 In sub-section \ref{subsection-constant-cardinality}
-we estimate the maximum length of a non-progressing 
-constant-cardinality path $\pi$ in a multigraph $\setG$ which satisfies $PDC$.
+we assume that $\setG$ is a multigraph which satisfies $PDC$, and
+we provide a lower and upper bound to the maximum length of a non-progressing 
+$k$-constant-cardinality path in $\setG$.
+
 
 \item
 This section includes two previous proofs of the equivalence of PDC, $\SCTa$ and GTC 
@@ -1717,23 +1717,131 @@ In sub-section \ref{subsection-TC}, instead, we will prove a new result:
 the equivalence between GTC and TC (termination of all computation flow).
 \end{enumerate}
 
+
+
 \subsection{The Maximum Length of a non-Progressing constant-cardinality Path}
 \label{subsection-constant-cardinality}
 
-Our aim is to prove the following result.
-Suppose $n = \Card(X)$ and 
-the domains of the constant-cardinality path $\pi$ on $\setG$ have cardinality $k$. 
-The length of a path from some vertex is the number of edges, 
-equivalently is one less than the number of vertices.
-Let $\kappa(V,E,X)$ be the maximum
-of $\length(\pi)$, for $\pi$ constant-cardinality path on $\setG$. This is
-the worst-case for a constant-cardinality path.
-We already proved that $\kappa(V,E,X) \le \genfrac(){0pt}{1}{n}{k}-1$. 
-We will give a more precise interval for this worst-case:
+We want to estimate the maximum number of edges
+we can have without a progress in a constant-cardinality path in a multigraph 
+which satisfies PCD. 
+
+\begin{definition}[$\kappa(g,n,k)$]
+Let $n,k \in \N$ with $1 \le n$ and $k \le n$.
+
+\begin{enumerate}
+\item
+$\kappa(g,n,k)$ is the maximum $m \in \N$ such that there is
+some multigraph $\setG=(V,E,X)$ with $g = \Card(V)$, $n=\Card(X)$
+and which satisfies PCD,
+and some non-progressing $k$-constant-cardinality path $\pi:[1,m] \rightarrow E^+$.
+
+\item
+$\kappa(n,k) = \kappa(1,n,k)$ is the same quantity in the case of multigraph 
+with a unique vertex.
+\end{enumerate}
+\end{definition}
+
+We already proved that $\kappa(g,n,k) \le g  \genfrac(){0pt}{1}{n}{k}-1$,
+and when $g=1$ that $\kappa(n,k) \le \genfrac(){0pt}{1}{n}{k}-1$. 
+
+Our aim is to prove the following results for one-vertex multigraph: $\kappa(n,k) \ge (n-k)k$
+and the following results for any multigraph: $\kappa(g,n,k) \ge g(n-k)k + (g-1)$
+We will obtain in this way a more precise interval for the value $\kappa(n,k)$:
 
 $$
-\kappa(V,E,X) \ \in \ [(n-k)k,  \ \genfrac(){0pt}{1}{n}{k}-1]
+\kappa(n,k) \ \in \ [ (n-k)k,  \ \genfrac(){0pt}{1}{n}{k}-1 ]
 $$
+
+For multigraphs with any number $g$ of vertices we will deduce the more general result:
+$\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \genfrac(){0pt}{1}{n}{k}-1 ]$.
+
+
+\begin{lemma}[Lower bound for the Worst Case of 
+non-Progressing Constant-cardinality Path]
+$\kappa(n,k) \ge (n-k)k$
+\end{lemma}
+
+\begin{proof}
+%13:43 07/07/2025
+We have to define some multigraph $\setG=(V,E,X)$ with $1 = \Card(V)$, $n=\Card(X)$
+and which satisfies PCD,
+and some non-progressing $k$-constant-cardinality path $\pi:[1,m] \rightarrow E^+$
+with $m=(n-k)k$.
+
+We define $\setR \subseteq \setP(X^2)^2$ as the set of all pairs $(\Stat,\Prog)$ 
+of relations on $X$ such that:
+\begin{enumerate}
+\item
+$R = \universe{(\Stat,\Prog)} = \Stat \cup \Prog$ is injective and surjective
+with $\dom(R) \subset X$.
+
+\item
+The relation $\Stat$ is a weakly increasing partial function which is extending:
+$\forall x,y \in X. x \Stat y \implies x \le y$. 
+
+\item
+if there is some progress from $x$, then the map $\Stat$ is strictly extending from $x \in X$.
+Namely: $\forall x,y,z \in X$, if $x \Stat y$ and $x \Prog z$ then $x < y$.
+\end{enumerate}
+
+Now we define a multigraph $\setG=(V,E,X)$, with $V=\{1\}$ and 
+$E = V \times \setR \times V$. 
+
+\emph{Claim}. 
+$\setR$ is closed by composition, in particular $E^+ = V \times \setR \times V$. 
+\emph{Proof of the Claim}.
+Assume that $(\Stat,\Prog),(\Stat',\Prog') \in \setR$ and 
+$(\Stat'',\Prog'') = (\Stat,\Prog)(\Stat',\Prog')$ in order to prove that 
+$(\Stat'',\Prog'')  \in \setR$. Remark that $R = \universe{(\Stat'',\Prog'')} = 
+\universe{(\Stat,\Prog)} \universe{(\Stat',\Prog')}$. 
+\begin{enumerate}
+\item
+$R$ is injective and surjective, being the composition of two relations which are injective and surjective. We have $\dom(R) \not = X$, because 
+$\dom(R) \subseteq \dom(\universe{(\Stat,\Prog)} \subset X$.
+
+\item
+$\Stat'' = \Stat\Stat'$ is an extending weakly increasing partial function, being the
+composition of two extending weakly increasing partial functions. 
+\item
+Assume $x,y,z \in X$, $x \Stat'' y$ and $x \Prog'' z$ in order to prove that $x < y$. 
+From $x \Stat'' y$ we deduce $x \Stat t \Stat' y$ for some $t \in X$, with $x \le t \le y$. 
+If $x  < t$ then $x < y$. Assume $x = t$ instead:
+then for no $u \in X$ we have $x \Prog u$. 
+From $x \Prog'' z$ we deduce that for some $u \in X$ we have $x R u R z$, where one of the
+two relations is a progress. From $\neg (x \Prog u)$ we deduce that $u \Prog' z$. From 
+$t \Stat' y$ we obtain that $t < y$. We deduce that $x < y$.
+\end{enumerate}
+
+From the Claim we prove that:
+
+\begin{enumerate}
+\item 
+$\setG$ satisfies PDC.  We proved that any pair $(\Stat, \Prog)$ labeling an edge in $E^+$
+is in $\setR$. From $R = \Stat \cup \Prog$ surjective and $\dom(R) \subset X = \codom(R)$ 
+we deduce that $\Prog \not = \emptyset$. Otherwise we would have $R = \Stat$.
+Since $\Stat$ is a partial function, this would imply $\Card(\dom(R)) \ge \Card(\codom(R))$.
+Thus, there are some $x \Prog y$, therefore some $x \in \dom(R)$ 
+such that $x \not \in \dom(\Stat)$ or $x \Stat z$ and $x < z$. If we take the first such 
+$x \in \dom(R)$, then for all $y < x$ in $\dom(R)$ we have $y \Stat y$. For all $t \ge x$
+if $t \Stat u$ then $u \ge z > x$ because $\Stat$ is weakly increasing. We deduce that
+$x \not \in \codom(\Stat)$, and from $x \in \codom(R)$ there is some $v \in \dom(R)$ 
+such that $v \Prog x$. This is PDC.
+
+\item 
+There is some non-progressing $k$-constant-cardinality path $\pi:[1,m] \rightarrow E^+$
+such that $m=(n-k)k$.  
+%17:18 07/07/2025
+\ldots
+\end{enumerate}
+
+
+\end{proof}
+
+\begin{corollary}[Lower bound for the Worst Case of 
+non-Progressing Constant-cardinality Path]
+$\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \genfrac(){0pt}{1}{n}{k}-1 ]$.
+\end{corollary}
 
 
 \subsection{PDC, GTC and $\SCTa$ are Equivalent Given Injectivity}
