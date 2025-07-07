@@ -1,18 +1,145 @@
 % !TEX root = CSL-main.tex
 \subsection{Size Change Termination and Finite Power Condition}
 
-%If formulated as in Definition \ref{def:GTC}, the Global Trace Condition (GTC) is equivalent to the algorithmic 
-%criterion for Size Change Termination (SCT), introduced by Neil Jones in \cite{Lee1},
-%Theorem 4. We define SCT in our formalism.
+Binary relations compose: if $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
+$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, which we abbreviate by $xRyR'z$. Relation compositions are associative 
+and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units.
 
-\begin{definition}[Size-Change Termination - SCT]
-\label{def:SCT}
-We say that $\Graph$ satisfies the {\em Size-Change Termination} condition if for all self-composable 
-$\edgeGstar{(S,P)}{u}{u}{\Graph}$ such that 
-$(S,P) \comp (S,P) = (S,P)$ there is some $x \in X$ such that $x P x$.
+\begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
+Let $(S,P), (S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
+where
+\[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
 \end{definition}
 
-SCT can be formulated in many equivalent ways, for instance, as Finite Power Condition (FPC):
+The composition of bi-partite relations is bi-partite by construction; also, it is associative
+but there is no unique identity as $I_X = S \cup P$ holds for different disjoint $S,P$ as soon $X$ has more than one element. 
+We observe that composition is compatible with the union and ordinary composition of binary relations: 
+let's write $|(S,P)| = S \cup P$, then
+\begin{align}\label{eq:unionComp}
+|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
+& = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
+\end{align}
+
+%We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
+Let $\biRel^*$ be the closure under composition $\comp$ of a set $\biRel$ of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
+is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
+The role of a transition graph $\Graph$ with labels in $\biRel$ is to pick certain compositions of bipartite relations in $\biRel^*$. We formalize this notion
+by adapting the usual definition of transitive closure of a graph.
+
+\begin{definition}[Tranistive closure of a transition graph]\label{def:transitiveClosure}
+We say that  the graph $\Graph^* = (V, \biRel^*, E^*)$ is the {\em transitive closure} of $\Graph = (V, \biRel, E)$ if
+$E^* \subseteq V \times \biRel^* \times V$ is the smallest set such that $E \subseteq E^*$ and
+\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
+If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\mathcal{G}$; we say
+that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
+\end{definition}
+
+In words, $\Graph^*$ is the transitive closure of the graph $\Graph$ with edges labeled by the composition of the labels of the corresponding edges in $\Graph$. 
+As such, it is essentially a category, but for the lack of identities.
+
+Let $\Graph^* = (V, \biRel^*, E^*)$; we abbreviate $(u, (S,P), v) \in E^*$ by %$\edgeG{(S,P)}{u}{v}{\Graph}$ and $(u, (S,P), v) \in E^*$ by 
+$\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
+%Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em source}, {\em target}, and {\em label}
+%of $e$ respectively.
+If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ is self-composable then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
+of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
+As before, we omit the subscripts in $\edgestar{(S,P)}{u}{v}$, when $\biRel$ and $\Graph$ are understood,
+
+\begin{definition}[Trace, path and progress]\label{def:TracePath}
+Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transition graph; then:
+\begin{enumerate}[i)]
+\item a {\em trace} is a map $\tau:\alpha \to X$;
+\item a {\em path} is a map $\ppath:\alpha \to E$ such that for all $i + 1 < \alpha$, $\target{\ppath(i)} = \source{\ppath(i+1)}$;
+\item a trace $\tau:\alpha + 1 \to X$ is {\em compatible} with a path $\ppath: \alpha \to E$ written $\tau \models \ppath$, if 
+	there is $i_0 < \alpha$ such that for all $i_0 \leq i < i+1 < \alpha$,
+	if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$, and if $\tau(i) P \tau(i + 1)$ then $i$
+	is a {\em progress point} of $\tau$ in $\ppath$.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+Explain why $\tau:\alpha + 1 \to X$ is a trace for $\ppath: \alpha \to E$ and that if $\tau\models\ppath$ then we may assume that 
+it is compatible with it since the first edge.
+\end{remark}
+
+We say that $\tau$ is a trace of $\Graph$ if $\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
+In our terminology, the path $\ppath$ and the trace $\tau$ correspond to a {\em multipath} $\mathcal{M}$ and a {\em thread} $\textit{th}$ in \cite{Lee1}, respectively.
+A trace $\tau:\alpha \to X$, respectively a path $\ppath:\alpha \to E$ are infinite if $\alpha = \omega$, finite otherwise.
+Of course, both $\Graph$ and $\Graph^*$ are finite, so that an infinite path $\ppath$ exists in $\Graph$ only if it has a cycle, and therefore there exists
+$(S,P)$ which is self-composable in $\Graph^*$.
+
+\medskip
+In the following, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ to the composition $(S,P)$ of the bi-partite relations labeling the edges in $\ppath$,
+and show that progressing is equivalent to having $x, y$ in the image of $\tau$ such that $x$ precedes $y$ in $\tau$ and $xPy$.
+
+\begin{lemma}\label{lem:P-lemma}
+Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
+\begin{enumerate}[i)]
+\item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
+\item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
+\item\label{lem:P-lemma-3} $x S_1 y \And y S_2 z \Then x S z$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By definition of composition, we have $P = S_1P_2 \cup P_1S_2 \cup P_1P_2$. 
+Now $x P_1 y$ implies $x (P_1S_2 \cup P_1P_2) z$ and $yP_2 z$ implies $x (S_1P_2 \cup P_1P_2) z$ which establish 
+(\ref{lem:P-lemma-1}) and (\ref{lem:P-lemma-2}). To see
+part (\ref{lem:P-lemma-3}) recall that by definition $S = S_1S_2\setminus P$ and that 
+$S_1 \cap P_1 = S_2 \cap P_2 = \emptyset$; hence
+if $x S_1 y$ and $y S_2 z$ then $x S_1S_2 z$, but $(x, y) \not \in P_1$ and $(y, z) \not \in P_2$ therefore $(x,z) \not \in P$.
+\end{proof}
+
+
+If $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{k-1} \stackrel{(S_{k-1},P_{k-1})}{\longrightarrow} v_{k}$ is a (finite) path of $\Graph$, for $0 \leq i < j < k$
+we abbreviate $(S_{i,j}, P_{i,j}) = \bigcomp_{p = i}^{j} (S_p,P_p) = (S_i,P_i) \comp \cdots \comp (S_j,P_j)$. %The next Proposition states that
+
+
+\begin{proposition}\label{prop:progresing-and-P}
+Let $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{k-1} \stackrel{(S_{k-1},P_{k-1})}{\longrightarrow} v_{k}$ be a finite path of $\Graph$
+and $\tau = x_0, \ldots , x_{k}$ be a trace such that $\tau \models \ppath$. Then $\tau$ has a progress point in $\ppath$ if and only if
+there exists $0 \leq h < k$ such that
+\[x_h P x_k \And \forall h \leq j < k.\; x_j (S_j \cup P_j) x_{j+1}\]
+ where $(S,P) = (S_{h,k-1},P_{h,k-1})$.
+%\begin{enumerate}[i)]
+%\item $x_h P_{i_0,k-1} x_k$ %where $(S,P) = (S_{i_0,k-1},P_{i_0,k-1})$
+%\item $x_j (S_j \cup P_j) x_{j+1}$ for all $i_0 \leq j < k$
+%\end{enumerate}
+\end{proposition}
+
+\begin{proof} To prove the if part, assume that $x_h P x_k$ for some $0 \leq h < k$; then $x_h P_h x_{h+1} (S_{h+1, k}, P_{h+1,k})x_k$ by the
+hypothesis that $\tau\models\ppath$ and the definition of composition.
+
+To prove the only if part, let us assume that $\tau\models\ppath$, hence there is $i_0$ such that $x_j (S_j \cup P_j) x_{j+1}$ for all $i_0 \leq j < k$, and that there is 
+$i_0 \leq h < k$ such that $x_h P_h x_{h+1}$ which is a progress point of $\tau$ in $\ppath$; w.l.o.g. let us assume that $i_0 = 0$.
+
+We know that $(S, P) = (S',P') \comp (S_h,P_h) \comp (S'',P'')$, where $(S',P')= (S_{0,h-1},P_{0,h-1})$ and 
+$(S'',P'')= (S_{h+1,k-1},P_{h+1,k-1})$, and 
+\[x_0 (S' \cup P') x_h P_h x_{h+1} (S'' \cup P'') x_k \]
+
+If $(\hat{S},\hat{P}) = (S',P') \comp (S_h,P_h)$ then by (\ref{lem:P-lemma-2}) of Lemma \ref{lem:P-lemma} we have $x_0 \hat{P} x_{h+1}$; from this and 
+$(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, we conclude that $x_0 P x_k$  by (\ref{lem:P-lemma-1}) of the same Lemma, as desired.
+\end{proof}
+%If $\tau \models\ppath$ in $\Graph$
+%and $\ppath$ is the path $\edgeGstar{(S,P)}{u}{v}{\Graph}$ then we say that $\tau$ progresses in $(S,P)$ if 
+
+\begin{definition}[Size-change Termination - SCT]
+\label{def:SCT}
+The transition graph $\Graph$ satisfies the {\em Size-change Termination} condition 
+if for all infinite path $\ppath$ of $\Graph$ there is an infinite trace $\tau$ such that
+$\tau \models \ppath$, which has infinitely many progress points.
+\end{definition}
+
+\marginpar{The next parts in this section can be removed in the conference version}
+
+\begin{lemma}
+\label{lem:SCT}
+A transition graph $\Graph$ satisfies the SCT condition if and only if for all self-composable 
+$\edgeGstar{(S,P)}{u}{u}{\Graph}$ such that 
+$(S,P) \comp (S,P) = (S,P)$ there is some $x \in X$ such that $x P x$.
+\end{lemma}
+
+In view of Lemma \ref{lem:SCT}, SCT can be formulated in many equivalent ways, for instance, as Finite Power Condition (FPC):
 
 \begin{definition}[Finite Power Condition - FPC]
 \label{def:FPC}
@@ -51,18 +178,21 @@ SCT $\Leftrightarrow$ FPC
 \end{proposition}
 
 \begin{proof}
-\begin{enumerate}
-\item
+%\begin{description}
+%\item
 Assume SCT, $\edgeGstar{(S,P)}{u}{u}{\Graph}$.
 By Lemma \ref{lem:idempotent-power} and finiteness of the bi-partite graph $\Graph$
 there is some $n > 0$ such that $(S,P)^n \comp (S,P)^n=(S,P)^n$. By SCT,
 there is some $x \in X$ such that $x$ progresses to $x$ in $(S,P)^n$.
-\item
+%\item
+
 Assume FPC, $\edgeGstar{(S,P)}{u}{u}{\Graph}$ and 
 $(S,P) \comp (S,P)=(S,P)$ in order to prove that 
 there is some $x \in X$ such that $x$ progresses to $x$ in $(S,P)$.
 By FPC, there are some $n > 0 $ and $x \in X$ such that $x$ progresses to $x$ in 
 $(S,P)^n$. By $(S,P)\comp (S,P)=(S,P)$ we deduce that 
 $(S,P)^n=(S,P)$, hence $x$ progresses to $x$ in $(S,P)$.
-\end{enumerate}
+%\end{description}
 \end{proof}
+
+

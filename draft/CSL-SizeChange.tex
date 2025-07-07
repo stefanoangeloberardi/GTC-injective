@@ -11,52 +11,53 @@ Thinking of $R$ as a function $R: X \to \wp(Y)$, we set $R(x) = \Set{y \in Y \mi
 Then we define $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} = \Set{x \in X \mid R(x) \neq \emptyset}$, and
 $\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x \in X}$. 
 %We say that $R$ is {\em everywhere defined} if $\dom{R} = X$.
+%
+%Binary relations compose: if $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
+%$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, which we abbreviate by $xRyR'z$. Relation compositions are associtaive 
+%and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units.
 
-Binary relations compose: if $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
-$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, which we abbreviate by $xRyR'z$. Relation compositions are associtaive 
-and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units.
-
-In this work we shall consider binary relations over some fixed finite set 
-$X = \Set{x_1, ..., x_n}$, which are themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$
+In this work, we shall consider binary relations over some fixed finite set 
+$X = \Set{x_1, ..., x_n}$, which are consequently themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$
 and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$.
 
 
-\begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
-Let $(S,P), (S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
-where
-\[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
-\end{definition}
-
-The composition of bi-partite relations is bi-partite by construction; also, it is associative
-but there is no unique identity as $I_X = S \cup P$ holds for different disjoint $S,P$ as soon $X$ has more than one element. 
-We observe that composition is compatible with the union and ordinary composition of binary relations: 
-let's write $|(S,P)| = S \cup P$, then
-\begin{align}\label{eq:unionComp}
-|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
-& = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
-\end{align}
-
-We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
-Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
-is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
+%\begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
+%Let $(S,P), (S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
+%where
+%\[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
+%\end{definition}
+%
+%The composition of bi-partite relations is bi-partite by construction; also, it is associative
+%but there is no unique identity as $I_X = S \cup P$ holds for different disjoint $S,P$ as soon $X$ has more than one element. 
+%We observe that composition is compatible with the union and ordinary composition of binary relations: 
+%let's write $|(S,P)| = S \cup P$, then
+%\begin{align}\label{eq:unionComp}
+%|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
+%& = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
+%\end{align}
+%
+%We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
+%Let $\biRel^*$ be the closure of $\biRel$ under composition of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
+%is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
 
 \begin{definition}[Transition graph]\label{def:transitionGraph}
+Let $\biRel$ be a finite set of bi-partite relations over $X$.
 A {\em transition graph} of $\biRel$ is a tuple $\Graph = (V, \biRel, E)$ where $V$ is a finite set of vertices, and $E \subseteq V \times \biRel\times V$ is a (finite) set of labeled edges.
 \end{definition}
 
-We say that  the graph $\Graph^* = (V, \biRel^*, E^*)$ is the {\em transitive closure} of $\Graph = (V, \biRel, E)$ if
-$E^* \subseteq V \times \biRel^* \times V$ is the smallest set such that $E \subseteq E^*$ and
-\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
-If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\mathcal{G}$; we say
-that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
+%We say that  the graph $\Graph^* = (V, \biRel^*, E^*)$ is the {\em transitive closure} of $\Graph = (V, \biRel, E)$ if
+%$E^* \subseteq V \times \biRel^* \times V$ is the smallest set such that $E \subseteq E^*$ and
+%\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
+%If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\mathcal{G}$; we say
+%that $(S,P)$ is {\em self-composable} in $\mathcal{G}$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
 
-Let $\Graph = (V, \biRel, E)$; we abbreviate $(u, (S,P), v) \in E$ by $\edgeG{(S,P)}{u}{v}{\Graph}$ and
-$(u, (S,P), v) \in E^*$ by $\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
+Let $\Graph = (V, \biRel, E)$; we abbreviate $(u, (S,P), v) \in E$ by $\edgeG{(S,P)}{u}{v}{\Graph}$.
+%and $(u, (S,P), v) \in E^*$ by $\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
 Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em source}, {\em target}, and {\em label}
 of $e$ respectively.
-If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
-of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
-When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$ and $\edgestar{(S,P)}{u}{v}$.
+%If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
+%of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
+When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. % and $\edgestar{(S,P)}{u}{v}$.
 
 %\subsection{Relating Transition Graphs to Colored Hypergraphs}
 %\label{subsec:trans-hypergraph} 
@@ -71,8 +72,11 @@ When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P
 %$Y_u = \dom{S \cup P}$ and $Z_v = \cod{S \cup V}$, and $c(Y_u, Z_v) = (S,P)$ in $\biRel$ and in $\biRel^*$ respectively.
 %By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.
 
-\begin{remark}\label{rem:hypergraph}
-Transition graphs are a generalization of {\em size-change} graphs in \cite{Lee1}. 
+\medskip
+%\begin{remark}\label{rem:hypergraph}
+Transition graphs are a variant and a more compact presentation with 
+%A transition graph is the composition into 
+a single structure of the composition of finitely many {\em size-change} graphs as defined in \cite{Lee1}. 
 A size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, $\texttt{g}$ out of some functional program $\texttt{p}$
 is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$, where $\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g})$
 are sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{g}$, $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $\texttt{f}^{(i)} \subseteq \textit{Param}(\texttt{f})$ to
@@ -81,12 +85,18 @@ $\downarrow$ in $\textsf{E}$.
 
 In our view, $G:\texttt{f} \to \texttt{g}$ corresponds 
 to $\edgeG{(S,P)}{u}{v}{\Graph}$ where $X$ is the set of all parameters occurring in the program $\texttt{p}$, 
-$S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \textsf{E}}$ so that $\dom{S} = \texttt{f}^{(i)}$ and $\cod{S} = \texttt{g}^{(j)}$. Similarly,
-$P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. 
+$S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \textsf{E}}$ so that $\dom{S} = \texttt{f}^{(i)}$ and $\cod{S} = \texttt{g}^{(j)}$. 
+Similarly, $P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. 
 
+The composition $G,G'$ of $G:\texttt{f} \to \texttt{g}$ with $G':\texttt{g} \to \texttt{h}$
+requires that the target function symbols of $G$ and the source function symbol of $G'$ coincide; we remove the restriction by taking the unique finite set of ``symbols'' $X$, that could be a set of any other concrete entities such as sequents of formulas in a logical system, and introducing the sets of vertexes $V$ and of edges $E \subseteq V \times \biRel \times V$ to structure the graph. As a consequence, we do not have  a single pair of relations $ \leqdownarrow, \downarrow$, but a finite set of them 
+$\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ labeling the edges in $E$, which is our notation for the set of bipartite relations $(\leqdownarrow_i, \downarrow_i)$ in Figure ...
+
+
+%The relation $xSy$, which corresponds to $\leqdownarrow$, abstractly represents that the values of $x,y$ are just known not to increase w.r.t. some ordering, so that they are considered as {\em stable}; the relation $xPy$ instead, represents that the value of $x$ is strictly greater than the value of $y$ so that we say that $x$ {\em progresses} to $y$ according to $P$. The next lemmas precisely state 
 
 %Looking at $\Graph$ as a colored hypergraph, we have that $u$ is associated with the set $\bigcup\Set{\texttt{f}^{(i)} \mid \exists  \texttt{g}^{(j)}.\; (\texttt{f}^{(i)}, \dagger, \texttt{g}^{(j)}) \in \textsf{E} \; \mbox{with $\dagger \in \Set{\leqdownarrow, \downarrow}$}}$, and similary for $v$ by interchanging the $\texttt{f}^{(i)}$ and $\texttt{g}^{(j)}$ in the above.
-\end{remark}
+%\end{remark}
 
 \input{CSL-FPC}
 
