@@ -583,7 +583,7 @@ proving a termination result requires a weaker hypothesis PDC (see below).
 The Progressing Domain Condition (PDC) says: 
 \quotationMarks{all self-progressing $(\Stat,\Prog) \in \setR^\setG$ 
 have a progression from $x$ to $y$ with both elements 
-included in the domain of $(\Stat,\Prog)$}. Equivalenty, we can write PCD as
+included in the domain of $(\Stat,\Prog)$}. Equivalenty, we can write PDC as
 $$
 \forall (\Stat,\Prog) \in \setR, a \in G. 
 \ \ (\composable{\setG}{a}{a}{(\Stat,\Prog)}) \implies \exists x, y, z \in X. 
@@ -1172,11 +1172,12 @@ $\pi$ has \emph{stable-cardinality} if and only if all $i \in[1,m]$
 we have $\Card(\dom(R_i)) = \Card(\dom(R_{i,l}))$.
 
 \item
-$\pi$ has \emph{constant-cardinality} if and only if all 
+$\pi$ has \emph{$k$-constant-cardinality} if and only if $k \le n$ and for all 
 $i,j \in[1,m]$, $i \le j$ 
-we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l}))$.
-If furthermore we have $m \ge 1$ and $k = \dom(R_1)$ we say that $k$ is
-the domain-cardinality of $\pi$.
+we have $\Card(\dom(R_{i,j})) = \Card(\dom(R_{1,l})) = k$.
+
+\item
+$\pi$ has \emph{constant-cardinality} if $\pi$ has $k$-constant-cardinality for some $k \le n$.
 
 \item
 $\pi$ is \emph{non-progressing} if and only if for all 
@@ -1656,7 +1657,7 @@ this implies that we have $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
 \end{proof}
 
 This ends the proof of Termination Theorem 
-(\ref{theorem-finiteness-value-flow-1}).
+(\ref{theorem-finiteness-value-flow-2}).
 
 \begin{thebibliography}{9}
 
@@ -1695,17 +1696,16 @@ Oxford University Press.
 
 We relegate to this Appendix some result which 
 we do not wish to include in the main paper, at least for the moment. 
-Here is a temporary list of them. Let $\setG=(V,E,X)$ be a multigraph. By definition 
-$X$ is finite, we have
-$\setG = (V,E)$, for some finite set $V$ of vertices and some finite set $E \subseteq
-V \times \setP(X^2)^2 \times V$ of labeled edges, and we have $\Stat \cap \Prog =
-\emptyset$ for all $(a,(\Stat, \Prog),b) \in E$.
+Here is a temporary list of them. 
+Let $\setG=(V,E,X)$ be a multigraph (Def.\ref{definition-multigraph}).
 
 \begin{enumerate}
 \item
 In sub-section \ref{subsection-constant-cardinality}
-we estimate the maximum length of a non-progressing 
-constant-cardinality path $\pi$ in a multigraph $\setG$ which satisfies $PDC$.
+we assume that $\setG$ is a multigraph which satisfies $PDC$, then
+we provide a lower and an upper bound to the maximum length of a non-progressing 
+$k$-constant-cardinality path in $\setG$.
+
 
 \item
 This section includes two previous proofs of the equivalence of PDC, $\SCTa$ and GTC 
@@ -1717,23 +1717,201 @@ In sub-section \ref{subsection-TC}, instead, we will prove a new result:
 the equivalence between GTC and TC (termination of all computation flow).
 \end{enumerate}
 
+
+
 \subsection{The Maximum Length of a non-Progressing constant-cardinality Path}
 \label{subsection-constant-cardinality}
 
-Our aim is to prove the following result.
-Suppose $n = \Card(X)$ and 
-the domains of the constant-cardinality path $\pi$ on $\setG$ have cardinality $k$. 
-The length of a path from some vertex is the number of edges, 
-equivalently is one less than the number of vertices.
-Let $\kappa(V,E,X)$ be the maximum
-of $\length(\pi)$, for $\pi$ constant-cardinality path on $\setG$. This is
-the worst-case for a constant-cardinality path.
-We already proved that $\kappa(V,E,X) \le \genfrac(){0pt}{1}{n}{k}-1$. 
-We will give a more precise interval for this worst-case:
+We want to estimate the maximum number of edges
+we can have without a progress in a constant-cardinality path, given a multigraph 
+which satisfies PDC. 
+
+\begin{definition}[$\kappa(g,n,k)$]
+Let $n,k \in \N$ with $1 \le n$ and $k \in [0,n]$.
+
+\begin{enumerate}
+\item
+$\kappa(g,n,k)$ is the maximum $m \in \N$ such that there is
+some multigraph $\setG=(V,E,X)$ with $g = \Card(V)$, $n=\Card(X)$
+and which satisfies PDC,
+and some non-progressing $k$-constant-cardinality path $\pi:[1,m] \rightarrow E^+$.
+
+\item
+$\kappa(n,k) = \kappa(1,n,k)$ is the same quantity in the case of multigraph 
+with a unique vertex.
+\end{enumerate}
+\end{definition}
+
+We already proved that $\kappa(g,n,k) \le g  \genfrac(){0pt}{1}{n}{k}-1$:
+see Theorem 
+\ref{theorem-finiteness-value-flow-2}.{theorem-finiteness-value-flow-2-1}.
+When $g=1$ we deduce $\kappa(n,k) \le \genfrac(){0pt}{1}{n}{k}-1$. 
+
+Our aim is to prove the following lower bound result
+for one-vertex multigraph: $\kappa(n,k) \ge (n-k)k$, then
+the following results for any multigraph: $\kappa(g,n,k) \ge g(n-k)k + (g-1)$
+We will obtain in this way a more precise interval for the value $\kappa(n,k)$:
 
 $$
-\kappa(V,E,X) \ \in \ [(n-k)k,  \ \genfrac(){0pt}{1}{n}{k}-1]
+\kappa(n,k) \ \in \ [ (n-k)k,  \ \genfrac(){0pt}{1}{n}{k}-1 ]
 $$
+
+For multigraphs with any number $g$ of vertices we will deduce the more general result:
+$\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \genfrac(){0pt}{1}{n}{k}-1 ]$.
+Unfortunately, this is a wide iterval, with a polynomial lower bound and an exponential 
+upper bound, this is all we know for the moment.
+
+In order to provide the bound, we first define a
+set $\setR \subseteq \setP(X^2)^2$ of pairs $(\Stat,\Prog)$ of relations on $X = [1,n]$
+which satisfies PDC.
+
+\begin{definition}[The set $\setR$ of bi-colored relations]
+$\setR \subseteq \setP(X^2)^2$ is the set of all pairs $(\Stat,\Prog)$ 
+of relations on $X$ such that:
+\begin{enumerate}
+\item
+$R = \universe{(\Stat,\Prog)} = \Stat \cup \Prog$ is injective and surjective
+with $\dom(R) \subset X$.
+
+\item
+The relation $\Stat$ is a weakly increasing partial function which is extending:
+$\forall x,y \in X. x \Stat y \implies x \le y$. 
+
+\item
+if there is some progress from $x$, then the map $\Stat$ is strictly extending from $x \in X$.
+Namely: $\forall x,y,z \in X$, if $x \Stat y$ and $x \Prog z$ then $x < y$.
+\end{enumerate}
+\end{definition}
+
+We check that $\setR$ is composition-closed and satisfies PDC.
+
+\begin{lemma}
+\label{lemma-composition-closed}
+\begin{enumerate}
+\item
+\label{lemma-composition-closed-01}
+$\setR$ is closed by composition. 
+
+\item
+\label{lemma-composition-closed-02}
+$\setR$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+
+\begin{enumerate}
+\item
+%\label{lemma-composition-closed-01}
+\emph{We assume that $(\Stat,\Prog),(\Stat',\Prog') \in \setR$ and 
+$(\Stat'',\Prog'') = (\Stat,\Prog)(\Stat',\Prog')$ in order to prove that 
+$(\Stat'',\Prog'')  \in \setR$}. Recall that $R = \universe{(\Stat'',\Prog'')} = 
+\universe{(\Stat,\Prog)} \universe{(\Stat',\Prog')}$. We check all clauses
+of the definition of $(\Stat'',\Prog'')  \in \setR$.
+ 
+\begin{enumerate}
+\item
+$R$ is injective and surjective, being the composition of two relations which are injective and surjective. We have $\dom(R) \not = X$, because 
+$\dom(R) \subseteq \dom(\universe{(\Stat,\Prog)} \subset X$.
+
+\item
+$\Stat'' = \Stat\Stat'$ is an extending weakly increasing partial function, being the
+composition of two extending weakly increasing partial functions. 
+
+\item
+Assume $x,y,z \in X$, $x \Stat'' y$ and $x \Prog'' z$ in order to prove that $x < y$. 
+From $x \Stat'' y$ we deduce $x \Stat t \Stat' y$ for some $t \in X$, with $x \le t \le y$. 
+If $x  < t$ then $x < y$. Assume $x = t$ instead:
+then for no $u \in X$ we have $x \Prog u$. 
+From $x \Prog'' z$ we deduce that for some $u \in X$ we have $x R u R z$, where one of the
+two relations is a progress. From $\neg (x \Prog u)$ we deduce that $u \Prog' z$. From 
+$t \Stat' y$ we obtain that $t < y$. We deduce that $x < y$.
+\end{enumerate}
+
+\item
+\emph{We prove that $\setR$ satisfies PDC}.  
+For, assume $(\Stat, \Prog) \in \setR$ and let $R = \Stat \cup \Prog$.
+By definition of $\setR$, we have $R$ surjective and $\dom(R) \subset X = \codom(R)$. 
+We deduce that $\Prog \not = \emptyset$. Otherwise we would have $R = \Stat$, and
+since $\Stat$ is a partial function, this would imply $\Card(\dom(R)) \ge \Card(\codom(R))
+= \Card(X)$.
+Thus, there are some $x \Prog y$, therefore some $x \in \dom(R)$ 
+such that: either $x \not \in \dom(\Stat)$ or $x \Stat z$ and $x < z$. If we take the first such 
+$x \in \dom(R)$, then for all $y < x$ in $\dom(R)$ we have $y \in \dom(\Stat)$
+and $y \Stat y$. For all $t \ge x$
+if $t \Stat u$ then $u \ge z > x$ because $\Stat$ is weakly increasing. We deduce that
+$x \not \in \codom(\Stat)$, and from $x \in \codom(R)$ we conclude that
+there is some $v \in \dom(R)$ such that $v \Prog x$. This is PDC.
+
+\end{enumerate}
+\end{proof}
+
+From $\setR$ we define a multigraph with a path of length $(n-k)k$.
+
+\begin{lemma}[Lower bound for the Worst Case of 
+non-Progressing Constant-cardinality Path]
+For all $n,k \in \N$ with $1 \le n$ and $k \in [0,n]$ we have $$\kappa(n,k) \ge (n-k)k$$
+\end{lemma}
+
+\begin{proof}
+%13:43 07/07/2025
+If $k=0$ or $k=n$ then $\kappa(n,k) \ge 0 = (n-k)k$. Now assume $1 \le k \le n-1$. 
+We have to define some multigraph $\setG=(V,E,X)$ with $1 = \Card(V)$, $n=\Card(X)$
+and which satisfies PDC,
+and some non-progressing $k$-constant-cardinality path $\pi : [1,(n-k)k] \rightarrow E^+$.
+
+
+We define a multigraph $\setG=(V,E,X)$, with $V=\{1\}$ and 
+$E = V \times \setR \times V$ and $X = [1,n]$. 
+
+We check that $\setG$ satisfies PDC
+$\setR$ is closed by composition 
+by \ref{lemma-composition-closed}.\ref{lemma-composition-closed-01}:
+we deduce that $E^+ = V \times \setR \times V$. 
+$\setR$ satisfies PDC by
+\ref{lemma-composition-closed}.\ref{lemma-composition-closed-02}: 
+we deduce that all labels of edges in $E^+$ satisfy PDC, as wished.
+
+Now we define some non-progressing $k$-constant-cardinality path 
+$\pi:[1,(n-k)k] \rightarrow E^+$.  From $1 \le k \le n-k$ we deduce
+that $[1,k]$ and $[1,n-k]$ are not empty. For any $a \in [1,k]$, $b \in [1,n-k]$
+we define $(\Stat_{a,b},\Prog_{a,b}) \in \setR$. We define $\Stat_{a,b}$ the identity on 
+$[1,k-a] $, union $\{(k-a+b, \ k-a+b+1)\}$, union the identity on $[n-a+2,n]$. 
+We have $k-a+b \ge k - k + b = b \ge 1$, and from $k \le n-1$
+we deduce that $k-a+b+1 \le k - 1 + b  +1 = k + b \le k + (n-k) = n$.
+We have $k-a+b+1 \le k - a + n - k +1 = n - a +1 < n-a+2$.
+We proved that $(k-a+b, \ k-a+b+1) \in X \times X$. The maps
+$\id_{[1,k-a]}$ and $\{(k-a+b, \ k-a+b+1)\}$ and $\id_{[n-a+2,n]}$ are injective
+with disjoint codomains, therefore $\Stat_{a,b}$ is injective. 
+$\Stat_{a,b}$ is extending, weakly increasing, injective and $\Card(\dom(\Stat_{a,b})$
+is $(k-a) +1 + n-(n-a+2)+1 = k-a+1+n-n+a-2+1= k$.
+
+We define $\Prog_{a,b}$ by connecting
+$(k-a+b) \in X$ with all elements in $[1,n]$ and not in 
+$[1,k-a] \cup \{k-a+b+1\} \cup [n-a+2,n]$. $\Stat_{a,b}$ and $\Prog_{a,b}$ are injective
+and have disjoint codomains. Their union is surjective by definition.
+We obtained an injective and surjective relation $R_{a,b} = \Stat_{a,b} \cup \Prog_{a,b}$,
+with $\Stat_{a,b}$ strictly extending in the unique progressing element $k-a+b$. 
+
+
+We deduce that $(\Stat_{a,b},\Prog_{a,b}) \in \setR$. 
+
+We define $\pi:[1,(n-k)k] 
+\rightarrow \setR$ by ordering $S_{a,b}$ lexicographically.
+
+We claim that
+$\pi:[1,(n-k)k] \rightarrow E^+$ is a non-progressing $k$-constant-cardinality path.
+Indeed, each $R_{a,b}$ is a bijection between $\dom(R_{a,b})$ and 
+$\dom(R_{a,b+1})$ if $b<n-k$, and is a bijection between $\dom(R_{a,b})$ and 
+$\dom(R_{a+1,b})$ if $b=n-k$ and $a<k$.
+%18:28 07/07/2025
+\end{proof}
+
+\begin{corollary}[Lower bound for the Worst Case of 
+non-Progressing Constant-cardinality Path]
+$\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \genfrac(){0pt}{1}{n}{k}-1 ]$.
+\end{corollary}
+
 
 
 \subsection{PDC, GTC and $\SCTa$ are Equivalent Given Injectivity}
@@ -1978,7 +2156,7 @@ we deduce that $x R x$, either $x$ is progressing to $x$ or
 $x$ is weakly progressing to $x$.
 
 \item
-We assume PCD and that $R = \universe{(\Stat,\Prog)}$ and $(\Stat,\Prog) (\Stat,\Prog) = 
+We assume PDC and that $R = \universe{(\Stat,\Prog)}$ and $(\Stat,\Prog) (\Stat,\Prog) = 
 (\Stat,\Prog)$, hence $R=RR$, 
 in order to prove that \emph{for some $x \in X$, $x$ is progressing to itself}.
 By PDC there are some $x,y \in \dom(R)$ such that $x$ is progressing to $y$.
