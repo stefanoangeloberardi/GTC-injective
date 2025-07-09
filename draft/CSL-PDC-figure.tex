@@ -21,8 +21,8 @@
   \node at (1,-0.5) {$x_2$};
 
   %label with $v$
-  \node at (-1, -1.2) {\Large $v$};
-  \node at (1, -1.2) {\Large $v$};
+  \node at (-1, -1.2) {$v$};
+  \node at (1, -1.2) {$v$};
   
   %horizontal arrow
   \draw[->, blue] (-0.6, 0.5) -- (0.6, 0.5);
@@ -49,7 +49,8 @@
   \draw[black, rounded corners] (0.8,0.8) rectangle (1.2,-0.8);
 
   %label with $v$
-  \node at (1, -1.2) {\Large $v$};
+  %\node at (1, -1.2) {\Large $v$}; eliminated the \Large command everywhere
+  \node at (1, -1.2) {$v$};
   
   %horizontal arrow
   \draw[->, blue] (-0.6, 0.5) -- (0.6, 0.5);
@@ -75,7 +76,7 @@
   \draw[black, rounded corners] (0.8,0.8) rectangle (1.2,-0.8);
 
   %label with $v$
-  \node at (1, -1.2) {\Large $v$};
+  \node at (1, -1.2) {$v$};
   
   %horizontal arrow
   \draw[->, blue] (-0.6, 0.5) -- (0.6, 0.5);
@@ -94,10 +95,10 @@
 
 % BLOCK 6
 \begin{scope}[xshift=3*\xstep cm]
-  \node at (-0.3, 0.0) {\Large$\cdots$};
+  \node at (-0.3, 0.0) {$\cdots$};
 \end{scope}
 
 \end{tikzpicture}
-\caption{Infinite path $\ppath_0 : v \stackrel{(S_0,P_0)}{\longrightarrow} v \stackrel{(S_0,P_0)}{\longrightarrow} v \cdots$ in $\mathcal{G}_0$}
+\caption{Infinite path $\ppath_0 : v \stackrel{(S_0,P_0)}{\longrightarrow} v \stackrel{(S_0,P_0)}{\longrightarrow} v \;\cdots$ in $\mathcal{G}_0$}
 \label{fig:PDC-counterexample}
 \end{figure}
