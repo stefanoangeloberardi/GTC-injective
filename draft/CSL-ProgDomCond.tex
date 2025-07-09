@@ -114,14 +114,12 @@ have that $x(S \cup P)y$. On the other hand, since $y \in \dom{S \cup P}$, there
 $x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective.
 \end{proof}
 
-\cite{Graham1980}
-
-In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use infinite Ramsey's Theorem. We preliminarily introduce some terminology.
+In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use the infinite Ramsey's Theorem. We preliminarily introduce some terminology.
 Let $N \subseteq \Nat$, then $[N]^m = \Set{Y \subseteq N \mid |Y| = m}$ can be regarded as the complete (undirected) hypergraph where
 all hyperedges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).
 Taking $m = 2$, we have that $[N]^2 = \Set{\Set{x,y} \subseteq N \mid x \neq y}$ is the set of edges of the complete undirected graph whose vertices are in $N$. 
 
-Let $\underline{k} = \Set{0, \ldots , k-1}$ be the set of the first $k$ natural numbers; then a {\em $k$-coloring} of $[N]^2$ is a map  
+Let $\underline{k} = \Set{1, \ldots , k}$ be the set of the first $k$ positive integers; then a {\em $k$-coloring} of $[N]^2$ is a map  
 $c:[N]^2 \to \underline{k}$; a subset $[A]^2 \subseteq [N]^2$ is {\em monocromatic} if there is $i \in \underline{k}$ such that  $c(Y) = i$ for all
 $Y \in [A]^2$.
 
@@ -131,17 +129,21 @@ $Y \in [A]^2$.
 %A set $H \subseteq N$ is {\em $c$-homogeneous} if $c''[H]^m$ is a singleton.
 
 \begin{theorem}[Ramsey's Theorem]\label{thr:Ramsey}
-For all $m, k \in \Nat\setminus \Set{0}$ and any coloring $c[\Nat]^m \to \Set{1,\ldots, k}$, there exists an infinite $H \subseteq \Nat$ which is $c$-homogeneous.
+For all $k > 0$ and $k$-coloring $c$ of $[\Nat]^2$ there exists $A \subseteq \Nat$, $A$ infinite, such that $[A]^2$ is monocromatic.
 \end{theorem}
 
+\begin{proof} See e.g. Theorem 5 in Chapter 1 of \cite{Graham1980}.
+\end{proof}
+
 \begin{corollary}\label{cor:Ramsey}
-Let $G = (V, E)$ be a complete undirected graph with infinite denumerable $V$, and let $c: E \to \Set{1,\ldots, k}$ be a finite coloring of its edges,
-then there exists an infinite $H \subseteq V$ that is a complete subgraph of $G$ and such that for all distinct $u, v \in H$ we have $c(\Set{u,v}) = i$ for some $i \in \Set{1,\ldots, k}$.
+Let $G = (V, E)$ be a complete undirected graph with infinite denumerable $V$, and let $c: E \to \underline{k}$ be a finite coloring of its edges,
+then there exists an infinite $U \subseteq V$ that is a complete subgraph of $G$ and such that for all distinct $u, v \in H$ we have $c(\Set{u,v}) = i$ for some $i \in \underline{k}$.
 \end{corollary}
 
 \begin{proof}
-As $V$ is denumerable, it can be identified with $\Nat$. Then the set of edges $E = \Set{ \Set{u, v} \subseteq V \mid u \neq v} = [V]^2$;
-now the corollary is a particular case of Theorem \ref{thr:Ramsey}.
+As $V$ is denumerable, the graphs $[\Nat]^2$ and $[V]^2$ are isomorphic. 
+Then the set of edges $E = \Set{ \Set{u, v} \subseteq V \mid u \neq v} = [V]^2$.
+Now the corollary is a particular case of Theorem \ref{thr:Ramsey}.
 \end{proof}
 
 
