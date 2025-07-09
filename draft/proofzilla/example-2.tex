@@ -1,0 +1,63 @@
+\documentclass[11pt,a4paper]{report}
+
+%%%% PACKAGES
+
+% Proof trees
+\usepackage{bussproofs}
+
+
+% Tikz is required to use proofzilla
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta} % additional arrow styles
+\usepackage{proofzilla}
+
+\newtheorem{example}{Example}
+
+% Definition of vertices
+\newemptyvertex{node}{}
+
+
+%%%%% HERE CHANGE THE DEFINITION OF EDGES TO CHANGE THE COLOR  AND OTHER ATRIBUTES %%%%%%
+\defedgetype{flow}{draw=blue}{}
+\defedgetype{dirflowblue}{-Latex,draw=blue}{}
+\defedgetype{dirflowred}{-Latex,draw=red}{}
+
+\begin{document}
+
+\begin{example} 
+
+To change the color of an edge, it is necessary to define it in the definition of the edge with the command \textnormal{\texttt{defedgetype}}.
+
+\begin{prooftree}
+\def\extraVskip{2pt}
+\def\ScoreOverhang{0pt}
+\AxiomC{$ \vnode1{A} \vdash \vnode2{A} $}
+\AxiomC{$ \vnode3{A} \vdash \vnode4{A} $}
+\BinaryInfC{$ \vnode5{A} \vdash \vnode6{A} $}
+\end{prooftree}
+% DRAW EDGES
+$
+\dirflowrededges{node5/node1, node4/node6}   %straight line edges. Syntax: source/target
+\bentdirflowblueedges{node1/node2/90, node3/node4/45, node2/node3/-45}  %bent edges. Syntax: source/target/bending degree (can be negative)
+$
+\end{example}
+
+
+
+\begin{example}
+Use the command \textnormal{\texttt{RightLabel}} or \textnormal{\texttt{LeftLabel}} to include the name of the rule. 
+
+
+\begin{prooftree}
+\def\extraVskip{2pt}
+\def\ScoreOverhang{0pt}
+\AxiomC{$ \Gamma \vdash F, \Delta $}
+\AxiomC{$ \Gamma', F \vdash \Delta' $}
+\RightLabel{(Cut)}
+\BinaryInfC{$ \Gamma, \Gamma' \vdash \Delta, \Delta' $}
+\end{prooftree}
+
+
+\end{example}
+
+\end{document}
