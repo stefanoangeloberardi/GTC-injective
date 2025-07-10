@@ -2,12 +2,14 @@
 \section{Cyclic Proofs and the Global Trace Condition}
 \label{sec:cyclic}
 
-In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$, and show how the GTC for both systems is equivalent to the SCT condition in Definition \ref{def:SCT}. Our approach is motivated by Ikebuchi's work \cite{Mirai}, where she formally stated the equivalence between the GTC and SCT, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process. We begin by introducing the notion of cyclic pre-proofs.
+In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$, and show how the GTC is equivalent to the SCT condition in Definition \ref{def:SCT}. Our approach is motivated by Ikebuchi's work \cite{Mirai}, where she formally stated the equivalence between the GTC and SCT, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process. We begin by introducing the notion of cyclic proofs.
 
-\subsection{Cyclic Pre-Proofs}
-\label{subsec:cyclicPreProofs}
+\subsection{Cyclic Proofs}
+\label{subsec:cyclicProofs}
 
-$\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. We consider sequents as originally defined by Gentzen using finite lists. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is list containing the single formula $\phi$. Moreover, the comma between lists of formulas denotes list concatenation (e.g. $\Gamma, \Delta$). For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between finitely many \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and denumerable many \emph{ordinary predicates}, defined as usual predicates. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
+$\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. We consider sequents as originally defined by Gentzen using finite lists. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is list containing the single formula $\phi$. 
+
+The comma between lists of formulas denotes list concatenation (e.g. $\Gamma, \Delta$). For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between finitely many \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and denumerable many \emph{ordinary predicates}, defined as usual predicates. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
 
 \begin{definition}[Inductive definition set]
     \label{defIndSet}
@@ -23,15 +25,17 @@ $\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consi
     \end{center}
 
     Where $Q_1, \ldots, Q_h$ are ordinary predicates symbols, $P_1, \ldots, P_m$ are inductive predicate symbols, and $\mathbf{u_1}, \ldots, \mathbf{u_h}$, $\mathbf{t_1}, \ldots, \mathbf{t_m}$, $\mathbf{u_1}, \ldots, \mathbf{t}$ are tuples of terms.
-\end{definition}
+\end{definition} 
 
-\begin{figure}
-    \centering
-    \includegraphics[scale = 0.5]{example-image}
-    \caption{Rules of LK.}
-    \label{LKrules}
-\end{figure}
 
+%DEFINITION OF NODES AND EDGES FOR THE ARROWS IN THE RULES
+%-----------------------------------------
+\newemptyvertex{node}{}
+\defedgetype{dirflowblue}{-Latex,draw=blue, -{Latex[length=2.5pt, width=4pt]}, line width=1pt}{}
+\defedgetype{dirflowred}{-Latex,draw=red, -{Latex[length=2.5pt, width=4pt]}, line width=1pt}{}
+%-----------------------------------------
+
+\input{CSL-LKRules}
 
 \begin{example}
 We define the inductive definition set $\Phi_{NEO}$, using the following productions rules:
@@ -85,20 +89,36 @@ We define the proof system for $\CLKIDomega$ as the extension of the classical l
     \begin{equation}
     \label{def:caseRuleRight}
     \begin{prooftree}
-        \hypo{\Gamma \vdash Q_1\mathbf{u_1}, \Delta \ldots \Gamma \vdash Q_h\mathbf{u_h}, \Delta}
-        \hypo{\Gamma \vdash P_1\mathbf{t_1}, \Delta \ldots \Gamma \vdash P_m\mathbf{t_m}, \Delta}
-        \infer2[($P\text{R}_i$)]{\Gamma \vdash P\mathbf{t}, \Delta}
+        \hypo{\vnode1{\Gamma} \vdash \vnode2{Q_1\mathbf{u_1}}, \vnode3{\Delta} \ldots \vnode4{\Gamma} \vdash \vnode5{Q_h\mathbf{u_h}}, \vnode6{\Delta}}
+        \hypo{\vnode7{\Gamma} \vdash \vnode8{P_1\mathbf{t_1}}, \vnode9{\Delta} \ldots \vnode{10}{\Gamma} \vdash \vnode{11}{P_m\mathbf{t_m}}, \vnode{12}{\Delta}}
+        \infer2[($P\text{R}_i$)]{\vnode{13}{\Gamma} \vdash \vnode{14}{P\mathbf{t}}, \vnode{15}{\Delta}}
     \end{prooftree}
+    %ARROWS
+    %----------------------------------
+    $
+    %these arrows look bad
+    %\bentdirflowblueedges{node13/node1/20, node13/node4/20, node13/node7/0, node13/node10/-30, node15/node3/-45, node15/node9/0, node15/node12/-25}
+    \bentdirflowrededges{node14/node2/25, node14/node5/0, node14/node8/0, node14/node11/-25} 
+    $
+    %----------------------------------
     \end{equation}
 
+    The list $\Gamma$ in the conclusion is mapped with a blue arrow to each occurrence of $\Gamma$ in the premises, and the same holds for $\Delta$. 
 
     \item There is a left introduction rule associated to $P$ in $\CLKIDomega$, denoted \emph{case split rule } or (Case $P$):
     \begin{equation}
     \label{def:caseRuleLeft}
     \begin{prooftree}
-        \hypo{ \{ \Gamma, \mathbf{u} = \mathbf{t^i}, Q^i_1\mathbf{u^i_1}, \ldots , Q^i_h\mathbf{u^i_h}, P^i_1\mathbf{t^i_1}, \ldots, P^i_m\mathbf{t^i_m} \vdash \Delta \}_{1 \leq i \leq n} }
-        \infer1[(Case $P$)]{\Gamma, P\mathbf{u} \vdash \Delta}
-    \end{prooftree}    
+        \hypo{ \{ \vnode1{\Gamma}, \mathbf{u} = \mathbf{t^i}, \vnode3{Q^i_1\mathbf{u^i_1}}, \ldots , \vnode4{Q^i_h\mathbf{u^i_h}}, \vnode5{P^i_1\mathbf{t^i_1}}, \ldots, \vnode6{P^i_m\mathbf{t^i_m}} \vdash \vnode7{\Delta} \}_{1 \leq i \leq n} }
+        \infer1[(Case $P$)]{\vnode8{\Gamma}, \vnode9{P\mathbf{u}} \vdash \vnode0{\Delta}}
+    \end{prooftree}
+    %ARROWS
+    %----------------------------------
+    $
+    \bentdirflowblueedges{node8/node1/20, node0/node7/-20}
+    \bentdirflowrededges{node9/node3/0, node9/node4/0, node9/node5/0, node9/node6/0} 
+    $
+    %----------------------------------    
     \end{equation}
     Where for each production $\Phi_i$, there is a corresponding sequent in the premises of the form $\Gamma, \mathbf{u} = \mathbf{t^i}, Q^i_1\mathbf{u^i_1}, \ldots , Q^i_h\mathbf{u^i_h}, P^i_1\mathbf{t^i_1}, \ldots, P^i_m\mathbf{t^i_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u^i_1},...,\mathbf{u^i_h},\mathbf{t^i_1},...,\mathbf{t^i_m}$, or $\mathbf{t^i}$, does not occur in $\Gamma, \Delta$ and $\mathbf{u}$.
 \end{itemize}
@@ -148,13 +168,22 @@ For the previously defined inductive predicates $N$, $E$ and $O$, we can associa
 \end{center}
 \end{example}
 
-For each inference rule in $\CLKIDomega$, we define the \emph{sub-occurrence} relation, which maps occurrences in the conclusion of the rule with occurrences in its premises. To simplify the presentation, we define this relation pictographically (inspired by the work in \cite{SaurinBauer}), to illustrate how occurrences are tracked through each inference.
+For each inference rule in $\CLKIDomega$, we define the \emph{sub-occurrence} relation, which maps occurrences in the conclusion of the rule with occurrences in its premises. To simplify the presentation, we define this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. Each arrow is defined as follows:
+
+\begin{enumerate}[i)]
+    \item Arrows connect occurrences $(F, i)$ in the conclusion to occurrences $(G, i)$ in the premises of each rule.
+    \item An arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise defines a bijection between occurrences $(F,i)$ in the conclusion and $(F,j)$ in the premise.
+    \item An arrow from a list $\Gamma[\theta]$ in the conclusion to $\Gamma$ in a premise defines a bijection between occurrences $(F[\theta],i)$ in the conclusion and $(F,j)$ in the premise.
+    \item An arrow from a list $\Gamma[t/x,u/y]$ in the conclusion to $\Gamma[u/x,t/y]$ in a premise defines a bijection between occurrences $(F[t/x,u/y],i)$ in the conclusion and $(F[u/x,t/y],j)$ in the premise.
+\end{enumerate}
 
 \begin{definition}[sub-occurrence relation]
-    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(F,i)$ in $\Gamma \vdash \Delta$ and $(G,j)$ in $\Gamma_k \vdash \Delta_k$ for some $ 1 \leq k \leq n$. We say that $(G,j)$ is a sub-occurrence of $(F,i)$ in $r$, noted $(F,i) \rightarrow_{r} (G,j)$ if and only if there is an arrow drawn from $(F,i)$ to $(G,j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas \ref{def:caseRuleRight} and \ref{def:caseRuleLeft}. We say that $(F,i)$ is an active occurrence of the rule, if the arrow coming out from it, is colored in red.
+    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(F,i)$ in $\Gamma \vdash \Delta$ and $(G,j)$ in $\Gamma_k \vdash \Delta_k$ for some $ 1 \leq k \leq n$. We say that $(G,j)$ is a sub-occurrence of $(F,i)$ in $r$, noted $(F,i) \rightarrow_{r} (G,j)$ if and only if there is an arrow drawn from $(F,i)$ to $(G,j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas \ref{def:caseRuleRight} and \ref{def:caseRuleLeft}. $(F, i)$ is called an active occurrence of $r$ if a red arrow originates from it, and a context occurrence if the arrow is blue. If no arrow originates from $(F, i)$, it is said to have no sub-occurrences in $r$.
 \end{definition}
 
-The proof system for $\CLJIDomega$ and its sub-occurrence relation, is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, preserving the exchange rule, and replacing LK with its intuitionistic version, named LJ, which is presented in \cite{Berardi}. \emph{Cyclic pre-proofs} are used to formally represent the graph structure of a derivation in $\CLKIDomega$ and $\CLJIDomega$.
+The proof system for $\CLJIDomega$ and its sub-occurrence relation, is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, preserving the exchange rule, and replacing LK with its intuitionistic version, named LJ, which is presented in \cite{Berardi}. 
+
+\emph{Cyclic pre-proofs} are used to formally represent the graph structure of a derivation in $\CLKIDomega$ and $\CLJIDomega$.
 
 \begin{definition}[Cyclic pre-proof] A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof of sequent $\Gamma \vdash \Delta$ (resp. $\Gamma \vdash \phi$), is a tuple $\Pi = (\mathcal{D}, \mathcal{F})$, where:
 
@@ -218,5 +247,48 @@ As mentioned before, the GTC is used as a criterion to verify the soundness of c
     Explain here: 1) our definition is different 2) however is in principle the definition of brotherston extended to ocurrences 3)
 \end{remark}  
 
+The GTC is then defined as a general condition over all the infinite paths of a cyclic pre-proof.
 
+\begin{definition}[Global Trace Condition]
+    \label{def:GTC}
+    A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof $\Pi$ is said to be a $\CLKIDomega$ (resp. $\CLJIDomega$) \emph{proof}, if for every infinite path in $G_{\Pi}$, there is an infinitely progressing trace following some tail of the path.
+\end{definition}
+
+\begin{example}
+    Consider the cyclic pre-proof in Figure \ref{exampleCircProof}. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny, Nx)^{\omega}$ over the infinite right branch is infinitely progressing, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC.
+\end{example}
+
+
+\subsection{Transition Graph of a Cyclic Pre-Proof}
+
+
+Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations.
+
+
+\begin{definition}[Transition Graph of a Pre-Proof]
+\label{def:preProofTrans}
+
+Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ or $\CLJIDomega$ pre-proof with a graph $G_{\Pi} = (V',s,r,p')$. We note $\mathcal{G}_{\Pi} = (V', \mathcal{R}, E)$ as the transition graph over bi-partite relations induced by $\Pi$, where:
+\begin{itemize}
+
+     \item $\mathcal{R} \subseteq X \times X$ where $X = \{ (P\mathbf{u},j) \ | \ \text{$P$ is inductive, $\exists v \in V'$ s.t. $s(v) = \Gamma \vdash \Delta$ and $(P\mathbf{u},j) \in \Gamma$} \}$
+
+     \item Let $v,v' \in V'$ such that both vertices share and edge, i.e. there exists a $j$ such that $p'_j(v) = v'$. Moreover, let $s(v) = \Gamma \vdash \Delta$ (resp. $s(v') = \Gamma' \vdash \Delta'$) where $\Psi \subseteq \Gamma$ (resp. $\Theta \subseteq \Gamma'$)
+     contains only the ocurrences of $\Gamma$ (resp. $\Gamma'$), of the form $(P\mathbf{u}, i)$, where $P$ is an inductive predicate. We define the bi-partite relation $(S,P)_{v,v'}$ as follows:
+        \begin{enumerate}[i)]
+            \item The domain and codomain of $|(S,P)_{v,v'}|$ are $\Psi$ and $\Theta$ respectively.
+            
+
+            \item If $r(v)$ is not a case split rule, then for all $(P\mathbf{u},i)$ in $\Psi$ and $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) S (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$.
+
+            \item If $r(v)$ is a case split rule, then for all $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) P (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q_\mathbf{t},j)$ and $(P\mathbf{u},i)$ is the active occurrence in $\Gamma$. Otherwise, if $(P\mathbf{u},i)$ is not the active occurrence, then $(P\mathbf{u},i) S (Q\mathbf{t},j)$.
+
+        \end{enumerate}
+
+    \item $\mathcal{R} = \{(S,P)_{v,v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
+
+    \item $E = \{\edge{(S,P)_{v,v'}}{v}{v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
+ \end{itemize} 
+
+\end{definition}
 
