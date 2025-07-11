@@ -66,40 +66,40 @@ We want to find a proof of this fact that the  which is both intuitionistic,
 first order arithmetical and with human-readable intermediate step.  
 
 Cyclic proofs are an interesting tool for proof search and have been introduced as
-by Brotherston and Simpson \cite{2011-Brotherston-Simpson}. 
+by Brotherston and Simpson \cite{BrotherstonSimpson}. 
 Later, the algorithm checking correctness for cyclic proofs turned out to be
 a particular case of the algorithm checking the \emph{algorithm condition for Size Change Termination} condition for programs. 
 
 The \emph{algorithm condition for Size Change Termination}
 (from now on, $\SCTa$ for short) was introduced by
-Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{2001-SCT}, 
+Chin Soon Lee, Neil D. Jones and Amir M. Ben-Amram in \cite{Lee1}, 
 \S 3.2, Theorem 4. The proof that Global Trace Condition implies correctness 
 can be seen as a particular of this Theorem. We are interested to find
 an intuitionistic, first order and human-readable alternative proof of this result. 
 
 The name \quotationMarks{$\SCTa$} for the condition of Theorem 4 is ours, 
-this condition has no name in \cite{2001-SCT}.
+this condition has no name in \cite{Lee1}.
 $\SCTa$ was introduced in order to prove program termination: 
 we formally define $\SCTa$ in the next section.
 In our paper, we are interested to $\SCTa$ in a particular case which is relevant for cyclic proofs:
 we are interested to the case of transition multi-graphs labeled by 
 \emph{injective} bi-colored relations. This condition is called 
-the \emph{fan-in-free} condition in \cite{2009-Lee-Aram}.
+the \emph{fan-in-free} condition in \cite{Lee2}.
 
 As we said, our motivation is that this particular case of $\SCTa$ is enough to check 
 the correctness of cyclic proofs. 
 
-%The algorithm checking the condition of $\SCTa$ as stated in Theorem 4 of \cite{2001-SCT}
+%The algorithm checking the condition of $\SCTa$ as stated in Theorem 4 of \cite{Lee1}
 %is PSPACE-complete: this is proved in the same paper.
 %$\SCTa$ is PSPACE-complete 
 %also in the particular case of injective bi-colored relations required by cyclic 
-%proofs (\cite{2009-Lee-Aram}). 
+%proofs (\cite{Lee2}). 
 %However we will argue that checking $\SCTa$ is simpler  
 %and faster in this case.
 
 We will prove termination for $\SCTa$ in the case of injective relations only using 
 first order induction. We use Intuitionistic Logic and Peano Induction only.
-%With respect to the proof included in \cite{2009-Lee-Aram} 
+%With respect to the proof included in \cite{Lee2} 
 %(where the injectivity condition is called the \emph{fan-in-free} condition), we try to reduce
 %the proof size. This is because
 Our long-term goal (not to be achieved in this paper) is to define an automatic translation from 
@@ -267,7 +267,7 @@ $x \Stat y$ (namely that the value of of $x$ is greater \emph{or equal}
 than the value of $y$) becomes redundant and we remove it from our records.
 The condition $\Stat \cap \Prog = \emptyset$ is required for
 $(\Stat,\Prog)$ to define a bicoloring on $\Stat \cup \Prog$, as it was done in
-\cite{2001-SCT}.
+\cite{Lee1}.
 \\
 
 Assume $\setG = (V,E,X)$ is any multigraph (\ref{definition-multigraph}). 
@@ -285,7 +285,7 @@ $r = (\Stat_0,\Prog_0), (\Stat_1,\Prog_1), \ldots$ on $\setR$ defined by $r(i) =
 %If $b$ is finite, then the sequence $r$ of pairs is one unit shorter than $b$. If
 %$b$ is infinite then $r$ is infinite.
 
-The paper \cite{2001-SCT}
+The paper \cite{Lee1}
 uses the word \quotationMarks{thread} instead of the word \quotationMarks{trace} ,
 the word \quotationMarks{descending} instead of \quotationMarks{progressing},
 and the word  \quotationMarks{multipath} instead of \quotationMarks{path}.
@@ -296,7 +296,7 @@ In this paper, we consider these words as synonimous.
 %in the graph define by $\setG$,
 %and \emph{multipath} for the image of a path under $\setG$:
 %$\setG(f_0, f_1), \setG(f_1, f_2), \ldots$ .
-The paper \cite{2001-SCT} formulates GTC, the Global Trace Condition,
+The paper \cite{Lee1} formulates GTC, the Global Trace Condition,
 as: \quotationMarks{all infinite multipaths are in $DESC^\omega$}, 
 where $DESC^\omega$ is the set of multipaths having some infinite descending thread.
 The same condition GTC  is formulated in Brotherston and Simpson as: 
@@ -304,7 +304,7 @@ The same condition GTC  is formulated in Brotherston and Simpson as:
 
 
 %The terminology \quotationMarks{thread}
-%of cite{2001-SCT} is probably more suitable when speaking
+%of cite{Lee1} is probably more suitable when speaking
 %of programs, while Brotherston and Simpson terminology,
 %\quotationMarks{trace}, appears more suitable when speaking of a 
 %proof-graph, as we do in this paper. 
@@ -330,7 +330,7 @@ as a corollary, we will derive that any cyclic proof satisfying GTC is correct.
 %if and only if for all $i \in D$ we have $\dom(b(i))=\codom(b(i+1))$.
 %\item
 %We call any map $\tau:D \rightarrow X$ a \emph{trace} 
-%(it is called a \emph{thread} in \cite{2001-SCT}): 
+%(it is called a \emph{thread} in \cite{Lee1}): 
 %a trace is any finite or infinite sequence over $X$.
 %\item
 %We call any map $\theta:D,X \rightarrow \N$ a \emph{value flow}. 
@@ -419,7 +419,7 @@ $$
 \universe{(\Stat,\Prog)}\universe{(\Stat',\Prog')} 
 $$
 %12:31 01/07/2025
-Lee and Ben-Aram considered in \cite{2009-Lee-Aram} the notion
+Lee and Ben-Aram considered in \cite{Lee2} the notion
 of fan-in free for $\setR$, $\setG$. 
 This notion is equivalent to our injectivity condition above 
 (Def. \ref{definition-GTC-inj}). In the cited paper, the equivalence requires to
@@ -429,7 +429,7 @@ to different nodes. We avoid renaming in this paper.
 
 The Global Trace condition (GTC) is equivalent to the algorithmic 
 criterion for Size Change Termination ($\SCTa$), even without assuming injectivity.
-%, introduced by Neil Jones in \cite{2001-SCT},Theorem 4.
+%, introduced by Neil Jones in \cite{Lee1},Theorem 4.
 
 \begin{definition}[The SCT-a Algorithmic Condition]
 \label{definition-SCT}
@@ -511,7 +511,7 @@ a condition which is missing in the original $\SCTa$ paper.
 %purely combinatorial viewpoint, as a termination condition for value flows. 
 %Our result could also be used for checking termination of recursive calls, with a 
 %faster algorithm but unfortunately under less general conditions than in 
-%\cite{2001-SCT}. 
+%\cite{Lee1}. 
 %We hope that our result will be used for translating cyclic proofs into 
 %ordinary proofs, but for the moment we do not provide such translation.
 
@@ -528,7 +528,7 @@ the finiteness of all compatible value flows can be proved
 in Intuitionistic Arithmetic.
 
 S. Berardi and M. Tatsuta proved that the equivalence between $\SCTa$ and GTC 
-(already proved in \cite{2001-SCT}) is a corollary of Ramsey Theorem. 
+(already proved in \cite{Lee1}) is a corollary of Ramsey Theorem. 
 We briefly recall this proof here.
 In order to prove that $\SCTa \Rightarrow GTC$ 
 we need the Infinite Ramsey Theorem, which we briefly recall here. 
@@ -660,7 +660,7 @@ We first include a short equivalence proof, by building on the results of Neil J
 
 
 \begin{proof}(First Proof of of Thm. \ref{theorem-finiteness-value-flow-1})
-In our terminology, Theorem 4, \cite{2001-SCT} is a proof of  
+In our terminology, Theorem 4, \cite{Lee1} is a proof of  
 $\SCTa$ $\Leftrightarrow$ GTC. 
 Therefore in order to prove GTC $\Rightarrow$ PDC for a multigraph $\setG$
 with injective relations, it is enough to prove that in the case of injective relations
@@ -1659,34 +1659,36 @@ this implies that we have $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
 This ends the proof of Termination Theorem 
 (\ref{theorem-finiteness-value-flow-2}).
 
-\begin{thebibliography}{9}
+%\begin{thebibliography}{9}
+%
+%\bibitem{Lee1}
+%Chin Soon Lee and Neil D. Jones and Amir M. Ben-Amram,
+%2001, January,
+%The Size-Change Principle for Program Termination,
+%in ACM SIGPLAN Notices, Vol. 36 (3), 
+%doi 10.1145/360204.360210
+%
+%\bibitem{Lee2}
+%Amir M. Ben-Amram and Chin Soon Lee,
+%Ranking Functions for Size-Change Termination II,
+%in Logical Methods in Computer Science
+%Vol. 5 (2:8) 2009, pp. 1–29
+%
+%\bibitem{BrotherstonSimpson}
+%James Brotherston and Alex Simpson, 
+%Sequent calculi for induction and infinite descent,
+%December, 1 2011,
+%Journal of Logic and Computation,
+%Volume 21, 
+%Issue 6, 
+%Pages 1177-1216,
+%Oxford University Press.
+%
+%
+%\end{thebibliography}
 
-\bibitem{2001-SCT}
-Chin Soon Lee and Neil D. Jones and Amir M. Ben-Amram,
-2001, January,
-The Size-Change Principle for Program Termination,
-in ACM SIGPLAN Notices, Vol. 36 (3), 
-doi 10.1145/360204.360210
-
-\bibitem{2009-Lee-Aram}
-Amir M. Ben-Amram and Chin Soon Lee,
-Ranking Functions for Size-Change Termination II,
-in Logical Methods in Computer Science
-Vol. 5 (2:8) 2009, pp. 1–29
-
-\bibitem{2011-Brotherston-Simpson}
-James Brotherston and Alex Simpson, 
-Sequent calculi for induction and infinite descent,
-December, 1 2011,
-Journal of Logic and Computation,
-Volume 21, 
-Issue 6, 
-Pages 1177-1216,
-Oxford University Press.
-
-
-\end{thebibliography}
-
+\bibliographystyle{./entics}
+\bibliography{references}
 
 \newpage
 
@@ -1974,7 +1976,7 @@ PDC for the self-composable pair $(\Stat,\Prog)$.
 \\
 
 In order to prove $\SCTa$ $\Rightarrow$ PDC, we recall 
-that Neil Jones in \cite{2001-SCT} 
+that Neil Jones in \cite{Lee1} 
 proved the equivalence of the conditions called in this paper 
 $\SCTa$ (\S \ref{section-SCT}) and GTC
 $$
@@ -2200,7 +2202,7 @@ transition all variables are constant, and all
 traces progress at most $n-1$ times, with $n=\Card(X)$.
 
 \begin{proof}[Proof of $\neg$ GTC $\implies$ $\neg$ TC]
-Assume $\neg$ GTC. By Theorem 4, \cite{2001-SCT} 
+Assume $\neg$ GTC. By Theorem 4, \cite{Lee1} 
 we deduce $\neg$ $\SCTa$, namely
 that there is some self-composable 
 $(a,(\Stat,\Prog),a) \in \setR$ such that for no $m \in \N$, $m>0$, 
