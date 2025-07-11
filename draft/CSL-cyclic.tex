@@ -2,7 +2,7 @@
 \section{Cyclic Proofs and the Global Trace Condition}
 \label{sec:cyclic}
 
-In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$, and show how the GTC is equivalent to the SCT condition in Definition \ref{def:SCT}. Our approach is motivated by Ikebuchi's work \cite{Mirai}, where she formally stated the equivalence between the GTC and SCT, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process. We begin by introducing the notion of cyclic proofs.
+In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$, and show how the GTC is equivalent to the SCT condition in Definition \ref{def:SCT}. Our approach follows Ikebuchi's work \cite{Mirai}, where she formally stated the equivalence between the GTC and SCT, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process. We begin by introducing the notion of cyclic proofs.
 
 \subsection{Cyclic Proofs}
 \label{subsec:cyclicProofs}
@@ -172,9 +172,9 @@ For each inference rule in $\CLKIDomega$, we define the \emph{sub-occurrence} re
 
 \begin{enumerate}[i)]
     \item Arrows connect occurrences $(F, i)$ in the conclusion to occurrences $(G, i)$ in the premises of each rule.
-    \item An arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise defines a bijection between occurrences $(F,i)$ in the conclusion and $(F,j)$ in the premise.
-    \item An arrow from a list $\Gamma[\theta]$ in the conclusion to $\Gamma$ in a premise defines a bijection between occurrences $(F[\theta],i)$ in the conclusion and $(F,j)$ in the premise.
-    \item An arrow from a list $\Gamma[t/x,u/y]$ in the conclusion to $\Gamma[u/x,t/y]$ in a premise defines a bijection between occurrences $(F[t/x,u/y],i)$ in the conclusion and $(F[u/x,t/y],j)$ in the premise.
+    \item An arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise defines a bijection between occurrences $(F,i)$ in the list $\Gamma$ in the conclusion, and $(F,i)$ in the list $\Gamma$ in the premise.
+    \item An arrow from a list $\Gamma[\theta]$ in the conclusion to $\Gamma$ in a premise defines a bijection between occurrences $(F[\theta],i)$ in the list $\Gamma[\theta]$ in the conclusion, and $(F,i)$ in the list $\Gamma$ in the premise.
+    \item An arrow from a list $\Gamma[t/x,u/y]$ in the conclusion to $\Gamma[u/x,t/y]$ in a premise defines a bijection between occurrences $(F[t/x,u/y],i)$ in the list $\Gamma[t/x,u/y]$ in the conclusion, and $(F[u/x,t/y],i)$ in the list $\Gamma[u/x,t/y]$ in the premise.
 \end{enumerate}
 
 \begin{definition}[sub-occurrence relation]
@@ -244,7 +244,7 @@ As mentioned before, the GTC is used as a criterion to verify the soundness of c
 \end{definition}
 
 \begin{remark}
-    Explain here: 1) our definition is different 2) however is in principle the definition of brotherston extended to ocurrences 3)
+    \textcolor{red}{TO FILL HERE: 1) our definition is different from Brotherston 2) however just by anayzing the definitions, ours is equivalent to Brotherstons but applied to suboccurrence. 3) Our definition follows more tightly the general concept of trace as history of a formula in a proof. 4) provide example of weakening, and show how brotherstons definition can lead to some ambiguity 5) also explain that this help us prove injectivity, since brotherston's original system can have non injectivity}
 \end{remark}  
 
 The GTC is then defined as a general condition over all the infinite paths of a cyclic pre-proof.
@@ -255,7 +255,7 @@ The GTC is then defined as a general condition over all the infinite paths of a 
 \end{definition}
 
 \begin{example}
-    Consider the cyclic pre-proof in Figure \ref{exampleCircProof}. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny, Nx)^{\omega}$ over the infinite right branch is infinitely progressing, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC.
+    Consider the cyclic pre-proof in Figure \ref{exampleCircProof}. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny, Nx)^{\omega}$ over the infinite right branch is infinitely progressing, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC, and it is indeed a proof.
 \end{example}
 
 
@@ -268,7 +268,7 @@ Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct
 \begin{definition}[Transition Graph of a Pre-Proof]
 \label{def:preProofTrans}
 
-Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ or $\CLJIDomega$ pre-proof with a graph $G_{\Pi} = (V',s,r,p')$. We note $\mathcal{G}_{\Pi} = (V', \mathcal{R}, E)$ as the transition graph over bi-partite relations induced by $\Pi$, where:
+Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ pre-proof with a graph $G_{\Pi} = (V',s,r,p')$. We note $\mathcal{G}_{\Pi} = (V', \mathcal{R}, E)$ as the transition graph over bi-partite relations induced by $\Pi$, where:
 \begin{itemize}
 
      \item $\mathcal{R} \subseteq X \times X$ where $X = \{ (P\mathbf{u},j) \ | \ \text{$P$ is inductive, $\exists v \in V'$ s.t. $s(v) = \Gamma \vdash \Delta$ and $(P\mathbf{u},j) \in \Gamma$} \}$
@@ -281,7 +281,7 @@ Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ or $\CLJIDomega$ pre-
 
             \item If $r(v)$ is not a case split rule, then for all $(P\mathbf{u},i)$ in $\Psi$ and $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) S (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$.
 
-            \item If $r(v)$ is a case split rule, then for all $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) P (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q_\mathbf{t},j)$ and $(P\mathbf{u},i)$ is the active occurrence in $\Gamma$. Otherwise, if $(P\mathbf{u},i)$ is not the active occurrence, then $(P\mathbf{u},i) S (Q\mathbf{t},j)$.
+            \item If $r(v)$ is a case split rule, then for all $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) P (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$ and $(P\mathbf{u},i)$ is the active occurrence in $\Gamma$. Otherwise, if $(P\mathbf{u},i)$ is not the active occurrence, then $(P\mathbf{u},i) S (Q\mathbf{t},j)$.
 
         \end{enumerate}
 
@@ -290,5 +290,26 @@ Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ or $\CLJIDomega$ pre-
     \item $E = \{\edge{(S,P)_{v,v'}}{v}{v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
  \end{itemize} 
 
+This process can be also applied to $\CLJIDomega$ pre-proofs, using sequents of the form $\Gamma \vdash \phi$.
+
 \end{definition}
 
+Note that this construction defines an isomorphism between graphs. Specifically, $G_{\Pi}$ is isomorphic to $\mathcal{G}_{\Pi}$, in the sense that for all $v,v' \in V'$ then $p'_j(v) = v'$ in $G_{\Pi}$ if and only if $\edge{(S,P)_{v,v'}}{v}{v'}$ in $\mathcal{G}_{\Pi}$.
+
+\begin{example}
+    \textcolor{red}{Put here the example of the transition graph obtained from the cyclic proof in example \ref{exampleCircProof}.}
+\end{example}
+
+Using the construction specified in Definition \ref{def:preProofTrans}, and the Definitions \ref{def:TracePath} and \ref{def:traceCyclic} of path and traces for transitions graphs and cyclic pre-proofs, it can be derived that:
+
+
+
+\begin{proposition}
+Consider a circular pre-proof $\Pi$ with a graph $G_{\Pi}$ and induced transition graph $\mathcal{G}_{\Pi}$. Moreover, let $\pi$ be a sequence of vertices defining a path in $G_{\Pi}$, and $\pi'$ corresponding to the same path in $\mathcal{G}_{\Pi}$, but defined as in Definition \ref{def:TracePath} (we can do this, since both graphs are isomorphic). Then, $\uptau$ is a trace over $\pi$ if and only if $\uptau \models \pi'$.
+\end{proposition}
+
+Then, using the previous proposition and the Definitions \ref{def:GTC} and \ref{def:SCT}, the equivalence between GTC and SCT follows:
+
+\begin{proposition}
+Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof. Then $\Pi$ is a $\CLKIDomega$ (resp. $\CLJIDomega$) proof if and only if $\mathcal{G}_{\Pi}$ satisfies the size-change termination condition.
+\end{proposition}
