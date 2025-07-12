@@ -2,12 +2,12 @@
 \section{Cyclic Proofs and the Global Trace Condition}
 \label{sec:cyclic}
 
-In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$, and show how the GTC is equivalent to the SCT condition in Definition \ref{def:SCT}. Our approach follows Ikebuchi's work \cite{Mirai}, where she formally stated the equivalence between the GTC and SCT, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process. We begin by introducing the notion of cyclic proofs.
+In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ \cite{BrotherstonSimpson} and $\CLJIDomega$ \cite{Berardi}, and show how the GTC is equivalent to the SCT condition in Definition \ref{def:SCT}. Our approach follows Ikebuchi's work \cite{Mirai}, where she formally stated the equivalence between the GTC and SCT, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process. We begin by introducing the notion of cyclic proofs.
 
 \subsection{Cyclic Proofs}
 \label{subsec:cyclicProofs}
 
-$\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. We consider sequents as originally defined by Gentzen using finite lists. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is list containing the single formula $\phi$. 
+$\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. We consider sequents as originally defined by Gentzen using finite lists, intead of the usual formulations given in \cite{Brotherston2,BrotherstonSimpson} using sets and multisets. The reason behind this decision, is clarified in the Remark \ref{rem:traceDef}.   In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is list containing the single formula $\phi$. 
 
 The comma between lists of formulas denotes list concatenation (e.g. $\Gamma, \Delta$). For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between finitely many \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and denumerable many \emph{ordinary predicates}, defined as usual predicates. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
 
@@ -86,6 +86,7 @@ We define the proof system for $\CLKIDomega$ as the extension of the classical l
 
 \begin{itemize}
     \item For each production $\Phi_i$, the system $\CLKIDomega$ includes a corresponding right introduction rule, denoted ($P\text{R}_i$):
+    
     \begin{equation}
     \label{def:caseRuleRight}
     \begin{prooftree}
@@ -97,15 +98,14 @@ We define the proof system for $\CLKIDomega$ as the extension of the classical l
     %----------------------------------
     $
     %these arrows look bad
-    \bentdirflowblueedges{node13/node1/20, node13/node4/20, node13/node7/0, node13/node10/-30, node15/node3/-45, node15/node9/0, node15/node12/-25}
+    \bentdirflowblueedges{node13/node1/20, node13/node4/20, node13/node7/0, node13/node10/-30, node15/node3/35, node15/node6/0, node15/node9/0, node15/node12/-25}
     \bentdirflowrededges{node14/node2/25, node14/node5/0, node14/node8/0, node14/node11/-25} 
     $
     %----------------------------------
     \end{equation}
 
-    The list $\Gamma$ in the conclusion is mapped with a blue arrow to each occurrence of $\Gamma$ in the premises, and the same holds for $\Delta$. 
-
     \item There is a left introduction rule associated to $P$ in $\CLKIDomega$, denoted \emph{case split rule } or (Case $P$):
+    
     \begin{equation}
     \label{def:caseRuleLeft}
     \begin{prooftree}
@@ -178,6 +178,7 @@ For each inference rule in $\CLKIDomega$, we define the \emph{sub-occurrence} re
 \end{enumerate}
 
 \begin{definition}[sub-occurrence relation]
+    \label{def:subOccur}
     Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(F,i)$ in $\Gamma \vdash \Delta$ and $(G,j)$ in $\Gamma_k \vdash \Delta_k$ for some $ 1 \leq k \leq n$. We say that $(G,j)$ is a sub-occurrence of $(F,i)$ in $r$, noted $(F,i) \rightarrow_{r} (G,j)$ if and only if there is an arrow drawn from $(F,i)$ to $(G,j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas \ref{def:caseRuleRight} and \ref{def:caseRuleLeft}. $(F, i)$ is called an active occurrence of $r$ if a red arrow originates from it, and a context occurrence if the arrow is blue. If no arrow originates from $(F, i)$, it is said to have no sub-occurrences in $r$.
 \end{definition}
 
@@ -244,6 +245,7 @@ As mentioned before, the GTC is used as a criterion to verify the soundness of c
 \end{definition}
 
 \begin{remark}
+    \label{rem:traceDef}
     \textcolor{red}{TO FILL HERE: 1) our definition is different from Brotherston 2) however just by anayzing the definitions, ours is equivalent to Brotherstons but applied to suboccurrence. 3) Our definition follows more tightly the general concept of trace as history of a formula in a proof. 4) provide example of weakening, and show how brotherstons definition can lead to some ambiguity 5) also explain that this help us prove injectivity, since brotherston's original system can have non injectivity}
 \end{remark}  
 
