@@ -109,14 +109,14 @@ We define the proof system for $\CLKIDomega$ as the extension of the classical l
     \begin{equation}
     \label{def:caseRuleLeft}
     \begin{prooftree}
-        \hypo{ \{ \vnode1{\Gamma}, \mathbf{u} = \mathbf{t^i}, \vnode3{Q^i_1\mathbf{u^i_1}}, \ldots , \vnode4{Q^i_h\mathbf{u^i_h}}, \vnode5{P^i_1\mathbf{t^i_1}}, \ldots, \vnode6{P^i_m\mathbf{t^i_m}} \vdash \vnode7{\Delta} \}_{1 \leq i \leq n} }
+        \hypo{ \{ \vnode1{\Gamma}, \vnode{11}{\mathbf{u} = \mathbf{t^i}}, \vnode3{Q^i_1\mathbf{u^i_1}}, \ldots , \vnode4{Q^i_h\mathbf{u^i_h}}, \vnode5{P^i_1\mathbf{t^i_1}}, \ldots, \vnode6{P^i_m\mathbf{t^i_m}} \vdash \vnode7{\Delta} \}_{1 \leq i \leq n} }
         \infer1[(Case $P$)]{\vnode8{\Gamma}, \vnode9{P\mathbf{u}} \vdash \vnode0{\Delta}}
     \end{prooftree}
     %ARROWS
     %----------------------------------
     $
     \bentdirflowblueedges{node8/node1/20, node0/node7/-20}
-    \bentdirflowrededges{node9/node3/0, node9/node4/0, node9/node5/0, node9/node6/0} 
+    \bentdirflowrededges{node9/node3/0, node9/node4/0, node9/node5/0, node9/node6/0, node9/node11/35} 
     $
     %----------------------------------    
     \end{equation}
@@ -246,10 +246,22 @@ As mentioned before, the GTC is used as a criterion to verify the soundness of c
 
 \begin{remark}
     \label{rem:traceDef}
-    \textcolor{red}{TO FILL HERE: 1) our definition is different from Brotherston 2) however just by anayzing the definitions, ours is equivalent to Brotherstons but applied to suboccurrence. 3) Our definition follows more tightly the general concept of trace as history of a formula in a proof. 4) provide example of weakening, and show how brotherstons definition can lead to some ambiguity 5) also explain that this help us prove injectivity, since brotherston's original system can have non injectivity}
+    In the original work presented by Brotherston and Simpson, the definition of trace is different from the one presented in Definition \ref{def:traceCyclic}. The definition they present is given in Definition 5.4 of \cite{BrotherstonSimpson}, and is used for cyclic proof systems where sequents are represented with sets \cite{BrotherstonSimpson} or multisets \cite{Brotherston2}. However, by comparing the Definition \ref{def:traceCyclic}, with their definition of trace, it can be seen that both definitions represent the same object, but in different contexts, i.e. both definitions represent the history of formula along a cyclic pre-proof, where the former uses sequents as lists with occurrences, while the latter uses sequents as sets or multisets with formulas.
+    
+    The reason we use occurrences instead of formulas, is that occurrences allow us to track more precisely the history of a formula in a pre-proof without ambiguities. For example, consider the following rule application with sequents as multisets:
+    
+    \begin{center}
+      \begin{prooftree}
+        \hypo{\Gamma, P\mathbf{u} \vdash \Delta}
+        \infer1[(WeakL)]{\Gamma, P\mathbf{u}, P\mathbf{u} \vdash \Delta} 
+      \end{prooftree}  
+    \end{center}
+
+    Using Brotherston's and Simpson's definition, we could trace both instances of the inductive predicate $P\mathbf{u}$ in the conclusion, to the single $P\mathbf{u}$ in the premise. However, one of the inductive predicates in the conclusion is a direct descendant of the inductive predicate in the premise, while the other was freshly introduced by the weakening rule, which implies that is has no previous history in the proof, and therefore we would like to avoid relating it to the $P\mathbf{u}$ in the premise.
+
+   With the use of occurrences, this issue is resolved. Moreover, as we will see later in Sections \ref{sec:injective} and \ref{sec:progressDomainCond}, the injectivity of the relations induced by the trace definition, is a prerequisite to prove our main result. With the help of occurrences, it is then easy to prove that the relations between occurrences of formulas, is actually injective. 
 \end{remark}  
 
-The GTC is then defined as a general condition over all the infinite paths of a cyclic pre-proof.
 
 \begin{definition}[Global Trace Condition]
     \label{def:GTC}
@@ -257,7 +269,7 @@ The GTC is then defined as a general condition over all the infinite paths of a 
 \end{definition}
 
 \begin{example}
-    Consider the cyclic pre-proof in Figure \ref{exampleCircProof}. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny, Nx)^{\omega}$ over the infinite right branch is infinitely progressing, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC, and it is indeed a proof.
+    Consider the cyclic pre-proof in Figure \ref{exampleCircProof} and the infinite path over the cycle of right branch. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny, Nx)^{\omega}$  is infinitely progressing over this path, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC, and it is indeed a proof.
 \end{example}
 
 
@@ -298,12 +310,14 @@ This process can be also applied to $\CLJIDomega$ pre-proofs, using sequents of 
 
 Note that this construction defines an isomorphism between graphs. Specifically, $G_{\Pi}$ is isomorphic to $\mathcal{G}_{\Pi}$, in the sense that for all $v,v' \in V'$ then $p'_j(v) = v'$ in $G_{\Pi}$ if and only if $\edge{(S,P)_{v,v'}}{v}{v'}$ in $\mathcal{G}_{\Pi}$.
 
+
+\input{CSL-TransGraphExample}
+
 \begin{example}
-    \textcolor{red}{Put here the example of the transition graph obtained from the cyclic proof in example \ref{exampleCircProof}.}
+    Using Definition \ref{def:preProofTrans} over the cyclic pre-proof in Figure \ref{exampleCircProof}, we obtain the transition graph in Figure \ref{exampleTransGraph}. 
 \end{example}
 
 Using the construction specified in Definition \ref{def:preProofTrans}, and the Definitions \ref{def:TracePath} and \ref{def:traceCyclic} of path and traces for transitions graphs and cyclic pre-proofs, it can be derived that:
-
 
 
 \begin{proposition}

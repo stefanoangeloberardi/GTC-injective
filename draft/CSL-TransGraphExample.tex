@@ -1,0 +1,33 @@
+% !TEX root = CSL-main.tex
+\begin{figure}[]
+\centering
+\resizebox{0.75\textwidth}{!}{%
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\LARGE]
+\node [font=\LARGE] at (2,12.25) {$v_0$};
+\node [font=\LARGE] at (5.75,12.25) {$v_1$};
+\node [font=\LARGE] at (9.5,13.75) {$v_2$};
+\node [font=\LARGE] at (9.5,11) {$v_3$};
+\node [font=\LARGE] at (13.25,11) {$v_4$};
+\node [font=\LARGE] at (17,11) {$v_5$};
+\node [font=\LARGE] at (20.75,11) {$v_6$};
+\draw [->, >=Stealth] (3,12.25) -- (5,12.25);
+\draw [->, >=Stealth] (6.25,12.25) -- (8.75,13.5);
+\draw [->, >=Stealth] (6.25,12) -- (8.75,11);
+\draw [->, >=Stealth] (10.25,11) -- (12.5,11);
+\draw [->, >=Stealth] (14,11) -- (16.25,11);
+\draw [->, >=Stealth] (17.75,11) -- (20,11);
+\node [font=\large] at (4,12.75) {$(\{ \textcolor{blue}{(Nx, Nx)}\}, \textcolor{red}{\emptyset})$};
+\node [font=\large] at (7.25,13.5) {$( \textcolor{blue}{\emptyset}, \textcolor{red}{\emptyset})$};
+\node [font=\large] at (7.25,10.75) {$( \textcolor{blue}{\emptyset}, \{\textcolor{red}{(Nx,Ny)}\})$};
+\node [font=\large] at (11.25,10.5) {$(\{ \textcolor{blue}{(Ny, Ny)}\}, \textcolor{red}{\emptyset})$};
+\node [font=\large] at (15,10.5) {$(\{ \textcolor{blue}{(Ny, Ny)}\}, \textcolor{red}{\emptyset})$};
+\node [font=\large] at (18.75,10.5) {$(\{ \textcolor{blue}{(Ny, Ny)}\}, \textcolor{red}{\emptyset})$};
+\draw [->, >=Stealth] (20.75,10.5) .. controls (16.25,8.5) and (6.25,7.5) .. (2.25,11.5) ;
+\node [font=\large] at (11,8) {$(\{ \textcolor{blue}{(Ny, Nx)}\}, \textcolor{red}{\emptyset})$};
+\end{circuitikz}
+}
+\caption{Transition graph of the cyclic pre-proof in Figure \ref{exampleCircProof}. For each relation $(S,P)_{v,v'}$, the relation $S$ is represented by blue pairs, while pairs in $P$ are colored in red.}
+
+\label{exampleTransGraph}
+\end{figure}
