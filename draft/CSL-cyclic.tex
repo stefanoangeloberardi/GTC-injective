@@ -267,59 +267,59 @@ As mentioned before, the GTC is used as a criterion to verify the soundness of c
 \end{example}
 
 
-\subsection{Transition Graph of a Cyclic Pre-Proof}
-
-
-Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations.
-
-
-\begin{definition}[Transition Graph of a Pre-Proof]
-\label{def:preProofTrans}
-
-Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ pre-proof with a graph $G_{\Pi} = (V',s,r,p')$. We note $\mathcal{G}_{\Pi} = (V', \mathcal{R}, E)$ as the transition graph over bi-partite relations induced by $\Pi$, where:
-\begin{itemize}
-
-     \item $\mathcal{R} \subseteq X \times X$ where $X = \{ (P\mathbf{u},j) \ | \ \text{$P$ is inductive, $\exists v \in V'$ s.t. $s(v) = \Gamma \vdash \Delta$ and $(P\mathbf{u},j) \in \Gamma$} \}$
-
-     \item Let $v,v' \in V'$ such that both vertices share and edge, i.e. there exists a $j$ such that $p'_j(v) = v'$. Moreover, let $s(v) = \Gamma \vdash \Delta$ (resp. $s(v') = \Gamma' \vdash \Delta'$) where $\Psi \subseteq \Gamma$ (resp. $\Theta \subseteq \Gamma'$)
-     contains only the ocurrences of $\Gamma$ (resp. $\Gamma'$), of the form $(P\mathbf{u}, i)$, where $P$ is an inductive predicate. We define the bi-partite relation $(S,P)_{v,v'}$ as follows:
-        \begin{enumerate}[i)]
-            \item The domain and codomain of $|(S,P)_{v,v'}|$ are $\Psi$ and $\Theta$ respectively.
-            
-
-            \item If $r(v)$ is not a case split rule, then for all $(P\mathbf{u},i)$ in $\Psi$ and $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) S (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$.
-
-            \item If $r(v)$ is a case split rule, then for all $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) P (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$ and $(P\mathbf{u},i)$ is the active occurrence in $\Gamma$. Otherwise, if $(P\mathbf{u},i)$ is not the active occurrence, then $(P\mathbf{u},i) S (Q\mathbf{t},j)$.
-
-        \end{enumerate}
-
-    \item $\mathcal{R} = \{(S,P)_{v,v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
-
-    \item $E = \{\edge{(S,P)_{v,v'}}{v}{v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
- \end{itemize} 
-
-This process can be also applied to $\CLJIDomega$ pre-proofs, using sequents of the form $\Gamma \vdash \phi$.
-
-\end{definition}
-
-Note that this construction defines an isomorphism between graphs. Specifically, $G_{\Pi}$ is isomorphic to $\mathcal{G}_{\Pi}$, in the sense that for all $v,v' \in V'$ then $p'_j(v) = v'$ in $G_{\Pi}$ if and only if $\edge{(S,P)_{v,v'}}{v}{v'}$ in $\mathcal{G}_{\Pi}$.
-
-
-\input{CSL-TransGraphExample}
-
-\begin{example}
-    Using Definition \ref{def:preProofTrans} over the cyclic pre-proof in Figure \ref{exampleCircProof}, we obtain the transition graph in Figure \ref{exampleTransGraph}. 
-\end{example}
-
-Using the construction specified in Definition \ref{def:preProofTrans}, and the Definitions \ref{def:TracePath} and \ref{def:traceCyclic} of path and traces for transitions graphs and cyclic pre-proofs, it can be derived that:
-
-
-\begin{proposition}
-Consider a circular pre-proof $\Pi$ with a graph $G_{\Pi}$ and induced transition graph $\mathcal{G}_{\Pi}$. Moreover, let $\pi$ be a sequence of vertices defining a path in $G_{\Pi}$, and $\pi'$ corresponding to the same path in $\mathcal{G}_{\Pi}$, but defined as in Definition \ref{def:TracePath} (we can do this, since both graphs are isomorphic). Then, $\uptau$ is a trace over $\pi$ if and only if $\uptau \models \pi'$.
-\end{proposition}
-
-Then, using the previous proposition and the Definitions \ref{def:GTC} and \ref{def:SCT}, the equivalence between GTC and SCT follows:
-
-\begin{proposition}
-Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof. Then $\Pi$ is a $\CLKIDomega$ (resp. $\CLJIDomega$) proof if and only if $\mathcal{G}_{\Pi}$ satisfies the size-change termination condition.
-\end{proposition}
+%\subsection{Transition Graph of a Cyclic Pre-Proof}
+%
+%
+%Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations.
+%
+%
+%\begin{definition}[Transition Graph of a Pre-Proof]
+%\label{def:preProofTrans}
+%
+%Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ pre-proof with a graph $G_{\Pi} = (V',s,r,p')$. We note $\mathcal{G}_{\Pi} = (V', \mathcal{R}, E)$ as the transition graph over bi-partite relations induced by $\Pi$, where:
+%\begin{itemize}
+%
+%     \item $\mathcal{R} \subseteq X \times X$ where $X = \{ (P\mathbf{u},j) \ | \ \text{$P$ is inductive, $\exists v \in V'$ s.t. $s(v) = \Gamma \vdash \Delta$ and $(P\mathbf{u},j) \in \Gamma$} \}$
+%
+%     \item Let $v,v' \in V'$ such that both vertices share and edge, i.e. there exists a $j$ such that $p'_j(v) = v'$. Moreover, let $s(v) = \Gamma \vdash \Delta$ (resp. $s(v') = \Gamma' \vdash \Delta'$) where $\Psi \subseteq \Gamma$ (resp. $\Theta \subseteq \Gamma'$)
+%     contains only the ocurrences of $\Gamma$ (resp. $\Gamma'$), of the form $(P\mathbf{u}, i)$, where $P$ is an inductive predicate. We define the bi-partite relation $(S,P)_{v,v'}$ as follows:
+%        \begin{enumerate}[i)]
+%            \item The domain and codomain of $|(S,P)_{v,v'}|$ are $\Psi$ and $\Theta$ respectively.
+%            
+%
+%            \item If $r(v)$ is not a case split rule, then for all $(P\mathbf{u},i)$ in $\Psi$ and $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) S (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$.
+%
+%            \item If $r(v)$ is a case split rule, then for all $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) P (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$ and $(P\mathbf{u},i)$ is the active occurrence in $\Gamma$. Otherwise, if $(P\mathbf{u},i)$ is not the active occurrence, then $(P\mathbf{u},i) S (Q\mathbf{t},j)$.
+%
+%        \end{enumerate}
+%
+%    \item $\mathcal{R} = \{(S,P)_{v,v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
+%
+%    \item $E = \{\edge{(S,P)_{v,v'}}{v}{v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
+% \end{itemize} 
+%
+%This process can be also applied to $\CLJIDomega$ pre-proofs, using sequents of the form $\Gamma \vdash \phi$.
+%
+%\end{definition}
+%
+%Note that this construction defines an isomorphism between graphs. Specifically, $G_{\Pi}$ is isomorphic to $\mathcal{G}_{\Pi}$, in the sense that for all $v,v' \in V'$ then $p'_j(v) = v'$ in $G_{\Pi}$ if and only if $\edge{(S,P)_{v,v'}}{v}{v'}$ in $\mathcal{G}_{\Pi}$.
+%
+%
+%\input{CSL-TransGraphExample}
+%
+%\begin{example}
+%    Using Definition \ref{def:preProofTrans} over the cyclic pre-proof in Figure \ref{exampleCircProof}, we obtain the transition graph in Figure \ref{exampleTransGraph}. 
+%\end{example}
+%
+%Using the construction specified in Definition \ref{def:preProofTrans}, and the Definitions \ref{def:TracePath} and \ref{def:traceCyclic} of path and traces for transitions graphs and cyclic pre-proofs, it can be derived that:
+%
+%
+%\begin{proposition}
+%Consider a circular pre-proof $\Pi$ with a graph $G_{\Pi}$ and induced transition graph $\mathcal{G}_{\Pi}$. Moreover, let $\pi$ be a sequence of vertices defining a path in $G_{\Pi}$, and $\pi'$ corresponding to the same path in $\mathcal{G}_{\Pi}$, but defined as in Definition \ref{def:TracePath} (we can do this, since both graphs are isomorphic). Then, $\uptau$ is a trace over $\pi$ if and only if $\uptau \models \pi'$.
+%\end{proposition}
+%
+%Then, using the previous proposition and the Definitions \ref{def:GTC} and \ref{def:SCT}, the equivalence between GTC and SCT follows:
+%
+%\begin{proposition}
+%Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof. Then $\Pi$ is a $\CLKIDomega$ (resp. $\CLJIDomega$) proof if and only if $\mathcal{G}_{\Pi}$ satisfies the size-change termination condition.
+%\end{proposition}
