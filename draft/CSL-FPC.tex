@@ -3,16 +3,25 @@
 
 Binary relations compose: if $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
 $xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, which we abbreviate by $xRyR'z$. Relation compositions are associative 
-and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units.
+and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units. We can extend composition
+to bi-partite relations in a way compatible with the information weakly decreasing/strictly
+decreasing associated to the partition. 
+In the next definition, we say that an arrow in the composition $(S, P) \comp (S', P')$ belongs 
+to the subset of weakly decreasing arrows if it can be obtained by two weakly increasing
+arrows, and only in this way: 
+and that it belongs to the subset of strictly decreasing arrow otherwise.
+
 
 \begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
-Let $(S,P), (S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
+Let $(S,P)$, $(S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
 where
-\[S'' = S S \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
+\[S'' = S S' \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
 \end{definition}
 
+In the case all relations are injective the definition
+can be replaced with $(S, P) \comp (S', P') = (S'', \; P'')$
 The composition of bi-partite relations is bi-partite by construction; also, it is associative
-but there is no unique identity as $I_X = S \cup P$ holds for different disjoint $S,P$ as soon $X$ has more than one element. 
+with identity as $I_X = \{(x,x) | x \in X\}$.
 We observe that composition is compatible with the union and ordinary composition of binary relations: 
 let's write $|(S,P)| = S \cup P$, then
 \begin{align}\label{eq:unionComp}
@@ -52,10 +61,12 @@ Let $\alpha \leq \omega$ be an ordinal, and $\Graph = (V, \biRel, E)$ a transiti
 \item a {\em path} is a map $\ppath:\alpha \to E$ such that for all $i + 1 < \alpha$, $\target{\ppath(i)} = \source{\ppath(i+1)}$;
 \item a trace $\tau:\alpha + 1 \to X$ is {\em compatible} with a path $\ppath: \alpha \to E$ written $\tau \models \ppath$, if 
 	there is $i_0 < \alpha$ such that for all $i_0 \leq i < i+1 < \alpha$,
-	if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$, and if $\tau(i) P \tau(i + 1)$ then $i$
-	is a {\em progress point} of $\tau$ in $\ppath$.
+	if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$. 
+If $\tau(i) P \tau(i + 1)$ we say that $i$ is a {\em progress point} of $\tau$ in $\ppath$.
 \end{enumerate}
 \end{definition}
+
+%FIN QUI 13:34 14/07/2025
 
 \begin{remark}
 Explain why $\tau:\alpha + 1 \to X$ is a trace for $\ppath: \alpha \to E$ and that if $\tau\models\ppath$ then we may assume that 

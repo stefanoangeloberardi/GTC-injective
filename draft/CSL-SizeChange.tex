@@ -18,7 +18,7 @@ $\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x 
 
 In this work, we shall consider binary relations over some fixed finite set 
 $X = \Set{x_1, ..., x_n}$, which are consequently themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$
-and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$.
+and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$. 
 
 
 %\begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
@@ -59,6 +59,17 @@ of $e$ respectively.
 %of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
 When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. % and $\edgestar{(S,P)}{u}{v}$.
 
+Suppose $e = \edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. 
+When we use a transition graph $\Graph$ 
+to speak of cyclic proofs, with $x S y$ we mean that a parameter
+$x$ of the cyclic proof is \emph{stationary} when moving from the node $u$ to the node $v$ 
+of the cyclic proof.
+Instead, when we use a transition graph $\Graph$  to speak of a program, 
+with $x S y$ we mean that a parameter
+$x$ of the program \emph{weakly decreases} when moving from the state $u$ to the state $v$ 
+of the program. If we have $x P y$ we mean \quotationMarks{strictly decreasing}
+instead of  \quotationMarks{weakly decreasing}.
+
 %\subsection{Relating Transition Graphs to Colored Hypergraphs}
 %\label{subsec:trans-hypergraph} 
 %
@@ -74,23 +85,31 @@ When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P
 
 \medskip
 %\begin{remark}\label{rem:hypergraph}
-Transition graphs are a variant and a more compact presentation with 
+Transition graphs are a variant  
 %A transition graph is the composition into 
-a single structure of the composition of finitely many {\em size-change} graphs as defined in \cite{Lee1}. 
-A size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, $\texttt{g}$ out of some functional program $\texttt{p}$
+of the notion of multigraph as defined in \cite{Lee3}, Def. 2.1.
+A multigraph is the composition of finitely many {\em size-change} graphs. 
+A size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, 
+$\texttt{g}$ out of some functional program $\texttt{p}$
 is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$, where $\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g})$
 are sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{g}$, $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $\texttt{f}^{(i)} \subseteq \textit{Param}(\texttt{f})$ to
 $\texttt{g}^{(j)} \subseteq \textit{Param}(\texttt{g})$ labelled with $\leqdownarrow$ and
 $\downarrow$ in $\textsf{E}$.
 
 In our view, $G:\texttt{f} \to \texttt{g}$ corresponds 
-to $\edgeG{(S,P)}{u}{v}{\Graph}$ where $X$ is the set of all parameters occurring in the program $\texttt{p}$, 
+to $\edgeG{(S,P)}{u}{v}{\Graph}$ where $X$ is the set of all parameters occurring in the program $\texttt{p}$, with
 $S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \textsf{E}}$ so that $\dom{S} = \texttt{f}^{(i)}$ and $\cod{S} = \texttt{g}^{(j)}$. 
 Similarly, $P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. 
 
-The composition $G,G'$ of $G:\texttt{f} \to \texttt{g}$ with $G':\texttt{g} \to \texttt{h}$
-requires that the target function symbols of $G$ and the source function symbol of $G'$ coincide; we remove the restriction by taking the unique finite set of ``symbols'' $X$, that could be a set of any other concrete entities such as sequents of formulas in a logical system, and introducing the sets of vertexes $V$ and of edges $E \subseteq V \times \biRel \times V$ to structure the graph. As a consequence, we do not have  a single pair of relations $ \leqdownarrow, \downarrow$, but a finite set of them 
-$\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ labeling the edges in $E$, which is our notation for the set of bipartite relations $(\leqdownarrow_i, \downarrow_i)$ in Figure ...
+The composition $GG'$ of $G:\texttt{f} \to \texttt{g}$ with $G':\texttt{g} \to \texttt{h}$
+requires that the target function symbols of $G$ and the source function symbol of $G'$ coincide. 
+For transition graphs, we have a  unique finite set of ``symbols'' $X$ 
+and we express the restriction on the composition $GG'$ by asking that for some vertices 
+$a, b, c \in V$ we have $\edgeG{(S,P)}{u}{v}{\Graph}$ and  
+$\edgeG{(S',P')}{u}{v}{\Graph}$, where $G = (S,P)$ and $G' = (S',P')$.
+
+%As a consequence, we do not have  a single pair of relations $ \leqdownarrow, \downarrow$, but a finite set of them 
+%$\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ labeling the edges in $E$, which is our notation for the set of bipartite relations $(\leqdownarrow_i, \downarrow_i)$ in Figure ...
 
 
 %The relation $xSy$, which corresponds to $\leqdownarrow$, abstractly represents that the values of $x,y$ are just known not to increase w.r.t. some ordering, so that they are considered as {\em stable}; the relation $xPy$ instead, represents that the value of $x$ is strictly greater than the value of $y$ so that we say that $x$ {\em progresses} to $y$ according to $P$. The next lemmas precisely state 
