@@ -5,27 +5,67 @@
 In this paper by \quotationMarks{regular tree} we mean 
 \quotationMarks{a possibly infinite tree having finitely many distinct sub-trees}.
 The {\em global trace condition} (GTC) for cyclic proofs is a sufficient {\em correctness}
-condition for a regular proof-tree for sequent calculus
+condition for a regular proof-tree for sequent calculus introduced by Brotherston and Simpson
 (\cite{Brotherston1, Brotherston2}). GTC says that
-in all infinite branches of the proof-tree we can find some finite-size inductively defined 
-formal parameter which is decreasing in size infinitely many times in the branch. 
-This condition is called {\em infinite descent } and it implies the correctness of the 
+in all infinite branches of the proof-tree we can find some inductively defined 
+formal parameter whose value is decreasing in size infinitely many times in the branch. 
+This condition is called {\em infinite descent } in Brotherston ph.d.,
+and it implies the correctness of the 
 conclusion of the proof-tree (\cite{Brotherston1}, Proposition 4.2.10). 
 It may be counter-intuitive, but a good strategy 
-to look for a finite proof is to look for a regular and possibly infinite proof first.
-Indeed, GTC combines well both with proof search and with program synthesis
+to look for a finite proof is to look for a regular and \emph{infinite} proof 
+satisfying GTC first.
+Indeed, the use of GTC combines well both with proof search and with program synthesis
 on realistic examples (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}). 
- 
-%%%%%%%%%%%%%%%%%%
-% DI QUI 
-%%%%%%%%%%%%%%%%%%
-% 10:25  13/07/2025
-%%%%%%%%%%%%%%%%%%
 
-The {\em size-change termination} condition, SCT 
-In Mirai remarks that GTC can be seen as a particular case of the {\em size-change termination} condition, SCT, restricted to fan-in free graphs. 
-We express cyclic proofs through a variant of size-change graphs, called transition graphs, whose edges are labelled by (finite) bi-partite relations, where the fan-in freeness corresponds to the injectivity of these relations. 
+On the other hand, C.S. Lee, N. Jones, A. Ben-Amram
+introduced the {\em Size-Change Termination} condition (SCT) 
+to provide a sufficient condition for totality for partial recursive maps on natural numbers
+(\cite{Lee1}). A priori, SCT and GTC have nothing to do each other, but then
+I. Mirai remarked that the correctness condition GTC for cyclic proofs 
+can be seen as a particular case of SCT for partial recursive maps (\cite{Mirai}). 
+
+In this paper we go farther establishing relations between cyclic proofs and SCT. 
+C.S. Lee and A. Ben-Amram considered several sub-cases for the SCT condition, including
+SCT for fan-in-free graphs, namely, for graphs in which no nodes has two incoming edges
+(\cite{Lee2} and \cite{Lee3}, Section 2.4. \quotationMarks{Subclasses of SCT}). 
+We want to study cyclic proofs associated to fan-in-free graphs. 
+
+There are several advantages
+in considering this restricted class. GTC can be expressed an essentially weaker condition
+in the case of fan-in free graphs, and it can checked faster. 
+In a future work, we hope to show that we can show the correctness of cyclic proofs 
+satisfying GTC can be obtained by a simpler proof in the case of fan-in free graphs.
+
+The original version of cyclic proofs by Brotherston is not fan-in free. As a counterexample,
+consider the following instance of left-equality rule, where $\Nat(t)$ means: 
+\quotationMarks{$t$ is an inductively defined natural number}.
+
+ \begin{center}
+    %EQUALITY LEFT
+    %-----------------------------------------
+    \begin{prooftree}
+        \hypo{ \vnode1{\Nat(t)} \vdash \Delta}
+        \infer1[(=L)]{t = u, \vnode2{\Nat(t)}, \vnode3{\Nat(u)} \vdash \Delta} 
+    \end{prooftree}
+
+    % DRAW EDGES
+    $
+    \dirflowblueedges{node3/node1, node2/node1} 
+    $
+  \end{center}
+  
+If we apply Brotherston definition for edges in this case (details can be found in 
+\cite{Brotherston1}, Definition 4.2.3), we obtain that the inductive formula $\Nat(t)$ 
+in the conclusion has two incoming edges, from the inductive formulas $\Nat(t)$ and $\Nat(u)$
+in the conclusion.
+
+In this paper we introduce a variant of Brotherston cyclic proofs in which connections
+between atomic inductive formulas are fan-in free. To this aim, we represent left and right
+hand side of a sequent with a list of formulas instead than with a set of formulas and we
+drop some connections we consider less relevant in the equality rule.
+We will check that set of theorem we can derive does not change.
 
 
-We show that injective transition graphs suffice to encode cyclic pre-proofs for a variant of Brotherston and Simpson's sequent calculus with inductive definitions;
-then we prove that an essentially weaker condition implies GTC in this case.
+
+

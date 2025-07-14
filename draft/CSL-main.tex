@@ -4,6 +4,7 @@
 \usepackage{CSL-macros}
 
 
+
 %This is a template for producing LIPIcs articles. 
 %See lipics-v2021-authors-guidelines.pdf for further information.
 %for A4 paper format use option "a4paper", for US-letter use option "letterpaper"
@@ -20,6 +21,42 @@
 %\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
 
 %\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
+
+%%%%%%          PROOFZILLA          %%%%%%%%%%%
+%%%% PACKAGES
+
+% Proof trees
+%
+%\usepackage{bussproofs}
+
+
+% Tikz is required to use proofzilla
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta} % additional arrow styles
+\usepackage{proofzilla}
+
+
+
+%%%%%%%%% MACROS %%%%%%%%%%%%%
+
+% Flow-related macros 
+% Define node style 
+\newemptyvertex{node}{}
+% Define edge styles: directed/undirected, color, arrow head etc
+\defedgetype{flow}{draw=blue}{}
+\defedgetype{dirflow}{-Latex,draw=blue}{}
+\defedgetype{flowtwo}{draw=red}{}
+\defedgetype{dirflowtwo}{-Latex,draw=red}{}
+
+%%%%% HERE CHANGE THE DEFINITION OF EDGES TO CHANGE THE COLOR  AND OTHER ATRIBUTES %%%%%%
+\defedgetype{dirflowblue}{-Latex,draw=blue}{}
+\defedgetype{dirflowred}{-Latex,draw=red}{}
+
+% Additional, unnecessary macros (terms etc)
+%\input{hobn_macros}  
+%%%%%%      END PROOFZILLA      %%%%%%%%%%%
+
+
 
 \bibliographystyle{plainurl}% the mandatory bibstyle
 
@@ -103,7 +140,7 @@ We formulate the {\em global trace condition}, GTC, for cyclic proofs as a parti
 We show that injective transition graphs suffice to encode cyclic pre-proofs for a variant of Brotherston and Simpson's sequent calculus with inductive definitions;
 % variant of the systems $\CLJIDomega$ and $\CLKIDomega$;
 %, where the {\em global-trace condition}, GTC, for validity of pre-proofs is equivalent to SCT. 
-then we prove that an essentially weaker condition implies GTC in this case.
+then we prove that an essentially weaker condition expresses GTC in this case.
 \end{abstract}
 
 \newcommand{\quotationMarks} [1]  {{\textquotedblleft #1\textquotedblright}}
