@@ -6,10 +6,10 @@ In this paper by \quotationMarks{regular tree} we mean
 \quotationMarks{a possibly infinite tree having finitely many distinct sub-trees}.
 The {\em global trace condition} (GTC) for cyclic proofs is a sufficient {\em correctness}
 condition for a regular proof-tree for sequent calculus introduced by Brotherston and Simpson
-(\cite{Brotherston1, Brotherston2}). GTC says that
+(\cite{Brotherston1, Brotherston2,BrotherstonSimpson}). GTC says that
 in all infinite branches of the proof-tree we can find some inductively defined 
 formal parameter whose value is decreasing in size infinitely many times in the branch. 
-This condition is called {\em infinite descent } in Brotherston ph.d.,
+This condition is called \emph{infinite descent} in Brotherston PhD thesis,
 and it implies the correctness of the 
 conclusion of the proof-tree (\cite{Brotherston1}, Proposition 4.2.10). 
 It may be counter-intuitive, but a good strategy 
@@ -19,8 +19,8 @@ Indeed, the use of GTC combines well both with proof search and with program syn
 on realistic examples (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}). 
 
 On the other hand, C.S. Lee, N. Jones, A. Ben-Amram
-introduced the {\em Size-Change Termination} condition (SCT) 
-to provide a sufficient condition for totality for partial recursive maps on natural numbers
+introduced the \emph{size-change termination} condition (SCT) 
+to provide a sufficient condition for totality of partial recursive maps on natural numbers
 (\cite{Lee1}). A priori, SCT and GTC have nothing to do each other, but then
 I. Mirai remarked that the correctness condition GTC for cyclic proofs 
 can be seen as a particular case of SCT for partial recursive maps (\cite{Mirai}). 
@@ -33,20 +33,20 @@ We want to study cyclic proofs associated to fan-in-free graphs.
 
 There are several advantages
 in considering this restricted class. GTC can be expressed an essentially weaker condition
-in the case of fan-in free graphs, and it can checked faster. 
+in the case of fan-in free graphs, and it can be checked faster. 
 In a future work, we hope to show that we can show the correctness of cyclic proofs 
 satisfying GTC can be obtained by a simpler proof in the case of fan-in free graphs.
 
-The original version of cyclic proofs by Brotherston is not fan-in free. As a counterexample,
-consider the following instance of left-equality rule, where $\Nat(t)$ means: 
-\quotationMarks{$t$ is an inductively defined natural number}.
+The original version of cyclic proofs by Brotherston and Simpson, named $\CLKIDomega$, is not fan-in free. As a counterexample,
+consider the following instance of left-equality rule, using sequents as sets, where $N\mathbf{t}$ means: 
+\quotationMarks{$\mathbf{t}$ is an inductively defined natural number}.
 
  \begin{center}
     %EQUALITY LEFT
     %-----------------------------------------
     \begin{prooftree}
-        \hypo{ \vnode1{\Nat(t)} \vdash \Delta}
-        \infer1[(=L)]{t = u, \vnode2{\Nat(t)}, \vnode3{\Nat(u)} \vdash \Delta} 
+        \hypo{ \Gamma, \vnode1{N\mathbf{t}} \vdash \Delta}
+        \infer1[(=L)]{\Gamma, t = u, \vnode2{N\mathbf{t}}, \vnode3{N\mathbf{u}} \vdash \Delta} 
     \end{prooftree}
 
     % DRAW EDGES
@@ -55,16 +55,28 @@ consider the following instance of left-equality rule, where $\Nat(t)$ means:
     $
   \end{center}
   
-If we apply Brotherston definition for edges in this case (details can be found in 
-\cite{Brotherston1}, Definition 4.2.3), we obtain that the inductive formula $\Nat(t)$ 
-in the conclusion has two incoming edges, from the inductive formulas $\Nat(t)$ and $\Nat(u)$
-in the conclusion.
+If we apply Brotherston's definition for trace (details can be found in 
+\cite{Brotherston1}, Definition 4.2.3), we obtain that the inductive formula $N\mathbf{t}$ 
+in the premise, has two incoming edges obtained from the trace relation, from the inductive formulas $N\mathbf{t}$ and $N\mathbf{u}$
+in the conclusion. Even considering sequents as multisets, fan-in free relations are not guaranteed. For example, consider the left-weakening rule:
+    
+    \begin{center}
+      \begin{prooftree}
+        \hypo{\Gamma, \vnode1{N\mathbf{u}} \vdash \Delta}
+        \infer1[(WeakL)]{\Gamma, \vnode2{N\mathbf{u}}, \vnode3{N\mathbf{u}} \vdash \Delta} 
+      \end{prooftree}
 
-In this paper we introduce a variant of Brotherston cyclic proofs in which connections
-between atomic inductive formulas are fan-in free. To this aim, we represent left and right
-hand side of a sequent with a list of formulas instead than with a set of formulas and we
-drop some connections we consider less relevant in the equality rule.
-We will check that set of theorem we can derive does not change.
+      % DRAW EDGES
+    $
+    \dirflowblueedges{node3/node1, node2/node1} 
+    $  
+    \end{center}
+
+where one of the inductive predicates $N\mathbf{u}$ in the conclusion is a direct descendant of the inductive predicate in the premise, while the other was freshly introduced by the weakening rule.
+
+In this paper we introduce a variant of Brotherston's cyclic proofs in which connections
+between atomic inductive formulas, given by the trace relation, are fan-in free. To this aim, we represent left and right
+hand side of a sequent with a list of formulas, and trace \emph{occurrences} instead of formulas. We will check that the set of theorem we can derive does not change.
 
 
 
