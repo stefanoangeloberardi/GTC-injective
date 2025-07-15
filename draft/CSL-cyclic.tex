@@ -2,12 +2,7 @@
 \section{Cyclic Proofs and the Global Trace Condition}
 \label{sec:cyclic}
 
-In this section we define the global trace condition (GTC), a validity criteria used to verify the soundness of circular proofs. As our primary examples, we consider the cyclic proof systems $\CLKIDomega$ \cite{BrotherstonSimpson} and $\CLJIDomega$ \cite{Berardi}, and show how the GTC is equivalent to the SCT condition in Definition \ref{def:SCT}. Our approach follows Ikebuchi's work \cite{Mirai}, where she formally stated the equivalence between the GTC and SCT, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process. We begin by introducing the notion of cyclic proofs.
-
-\subsection{Cyclic Proofs}
-\label{subsec:cyclicProofs}
-
-$\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. We consider sequents as originally defined by Gentzen using finite lists, intead of the usual formulations given in \cite{Brotherston2,BrotherstonSimpson} using sets and multisets. The reason behind this decision, is clarified in the Remark \ref{rem:traceDef}.   In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is list containing the single formula $\phi$. 
+In this section we define the GTC, for the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$. $\CLKIDomega$ and $\CLJIDomega$ are both first order logics, hence we will consider a first-order signature $\Sigma$, which contain denumerable many constant, function and predicate symbols. Terms, formulas and $\Sigma$-structures are defined as usually for first order logic. We consider sequents as originally defined by Gentzen using finite lists, intead of the usual formulations given in \cite{Brotherston2,BrotherstonSimpson} using sets and multisets. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is list containing the single formula $\phi$. 
 
 The comma between lists of formulas denotes list concatenation (e.g. $\Gamma, \Delta$). For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between finitely many \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and denumerable many \emph{ordinary predicates}, defined as usual predicates. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
 
@@ -91,9 +86,8 @@ We define the proof system for $\CLKIDomega$ as the extension of the classical l
     %ARROWS
     %----------------------------------
     $
-    %these arrows look bad
-    \bentdirflowblueedges{node13/node1/20, node13/node4/20, node13/node7/0, node13/node10/-30, node15/node3/35, node15/node6/0, node15/node9/0, node15/node12/-25}
-    \bentdirflowrededges{node14/node2/25, node14/node5/0, node14/node8/0, node14/node11/-25} 
+    \bentdirflowblueedges{node13/node1/20, node13/node4/20, node13/node7/0, node13/node10/-30}
+    %\bentdirflowrededges{node14/node2/25, node14/node5/0, node14/node8/0, node14/node11/-25} 
     $
     %----------------------------------
     \end{equation}
@@ -109,8 +103,8 @@ We define the proof system for $\CLKIDomega$ as the extension of the classical l
     %ARROWS
     %----------------------------------
     $
-    \bentdirflowblueedges{node8/node1/20, node0/node7/-20}
-    \bentdirflowrededges{node9/node3/0, node9/node4/0, node9/node5/0, node9/node6/0, node9/node11/35} 
+    \bentdirflowblueedges{node8/node1/20}
+    \bentdirflowrededges{node9/node5/0, node9/node6/0} 
     $
     %----------------------------------    
     \end{equation}
@@ -162,18 +156,18 @@ For the previously defined inductive predicates $N$, $E$ and $O$, we can associa
 \end{center}
 \end{example}
 
-For each inference rule in $\CLKIDomega$, we define the \emph{sub-occurrence} relation, which maps occurrences in the conclusion of the rule with occurrences in its premises. To simplify the presentation, we define this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. Each arrow is defined as follows:
+For each inference rule in $\CLKIDomega$, we use the \emph{sub-occurrence} relation, to map occurrences of inductive predicates on the left side of the conclusion sequent, to those on the left side of the premises’ sequents. To simplify the presentation, we define this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. Each arrow is defined as follows:
 
 \begin{enumerate}[i)]
-    \item Arrows connect occurrences $(F, i)$ in the conclusion to occurrences $(G, i)$ in the premises of each rule.
-    \item An arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise defines a bijection between occurrences $(F,i)$ in the list $\Gamma$ in the conclusion, and $(F,i)$ in the list $\Gamma$ in the premise.
-    \item An arrow from a list $\Gamma[\theta]$ in the conclusion to $\Gamma$ in a premise defines a bijection between occurrences $(F[\theta],i)$ in the list $\Gamma[\theta]$ in the conclusion, and $(F,i)$ in the list $\Gamma$ in the premise.
-    \item An arrow from a list $\Gamma[t/x,u/y]$ in the conclusion to $\Gamma[u/x,t/y]$ in a premise defines a bijection between occurrences $(F[t/x,u/y],i)$ in the list $\Gamma[t/x,u/y]$ in the conclusion, and $(F[u/x,t/y],i)$ in the list $\Gamma[u/x,t/y]$ in the premise.
+    \item Arrows connect occurrences $(P\mathbf{u}, i)$ on the left side of the conclusion's sequent, to occurrences $(Q\mathbf{t}, j)$ on the left side of the premises' sequents of each rule, where $P$ and $Q$ are inductive predicates.
+    \item An arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise defines a bijection between occurrences $(P\mathbf{u},i)$ in the list $\Gamma$ in the conclusion, and $(P\mathbf{u},i)$ in the list $\Gamma$ in the premise.
+    \item An arrow from a list $\Gamma[\theta]$ in the conclusion to $\Gamma$ in a premise defines a bijection between occurrences $(P\mathbf{u}[\theta],i)$ in the list $\Gamma[\theta]$ in the conclusion, and $(P\mathbf{u},i)$ in the list $\Gamma$ in the premise.
+    \item An arrow from a list $\Gamma[t/x,u/y]$ in the conclusion to $\Gamma[u/x,t/y]$ in a premise defines a bijection between occurrences $(P\mathbf{u}[t/x,u/y],i)$ in the list $\Gamma[t/x,u/y]$ in the conclusion, and $(P\mathbf{u}[u/x,t/y],i)$ in the list $\Gamma[u/x,t/y]$ in the premise.   
 \end{enumerate}
 
 \begin{definition}[sub-occurrence relation]
     \label{def:subOccur}
-    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(F,i)$ in $\Gamma \vdash \Delta$ and $(G,j)$ in $\Gamma_k \vdash \Delta_k$ for some $ 1 \leq k \leq n$. We say that $(G,j)$ is a sub-occurrence of $(F,i)$ in $r$, noted $(F,i) \rightarrow_{r} (G,j)$ if and only if there is an arrow drawn from $(F,i)$ to $(G,j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas \ref{def:caseRuleRight} and \ref{def:caseRuleLeft}. $(F, i)$ is called an active occurrence of $r$ if a red arrow originates from it, and a context occurrence if the arrow is blue. If no arrow originates from $(F, i)$, it is said to have no sub-occurrences in $r$.
+    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(P\mathbf{u},i)$ in $\Gamma$ and $(Q\mathbf{t},j)$ in $\Gamma_k$ for some $ 1 \leq k \leq n$, where $P$ and $Q$ are inductive predicates. We say that $(Q\mathbf{t},j)$ is a sub-occurrence of $(P\mathbf{u},i)$ in $r$, noted $(P\mathbf{u},i) \rightarrow_{r} (Q\mathbf{t},j)$ if and only if there is an arrow drawn from $(P\mathbf{u},i)$ to $(Q\mathbf{t},j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas \ref{def:caseRuleRight} and \ref{def:caseRuleLeft}. $(P\mathbf{u},i)$ is called an active occurrence, if a red arrow originates from it, and non-active occurrence if the arrow is blue.
 \end{definition}
 
 The proof system for $\CLJIDomega$ and its sub-occurrence relation, is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, preserving the exchange rule, and replacing LK with its intuitionistic version, named LJ, which is presented in \cite{Berardi}. 
@@ -240,20 +234,10 @@ As mentioned before, the GTC is used as a criterion to verify the soundness of c
 
 \begin{remark}
     \label{rem:traceDef}
-    In the original work presented by Brotherston and Simpson, the definition of trace is different from the one presented in Definition \ref{def:traceCyclic}. The definition they present is given in Definition 5.4 of \cite{BrotherstonSimpson}, and is used for cyclic proof systems where sequents are represented with sets \cite{BrotherstonSimpson} or multisets \cite{Brotherston2}. However, by comparing the Definition \ref{def:traceCyclic}, with their definition of trace, it can be seen that both definitions represent the same object, but in different contexts, i.e. both definitions represent the history of formula along a cyclic pre-proof, where the former uses sequents as lists with occurrences, while the latter uses sequents as sets or multisets with formulas.
+    The previous definition of trace, corresponds to a modified version of the original trace definition by Brotherston in \cite{Brotherston1}, Definition 4.2.3. Specifically, our definition of trace corresponds to extending Brotherston's definition to work over occurrences instead of formulas. The reason we use occurrences instead of formulas, is that occurrences allow us to track more precisely the history of a formula in a pre-proof without ambiguities, and it ensures that the relations induced by the trace (later defined in Definition \ref{def:preProofTrans}), are indeed fan-in-free (also called \emph{injective}) relations.
     
-    The reason we use occurrences instead of formulas, is that occurrences allow us to track more precisely the history of a formula in a pre-proof without ambiguities. For example, consider the following rule application with sequents as multisets:
-    
-    \begin{center}
-      \begin{prooftree}
-        \hypo{\Gamma, P\mathbf{u} \vdash \Delta}
-        \infer1[(WeakL)]{\Gamma, P\mathbf{u}, P\mathbf{u} \vdash \Delta} 
-      \end{prooftree}  
-    \end{center}
-
-    Using Brotherston's and Simpson's definition, we could trace both instances of the inductive predicate $P\mathbf{u}$ in the conclusion, to the single $P\mathbf{u}$ in the premise. However, one of the inductive predicates in the conclusion is a direct descendant of the inductive predicate in the premise, while the other was freshly introduced by the weakening rule, which implies that is has no previous history in the proof, and therefore we would like to avoid relating it to the $P\mathbf{u}$ in the premise.
-
-   With the use of occurrences, this issue is resolved. Moreover, as we will see later in Sections \ref{sec:injective} and \ref{sec:progressDomainCond}, the injectivity of the relations induced by the trace definition, is a prerequisite to prove our main result. With the help of occurrences, it is then easy to prove that the relations between occurrences of formulas, is actually injective. 
+    \textcolor{red}{(Write here Stefano's comment on the equivalence between our system with the modified traces, and the original brotherton's system)}
+ 
 \end{remark}  
 
 
