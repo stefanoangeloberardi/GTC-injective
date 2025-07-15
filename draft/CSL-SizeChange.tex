@@ -111,7 +111,8 @@ requires that the target function symbols of $G$ and the source function symbol 
 For transition graphs, we have a  unique finite set of ``symbols'' $X$ 
 and we express the restriction on the composition $GG'$ by asking that for some vertices 
 $u, v, w \in V$ we have $\edgeG{(S,P)}{u}{v}{\Graph}$ and  
-$\edgeG{(S',P')}{v}{w}{\Graph}$, where $G = (S,P)$ and $G' = (S',P')$. Since we represent several multipaths in just one graph, and even infinite ones by means of cycles, we label the edges by a (finite) family of bi-partite relations, that correspond to a family of labels $\Set{\leqdownarrow_i, \downarrow_i}_{i \in I}$ with finite $I$.
+$\edgeG{(S',P')}{v}{w}{\Graph}$, where $G = (S,P)$ and $G' = (S',P')$. Since we represent several multipaths in just one graph, and even infinite ones by means of cycles, we label the edges by a (finite) family of bi-partite relations, that correspond to a family of labels $\Set{\leqdownarrow_i, \downarrow_i}_{i \in I}$ with finite $I$,
+of the composition $G_1G_2 \cdots$; this is not a restriction, since the size-change graphs in the analysis of a program are a finite set, even in an infinite multipath.
 
 %As a consequence, we do not have  a single pair of relations $ \leqdownarrow, \downarrow$, but a finite set of them 
 %$\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ labeling the edges in $E$, which is our notation for the set of bipartite relations $(\leqdownarrow_i, \downarrow_i)$ in Figure ...
