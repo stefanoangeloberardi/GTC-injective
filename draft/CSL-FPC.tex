@@ -78,8 +78,8 @@ As before, we omit the subscripts in $\edgestar{(S,P)}{u}{v}$, when $\biRel$ and
 %FIN QUI 13:34 14/07/2025
 
 Let $\alpha \leq \omega$ be an ordinal, namely an initial segment of $\Nat$ ordered in the natural way, possibly coinciding with it.
-A sequence over some set $A$ with domain $\alpha$ is just a map $s:\alpha \to A$;  a sequence $s\uparrow_k = a_k, a_k+1, \cdots$ is a {\em tail} of 
-$s$ if $k \in \alpha$ and for all $i \in \alpha$ with $i \geq k$, $a_i = s(i)$.
+If $k \in \alpha$ set $\alpha\uparrow_k \;=\; \Set{i \in \alpha \mid i \geq k}$; a sequence over some set $A$ with domain $\alpha$ is just a map $s:\alpha \to A$;  
+we say that the map $s\uparrow_k$ which is $s$ restricted to $\alpha\uparrow_k$ is a {\em tail} of $s$.
 
 \begin{definition}[Trace, path and progress]\label{def:TracePath}
 Let $\Graph = (V, \biRel, E)$ be a transition graph and $\alpha \leq \omega$; then:
@@ -87,25 +87,25 @@ Let $\Graph = (V, \biRel, E)$ be a transition graph and $\alpha \leq \omega$; th
 \item a {\em trace} is a map $\tau:\alpha \to X$;
 \item a {\em path} is a map $\ppath:\alpha \to E$ such that if $i + 1 \in \alpha$, $\target{\ppath(i)} = \source{\ppath(i+1)}$;
 \item a trace $\tau:\alpha \to X$ {\em follows} a path $\ppath: \alpha \to E$ written $\tau \models \ppath$, if 
-	there is a $k \in \alpha$ such that for all $i$ with $k \leq i < i+1 \in \alpha$,
-	if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$. 
+	there is a $k \in \alpha$ such that for all $i, i+1 \in \alpha\uparrow_k$, if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$. 
 	If $\tau(i) P \tau(i + 1)$ we say that $i$ is a {\em progress point} of $\tau$ in $\ppath$.
-\item a trace $\tau$ such that $\tau\models \ppath$ is infinitely progressing if $\tau$ has infinitely many progress point.
+\item a trace $\tau$ such that $\tau\models \ppath$ is infinitely progressing if $\tau$ has infinitely many progress points in $\ppath$.
 \end{enumerate}
 \end{definition}
 
 
 \begin{remark}
-In the case $\ppath:[1,n] \to E$, $\ppath:[1,n] \to E$ and $\tau \models \ppath$ 
-the definition \ref{def:TracePath} requires 
-conditions on $\tau(1), \ldots, \tau(n-1)$ but no condition on $\tau(n)$.
+A trace $\tau = x_0, x_1, x_2 \cdots$ follows a path $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \stackrel{(S_1,P_1)}{\longrightarrow} v_2 \cdots$
+if both have the same domain $\alpha$, and $x_i (S_i \cup P_i) x_{i+1}$ for all $i, i+1$ in the domain $\alpha\uparrow_k$ of the tails $\tau\uparrow_k$ and 
+$\ppath\uparrow_k$ for some $k$. Hence, for $\tau\models\ppath$ to hold, it suffices that the above relation holds, possibly disregarding a finite initial segment of $\alpha$.
+In the particular case that $\alpha < \omega$, namely when both $\tau$ and $\ppath$ are finite, there is no condition about $x_{\alpha - 1}$ w.r.t. $S_{\alpha - 1} \cup P_{\alpha - 1}$, but this is immaterial for our development, as the only interesting paths and traces are the infinite ones.
 \end{remark}
 
 We say that $\tau$ is a trace of $\Graph$ if 
 $\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
 In our terminology, the path $\ppath$ and the trace $\tau$ correspond to a {\em multipath} $\mathcal{M}$ and a {\em thread} $\textit{th}$ in \cite{Lee1}, respectively.
-We say that a trace $\tau:\alpha \to X$, respectively a path $\ppath:\alpha \to E$ are infinite if 
-$D=\Nat$, finite otherwise.
+%We say that a trace $\tau:\alpha \to X$, respectively a path $\ppath:\alpha \to E$ are infinite if 
+%$\alpha=\Nat$, finite otherwise.
 Both $\Graph$ and $\Graph^*$ are finite, so that an infinite path $\ppath$ exists in $\Graph$ only if it has a cycle, and therefore there exists
 some $(S,P) \in \biRel^*$ which is self-composable in $\Graph^*$.
 
@@ -185,7 +185,7 @@ there exists $0 \leq h < k$ such that
 \label{def:SCT}
 The transition graph $\Graph$ satisfies the {\em Size-change Termination} condition 
 if for all infinite path $\ppath$ of $\Graph$ there is some infinitely progressing trace $\tau$ 
-such that $\tau \models \ppath'$, for some tail $\ppath'$ of $\ppath$.
+such that $\tau \models \ppath$.
 \end{definition}
 
 %%%%%%%%%%%% Removed part %%%%%%%%%%%%%%%
