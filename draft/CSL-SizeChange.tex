@@ -62,7 +62,7 @@ of $e$ respectively.
 %of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
 When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. % and $\edgestar{(S,P)}{u}{v}$.
 
-Let $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the information, say the ``value'', associated with $x$ in the abstract state $u$ is not increasing with respect to that associated with $y$ in $v$ in some intended interpretation of the ordering; hence, we call this relation {\em stable}. If instead  $x P y$, then
+Suppose that $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the information, say the ``value'', associated with $x$ in the abstract state $u$ is not increasing with respect to that associated with $y$ in $v$ in some intended interpretation of the ordering; hence, we call this relation {\em stable}. If instead  $x P y$, then
 the value of $x$ is strictly greater than that of $y$, and we call $P$ a {\em progress} relation. Finally, if $x$ and $y$ are unrelated by $S \cup P$, this
 represents the lack of knowledge about the ordering of their values in $u$ and $v$, respectively.
 
@@ -90,7 +90,7 @@ represents the lack of knowledge about the ordering of their values in $u$ and $
 %By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.
 
 \medskip
-Transition graphs are a variant  of the notion of {\em size-change graph} as defined in \cite[Def. 2.1]{Lee3}, abstractly
+As said at the beginning of this section, transition graphs are a variant of the notion of {\em size-change graph} as defined in \cite[Def. 2.1]{Lee3}, abstractly
 representing the labeled transition system of the flow of values of certain variables thorough the calls of functions in a functional program, where labels
 convey the information needed to detect termination.
 More precisely, a size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, 
