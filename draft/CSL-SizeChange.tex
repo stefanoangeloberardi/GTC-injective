@@ -62,16 +62,17 @@ of $e$ respectively.
 %of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
 When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. % and $\edgestar{(S,P)}{u}{v}$.
 
-Suppose $e = \edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. 
-When we use a transition graph $\Graph$ 
-to speak of cyclic proofs, with $x S y$ we mean that a parameter
-$x$ of the cyclic proof is \emph{stationary} when moving from the node $u$ to the node $v$ 
-of the cyclic proof.
-Instead, when we use a transition graph $\Graph$  to speak of a program, 
-with $x S y$ we mean that a parameter
-$x$ of the program \emph{weakly decreases} when moving from the state $u$ to the state $v$ 
-of the program. If we have $x P y$ we mean \quotationMarks{strictly decreasing}
-instead of  \quotationMarks{weakly decreasing}.
+Let $e = \edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the information associated with $x$ is not increasing with respect to
+that associated with $y$ in some intended interpretation of the ordering; hence, we call this relation {\em stable}. If instead  $x P y$, then
+the information of $x$ is strictly greater than that of $y$, and we call $P$ a {\em progress} relation.
+
+% a parameter
+%$x$ of the cyclic proof is \emph{stationary} when moving from the node $u$ to the node $v$ 
+%of the cyclic proof.
+%Instead, when we use a transition graph $\Graph$  to speak of a program (or a cyclic pre-proof), with $x S y$ we mean that a parameter
+%$x$ of the program \quotationMarks{weakly decreases} when moving from the state $u$ to the state $v$ 
+%of the program, hence they are in a possibly {\em stationary} relation to each other. If we have $x P y$ we mean that their values 
+%\quotationMarks{strictly decreasing} instead of \quotationMarks{weakly decreasing}.
 
 %\subsection{Relating Transition Graphs to Colored Hypergraphs}
 %\label{subsec:trans-hypergraph} 
@@ -87,12 +88,10 @@ instead of  \quotationMarks{weakly decreasing}.
 %By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.
 
 \medskip
-%\begin{remark}\label{rem:hypergraph}
-Transition graphs are a variant  
-%A transition graph is the composition into 
-of the notion of multigraph as defined in \cite{Lee3}, Def. 2.1.
-A multigraph is the composition of finitely many {\em size-change} graphs. 
-A size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, 
+Transition graphs are a variant  of the notion of {\em size-change graph} as defined in \cite[Def. 2.1]{Lee3}, abstractly
+representing the labeled transition system of the flow of values of certain variables thorough the calls of functions in a functional program, where labels
+convey the information needed to detect termination.
+More precisely, a size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, 
 $\texttt{g}$ out of some functional program $\texttt{p}$
 is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$, where $\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g})$
 are sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{g}$, $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $\texttt{f}^{(i)} \subseteq \textit{Param}(\texttt{f})$ to
@@ -104,12 +103,13 @@ to $\edgeG{(S,P)}{u}{v}{\Graph}$ where $X$ is the set of all parameters occurrin
 $S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \textsf{E}}$ so that $\dom{S} = \texttt{f}^{(i)}$ and $\cod{S} = \texttt{g}^{(j)}$. 
 Similarly, $P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. 
 
+A {\em multipath} \cite[Def. 2.3]{Lee3} is the composition of finitely ot infinitely many size-change graphs. 
 The composition $GG'$ of $G:\texttt{f} \to \texttt{g}$ with $G':\texttt{g} \to \texttt{h}$
 requires that the target function symbols of $G$ and the source function symbol of $G'$ coincide. 
 For transition graphs, we have a  unique finite set of ``symbols'' $X$ 
 and we express the restriction on the composition $GG'$ by asking that for some vertices 
-$a, b, c \in V$ we have $\edgeG{(S,P)}{u}{v}{\Graph}$ and  
-$\edgeG{(S',P')}{u}{v}{\Graph}$, where $G = (S,P)$ and $G' = (S',P')$.
+$u, v, w \in V$ we have $\edgeG{(S,P)}{u}{v}{\Graph}$ and  
+$\edgeG{(S',P')}{v}{w}{\Graph}$, where $G = (S,P)$ and $G' = (S',P')$. Since we represent several multipaths in just one graph, and even infinite ones by means of cycles, we label the edges by a (finite) family of bi-partite relations, that correspond to a family of labels $\Set{\leqdownarrow_i, \downarrow_i}_{i \in I}$ with finite $I$.
 
 %As a consequence, we do not have  a single pair of relations $ \leqdownarrow, \downarrow$, but a finite set of them 
 %$\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ labeling the edges in $E$, which is our notation for the set of bipartite relations $(\leqdownarrow_i, \downarrow_i)$ in Figure ...
