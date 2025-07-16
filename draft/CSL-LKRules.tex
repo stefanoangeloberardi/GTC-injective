@@ -8,22 +8,18 @@
 
 
 %STRUCTURAL RULES
-%=================================================
 
   \begin{minipage}{0.3\textwidth}
     \centering
     %AXIOM
-    %-----------------------------------------
     \begin{prooftree}
       \hypo{}
       \infer1[(Axiom)]{\Gamma, F \vdash \Delta, F  } 
     \end{prooftree}
-    %-----------------------------------------
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %WEAKENING LEFT
-    %-----------------------------------------
     \begin{prooftree}
         \hypo{\vnode1{\Gamma} \vdash \vnode2{\Delta}}
         \infer1[(WeakL)]{\vnode3{\Gamma}, F \vdash \vnode4{\Delta}} 
@@ -33,12 +29,10 @@
     $
     \dirflowblueedges{node3/node1} 
     $
-    %-----------------------------------------
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %WEAKENING RIGHT
-    %-----------------------------------------
     \begin{prooftree}
         \hypo{\vnode1{\Gamma} \vdash \vnode2{\Delta}}
         \infer1[(WeakR)]{\vnode3{\Gamma} \vdash \vnode4{\Delta}, F} 
@@ -48,7 +42,6 @@
     $
     \dirflowblueedges{node3/node1} 
     $
-    %-----------------------------------------
   \end{minipage}
   
   \\[1em]
@@ -56,7 +49,6 @@
   \begin{minipage}{0.3\textwidth}
     \centering
     %CONTRACTION LEFT
-    %-----------------------------------------
     \begin{prooftree}
         \hypo{\vnode1{\Gamma}, \vnode2{F}, \vnode3{F} \vdash \vnode4{\Delta}}
         \infer1[(ContrL)]{\vnode5{\Gamma}, \vnode6{F} \vdash \vnode7{\Delta}} 
@@ -67,12 +59,10 @@
     \dirflowblueedges{node5/node1, node6/node2, node6/node3}
     %\dirflowrededges{} 
     $
-    %-----------------------------------------
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %CONTRACTION RIGHT
-    %-----------------------------------------
     \begin{prooftree}
         \hypo{\vnode1{\Gamma} \vdash \vnode2{F}, \vnode3{F}, \vnode4{\Delta}}
         \infer1[(ContrR)]{\vnode5{\Gamma} \vdash \vnode6{F}, \vnode7{\Delta}} 
@@ -83,12 +73,10 @@
     \dirflowblueedges{node5/node1}
     %\dirflowrededges{node6/node2, node6/node3} 
     $
-    %-----------------------------------------
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %CUT
-    %-----------------------------------------
     \begin{prooftree}
         \hypo{\vnode1{\Gamma} \vdash F, \vnode2{\Delta}}
         
@@ -101,7 +89,6 @@
     $
     \dirflowblueedges{node5/node1, node6/node3}
     $
-    %-----------------------------------------
   \end{minipage}
   \\[1em]
 
@@ -110,7 +97,6 @@
   \begin{minipage}{0.3\textwidth}
     \centering
     %SUBST
-    %-----------------------------------------
     \begin{prooftree}
         \hypo{\vnode1{\Gamma} \vdash \vnode2{\Delta}}
         \infer1[(Subst)]{\vnode3{\Gamma[\theta]} \vdash \vnode4{\Delta[\theta]}} 
@@ -120,12 +106,10 @@
     $
     \dirflowblueedges{node3/node1} 
     $
-    %-----------------------------------------
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %EXCHANGE LEFT
-    %-----------------------------------------
     \begin{prooftree}
         \hypo{\vnode1{\Gamma}, \vnode2{F}, \vnode3{G}, \vnode4{\Gamma'} \vdash \vnode5{\Delta}}
         \infer1[(ExL)]{\vnode6{\Gamma}, \vnode7{G}, \vnode8{F}, \vnode9{\Gamma'} \vdash \vnode0{\Delta}} 
@@ -136,12 +120,10 @@
     \dirflowblueedges{node6/node1, node9/node4}
     \bentdirflowblueedges{node7/node3/-15, node8/node2/15} 
     $
-    %-----------------------------------------
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %EXCHANGE RIGHT
-    %-----------------------------------------
     \begin{prooftree}
         \hypo{\vnode1{\Gamma} \vdash \vnode2{\Delta}, \vnode3{F}, \vnode4{G}, \vnode5{\Delta'}}
         \infer1[(ExR)]{\vnode6{\Gamma}\vdash \vnode7{\Delta}, \vnode8{G}, \vnode9{F}, \vnode0{\Delta'}} 
@@ -152,19 +134,13 @@
     \dirflowblueedges{node6/node1}
     %\bentdirflowrededges{node8/node4/-15, node9/node3/15} 
     $
-    %-----------------------------------------
   \end{minipage}
   \\[1em]
 
-%=================================================
-
 %LOGICAL RULES
-%=================================================
-
   \begin{minipage}{0.3\textwidth}
     \centering
     %NEGATION LEFT
-    %-----------------------------------------
     \begin{prooftree}
           \hypo{\vnode1{\Gamma} \vdash \vnode2{F}, \vnode3{\Delta}}
           \infer1[($\neg$L)]{\vnode4{\Gamma}, \vnode5{\neg F} \vdash \vnode6{\Delta}} 
@@ -175,12 +151,10 @@
       \dirflowblueedges{node4/node1}
       %\dirflowrededges{node5/node2} %No edges from compound formulas
       $
-    %-----------------------------------------
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %NEGATION RIGHT
-    %-----------------------------------------
     \begin{prooftree}
           \hypo{\vnode1{\Gamma}, \vnode2{F} \vdash \vnode3{\Delta}}
           \infer1[($\neg$R)]{\vnode4{\Gamma} \vdash \vnode5{\neg F} \vnode6{\Delta}} 
@@ -191,12 +165,10 @@
       \dirflowblueedges{node4/node1}
       %\dirflowrededges{node5/node2}  %No edges from compound formulas
       $
-    %-----------------------------------------
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %AND LEFT
-    %-----------------------------------------
     \begin{prooftree}
           \hypo{\vnode1{\Gamma}, \vnode2{F}, \vnode3{G} \vdash \vnode4{\Delta}}
           \infer1[($\land$L)]{\vnode5{\Gamma}, \vnode6{F \land G} \vdash \vnode7{\Delta}} 
@@ -207,14 +179,13 @@
       \dirflowblueedges{node5/node1}
       %\dirflowrededges{node6/node2, node6/node3}  %No edges from compound formulas
       $
-    %-----------------------------------------
+    
   \end{minipage}
   \\[1em]
 
   \begin{minipage}{0.3\textwidth}
     \centering
     %AND RIGHT
-    %-----------------------------------------
       \begin{prooftree}
           \hypo{\vnode1{\Gamma} \vdash \vnode2{F}, \vnode3{\Delta}}
 
@@ -228,12 +199,11 @@
       \dirflowblueedges{node7/node1, node7/node4}
       %\dirflowrededges{node8/node2, node8/node5}  %No edges from compound formulas
       $
-    %-----------------------------------------
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %OR LEFT
-    %-----------------------------------------
+    
       \begin{prooftree}
           \hypo{\vnode1{\Gamma}, \vnode2{F} \vdash \vnode3{\Delta}}
 
@@ -247,12 +217,12 @@
       \dirflowblueedges{node7/node1, node7/node4}
       %\dirflowrededges{node8/node2, node8/node5}  %No edges from compound formulas
       $
-    %-----------------------------------------
+    
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %OR RIGHT
-    %-----------------------------------------
+    
     \begin{prooftree}
           \hypo{\vnode1{\Gamma} \vdash \vnode2{F}, \vnode3{G}, \vnode4{\Delta}}
           \infer1[($\lor$R)]{\vnode5{\Gamma} \vdash \vnode6{F \lor G}, \vnode7{\Delta}} 
@@ -263,14 +233,14 @@
       \dirflowblueedges{node5/node1}
       % \dirflowrededges{node6/node2, node6/node3}  %No edges from compound formulas
       $
-    %-----------------------------------------
+    
   \end{minipage}
   \\[1em]
 
   \begin{minipage}{0.3\textwidth}
     \centering
     %->) LEFT
-    %-----------------------------------------
+    
       \begin{prooftree}
           \hypo{\vnode1{\Gamma} \vdash \vnode2{F}, \vnode3{\Delta}}
 
@@ -284,12 +254,12 @@
       \dirflowblueedges{node7/node1, node7/node4}
       % \dirflowrededges{node8/node2, node8/node5} 
       $
-    %-----------------------------------------
+    
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %->) RIGHT
-    %-----------------------------------------
+    
     \begin{prooftree}
           \hypo{\vnode1{\Gamma}, \vnode2{F} \vdash \vnode3{G}, \vnode4{\Delta}}
           \infer1[($\rightarrow$R)]{\vnode5{\Gamma} \vdash \vnode6{F \rightarrow G}, \vnode7{\Delta}} 
@@ -300,12 +270,12 @@
       \dirflowblueedges{node5/node1}
       % \dirflowrededges{node6/node2, node6/node3}  %No edges from compound formulas
       $
-    %-----------------------------------------
+    
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %EQUALITY LEFT
-    %-----------------------------------------
+    
     \begin{prooftree}
         \hypo{\vnode1{\Gamma[u/x,t/y]} \vdash \vnode2{\Delta[u/x,t/y]}}
         \infer1[(=L)]{\vnode3{\Gamma[t/x,u/y]}, t = u \vdash \vnode4{\Delta[t/x,u/y]}} 
@@ -315,24 +285,24 @@
     $
     \dirflowblueedges{node3/node1} 
     $
-    %-----------------------------------------
+    
   \end{minipage}
   \\[1em]
 
   \begin{minipage}{0.3\textwidth}
     \centering
     %EQUIALITY RIGHT
-    %-----------------------------------------
+    
     \begin{prooftree}
       \hypo{}
       \infer1[(=R)]{\Gamma \vdash t = t,\Delta} 
     \end{prooftree}
-    %-----------------------------------------
+    
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %FORALL LEFT
-    %-----------------------------------------
+    
     \begin{prooftree}
         \hypo{\vnode1{\Gamma}, \vnode2{F[t/x]} \vdash \vnode3{\Delta}}
         \infer1[($\forall$L)]{\vnode4{\Gamma}, \vnode5{\forall x F} \vdash \vnode6{\Delta}} 
@@ -343,12 +313,12 @@
     \dirflowblueedges{node4/node1}
      %\dirflowrededges{node5/node2}  %No edges from compound formulas
     $
-    %-----------------------------------------
+    
   \end{minipage} &
   \begin{minipage}{0.3\textwidth}
     \centering
     %EXISTS RIGHT
-    %-----------------------------------------
+    
     \begin{prooftree}
         \hypo{\vnode1{\Gamma} \vdash \vnode2{F[t/x]}, \vnode3{\Delta}}
         \infer1[($\exists$R)]{\vnode4{\Gamma} \vdash \vnode5{\exists x F}, \vnode6{\Delta}} 
@@ -359,7 +329,7 @@
     \dirflowblueedges{node4/node1}
    % \dirflowrededges{node5/node2}  %No edges from compound formulas
     $
-    %-----------------------------------------
+    
   \end{minipage}
   \\[1em]
 
@@ -368,7 +338,7 @@
     \begin{minipage}{0.4\textwidth}
     \centering
     %FORALL RIGHT
-    %-----------------------------------------
+    
     \begin{prooftree}
         \hypo{\vnode1{\Gamma} \vdash \vnode2{F}, \vnode3{\Delta}}
         \infer1[$x \notin FV(\Gamma,\Delta)$ ($\forall$R)]{\vnode4{\Gamma} \vdash \vnode5{\forall x F}, \vnode6{\Delta}} 
@@ -379,7 +349,7 @@
     \dirflowblueedges{node4/node1}
     % \dirflowrededges{node5/node2}  %No edges from compound formulas
     $
-    %-----------------------------------------
+    
     \end{minipage}
 
     &
@@ -387,7 +357,7 @@
     \begin{minipage}{0.4\textwidth}
     \centering
     %EXISTS LEFT
-    %-----------------------------------------
+    
     \begin{prooftree}
         \hypo{\vnode1{\Gamma}, \vnode2{F} \vdash \vnode3{\Delta}}
         \infer1[$x \notin FV(\Gamma,\Delta)$ ($\exists$L)]{\vnode4{\Gamma}, \vnode5{\exists x F} \vdash \vnode6{\Delta}} 
@@ -398,24 +368,17 @@
     \dirflowblueedges{node4/node1}
     % \dirflowrededges{node5/node2}  %No edges from compound formulas
     $
-    %-----------------------------------------
+    
     \end{minipage}
   \end{tabular}
   }
 
-
-%=================================================
 \end{tabular}
-<<<<<<< HEAD
-
 
   \caption{Rules of LK. Blue arrows define the trace relation between 
   atomic inductive formulas (Def. \ref{def:subOccur}).}
-=======
 }
 \end{mdframed}
   
-  \caption{Rules of LK. Colored arrows define the sub-occurrence relation (Def. \ref{def:subOccur}).}
->>>>>>> d31b64e34522f8552230517692abe174e67686b9
   \label{LKrules}
 \end{figure}
