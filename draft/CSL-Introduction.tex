@@ -37,8 +37,9 @@ in the case of fan-in free graphs, and it can be checked faster.
 In a future work, we hope to show that we can show the correctness of cyclic proofs 
 satisfying GTC can be obtained by a simpler proof in the case of fan-in free graphs.
 
-The original version of cyclic proofs by Brotherston and Simpson, named $\CLKIDomega$, is not fan-in free. As a counterexample,
-consider the following instance of left-equality rule, using sequents as sets, where $N\mathbf{t}$ means: 
+The original version of cyclic proofs by Brotherston and Simpson, named $\CLKIDomega$, 
+is \emph{not} fan-in free. As a counterexample, consider the following instance of left-equality 
+rule, using sequents as sets, where $N\mathbf{t}$ means: 
 \quotationMarks{$\mathbf{t}$ is an inductively defined natural number}.
 
  \begin{center}
@@ -57,8 +58,9 @@ consider the following instance of left-equality rule, using sequents as sets, w
   
 If we apply Brotherston's definition for trace (details can be found in 
 \cite{Brotherston1}, Definition 4.2.3), we obtain that the inductive formula $N\mathbf{t}$ 
-in the premise, has two incoming edges obtained from the trace relation, from the inductive formulas $N\mathbf{t}$ and $N\mathbf{u}$
-in the conclusion. Even considering sequents as multisets, fan-in free relations are not guaranteed. For example, consider the left-weakening rule:
+in the premise has at least two incoming edges obtained from the trace relation, from the inductive formulas $N\mathbf{t}$ and $N\mathbf{u}$
+in the conclusion. Even considering sequents as multisets, fan-in free connections
+between inductive formulas are not guaranteed. For example, consider the left-weakening rule:
     
     \begin{center}
       \begin{prooftree}
@@ -76,7 +78,8 @@ where one of the inductive predicates $N\mathbf{u}$ in the conclusion is a direc
 
 In this paper we introduce a variant of Brotherston's cyclic proofs in which connections
 between atomic inductive formulas, given by the trace relation, are fan-in free. To this aim, we represent left and right
-hand side of a sequent with a list of formulas, and trace \emph{occurrences} instead of formulas. We will check that the set of theorem we can derive does not change.
+hand side of a sequent with a list of formulas, and trace \emph{occurrences} instead of formulas. We will check that the set of theorem we can derive does not change, while the algorithm
+checking GTC has a simpler formulation in this case.
 
 
 
