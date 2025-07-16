@@ -1,0 +1,41 @@
+% !TEX root = CSL-main.tex
+
+\begin{figure}
+\centering
+
+\adjustbox{scale=1}{
+\begin{prooftree}
+
+    \hypo{}
+    \infer1[$N\text{R}_1$]{\vdash N0}
+    \infer1[($=$L)]{x = 0 \vdash Nx}
+
+    \hypo{\vnode0{Ox} \vdash Nx \ (\dag)}
+    \infer1[(Subst)]{\vnode9{Oy} \vdash Ny}
+    \infer1[($N\text{R}_2$)]{\vnode8{Oy} \vdash Nsy}
+    \infer1[($=$L)]{x = sy, \vnode7{Oy} \vdash Nx}
+
+    \infer2[(Case $E$)]{\vnode6{Ex} \vdash Nx \ (*)}
+
+    \hypo{\vnode5{Ex} \vdash Nx \ (*)}
+    \infer1[(Subst)]{\vnode4{Ey} \vdash Ny}
+    \infer1[($N\text{R}_2$)]{\vnode3{Ey} \vdash Nsy}
+    \infer1[($=$L)]{x = sy, \vnode2{Ey} \vdash Nx}
+    \infer1[(Case $O$)]{\vnode1{Ox} \vdash Nx \ (\dag)}    
+
+    \infer2[($\lor$L)]{Ex \lor Ox \vdash Nx}
+\end{prooftree}
+
+% DRAW EDGES
+    $
+    \dirflowblueedges{node2/node3, node3/node4, node4/node5, node7/node8, node8/node9, node9/node0}
+    \dirflowrededges{node1/node2, node6/node7}
+    $
+%-----------------------------------------
+
+}
+
+
+\caption{$\CLKIDomega$ cyclic pre-proof of the sequent $Ex \lor Ox \vdash Nx$. The function $\mathcal{F}$ is represented by labeling each bud and its corresponding companion node with the $(\dag)$ and $(*)$ symbols. The arrows from the sub-occurrence relation are used to show the validating trace (Definition \ref{def:traceCyclic}).}
+\label{exampleCircProof}
+\end{figure}
