@@ -1,32 +1,46 @@
 % !TEX root = CSL-main.tex
 \begin{figure}[]
+
 \centering
-\resizebox{0.75\textwidth}{!}{%
+\resizebox{0.60\textwidth}{!}{%
 \begin{circuitikz}
-\tikzstyle{every node}=[font=\LARGE]
-\node [font=\LARGE] at (2,12.25) {$v_0$};
-\node [font=\LARGE] at (5.75,12.25) {$v_1$};
-\node [font=\LARGE] at (9.5,13.75) {$v_2$};
-\node [font=\LARGE] at (9.5,11) {$v_3$};
-\node [font=\LARGE] at (13.25,11) {$v_4$};
-\node [font=\LARGE] at (17,11) {$v_5$};
-\node [font=\LARGE] at (20.75,11) {$v_6$};
-\draw [->, >=Stealth] (3,12.25) -- (5,12.25);
-\draw [->, >=Stealth] (6.25,12.25) -- (8.75,13.5);
-\draw [->, >=Stealth] (6.25,12) -- (8.75,11);
-\draw [->, >=Stealth] (10.25,11) -- (12.5,11);
-\draw [->, >=Stealth] (14,11) -- (16.25,11);
-\draw [->, >=Stealth] (17.75,11) -- (20,11);
-\node [font=\large] at (4,12.75) {$(\{ \textcolor{blue}{(Nx, Nx)}\}, \textcolor{red}{\emptyset})$};
-\node [font=\large] at (7.25,13.5) {$( \textcolor{blue}{\emptyset}, \textcolor{red}{\emptyset})$};
-\node [font=\large] at (7.25,10.75) {$( \textcolor{blue}{\emptyset}, \{\textcolor{red}{(Nx,Ny)}\})$};
-\node [font=\large] at (11.25,10.5) {$(\{ \textcolor{blue}{(Ny, Ny)}\}, \textcolor{red}{\emptyset})$};
-\node [font=\large] at (15,10.5) {$(\{ \textcolor{blue}{(Ny, Ny)}\}, \textcolor{red}{\emptyset})$};
-\node [font=\large] at (18.75,10.5) {$(\{ \textcolor{blue}{(Ny, Ny)}\}, \textcolor{red}{\emptyset})$};
-\draw [->, >=Stealth] (20.75,10.5) .. controls (16.25,8.5) and (6.25,7.5) .. (2.25,11.5) ;
-\node [font=\large] at (11,8) {$(\{ \textcolor{blue}{(Ny, Nx)}\}, \textcolor{red}{\emptyset})$};
+\tikzstyle{every node}=[font=\Large]
+
+
+\draw[rounded corners]  (2.5,13) rectangle  node {\LARGE $Ex$} (3.75,11.75);
+\draw[rounded corners]  (6.25,13) rectangle  node {\LARGE $Oy$} (7.5,11.75);
+\draw[rounded corners]  (10,13) rectangle  node {\LARGE $Oy$} (11.25,11.75);
+\draw[rounded corners]  (2.5,9.25) rectangle  node {\LARGE $Ox$} (3.75,8);
+\draw[rounded corners]  (6.25,9.25) rectangle  node {\LARGE $Ey$} (7.5,8);
+\draw[rounded corners]  (10,9.25) rectangle  node {\LARGE $Ey$} (11.25,8);
+\draw[rounded corners]  (-1.25,11.25) rectangle  node {\LARGE $\emptyset$} (0,10);
+\draw[rounded corners]  (6.25,16) rectangle  node {\LARGE $\emptyset$} (7.5,14.75);
+\draw[rounded corners]  (10,16) rectangle  node {\LARGE $\emptyset$} (11.25,14.75);
+
+\node [font=\Large] at (3.25,11.25) {$v_3$};
+\node [font=\Large] at (7,11.25) {$v_4$};
+\node [font=\Large] at (10.75,11.25) {$v_5$};
+\node [font=\Large] at (3.25,7.5) {$v_6$};
+\node [font=\Large] at (7,7.5) {$v_7$};
+\node [font=\Large] at (10.75,7.5) {$v_8$};
+\node [font=\Large] at (-0.5,9.5) {$v_0$};
+\node [font=\Large] at (7,14.25) {$v_1$};
+\node [font=\Large] at (10.75,14.25) {$v_2$};
+
+\draw [ color={rgb,255:red,204; green,0; blue,0}, line width=1pt, ->, >=Stealth] (3.75,12.25) -- (6.25,12.25)node[pos=0.5, fill=white]{\normalsize $(Ex,Oy)$};
+\draw [ color={rgb,255:red,26; green,95; blue,180}, line width=1pt, ->, >=Stealth] (7.5,12.25) -- (10,12.25)node[pos=0.5, fill=white]{\normalsize $(Oy,Oy)$};
+\draw [ color={rgb,255:red,204; green,0; blue,0}, line width=1pt, ->, >=Stealth] (3.75,8.5) -- (6.25,8.5)node[pos=0.5, fill=white]{\normalsize $(Ox,Ey)$};
+\draw [ color={rgb,255:red,26; green,95; blue,180}, line width=1pt, ->, >=Stealth] (7.5,8.5) -- (10,8.5)node[pos=0.5, fill=white]{\normalsize $(Ey,Ey)$};
+\draw [ color={rgb,255:red,26; green,95; blue,180}, line width=1pt, ->, >=Stealth] (10.5,11.75) -- (3.75,9.25)node[pos=0.8, fill=white]{\normalsize $(Oy,Ox)$};
+\draw [ color={rgb,255:red,26; green,95; blue,180}, line width=1pt, ->, >=Stealth] (10.5,9.25) -- (3.75,11.75)node[pos=0.2, fill=white]{\normalsize $(Ey,Ex)$};
+
+\draw [line width=1pt, ->, >=Stealth] (0,10.5) -- (2.5,12.25)node[pos=0.5, fill=white]{$\emptyset$};
+\draw [line width=1pt, ->, >=Stealth] (0,10.5) -- (2.5,8.5)node[pos=0.5, fill=white]{$\emptyset$};
+\draw [line width=1pt, ->, >=Stealth] (7.5,15.5) -- (10,15.5)node[pos=0.5, fill=white]{$\emptyset$};
+\draw [line width=1pt, ->, >=Stealth] (3,13) -- (6.25,15.25)node[pos=0.5, fill=white]{$\emptyset$};
 \end{circuitikz}
-}
+}%
+
 \caption{Transition graph of the cyclic pre-proof in Figure \ref{exampleCircProof}. For each relation $(S,P)_{v,v'}$, the relation $S$ is represented by blue pairs, while pairs in $P$ are colored in red.}
 
 \label{exampleTransGraph}

@@ -21,6 +21,15 @@
 %}
 
 
+
+%====== PROOFZILLA =======%
+% Define node style 
+\newemptyvertex{node}{}
+% Define edge styles: directed/undirected, color, arrow head etc
+\defedgetype{dirflowblue}{-Latex,draw=blue}{}
+\defedgetype{dirflowred}{-Latex,draw=red}{}
+%=========================%
+
 % Custom mapsto with tail
 \newcommand{\mmapsto}{\mapstochar\relbar\mathrel{\mkern-12mu}\mapsto}
 
@@ -55,3 +64,6 @@
 \newcommand{\CLKIDomega}{\textit{CLKID}^\omega}
 
 \newcommand{\leqdownarrow}{\downarrow^{\hspace{-2mm}=}}
+
+%quotations
+\newcommand{\quotationMarks} [1]  {{\textquotedblleft #1\textquotedblright}}
