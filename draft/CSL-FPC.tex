@@ -87,21 +87,34 @@ We can now restate the notion of trace and the Global Trace condition for graphs
 \begin{definition}[Trace, path and progress]\label{def:TracePath}
 Let $\Graph = (V, \biRel, E)$ be a transition graph and $\alpha \leq \omega$; then:
 \begin{enumerate}[i)]
-\item a {\em trace} is a map $\tau:\alpha \to X$;
-\item a {\em path} is a map $\ppath:\alpha \to E$ such that if $i + 1 \in \alpha$ then 
+\item 
+a {\em trace} is a map $\tau:\alpha\uparrow_k \to X$ for some $k \in \alpha$;
+
+\item 
+a {\em path} is a map $\ppath:\alpha \to E$ such that if $i + 1 \in \alpha$ then 
 $\target{\ppath(i)} = \source{\ppath(i+1)}$;
-\item a trace $\tau:\alpha \to X$ {\em follows} a path $\ppath: \alpha \to E$ written $\tau \models \ppath$, if 
-	there is a $k \in \alpha$ such that for all $i, i+1 \in \alpha\uparrow_k$, if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$. 
+
+\item 
+a trace $\tau:\alpha\uparrow_k \to X$ {\em follows} a path $\ppath: \alpha \to E$,
+written $\tau \models \ppath$, if 
+if for all $i,i+1 \in \alpha\uparrow_k$,
+ if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$.
+
 	If $\tau(i) P \tau(i + 1)$ we say that $i$ is a {\em progress point} of $\tau$ in $\ppath$.
-\item a trace $\tau$ such that $\tau\models \ppath$ is infinitely progressing if $\tau$ has infinitely many progress points in $\ppath$.
+
+\item 
+a trace $\tau$ such that $\tau\models \ppath$ 
+is infinitely progressing if $\tau$ has infinitely many progress points in $\ppath$.
 \end{enumerate}
 \end{definition}
 
 
 \begin{remark}
-A trace $\tau = x_0, x_1, x_2 \cdots$ follows a path $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \stackrel{(S_1,P_1)}{\longrightarrow} v_2 \cdots$
-if both have the same domain $\alpha$, and $x_i (S_i \cup P_i) x_{i+1}$ for all $i, i+1$ in the domain $\alpha\uparrow_k$ of the tails $\tau\uparrow_k$ and 
-$\ppath\uparrow_k$ for some $k$. Hence, for $\tau\models\ppath$ to hold, it suffices that the above relation holds, possibly disregarding a finite initial segment of $\alpha$.
+A trace $\tau = x_k, x_{k+1}, x_{k+2} \cdots$ follows a path $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \stackrel{(S_1,P_1)}{\longrightarrow} v_2 \cdots$
+if for some $k$ they have domain $\alpha\uparrow_k$, $\alpha$, respectively, 
+and $x_i (S_i \cup P_i) x_{i+1}$ for all $i, i+1$ 
+in the domain $\alpha\uparrow_k$ of $\tau$ and $\alpha$ of 
+$\ppath$. Hence, for $\tau\models\ppath$ to hold, it suffices that the above relation holds, possibly disregarding a finite initial segment of $\ppath$.
 In the particular case that $\alpha < \omega$, namely when both $\tau$ and $\ppath$ are finite, there is no condition about $x_{\alpha - 1}$ w.r.t. $S_{\alpha - 1} \cup P_{\alpha - 1}$, but this is immaterial for our development, as the only interesting paths and traces are the infinite ones.
 \end{remark}
 
@@ -114,15 +127,27 @@ Both $\Graph$ and $\Graph^*$ are finite, so that an infinite path $\ppath$ exist
 some $(S,P) \in \biRel^*$ which is self-composable in $\Graph^*$.
 
 \medskip
-In the following, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ to the composition $(S,P)$ of the bi-partite relations labeling the edges in $\ppath$,
+In the following, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ 
+to the composition $(S,P)$ of the bi-partite relations labeling the edges in $\ppath$,
 and show that progressing is equivalent to having $x, y$ in the image of $\tau$ such that $x$ precedes $y$ in $\tau$ and $x P y$.
 
 \begin{lemma}\label{lem:P-lemma}
 Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
 \begin{enumerate}[i)]
-\item\label{lem:P-lemma-1} $x P_1 y \Then x P z$
-\item\label{lem:P-lemma-2} $y P_2 z \Then x P z$
-%\item \label{lem:P-lemma-3} If $S_2 \cup P_2$ is injective, then $x S_1 y \And y S_2 z \Then x S z$
+
+\item
+\label{lem:P-lemma-1} $x P_1 y \Then x P z$
+
+\item
+\label{lem:P-lemma-2} $y P_2 z \Then x P z$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TO BE INSERTED IN THE JOURNAL VERSION IF ANY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\item 
+%\label{lem:P-lemma-3} 
+% If $S_2 \cup P_2$ is injective, then $x S_1 y \And y S_2 z \Then x S z$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{enumerate}
 \end{lemma}
 
@@ -149,18 +174,18 @@ Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$
 %\end{proof}
 %
 
-If $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{k-1} \stackrel{(S_{k-1},P_{k-1})}{\longrightarrow} v_{k}$ is a (finite) path of $\Graph$, for $0 \leq i < j < k$
+If $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{b-1} \stackrel{(S_{b-1},P_{b-1})}{\longrightarrow} v_{b}$ is a (finite) path of $\Graph$, for $0 \leq i < j < b$
 we abbreviate $(S_{i,j}, P_{i,j}) = \bigcomp_{p = i}^{j} (S_p,P_p) = (S_i,P_i) \comp \cdots \comp (S_j,P_j)$. %The next Proposition states that
 
 
 \begin{proposition}\label{prop:progresing-and-P}
-Let $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{k-1} \stackrel{(S_{k-1},P_{k-1})}{\longrightarrow} v_{k}$ be a finite path of $\Graph$
-and $\tau = x_0, \ldots , x_{k}$ be a trace such that $\tau \models \ppath$. Then $\tau$ has a progress point in $\ppath$ if and only if
-there exists $0 \leq h < k$ such that
-\[x_h P_{h,k-1} x_k \And \forall h \leq j < k.\; x_j (S_j \cup P_j) x_{j+1}\]
+Let $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{b-1} \stackrel{(S_{b-1},P_{b-1})}{\longrightarrow} v_{b}$ be a finite path of $\Graph$
+and $\tau = x_a, \ldots , x_{b-1}$ be a trace such that $\tau \models \ppath$. Then $\tau$ has a progress point in $\ppath$ if and only if
+there exists $a \leq h < b$ such that
+\[x_h P_{h,b-1} x_b \And \forall h \leq j < b.\; x_j (S_j \cup P_j) x_{j+1}\]
 %\begin{enumerate}[i)]
-%\item $x_h P_{i_0,k-1} x_k$ %where $(S,P) = (S_{i_0,k-1},P_{i_0,k-1})$
-%\item $x_j (S_j \cup P_j) x_{j+1}$ for all $i_0 \leq j < k$
+%\item $x_h P_{i_0,b-1} x_b$ %where $(S,P) = (S_{i_0,b-1},P_{i_0,b-1})$
+%\item $x_j (S_j \cup P_j) x_{j+1}$ for all $i_0 \leq j < b$
 %\end{enumerate}
 \end{proposition}
 
@@ -168,22 +193,23 @@ there exists $0 \leq h < k$ such that
 % TO BE INSERTED IN THE JOURNAL VERSION IF ANY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%\begin{proof} To prove the if part, assume that $x_h P x_k$ for some $0 \leq h < k$; then $x_h P_h x_{h+1} (S_{h+1, k}, P_{h+1,k})x_k$ by the
+%\begin{proof} To prove the if part, assume that $x_h P x_b$ for some $0 \leq h < b$; then $x_h P_h x_{h+1} (S_{h+1, b}, P_{h+1,b})x_b$ by the
 %hypothesis that $\tau\models\ppath$ and the definition of composition.
 %
-%To prove the only if part, let us assume that $\tau\models\ppath$, hence there is $i_0$ such that $x_j (S_j \cup P_j) x_{j+1}$ for all $i_0 \leq j < k$, and that there is 
-%$i_0 \leq h < k$ such that $x_h P_h x_{h+1}$ which is a progress point of $\tau$ in $\ppath$; w.l.o.g. let us assume that $i_0 = 0$.
+%To prove the only if part, let us assume that $\tau\models\ppath$, hence there is $i_0$ such that $x_j (S_j \cup P_j) x_{j+1}$ for all $i_0 \leq j < b$, and that there is 
+%$i_0 \leq h < b$ such that $x_h P_h x_{h+1}$ which is a progress point of $\tau$ in $\ppath$; w.l.o.g. let us assume that $i_0 = 0$.
 %
 %We know that $(S, P) = (S',P') \comp (S_h,P_h) \comp (S'',P'')$, where $(S',P')= (S_{0,h-1},P_{0,h-1})$ and 
-%$(S'',P'')= (S_{h+1,k-1},P_{h+1,k-1})$, and 
-%\[x_0 (S' \cup P') x_h P_h x_{h+1} (S'' \cup P'') x_k \]
+%$(S'',P'')= (S_{h+1,b-1},P_{h+1,b-1})$, and 
+%\[x_0 (S' \cup P') x_h P_h x_{h+1} (S'' \cup P'') x_b \]
 %
-%Let us abbreviate $(S,P) = (S_{h,k-1},P_{h,k-1})$.
+%Let us abbreviate $(S,P) = (S_{h,b-1},P_{h,b-1})$.
 %If $(\hat{S},\hat{P}) = (S',P') \comp (S_h,P_h)$ then by (\ref{lem:P-lemma-2}) of Lemma \ref{lem:P-lemma} we have $x_0 \hat{P} x_{h+1}$; from this and 
-%$(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, we conclude that $x_0 P x_k$  by (\ref{lem:P-lemma-1}) of the same Lemma, as desired.
+%$(S,P) = (\hat{S},\hat{P}) \comp (S'', P'')$, we conclude that $x_0 P x_b$  by (\ref{lem:P-lemma-1}) of the same Lemma, as desired.
 %\end{proof}
-%%If $\tau \models\ppath$ in $\Graph$
-%%and $\ppath$ is the path $\edgeGstar{(S,P)}{u}{v}{\Graph}$ then we say that $\tau$ progresses in $(S,P)$ if 
+%% If $\tau \models\ppath$ in $\Graph$
+%% and $\ppath$ is the path $\edgeGstar{(S,P)}{u}{v}{\Graph}$ then we say that $\tau$ 
+%% progresses in $(S,P)$ if 
 
 We are eventually in place to define the size-change termination condition for transition graphs, which is the same as \cite[Def. 2.6]{Lee3}, and expresses Global Trace Condition for 
 bi-partite graphs.
