@@ -21,7 +21,7 @@ $\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x 
 
 In this work, we shall consider binary relations over some fixed finite set 
 $X = \Set{x_1, ..., x_n}$, which are consequently themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$
-and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$. 
+and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$, with possibly $S$ or $P$ empty.
 
 
 %\begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
@@ -62,7 +62,7 @@ of $e$ respectively.
 %of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
 When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. % and $\edgestar{(S,P)}{u}{v}$.
 
-Suppose that $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the information, say the ``value'', associated with $x$ in the abstract state $u$ is not increasing with respect to that associated with $y$ in $v$ in some intended interpretation of the ordering; hence, we call this relation {\em stable}. If instead  $x P y$, then
+Suppose that $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the information, say the ``value'', associated with $x$ in the abstract state $u$ is not increasing with respect to that associated with $y$ in $v$ in some intended interpretation of the ordering; hence, we call this relation {\em stable} or {\em stationary}. If instead  $x P y$, then
 the value of $x$ is strictly greater than that of $y$, and we call $P$ a {\em progress} relation. Finally, if $x$ and $y$ are unrelated by $S \cup P$, this
 represents the lack of knowledge about the ordering of their values in $u$ and $v$, respectively.
 
@@ -90,29 +90,35 @@ represents the lack of knowledge about the ordering of their values in $u$ and $
 %By abusing terminology, we call a generalized colored hypergraph just a colored hypergraph.
 
 \medskip
-As said at the beginning of this section, transition graphs are a variant of the notion of {\em size-change graph} as defined in \cite[Def. 2.1]{Lee3}, abstractly
-representing the labeled transition system of the flow of values of certain variables thorough the calls of functions in a functional program, where labels
+Transition graphs are a variant of the notion of {\em size-change graph} as defined in \cite[Def. 2.1]{Lee3}, abstractly representing the labeled transition system of the flow of values of certain variables thorough the calls of functions in a functional program, where labels
 convey the information needed to detect termination.
 More precisely, a size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, 
 $\texttt{g}$ out of some functional program $\texttt{p}$
 is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$, where $\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g})$
-are sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{g}$, $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $\texttt{f}^{(i)} \subseteq \textit{Param}(\texttt{f})$ to
-$\texttt{g}^{(j)} \subseteq \textit{Param}(\texttt{g})$ labelled with $\leqdownarrow$ and
+are sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{g}$, $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $x \in \textit{Param}(\texttt{f})$ to
+$y \in \textit{Param}(\texttt{g})$ labelled with both $\leqdownarrow$ and
 $\downarrow$ in $\textsf{E}$.
 
 In our view, $G:\texttt{f} \to \texttt{g}$ corresponds 
-to $\edgeG{(S,P)}{u}{v}{\Graph}$ where $X$ is the set of all parameters occurring in the program $\texttt{p}$, with
-$S = \Set{(x,y) \mid (\texttt{f}^{(i)}, \leqdownarrow, \texttt{g}^{(j)}) \in \textsf{E}}$ so that $\dom{S} = \texttt{f}^{(i)}$ and $\cod{S} = \texttt{g}^{(j)}$. 
-Similarly, $P = \Set{(x,y) \mid (\texttt{f}^{(i)}, \downarrow, \texttt{g}^{(j)}) \in \textsf{E}}$. 
+to $\edgeG{(S_G,P_G)}{f}{g}{\Graph}$ where the set $V$ of vertices 
+is the set of all parameters occurring in the program $\texttt{p}$, and
+$S_G = \Set{(x,y) \mid (x, \leqdownarrow, y) \in \textsf{E}}$.
+% so that $\dom{S} = \texttt{f}^{(i)}$ and $\cod{S} = \texttt{g}^{(j)}$. %???
+Similarly, $P_G = \Set{(x,y) \mid (x, \downarrow, y) \in \textsf{E}}$. 
+Our set of labelled edges is the set of all $(f,(S_G,P_G),g)$ 
+such that $G:\texttt{f} \to \texttt{g}$ for some size-chage graph $G$.
 
 A {\em multipath} \cite[Def. 2.3]{Lee3} is the composition of finitely ot infinitely many size-change graphs. 
 The composition $GG'$ of $G:\texttt{f} \to \texttt{g}$ with $G':\texttt{g} \to \texttt{h}$
 requires that the target function symbols of $G$ and the source function symbol of $G'$ coincide. 
-For transition graphs, we have a  unique finite set of ``symbols'' $X$ 
+In the case of our transition graphs, we have a  unique finite set of ``symbols'' $X$ 
 and we express the restriction on the composition $GG'$ by asking that for some vertices 
 $u, v, w \in V$ we have $\edgeG{(S,P)}{u}{v}{\Graph}$ and  
-$\edgeG{(S',P')}{v}{w}{\Graph}$, where $G = (S,P)$ and $G' = (S',P')$. Since we represent several multipaths in just one graph, and even infinite ones by means of cycles, we label the edges by a (finite) family of bi-partite relations, that correspond to a family of labels $\Set{\leqdownarrow_i, \downarrow_i}_{i \in I}$ with finite $I$,
-of the composition $G_1G_2 \cdots$; this is not a restriction, since the size-change graphs in the analysis of a program are a finite set, even in an infinite multipath.
+$\edgeG{(S',P')}{v}{w}{\Graph}$, where $G = (S,P)$ and $G' = (S',P')$. 
+We now define the composition of two bi-partite graphs.
+
+%Since we represent several multipaths in just one graph, and even infinite ones by means of cycles, we labelled the edges by a (finite) family of bi-partite relations, that correspond to a family of labels $\Set{\leqdownarrow_i, \downarrow_i}_{i \in I}$ with finite $I$,
+%of the composition $G_1G_2 \cdots$; this is not a restriction, since the size-change graphs in the analysis of a program are a finite set, even in an infinite multipath.
 
 %As a consequence, we do not have  a single pair of relations $ \leqdownarrow, \downarrow$, but a finite set of them 
 %$\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ labeling the edges in $E$, which is our notation for the set of bipartite relations $(\leqdownarrow_i, \downarrow_i)$ in Figure ...
