@@ -1,16 +1,12 @@
 % !TEX root = CSL-main.tex
-\section{Injective Cyclic Proofs and the Global Trace Condition}
+\section{Cyclic Proofs and the Global Trace Condition}
 \label{sec:cyclic}
 
-In this section we define a variant of cyclic proof systems $\CLKIDomega$ and 
-$\CLJIDomega$ scuch that trace relation between atomic inductive formulas in the right-hand side of a sequent in injective. 
+%In this section we define a variant of cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$ scuch that trace relation between atomic inductive formulas in the right-hand side of a sequent in injective. 
 
-$\CLKIDomega$ and $\CLJIDomega$ are both a first order logic, hence we will consider a first-order signature $\Sigma$, which contain %denumerable many 
-constants, functions and predicate symbols. Terms, formulas and $\Sigma$-structures are defined as usual for first order logic. We consider sequents as originally defined by Gentzen using finite lists, instead of the formulations given in \cite{Brotherston2, BrotherstonSimpson} using sets or multisets. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is a single formula. 
+In this section we define the GTC, for the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$. $\CLKIDomega$ and $\CLJIDomega$ are both systems for first-order theories, hence we consider a signature $\Sigma$, which contain symbols for constants, functions and predicate of individuals. Terms, formulas and $\Sigma$-structures are defined as usual. We consider sequents as originally defined by Gentzen using finite lists, instead of the formulations in \cite{Brotherston2, BrotherstonSimpson} using sets or multisets. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is either a single formula or the empty list. 
 
-The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concatenation. For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between %finitely many 
-\emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and %denumerable many 
-\emph{ordinary predicates}, defined as usual predicates. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}:
+The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concatenation. For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and \emph{ordinary predicates}. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}.
 
 \begin{definition}[Inductive definition set]
     \label{defIndSet}
@@ -25,15 +21,14 @@ The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concate
         \end{prooftree}
     \end{center}
 
-    where $Q_1, \ldots, Q_h$ are ordinary predicates symbols, $P_1, \ldots, P_m$ are inductive predicate symbols, and $\mathbf{u_1}, \ldots, \mathbf{u_h}$, $\mathbf{t_1}, \ldots, \mathbf{t_m}$, $\mathbf{t}$ are tuples of terms.
-    
-A production of conclusion
-$P \vec{t}$ for some $\vec{t}$ is said a production for $P$.
-A formula is said \emph{inductive} when it is an atomic formula 
-$P\vec{t}$ for some inductive predicate $P$ and some $\vec{t}$.
+\noindent
+where $Q_1, \ldots, Q_h$ are ordinary predicates symbols, $P_1, \ldots, P_m$ are inductive predicate symbols, and $\mathbf{u_1}, \ldots, \mathbf{u_h}$, $\mathbf{t_1}, \ldots, \mathbf{t_m}$, $\mathbf{t}$ are tuples of terms.
+
+A production of conclusion $P \mathbf{t}$ for some $\mathbf{t}$ is said a production for $P$. A formula is said \emph{inductive} when it is an atomic formula $P\mathbf{t}$ for some inductive predicate $P$ and some $\mathbf{t}$.
 \end{definition} 
 
 \begin{example}
+\label{ex:NEO}
 We define the inductive definition set $\Phi_0 = \{r_1, r_2,r_3,r_4,r_5\}$, 
 using the following productions rules:
 
@@ -80,26 +75,10 @@ Here $0$ is a constant representing the number zero and $s$ is a unary function 
 $E$ and $O$ are \emph{mutually defined} inductive predicates defining even and odd numbers respectively.
 \end{example}
 
-We define the proof system $\CLKIDomega$ for inductive predicates 
-as an extension of the classical logic LK, defined in Figure \ref{LKrules}. 
 
 \input{CSL-LKRules}
 
-With respect to the usual presentation of logic, we add in Figure 
-\ref{LKrules} the \emph{trace relation} for LK, denoted by by {\color{blue} \bf blue} arrows,
-and mapping occurrences of atomic inductive formulas on the left side of the conclusion sequent, to those in the corresponding position on the left side of the premises’ sequents. To simplify the presentation, we defined this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. We sum up the situation  for LK as follows:
-
-\begin{enumerate}[i)]
-    \item Arrows connect occurrences $(P\mathbf{u}, i)$ on the left side of the conclusion's sequent, to occurrences $(Q\mathbf{t}, j)$ on the left side of the premises' sequents of each rule, where $P$ and $Q$ are inductive predicates.
-    \item An arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise \emph{defines a bijection} between occurrences $(P\mathbf{u},i)$ in the list $\Gamma$ in the conclusion, and $(P\mathbf{u},i)$ in the \emph{same position} of the 
-    list $\Gamma$ in the premise.
-    \item An arrow from a list $\Gamma[\theta]$ in the conclusion to $\Gamma$ in a premise defines a bijection between occurrences $(P\mathbf{u}[\theta],i)$ in the list $\Gamma[\theta]$ in the conclusion, and $(P\mathbf{u},i)$ in the list $\Gamma$ in the premise.
-    \item An arrow from a list $\Gamma[t/x,u/y]$ in the conclusion to $\Gamma[u/x,t/y]$ in a premise defines a bijection between occurrences $(P\mathbf{u}[t/x,u/y],i)$ in the list $\Gamma[t/x,u/y]$ in the conclusion, and $(P\mathbf{u}[u/x,t/y],i)$ in the list $\Gamma[u/x,t/y]$ in the premise.   
-\end{enumerate}
-
-In $\CLKIDomega$ we have additional rules used to handle inductive predicates on the right and left part of the sequent. These rules for inductive predicates are defined as follows: let 
-$\Phi = \{r_1, \ldots, r_n\}$ be the inductive definition set, such that all $r_i$ are productions as in Definition \ref{defIndSet}. We define a trace relation also in this case, 
-and we color by {\color{red} \bf red} the arrows from the main atomic inductive formula of a case-split rule, and by {\color{blue} \bf blue} the arrows from all other formulas.
+We define the proof system $\CLKIDomega$ for inductive predicates as an extension of the classical logic LK, whose rules are reported in Figure \ref{LKrules}, with additional rules used to handle inductive predicates on the right and left part of the sequent. These rules for inductive predicates are defined as follows: let $\Phi = \{r_1, \ldots, r_n\}$ be the inductive definition set, such that all $r_i$ are productions as in Definition \ref{defIndSet}.
 
 \begin{itemize}
     \item For each production $r_i$ for an inductive predicate $P$, the system $\CLKIDomega$ includes a corresponding right introduction rule for $P$, denoted ($P\text{R}_i$):
@@ -120,10 +99,7 @@ and we color by {\color{red} \bf red} the arrows from the main atomic inductive 
     %----------------------------------
     \end{equation}
 
-    \item 
-For all inductive predicates $P$ there is a \emph{single} left introduction rule associated to $P$ 
-and to all productions $r_i  \in \Phi$ for $P$. 
-It is denoted \emph{case split rule for $P$} or (Case $P$):
+    \item For all inductive predicates $P$ there is a \emph{single} left introduction rule associated to $P$ and to all productions $r_i  \in \Phi$ for $P$. It is denoted \emph{case split rule for $P$} or (Case $P$):
     
     \begin{equation}
     \label{def:caseRuleLeft}
@@ -140,31 +116,34 @@ It is denoted \emph{case split rule for $P$} or (Case $P$):
     %----------------------------------    
     \end{equation}
 
-    In the rule (Case $P$),
-     for each production $r_i$, there is a corresponding sequent in the premises of the 
-form $\Gamma, \mathbf{u} = \mathbf{t^i}, Q^i_1\mathbf{u^i_1}, \ldots , Q^i_h\mathbf{u^i_h}, 
-P^i_1\mathbf{t^i_1}, \ldots, P^i_m\mathbf{t^i_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u^i_1},...,\mathbf{u^i_h},\mathbf{t^i_1},...,\mathbf{t^i_m}$, 
-or $\mathbf{t^i}$, does not occur free in $\Gamma, \Delta$ and $\mathbf{u}$.
+    In the rule (Case $P$),for each production $r_i$, there is a corresponding sequent in the premises of the form $\Gamma, \mathbf{u} = \mathbf{t^i}, Q^i_1\mathbf{u^i_1}, \ldots , Q^i_h\mathbf{u^i_h}, P^i_1\mathbf{t^i_1}, \ldots, P^i_m\mathbf{t^i_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u^i_1},...,\mathbf{u^i_h},\mathbf{t^i_1},...,\mathbf{t^i_m}$, or $\mathbf{t^i}$, does not occur free in $\Gamma, \Delta$ and $\mathbf{u}$.
 
 \end{itemize}
 
+To the usual presentation of these rules, we add a \emph{trace relation} among occurrences of inductive formulas, which is represented by {\color{blue} \bf blue} and {\color{red} \bf red} arrows from the conclusion to the premises, according to the clauses below and Definition \ref{def:subOccur}. 
+
+
+%We define a trace relation also in this case, and we color by {\color{red} \bf red} the arrows from the main atomic inductive formula of a case-split rule, and by {\color{blue} \bf blue} the arrows from all other formulas.
+
+%To illustrate the presentation, we defined this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. denoted by by {\color{blue} \bf blue} arrows,and mapping occurrences of atomic inductive formulas on the left side of the conclusion sequent, to those in the corresponding position on the left side of the premises’ sequents. To simplify the presentation, we defined this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. We sum up the situation  for LK as follows:
+
+\begin{enumerate}[i)]
+    \item Arrows of either color connect occurrences $(P\mathbf{u}, i)$ on the left side of the conclusion's sequent, to occurrences $(Q\mathbf{t}, j)$ on the left side of the premises' sequents of each rule, where $P$ and $Q$ are inductive predicates.
+    \item The {\color{blue} \bf blue} arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise \emph{defines a bijection} between occurrences $(P\mathbf{u},i)$ in the list $\Gamma$ in the conclusion, and $(P\mathbf{u},i)$ in the \emph{same position} of the list $\Gamma$ in the premise.
+    \item The {\color{blue} \bf blue} arrow from a list $\Gamma[\theta]$ in the conclusion to $\Gamma$ in a premise, in the rule $(Subst)$, defines a bijection between occurrences $(P\mathbf{u}[\theta],i)$ in the list $\Gamma[\theta]$ in the conclusion, and $(P\mathbf{u},i)$ in the list $\Gamma$ in the premise.
+    \item The {\color{blue} \bf blue} arrow from a list $\Gamma[t/x,u/y]$ in the conclusion to $\Gamma[u/x,t/y]$ in a premise, in the rule (=L), defines a bijection between occurrences $(P\mathbf{u}[t/x,u/y],i)$ in the list $\Gamma[t/x,u/y]$ in the conclusion, and $(P\mathbf{u}[u/x,t/y],i)$ in the list $\Gamma[u/x,t/y]$ in the premise.   
+\end{enumerate}
+
+
 \begin{definition}[Trace Relation]
     \label{def:subOccur}
-    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(P\mathbf{u},i)$ in $\Gamma$ and $(Q\mathbf{t},j)$ in $\Gamma_k$ for some $ 1 \leq k \leq n$, where $P$ and $Q$ are inductive predicates. We say that $(P\mathbf{u},i)$
-    is connected to $(Q\mathbf{t},j)$ in $r$, noted $(P\mathbf{u},i) \rightarrow_{r} (Q\mathbf{t},j)$ if and only if there is an arrow drawn from $(P\mathbf{u},i)$ to $(Q\mathbf{t},j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas \ref{def:caseRuleRight} and \ref{def:caseRuleLeft}. $(P\mathbf{u},i)$ is called a 
-    \emph{progressing} occurrence, if only red arrow originate from it, 
-    and a \emph{stationary} occurrence 
-if all arrows are blue.
+    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(P\mathbf{u},i)$ in $\Gamma$ and $(Q\mathbf{t},j)$ in $\Gamma_k$ for some $ 1 \leq k \leq n$, where $P$ and $Q$ are inductive predicates. We say that $(P\mathbf{u},i)$ is connected to $(Q\mathbf{t},j)$ in $r$, noted $(P\mathbf{u},i) \rightarrow_{r} (Q\mathbf{t},j)$ if and only if there is an arrow drawn from $(P\mathbf{u},i)$ to $(Q\mathbf{t},j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas (\ref{def:caseRuleRight}) and (\ref{def:caseRuleLeft}). $(P\mathbf{u},i)$ is called a \emph{progressing} occurrence, if only {\color{red} \bf red} arrows originate from it, and a \emph{stationary} occurrence if all arrows out of it are {\color{blue} \bf blue}.
 \end{definition}
 
-   The intended meaning of {\color{red} \bf red} progressing arrows and
-of {\color{blue} \bf blue} stationary arrows is: 
-when $P\vec{t}$ progresses to $Q\vec{u}$ then the vector denoted by $\vec{t}$
-has larger size than the vector denoted by $\vec{u}$, when there is a stationary connection then
-$\vec{t}$ and $\vec{u}$ denote the same vector.
+The intended meaning of {\color{red} \bf red} progressing arrows and of {\color{blue} \bf blue} stationary arrows is: when $P\mathbf{t}$ progresses to $Q\mathbf{u}$ then the vector denoted by $\mathbf{t}$ has larger size than the vector denoted by $\mathbf{u}$, when there is a stationary connection then $\mathbf{t}$ and $\mathbf{u}$ denote the same vector.
 
 \begin{example}
-For the previously defined inductive predicates $N$, $E$ and $O$, we can associate the following rules (for simplicity we omit the rules that are not used in the proof of Figure \ref{exampleCircProof}):    
+For the inductive predicates defined in Example \ref{ex:NEO}, we add the following rules (for simplicity we omit the rules that are not used in the proof of Figure \ref{exampleCircProof}):    
 
 \begin{center}
     \centering
@@ -218,7 +197,7 @@ The proof system for $\CLJIDomega$ and its trace relation is naturally obtained 
 
 %17:02 16/07/2025
 
-\emph{Cyclic pre-proofs} are used to formally represent a \emph{possibly infinite regular 
+\emph{Cyclic pre-proofs}, defined below, are used to formally represent a \emph{possibly infinite regular 
 derivation} in $\CLKIDomega$ and $\CLJIDomega$ through a \emph{finite graph}.
 
 \begin{definition}[Cyclic pre-proof] A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof of sequent $\Gamma \vdash \Delta$ (resp. $\Gamma \vdash \phi$), is a tuple $\Pi = (\mathcal{D}, \mathcal{F})$, where:
@@ -263,15 +242,14 @@ As mentioned before, the Global Trace Condition (GTC) is used as a sufficient cr
 
 \begin{remark}
     \label{rem:traceDef}
-    The previous definition of trace corresponds to a proper subset of the original trace definition by Brotherston in \cite{Brotherston1}, Definition 4.2.3. Specifically, our definition of trace corresponds to applying Brotherston's definition to work over occurrences instead of formulas. The reason we use occurrences instead of formulas, is that occurrences allow us to track the essential part of the history of a formula in a pre-proof without ambiguities, and it ensures that the relations induced by the trace (later defined in Definition \ref{def:preProofTrans}), are indeed fan-in-free (also called \emph{injective}) relations.
+    The previous definition of trace corresponds to a proper subset of the original trace definition by Brotherston in \cite{Brotherston1}, Definition 4.2.3. Specifically, our definition of trace corresponds to applying Brotherston's definition to work over occurrences instead of formulas. The reason we use occurrences, is that they allow us to track the essential part of the history of a formula in a pre-proof without ambiguities, and it ensures that two distinct arrows of the trace relation, will never join in the same occurrence of a premise, which will be exploited in Section \ref{sec:progressDomainCond}.
 \end{remark}  
 
-We will prove that the theorems of $LKID^{\omega}$ and of 
-our injective version of $\CLKIDomega$ are the same, as it is already been proved for 
-the original version of $\CLKIDomega$.
+%We will prove that the theorems of $LKID^{\omega}$ and of our injective version of $\CLKIDomega$ are the same, as it is already been proved for the original version of $\CLKIDomega$.
 
 %\textcolor{red}{(Write here Stefano's comment on the equivalence between our system with the modified traces, and the original brotherton's system)}
 
+We now define the validity condition for pre-proofs, which we call the global trace condition, following the literature.
 
 \begin{definition}[Global Trace Condition]
     \label{def:GTC}
