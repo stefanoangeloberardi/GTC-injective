@@ -2,7 +2,8 @@
 \section{Transition Graphs of Cyclic Proofs}
 \label{sec:transition-graph-proofs}
 
-Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations. Our approach follows Ikebuchi's work \cite{Mirai}, where the equivalence between the GTC and SCT is formally stated, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process.
+Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations. Our approach follows Ikebuchi's work \cite{Mirai}, where the equivalence between the GTC and SCT is formally stated, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process, with some
+simplification in the case of an injective trace relation.
 
 \begin{definition}[Transition Graph of a Pre-Proof]
 \label{def:preProofTrans}
@@ -12,15 +13,16 @@ Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ pre-proof with a grap
 
      \item $\mathcal{R} \subseteq X \times X$ where $X = \{ (P\mathbf{u},j) \ | \ \text{$P$ is inductive, $\exists v \in V'$ s.t. $s(v) = \Gamma \vdash \Delta$ and $(P\mathbf{u},j) \in \Gamma$} \}$
 
-     \item Let $v,v' \in V'$ such that both vertices share and edge, i.e. there exists a $j$ such that $p'_j(v) = v'$. Moreover, let $s(v) = \Gamma \vdash \Delta$ (resp. $s(v') = \Gamma' \vdash \Delta'$) where $\Psi \subseteq \Gamma$ (resp. $\Theta \subseteq \Gamma'$)
-     contains only the ocurrences of $\Gamma$ (resp. $\Gamma'$), of the form $(P\mathbf{u}, i)$, where $P$ is an inductive predicate. We define the bi-partite relation $(S,P)_{v,v'}$ as follows:
+     \item Let $v,v' \in V'$ be two vertices which share an edge, i.e. there exists a $j$ such that $p'_j(v) = v'$. Moreover, let $s(v) = \Gamma \vdash \Delta$ (resp. $s(v') = \Gamma' \vdash \Delta'$) and let $\Psi \subseteq \Gamma$ (resp. $\Theta \subseteq \Gamma'$)
+     be the sub-sequences containing only the occurrences of $\Gamma$ (resp. $\Gamma'$), of the form $(P\mathbf{u}, i)$, where $P$ is an inductive predicate. We define the bi-partite relation $(S,P)_{v,v'}$ as follows:
         \begin{enumerate}[i)]
             \item The domain and codomain of $|(S,P)_{v,v'}|$ are $\Psi$ and $\Theta$ respectively.
             
 
             \item If $r(v)$ is not a case split rule, then for all $(P\mathbf{u},i)$ in $\Psi$ and $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) S (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$.
 
-            \item If $r(v)$ is a case split rule, then for all $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) P (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$ and $(P\mathbf{u},i)$ is the active occurrence in $\Gamma$. Otherwise, if $(P\mathbf{u},i)$ is not the active occurrence, then $(P\mathbf{u},i) S (Q\mathbf{t},j)$.
+            \item If $r(v)$ is a case split rule, then for all $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) P (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$ and $(P\mathbf{u},i)$ is the progressing 
+            occurrence in $\Gamma$. Otherwise, if $(P\mathbf{u},i)$ is stationary, then $(P\mathbf{u},i) S (Q\mathbf{t},j)$.
 
         \end{enumerate}
 
