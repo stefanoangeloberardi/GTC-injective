@@ -60,10 +60,10 @@ Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ then $\source{e} = u$, $\target{e} = 
 of $e$ respectively.
 %If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
 %of $\Graph^*$, where $(S,P)^n$ is the conposition of $(S,P)$ with itself $n$-times, hence the name.
-When $\biRel$ and $\Graph$ are understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. % and $\edgestar{(S,P)}{u}{v}$.
+When $\Graph$ is understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. % and $\edgestar{(S,P)}{u}{v}$.
 
-Suppose that $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the information, say the ``value'', associated with $x$ in the abstract state $u$ is not increasing with respect to that associated with $y$ in $v$ in some intended interpretation of the ordering; hence, we call this relation {\em stable} or {\em stationary}. If instead  $x P y$, then
-the value of $x$ is strictly greater than that of $y$, and we call $P$ a {\em progress} relation. Finally, if $x$ and $y$ are unrelated by $S \cup P$, this
+Suppose that $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the information, say the ``value'', associated with $x$ in the abstract state $u$ is equal or greater than the value associated with $y$ in $v$ in some intended interpretation of the ordering; hence, we call the relation $x S y$ {\em stable} or {\em stationary}. If instead  $x P y$, then
+the value of $x$ is strictly greater than that of $y$, and we call the relation $xPy$ a {\em progress} relation. Finally, if $x$ and $y$ are unrelated by $S \cup P$, this
 represents the lack of knowledge about the ordering of their values in $u$ and $v$, respectively.
 
 
@@ -99,7 +99,8 @@ are sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{
 $y \in \textit{Param}(\texttt{g})$ labelled with both $\leqdownarrow$ and
 $\downarrow$ in $\textsf{E}$.
 
-In our view, $G:\texttt{f} \to \texttt{g}$ corresponds 
+In our view, $G:\texttt{f} \to \texttt{g}$, 
+$G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$ corresponds 
 to $\edgeG{(S_G,P_G)}{f}{g}{\Graph}$ where the set $V$ of vertices 
 is the set of all parameters occurring in the program $\texttt{p}$, and
 $S_G = \Set{(x,y) \mid (x, \leqdownarrow, y) \in \textsf{E}}$.
@@ -115,7 +116,8 @@ In the case of our transition graphs, we have a  unique finite set of ``symbols'
 and we express the restriction on the composition $GG'$ by asking that for some vertices 
 $u, v, w \in V$ we have $\edgeG{(S,P)}{u}{v}{\Graph}$ and  
 $\edgeG{(S',P')}{v}{w}{\Graph}$, where $G = (S,P)$ and $G' = (S',P')$. 
-We now define the composition of two bi-partite graphs.
+We now define the composition of two bi-partite graphs in a way compatible with the 
+interpretation we have for stationary and progressing.
 
 %Since we represent several multipaths in just one graph, and even infinite ones by means of cycles, we labelled the edges by a (finite) family of bi-partite relations, that correspond to a family of labels $\Set{\leqdownarrow_i, \downarrow_i}_{i \in I}$ with finite $I$,
 %of the composition $G_1G_2 \cdots$; this is not a restriction, since the size-change graphs in the analysis of a program are a finite set, even in an infinite multipath.

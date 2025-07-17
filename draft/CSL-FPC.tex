@@ -9,26 +9,30 @@ decreasing associated to the partition.
 In the next definition, we say that an arrow in the composition $(S, P) \comp (S', P')$ belongs 
 to the subset of stationary arrows if it can be obtained by two stationary
 arrows, and only in this way: 
-and that it belongs to the subset of progressing arrow if it can also be obtained otherwise.
+and that it belongs to the subset of progressing arrow if it can also be obtained otherwise,
+by at least one composition including at least one progressing arrow.
 
 
 \begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
 Let $(S,P)$, $(S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
 where
 \[S'' = S S' \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
+We call $|(S,P)| = S \cup P$ the relation associated to $(S,P)$.
 \end{definition}
 
 We will prove that the case all relations are injective the definition
 can be replaced with $(S, P) \comp (S', P') = (S'', \; P'')$
 The composition of bi-partite relations is bi-partite by construction; also, it is associative
 with identity the pair $(I_X, \emptyset)$.
-We observe that composition is compatible with the union and ordinary composition of binary relations: 
-let's write $|(S,P)| = S \cup P$, then
-\begin{align}\label{eq:unionComp}
-|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P'' = SS' \cup  (S P') \cup (P S') \cup (P P') \nonumber \\
+We observe that composition is compatible with the operation 
+$|\cdot|$ and ordinary composition of binary relations: 
+%let's write $|(S,P)| = S \cup P$, then
+\begin{align}
+\label{eq:unionComp}
+|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P''  
+= S'' \cup P''  \nonumber \\ = SS' \cup  (S P') \cup (P S') \cup (P P')
 & = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
 \end{align}
-
 %We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
 Let $\biRel^*$ be the closure under composition $\comp$ of a set $\biRel$ of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
 is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
@@ -45,15 +49,17 @@ that $(S,P)$ is {\em self-composable} in $\Graph^*$ if $(v, (S,P), v) \in E^*$ f
 \end{definition}
 
 In words, $\Graph^*$ is the transitive closure of the graph $\Graph$ with edges labeled by the composition of the labels of composable edges in $\Graph$. 
-As such, it is essentially a category, but for the lack of identities.
+We could say that it is essentially a category, but for the lack of identities.
 
 Let $\Graph^* = (V, \biRel^*, E^*)$; we abbreviate $(u, (S,P), v) \in E^*$ by %$\edgeG{(S,P)}{u}{v}{\Graph}$ and $(u, (S,P), v) \in E^*$ by 
 $\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
 %Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em source}, {\em target}, and {\em label}
 %of $e$ respectively.
 If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ is self-composable then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
-of $\Graph^*$, where $(S,P)^n$ is the composition of $(S,P)$ with itself $n$-times, hence the name.
+of $\Graph^*$, where $(S,P)^n$ is the composition of $(S,P)$ with itself $n$-times.
+%, hence the name. % why ???
 As before, we omit the subscripts in $\edgestar{(S,P)}{u}{v}$, when $\Graph$ is understood.
+In order to state GTC for transition graphs we need the notions of sequence and suffix.
 
 %\begin{definition}[Trace, path and progress]\label{def:TracePath}
 %Let $D$ be some initial segment of $\Nat$, namely $D=[1,n]$ for some $n \in \Nat$
@@ -78,17 +84,31 @@ As before, we omit the subscripts in $\edgestar{(S,P)}{u}{v}$, when $\Graph$ is 
 
 %FIN QUI 13:34 14/07/2025
 
-Let $\alpha \leq \omega$ be an ordinal, namely an initial segment of $\Nat$ ordered in the natural way, possibly coinciding with it.
-If $k \in \alpha$ set $\alpha\uparrow_k \;=\; \Set{i \in \alpha \mid i \geq k}$; a sequence over some set $A$ with domain $\alpha$ is just a map $s:\alpha \to A$;  
-we say that the map $s\uparrow_k$ which is $s$ restricted to $\alpha\uparrow_k$ is a {\em tail} of $s$. 
+\begin{definition}[Sequence and Inhabited Suffix]
+Let $\alpha \leq \omega$ be an ordinal, 
+identified with an initial segment of $\Nat$ 
+ordered in the natural way, and possibly coinciding with $\Nat$. Let $k \in \alpha$.
+\begin{enumerate}
+\item
+a sequence over some set $A$ with domain $\alpha$ is just a map $s:\alpha \to A$;  
 
-We can now restate the notion of trace and the Global Trace condition for graphs.
+\item
+$\alpha\uparrow_k \;=\; \Set{i \in \alpha \mid i \geq k}$ is an inhabited suffix of $\alpha$; 
+
+%\item
+%The map $s\uparrow_k$ which is $s$ restricted to $\alpha\uparrow_k$ is a {\em tail} of $s$. 
+\end{enumerate}
+\end{definition}
+
+We can now restate the notion of trace and the Global Trace Condition for transition graphs.
 
 \begin{definition}[Trace, path and progress]\label{def:TracePath}
-Let $\Graph = (V, \biRel, E)$ be a transition graph and $\alpha \leq \omega$; then:
+Let $\Graph = (V, \biRel, E)$ be a transition graph and $\alpha \leq \omega$, $k \in \alpha$; 
+then:
 \begin{enumerate}[i)]
 \item 
-a {\em trace} is a map $\tau:\alpha\uparrow_k \to X$ for some $k \in \alpha$;
+a {\em trace} is a map $\tau:\alpha\uparrow_k \to X$ with domain some inhabited 
+suffix of $\alpha$;
 
 \item 
 a {\em path} is a map $\ppath:\alpha \to E$ such that if $i + 1 \in \alpha$ then 
@@ -96,11 +116,11 @@ $\target{\ppath(i)} = \source{\ppath(i+1)}$;
 
 \item 
 a trace $\tau:\alpha\uparrow_k \to X$ {\em follows} a path $\ppath: \alpha \to E$,
-written $\tau \models \ppath$, if 
-if for all $i,i+1 \in \alpha\uparrow_k$,
- if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$.
+written $\tau \models \ppath$, if for all $i,i+1 \in \alpha\uparrow_k$,
+if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$.
 
-	If $\tau(i) P \tau(i + 1)$ we say that $i$ is a {\em progress point} of $\tau$ in $\ppath$.
+If furthermore $\tau(i) P \tau(i + 1)$ 
+we say that $i$ is a {\em progress point} of $\tau$ in $\ppath$.
 
 \item 
 a trace $\tau$ such that $\tau\models \ppath$ 
@@ -111,11 +131,11 @@ is infinitely progressing if $\tau$ has infinitely many progress points in $\ppa
 
 \begin{remark}
 A trace $\tau = x_k, x_{k+1}, x_{k+2} \cdots$ follows a path $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \stackrel{(S_1,P_1)}{\longrightarrow} v_2 \cdots$
-if for some $k$ they have domain $\alpha\uparrow_k$, $\alpha$, respectively, 
-and $x_i (S_i \cup P_i) x_{i+1}$ for all $i, i+1$ 
-in the domain $\alpha\uparrow_k$ of $\tau$ and $\alpha$ of 
-$\ppath$. Hence, for $\tau\models\ppath$ to hold, it suffices that the above relation holds, possibly disregarding a finite initial segment of $\ppath$.
-In the particular case that $\alpha < \omega$, namely when both $\tau$ and $\ppath$ are finite, there is no condition about $x_{\alpha - 1}$ w.r.t. $S_{\alpha - 1} \cup P_{\alpha - 1}$, but this is immaterial for our development, as the only interesting paths and traces are the infinite ones.
+if for $\tau$, $\ppath$ have domain $\alpha\uparrow_k$, $\alpha$, respectively, 
+and $x_i (S_i \cup P_i) x_{i+1}$ for all $i, i+1 \in \alpha\uparrow_k$. 
+Hence, for $\tau\models\ppath$ to hold, it suffices that the above relation holds, possibly disregarding a initial segment of $\ppath$ which is a proper subset.
+In the particular case that $\alpha < \omega$, namely when both $\tau$ and $\ppath$ are finite, there is no condition about $x_{\alpha - 1}$ w.r.t. $S_{\alpha - 1} \cup P_{\alpha - 1}$, but this is immaterial for our development, 
+as for us the only interesting paths and traces are the infinite ones.
 \end{remark}
 
 We say that $\tau$ is a trace of $\Graph$ if 
@@ -126,8 +146,18 @@ In our terminology, the path $\ppath$ and the trace $\tau$ correspond to a {\em 
 Both $\Graph$ and $\Graph^*$ are finite, so that an infinite path $\ppath$ exists in $\Graph$ only if it has a cycle, and therefore there exists
 some $(S,P) \in \biRel^*$ which is self-composable in $\Graph^*$.
 
+We are eventually in place to define the size-change termination condition for transition graphs, which is the same as \cite[Def. 2.6]{Lee3}, and expresses Global Trace Condition for 
+bi-partite graphs.
+
+\begin{definition}[Size-change Termination - SCT]
+\label{def:SCT}
+The transition graph $\Graph$ satisfies the {\em Size-change Termination} condition 
+if for all infinite path $\ppath$ of $\Graph$ there is some infinitely progressing trace $\tau$ 
+such that $\tau \models \ppath$.
+\end{definition}
+
 \medskip
-In the following, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ 
+In the rest of the section, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ 
 to the composition $(S,P)$ of the bi-partite relations labeling the edges in $\ppath$,
 and show that progressing is equivalent to having $x, y$ in the image of $\tau$ such that $x$ precedes $y$ in $\tau$ and $x P y$.
 
@@ -211,15 +241,7 @@ there exists $a \leq h < b$ such that
 %% and $\ppath$ is the path $\edgeGstar{(S,P)}{u}{v}{\Graph}$ then we say that $\tau$ 
 %% progresses in $(S,P)$ if 
 
-We are eventually in place to define the size-change termination condition for transition graphs, which is the same as \cite[Def. 2.6]{Lee3}, and expresses Global Trace Condition for 
-bi-partite graphs.
 
-\begin{definition}[Size-change Termination - SCT]
-\label{def:SCT}
-The transition graph $\Graph$ satisfies the {\em Size-change Termination} condition 
-if for all infinite path $\ppath$ of $\Graph$ there is some infinitely progressing trace $\tau$ 
-such that $\tau \models \ppath$.
-\end{definition}
 
 %%%%%%%%%%%% Removed part %%%%%%%%%%%%%%%
 \if false
