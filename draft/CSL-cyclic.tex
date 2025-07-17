@@ -1,10 +1,11 @@
 % !TEX root = CSL-main.tex
-\section{Cyclic Proofs and the Trace Relation Between Inductive Formulas}
+\section{Injective Cyclic Proofs and the Global Trace Condition}
 \label{sec:cyclic}
 
 In this section we define a variant of cyclic proof systems $\CLKIDomega$ and 
-$\CLJIDomega$ and their trace relation between atomic inductive formulas in the right-hand side
-of a sequent. $\CLKIDomega$ and $\CLJIDomega$ are both a first order logic, hence we will consider a first-order signature $\Sigma$, which contain %denumerable many 
+$\CLJIDomega$ scuch that trace relation between atomic inductive formulas in the right-hand side of a sequent in injective. 
+
+$\CLKIDomega$ and $\CLJIDomega$ are both a first order logic, hence we will consider a first-order signature $\Sigma$, which contain %denumerable many 
 constants, functions and predicate symbols. Terms, formulas and $\Sigma$-structures are defined as usual for first order logic. We consider sequents as originally defined by Gentzen using finite lists, instead of the formulations given in \cite{Brotherston2, BrotherstonSimpson} using sets or multisets. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is a single formula. 
 
 The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concatenation. For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between %finitely many 
@@ -33,7 +34,8 @@ $P\vec{t}$ for some inductive predicate $P$ and some $\vec{t}$.
 \end{definition} 
 
 \begin{example}
-We define the inductive definition set $\Phi_0$, using the following productions rules:
+We define the inductive definition set $\Phi_0 = \{r_1, r_2,r_3,r_4,r_5\}$, 
+using the following productions rules:
 
 \begin{center}
     \centering
@@ -84,12 +86,13 @@ as an extension of the classical logic LK, defined in Figure \ref{LKrules}.
 \input{CSL-LKRules}
 
 With respect to the usual presentation of logic, we add in Figure 
-\ref{LKrules} the \emph{trace relation}, denoted by by {\color{blue} \bf blue} arrows,
-and mapping occurrences of atomic inductive formulas on the left side of the conclusion sequent, to those in the corresponsing position on the left side of the premises’ sequents. To simplify the presentation, we defined this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. We sum up the situation as follows:
+\ref{LKrules} the \emph{trace relation} for LK, denoted by by {\color{blue} \bf blue} arrows,
+and mapping occurrences of atomic inductive formulas on the left side of the conclusion sequent, to those in the corresponding position on the left side of the premises’ sequents. To simplify the presentation, we defined this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. We sum up the situation  for LK as follows:
 
 \begin{enumerate}[i)]
     \item Arrows connect occurrences $(P\mathbf{u}, i)$ on the left side of the conclusion's sequent, to occurrences $(Q\mathbf{t}, j)$ on the left side of the premises' sequents of each rule, where $P$ and $Q$ are inductive predicates.
-    \item An arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise defines a bijection between occurrences $(P\mathbf{u},i)$ in the list $\Gamma$ in the conclusion, and $(P\mathbf{u},i)$ in the list $\Gamma$ in the premise.
+    \item An arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise \emph{defines a bijection} between occurrences $(P\mathbf{u},i)$ in the list $\Gamma$ in the conclusion, and $(P\mathbf{u},i)$ in the \emph{same position} of the 
+    list $\Gamma$ in the premise.
     \item An arrow from a list $\Gamma[\theta]$ in the conclusion to $\Gamma$ in a premise defines a bijection between occurrences $(P\mathbf{u}[\theta],i)$ in the list $\Gamma[\theta]$ in the conclusion, and $(P\mathbf{u},i)$ in the list $\Gamma$ in the premise.
     \item An arrow from a list $\Gamma[t/x,u/y]$ in the conclusion to $\Gamma[u/x,t/y]$ in a premise defines a bijection between occurrences $(P\mathbf{u}[t/x,u/y],i)$ in the list $\Gamma[t/x,u/y]$ in the conclusion, and $(P\mathbf{u}[u/x,t/y],i)$ in the list $\Gamma[u/x,t/y]$ in the premise.   
 \end{enumerate}
@@ -143,12 +146,22 @@ form $\Gamma, \mathbf{u} = \mathbf{t^i}, Q^i_1\mathbf{u^i_1}, \ldots , Q^i_h\mat
 P^i_1\mathbf{t^i_1}, \ldots, P^i_m\mathbf{t^i_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u^i_1},...,\mathbf{u^i_h},\mathbf{t^i_1},...,\mathbf{t^i_m}$, 
 or $\mathbf{t^i}$, does not occur free in $\Gamma, \Delta$ and $\mathbf{u}$.
 
-   We call the {\color{red} \bf red} arrows progressing and the {\color{blue} \bf blue} arrows
-stationary. The intended meaning is: 
-when $P\vec{t}$ progresses to $Q\vec{u}$ then the element denoted by $\vec{t}$
-is larger than the element denoted by $\vec{u}$, when there is no progression then
-$\vec{t}$ and $\vec{u}$ denote the same element.
 \end{itemize}
+
+\begin{definition}[Trace Relation]
+    \label{def:subOccur}
+    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(P\mathbf{u},i)$ in $\Gamma$ and $(Q\mathbf{t},j)$ in $\Gamma_k$ for some $ 1 \leq k \leq n$, where $P$ and $Q$ are inductive predicates. We say that $(P\mathbf{u},i)$
+    is connected to $(Q\mathbf{t},j)$ in $r$, noted $(P\mathbf{u},i) \rightarrow_{r} (Q\mathbf{t},j)$ if and only if there is an arrow drawn from $(P\mathbf{u},i)$ to $(Q\mathbf{t},j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas \ref{def:caseRuleRight} and \ref{def:caseRuleLeft}. $(P\mathbf{u},i)$ is called a 
+    \emph{progressing} occurrence, if only red arrow originate from it, 
+    and a \emph{stationary} occurrence 
+if all arrows are blue.
+\end{definition}
+
+   The intended meaning of {\color{red} \bf red} progressing arrows and
+of {\color{blue} \bf blue} stationary arrows is: 
+when $P\vec{t}$ progresses to $Q\vec{u}$ then the vector denoted by $\vec{t}$
+has larger size than the vector denoted by $\vec{u}$, when there is a stationary connection then
+$\vec{t}$ and $\vec{u}$ denote the same vector.
 
 \begin{example}
 For the productions for the previously defined inductive predicates $N$, $E$ and $O$, we 
@@ -284,29 +297,23 @@ associate the following rules:
 
 
 
-\begin{definition}[Trace Relation]
-    \label{def:subOccur}
-    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(P\mathbf{u},i)$ in $\Gamma$ and $(Q\mathbf{t},j)$ in $\Gamma_k$ for some $ 1 \leq k \leq n$, where $P$ and $Q$ are inductive predicates. We say that $(P\mathbf{u},i)$
-    is connected to $(Q\mathbf{t},j)$ in $r$, noted $(P\mathbf{u},i) \rightarrow_{r} (Q\mathbf{t},j)$ if and only if there is an arrow drawn from $(P\mathbf{u},i)$ to $(Q\mathbf{t},j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas \ref{def:caseRuleRight} and \ref{def:caseRuleLeft}. $(P\mathbf{u},i)$ is called a 
-    \emph{progressing} occurrence, if only red arrow originate from it, 
-    and a \emph{stationary} occurrence 
-if all arrows are blue.
-\end{definition}
+
 
 The proof system for $\CLJIDomega$ and its trace relation
 is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, preserving the exchange rule, and replacing LK with its intuitionistic version, named LJ (see for instance \cite{Berardi}). 
 
 %17:02 16/07/2025
 
-\emph{Cyclic pre-proofs} are used to formally represent the graph structure of a derivation in $\CLKIDomega$ and $\CLJIDomega$.
+\emph{Cyclic pre-proofs} are used to formally represent a \emph{possibly infinite regular 
+derivation} in $\CLKIDomega$ and $\CLJIDomega$ through a \emph{finite graph}.
 
 \begin{definition}[Cyclic pre-proof] A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof of sequent $\Gamma \vdash \Delta$ (resp. $\Gamma \vdash \phi$), is a tuple $\Pi = (\mathcal{D}, \mathcal{F})$, where:
 
     \begin{itemize}
         \item $\mathcal{D} = (V, s, r, p)$ is a derivation tree where $V$ is a finite set of vertices, $s: V \rightarrow Seqs$ is a total function labelling vertices with sequents in $\CLKIDomega$ (resp. $\CLJIDomega$), $r: V \rightarrow Rules$ is a partial function labelling vertices with inference rules in $\CLKIDomega$ (resp. $\CLJIDomega$), $p: \mathbb{N} \times V \rightarrow V$ is a partial function that maps a number $n$ and a vertex $v$, with a vertex $v'$, such that $v'$ is labeled by the $n^{\text{th}}$ premise of the rule $r(v)$ over the sequent $s(v)$, and for every $v \in V$, 
             \begin{prooftree}
-                \hypo{\vdash s(p_1(v)) \quad \dots \quad \vdash s(p_m(v))}
-                \infer1[$(r(v))$]{\vdash s(v)}
+                \hypo{s(p_1(v)) \quad \dots \quad  s(p_m(v))}
+                \infer1[$(r(v))$]{ s(v)}
             \end{prooftree} 
         is an instance of the rule $r(v)$ in $\CLKIDomega$ (resp. $\CLJIDomega$), with $m$ premises. A vertex $B \in V$ such that $r(B)$ is undefined is called a bud node. The set of bud nodes of a derivation tree $\mathcal{D}$, is written as $Bud(\mathcal{D})$.
 
@@ -331,8 +338,8 @@ $
     \infer1[($E\text{R}_1$)]{\vdash E0, O0}
 
     \hypo{\vnode9{Nx} \vdash Ox, Ex \ \vnode1{(\dag)}}
-    \infer1[(Subst)]{\vnode8{Ny} \vdash Oy, Ey}
-    \infer1[($O\text{R}_1$)]{\vnode7{Ny} \vdash Oy, Osy}
+    \infer1[($Subst+Exch$)]{\vnode8{Ny} \vdash Oy, Ey}
+    \infer1[($O\text{R}_1 + Exch$)]{\vnode7{Ny} \vdash Oy, Osy}
     \infer1[($E\text{R}_2$)]{\vnode6{Ny} \vdash Esy, Osy}
     \infer1[($=$L)]{x = sy, \vnode5{Ny} \vdash Ex, Ox}
     \infer2[(Case $N$)]{\vnode4{Nx} \vdash Ex, Ox \ \vnode2{(\dag)} }
@@ -340,7 +347,7 @@ $
 \end{prooftree}
 $
 \bentflowblackedges{node1/node2/90}
-\dirflowedges{node3/node4}
+%\dirflowedges{node3/node4}
 \dirflowrededges{node4/node5}
 \dirflowedges{node5/node6}
 \dirflowedges{node6/node7}
@@ -351,8 +358,12 @@ $
 $
 \end{equation}
 
-\caption{$\CLKIDomega$ cyclic pre-proof of the sequent $Nx \vdash Ex \lor Ox$. The function $\mathcal{F}$ is represented by labeling each bud and its corresponding companion node with the $(\dag)$ symbol. We include a connection sequence for the inductive predicate $N$,
-having one progressing point corresponding to the (Case $N$) rule (in {\color{red} \bf red}).}
+\caption{
+$\CLKIDomega$ cyclic pre-proof of the sequent $Nx \vdash Ex \lor Ox$. The function $\mathcal{F}$ is represented by labeling each bud and its corresponding companion node with the $(\dag)$ symbol and a {\color{black} \bf black} arrow between them. 
+We include an infinitely progressing trace for the inductive predicate $N$,
+having one progressing point (in {\color{red} \bf red}) whenever it passes through 
+(Case $N$).
+}
 
 \label{exampleCircProof}
 \end{mdframed}
@@ -361,7 +372,7 @@ having one progressing point corresponding to the (Case $N$) rule (in {\color{re
 Figure \ref{exampleCircProof} is an example of a $\CLKIDomega$ cyclic pre-proof, taken from \cite{BrotherstonSimpson}.
 \end{example}
 
-As mentioned before, the GTC is used as a criterion to verify the soundness of cyclic pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. To define it, it is first necessary to formalize both the notions of \emph{trace} and \emph{progress point}. 
+As mentioned before, the Global Trace Condition (GTC) is used as a sufficient criterion to verify the soundness of cyclic pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. To define it, it is first necessary to formalize both the notions of \emph{trace} and \emph{progress point}. 
 
 \begin{definition}[Trace and Progress Point]
     \label{def:traceCyclic}
@@ -373,17 +384,21 @@ As mentioned before, the GTC is used as a criterion to verify the soundness of c
           \item If $\uptau(i) = (P\mathbf{u},j)$, then $\uptau(i+1) = (Q\mathbf{t},k)$, where $(Q\mathbf{t},k)$ is an occurrence such that $Q$ is an inductive predicate, $(P\mathbf{u},j) \rightarrow_{r(v_i)} (Q\mathbf{t},k)$, and $(Q\mathbf{t},k)$ is in $\Gamma'$, where $s(v_{i+1}) = \Gamma' \vdash \Delta'$ (resp. $s(v_{i+1}) = \Gamma' \vdash \phi'$).
 
           \item If $r(v_i) = (\text{Case } P)$ is a case split rule, and $\uptau(i) = (P\mathbf{u},j)$ is the progressing occurrence of the rule, then $i$ is said to be a progress point of the trace.
+          \item A trace is infinitely progressing if it has infinitely many progress points.
     \end{itemize}  
 
 \end{definition}
 
 \begin{remark}
     \label{rem:traceDef}
-    The previous definition of trace, corresponds to a modified version of the original trace definition by Brotherston in \cite{Brotherston1}, Definition 4.2.3. Specifically, our definition of trace corresponds to extending Brotherston's definition to work over occurrences instead of formulas. The reason we use occurrences instead of formulas, is that occurrences allow us to track more precisely the history of a formula in a pre-proof without ambiguities, and it ensures that the relations induced by the trace (later defined in Definition \ref{def:preProofTrans}), are indeed fan-in-free (also called \emph{injective}) relations.
+    The previous definition of trace corresponds to a proper subset of the original trace definition by Brotherston in \cite{Brotherston1}, Definition 4.2.3. Specifically, our definition of trace corresponds to applying Brotherston's definition to work over occurrences instead of formulas. The reason we use occurrences instead of formulas, is that occurrences allow us to track the essential part of the history of a formula in a pre-proof without ambiguities, and it ensures that the relations induced by the trace (later defined in Definition \ref{def:preProofTrans}), are indeed fan-in-free (also called \emph{injective}) relations.
 \end{remark}  
 
+We will prove that the theorems of $LKID^{\omega}$ and of 
+our injective version of $\CLKIDomega$ are the same, as it is already been proved for 
+the original version of $\CLKIDomega$.
 
-\textcolor{red}{(Write here Stefano's comment on the equivalence between our system with the modified traces, and the original brotherton's system)}
+%\textcolor{red}{(Write here Stefano's comment on the equivalence between our system with the modified traces, and the original brotherton's system)}
 
 
 \begin{definition}[Global Trace Condition]
@@ -392,7 +407,7 @@ As mentioned before, the GTC is used as a criterion to verify the soundness of c
 \end{definition}
 
 \begin{example}
-    Consider the cyclic pre-proof in Figure \ref{exampleCircProof} and the infinite path over the cycle of right branch. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny, Nx)^{\omega}$  is infinitely progressing over this path, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC, and it is indeed a proof.
+    Consider the cyclic pre-proof in Figure \ref{exampleCircProof} and the infinite path over the cycle of right branch obtained by following black arrow and removing the bud. The trace $\uptau = (Nx, Ny, Ny, Ny, Ny)^{\omega}$  is infinitely progressing over this path, since it contains the progressing point $(Nx,Ny)$ given by the (Case $N$) rule. Since this is the only infinite path in the pre-proof, the pre-proof satisfies the GTC, and it is indeed a proof.
 \end{example}
 
 
