@@ -2,11 +2,9 @@
 \section{Cyclic Proofs and the Global Trace Condition}
 \label{sec:cyclic}
 
-%In this section we define a variant of cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$ scuch that trace relation between atomic inductive formulas in the right-hand side of a sequent in injective. 
+In this section, we define the GTC, for the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$. The difference with the previous formulation is that we consider an injective trace relation, as we will see.
 
-In this section we define the GTC, for the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$. The difference with the previous formulation is that we consider an injective trace relation, as we will see.
-
-$\CLKIDomega$ and $\CLJIDomega$ are both systems for first-order theories, hence we consider a signature $\Sigma$, which contain symbols for constants, functions and predicate of individuals. Terms, formulas and $\Sigma$-structures are defined as usual. We consider sequents as originally defined by Gentzen using finite lists, instead of the formulations in \cite{Brotherston2, BrotherstonSimpson} using sets or multisets. 
+$\CLKIDomega$ and $\CLJIDomega$ are both systems for first-order theories, hence we consider a signature $\Sigma$, which contains symbols for constants, functions, and predicates of individuals. Terms, formulas, and $\Sigma$-structures are defined as usual. We consider sequents as originally defined by Gentzen using finite lists, instead of the formulations in \cite{Brotherston2, BrotherstonSimpson} using sets or multisets. 
 
 In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is either a single formula or the empty list. 
 The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concatenation. For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and \emph{ordinary predicates}. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}.
@@ -27,13 +25,13 @@ The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concate
 \noindent
 where $Q_1, \ldots, Q_h$ are ordinary predicates symbols, $P_1, \ldots, P_m$ are inductive predicate symbols, and $\mathbf{u_1}, \ldots, \mathbf{u_h}$, $\mathbf{t_1}, \ldots, \mathbf{t_m}$, $\mathbf{t}$ are tuples of terms.
 
-A production of conclusion $P \mathbf{t}$ for some $\mathbf{t}$ is said a production for $P$. A formula is said \emph{inductive} when it is an atomic formula $P\mathbf{t}$ for some inductive predicate $P$ and some $\mathbf{t}$.
+A production of conclusion $P \mathbf{t}$ for some $\mathbf{t}$ is said to be a production for $P$. A formula is said \emph{inductive} when it is an atomic formula $P\mathbf{t}$ for some inductive predicate $P$ and some $\mathbf{t}$.
 \end{definition} 
 
 \begin{example}
 \label{ex:NEO}
 We define the inductive definition set $\Phi_0 = \{r_1, r_2,r_3,r_4,r_5\}$, 
-using the following productions rules:
+using the following production rules:
 
 
 \begin{center}
@@ -128,10 +126,6 @@ We define the proof system $\CLKIDomega$ for inductive predicates as an extensio
 To the usual presentation of these rules, we add a \emph{trace relation} among occurrences of inductive formulas, which is represented by {\color{blue} \bf blue} and {\color{red} \bf red} arrows from the conclusion to the premises, according to the clauses below and Definition \ref{def:subOccur}. 
 
 
-%We define a trace relation also in this case, and we color by {\color{red} \bf red} the arrows from the main atomic inductive formula of a case-split rule, and by {\color{blue} \bf blue} the arrows from all other formulas.
-
-%To illustrate the presentation, we defined this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. denoted by by {\color{blue} \bf blue} arrows,and mapping occurrences of atomic inductive formulas on the left side of the conclusion sequent, to those in the corresponding position on the left side of the premises’ sequents. To simplify the presentation, we defined this relation pictographically (inspired by the work in \cite{SaurinBauer}) using colored arrows over the rules, to illustrate how occurrences are tracked through each inference. We sum up the situation  for LK as follows:
-
 \begin{enumerate}[i)]
     \item Arrows of either color connect occurrences $(P\mathbf{u}, i)$ on the left side of the conclusion's sequent, to occurrences $(Q\mathbf{t}, j)$ on the left side of the premises' sequents of each rule, where $P$ and $Q$ are inductive predicates.
     \item The {\color{blue} \bf blue} arrow from a list $\Gamma$ in the conclusion to the same list $\Gamma$ in a premise \emph{defines a bijection} between occurrences $(P\mathbf{u},i)$ in the list $\Gamma$ in the conclusion, and $(P\mathbf{u},i)$ in the \emph{same position} of the list $\Gamma$ in the premise.
@@ -148,7 +142,7 @@ To the usual presentation of these rules, we add a \emph{trace relation} among o
 The intended meaning of {\color{red} \bf red} progressing arrows and of {\color{blue} \bf blue} stationary arrows is: when $P\mathbf{t}$ progresses to $Q\mathbf{u}$ then the vector denoted by $\mathbf{t}$ has larger size than the vector denoted by $\mathbf{u}$, when there is a stationary connection then $\mathbf{t}$ and $\mathbf{u}$ denote the same vector.
 
 \begin{example}
-For the inductive predicates defined in Example \ref{ex:NEO}, we add the following rules (for simplicity we omit the rules that are not used in the proof of Figure \ref{exampleCircProof}):    
+For the inductive predicates defined in Example \ref{ex:NEO}, we add the following rules (for simplicity, we omit the rules that are not used in the proof of Figure \ref{exampleCircProof}):    
 
 \begin{center}
     \centering
@@ -210,9 +204,9 @@ For the inductive predicates defined in Example \ref{ex:NEO}, we add the followi
 
 \end{example}
 
-The proof system for $\CLJIDomega$ and its trace relation is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, preserving the exchange rule, and replacing LK with its intuitionistic version, named LJ (see for instance \cite{Berardi}). 
+The proof system for $\CLJIDomega$ and its trace relation is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, preserving the exchange rule, and replacing LK with its intuitionistic version, named LJ (see, for instance \cite{Berardi}). 
 
-Our presentation differ from the previous one in that we consider an \emph{injective} trace
+Our presentation differs from the previous one in that we consider an \emph{injective} trace
 relation, as the next Proposition says.
 
 \newcommand{\codom} {{\tt cod}}
@@ -224,7 +218,7 @@ relation, as the next Proposition says.
 \label{prop:injective-trace-01}
 Assume ${\mathcal R} = \{R_i | i \in I\}$ is a set of injective relations on $X \times Y$
 such that $(\exists x \in \codom(R_i) \cap \codom(R_j)) \implies i=j$.
-Then $\cup {\mathcal R}$ is an injective relations on $X \times Y$. 
+Then $\cup {\mathcal R}$ is an injective relation on $X \times Y$. 
 \item
 \label{prop:injective-trace-02}
 The trace relation we defined is injective.
@@ -273,8 +267,7 @@ Moreover, the graph of $\Pi$, written as $G_{\Pi}$, is the graph obtained after 
 
 \begin{example}
 Figure \ref{exampleCircProof} is an example of a $\CLKIDomega$ cyclic pre-proof, taken from \cite{Brotherston1}. We use {\color{black} \bf black} arrows 
-to connect sequents and define an infinite cyclic proof tree, 
-we use blue/red arrows to connect inductive formulas.
+to connect sequents and define an infinite cyclic proof tree; we use blue/red arrows to connect inductive formulas.
 \end{example}
 
 As mentioned before, the Global Trace Condition (GTC) is used as a sufficient criterion to verify the soundness of cyclic pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. To define it, it is first necessary to formalize both the notions of \emph{trace} and \emph{progress point}. 
@@ -299,10 +292,6 @@ As mentioned before, the Global Trace Condition (GTC) is used as a sufficient cr
     The previous definition of trace corresponds to a proper subset of the original trace definition by Brotherston in \cite[Definition 4.2.3]{Brotherston1}. Specifically, our definition of trace corresponds to applying Brotherston's definition to work over occurrences instead of formulas. The reason we use occurrences, is that they allow us to track the essential part of the history of a formula in a pre-proof without ambiguities, and it ensures that two distinct arrows of the trace relation, will never join in the same occurrence of a premise, which will be exploited in Section \ref{sec:progressDomainCond}.
 \end{remark}  
 
-%We will prove that the theorems of $LKID^{\omega}$ and of our injective version of $\CLKIDomega$ are the same, as it is already been proved for the original version of $\CLKIDomega$.
-
-%\textcolor{red}{(Write here Stefano's comment on the equivalence between our system with the modified traces, and the original brotherton's system)}
-
 We now define the validity condition for pre-proofs, which we call the global trace condition, following the literature.
 
 \begin{definition}[Global Trace Condition]
@@ -310,65 +299,7 @@ We now define the validity condition for pre-proofs, which we call the global tr
     A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof $\Pi$ is said to be a $\CLKIDomega$ (resp. $\CLJIDomega$) \emph{proof}, if for every infinite path in $G_{\Pi}$, there is an infinitely progressing trace following some tail of the path.
 \end{definition}
 
-
 \begin{example}
     Consider the cyclic pre-proof in Figure \ref{exampleCircProof} and the only infinite path, contained in the cycle between the two right-most branches of the pre-proof. The trace $\uptau = (Ox, Ey, Ey, Ey, Ex, Oy, Oy, Oy, Ox)^{\omega}$  is infinitely progressing over this path, since it contains the progressing points $(Ox,Ey)$ and $(Ex,Oy)$. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC, and it is a $\CLKIDomega$ proof.
 \end{example}
 
-
-%\subsection{Transition Graph of a Cyclic Pre-Proof}
-%
-%
-%Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations.
-%
-%
-%\begin{definition}[Transition Graph of a Pre-Proof]
-%\label{def:preProofTrans}
-%
-%Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ pre-proof with a graph $G_{\Pi} = (V',s,r,p')$. We note $\mathcal{G}_{\Pi} = (V', \mathcal{R}, E)$ as the transition graph over bi-partite relations induced by $\Pi$, where:
-%\begin{itemize}
-%
-%     \item $\mathcal{R} \subseteq X \times X$ where $X = \{ (P\mathbf{u},j) \ | \ \text{$P$ is inductive, $\exists v \in V'$ s.t. $s(v) = \Gamma \vdash \Delta$ and $(P\mathbf{u},j) \in \Gamma$} \}$
-%
-%     \item Let $v,v' \in V'$ such that both vertices share and edge, i.e. there exists a $j$ such that $p'_j(v) = v'$. Moreover, let $s(v) = \Gamma \vdash \Delta$ (resp. $s(v') = \Gamma' \vdash \Delta'$) where $\Psi \subseteq \Gamma$ (resp. $\Theta \subseteq \Gamma'$)
-%     contains only the ocurrences of $\Gamma$ (resp. $\Gamma'$), of the form $(P\mathbf{u}, i)$, where $P$ is an inductive predicate. We define the bi-partite relation $(S,P)_{v,v'}$ as follows:
-%        \begin{enumerate}[i)]
-%            \item The domain and codomain of $|(S,P)_{v,v'}|$ are $\Psi$ and $\Theta$ respectively.
-%            
-%
-%            \item If $r(v)$ is not a case split rule, then for all $(P\mathbf{u},i)$ in $\Psi$ and $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) S (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$.
-%
-%            \item If $r(v)$ is a case split rule, then for all $(Q\mathbf{t},j)$ in $\Theta$, $(P\mathbf{u},i) P (Q\mathbf{t},j)$ if and only if $(P\mathbf{u},i) \rightarrow_{r(v)} (Q\mathbf{t},j)$ and $(P\mathbf{u},i)$ is the progressing occurrence in $\Gamma$. Otherwise, if $(P\mathbf{u},i)$ is not the progressing occurrence, then $(P\mathbf{u},i) S (Q\mathbf{t},j)$.
-%
-%        \end{enumerate}
-%
-%    \item $\mathcal{R} = \{(S,P)_{v,v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
-%
-%    \item $E = \{\edge{(S,P)_{v,v'}}{v}{v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
-% \end{itemize} 
-%
-%This process can be also applied to $\CLJIDomega$ pre-proofs, using sequents of the form $\Gamma \vdash \phi$.
-%
-%\end{definition}
-%
-%Note that this construction defines an isomorphism between graphs. Specifically, $G_{\Pi}$ is isomorphic to $\mathcal{G}_{\Pi}$, in the sense that for all $v,v' \in V'$ then $p'_j(v) = v'$ in $G_{\Pi}$ if and only if $\edge{(S,P)_{v,v'}}{v}{v'}$ in $\mathcal{G}_{\Pi}$.
-%
-%
-%\input{CSL-TransGraphExample}
-%
-%\begin{example}
-%    Using Definition \ref{def:preProofTrans} over the cyclic pre-proof in Figure \ref{exampleCircProof}, we obtain the transition graph in Figure \ref{exampleTransGraph}. 
-%\end{example}
-%
-%Using the construction specified in Definition \ref{def:preProofTrans}, and the Definitions \ref{def:TracePath} and \ref{def:traceCyclic} of path and traces for transitions graphs and cyclic pre-proofs, it can be derived that:
-%
-%
-%\begin{proposition}
-%Consider a circular pre-proof $\Pi$ with a graph $G_{\Pi}$ and induced transition graph $\mathcal{G}_{\Pi}$. Moreover, let $\pi$ be a sequence of vertices defining a path in $G_{\Pi}$, and $\pi'$ corresponding to the same path in $\mathcal{G}_{\Pi}$, but defined as in Definition \ref{def:TracePath} (we can do this, since both graphs are isomorphic). Then, $\uptau$ is a trace over $\pi$ if and only if $\uptau \models \pi'$.
-%\end{proposition}
-%
-%Then, using the previous proposition and the Definitions \ref{def:GTC} and \ref{def:SCT}, the equivalence between GTC and SCT follows:
-%
-%\begin{proposition}
-%Let $\Pi$ be a $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof. Then $\Pi$ is a $\CLKIDomega$ (resp. $\CLJIDomega$) proof if and only if $\mathcal{G}_{\Pi}$ satisfies the size-change termination condition.
-%\end{proposition}
