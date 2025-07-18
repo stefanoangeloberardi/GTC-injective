@@ -52,22 +52,59 @@ $S' \cap P' = \emptyset$.
 \end{proof}
 
 
-We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$ is injective then $\biRel^*$ is such. If $\Graph = (V, \biRel, E)$ with injective $\biRel$, by abuse of language we say that $\Graph$ is injective.
+We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$ is injective, then $\biRel^*$ is such. If $\Graph = (V, \biRel, E)$ with injective $\biRel$, by abuse of language we say that $\Graph$ is injective.
 
-The notion of injectivity is crucial when analyzing the structure of transition graphs arising from pre-proofs in $\CLJIDomega$ and $\CLKIDomega$. In particular, the construction of the graph $\mathcal{G}_{\Pi}$ associated with a pre-proof $\Pi$ with contexts as lists,
-as defined in the previous sections, it is always injective. This observation leads to the following result:
-
+The notion of injectivity is crucial when analyzing the structure of transition graphs arising from pre-proofs in $\CLJIDomega$ and $\CLKIDomega$. In particular, the construction of the graph $\mathcal{G}_{\Pi}$ associated with a pre-proof $\Pi$ with contexts as lists, as defined in the previous sections, is always injective. 
+This observation leads to the following result:
 
 \begin{theorem}\label{thr:injective-pre-proofs}
 Let $\Pi$ be any $\CLJIDomega$ or $\CLKIDomega$ pre-proof. Then $\Graph_\Pi$ is injective.
 \end{theorem}
 
 \begin{proof}
-    The construction of the bi-partite relations $(S,P)_{v,v'}$ specified in Definition \ref{def:preProofTrans} follows the trace relation. Thus, a case by case analysis of the sub-occurrence relation for each rule, shows that all the arrows define injective relations. In all cases
+    The construction of the bi-partite relations $(S,P)_{v,v'}$ specified in Definition \ref{def:preProofTrans} follows the trace relation. Thus, a case-by-case analysis of the sub-occurrence relation for each rule shows that all the arrows define injective relations. In all cases,
     the trace relation is defined by unions of injective relations having disjoint 
     codomains, hence injective.
 \end{proof}
 
+\begin{remark}
+The original version of traces by Brotherston and Simpson, in the system named $\CLKIDomega$, 
+is \emph{not} fan-in free. As a counterexample, consider the following instance of left-equality 
+rule, using sequents as sets, where $N\mathbf{t}$ means: 
+\quotationMarks{$\mathbf{t}$ is an inductively defined natural number}.
+
+ \begin{center}
+    %EQUALITY LEFT
+    %-----------------------------------------
+    \begin{prooftree}
+        \hypo{ \Gamma, \vnode1{N\mathbf{t}} \vdash \Delta}
+        \infer1[(=L)]{\Gamma, t = u, \vnode2{N\mathbf{t}}, \vnode3{N\mathbf{u}} \vdash \Delta} 
+    \end{prooftree}
+
+    % DRAW EDGES
+    $
+    \dirflowblueedges{node3/node1, node2/node1} 
+    $
+  \end{center}
+  
+If we apply Brotherston's definition of trace in
+\cite[Definition 4.2.3]{Brotherston1}, we obtain that the inductive formula $N\mathbf{t}$ in the premise has at least two incoming edges obtained from the trace relation, from the inductive formulas $N\mathbf{t}$ and $N\mathbf{u}$ in the conclusion. Even considering sequents as multisets, fan-in free connections between inductive formulas are not guaranteed. For example, consider the left-weakening rule:
+    
+    \begin{center}
+      \begin{prooftree}
+        \hypo{\Gamma, \vnode1{N\mathbf{u}} \vdash \Delta}
+        \infer1[(WeakL)]{\Gamma, \vnode2{N\mathbf{u}}, \vnode3{N\mathbf{u}} \vdash \Delta} 
+      \end{prooftree}
+
+      % DRAW EDGES
+    $
+    \dirflowblueedges{node3/node1, node2/node1} 
+    $  
+    \end{center}
+
+\noindent
+where one of the inductive predicates $N\mathbf{u}$ in the conclusion is a direct descendant of the inductive predicate in the premise, while the other was freshly introduced by the weakening rule.
+\end{remark}
 
 
 
