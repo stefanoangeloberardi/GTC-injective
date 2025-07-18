@@ -9,12 +9,12 @@ Following Fermat's method, if such a branch exists in a proof using the definiti
 
 The infinite descent, also called {\em global trace condition} (GTC) in the literature, is the adaptation of Fermat's 
 principle to cyclic proofs in sequent calculi, extended with Martin-Löf's  inductive definitions \cite{MartinLof}, as adopted by Brotherston and Simpson
-(\cite{Brotherston1, Brotherston2,BrotherstonSimpson}), where it implies the correctness of the 
-conclusion of an infinite proof-tree (\cite{Brotherston1}, Proposition 4.2.10), or equivalently of a certain finite directed graph with cycles, hence the name. 
+\cite{Brotherston1, Brotherston2,BrotherstonSimpson}, where it implies the correctness of the 
+conclusion of an infinite proof-tree \cite[Proposition 4.2.10]{Brotherston1}, or equivalently of a certain finite directed graph with cycles, hence the name. 
 Counterintuitive as it may be, a good strategy 
 to look for a finite proof is to look for a regular and \emph{infinite} proof satisfying GTC first.
 Indeed, the use of GTC combines well both with proof search and with program synthesis
-on realistic examples (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}). 
+on realistic examples \cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}. 
 
 As observed in \cite{Brotherston1}, GTC is a termination argument. 
 %In this paper, by \quotationMarks{regular tree} we mean 
@@ -31,18 +31,19 @@ As observed in \cite{Brotherston1}, GTC is a termination argument.
 %to look for a finite proof is to look for a regular and \emph{infinite} proof satisfying GTC first.
 %Indeed, the use of GTC combines well both with proof search and with program synthesis
 %on realistic examples (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}). 
-On the other hand, in \cite{Lee1} Lee, Jones, and Ben-Amram
+On the other hand, in \cite{Lee1} Lee, Jones, and Ben-Amram have
 introduced the \emph{size-change termination} condition (SCT) 
 to provide a sufficient condition for the totality of partial recursive maps on natural numbers,
 initiating a thread of research on the termination of functional programs, see \cite{Lee2,Lee3} and references there.
+A major result in \cite{Lee1} is that proving that SCT holds for a set of graphs, called size-change graphs, is a PSPACE-complete problem.
 
-A priori, SCT and GTC have nothing to do with each other, but as it has been established by Ikebuchi \cite{Mirai},
+In her recent study \cite{Mirai}, Ikebuchi has shown a deep relationship among GTC and SCT, by proving that a set of size-change graphs can be associated with each cyclic pre-proof so that it satisfies GTC if and only if the graphs associated with it satisfy SCT.
 
-I. Mirai remarked that the correctness condition GTC for cyclic proofs 
-can be seen as a particular case of SCT for partial recursive maps (\cite{Mirai}). 
+In this paper, we go further in investigating this relation between cyclic proofs and SCT. 
+In \cite{Lee2,Lee3}, Lee and Ben-Amran have explored the complexity of the problem of deciding the SCT condition by
+considering some particular cases of size-change graphs. For what is of concern here, in the case of fan-in free graphs, namely when the in-degree of all nodes is at most one, the SCT problem can be solved within exponential time, in place of the double or triple exponential needed in the general case. By considering a sequent calculus in the original sense of Gentzen \cite{}, where sequents are pairs of (finite) lists instead of multisets or sets of formulas as in Brotherston and Simpson systems, we show that the notion of trace in a pre-proof can be defined via a fan-in free size-change graph.
 
-In this paper we go farther establishing relations between cyclic proofs and SCT. 
-C.S. Lee and A. Ben-Amram considered several sub-cases for the SCT condition, including
+C.S. Lee and A. Ben-Amram considered , including
 SCT for fan-in-free graphs, namely, for graphs in which no nodes has two incoming edges
 (\cite{Lee2} and \cite{Lee3}, Section 2.4. \quotationMarks{Subclasses of SCT}). 
 We want to study cyclic proofs associated to fan-in-free graphs. 
