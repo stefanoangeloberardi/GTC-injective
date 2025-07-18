@@ -172,22 +172,25 @@ $\tau_0 : x_1 , x_1, \cdots$ and $\tau_1 : x_2, x_1 , x_1, \cdots$, and neither 
 \end{remark}
 
 The key point in the counterexample of Remark \ref{rem:PDCnotGTC} is that $\biRel_0$ is not injective. Toward establishing that PDC implies GTC
-in case of an injective $\biRel$, we prove the lemma below. 
+in case of an injective $\biRel$, we first prove the lemma below for transitive relations in 
+$\biRel$. 
 
 We say that $(S,P)$ is {\em transitive} if $S \cup P$ is such, namely $x(S \cup P)y(S \cup P)z$ implies $x(S \cup P) z$, for all $x, y, z \in X$.
 
 \begin{lemma}\label{lem:transitivity}
-Let $\Graph$ be injective and satisfy the PDC.
-If $(S,P)$ is self-composing in $\Graph$ and transitive then there exists $x \in X$ such that $xPx$.
+Suppose that $\Graph$ is injective and satisfies PDC.
+If $(S,P)$ is self-composing in $\Graph$ 
+and $(S,P)$ is transitive then there exists $x \in X$ such that $xPx$.
 \end{lemma}
 
 \begin{proof}
 By the hypothesis that $\Graph$ satisfies PDC, there exist $x,y \in \dom{S \cup P}$ such that $xPy$. Since $P \subseteq S \cup P$ we also
 have that $x(S \cup P)y$. On the other hand, since $y \in \dom{S \cup P}$, there is $z \in X$ such that $y(S \cup P)z$. From this, by transitivity, it follows that
-$x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective.
+$x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective. From $x=y$ and $xPy$ we conclude
+that $xPx$.
 \end{proof}
 
-In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use the infinite Ramsey's Theorem. We preliminarily introduce some terminology.
+In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we need the infinite Ramsey's Theorem. We preliminarily introduce some terminology.
 Let $N \subseteq \Nat$, then $[N]^m = \Set{Y \subseteq N \mid |Y| = m}$ can be regarded as the complete (undirected) hypergraph where
 all hyperedges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).
 Taking $m = 2$, we have that $[N]^2 = \Set{\Set{x,y} \subseteq N \mid x \neq y}$ is the set of edges of the complete undirected graph whose vertices are in $N$. 
@@ -195,7 +198,7 @@ Taking $m = 2$, we have that $[N]^2 = \Set{\Set{x,y} \subseteq N \mid x \neq y}$
 A {\em finite coloring} of $[N]^2$ is a map  
 $c:[N]^2 \to \underline{k}$ for some $k > 0$, where $\underline{k} = \Set{1, \ldots , k}$, the set of ``colors'', is the set of the first $k$ positive integers.
 A subset $[A]^2 \subseteq [N]^2$ is {\em monocromatic} w.r.t. the coloring $c$ if there is $i \in \underline{k}$ such that  $c(Y) = i$ for all
-$Y \in [A]^2$.
+$(a,b) \in [A]^2$.
 
 
 %Given a coloring $c: [N]^m \to \Set{1,\ldots, k}$ and $Z \subseteq N$ we define $c''[Z]^m$ as the set of colors of the hyperedges in $[Z]^m$:
@@ -246,12 +249,12 @@ $(S, P) \in \biRel^*$.
 
 As $V$ is finite, there exists $u \in V$ such that, for infinitely many $i < \omega$, $(i, u) \in \mathcal{H}$.
 This determines a cofinal subpath $\ppath_{\mathcal{H}} : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \cdots$ of $\ppath$ where, $(S,P)$ is self-composing and, by the above, $(S,P)\comp (S,P) = (S,P)$, hence $(S,P)$ is transitive. By the hypotheses that $\Graph$ is
-injective and satisfies PDC, Lemma \ref{lem:transitivity} implies that there exists $x \in X$ such that $x P x$. Then  %; since $x P x$, this implies that $\tau$ is infinitely progressing.
+injective and satisfies PDC, Lemma \ref{lem:transitivity} implies that there exists $x \in X$ such that $x P x$.  %; since $x P x$, this implies that $\tau$ is infinitely progressing.
 
 %By construction, $(S,P) = (S_{i,j}, P_{i,j})$ for some $i < j$ where $v_i = u = v_j$, which is a composition of bi-partite relations in $\biRel$.
 %By injectivity of $\biRel$ and Lemma \ref{lem:biRelInjectiveComp}, even $\biRel^*$ is injective; therefore, $(S,P)$ itself is injective.
 It remains to show that there is a trace $\tau$ such that $\tau \models \ppath$ and that, whenever $v_i = u$, $\tau(i) = x$.
-Let $i_0, j_0$ be the first indexes such that $v_{i_0} = u = v_{j_0}$ and $(S,P) = (S_{i_0,j_0},P_{i_0,j_0})$; then in $\ppath$ we have the subpath:
+Let $i_0 < j_0$ be the first two indexes such that $v_{i_0} = u = v_{j_0}$ and $(S,P) = (S_{i_0,j_0},P_{i_0,j_0})$; then in $\ppath$ we have the subpath:
 \[u = v_{i_0} \stackrel{(S_{i_0},P_{i_0})}{\longrightarrow} \cdots \stackrel{(S_{j_0},P_{j_0})}{\longrightarrow} v_{j_0} = u \]
 where we assume that the $v_j \neq u$ for all $i_0 < j < j_0$. 
 
