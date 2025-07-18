@@ -5,23 +5,37 @@
 
 
 Cyclic proof systems are a particular way of reasoning with inductively defined predicates, where derivations using induction rules are replaced by infinite regular proof trees, whose infinite branches satisfy the ``infinite descent'' condition. 
-Following Fermat's method, if such a branch exists in a proof using the definition of inductive predicates infinitely many times, then an infinite sequence of decreasing-size elements satisfying such predicates should exist, contradicting their well-founded definition. As a consequence, cyclic proofs encode an underlying inductive argument that is sound.
+Following Fermat's method, if such a branch exists in a proof using the definition of inductive predicates infinitely many times, then an infinite sequence of decreasing-size values of inductively defined formal parameters should exist, contradicting their well-founded definition. As a consequence, a cyclic proof encodes an underlying inductive argument that is sound.
+
+The infinite descent, also called {\em global trace condition} (GTC) in the literature, is the adaptation of Fermat's 
+principle to cyclic proofs in sequent calculi, extended with Martin-Löf's  inductive definitions \cite{MartinLof}, as introduced by Brotherston and Simpson
+(\cite{Brotherston1, Brotherston2,BrotherstonSimpson}), where it implies the correctness of the 
+conclusion of the proof-tree (\cite{Brotherston1}, Proposition 4.2.10). Counterintuitive as it may be, a good strategy 
+to look for a finite proof is to look for a regular and \emph{infinite} proof satisfying GTC first.
+Indeed, the use of GTC combines well both with proof search and with program synthesis
+on realistic examples (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}). 
+
+As observed in \cite{Brotherston1}, GTC is a termination argument. 
+
+%Indeed, derivations can be defined as certain finite, directed cyclic graphs called pre-proofs, 
+%whose unfolding corresponds to (infinite) regular proof-trees satisfying GCT, which is a guardedness condition that is not local to the inference rules, but a global property of the entire proof structure.
+
+\bigskip
 
 %In this paper, by \quotationMarks{regular tree} we mean 
 %\quotationMarks{a possibly infinite tree having finitely many distinct sub-trees}.
-The {\em global trace condition} (GTC) for cyclic proofs is a sufficient {\em correctness}
-condition for a regular proof-tree for sequent calculus introduced by Brotherston and Simpson
-(\cite{Brotherston1, Brotherston2,BrotherstonSimpson}). GTC says that
-in all infinite branches of the proof-tree, we can find some inductively defined 
-formal parameter whose value is decreasing in size infinitely many times in the branch. 
-This condition is called \emph{infinite descent} in Brotherston PhD thesis,
-and it implies the correctness of the 
-conclusion of the proof-tree (\cite{Brotherston1}, Proposition 4.2.10). 
-It may be counter-intuitive, but a good strategy 
-to look for a finite proof is to look for a regular and \emph{infinite} proof 
-satisfying GTC first.
-Indeed, the use of GTC combines well both with proof search and with program synthesis
-on realistic examples (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}). 
+%The {\em global trace condition} (GTC) for cyclic proofs is a sufficient {\em correctness}
+%condition for a regular proof-tree for sequent calculus introduced by Brotherston and Simpson
+%(\cite{Brotherston1, Brotherston2,BrotherstonSimpson}). GTC says that
+%in all infinite branches of the proof-tree, we can find some inductively defined 
+%formal parameter whose value is decreasing in size infinitely many times in the branch. 
+%This condition is called \emph{infinite descent} in Brotherston PhD thesis,
+%and it implies the correctness of the 
+%conclusion of the proof-tree (\cite{Brotherston1}, Proposition 4.2.10). 
+%It may be counterintuitive, but a good strategy 
+%to look for a finite proof is to look for a regular and \emph{infinite} proof satisfying GTC first.
+%Indeed, the use of GTC combines well both with proof search and with program synthesis
+%on realistic examples (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}). 
 
 On the other hand, C.S. Lee, N. Jones, A. Ben-Amram
 introduced the \emph{size-change termination} condition (SCT) 
