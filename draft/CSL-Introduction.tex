@@ -17,24 +17,10 @@ Indeed, the use of GTC combines well both with proof search and with program syn
 on realistic examples \cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}. 
 
 As observed in \cite{Brotherston1}, GTC is a termination argument. 
-%In this paper, by \quotationMarks{regular tree} we mean 
-%\quotationMarks{a possibly infinite tree having finitely many distinct sub-trees}.
-%The {\em global trace condition} (GTC) for cyclic proofs is a sufficient {\em correctness}
-%condition for a regular proof-tree for sequent calculus introduced by Brotherston and Simpson
-%(\cite{Brotherston1, Brotherston2,BrotherstonSimpson}). GTC says that
-%in all infinite branches of the proof-tree, we can find some inductively defined 
-%formal parameter whose value is decreasing in size infinitely many times in the branch. 
-%This condition is called \emph{infinite descent} in Brotherston PhD thesis,
-%and it implies the correctness of the 
-%conclusion of the proof-tree (\cite{Brotherston1}, Proposition 4.2.10). 
-%It may be counterintuitive, but a good strategy 
-%to look for a finite proof is to look for a regular and \emph{infinite} proof satisfying GTC first.
-%Indeed, the use of GTC combines well both with proof search and with program synthesis
-%on realistic examples (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}). 
 On the other hand, in \cite{Lee1} Lee, Jones, and Ben-Amram have
 introduced the \emph{size-change termination} condition (SCT) 
 to provide a sufficient condition for the totality of partial recursive maps on natural numbers,
-initiating a thread of research on the termination of functional programs, see \cite{Lee2,Lee3} and references there.
+initiating a thread of research on the termination of functional programs; see \cite{Lee2,Lee3} and references there.
 A major result in \cite{Lee1} is that proving that SCT holds for a set of graphs, called size-change graphs, is a PSPACE-complete problem.
 
 In her recent study \cite{Mirai}, Ikebuchi has shown a deep relationship among GTC and SCT, by proving that a set of size-change graphs can be associated with each cyclic pre-proof so that it satisfies GTC if and only if the graphs associated with it satisfy SCT.
