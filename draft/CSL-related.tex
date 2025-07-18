@@ -10,15 +10,15 @@ as defined in \cite[\S 2.4]{Lee3}. Size-change graphs are a technique for verify
 
 In Ikebichi's \cite{Mirai}, it is shown that, up to an appropriate association of a set of size-change graphs such that the composition determines the paths in the proof, the GTC and SCT conditions are equivalent, see there, Proposition 2. This result is rephrased in our Proposition \ref{prop:GTC-SCT}. 
 
-The Progress Domain Condition, presented here in Section \ref{sec:progressDomainCond}, is new in our knowledge. It is decidable by the finiteness of the bi-partite relations involved in a transition graph, and it is general enough, as we have shown in Theorem \ref{thr:injective-pre-proofs}, that the transition graphs associated with the pre-proofs in our version of the systems $\CLJIDomega$ and $\CLKIDomega$ are injective.
+The Progress Domain Condition, presented here in Section \ref{sec:progressDomainCond}, is new in our knowledge. It is decidable by the finiteness of the bi-partite relations involved in a transition graph, and it is general enough, as we have shown in Theorem \ref{thr:injective-pre-proofs} that the transition graphs associated with the pre-proofs in our version of the systems $\CLJIDomega$ and $\CLKIDomega$ are injective.
 
 The proof of Theorem \ref{thr:PDC+injImpliesGTC} is non-constructive since it is based on infinite Ramsey's Theorem, which is a purely classical result. However, we know
-of a constructive proof of this theorem, which we have omitted for the sake of brevity. We understand Theorem \ref{thr:PDC+injImpliesGTC} and its constructive proof as a step toward shorter cyclic proofs into ordinary inductive proofs, with an intuitionistic
+of a constructive proof of this theorem, which we have omitted for the sake of brevity. We understand Theorem \ref{thr:PDC+injImpliesGTC} and its constructive proof as a step toward efficient translations of cyclic proofs into ordinary inductive proofs, with an intuitionistic
 translation in the case of intuitionistic cyclic proofs. These translations, in turn, are motivated
-by cross-checking formal cyclic proofs using a proof assistant which do not support cyclic proofs.
+by cross-checking formal cyclic proofs using proof assistants that do not support cyclic proofs.
 For the moment, such translations exist only in theory and are built over the
 results of \cite{Berardi} and \cite{Mirai}.
 
 In \cite{Lee1}, it is proved that the problem of size-change termination in the general case is PSPACE-complete. 
 From  \cite{Lee3}, we know that restricting to fan-in free size-change graphs, this problem can be decided within time which is still exponential in $n$, where $n$ essentially depends on the size of the set of variables of the analyzed program (more precisely on the size of ranking functions), which corresponds to the set of symbols in our writing. A brute force algorithm deciding PDC is also exponential, but we hope that restricting the problem to injective transition graphs associated with pre-proofs in our system can lead to better algorithms.
-\marginpar{approfondire}
+%\marginpar{approfondire}
