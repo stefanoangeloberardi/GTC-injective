@@ -4,8 +4,11 @@
 
 %In this section we define a variant of cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$ scuch that trace relation between atomic inductive formulas in the right-hand side of a sequent in injective. 
 
-In this section we define the GTC, for the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$. $\CLKIDomega$ and $\CLJIDomega$ are both systems for first-order theories, hence we consider a signature $\Sigma$, which contain symbols for constants, functions and predicate of individuals. Terms, formulas and $\Sigma$-structures are defined as usual. We consider sequents as originally defined by Gentzen using finite lists, instead of the formulations in \cite{Brotherston2, BrotherstonSimpson} using sets or multisets. In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is either a single formula or the empty list. 
+In this section we define the GTC, for the cyclic proof systems $\CLKIDomega$ and $\CLJIDomega$. The difference with the previous formulation is that we consider an injective trace relation, as we will see.
 
+$\CLKIDomega$ and $\CLJIDomega$ are both systems for first-order theories, hence we consider a signature $\Sigma$, which contain symbols for constants, functions and predicate of individuals. Terms, formulas and $\Sigma$-structures are defined as usual. We consider sequents as originally defined by Gentzen using finite lists, instead of the formulations in \cite{Brotherston2, BrotherstonSimpson} using sets or multisets. 
+
+In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is either a single formula or the empty list. 
 The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concatenation. For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and \emph{ordinary predicates}. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}.
 
 \begin{definition}[Inductive definition set]
@@ -31,6 +34,7 @@ A production of conclusion $P \mathbf{t}$ for some $\mathbf{t}$ is said a produc
 \label{ex:NEO}
 We define the inductive definition set $\Phi_0 = \{r_1, r_2,r_3,r_4,r_5\}$, 
 using the following productions rules:
+
 
 \begin{center}
     \centering
@@ -70,6 +74,7 @@ using the following productions rules:
         \end{prooftree}
     \end{minipage}
 \end{center}
+
 
 Here $0$ is a constant representing the number zero and $s$ is a unary function representing the successor function. The predicate $N$ is used to inductively represent the natural numbers, 
 $E$ and $O$ are \emph{mutually defined} inductive predicates defining even and odd numbers respectively.
@@ -161,9 +166,12 @@ For the inductive predicates defined in Example \ref{ex:NEO}, we add the followi
         \centering
         \adjustbox{scale=1}{
         \begin{prooftree}
-            \hypo{\Gamma \vdash Nx, \Delta}
-            \infer1[($N\text{R}_2$)]{\Gamma \vdash Nsx, \Delta}
+            \hypo{\vnode2{\Gamma} \vdash Nx, \Delta}
+            \infer1[($N\text{R}_2$)]{\vnode1{\Gamma} \vdash Nsx, \Delta}
         \end{prooftree}
+        $
+        \bentdirflowblueedges{node1/node2/15}
+        $
         }
     \end{minipage}
     \hfill
@@ -171,9 +179,13 @@ For the inductive predicates defined in Example \ref{ex:NEO}, we add the followi
         \centering
         \adjustbox{scale=1}{
         \begin{prooftree}
-            \hypo{\Gamma, x = sz, Ez \vdash \Delta}
-            \infer1[(Case $O$)]{\Gamma, Ox \vdash \Delta}
+            \hypo{\vnode2{\Gamma}, x = sz, \vnode4{Ez} \vdash \Delta}
+            \infer1[(Case $O$)]{\vnode1{\Gamma}, \vnode3{Ox} \vdash \Delta}
         \end{prooftree}
+         $
+        \bentdirflowblueedges{node1/node2/30}
+        \dirflowrededges{node3/node4}
+        $
         }
     \end{minipage}
     \hfill
@@ -182,10 +194,15 @@ For the inductive predicates defined in Example \ref{ex:NEO}, we add the followi
     \begin{centering}
         \adjustbox{scale=1}{
         \begin{prooftree}
-            \hypo{\Gamma, x = 0 \vdash \Delta}
-            \hypo{\Gamma, x = sz, Oz \vdash \Delta}
-            \infer2[(Case $E$)]{\Gamma, Ex \vdash \Delta}
+            \hypo{\vnode0{\Gamma}, x = 0 \vdash \Delta}
+            \hypo{\vnode2{\Gamma}, x = sz,\vnode4{Oz} \vdash \Delta}
+            \infer2[(Case $E$)]{\vnode1{\Gamma}, \vnode3{Ex} \vdash \Delta}
         \end{prooftree}
+         $
+         \bentdirflowblueedges{node1/node0/30}
+        \bentdirflowblueedges{node1/node2/30}
+        \dirflowrededges{node3/node4}
+        $
         }
     \end{centering}
 
@@ -195,6 +212,41 @@ For the inductive predicates defined in Example \ref{ex:NEO}, we add the followi
 
 The proof system for $\CLJIDomega$ and its trace relation is naturally obtained by restricting the rules for inductive predicates over intuitionistic sequents, preserving the exchange rule, and replacing LK with its intuitionistic version, named LJ (see for instance \cite{Berardi}). 
 
+Our presentation differ from the previous one in that we consider an \emph{injective} trace
+relation, as the next Proposition says.
+
+\newcommand{\codom} {{\tt cod}}
+
+\begin{proposition}
+\label{prop:injective-trace}
+\begin{enumerate}
+\item
+\label{prop:injective-trace-01}
+Assume ${\mathcal R} = \{R_i | i \in I\}$ is a set of injective relations on $X \times Y$
+such that $(\exists x \in \codom(R_i) \cap \codom(R_j)) \implies i=j$.
+Then $\cup {\mathcal R}$ is an injective relations on $X \times Y$. 
+\item
+\label{prop:injective-trace-02}
+The trace relation we defined is injective.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}
+\item
+%\label{prop:injective-trace-01}
+Let $R = \cup {\mathcal R}$. Assume $x R y$ and $x' R y$ in order to prove that
+$x = x'$. From $x R y$ and $x' R y$ we deduce
+$x R_i y$ and $x' R_j y$ for some $i,j \in I$. From $y \in \codom(R_i) \cap \codom(R_j)$
+we deduce that $i = j$, therefore $x R_i y$ and $x' R_i y$. 
+From $R_i$ injective we conclude that $x = x'$.
+\item
+%\label{prop:injective-trace-02}
+For all rules we considered a trace relation union of injective relations 
+on sequents and on single formulas which are injective and have \emph{disjoint codomain}. 
+By point \ref{prop:injective-trace-01} above, these unions define an injective trace relation.
+\end{enumerate}
+\end{proof}
 %17:02 16/07/2025
 
 \emph{Cyclic pre-proofs}, defined below, are used to formally represent a \emph{possibly infinite regular 
