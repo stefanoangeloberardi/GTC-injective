@@ -9,7 +9,7 @@
 
 %We argue that for both $\CLKIDomega$ and $\CLJIDomega$, the obtained bi-partite relations when constructing the transition graph of a cyclic pre-proof, using Definition \ref{def:preProofTrans}, are always injective. This condition will play a key role in establishing our main result later in the paper. Before stating the proof of this claim, 
 
-We define injectivity over relations and some of its properties. In general, a relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$. Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint. Moreover, the composition of two injective relations is always injective.
+We define injectivity over relations and prove some of its properties. In general, a relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$. Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint. Moreover, the composition of two injective relations is always injective.
 
 \begin{lemma}\label{lem:comInjective}
 If both $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ are injective, then $RR' \subseteq X \times Z$ is injective.
@@ -23,18 +23,39 @@ hence $x = x'$ by the injectivity of $R$.
 We say that a bi-partite relation $(S, P)$ is {\em injective} if $|(S, P)| = S \cup P$ is such in the above sense. We can then extend the previous lemma in the case of injective bi-partite relations.
 
 \begin{lemma}\label{lem:biRelInjectiveComp}
+\begin{enumerate}
+\item
 If both $(S,P)$ and $(S',P')$ are injective, then $(S,P) \comp (S',P')$ is injective.
+
+\item
+If $(S',P')$ is injective, then composition can be simplified by:
+\[ (S,P) \comp (S',P') = (SS', SP' \cup PS' \cup PP') \]
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
+\begin{enumerate}
+\item
 By (\ref{eq:unionComp}) in Section \ref{sec:size-change},  we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reations $S \cup P$ and $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
+
+\item
+By definition the stationary component of $(S,P) \comp (S',P')$ is $S'' \setminus P''$
+where $S'' =S S'$ and $P'' = SS', SP' \cup PS' \cup PP'$. In order to prove that
+$S'' \setminus P'' = S S'$ we have to prove that $S''$ and $P''$ are disjoint. 
+We assume $xSyS'z$ and $x S \cup P y' S \cup P z$ (there is some other trace from $x$ to $y$) 
+in order to prove that this trace is not in $P''$, namely that
+$\neg (x P  y')$ and $\neg (y' P  z)$.  From $S' \cup P'$ injective and $y S' \cup P' z$
+we deduce that $y = y'$. How thesis becomes $\neg (x P  y)$ and $\neg (y P  z)$.
+This follow from $xSy$ and $yS'z$ and $S \cap P = \emptyset$ and 
+$S' \cap P' = \emptyset$.
+\end{enumerate}
 \end{proof}
 
-In case of injective bi-partite relations, composition can be simplified by:
-\[ (S,P) \comp (S',P') = (SS', SP' \cup PS' \cup PP') \]
-Indeed, by injectivity if $xSyS'z$ then $y \not \in \cod{P} \cup \dom{P'}$ hence $(x,z) \not \in ( SP' \cup PS' \cup PP')$. We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$ is injective then $\biRel^*$ is such. If $\Graph = (V, \biRel, E)$ with injective $\biRel$, by abuse of language we say that $\Graph$ is injective.
 
-The notion of injectivity is crucial when analyzing the structure of transition graphs arising from pre-proofs in $\CLJIDomega$ and $\CLKIDomega$. In particular, the construction of the graph $\mathcal{G}_{\Pi}$ associated with a pre-proof $\Pi$ is always injective. This observation leads to the following result:
+We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ is such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$ is injective then $\biRel^*$ is such. If $\Graph = (V, \biRel, E)$ with injective $\biRel$, by abuse of language we say that $\Graph$ is injective.
+
+The notion of injectivity is crucial when analyzing the structure of transition graphs arising from pre-proofs in $\CLJIDomega$ and $\CLKIDomega$. In particular, the construction of the graph $\mathcal{G}_{\Pi}$ associated with a pre-proof $\Pi$ with contexts as lists,
+as defined in the previous sections, it is always injective. This observation leads to the following result:
 
 
 \begin{theorem}\label{thr:injective-pre-proofs}
@@ -42,7 +63,9 @@ Let $\Pi$ be any $\CLJIDomega$ or $\CLKIDomega$ pre-proof. Then $\Graph_\Pi$ is 
 \end{theorem}
 
 \begin{proof}
-    The construction of the bi-partite relations $(S,P)_{v,v'}$ specified in Definition \ref{def:preProofTrans} follows the sub-occurrence relation. Thus, a case by case analysis of the sub-occurrence relation for each rule, shows that all the arrows define injective relations.
+    The construction of the bi-partite relations $(S,P)_{v,v'}$ specified in Definition \ref{def:preProofTrans} follows the trace relation. Thus, a case by case analysis of the sub-occurrence relation for each rule, shows that all the arrows define injective relations. In all cases
+    the trace relation is defined by unions of injective relations having disjoint 
+    codomains, hence injective.
 \end{proof}
 
 
@@ -51,9 +74,11 @@ Let $\Pi$ be any $\CLJIDomega$ or $\CLKIDomega$ pre-proof. Then $\Graph_\Pi$ is 
 In the previous section, we have seen that the SCT condition for transition graphs and the GCT condition for cyclic proofs coincide up to rephrasing GTC in terms of transition graphs; henceforth, we shall use GTC and SCT as synonymous. We have also proved that the transition graphs associated to cyclic pre-proofs in systems $\CLJIDomega$ and $\CLKIDomega$ are injective. In this section, we formalize a new condition
 on transition graphs, which we call {\em Progress Domain Condition}, shortly PDC, and show that, although it is strictly weaker than GCT, it implies GTC in the case of injective graphs. 
 
-\begin{definition}[Prograss Domain Condition - PDC]\label{def:PDC}
-$\Graph$ satisfies the {\em Prograss Domain Condition} if for all self-composable $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
-$x$ progresses to $y$:
+\begin{definition}[Progress Domain Condition - PDC]\label{def:PDC}
+A transition $\Graph = (V,\biRel,E)$ 
+satisfies the {\em Prograss Domain Condition} 
+if for all self-composable $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
+$x$ progresses to $y$ we have:
 \[\forall (S,P) \in \biRel^*, v \in V.\;\edgestar{(S,P)}{v}{v} \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
 \end{definition}
 
@@ -101,9 +126,11 @@ If $\Graph$ satisfies GTC then it satisfies PDC.
 \begin{proof}
 Let $\edgestar{(S,P)}{v}{v}$ be a self-composable path of $\Graph^*$. Then there is a cycle in $\Graph^*$ and an infinite path
 \[\ppath : v \stackrel{(S,P)}{\longrightarrow} v \stackrel{(S,P)}{\longrightarrow} v \stackrel{(S,P)}{\longrightarrow}\cdots\]
-where $(S,P) = (S_{0,k-1},P_{0,k-1})$ where $k > 0$ is the length of the cycle. By GTC, there is a trace $\tau = x_0, x_1, \ldots$ such that $\tau\models\ppath$ which is infinitely progressing. Therefore, $\tau$ must follow $\ppath$ since the index $0$, and it must progress in all the finite subpaths $\edgestar{(S,P)}{v}{v}$.
+where $(S,P) = (S_{0,c-1},P_{0,c-1})$ where $c > 0$ is the length of the cycle. By GTC, there is a trace $\tau = x_k, x_1, \ldots$ such that $\tau\models\ppath$ which is infinitely progressing
+and $\tau$ must follow $\ppath$ since some index $k$. $\tau$
+must progress in some finite subpaths $\edgestar{(S,P)}{v}{v}$.
 
-By Proposition \ref{prop:progresing-and-P}, it follows that $x_h P x_k$ for some $0 \leq h < k$; now $x_h \in \dom{P} \subseteq \dom{S\cup P}$, and $x_k \in \dom{S \cup P}$ since
+By Proposition \ref{prop:progresing-and-P}, it follows that $x_a P x_b$ for some $k \leq a < b$; now $x_a, x_b \in \dom{S \cup P}$ since
 $\tau\models \ppath$. It follows that $\Graph$ satisfies PDC.
 \end{proof}
 
