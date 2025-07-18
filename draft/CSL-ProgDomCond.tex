@@ -101,8 +101,9 @@ where one of the inductive predicates $N\mathbf{u}$ in the conclusion is a direc
 
 
 
-In the previous section, we have seen that the SCT condition for transition graphs and the GCT condition for cyclic proofs coincide up to rephrasing GTC in terms of transition graphs; henceforth, we shall use GTC and SCT as synonymous. We have also proved that the transition graphs associated to cyclic pre-proofs in systems $\CLJIDomega$ and $\CLKIDomega$ are injective. In this section, we formalize a new condition
-on transition graphs, which we call {\em Progress Domain Condition}, shortly PDC, and show that, although it is strictly weaker than GCT, it implies GTC in the case of injective graphs. 
+In the previous section, we have seen that the SCT condition for transition graphs and the GCT condition for cyclic proofs coincide up to rephrasing GTC in terms of transition graphs. %; henceforth, we shall use GTC and SCT as synonymous. 
+We have also proved that the transition graphs associated with cyclic pre-proofs in systems $\CLJIDomega$ and $\CLKIDomega$ are injective. In this section, we formalize a new condition
+on transition graphs, which we call {\em Progress Domain Condition}, shortly PDC, and show that, although it is strictly weaker than SCT, it implies SCT in the case of injective graphs. 
 
 \begin{definition}[Progress Domain Condition - PDC]\label{def:PDC}
 A transition $\Graph = (V,\biRel,E)$ 
@@ -115,13 +116,13 @@ $x$ progresses to $y$ we have:
 
 
 \begin{proposition}\label{prop:GTCimplPDC}
-If $\Graph$ satisfies GTC, then it satisfies PDC.
+If $\Graph$ satisfies SCT, then it satisfies PDC.
 \end{proposition}
 
 \begin{proof}
 Let $\edgestar{(S,P)}{v}{v}$ be a self-composable path of $\Graph^*$. Then there is a cycle in $\Graph^*$ and an infinite path
 \[\ppath : v \stackrel{(S,P)}{\longrightarrow} v \stackrel{(S,P)}{\longrightarrow} v \stackrel{(S,P)}{\longrightarrow}\cdots\]
-where $(S,P) = (S_{0,c-1},P_{0,c-1})$ where $c > 0$ is the length of the cycle. By GTC, there is a trace $\tau = x_k, x_1, \ldots$ such that $\tau\models\ppath$ which is infinitely progressing
+where $(S,P) = (S_{0,c-1},P_{0,c-1})$ where $c > 0$ is the length of the cycle. By SCT, there is a trace $\tau = x_k, x_1, \ldots$ such that $\tau\models\ppath$ which is infinitely progressing
 and $\tau$ must follow $\ppath$ since some index $k$. $\tau$
 must progress in some finite subpaths $\edgestar{(S,P)}{v}{v}$.
 
@@ -138,7 +139,7 @@ On the other hand, the infinite path $\ppath_0$ represented in Figure \ref{fig:P
 $\tau_0 : x_1 , x_1, \cdots$ and $\tau_1 : x_2, x_1 , x_1, \cdots$, and neither of them is infinitely progressing. \input{CSL-PDC-figure}
 \end{remark}
 
-The key point in the counterexample of Remark \ref{rem:PDCnotGTC} is that $\biRel_0$ is not injective. Toward establishing that PDC implies GTC
+The key point in the counterexample of Remark \ref{rem:PDCnotGTC} is that $\biRel_0$ is not injective. Toward establishing that PDC implies SCT
 in case of an injective $\biRel$, we first prove the lemma below for transitive relations in 
 $\biRel$. 
 
@@ -188,7 +189,7 @@ Hence,  up to isomorphism, the corollary is a particular case of Theorem \ref{th
 
 
 \begin{theorem}[Main Theorem]\label{thr:PDC+injImpliesGTC}
-Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if $\Graph$ satisfies PDC, then it satisfies GTC.
+Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if $\Graph$ satisfies PDC, then it satisfies SCT.
 \end{theorem}
 
 \begin{proof}
@@ -218,7 +219,7 @@ where we assume that the $v_j \neq u$ for all $i_0 < j < j_0$.
 
 Since $x P x$ and clearly $P \subseteq S \cup P = (S_{i_0} \cup P_{i_0}) \cdots (S_{j_0-1} \cup P_{j_0-1})$, there is a sequence $x = x_{i_0}, \ldots , x_{j_0} =x$ such that for all $i_{0} \leq i < j_0$, $x_i(S_{i} \cup P_{i}) x_{i+1}$ so that $x(S \cup P) x$.
 
-Now, by repeating the same construction for all the paths $\edgestar{(S,P)}{u}{u}$ in $\ppath_{\mathcal{H}}$, we obtain a trace $\tau$ such that $\tau \models \ppath$, $\tau(i) = x$ for infinitely many $i$, which are progress points w.r.t. $P$. Hence $\Graph$ satisfies GTC by the arbitrary choice of $\ppath$.
+Now, by repeating the same construction for all the paths $\edgestar{(S,P)}{u}{u}$ in $\ppath_{\mathcal{H}}$, we obtain a trace $\tau$ such that $\tau \models \ppath$, $\tau(i) = x$ for infinitely many $i$, which are progress points w.r.t. $P$. Hence $\Graph$ satisfies SCT by the arbitrary choice of $\ppath$.
 \end{proof}
 
 
