@@ -33,63 +33,7 @@ Technically, this is obtained by using a variant of the notion of size-change gr
 
 We show that PDC is an essentially weaker condition than SCT, and therefore than GTC, but it is equivalent to them in the case of transition graphs with only injective relations associated with their edges, namely in the case of fan-in free size-change graphs, and therefore it can be used to discriminate valid cyclic pre-proofs in our proof system. Also, we argue that deciding PDC is not harder than deciding SCT in the case of fan-in free size-change graphs, and we conjecture it might be of a lower computational complexity.
 
-\if false
-
-C.S. Lee and A. Ben-Amram considered , including
-SCT for fan-in-free graphs, namely, for graphs in which no nodes has two incoming edges
-(\cite{Lee2} and \cite{Lee3}, Section 2.4. \quotationMarks{Subclasses of SCT}). 
-We want to study cyclic proofs associated to fan-in-free graphs. 
-
-There are several advantages
-in considering this restricted class. GTC can be expressed an essentially weaker condition
-in the case of fan-in free graphs, and it can be checked faster. 
-In a future work, we hope to show that we can show the correctness of cyclic proofs 
-satisfying GTC can be obtained by a simpler proof in the case of fan-in free graphs.
-
-The original version of cyclic proofs by Brotherston and Simpson, named $\CLKIDomega$, 
-is \emph{not} fan-in free. As a counterexample, consider the following instance of left-equality 
-rule, using sequents as sets, where $N\mathbf{t}$ means: 
-\quotationMarks{$\mathbf{t}$ is an inductively defined natural number}.
-
- \begin{center}
-    %EQUALITY LEFT
-    %-----------------------------------------
-    \begin{prooftree}
-        \hypo{ \Gamma, \vnode1{N\mathbf{t}} \vdash \Delta}
-        \infer1[(=L)]{\Gamma, t = u, \vnode2{N\mathbf{t}}, \vnode3{N\mathbf{u}} \vdash \Delta} 
-    \end{prooftree}
-
-    % DRAW EDGES
-    $
-    \dirflowblueedges{node3/node1, node2/node1} 
-    $
-  \end{center}
-  
-If we apply Brotherston's definition for trace (details can be found in 
-\cite{Brotherston1}, Definition 4.2.3), we obtain that the inductive formula $N\mathbf{t}$ 
-in the premise has at least two incoming edges obtained from the trace relation, from the inductive formulas $N\mathbf{t}$ and $N\mathbf{u}$
-in the conclusion. Even considering sequents as multisets, fan-in free connections
-between inductive formulas are not guaranteed. For example, consider the left-weakening rule:
-    
-    \begin{center}
-      \begin{prooftree}
-        \hypo{\Gamma, \vnode1{N\mathbf{u}} \vdash \Delta}
-        \infer1[(WeakL)]{\Gamma, \vnode2{N\mathbf{u}}, \vnode3{N\mathbf{u}} \vdash \Delta} 
-      \end{prooftree}
-
-      % DRAW EDGES
-    $
-    \dirflowblueedges{node3/node1, node2/node1} 
-    $  
-    \end{center}
-
-where one of the inductive predicates $N\mathbf{u}$ in the conclusion is a direct descendant of the inductive predicate in the premise, while the other was freshly introduced by the weakening rule.
-
-In this paper we introduce a variant of Brotherston's cyclic proofs in which connections
-between atomic inductive formulas, given by the trace relation, are fan-in free. To this aim, we represent left and right
-hand side of a sequent with a list of formulas, and trace \emph{occurrences} instead of formulas. We will check that the set of theorem we can derive does not change, while the algorithm
-checking GTC has a simpler formulation in this case.
-
-\fi
-
-
+\medskip
+The paper is organized as follows: in Section \ref{sec:cyclic} we introduce our Gentzen-style version of the systems $\CLKIDomega$ and $\CLJIDomega$; in Section
+\ref{sec:size-change} we define the transition graphs and SCT, which are paired with cyclic pre-proofs in Section \ref{sec:transition-graph-proofs}. The main results of the paper are in Section \ref{sec:progressDomainCond}, where the PDC condition is studied in the case of injective transition graphs. Then in Section \ref{sec:Related} we
+discuss the related works and conclude. 

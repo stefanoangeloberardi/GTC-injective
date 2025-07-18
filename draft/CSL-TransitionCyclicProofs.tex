@@ -2,8 +2,7 @@
 \section{Transition Graphs of Cyclic Proofs}
 \label{sec:transition-graph-proofs}
 
-Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations. Our approach follows Ikebuchi's work \cite{Mirai}, where the equivalence between the GTC and SCT is formally stated, by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process, with some
-simplification in the case of an injective trace relation.
+Given a $\CLKIDomega$ or $\CLJIDomega$ pre-proof $\Pi$, we show how to construct the induced transition graph with bi-partite relations. Our approach follows Ikebuchi's work \cite{Mirai}, where the equivalence between the GTC and SCT is formally stated by extracting the size-change graphs of a cyclic proof. In our case, we extract a transition graph with bi-partite relations of a cyclic proof, which in principle corresponds to the same process, with some simplification in the case of an injective trace relation.
 
 \begin{definition}[Transition Graph of a Pre-Proof]
 \label{def:preProofTrans}
@@ -13,7 +12,7 @@ Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ pre-proof with a grap
 
      \item $\mathcal{R} \subseteq X \times X$ where $X = \{ (P\mathbf{u},j) \ | \ \text{$P$ is inductive, $\exists v \in V'$ s.t. $s(v) = \Gamma \vdash \Delta$ and $(P\mathbf{u},j) \in \Gamma$} \}$
 
-     \item Let $v,v' \in V'$ be two vertices which share an edge, i.e. there exists a $j$ such that $p'_j(v) = v'$. Moreover, let $s(v) = \Gamma \vdash \Delta$ (resp. $s(v') = \Gamma' \vdash \Delta'$) and let $\Psi \subseteq \Gamma$ (resp. $\Theta \subseteq \Gamma'$)
+     \item Let $v,v' \in V'$ be two vertices which share an edge, i.e., there exists a $j$ such that $p'_j(v) = v'$. Moreover, let $s(v) = \Gamma \vdash \Delta$ (resp. $s(v') = \Gamma' \vdash \Delta'$) and let $\Psi \subseteq \Gamma$ (resp. $\Theta \subseteq \Gamma'$)
      be the sub-sequences containing only the occurrences of $\Gamma$ (resp. $\Gamma'$), of the form $(P\mathbf{u}, i)$, where $P$ is an inductive predicate. We define the bi-partite relation $(S,P)_{v,v'}$ as follows:
         \begin{enumerate}[i)]
             \item The domain and codomain of $|(S,P)_{v,v'}|$ are $\Psi$ and $\Theta$ respectively.
@@ -31,7 +30,7 @@ Let $\Pi = ((V, s, r, p), \mathcal{F})$ be a $\CLKIDomega$ pre-proof with a grap
     \item $E = \{\edge{(S,P)_{v,v'}}{v}{v'} \ | \ \text{for all $v,v' \in V$ s.t. $p'_j(v) = v'$ for some $j$}  \}$
  \end{itemize} 
 
-This process can be also applied to $\CLJIDomega$ pre-proofs, using sequents of the form $\Gamma \vdash \phi$.
+This process can also be applied to $\CLJIDomega$ pre-proofs, using sequents of the form $\Gamma \vdash \phi$.
 
 \end{definition}
 
