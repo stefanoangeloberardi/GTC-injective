@@ -2,12 +2,17 @@
 \section{Introduction}
 \label{sec:Introduction}
 
-In this paper by \quotationMarks{regular tree} we mean 
-\quotationMarks{a possibly infinite tree having finitely many distinct sub-trees}.
+
+
+Cyclic proof systems are a particular way of reasoning with inductively defined predicates, where derivations using induction rules are replaced by infinite regular proof trees, whose infinite branches satisfy the ``infinite descent'' condition. 
+Following Fermat's method, if such a branch exists in a proof using the definition of inductive predicates infinitely many times, then an infinite sequence of decreasing-size elements satisfying such predicates should exist, contradicting their well-founded definition. As a consequence, cyclic proofs encode an underlying inductive argument that is sound.
+
+%In this paper, by \quotationMarks{regular tree} we mean 
+%\quotationMarks{a possibly infinite tree having finitely many distinct sub-trees}.
 The {\em global trace condition} (GTC) for cyclic proofs is a sufficient {\em correctness}
 condition for a regular proof-tree for sequent calculus introduced by Brotherston and Simpson
 (\cite{Brotherston1, Brotherston2,BrotherstonSimpson}). GTC says that
-in all infinite branches of the proof-tree we can find some inductively defined 
+in all infinite branches of the proof-tree, we can find some inductively defined 
 formal parameter whose value is decreasing in size infinitely many times in the branch. 
 This condition is called \emph{infinite descent} in Brotherston PhD thesis,
 and it implies the correctness of the 
