@@ -20,20 +20,20 @@ As observed in \cite{Brotherston1}, GTC is a termination argument.
 On the other hand, in \cite{Lee1} Lee, Jones, and Ben-Amram have
 introduced the \emph{size-change termination} condition (SCT) 
 to provide a sufficient condition for the totality of partial recursive maps on natural numbers,
-initiating a thread of research on the termination of functional programs; see \cite{Lee2,Lee3} and references there.
+initiating a thread of research on program termination; see \cite{Lee2,Ben-AmramLee2007,Lee3} and references there.
 A major result in \cite{Lee1} is that proving that SCT holds for a set of graphs, called size-change graphs, is a PSPACE-complete problem.
 
 In her recent study \cite{Mirai}, Ikebuchi has shown a deep relationship among GTC and SCT, by proving that a set of size-change graphs can be associated with each cyclic pre-proof so that it satisfies GTC if and only if the graphs associated with it satisfy SCT.
 
 In this paper, we go further in investigating the relation between cyclic proofs and SCT. 
-In \cite{Lee2,Lee3}, Lee and Ben-Amran have explored the complexity of the problem of deciding the SCT condition by
+In \cite{Lee2,Ben-AmramLee2007,Lee3}, Lee and Ben-Amran have explored the complexity of the problem of deciding the SCT condition by
 considering some particular cases of size-change graphs. In the case of fan-in free graphs, namely when the in-degree of all nodes is at most one, the SCT problem can be solved within exponential time, in place of the triple exponentials needed in the general case. By considering a sequent calculus in the original sense of Gentzen \cite{Gentzen1969}, where sequents are pairs of (finite) lists instead of multisets or sets of formulas as in Brotherston and Simpson systems, we show that the notion of trace in a pre-proof can be identified with a thread in a set of fan-in free size-change graphs, while preserving the equivalence among GTC and SCT established by Ikebuchi.
 
-Technically, this is obtained by using a variant of the notion of size-change graphs, which we call {\em transition graphs}. These are directed and cyclic graphs instead of multigraphs, where edges are labelled by certain relations, modeling the ``stationary'' and ``progressing'' parameters in a proof. We adopt transition graphs instead of (sets of) size-change graphs because they are more natural when modeling the GTC of cyclic proofs, where paths represent the branches in the proof.
+Technically, this is obtained by using a variant of the notion of size-change graphs, which we call {\em transition graphs}. These are directed and cyclic graphs, rather than multigraphs, where edges are labeled by certain relations, modeling the "stationary" and "progressing" parameters in a proof. We adopt transition graphs instead of (sets of) size-change graphs because they are more natural when modeling the GTC of cyclic proofs, where paths represent the branches in the proof.
 
 In our formalism, the fan-in free condition amounts to restricting the relations to the injective case, where two distinct parameters cannot be related to the same third one. The existence of a path in a transition graph determines a relation which is the composition of those labeling its edges, which allows us to define a new condition called here the {\em progress domain condition} (PDC) solely in terms of the domain of the relations labeling cycles in the transitive closure of a transition graph. 
 
-We show that PDC is an essentially weaker condition than SCT, and therefore than GTC, but it is equivalent to them in the case of transition graphs with only injective relations associated with their edges, namely in the case of fan-in free size-change graphs, and therefore it can be used to discriminate valid cyclic pre-proofs in our proof system. Also, we argue that deciding PDC is not harder than deciding SCT in the case of fan-in free size-change graphs, and we conjecture it might be of a lower computational complexity.
+We show that PDC is an essentially weaker condition than SCT, and therefore than GTC, but it is equivalent to them in the case of transition graphs with only injective relations associated with their edges, namely in the case of fan-in free size-change graphs, and therefore it can be used to discriminate valid cyclic pre-proofs in our proof system. Also, we think that deciding PDC should not be harder than deciding SCT in the case of fan-in free size-change graphs, and we conjecture it might be of a lower computational complexity than the measure based on the size of ranking functions in \cite{Lee3}.
 
 \medskip
 The paper is organized as follows: in Section \ref{sec:cyclic} we introduce our Gentzen-style version of the systems $\CLKIDomega$ and $\CLJIDomega$; in Section
