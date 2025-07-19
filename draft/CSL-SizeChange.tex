@@ -24,11 +24,11 @@ Let $\Graph = (V, \biRel, E)$; we abbreviate $(u, (S,P), v) \in E$ by $\edgeG{(S
 Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em source}, {\em target}, and {\em label}
 of $e$ respectively. When $\Graph$ is understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. 
 
-Suppose that $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the information, say the ``value'', associated with $x$ in the abstract state $u$ is equal or greater than the value associated with $y$ in $v$ in some intended interpretation of the ordering; hence, if $x S y$ we say that 
-$x,y$ are {\em stationary} in the transtion from $u$ to $v$. If instead  $x P y$, then the value of $x$ in $u$ is strictly greater than that of $y$ in $v$, and 
+Suppose that $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the size associated with $x$ in the abstract state $u$ is equal or greater than the size associated with $y$ in $v$ in some intended ordering; hence, if $x S y$ we say that 
+$x,y$ are {\em stationary} in the transtion from $u$ to $v$. If instead  $x P y$, then the size of $x$ in $u$ is strictly greater than that of $y$ in $v$, and 
 we say that $x$ {\em progresses} to $y$ in the transition from $u$ to $v$. 
 Finally, if $x$ and $y$ are unrelated by $S \cup P$, this
-represents the lack of knowledge about the ordering of their values in $u$ and $v$, respectively.
+represents the lack of knowledge about the ordering of their sizes in $u$ and $v$, respectively.
 
 \medskip
 Transition graphs are a variant of the notion of {\em size-change graph} as defined in \cite[Def. 2.1]{Lee3}, abstractly representing the labeled transition system of the flow of values of certain variables through the calls of functions in a functional program, where labels convey the information needed to detect termination.
