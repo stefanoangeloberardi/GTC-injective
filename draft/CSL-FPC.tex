@@ -6,12 +6,8 @@ $xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, which we abbrev
 and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units. We can extend composition
 to bi-partite relations in a way compatible with the information weakly decreasing/strictly
 decreasing associated to the partition. 
-In the next definition, we say that an arrow in the composition $(S, P) \comp (S', P')$ belongs 
-to the subset of stationary arrows if it can be obtained by two stationary
-arrows, and only in this way: 
-and that it belongs to the subset of progressing arrow if it can also be obtained otherwise,
-by at least one composition including at least one progressing arrow.
-
+In the next definition, we say that $x,z$ are stationary in the composition $(S, P) \comp (S', P')$ if there is a $y$ such that $x$ is stationary to $y$ which
+is stationary to $z$; we say that $x$ progresses to $z$ in this compostion if for some $y$ either $x$ progresses to $y$ such that $y(S' \cup P')z$ or if $x,y$ are stationary and $yP'z$.
 
 \begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
 Let $(S,P)$, $(S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
