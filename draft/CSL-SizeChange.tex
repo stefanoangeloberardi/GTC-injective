@@ -39,22 +39,20 @@ $\downarrow$ in $\textsf{E}$.
 
 In our view, $G:\texttt{f} \to \texttt{g}$, 
 $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$ corresponds 
-to $\edgeG{(S_G,P_G)}{f}{g}{\Graph}$ where the set $V$ of vertices 
-is the set of all parameters occurring in the program $\texttt{p}$, and
-$S_G = \Set{(x,y) \mid (x, \leqdownarrow, y) \in \textsf{E}}$.
-Similarly, $P_G = \Set{(x,y) \mid (x, \downarrow, y) \in \textsf{E}}$. 
-Our set of labelled edges is the set of all $(f,(S_G,P_G),g)$ 
-such that $G:\texttt{f} \to \texttt{g}$ for some size-chage graph $G$.
+to $\edgeG{(S_G,P_G)}{f}{g}{\Graph}$ which the only edge of $\Graph$, where $V = \Set{\texttt{f},\texttt{g}}$, $\biRel = \Set{(S_G,P_G)}$, and   
+is the set of all parameters occurring in the program $\texttt{p}$, 
+$S_G = \Set{(x,y) \mid (x, \leqdownarrow, y) \in \textsf{E}}$, and $P_G = \Set{(x,y) \mid (x, \downarrow, y) \in \textsf{E}}$
+are binary relations over the set $X$ of all paremters in $\texttt{p}$.
 
-A {\em multipath} \cite[Def. 2.3]{Lee3} is the composition of finitely ot infinitely many size-change graphs. 
+%Our set of labelled edges is the set of all $(f,(S_G,P_G),g)$ 
+%such that $G:\texttt{f} \to \texttt{g}$ for some size-chage graph $G$.
+
+A {\em multipath} \cite[Def. 2.3]{Lee3} is the composition of finitely or infinitely many size-change graphs. 
 The composition $GG'$ of $G:\texttt{f} \to \texttt{g}$ with $G':\texttt{g} \to \texttt{h}$
 requires that the target function symbols of $G$ and the source function symbol of $G'$ coincide. 
-In the case of our transition graphs, we have a  unique finite set of ``symbols'' $X$ 
-and we express the restriction on the composition $GG'$ by asking that for some vertices 
-$u, v, w \in V$ we have $\edgeG{(S,P)}{u}{v}{\Graph}$ and  
-$\edgeG{(S',P')}{v}{w}{\Graph}$, where $G = (S,P)$ and $G' = (S',P')$. 
-We now define the composition of two bi-partite graphs in a way compatible with the 
-interpretation we have for stationary and progressing.
+In the case of our transition graphs, we have a unique graph $\Graph$, with finite set of parameters $X = \textit{Param}(\texttt{f}) \cup \textit{Param}(\texttt{g}) \cup \textit{Param}(\texttt{h})$,
+and we express the composition $GG'$ with the the edges $\edgeG{(S_G,P_G)}{\texttt{f}}{\texttt{g}}{\Graph}$ and  
+$\edgeG{(S_{G'},P_{G'})}{\texttt{g}}{\texttt{h}}{\Graph}$. 
 
 
 \input{CSL-FPC}
