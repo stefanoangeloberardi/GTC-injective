@@ -217,11 +217,11 @@ relation, as the next Proposition says.
 \item
 \label{prop:injective-trace-01}
 Assume ${\mathcal R} = \{R_i | i \in I\}$ is a set of injective relations on $X \times Y$
-such that $(\exists x \in \codom(R_i) \cap \codom(R_j)) \implies i=j$.
+with \emph{disjoint codomains}, namely: $\forall i,j\in I. (\exists x \in \codom(R_i) \cap \codom(R_j)) \implies i=j$.
 Then $\cup {\mathcal R}$ is an injective relation on $X \times Y$. 
 \item
 \label{prop:injective-trace-02}
-The trace relation we defined is injective.
+The trace relation in Def. \ref{def:subOccur} is injective.
 \end{enumerate}
 \end{proposition}
 
@@ -236,15 +236,17 @@ we deduce that $i = j$, therefore $x R_i y$ and $x' R_i y$.
 From $R_i$ injective we conclude that $x = x'$.
 \item
 %\label{prop:injective-trace-02}
-For all rules we considered a trace relation union of injective relations 
-on sequents and on single formulas which are injective and have \emph{disjoint codomain}. 
+For all rules we considered a trace relation union of injective relations, 
+on sequents and on single formulas, which are injective and have \emph{disjoint codomain}. 
 By point \ref{prop:injective-trace-01} above, these unions define an injective trace relation.
 \end{enumerate}
 \end{proof}
 %17:02 16/07/2025
 
-\emph{Cyclic pre-proofs}, defined below, are used to formally represent a \emph{possibly infinite regular 
-derivation} in $\CLKIDomega$ and $\CLJIDomega$ through a \emph{finite graph}.
+\emph{Cyclic pre-proofs}, defined below, are used to formally represent a 
+\emph{possibly infinite regular derivation} in $\CLKIDomega$ and $\CLJIDomega$
+ through a \emph{finite graph} with a bud/companion relationship used to represent 
+ the infinite tree.
 
 \begin{definition}[Cyclic pre-proof] A $\CLKIDomega$ (resp. $\CLJIDomega$) pre-proof of sequent $\Gamma \vdash \Delta$ (resp. $\Gamma \vdash \phi$), is a tuple $\Pi = (\mathcal{D}, \mathcal{F})$, where:
 
@@ -256,7 +258,8 @@ derivation} in $\CLKIDomega$ and $\CLJIDomega$ through a \emph{finite graph}.
             \end{prooftree} 
         is an instance of the rule $r(v)$ in $\CLKIDomega$ (resp. $\CLJIDomega$), with $m$ premises. A vertex $B \in V$ such that $r(B)$ is undefined is called a bud node. The set of bud nodes of a derivation tree $\mathcal{D}$, is written as $Bud(\mathcal{D})$.
 
-        \item $\mathcal{F}: V \rightarrow V$ is a partial function, that maps each one of the bud nodes in $Bud(\mathcal{D})$ to an internal node in the derivation tree, called a companion, satisfying that if $B \in Bud(\mathcal{D})$ and $\mathcal{F}(B) = C$, then $r(C)$ is defined and $s(B) = s(C)$.
+        \item $\mathcal{F}: Bud(\mathcal{D}) \rightarrow V \setminus Bud(\mathcal{D})$ is a partial function, that maps each one of the bud nodes in $Bud(\mathcal{D})$ to a non-bud node in the derivation tree, called a companion, satisfying that if $B \in Bud(\mathcal{D})$ and $\mathcal{F}(B) = C$, then %$r(C)$ is defined and %this is implicit
+        $s(B) = s(C)$.
     \end{itemize}
 
 Moreover, the graph of $\Pi$, written as $G_{\Pi}$, is the graph obtained after adding the edges induced by $\mathcal{F}$ and deleting the bud vertices. Specifically, $G_{\Pi} = (V', s, r, p')$ where, $V' = V \setminus Bud(\mathcal{D})$ and $p'$ is defined for any $j$ as: $p'_j(v) = \mathcal{F}(p_j(v))$ if $p_j(v) \in Bud(\mathcal{D})$, or $p'_j(v) = p_j(v)$ otherwise.
@@ -267,7 +270,7 @@ Moreover, the graph of $\Pi$, written as $G_{\Pi}$, is the graph obtained after 
 
 \begin{example}
 Figure \ref{exampleCircProof} is an example of a $\CLKIDomega$ cyclic pre-proof, taken from \cite{Brotherston1}. We use {\color{black} \bf black} arrows 
-to connect sequents and define an infinite cyclic proof tree; we use blue/red arrows to connect inductive formulas.
+to connect bud to companion and to define an infinite cyclic proof tree; we use blue/red arrows to connect inductive formulas.
 \end{example}
 
 As mentioned before, the Global Trace Condition (GTC) is used as a sufficient criterion to verify the soundness of cyclic pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. To define it, it is first necessary to formalize both the notions of \emph{trace} and \emph{progress point}. 
@@ -289,7 +292,7 @@ As mentioned before, the Global Trace Condition (GTC) is used as a sufficient cr
 
 \begin{remark}
     \label{rem:traceDef}
-    The previous definition of trace corresponds to a proper subset of the original trace definition by Brotherston in \cite[Definition 4.2.3]{Brotherston1}. Specifically, our definition of trace corresponds to applying Brotherston's definition to work over occurrences instead of formulas. The reason we use occurrences, is that they allow us to track the essential part of the history of a formula in a pre-proof without ambiguities, and it ensures that two distinct arrows of the trace relation, will never join in the same occurrence of a premise, which will be exploited in Section \ref{sec:progressDomainCond}.
+    The previous definition of trace corresponds to a proper subset of the original trace relation defined by Brotherston in \cite[Definition 4.2.3]{Brotherston1}. Specifically, our definition of trace corresponds to applying Brotherston's definition to work over occurrences instead of formulas. The reason we use occurrences, is that they allow us to track the essential part of the history of a formula in a pre-proof without ambiguities, and it ensures that two distinct arrows of the trace relation, will never join in the same occurrence of a premise (Prop. \label{prop:injective-trace}.\label{prop:injective-trace-02}), a fact which will be exploited in Section \ref{sec:progressDomainCond}.
 \end{remark}  
 
 We now define the validity condition for pre-proofs, which we call the global trace condition, following the literature.
@@ -300,6 +303,7 @@ We now define the validity condition for pre-proofs, which we call the global tr
 \end{definition}
 
 \begin{example}
-    Consider the cyclic pre-proof in Figure \ref{exampleCircProof} and the only infinite path, contained in the cycle between the two right-most branches of the pre-proof. The trace $\uptau = (Ox, Ey, Ey, Ey, Ex, Oy, Oy, Oy, Ox)^{\omega}$  is infinitely progressing over this path, since it contains the progressing points $(Ox,Ey)$ and $(Ex,Oy)$. Since this is the only infinite path in the pre-proof, we say that it satisfies the GTC, and it is a $\CLKIDomega$ proof.
+    Consider the cyclic pre-proof in Figure \ref{exampleCircProof} and the only infinite path, contained in the cycle between the two right-most branches of the pre-proof. The trace $\uptau = (Ox, Ey, Ey, Ey, Ex, Oy, Oy, Oy)^{\omega}$  is infinitely progressing over this path, since it contains the progressing points $(Ox,Ey)$ and $(Ex,Oy)$. Since this is the only infinite path in the pre-proof, we conclude that the pre-proof satisfies the GTC, and
+    that it is a $\CLKIDomega$ proof.
 \end{example}
 
