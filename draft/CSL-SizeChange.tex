@@ -9,8 +9,9 @@ Inspired by the work by Ikebuchi \cite{Mirai}, in this section we introduce the 
  
 Let $R \subseteq X \times Y$ be a binary relation, then we write $x R y$ for $(x,y) \in R$. 
 Thinking of $R$ as a function $R: X \to \wp(Y)$, we set $R(x) = \Set{y \in Y \mid x R y}$. 
-Then we define $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} = \Set{x \in X \mid R(x) \neq \emptyset}$, and
-$\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup \Set{R(x) \mid x \in X}$. 
+Then we define $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy} 
+= \Set{x \in X \mid R(x) \neq \emptyset}$, and
+$\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup_{x \in X} R(x)$. 
 
 In this work, we shall consider binary relations over some fixed finite set 
 $X = \Set{x_1, ..., x_n}$ of abstract ``paremeters'', which are consequently themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$ and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$, with possibly $S$ or $P$ empty.
@@ -21,7 +22,8 @@ A {\em transition graph} of $\biRel$ is a tuple $\Graph = (V, \biRel, E)$ where 
 \end{definition}
 
 Let $\Graph = (V, \biRel, E)$; we abbreviate $(u, (S,P), v) \in E$ by $\edgeG{(S,P)}{u}{v}{\Graph}$.
-Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em source}, {\em target}, and {\em label}
+Also, if $e = \edgeG{(S,P)}{u}{v}{\Graph}$ is any edge, 
+then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em source}, {\em target}, and {\em label}
 of $e$ respectively. When $\Graph$ is understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. 
 
 Suppose that $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the size associated with $x$ in the abstract state $u$ is equal or greater than the size associated with $y$ in $v$ in some intended ordering; hence, if $x S y$ we say that 
@@ -35,16 +37,19 @@ Transition graphs are a variant of the notion of {\em size-change graph} as defi
 More precisely, a size-change graph $G:\texttt{f} \to \texttt{g}$ for a pair of function names $\texttt{f}$, 
 $\texttt{g}$ out of some functional program $\texttt{p}$
 is given by a triple $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$, where $\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g})$
-are sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{g}$, $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $x \in \textit{Param}(\texttt{f})$ to
+are disjoint sets of variables occurring in the definitions of $\texttt{f}$ and $\texttt{g}$, and $\textsf{E} \subseteq \textit{Param}(\texttt{f}) \times \Set{\leqdownarrow, \downarrow} \times \textit{Param}(\texttt{g})$ and there are not two edges from $x \in \textit{Param}(\texttt{f})$ to
 $y \in \textit{Param}(\texttt{g})$ labelled with both $\leqdownarrow$ and
 $\downarrow$ in $\textsf{E}$.
 
 In our view, $G:\texttt{f} \to \texttt{g}$, 
 $G = (\textit{Param}(\texttt{f}), \textit{Param}(\texttt{g}), \textsf{E})$ corresponds 
-to $\edgeG{(S_G,P_G)}{f}{g}{\Graph}$ which the only edge of $\Graph$, where $V = \Set{\texttt{f},\texttt{g}}$, $\biRel = \Set{(S_G,P_G)}$, and   
-is the set of all parameters occurring in the program $\texttt{p}$, 
-$S_G = \Set{(x,y) \mid (x, \leqdownarrow, y) \in \textsf{E}}$, and $P_G = \Set{(x,y) \mid (x, \downarrow, y) \in \textsf{E}}$
-are binary relations over the set $X$ of all paremters in $\texttt{p}$.
+to the edge $\edgeG{(S_G,P_G)}{f}{g}{\Graph}$ of a transition graph $\Graph$, and
+$X$ is the set of all parameters occurring in the program $\texttt{p}$, 
+and $S_G = \Set{(x,y) \mid (x, \leqdownarrow, y) \in \textsf{E}}$ and 
+$P_G = \Set{(x,y) \mid (x, \downarrow, y) \in \textsf{E}}$ are binary relations over $X$.
+The transition graph $\Graph$ has vertices $V=$ the set of all functions $\texttt{f}$
+defined in  in the program $\texttt{p}$, and has set of
+bi-partite relations $\biRel = \Set{(S_G,P_G) | G \mbox{ size-change graph}}$.
 
 %Our set of labelled edges is the set of all $(f,(S_G,P_G),g)$ 
 %such that $G:\texttt{f} \to \texttt{g}$ for some size-chage graph $G$.
@@ -52,8 +57,10 @@ are binary relations over the set $X$ of all paremters in $\texttt{p}$.
 A {\em multipath} \cite[Def. 2.3]{Lee3} is the composition of finitely or infinitely many size-change graphs. 
 The composition $GG'$ of $G:\texttt{f} \to \texttt{g}$ with $G':\texttt{g} \to \texttt{h}$
 requires that the target function symbols of $G$ and the source function symbol of $G'$ coincide. 
-In the case of our transition graphs, we have a unique graph $\Graph$, with finite set of parameters $X = \textit{Param}(\texttt{f}) \cup \textit{Param}(\texttt{g}) \cup \textit{Param}(\texttt{h})$,
-and we express the composition $GG'$ with the the edges $\edgeG{(S_G,P_G)}{\texttt{f}}{\texttt{g}}{\Graph}$ and  
+In the case of our transition graphs, we have a unique graph $\Graph$, with finite set of parameters $X \supseteq
+ \textit{Param}(\texttt{f}) \cup \textit{Param}(\texttt{g}) \cup \textit{Param}(\texttt{h})$,
+and we express the composition $GG'$ by composing 
+the the edges $\edgeG{(S_G,P_G)}{\texttt{f}}{\texttt{g}}{\Graph}$ and  
 $\edgeG{(S_{G'},P_{G'})}{\texttt{g}}{\texttt{h}}{\Graph}$. 
 
 
