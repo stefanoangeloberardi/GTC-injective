@@ -2,7 +2,7 @@
 \section{Injectivity and Progress Domain Condition}
 \label{sec:progressDomainCond}
 
-We define injectivity over relations and prove some of its properties. In general, a relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$. Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint. Moreover, the composition of two injective relations is always injective.
+We define injectivity over relations and prove some of its properties. Our goal is finding a case in which GTC is simpler to state. A relation $R \subseteq X \times Y$ is {\em injective} if for all $x,x' \in X$ and $y \in Y$, $xRy$ and $x'Ry$ implies $x = x'$. Equivalently, $R$ is injective if all the $R(x)$ for $x \in X$ are disjoint. Moreover, the composition of two injective relations is always injective.
 
 \begin{lemma}\label{lem:comInjective}
 If both $R \subseteq X \times Y$ and $R' \subseteq Y \times Z$ are injective, then $RR' \subseteq X \times Z$ is injective.
@@ -33,31 +33,33 @@ By (\ref{eq:unionComp}) in Section \ref{sec:size-change},  we know that $|(S,P) 
 
 \item
 By definition the stationary component of $(S,P) \comp (S',P')$ is $S'' \setminus P''$
-where $S'' =S S'$ and $P'' = SS', SP' \cup PS' \cup PP'$. In order to prove that
-$S'' \setminus P'' = S S'$ we have to prove that $S''$ and $P''$ are disjoint. 
-We assume $xSyS'z$ and $x S \cup P y' S \cup P z$ (there is some other trace from $x$ to $y$) 
+where $S'' =S S'$ and $P'' = SS', SP' \cup PS' \cup PP'$. Our thesis becomes:
+$S'' \setminus P'' = S S'$. We have to prove that $S''$ and $P''$ are disjoint. 
+We assume $xSyS'z$ and $x (S \cup P) y' (S \cup P) z$ 
+(there is some other trace from $x$ to $y$) 
 in order to prove that this trace is not in $P''$, namely that
-$\neg (x P  y')$ and $\neg (y' P  z)$.  From $S' \cup P'$ injective and $y S' \cup P' z$
-we deduce that $y = y'$. How thesis becomes $\neg (x P  y)$ and $\neg (y P  z)$.
-This follow from $xSy$ and $yS'z$ and $S \cap P = \emptyset$ and 
-$S' \cap P' = \emptyset$.
+$\neg (x P  y')$ and $\neg (y' P  z)$.  From $S' \cup P'$ injective and $y (S' \cup P') z$
+we deduce that $y = y'$. Our thesis is now $\neg (x P  y)$ and $\neg (y P  z)$.
+This follow from $xSy$ and $yS'z$ and $S \cap P = S' \cap P' = \emptyset$.
 \end{enumerate}
 \end{proof}
 
 
-We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ are such. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$ is injective, then $\biRel^*$ is such. If $\Graph = (V, \biRel, E)$ with injective $\biRel$, by abuse of language we say that $\Graph$ is injective.
+We say that the set of bi-partite relations $\biRel$ is {\em injective} if all $(S,P) \in \biRel$ are such. If $\Graph = (V, \biRel, E)$ with injective $\biRel$, by abuse of language we say that $\Graph$ is injective. By Lemma \ref{lem:biRelInjectiveComp}, if $\biRel$ is injective, then its composition closure $\biRel^*$ is such. 
 
 The notion of injectivity is crucial when analyzing the structure of transition graphs arising from pre-proofs in $\CLJIDomega$ and $\CLKIDomega$. In particular, the construction of the graph $\mathcal{G}_{\Pi}$ associated with a pre-proof $\Pi$ with contexts as lists, as defined in the previous sections, is always injective. 
 This observation leads to the following result:
 
 \begin{theorem}\label{thr:injective-pre-proofs}
-Let $\Pi$ be any $\CLJIDomega$ or $\CLKIDomega$ pre-proof. Then $\Graph_\Pi$ is injective.
+Let $\Pi$ be any $\CLJIDomega$ or $\CLKIDomega$ pre-proof. 
+Then $\Graph_\Pi$ is injective.
 \end{theorem}
 
 \begin{proof}
-    The construction of the bi-partite relations $(S,P)_{v,v'}$ specified in Definition \ref{def:preProofTrans} follows the trace relation. Thus, a case-by-case analysis of the sub-occurrence relation for each rule shows that all the arrows define injective relations. In all cases,
-    the trace relation is defined by unions of injective relations having disjoint 
-    codomains, hence injective.
+By Prop. \ref{prop:injective-trace}.\ref{prop:injective-trace-02}.
+%    The construction of the bi-partite relations $(S,P)_{v,v'}$ specified in Definition \ref{def:preProofTrans} follows the trace relation. Thus, a case-by-case analysis of the sub-occurrence relation for each rule shows that all the arrows define injective relations. In all cases,
+%    the trace relation is defined by unions of injective relations having disjoint 
+%    codomains, hence injective.
 \end{proof}
 
 \begin{remark}
@@ -96,21 +98,23 @@ If we apply Brotherston's definition of trace in
     \end{center}
 
 \noindent
-where one of the inductive predicates $N\mathbf{u}$ in the conclusion is a direct descendant of the inductive predicate in the premise, while the other was freshly introduced by the weakening rule.
+where one of the inductive predicates $N\mathbf{u}$ in the conclusion is a direct descendant of the inductive predicate in the premise, while the other was freshly introduced by the weakening rule. Again, we apply Brotherston's definition of trace then both occurrences of $N\mathbf{u}$
+in the conclusion of the rule are connected to the occurrence of $N\mathbf{u}$ in the assumption
+of the rule.
 \end{remark}
 
 
 
 In the previous section, we have seen that the SCT condition for transition graphs and the GCT condition for cyclic proofs coincide up to rephrasing GTC in terms of transition graphs. %; henceforth, we shall use GTC and SCT as synonymous. 
 We have also proved that the transition graphs associated with cyclic pre-proofs in systems $\CLJIDomega$ and $\CLKIDomega$ are injective. In this section, we formalize a new condition
-on transition graphs, which we call {\em Progress Domain Condition}, shortly PDC, and show that, although it is strictly weaker than SCT, it implies SCT in the case of injective graphs, and hence GTC for our deduction system.
+on transition graphs, which we call {\em Progress Domain Condition}, shortly PDC, and show that, although it is strictly weaker than SCT, it implies SCT in the case of injective graphs. Hence PDC is a simpler reformulation of GTC for our deduction system.
 
 \begin{definition}[Progress Domain Condition - PDC]\label{def:PDC}
 A transition $\Graph = (V,\biRel,E)$ 
-satisfies the {\em Prograss Domain Condition} 
+satisfies the {\em Progress Domain Condition} 
 if for all self-composable $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
-$x$ progresses to $y$ we have:
-\[\forall (S,P) \in \biRel^*, v \in V.\;\edgestar{(S,P)}{v}{v} \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
+$x$ progresses to $y$. In other words we require:
+\[\forall (S,P) \in \biRel^*, v \in V.\; (\edgestar{(S,P)}{v}{v}) \Then \exists x, y \in \dom{S \cup P}.\; x P y \]
 \end{definition}
 
 
@@ -120,52 +124,80 @@ If $\Graph$ satisfies SCT, then it satisfies PDC.
 \end{proposition}
 
 \begin{proof}
-Let $\edgestar{(S,P)}{v}{v}$ be a self-composable path of $\Graph^*$. Then there is a cycle in $\Graph^*$ and an infinite path
+Let $\edgestar{(S,P)}{v}{v}$ be a self-composable path of $\Graph^*$. 
+Then there is an infinite path
 \[\ppath : v \stackrel{(S,P)}{\longrightarrow} v \stackrel{(S,P)}{\longrightarrow} v \stackrel{(S,P)}{\longrightarrow}\cdots\]
-where $(S,P) = (S_{0,c-1},P_{0,c-1})$ where $c > 0$ is the length of the cycle. By SCT, there is a trace $\tau = x_k, x_1, \ldots$ such that $\tau\models\ppath$ which is infinitely progressing
-and $\tau$ must follow $\ppath$ since some index $k$. $\tau$
-must progress in some finite subpaths $\edgestar{(S,P)}{v}{v}$.
+%where $(S,P) = (S_{0,c-1},P_{0,c-1})$ where $c > 0$ is the length of the cycle. 
+By SCT, there is a trace $\tau = x_k, x_{k+1}, \ldots$ such that $\tau\models\ppath$ 
+and $\tau$ is infinitely progressing
+%and $\tau$ must follow $\ppath$ since some index $k$. 
+$\tau$ must progress in some step $\edgestar{(S,P)}{v}{v}$.
 
-By Proposition \ref{prop:progresing-and-P}, it follows that $x_a P x_b$ for some $k \leq a < b$; now $x_a, x_b \in \dom{S \cup P}$ since
+By Proposition \ref{prop:progresing-and-P}, it follows that $x_a P x_{a+1}$ for some 
+$a \ge k$; now $x_a, x_{a+1} \in \dom{S \cup P}$ since
 $\tau\models \ppath$. It follows that $\Graph$ satisfies PDC.
 \end{proof}
 
 \begin{remark}\label{rem:PDCnotGTC}
-The inverse of Proposition \ref{prop:GTCimplPDC} does not hold. Consider $X_0 = \Set{x_1, x_2}$ and $\biRel_0 = \Set{(S_0,P_0)}$ where
+The inverse of Proposition \ref{prop:GTCimplPDC} does not hold without injectivity. 
+Consider $X_0 = \Set{x_1, x_2}$ and $\biRel_0 = \Set{(S_0,P_0)}$ where
 $S_0 = \Set{(x_1, x_1)}$ and $P_0 = \Set{(x_2, x_1)}$. Let $\Graph_0 = (\Set{v}, \biRel_0, \Set{\edge{(S_0,P_0)}{v}{v}})$. Then $(S_0,P_0)$
 is self-composing, $x_1, x_2 \in \dom{S_0 \cup P_0}$ and $x_2 P_0 x_1$, hence $\Graph_0$ satisfies the PDC.
 
 On the other hand, the infinite path $\ppath_0$ represented in Figure \ref{fig:PDC-counterexample} is such that the only infinite traces that follow it are
-$\tau_0 : x_1 , x_1, \cdots$ and $\tau_1 : x_2, x_1 , x_1, \cdots$, and neither of them is infinitely progressing. \input{CSL-PDC-figure}
+$\tau_0 : x_1 , x_1, x_1, x_1, \cdots$ and $\tau_1 : x_2, x_1 , x_1, x_1, \cdots$, 
+and neither of them is infinitely progressing. \input{CSL-PDC-figure}
 \end{remark}
 
-The key point in the counterexample of Remark \ref{rem:PDCnotGTC} is that $\biRel_0$ is not injective. Toward establishing that PDC implies SCT
+The key point in the counterexample of Remark \ref{rem:PDCnotGTC} is that $\biRel_0$ is not injective, both $x_1$ and $x_2$ are related with $x_1$. 
+Toward establishing that PDC implies SCT
 in case of an injective $\biRel$, we first prove the lemma below for transitive relations in 
 $\biRel$. 
 
-We say that $(S,P)$ is {\em transitive} if $S \cup P$ is such, namely $x(S \cup P)y(S \cup P)z$ implies $x(S \cup P) z$, for all $x, y, z \in X$.
+We say that $(S,P)$ is {\em transitive} if $S \cup P$ is such, namely $x(S \cup P)y(S \cup P)z$ implies $x(S \cup P) z$, for all $x, y, z \in X$. We first prove that PDC implies the so-called
+\quotationMarks{algorithmic criterion for SCT} (\cite{Lee1},Section 3.2).
 
-\begin{lemma}\label{lem:transitivity}
-Suppose that $\Graph$ is injective and satisfies PDC.
-If $(S,P)$ is self-composing in $\Graph$ 
-and $(S,P)$ is transitive then there exists $x \in X$ such that $xPx$.
+\begin{lemma}
+\label{lem:transitivity}
+Suppose that $\Graph$ is injective and satisfies PDC, and that 
+$(S,P)$ is self-composing in $\Graph$ 
+\begin{enumerate}
+\item
+\label{lem:transitivity-01}
+If $(S,P)$ is transitive then there exists $x \in X$ such that $xPx$.
+
+\item
+\label{lem:transitivity-02}
+\emph{(SCT criterion)} If $(S,P)(S,P)=(S,P)$ then there exists $x \in X$ such that $xPx$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-By the hypothesis that $\Graph$ satisfies PDC, there exist $x,y \in \dom{S \cup P}$ such that $xPy$. Since $P \subseteq S \cup P$ we also
-have that $x(S \cup P)y$. On the other hand, since $y \in \dom{S \cup P}$, there is $z \in X$ such that $y(S \cup P)z$. From this, by transitivity, it follows that
+\begin{enumerate}
+\item
+By the hypothesis that $\Graph$ satisfies PDC, there exist $x,y \in \dom{S \cup P}$ such that $xPy$ and with more reason $x(S \cup P)y$. On the other hand, since $y \in \dom{S \cup P}$, there is $z \in X$ such that $y(S \cup P)z$. From this, by transitivity, it follows that
 $x(S \cup P)z$, hence $x = y$ since $(S,P)$ is injective. From $x=y$ and $xPy$ we conclude
 that $xPx$.
+\item
+$(S,P)(S,P)=(S,P)$ implies that $(S,P)$ is transitive. Now we apply the previous point.
+\end{enumerate}
 \end{proof}
 
-In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use the infinite Ramsey's Theorem. We preliminarily introduce some terminology.
-Let $N \subseteq \Nat$, then $[N]^m = \Set{Y \subseteq N \mid |Y| = m}$ can be regarded as the complete (undirected) hypergraph where
-all hyperedges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).
-Taking $m = 2$, we have that $[N]^2 = \Set{\Set{x,y} \subseteq N \mid x \neq y}$ is the set of edges of the complete undirected graph whose vertices are in $N$. 
+Using Theorem 4 of \cite{Lee1} from PDC we may already deduce the SCT criterion,
+then conclude SCT. We prefer to include a 
+more direct proof, %. In the proof of Theorem \ref{thr:PDC+injImpliesGTC} below, we use 
+using the infinite Ramsey's Theorem. We preliminarily introduce some terminology for it.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% La versione con iper-archi è troppo generale non ci serve
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Let $N \subseteq \Nat$, then $[N]^m = \Set{Y \subseteq N \mid |Y| = m}$ can be regarded as the complete (undirected) hypergraph where
+%all hyperedges $Y \subseteq N$ have the same cardinality $m$ (also called $m$-regular in the literature).
+%Taking $m = 2$, we have that 
+$[N]^2 = \Set{\Set{x,y} \subseteq N \mid x \neq y}$ is the set of edges of the complete undirected graph whose vertices are in $N$. 
 
 A {\em finite coloring} of $[N]^2$ is a map  
 $c:[N]^2 \to \underline{k}$ for some $k > 0$, where $\underline{k} = \Set{1, \ldots , k}$, the set of ``colors'', is the set of the first $k$ positive integers.
-A subset $[A]^2 \subseteq [N]^2$ is {\em monocromatic} w.r.t. the coloring $c$ if there is $i \in \underline{k}$ such that  $c(Y) = i$ for all
+A subset $[A]^2 \subseteq [N]^2$ is {\em monocromatic} w.r.t. the coloring $c$ if there is $i \in \underline{k}$ such that  $c((a,b)) = i$ for all
 $(a,b) \in [A]^2$.
 
 \begin{theorem}[Ramsey's Theorem]\label{thr:Ramsey}
@@ -193,33 +225,48 @@ Let $\Graph = (V, \biRel, E)$ be a transition graph with injective $\biRel$; if 
 \end{theorem}
 
 \begin{proof}
-Let \[\ppath : v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \stackrel{(S_1,P_1)}{\longrightarrow} v_2 \stackrel{(S_2,P_2)}{\longrightarrow}\cdots\]
-be an infinite path of $\Graph = (V, \biRel, E)$, where $v_i = \source{\ppath(i)}$ for $i < \omega$.
-Also, $\ppath$ is a path of $\Graph^*$, where for all $0 \leq i < j < \omega$ there is an edge $\edgestar{(S_{i,j}, P_{i,j})}{v_i}{v_j}$, where
+Let $\ppath : v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \stackrel{(S_1,P_1)}{\longrightarrow} v_2 \stackrel{(S_2,P_2)}{\longrightarrow}\cdots$
+be any infinite path of $\Graph^* = (V, \biRel^*, E^*)$, where $v_i = \source{\ppath(i)}$ for $i < \omega$.
+%Also, $\ppath$ is a path of $\Graph^*$, where 
+For all $0 \leq i < j < \omega$ there is an edge $\edgestar{(S_{i,j}, P_{i,j})}{v_i}{v_j}$, 
+defined by
 $(S_{i,j}, P_{i,j}) = (S_{i}, P_{i}) \comp \cdots \comp (S_{j-1}, P_{j-1})$.
 
 Let $G = (\mathcal{V}, \mathcal{E})$ be the undirected graph formed by the sets
-$\mathcal{V} = \Set{(i, v_i) \mid i < \omega}$, which is denumerable, and $\mathcal{E} = \Set{\Set{(i, v_i), (j, v_j)} \mid i < j}$; hence $G$ is complete.
+$\mathcal{V} = \Set{(i, v_i) \mid i < \omega}$, which is denumerable, and $\mathcal{E} = \Set{\Set{(i, v_i), (j, v_j)} \mid i < j}$; hence $G$ is a complete graph.
 
-Note that the edges in $\mathcal{E}$ correspond
-to the edges $\edgestar{(S_{i,j}, P_{i,j})}{v_i}{v_j}$ of $\Graph^*$. Since all the $(S_{i,j}, P_{i,j}) \in \biRel^*$, which is a finite set, the mapping
+The edges in $\mathcal{E}$ correspond
+to the edges $\edgestar{(S_{i,j}, P_{i,j})}{v_i}{v_j}$ of $\Graph^*$. 
+Since $(S_{i,j}, P_{i,j}) \in \biRel^*$, which is a finite set, the mapping
 $c\Set{(i, v_i), (j, v_j)} = (S_{i,j}, P_{i,j})$ is a finite coloring of $\mathcal{E}$.
 
-By Corollary \ref{cor:Ramsey}, there is an infinite $\mathcal{H} \subseteq \mathcal{V}$ such that all $\Set{(i, v_i), (j, v_j)} \subseteq \mathcal{H}$
-are edges in $\mathcal{E}$ (so $\mathcal{H}$ is a clique, namely a complete subgraph of $G$) with $c\Set{(i, v_i), (j, v_j)} = (S, P)$ for some
-$(S, P) \in \biRel^*$.
+By Corollary \ref{cor:Ramsey}, there is an infinite $\mathcal{H} \subseteq \mathcal{V}$ such that for some $(S, P) \in \biRel^*$ and for all $i, j \in \mathcal{H}$, $i \not  = j$ we have
+%all $\Set{(i, v_i), (j, v_j)} \subseteq \mathcal{H}$
+%are edges in $\mathcal{E}$ (so $\mathcal{H}$ is a clique, namely a complete subgraph of $G$) with 
+$c\Set{(i, v_i), (j, v_j)} = (S, P)$. 
 
-As $V$ is finite, there exists $u \in V$ such that, for infinitely many $i < \omega$, $(i, u) \in \mathcal{H}$.
-This determines a cofinal subpath $\ppath_{\mathcal{H}} : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \cdots$ of $\ppath$ where, $(S,P)$ is self-composing and, by the above, $(S,P)\comp (S,P) = (S,P)$, hence $(S,P)$ is transitive. By the hypotheses that $\Graph$ is
-injective and satisfies PDC, Lemma \ref{lem:transitivity} implies that there exists $x \in X$ such that $x P x$.  
+As $V$ is finite, there exists $u \in V$ such that for infinitely many $i < \omega$
+we have $(i, u) \in \mathcal{H}$.
+This determines a cofinal subpath $\ppath_{\mathcal{H}} : u \stackrel{(S,P)}{\longrightarrow} u \stackrel{(S,P)}{\longrightarrow} u \cdots$ of $\ppath$ where $(S,P)$ is self-composing and, by the above, the \quotationMarks{colors} $(S,P)\comp (S,P)$ and $ (S,P)$ are the same.
+%, hence $(S,P)$ is transitive. 
+By the hypotheses that $\Graph$ is
+injective and satisfies PDC, Lemma \ref{lem:transitivity}.\ref{lem:transitivity-02} 
+implies that there exists $x \in X$ such that $x P x$.  
 It remains to show that there is a trace $\tau$ such that $\tau \models \ppath$ and that, whenever $v_i = u$, $\tau(i) = x$.
-Let $i_0 < j_0$ be the first two indexes such that $v_{i_0} = u = v_{j_0}$ and $(S,P) = (S_{i_0,j_0},P_{i_0,j_0})$; then in $\ppath$ we have the subpath:
-\[u = v_{i_0} \stackrel{(S_{i_0},P_{i_0})}{\longrightarrow} \cdots \stackrel{(S_{j_0},P_{j_0})}{\longrightarrow} v_{j_0} = u \]
-where we assume that the $v_j \neq u$ for all $i_0 < j < j_0$. 
+Let $i_0 < i_1$ be the first two indexes such that $v_{i_0} = u = v_{i_1}$ and $(S,P) = (S_{i_0,i_1},P_{i_0,i_1})$; then in $\ppath$ we have the subpath:
+\[u = v_{i_0} \stackrel{(S_{i_0},P_{i_0})}{\longrightarrow} \cdots \stackrel{(S_{i_1},P_{i_1})}{\longrightarrow} v_{i_1} = u \]
+where we assume that the $v_j \neq u$ for all $i_0 < j < i_1$. 
 
-Since $x P x$ and clearly $P \subseteq S \cup P = (S_{i_0} \cup P_{i_0}) \cdots (S_{j_0-1} \cup P_{j_0-1})$, there is a sequence $x = x_{i_0}, \ldots , x_{j_0} =x$ such that for all $i_{0} \leq i < j_0$, $x_i(S_{i} \cup P_{i}) x_{i+1}$ so that $x(S \cup P) x$.
-
-Now, by repeating the same construction for all the paths $\edgestar{(S,P)}{u}{u}$ in $\ppath_{\mathcal{H}}$, we obtain a trace $\tau$ such that $\tau \models \ppath$, $\tau(i) = x$ for infinitely many $i$, which are progress points w.r.t. $P$. Hence $\Graph$ satisfies SCT by the arbitrary choice of $\ppath$.
+Since $x P x$ and clearly $P \subseteq S \cup P = (S_{i_0} \cup P_{i_0}) \cdots (S_{i_1-1} \cup P_{i_1-1})$, there is a sequence $x = x_{i_0}, \ldots , x_{i_1} =x$ such that for all $i_{0} \leq i < i_1$, $x_i(S_{i} \cup P_{i}) x_{i+1}$ %so that $x(S \cup P) x$.
+and $x_i P_{i} x_{i+1}$ for some $i_{0} \leq i < i_1$.
+Assume that $i_0 < i_1 < i_2 < \ldots$ are the indexes such that 
+$v_{i_0} = v_{i_1} = v_{i_2} = \ldots = u$.
+Now, by repeating the same construction for all consecutive indexes $i_k, i_{k+1}$ in the
+sub-sequence, 
+% the paths $\edgestar{(S,P)}{u}{u}$ in $\ppath_{\mathcal{H}}$, 
+ we obtain a trace $\tau$ such that $\tau \models \ppath$, $\tau(i) = x$ for infinitely many $i$, 
+ including infinitely many progress points w.r.t. $P$. 
+ Hence $\Graph$ satisfies SCT by the arbitrary choice of $\ppath$.
 \end{proof}
 
 
