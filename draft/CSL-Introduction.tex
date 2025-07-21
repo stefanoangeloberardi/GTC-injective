@@ -4,11 +4,11 @@
 
 
 
-Cyclic proof systems are the formalization of a particular way of reasoning with inductively defined predicates, where derivations using induction rules are replaced by infinite regular proof trees, whose infinite branches satisfy the ``infinite descent'' condition. 
-Following Fermat's method, if such a branch exists in a proof using the definition of inductive predicates infinitely many times, then an infinite sequence of decreasing-size values of inductively defined formal parameters should exist, contradicting their well-founded definition. As a consequence, a cyclic proof encodes an underlying inductive argument that is sound.
+Cyclic proof systems are the formalization of a particular way of reasoning with inductively defined predicates, where derivations using induction rules are replaced by infinite regular proof trees, whose infinite branches satisfy the ``infinite descent'' condition. This condition is inspired by Fermat’s method of infinite descent. If such if such a branch exists in a proof, then an infinite sequence of decreasing-size values of inductively defined formal parameters should exist, contradicting their well-founded definition. As a consequence, a cyclic proof encodes an underlying inductive argument that is sound.
 
-The infinite descent, also called {\em global trace condition} (GTC) in the literature, is the adaptation of Fermat's 
-principle to cyclic proofs in sequent calculi, extended with Martin-Löf's  inductive definitions \cite{MartinLof}, as adopted by Brotherston and Simpson
+This criterion,
+ also called {\em Global Trace Condition} (GTC) in the literature, is the adaptation of Fermat's 
+principle to cyclic proofs in sequent calculi, extended with Martin-Löf's  inductive definitions \cite{MartinLof}. It has been adopted by Brotherston and Simpson
 \cite{Brotherston1, Brotherston2,BrotherstonSimpson}, where it implies the correctness of the 
 conclusion of an infinite proof-tree \cite[Proposition 4.2.10]{Brotherston1}.
 %, or equivalently of a certain finite directed graph with cycles, hence the name. 

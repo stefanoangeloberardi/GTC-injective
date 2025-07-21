@@ -119,7 +119,7 @@ We define the proof system $\CLKIDomega$ for inductive predicates as an extensio
     %----------------------------------    
     \end{equation}
 
-    In the rule (Case $P$),for each production $r_i$, there is a corresponding sequent in the premises of the form $\Gamma, \mathbf{u} = \mathbf{t^i}, Q^i_1\mathbf{u^i_1}, \ldots , Q^i_h\mathbf{u^i_h}, P^i_1\mathbf{t^i_1}, \ldots, P^i_m\mathbf{t^i_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u^i_1},...,\mathbf{u^i_h},\mathbf{t^i_1},...,\mathbf{t^i_m}$, or $\mathbf{t^i}$, does not occur free in $\Gamma, \Delta$ and $\mathbf{u}$.
+    In the rule (Case $P$), for each production $r_i$, there is a corresponding sequent in the premises of the form $\Gamma, \mathbf{u} = \mathbf{t^i}, Q^i_1\mathbf{u^i_1}, \ldots , Q^i_h\mathbf{u^i_h}, P^i_1\mathbf{t^i_1}, \ldots, P^i_m\mathbf{t^i_m} \vdash \Delta$ subject to the restriction that any free variable in $\mathbf{u^i_1},...,\mathbf{u^i_h},\mathbf{t^i_1},...,\mathbf{t^i_m}$, or $\mathbf{t^i}$, does not occur free in $\Gamma, \Delta$ and $\mathbf{u}$.
 
 \end{itemize}
 
@@ -142,6 +142,7 @@ To the usual presentation of these rules, we add a \emph{trace relation} among o
 The intended meaning of {\color{red} \bf red} progressing arrows and of {\color{blue} \bf blue} stationary arrows is: when $P\mathbf{t}$ progresses to $Q\mathbf{u}$ then the vector denoted by $\mathbf{t}$ has larger size than the vector denoted by $\mathbf{u}$, when there is a stationary connection then $\mathbf{t}$ and $\mathbf{u}$ denote the same vector.
 
 \begin{example}
+\label{example-NEO-sequent}
 For the inductive predicates defined in Example \ref{ex:NEO}, we add the following rules (for simplicity, we omit the rules that are not used in the proof of Figure \ref{exampleCircProof}):    
 
 \begin{center}
@@ -269,8 +270,10 @@ Moreover, the graph of $\Pi$, written as $G_{\Pi}$, is the graph obtained after 
 \input{CSL-Proof}
 
 \begin{example}
-Figure \ref{exampleCircProof} is an example of a $\CLKIDomega$ cyclic pre-proof, taken from \cite{Brotherston1}. We use {\color{black} \bf black} arrows 
-to connect bud to companion and to define an infinite cyclic proof tree; we use blue/red arrows to connect inductive formulas.
+Figure \ref{exampleCircProof} is an example of a $\CLKIDomega$ cyclic pre-proof, taken from \cite{Brotherston1}. 
+We use 
+%{\color{black} \bf black} arrows to connect bud to companion and to define an infinite cyclic proof tree; we use 
+blue/red arrows to connect inductive formulas.
 \end{example}
 
 As mentioned before, the Global Trace Condition (GTC) is used as a sufficient criterion to verify the soundness of cyclic pre-proofs in $\CLKIDomega$ and $\CLJIDomega$. To define it, it is first necessary to formalize both the notions of \emph{trace} and \emph{progress point}. 

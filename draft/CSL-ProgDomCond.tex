@@ -65,15 +65,14 @@ By Prop. \ref{prop:injective-trace}.\ref{prop:injective-trace-02}.
 \begin{remark}
 The original version of traces by Brotherston and Simpson, in the system named $\CLKIDomega$, 
 is \emph{not} fan-in free. As a counterexample, consider the following instance of left-equality 
-rule, using sequents as sets, where $N\mathbf{t}$ means: 
-\quotationMarks{$\mathbf{t}$ is an inductively defined natural number}.
+rule, using sequents as sets, with $N$ the inductive predicate of Example \ref{ex:NEO}.
 
  \begin{center}
     %EQUALITY LEFT
     %-----------------------------------------
     \begin{prooftree}
-        \hypo{ \Gamma, \vnode1{N\mathbf{t}} \vdash \Delta}
-        \infer1[(=L)]{\Gamma, t = u, \vnode2{N\mathbf{t}}, \vnode3{N\mathbf{u}} \vdash \Delta} 
+        \hypo{ \Gamma, \vnode1{Nt} \vdash \Delta}
+        \infer1[(=L)]{\Gamma, t = u, \vnode2{Nt}, \vnode3{Nu} \vdash \Delta} 
     \end{prooftree}
 
     % DRAW EDGES
@@ -83,12 +82,12 @@ rule, using sequents as sets, where $N\mathbf{t}$ means:
   \end{center}
   
 If we apply Brotherston's definition of trace in
-\cite[Definition 4.2.3]{Brotherston1}, we obtain that the inductive formula $N\mathbf{t}$ in the premise has at least two incoming edges obtained from the trace relation, from the inductive formulas $N\mathbf{t}$ and $N\mathbf{u}$ in the conclusion. Even considering sequents as multisets, fan-in free connections between inductive formulas are not guaranteed. For example, consider the left-weakening rule:
+\cite[Definition 4.2.3]{Brotherston1}, we obtain that the inductive formula $Nt$ in the premise has at least two incoming edges obtained from the trace relation, from the inductive formulas $Nt$ and $Nu$ in the conclusion. Even considering sequents as multisets, fan-in free connections between inductive formulas are not guaranteed. For example, consider the left-weakening rule:
     
     \begin{center}
       \begin{prooftree}
-        \hypo{\Gamma, \vnode1{N\mathbf{u}} \vdash \Delta}
-        \infer1[(WeakL)]{\Gamma, \vnode2{N\mathbf{u}}, \vnode3{N\mathbf{u}} \vdash \Delta} 
+        \hypo{\Gamma, \vnode1{Nu} \vdash \Delta}
+        \infer1[(WeakL)]{\Gamma, \vnode2{Nu}, \vnode3{Nu} \vdash \Delta} 
       \end{prooftree}
 
       % DRAW EDGES
@@ -98,8 +97,10 @@ If we apply Brotherston's definition of trace in
     \end{center}
 
 \noindent
-where one of the inductive predicates $N\mathbf{u}$ in the conclusion is a direct descendant of the inductive predicate in the premise, while the other was freshly introduced by the weakening rule. Again, we apply Brotherston's definition of trace then both occurrences of $N\mathbf{u}$
-in the conclusion of the rule are connected to the occurrence of $N\mathbf{u}$ in the assumption
+where one of the inductive predicates $Nu$ in the conclusion is a direct descendant of the inductive predicate in the premise, while the other was freshly introduced by the weakening rule. Again, we apply Brotherston's definition of trace then the last two 
+occurrences of $Nu$
+in the right-hand side of conclusion are connected to the same 
+occurrence of $Nu$ in the assumption
 of the rule.
 \end{remark}
 
