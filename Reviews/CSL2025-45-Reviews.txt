@@ -1,0 +1,243 @@
+SUBMISSION: 45
+TITLE: Global Trace Condition for Injective Transition Graphs
+
+----------------------- REVIEW 1 ---------------------
+
+SUBMISSION: 45
+TITLE: Global Trace Condition for Injective Transition Graphs
+AUTHORS: Stefano Berardi, Ugo de' Liguoro and Daniel Osorio-Valencia
+
+----------- Overall evaluation -----------
+SCORE: -1 (weak reject)
+----- TEXT:
+This paper considers a variant of the global trace condition (GTC) for
+cyclic proofs, where the trace relation is injective, and shows that
+GTC corresponds to the size change termination (SCT) of fan-in-free
+SCT graphs. This result may be viewed as a refinement of the recent
+result of Ikebuchi [6], where the injectivity condition was not taken
+into account. 
+
+The paper is generally well written and easy to read. The results
+appear correct, as far as I checked. However, the contributions of
+this submission seem rather limited.  My understanding is that,
+compared with [6], the only new contribution is to observe that the
+trace relation can be made injective, so that GCT is equivalent to SCT
+for fan-in-free graphs.
+
+L45-L49, "algorithms solving SCT problem have an exponential lower bound ...
+in place of the triple exponentials needed in the general case"
+I am confused about this sentence, as SCT is PSPACE in general.
+Are you referring to the result of [2] about the size of ranking functions,
+rather than the complexity of solving SCT itself?
+Anyway, please include a citation for this statement.
+
+L71, "a faster exponential" -> "exponentially faster"?
+Again, I am confused for the same reason as above.
+
+L145, "the vector denoted by t":
+Do you just mean the tuple t, or does the vector a special meaning here?
+
+L154, "... differs from the previous one"
+Please insert a citation to clarify which previous definition you are referring to.
+
+L203, "The previous definition" -> "The above definition"?
+ ("The previous definition" is a bit ambiguous; cf. "previous" in L154.)
+
+L258, "in in"
+
+L267-291: This part can be shorten. Most of the audience of CSL should be
+familiar with the concept of the composition of relations and transitive closure.
+
+Definition 15: Please clarify which terminology is being defined, by enclosing it in \emph{...}
+
+L315, "with domain some inhabited suffix" -> "whose domain is an inhabited suffix"?
+
+L323, "for \tau,\pi have domain \alpha\uparrow_k, \alpha, respectively"
+ -> "\tau and \pi have domain \alpha\uparrow_k and \alpha respectively"
+
+L324, "a initial" -> "an initial"
+
+L391-397: The audience of CSL should be familiar with the concept of injectivity. 
+
+L398: such -> so?
+
+L453-454: A conjunctive seems missing.
+
+L480-523: I do not think this is worth including. The proof is essentially a repetition of
+the proof of Theorem 4 of [14].
+
+
+----------------------- REVIEW 2 ---------------------
+
+SUBMISSION: 45
+TITLE: Global Trace Condition for Injective Transition Graphs
+AUTHORS: Stefano Berardi, Ugo de' Liguoro and Daniel Osorio-Valencia
+
+----------- Overall evaluation -----------
+SCORE: 2 (accept)
+----- TEXT:
+This paper is a continuation of [11]. First, the authors introduce the notion of transition graphs, an abstraction of size-change graphs, and define the transition graph associated with a CLKID^\omega pre-proof in the way that the graph satisfies SCT condition iff the pre-proof is a proof, following [11]. Then, they show that the transition graph of a pre-proof is injective and that for an injective transition graph, SCT is equivalent to the Progress Domain Condition (PDC) -- any path v -->* v has a progressing trace.
+
+Overall, the paper is well-written and shows an interesting new result on size-change graphs of a cyclic proof. The property that a transition graph is injective, or in traditional words, a size-change graph is fan-in free, is great since in that case the worst-case size of the ranking function of the graph is singly exponential while it is triply exponential in general. It affects the complexity of the proof with induction transformed from a cyclic proof.
+The progress domain condition introduced in the paper is interesting. The paper does not establish the “benefit” of it but I think that this condition should be known to the community and studied further.
+The proof of the main theorem is correct as far as I can see. Also, the paper is indeed in the scope of CSL. 
+Therefore, I am in favor of its acceptance.
+
+# Comments
+
+- This paper studying proof complexity of cyclic arithmetic might be related: https://lmcs.episciences.org/6008
+
+- Proposition 5: The notation cod(R) and the term "injective" appear before they are defined.
+
+- I think that it's more common to write R^+ for the transitive closure of a relation R and R^* for the reflexive-transitive closure.
+
+- p12, l415: R^* = R \cup RR \cup RRR \cup ..., so R^* is not neccesarily injective, right? Though, it seems you are not using this.
+
+- p13, l471: A period is missing.
+
+- p14, l493: You mean u,v \in U instead of H.
+
+- p16, l566: Capital "R" for "Ramsey"
+
+
+----------------------- REVIEW 3 ---------------------
+
+SUBMISSION: 45
+TITLE: Global Trace Condition for Injective Transition Graphs
+AUTHORS: Stefano Berardi, Ugo de' Liguoro and Daniel Osorio-Valencia
+
+----------- Overall evaluation -----------
+SCORE: 0 (borderline paper)
+----- TEXT:
+The given paper is about termination criteria for cyclic proofs.
+Here, a cyclic proof is a regular sequent calculus proof in the shape of
+a derivation tree with one deviation: instead of applying an inference rule to prove
+a certain sequent, one can also state, that this sequent already occurred
+somewhere else in the proof, leading to cycles in the proof.
+This is known as a pre-proof.
+
+To finalize a pre-proof, it is required that every loop in the cyclic proof 
+corresponds to a strict decrease w.r.t. some well-founded relation, so that
+essentially well-founded induction will turn all cycles into applications
+of some induction hypothesis. To this end, sizes of arguments of sequents 
+are approximated by finite labeled graphs (the labels encode a strict 
+or a weak decrease of arguments), and a global trace condition (GTC) 
+- a termination criterion for the abstract graphs - ensures the existence
+of the required well-founded relation. 
+
+In existing work [11] the connection between cyclic proofs, GTC and size-change
+termination (SCT) is shown. The approximation of cyclic proofs by finite labeled graphs
+for a similar proof system is also known [6,5,8].
+
+In my view the core contributions to this paper are:
+
+(A) Unlike to [6,5,8], here the translation will produce *injective* abstract graphs.
+
+(B) For injective abstract graphs, SCT can be decided by a more simple criterion than
+  the original one. This new criterion is introduced as Progress Domain Condition (PDC).
+  
+Unfortunately, I have some doubts about the significance of these contributions for 
+the following reasons. 
+
+Concerning (B): although (PDC) is simpler than the original SCT-criterion, 
+  they are both EXPSPACE algorithms, where in particular in both algorithms
+  the full transitive closure of the graphs need to be computed. 
+  Here, I would have expected at least some experiments that show the improved
+  performance of PDC over SCT on some set of benchmark problems.
+  
+  Is there any realistic example where the SCT criterion is too slow, but PDC
+  proves termination within a reasonable time limit? 
+  
+  
+Concerning (A): Comparing the translation to injective graphs in this paper with
+  the one of [6,5,8], it seems to me that the existing one is better than the
+  new one, since the former allows to get more relationships in the abstract graphs, 
+  e.g., when exploiting equality. And more relationships means that it might 
+  be the case that GTC and SCT is satisfied more often. 
+  In this way, restricting to the injective case just feels wrong. 
+
+  For instance, given a cyclic pre-proof such as the one in Figure 2, why shouldn't
+  one add further blue and red arrows, if (by coincidence), two arguments of 
+  a sequent are identical, or if they can be shown to be equal by using equality
+  as indicated in Remark 28? Just in order to be able to apply the PDC for 
+  the injective case? Then this needs to justified by experiments, that this
+  gives some kind of benefit over simply applying the original SCT algorithm.
+  
+
+For these reasons, I rate the paper as borderline: the new PDC algorithm might
+be interesting, but its significance remains unclear.
+  
+
+
+
+Further detailed comments.
+
+l20: Please directly add a citation at the first occurrence of cyclic proof systems
+  in the main text.
+  
+l23: If such if such
+
+l61: injectivity is a restriction; in particular it rules out minimal elements as in
+   f(x,y,...) -> f(0,0,...) where there are arcs x >= 0 and y >= 0.
+   
+Figure 1: the cut rule is wrong, e.g., consider
+  choose Gamma = Gamma' = {}, Delta = Delta' = {False}, F = True  
+  the F must appear left of |- somewhere!
+  
+Figure 1: in general for termination proving power one wants to add as many 
+  arrows as possible. So isn't it possible to add further edges, e.g., by 
+  exploiting equality of arguments of sequents, or by taking some syntactic
+  structure into account, where e.g., a red arrow is drawn from F /\ G to F and to G
+  in (/\ L)?
+  
+l146: why "denote the same vector"? later on it is explained that blue arrows
+  are used for greater-or-equal, not just for greater. This intuition can already
+  be written down here.
+  
+l156: use \mid instead of | (everywhere in set comprehensions) to improve spacing
+
+l231: paremeter -> parameter (everywhere)
+
+l243: transtion -> transition
+
+l258: in in
+
+l267: "on binary relations compose": this is only true for the abstracted binary
+  relations, but not for real sizes: e.g., 
+     min(s(x), s(y)) >= min(s(x),y) >= min(x,y),
+  but in the transitive composition we even see a strict decrease:
+     min(s(x),s(y)) > min(x,y)
+     
+l272: compostion -> composition
+
+l275: xdoes -> x does
+
+l315: please restructure sentence
+
+l324: a initial -> an initial
+
+l348: the indices seem wrong: x_h P_{h,b-1} x_b seems to jump from h to b, whereas
+  all steps are of form x_i (S u P) x_{i+1}, i.e., the index of x is increased by
+  exactly 1
+  
+l359: please respect the margin
+
+Lemma 26: you state that composition is now cheaper to compute: but which effect does
+  this change have in reality? experiments!
+  
+l414: Lemma~26 (avoid linebreak between Lemma and number)
+
+l436: Again, "if" we apply ...
+
+l449: shouldn't v ->* v be v ->+ v? Making no step results in the identity graph which
+  clearly has no strict decrease?
+  
+l453: please improve structure of sentence
+
+l541: Section~5
+
+l558-560: A brute force algorithm for PDC is also exponential ... 
+  Well SCT for injective graphs is still PSPACE-complete (the PSPACE-hardness
+  proof in [14] uses injective graphs), so PDC cannot be in a lower 
+  complexity class. Hence, practical experiments should be used to investigate
+  the significance of the new algorithm by means of increased performance.
