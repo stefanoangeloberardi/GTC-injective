@@ -55,7 +55,18 @@ cyclic proofs
 infinite Ramsey theorem
 }
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Titolo originario: An Intuitionistic and First Order proof that GTC implies Correctnes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% questo lavoro mio in data 16/07/2025 è diventato un lavoro su injectivity e prove
+% cicliche, per CSL 2026.  Ci sono ora tre nomi, io, Osiero e de' Liguoro. Viene rifiutato
+% in data 15 ottobre 2026. Un recensore, forse Amram, è stato particolarmente
+% critico, sostiene che il lavoro non contiene alcun progresso rispetto al suo
+% lavoro SCT con Niel Jones. In data 22 Ottobre provo a riprendere il lavoro del 
+% 16/072025 per vedere se si può trasformare in un lavoro di proof-theory e 
+% trasformazione di prove cicliche in prove ordinarie, che non possa venir recensito
+% da amram.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \maketitle
@@ -66,13 +77,10 @@ We want to find a proof of this fact that the  which is both intuitionistic,
 first order arithmetical and with human-readable intermediate step.  
 
 Cyclic proofs are an interesting tool for proof search and have been introduced as
-<<<<<<< Updated upstream
 by Brotherston and Simpson (\cite{BrotherstonSimpson}).
 They have been efficiently implemented 
 (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}).
-=======
 by Brotherston and Simpson \cite{BrotherstonSimpson}. 
->>>>>>> Stashed changes
 Later, the algorithm checking correctness for cyclic proofs turned out to be
 a particular case of the algorithm checking the 
 \emph{algorithm condition for Size Change Termination} condition for programs. 
@@ -170,13 +178,14 @@ labeling the edges of $\setG$.
 \end{definition}
 
 $\setG=(V,E,X)$ is a labeled graph, and the labels $e = (a, (\Stat, \Prog), b) \in E$ of each edge
-define a bi-colored graph on $X$, with $\Stat$ the set of edges of the first color
-and $\Prog$ the set of edges of the second color.
+define a bi-colored graph on $X$, with $\Stat$ the set of edges of the first color, called
+stationary or weakly progressing, and $\Prog$ the set of edges of the second color,
+called strictly progressing or just progressing.
 Following Neil Jones, we call $\setG$ a multi-graph.
 
-If $x \Stat y$ (if the edge from $x$ to $y$ has the first color)
+If $x \Stat y$ (if the edge from $x$ to $y$ has the stationary color)
 we say that $x$ weakly progresses to $y$ in $(\Stat, \Prog)$, and we mean that $x \ge y$.
-If $x \Prog y$ (if the edge from $x$ to $iy$ has the color color)
+If $x \Prog y$ (if the edge from $x$ to $iy$ has the progressing color)
 we say that $x$ progresses to $y$ in $(\Stat, \Prog)$, and we mean that $x > y$.
 Each labeled edge $e = (a, (\Stat, \Prog), b) \in E$ represents all
 we assume about the relationship between the values of any two variables $x$, $y$ before
@@ -188,7 +197,7 @@ We define composition of pairs in $\setR$ by saying that a composition is weakly
 progressing if can be obtained by composing a pair of weakly progressing edges,
 and \emph{only in this way};
 and that it is strictly progressing if it can be obtain by composing a pair of edge including
-some strictly progressing pair.
+some strictly progressing pair, in at least one way.
 $$
 \Stat'' = \Stat \Stat', 
 \ \ \ 
@@ -1694,17 +1703,14 @@ This ends the proof of Termination Theorem
 %
 %\end{thebibliography}
 
-<<<<<<< Updated upstream
 \bibliographystyle{entics}
-=======
 \bibliographystyle{./entics}
->>>>>>> Stashed changes
 \bibliography{references}
 
 \newpage
 
 
-\section{Appendix}
+\section{Appendix to the first version (until 2024)}
 \label{section-appendix}
 
 We relegate to this Appendix some result which 
@@ -2268,6 +2274,39 @@ GTC and TC, or we have $\neg$ $\SCTa$ and $\neg$ GTC and $\neg$ TC. In the
 second case we also have an infinite constant transition $\theta = (s, s, s, \ldots)$
 with $s = ((\Stat,\Prog),\sigma) \in \setS$, in which each variable $x \in X$ has constant
 value $\sigma(x)$, and all traces progresses at most $n-1$ times, where $n=\Card(X)$.
+
+
+
+\newpage
+
+\section{New version of the paper on injectivity (from 2025)}
+\label{section-newversion}
+
+\newcommand{\size} {{\tt s}}
+
+We assume having a regular cyclic proof $\Pi$, we write $x$ for each node of $\Pi$
+and $\Gamma \vdash \Delta$ for the sequent associated to $x$.
+We write $\dom(\Gamma) \in \N$ for the number of inductively defined formulas in $\Gamma$
+and $v$ for the maximum of all $\dom(\Gamma)$: $v$ is finite by regularity of $\Pi$.
+We suppose that inductively defined terms in the semantics are of the form 
+$t=f(\vec{t},\vec{u})$, with all terms $\vec{t}$ inductive and all terms $\vec{u}$ 
+are parameters of the inductive term. 
+We recursively define the step number $\universe{t}$ of $t$ as 
+$\max(\vec{\universe{t}+1})$. 
+
+
+Suppose be fixed any semantics for the terms. We write
+$\size(x,i) = \max{\vec{\universe{t}}} \in \N$ for the the size of the argument $\vec{t}i$ of the inductive formula number $i$ in $\Gamma$. 
+
+Let $r$ be any rule in $\Pi$, and $c$ be the conclusion of $r$, and $a$ any assumption of
+$r$. We assume that the edge $(c,a)$ from $c$ to $a$ in $\Pi$ is labeled by some 
+pair $(\Stat,\Prog)$ of binary relations on $[1,v]$.
+
+We assume that when $i \Stat j$ then $\size(c,i) \ge \size(a,j)$ and when 
+$i \Stat j$ then $\size(c,i) > \size(a,j)$.
+
+We assume that $\universe{(\Stat,\Prog)} =
+\Stat \cup \Prog$ is \emph{injective}.
 
 \end{document}
 
