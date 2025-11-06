@@ -2282,31 +2282,205 @@ value $\sigma(x)$, and all traces progresses at most $n-1$ times, where $n=\Card
 \section{New version of the paper on injectivity (from 2025)}
 \label{section-newversion}
 
-\newcommand{\size} {{\tt s}}
+\newcommand{\size} 		{{\tt s}}
+\newcommand{\unfold} {{\tt u}}
+\newcommand{\setF} 		{{\mathcal F}}
 
-We assume having a regular cyclic proof $\Pi$, we write $x$ for each node of $\Pi$
-and $\Gamma \vdash \Delta$ for the sequent associated to $x$.
-We write $\dom(\Gamma) \in \N$ for the number of inductively defined formulas in $\Gamma$
-and $v$ for the maximum of all $\dom(\Gamma)$: $v$ is finite by regularity of $\Pi$.
-We suppose that inductively defined terms in the semantics are of the form 
-$t=f(\vec{t},\vec{u})$, with all terms $\vec{t}$ inductive and all terms $\vec{u}$ 
+
+\subsection{The size of an inductively defined term}
+We define the inductively defined terms as those of the form 
+$t = f(\vec{t}, \vec{u})$, with all terms $\vec{t} = t_1, \ldots, t_n$ 
+inductively defined and all terms $\vec{u} = u_1 + \ldots + u_m$ 
 are parameters of the inductive term. 
-We recursively define the step number $\universe{t}$ of $t$ as 
-$\max(\vec{\universe{t}+1})$. 
+We recursively define the size $\size{t}$ of $t$ as the number of inductive constructors $t$,
+namely $\size{t} = 1 + \size(\vec{t})$
+and $\size(\vec{t}) = \size{t_1} + \ldots + \size{t_n}$. 
 
+We define the size $\size(X)$ of a set of variables as the sum of the size $\size(a)$
+of the values $a$ of its variables. The size of a
+variable is the number of inductive constructor it contains. For instance, $\size(S(S(0)))$ is $3$
+because $S(S(0))$ contains two $S$ and one $0$. 
+The size of a notation for $n \in \N$ is $n+1$.
 
-Suppose be fixed any semantics for the terms. We write
-$\size(x,i) = \max{\vec{\universe{t}}} \in \N$ for the the size of the argument $\vec{t}i$ of the inductive formula number $i$ in $\Gamma$. 
+A size is always $\ge 1$. For instance the size of $\langle a, b \rangle$,
+ the inductively defined pair $\N \times \N$,
+is always $1$, because the only constructor is $\langle \cdot, \cdot \rangle$
+and it cannot be nested.
 
-Let $r$ be any rule in $\Pi$, and $c$ be the conclusion of $r$, and $a$ any assumption of
-$r$. We assume that the edge $(c,a)$ from $c$ to $a$ in $\Pi$ is labeled by some 
+\subsection{Injective cyclic proofs}
+For any sequence $\Gamma \vdash \Delta$ associated to any node $x$ of a 
+regular cyclic proof
+we write $\dom(\Gamma) \in \N$ for the number of inductively defined formulas in $\Gamma$.
+We define $v$ for the maximum of all $\dom(\Gamma)$: 
+$v$ is finite by regularity of $\Pi$.
+
+Let $r$ be any rule, and $c$ be the conclusion of $r$, and $a$ any assumption of
+$r$. We assume that the edge $(c,a)$ from $c$ to $a$ in $r$ is labeled by some 
 pair $(\Stat,\Prog)$ of binary relations on $[1,v]$.
 
-We assume that when $i \Stat j$ then $\size(c,i) \ge \size(a,j)$ and when 
-$i \Stat j$ then $\size(c,i) > \size(a,j)$.
-
-We assume that $\universe{(\Stat,\Prog)} =
+We say that the labeling is inective when $\universe{(\Stat,\Prog)} =
 \Stat \cup \Prog$ is \emph{injective}.
 
+We assume having a regular cyclic proof with some \emph{injective}
+labeling for each edge in each rule. 
+
+We prove that the cyclic proof satisfying GTC
+can be replaced by an ordinary induction nested up to $v$ times.
+
+
+\subsection{Splitting the variable sets into $v$ groups}
+We assumed that the cyclic proof $\Pi$ is regular: there are finitely many subproofs. 
+By this we mean that we can provide
+a finite list $\setG=\{\Pi_1, \ldots, \Pi_n\}$ of finite trees with roots $C_1, \ldots, C_p$,
+with $C_1$ equal to the root of $\Pi$. We call each $\Pi_i$ a proof component.
+The leaves of each $\Pi_i$ are either axioms or are some  $C_j$, with $C_j$
+intended as abbreviation of $\Pi_j$.
+One unfolding $\unfold(\Pi_i)$ of
+$\Pi_i$ is defined by replacing each $C_1, \ldots, C_p$ in $\Pi_i$ with $\Pi_1, \ldots, \Pi_n$.
+$\Pi$ is defined as the union of all $\unfold^n(\Pi_1)$ for all $n \ge 1$.
+We do not assume that the cardinality $p$ of $\setG$ is the minimum possible to
+define $\Pi$: this is irrelevant.
+
+
+\subsection{An order on the indexes $1, \ldots, p$ of the proof components}
+We say that $i \succeq_1 j$ if $\Pi_i$ has a leaf $C_j$. We write $\succeq$ for 
+$\succeq_1^*$, the reflexive and transitive closure of $\succeq_1$: $\succeq$ is a pre-order,
+and we write $i \approx j$ for the associated equivalence relation:
+$i \succeq j$ and $j \succeq \i$.
+We write $i \succ j$ for the associated strict order:
+$i \succeq j$ and $j \not \succeq \i$. We write $i \preceq j$ for $j \succeq i$ and
+$i \prec j$ for $j \succ i$ 
+
+
+
+\subsection{A translation from cyclic to inductive proofs}
+We assuming having the translation for all $\Pi_j$ with $j \prec i$ and we define it 
+for all $\Pi_j$ with $j \approx i$. We prove the conjunction of all $C_j$ with 
+$j \approx i$ by nested induction. 
+
+For each $j \approx i$, each $k \in [1,v]$ we split the sets of variables $[1,v]$
+in families $\setF_{j,k}$, most of them empty. 
+
+%17:57 05/11/2025
+
+and for each set we use induction on the size of the set.
+
+We call \emph{$a$-sequences} all composable sequences 
+$\vec{R} = R_{1} \ldots R_{h}$ between $C_b$ and $C_c$ for some $b, c \approx a$.
+All $R_i$ in $\vec{R}$ are between $C_d$ and $C_e$ for some $d,e \approx a$,
+because when a sequence moves outside the equivalence class of $a$ it cannot ever come back.
+
+We set $\length(\vec {R}) = h$. 
+
+
+%%%%%%%%%%%%%%%
+% FIRST ATTEMPT 06/11/2025
+%%%%%%%%%%%%%%%
+%For all $i \in [1,h]$, we define $\dom(\vec {R},i) = \{ \sigma(i) | \sigma \mbox{ path in }
+%\vec{R} \}$. Let $R = \Pi \vec{R}$: then $\dom(\vec {R},0) = \dom(R)$ and 
+%$\dom(\vec {R},h) = \codom(R)$.
+%The sets $\dom(\vec {R},i)$ for $0 < i < h$ are the intermediate steps in the paths
+%from $\dom(R)$ to $\codom(R)$. 
+%%%%%%%%%%%%%%%
+
+
+By injectivity, we deduce that $\Card(\dom(R_i \ldots R_h))$
+is a weakly increasing sequence with index $i \in [1,h]$. The 
+elements in $\dom(R_i \ldots R_h)$ can be images of elements
+in $\dom(\Pi_{j=1}^{j=h})$, or not.
+
+
+\begin{definition}
+Assume that $\vec{R}$ is any composable sequence.
+Let $R = \Pi_{j=1}^{j=h} \vec{R}$. 
+
+\begin{enumerate}
+\item
+We say that $\vec{R}$ has constant-cardinality if
+$\Card(\dom(\Pi_{j=k}^{j=h})$ is constant.
+
+\item
+We say that $\vec{R}$ is a bijection chain if all 
+$
+R_1 \restr \dom(R), 
+R_1 R_2 \restr \dom(R), 
+\ldots, 
+R_1 R_2\ldots R_h \restr \dom(R)
+$
+are bijections.
+
+\item
+We call a \emph{trace} in $\vec{R}$ 
+any sequence $\sigma = a_i, \ldots, a_{h+1}$
+such that $a_i R_{i} a_{i+1} R_{i+1} \ldots a_{h} R_{h} a_{h+1}$,
+for some $i \in [1,h]$. 
+
+\item
+A composable sequence is stationary if and only if all its traces are.
+\end{enumerate}
+
+\end{definition}
+
+If $\vec{R}$ has constant-cardinality then $\vec{R}$ is a bijection chain,
+but the converse is not true, not even for injective families. 
+For instance $R_1=\{(1,1)\}$, $R_2=\{(1,1), (2,2)\}$
+is an injective family, it is a bijection chain because $\dom(R) = \{1\}$ and 
+$R_1 = R_1 R_2 = \{(1,1)\}$, yet $\dom(R_2) = \{1,2\} \supset \{1\} = \dom(R_1R_2)$.
+
+A composable sequence is stationary if and only all $R_i \ldots R_h$ are stationary, 
+for all $i \in [1,h]$. 
+
+\subsection{The sets of variables used in the translation from cyclic to inductive}
+Assume $\vec{R}$ is any length $h$ $a$-sequence, from $C_b$ to $C_c$ 
+for some $b,c \approx $.
+
+We define $\setF_{a,f}(\vec{R}) = \dom(\Pi_{i=j}^{i=h} R_i)$ 
+for the first $j \in [1,h]$, if any, such that
+$\{\Card(   \dom(\Pi_{i=k}^{i=h} R_i)  ) | k \in [1,j]  \}$ 
+has $f$ distinct integer values. $\setF_{b,1}(\vec{R}) $
+is always defined and equal to $\dom(\Pi_{i=1}^{i=h} R_i)$, 
+if $\setF_k(\vec{R})$ is defined then $k \in [1,v]$. 
+
+
+\subsection{A decreasing index for the set of variables}
+Assume $b \approx a$.
+We define an index $i(X,b) \in \N^+$ for the set $X$. $i(X,b)$ is the maximum value 
+$\length(\vec{R})$ such that there is some stationary 
+bijection chain $\vec{R}$ from $C_b$ to $C_c$, for some $c \approx a$.
+
+We set $i(X,b)=0$ if $X \not = \dom(\vec {R})$ for all stationary $a$-bijection chains 
+$\vec {R}$ from $C_b$.
+
+The index $i(X,b)$ has a finite value, which is decreasing through stationary bijection chains.
+
+
+\begin{lemma} 
+\begin{enumerate}
+\item
+$i(X,b) \le \Card(\setG_{\approx i}) \times \genfrac(){0pt}{1}{v}{k}$, where $k = \Card(X)$.
+\item
+If $R$ is a relation between $C_b$ and $C_c$ and a stationary bijection between
+$X$ and $Y$, then $i(X,b) > i(Y,c)$. 
+\end{enumerate}
+\end{lemma}
+
+\subsection{A Claim about translating cyclic proof}
+We translate a cyclic proof into an inductive proof. For some $a$-sequence
+$\vec{R}$, the translated proof is by:
+
+\begin{enumerate}
+\item
+principal induction on $\size( X )$ for $X = \setF_{b,1}(\vec{R})$ 
+\item
+secondary induction on $i(X,b)$,
+\item
+third on $\size(Y)$ for $Y = \setF_{b,2}(\vec{R})$
+\item
+forth on $i(Y,c)$, 
+\item
+and so forth \ldots
+\end{enumerate}
+The induction on $\size(Y)$ {\bf can be replaced by an induction on $\size(Y) - \size(X)$}
+if there is a stationary bijection $\vec{R}$ between $X$ and $Y$.
 \end{document}
 
