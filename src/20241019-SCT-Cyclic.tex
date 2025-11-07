@@ -2283,24 +2283,51 @@ value $\sigma(x)$, and all traces progresses at most $n-1$ times, where $n=\Card
 \label{section-newversion}
 
 \newcommand{\size} 		{{\tt s}}
-\newcommand{\unfold} {{\tt u}}
+\newcommand{\unfold}{{\tt u}}
+\newcommand{\height} {{\tt h}}
 \newcommand{\setF} 		{{\mathcal F}}
+\newcommand{\setU} 	{{\mathcal U}}
+
+\subsection{Notation for product}
+We write $N^+$ for the set of positive integers. We use $a,b,c,d,e,f,g,h,i,j,k$ to denote positive
+integers. If $a,b$ are positive integers, we define the segment
+$[a,b] = \{c \in N^+ | a \le c \le b \}$. 
+We have $[a,a] = \{a\}$ and $[a,b] = \emptyset$ whenever $a>b$.
+
+Assume $h \in \N^+$ and $\vec{R}=R_1, \ldots, R_h$ is any sequence of binary relations.
+We call $h$ the length of $\vec{R}$ and we denote it with $\length(\vec {R})$. 
+
+For any $i \in [1,h]$, $R_i \ldots R_h$ is defined as the set of all pairs $(x,y)$ such that there 
+are $x_i, \ldots, x_{h+1}$ for which we have $x=x_i R_i x_{i+1} R_{i+1} \ldots R_{h} 
+x_{h+1} = y$. 
+
+We also write $\Pi_{j=i}^{j=h} R_j$ for $R_i \ldots R_h$.
+We also write $\Pi \vec{R}$ for $\Pi_{j=1}^{j=h} R_j$, that is, for $R_1 \ldots R_h$.
 
 
 \subsection{The size of an inductively defined term}
-We define the inductively defined terms as those of the form 
-$t = f(\vec{t}, \vec{u})$, with all terms $\vec{t} = t_1, \ldots, t_n$ 
-inductively defined and all terms $\vec{u} = u_1 + \ldots + u_m$ 
-are parameters of the inductive term. 
-We recursively define the size $\size{t}$ of $t$ as the number of inductive constructors $t$,
-namely $\size{t} = 1 + \size(\vec{t})$
-and $\size(\vec{t}) = \size{t_1} + \ldots + \size{t_n}$. 
 
-We define the size $\size(X)$ of a set of variables as the sum of the size $\size(a)$
-of the values $a$ of its variables. The size of a
-variable is the number of inductive constructor it contains. For instance, $\size(S(S(0)))$ is $3$
-because $S(S(0))$ contains two $S$ and one $0$. 
+Assume $V_1, \ldots, V_m$ are sets of inductively defined terms.
+We define a set $U$ of inductively defined terms as those of the form 
+$t = f(\vec{t}, \vec{u})$, for any constructor $f$ of $U$,
+for any $\vec{t} = t_1, \ldots, t_n \in U$,
+and for any $\vec{u} = u_1 + \ldots + u_m$, where $u_1 \in V_1, \ldots, u_m \in V_m$.
+
+If $t \in U$, we recursively define the size $\size{t}$ of $t$ as the number of inductive 
+constructors $t$, namely $\size{t} = 1 + \size(\vec{t})$ and 
+$\size(\vec{t}) = \size{t_1} + \ldots + \size{t_n}$. 
+For instance, let $\tt 0$ be zero and $\tt S$ be the successor. 
+Then $\tt \size(S(S(0)))$ is $3$
+because $\tt S(S(0))$ contains two $\tt S$ and one $\tt 0$. 
 The size of a notation for $n \in \N$ is $n+1$.
+
+We assume having in any node of the proof with set of variable names $V$
+some assignment $[\cdot]:V \rightarrow \setU$, where $\setU$ is the set of inductive
+terms interpreting individuals. We use the integers in $[1,v]$ as variable names.
+
+We define the size $\size(X) = \Sigma_{a \in X}\size([a]) $ 
+of a set of variable names as the sum of the size $\size([a])$
+of the values $[a]$ of each variable name $a \in X$. 
 
 A size is always $\ge 1$. For instance the size of $\langle a, b \rangle$,
  the inductively defined pair $\N \times \N$,
@@ -2316,10 +2343,11 @@ $v$ is finite by regularity of $\Pi$.
 
 Let $r$ be any rule, and $c$ be the conclusion of $r$, and $a$ any assumption of
 $r$. We assume that the edge $(c,a)$ from $c$ to $a$ in $r$ is labeled by some 
-pair $(\Stat,\Prog)$ of binary relations on $[1,v]$.
+pair $(\Stat,\Prog)$ of binary relations on $[1,v]$ such that $\Stat, \cap \Prog = \emptyset$.
 
-We say that the labeling is inective when $\universe{(\Stat,\Prog)} =
-\Stat \cup \Prog$ is \emph{injective}.
+We say that the labeling is inective when $R = \universe{(\Stat,\Prog)} =
+\Stat \cup \Prog$ is an \emph{injective} relation, namely, 
+we have $\forall x,y,z. (xRz, yRz \implies x=y)$.
 
 We assume having a regular cyclic proof with some \emph{injective}
 labeling for each edge in each rule. 
@@ -2351,6 +2379,8 @@ We write $i \succ j$ for the associated strict order:
 $i \succeq j$ and $j \not \succeq \i$. We write $i \preceq j$ for $j \succeq i$ and
 $i \prec j$ for $j \succ i$ 
 
+By definition, $i \approx j$ if and only if there are $i_1, \ldots, i_n$ such that
+$i = i_1 \succeq_1 i_2 \succeq_1 i_3 \succeq_1 \ldots \succeq_1 i_n$.
 
 
 \subsection{A translation from cyclic to inductive proofs}
@@ -2358,129 +2388,200 @@ We assuming having the translation for all $\Pi_j$ with $j \prec i$ and we defin
 for all $\Pi_j$ with $j \approx i$. We prove the conjunction of all $C_j$ with 
 $j \approx i$ by nested induction. 
 
-For each $j \approx i$, each $k \in [1,v]$ we split the sets of variables $[1,v]$
-in families $\setF_{j,k}$, most of them empty. 
-
+For each $b \approx a$, each $k \in [1,v]$ we split the sets of variables $[1,v]$
+into families $\setF_{b,k}$, most of them empty. 
 %17:57 05/11/2025
+For each set $X \in \setF_{b,k}$ we prove $C_1 \ldots C_p$ by 
+principal induction on $\size(X)$. Sometimes we need secondary induction and more.
 
-and for each set we use induction on the size of the set.
+We call composable sequences any sequence
+$\vec{R} = R_{1} \ldots R_{h}$ if and only if there are $B_1, \ldots, B_{h+1}$
+such that: for all $i \in [1,h]$, $R_i$ is the label of some path from $B_i$ to $B_{i+1}$.
+We say that $\vec{R}$ is a path from $b_1$ to $b_{h+1}$.
 
 We call \emph{$a$-sequences} all composable sequences 
 $\vec{R} = R_{1} \ldots R_{h}$ between $C_b$ and $C_c$ for some $b, c \approx a$.
 All $R_i$ in $\vec{R}$ are between $C_d$ and $C_e$ for some $d,e \approx a$,
 because when a sequence moves outside the equivalence class of $a$ it cannot ever come back.
 
-We set $\length(\vec {R}) = h$. 
+If $R$ is injective and $X \subseteq \dom(R)$ then either $R \restr X$ is a bijection
+and $\Card(R(X)) = \Card(X)$,
+or some $x \in X$ has at least two distinct images and in this case 
+we have $\Card(R(X)) > \Card(X)$.
 
+If $R$ is injective and $X \subseteq \dom(R)$ and $R(X) \subseteq Y$ then
+$\Card(X) \le \Card(Y)$ and if $\Card(X) = \Card(Y)$ then $R$ is a bijection
+on $X$, but the converse is not true for finite sets $X$, $Y$. 
+We can have $R$ bijection on $X$ and
+$R(X) \subset Y$ and in this case $\Card(X) = \Card(R(X)) < \Card(Y)$
 
-%%%%%%%%%%%%%%%
-% FIRST ATTEMPT 06/11/2025
-%%%%%%%%%%%%%%%
-%For all $i \in [1,h]$, we define $\dom(\vec {R},i) = \{ \sigma(i) | \sigma \mbox{ path in }
-%\vec{R} \}$. Let $R = \Pi \vec{R}$: then $\dom(\vec {R},0) = \dom(R)$ and 
-%$\dom(\vec {R},h) = \codom(R)$.
-%The sets $\dom(\vec {R},i)$ for $0 < i < h$ are the intermediate steps in the paths
-%from $\dom(R)$ to $\codom(R)$. 
-%%%%%%%%%%%%%%%
-
-
-By injectivity, we deduce that $\Card(\dom(R_i \ldots R_h))$
-is a weakly increasing sequence with index $i \in [1,h]$. The 
-elements in $\dom(R_i \ldots R_h)$ can be images of elements
-in $\dom(\Pi_{j=1}^{j=h})$, or not.
+By injectivity for each $R_i$, we deduce that $\Card(\dom(R_i \ldots R_h))
+\le \Card(\dom(R_{i+1}\ldots R_h))$ for all $i \in [1,h-1]$. The 
+elements in $\dom(R_i \ldots R_h)$ can be images through $R_1 \ldots R_{i-1}$ of elements
+in $\dom(\Pi_{j=1}^{j=h} R_j)$ or not.
 
 
 \begin{definition}
-Assume that $\vec{R}$ is any composable sequence.
-Let $R = \Pi_{j=1}^{j=h} \vec{R}$. 
+Assume that $\vec{R}$ is any length $h$ composable sequence.
+Let $R = \Pi \vec{R}$ and $i \in [1,h]$.
 
 \begin{enumerate}
 \item
-We say that $\vec{R}$ has constant-cardinality if
-$\Card(\dom(\Pi_{j=k}^{j=h})$ is constant.
+We say that $\vec{R}$ has constant-cardinality in $i$ if :
+either $i<h$ and
+$\Card(\dom(\Pi_{j=i}^{j=h} R_j)  = \Card(\dom(\Pi_{j=i+1}^{j=h} R_j)$,
+or $i=h$ and $R_h$ is a bijection on $\dom(R_h)$.
 
 \item
-We say that $\vec{R}$ is a bijection chain if all 
-$
-R_1 \restr \dom(R), 
-R_1 R_2 \restr \dom(R), 
-\ldots, 
-R_1 R_2\ldots R_h \restr \dom(R)
-$
-are bijections.
+We say that $\vec{R}$ has constant-cardinality if $\vec{R}$ has constant-cardinality
+in all $i \in [1,h]$.
 
 \item
-We call a \emph{trace} in $\vec{R}$ 
-any sequence $\sigma = a_i, \ldots, a_{h+1}$
-such that $a_i R_{i} a_{i+1} R_{i+1} \ldots a_{h} R_{h} a_{h+1}$,
-for some $i \in [1,h]$. 
+We say that $\vec{R}$ is a bijection chain in $i$ if:
+$R_i$ is a bijection on $\dom(\Pi_{j=i}^{j=h} R_j)$.
 
 \item
-A composable sequence is stationary if and only if all its traces are.
+We say that $\vec{R}$ is a bijection if $\vec{R}$ is a bijection on all $i \in [1,h]$. 
+
+$\vec{R}$ is an $a$-bijection chain if $\vec{R}$ is also an $a$-sequence.
+
+%\item
+%We call a \emph{trace} in $\vec{R}$ 
+%any sequence $\sigma = a_i, \ldots, a_{h+1}$
+%such that $a_i R_{i} a_{i+1} R_{i+1} \ldots a_{h} R_{h} a_{h+1}$,
+%for some $i \in [1,h]$. 
+
+\item
+$\vec{R}$ is stationary if and only $R$ is stationary.
 \end{enumerate}
 
 \end{definition}
 
 If $\vec{R}$ has constant-cardinality then $\vec{R}$ is a bijection chain,
-but the converse is not true, not even for injective families. 
+but the converse is not true, not even when all relations in $\vec{R}$ are
+injective. 
 For instance $R_1=\{(1,1)\}$, $R_2=\{(1,1), (2,2)\}$
-is an injective family, it is a bijection chain because $\dom(R) = \{1\}$ and 
-$R_1 = R_1 R_2 = \{(1,1)\}$, yet $\dom(R_2) = \{1,2\} \supset \{1\} = \dom(R_1R_2)$.
+are injective relations. Let $\vec{R}=R_1,R_2$. Then $\vec{R}$ is a bijection chain because
+$R_1$ restricted to $\dom(R_1R_2) = \{1\}$ is a bijection and 
+$R_2$ restricted to $\dom(R_2) = \{1,2\}$ is a bijection. However, 
+$\Card(\dom(R_1R_2))  = 1 < 2 = \Card(\dom(R_2))$, therefore 
+$\vec{R}$ is \emph{not} cardinality-constant.
 
 A composable sequence is stationary if and only all $R_i \ldots R_h$ are stationary, 
 for all $i \in [1,h]$. 
+
 
 \subsection{The sets of variables used in the translation from cyclic to inductive}
 Assume $\vec{R}$ is any length $h$ $a$-sequence, from $C_b$ to $C_c$ 
 for some $b,c \approx $.
 
-We define $\setF_{a,f}(\vec{R}) = \dom(\Pi_{i=j}^{i=h} R_i)$ 
-for the first $j \in [1,h]$, if any, such that
-$\{\Card(   \dom(\Pi_{i=k}^{i=h} R_i)  ) | k \in [1,j]  \}$ 
-has $f$ distinct integer values. $\setF_{b,1}(\vec{R}) $
-is always defined and equal to $\dom(\Pi_{i=1}^{i=h} R_i)$, 
-if $\setF_k(\vec{R})$ is defined then $k \in [1,v]$. 
+Let us consider the sequence of sets $D_j = \dom(\Pi_{i=j}^{i=h} R_i)$
+for $j \in [1,h]$ and $D_{h+1} = \codom(R_h)$. 
+We define $\setF_{a,f}(\vec{R}) = D_j$ 
+for the \emph{last} $j \in [1,h+1]$, if any, such that
+$\{\Card(D_k) | k \in [1,j]  \}$ has $f$ \emph{distinct} integer values. 
+
+$\setF_{b,1}(\vec{R}) $ is always defined and it is equal to $D_j$
+for the last $j \in [1,h+1]$ such that 
+$\Card(D_1) = \Card(D_j)$. When $\Card(D_1) < \Card(D_2)$ we have $j=1$.
+
+If $\setF_{b,k}(\vec{R})$ is defined then $k \in [1,v]$, because
+$\Card(D_j) \le v$ for any $D_j$,
+therefore the possible values of $\Card(D_j)$ are at most $v$.
+
+We define $\setF_{a,f}$ as the set of all $\setF_{a,f}(\vec{R})$ which are defined
+for some $\vec{R}$. $\setF_{a,f}$ can be empty.
 
 
-\subsection{A decreasing index for the set of variables}
+\subsection{A decreasing height for the set of variables}
 Assume $b \approx a$.
-We define an index $i(X,b) \in \N^+$ for the set $X$. $i(X,b)$ is the maximum value 
+We define an index $\height(X,b) \in \N^+$ for the set $X$. 
+$\height(X,b)$ is the maximum value 
 $\length(\vec{R})$ such that there is some stationary 
-bijection chain $\vec{R}$ from $C_b$ to $C_c$, for some $c \approx a$.
+$a$-bijection chain $\vec{R}$ from $C_b$.
 
-We set $i(X,b)=0$ if $X \not = \dom(\vec {R})$ for all stationary $a$-bijection chains 
+We set $\height(X,b)=0$ if $X \not = \dom(\vec {R})$ for all stationary $a$-bijection chains 
 $\vec {R}$ from $C_b$.
 
-The index $i(X,b)$ has a finite value, which is decreasing through stationary bijection chains.
+The index $\height(X,b)$ has a finite value, which is decreasing through stationary bijection chains.
 
 
 \begin{lemma} 
 \begin{enumerate}
 \item
-$i(X,b) \le \Card(\setG_{\approx i}) \times \genfrac(){0pt}{1}{v}{k}$, where $k = \Card(X)$.
+$\height(X,b) \le \Card(\setG_{\approx i}) \times \genfrac(){0pt}{1}{v}{k}$, where 
+$k = \Card(X)$.
 \item
 If $R$ is a relation between $C_b$ and $C_c$ and a stationary bijection between
-$X$ and $Y$, then $i(X,b) > i(Y,c)$. 
+$X$ and $Y$, then $\height(X,b) > \height(Y,c)$. 
 \end{enumerate}
 \end{lemma}
 
 \subsection{A Claim about translating cyclic proof}
 We translate a cyclic proof into an inductive proof. For some $a$-sequence
-$\vec{R}$, the translated proof is by:
+$\vec{R}$, the translated proof is by lexicographic order on sequences 
+of length between $1$ and $2v$:
 
 \begin{enumerate}
 \item
 principal induction on $\size( X )$ for $X = \setF_{b,1}(\vec{R})$ 
 \item
-secondary induction on $i(X,b)$,
+secondary induction on $\height(X,b)$ (can be skipped if $\height(X,b)=0$),
 \item
 third on $\size(Y)$ for $Y = \setF_{b,2}(\vec{R})$
 \item
-forth on $i(Y,c)$, 
+forth on $\height(Y,c)$  (can be skipped if $\height(Y,c)=0$), 
 \item
 and so forth \ldots
 \end{enumerate}
+
+We compare two sequences of integers according to the first element they differ.
+If one is a prefix of the other and they are different, the first one is smaller.
+
 The induction on $\size(Y)$ {\bf can be replaced by an induction on $\size(Y) - \size(X)$}
-if there is a stationary bijection $\vec{R}$ between $X$ and $Y$.
+if there is a stationary $a$-bijection $\vec{R}$ in $1$ between $X$ and $Y$.
+
+\begin{theorem}
+The translated inductive proof is correct. 
+\end{theorem}
+
+\begin{proof}
+Suppose $\vec{R}$ is some $a$-sequence from $C_b$ to $C_c$. 
+Suppose $\vec{R}$ increases to  $\vec{R},S$, with $S$ from $C_c$ to $C_d$.
+Suppose we have nested induction on 
+$(\size(X_1),h_1,\size(X_2),h_2, \ldots, \size(X_k),h_k)$. We prove 
+that the translated inductive proof is correct. 
+
+\begin{enumerate}
+\item
+Suppose $X_k \subseteq \dom(S)$. Then $\Card(S(X_k)) \ge \Card(X_k)$.
+Suppose  that $\Card(S(X_k)) > \Card(X_k)$.
+Then all $X_1, \ldots, X_k$ stay the same and we add a new set $X_{k+1} = S(X_k)$. 
+Then the translated proof is correct because when we add a new element the sequence
+is smaller.
+
+\item
+Suppose $X_k \subseteq \dom(S)$ and $\Card(S(X_k)) = \Card(X_k)$.
+Then all $X_1, \ldots, X_{k-1}$ stay the same and $S$ is a bijection 
+from $X_k$ to $X'_k=S(X_k)$. Then $\size(X_k) \ge \size(X'_k)$.
+Suppose $S$ is a \emph{stationary} bijection. Then $\height(X_k,c) > \height(X'_k,d)$
+and the translated proof is correct.
+
+\item
+Suppose  $S$ is a \emph{progressing} bijection. Then $\size(X_k) \ge \size(X'_k)$ 
+and the translated proof is correct.
+
+\item
+Suppose $X_k \not \subseteq \dom(S)$. Then there is a first $i \in [1,k]$ such that the new value 
+of $X_i$ is some $Y \subset X_i$ and $X_i$ is associated to some $c$. 
+If $i=1$ or $i>1$ and $\Card(X_{i-1}) <  \Card'(Y)$
+then $Y$ is the new value of $X_{i-1}$ and $\size(X_i) > \size(Y)$. 
+Then the translated proof is correct.
+Otherwise we have $i>1$ and  $\Card(X_{i-1}) =  \Card(Y)$. In this case
+$Y$ is the new value of $X_{i-1}$, not of $X_i$, which instead disappears.
+Then $\height(X_{i-1},c) > \height(Y,d)$ and the translated proof is correct.
+\end{enumerate}
+\end{proof}
+
 \end{document}
 
