@@ -2278,6 +2278,8 @@ value $\sigma(x)$, and all traces progresses at most $n-1$ times, where $n=\Card
 
 
 \newpage
+\mbox{ }
+\newpage
 
 \section{New version of the paper on injectivity (from 2025)}
 \label{section-newversion}
@@ -2289,10 +2291,12 @@ value $\sigma(x)$, and all traces progresses at most $n-1$ times, where $n=\Card
 \newcommand{\setU} 	{{\mathcal U}}
 
 \subsection{Notation for product}
-We write $N^+$ for the set of positive integers. We use $a,b,c,d,e,f,g,h,i,j,k$ to denote positive
-integers. If $a,b$ are positive integers, we define the segment
+We write $N^+$ for the set of positive integers. 
+We use $a,b,c,d,e,f,g,h,i,j,k$ to denote elements of $N^+$. 
+If $a,b \in N^+$, we define the segment
 $[a,b] = \{c \in N^+ | a \le c \le b \}$. 
-We have $[a,a] = \{a\}$ and $[a,b] = \emptyset$ whenever $a>b$.
+We have $[a,b] = \emptyset$ whenever $a>b$ and $[a,a] = \{a\}$, $[a,a+1] = \{a,a+1\}$ 
+and so forth.
 
 Assume $h \in \N^+$ and $\vec{R}=R_1, \ldots, R_h$ is any sequence of binary relations.
 We call $h$ the length of $\vec{R}$ and we denote it with $\length(\vec {R})$. 
@@ -2433,12 +2437,14 @@ $\Card(\dom(\Pi_{j=i}^{j=h} R_j)  = \Card(\dom(\Pi_{j=i+1}^{j=h} R_j)$,
 or $i=h$ and $R_h$ is a bijection on $\dom(R_h)$.
 
 \item
-We say that $\vec{R}$ has constant-cardinality if $\vec{R}$ has constant-cardinality
+We say that $\vec{R}$ is constant-cardinality chain if $\vec{R}$ has constant-cardinality
 in all $i \in [1,h]$.
+
+$\vec{R}$ is an $a$-constant-cardinality chain if $\vec{R}$ is also an $a$-sequence.
 
 \item
 We say that $\vec{R}$ is a bijection chain in $i$ if:
-$R_i$ is a bijection on $\dom(\Pi_{j=i}^{j=h} R_j)$.
+$R_i$ is a bijection if restricted to $\dom(\Pi_{j=i}^{j=h} R_j)$.
 
 \item
 We say that $\vec{R}$ is a bijection if $\vec{R}$ is a bijection on all $i \in [1,h]$. 
@@ -2498,7 +2504,7 @@ Assume $b \approx a$.
 We define an index $\height(X,b) \in \N^+$ for the set $X$. 
 $\height(X,b)$ is the maximum value 
 $\length(\vec{R})$ such that there is some stationary 
-$a$-bijection chain $\vec{R}$ from $C_b$.
+$a$-constant cardinality chain $\vec{R}$ from $C_b$.
 
 We set $\height(X,b)=0$ if $X \not = \dom(\vec {R})$ for all stationary $a$-bijection chains 
 $\vec {R}$ from $C_b$.
@@ -2535,11 +2541,18 @@ forth on $\height(Y,c)$  (can be skipped if $\height(Y,c)=0$),
 and so forth \ldots
 \end{enumerate}
 
-We compare two sequences of integers according to the first element they differ.
-If one is a prefix of the other and they are different, the first one is smaller.
-
 The induction on $\size(Y)$ {\bf can be replaced by an induction on $\size(Y) - \size(X)$}
 if there is a stationary $a$-bijection $\vec{R}$ in $1$ between $X$ and $Y$.
+
+We compare two sequences of integers $(n_1,m_1, \ldots, n_k, m_k)$
+and  $(n'_1,m'_1, \ldots, n'_{k'}, m'_{k'})$ according to the first element they differ.
+If one is a prefix of the other and they are different, the first one is smaller.
+
+We formally write the induction number $k$ as follows: 
+$\exists X \in \setF_{b,g}
+( \ (\size(X) < n_g) \ \vee \ (\size(X) = n_g \wedge \height(X,b) = m_g) \ )$.
+\\
+
 
 \begin{theorem}
 The translated inductive proof is correct. 
