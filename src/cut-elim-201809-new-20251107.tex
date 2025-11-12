@@ -328,7 +328,7 @@ proof
 \newcommand{\Ack}   {{\tt A}}
 \newcommand{\LKID} { {\tt LKID} }
 \newcommand{\CLKID} { {\tt CLKID} }
-\newcommand{\Weak} { {\tt Weak} }
+\newcommand{\Weak} { {\tt w} }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -502,6 +502,7 @@ This rules out the possibility of proving $2n$ total. The same argument holds fo
 \newpage
 
 \subsection{The Ackermann function}
+\label{subsection-ackermann}
 The Ackermann–Peter version of the Ackermann function is a map $\Ack:\Nat^2 \rightarrow 
 \Nat$ defined by the following one-step rewriting rules, denoted by  $\reduces_1$. 
 For all $x, y$ if $\Nat x, \Nat y$ we ask that:
@@ -516,18 +517,19 @@ $\Ack(Sx,Sy) \reduces_1 \Ack(x,\Ack(Sx,y))$
 We write $\reduces_t$ for reduction $t$ times. 
 
 We define the totality statement for Ackermann as a map $\Nat^2 \rightarrow 
-\Nat$ on a pair $x, y$ as 
-$\Tot(x,y) = \exists z, t. (\Nat z) \wedge (\Nat t) \wedge (\Ack(x,y) \reduces_t z)$, 
-requiring that the image $z$ of $(x,y)$ is in $\Nat$.
+\Nat$ on a pair $(x, y)$ as 
+$\Tot(x,y) = \exists z, t. (\Nat z) \wedge (\Nat t) \wedge (\Ack(x,y) \reduces_t z)$. 
+The totality statement $\Tot(x,y)$ requires that the image $z$ of $(x,y)$ is in $\Nat$.
 The Ackermann binary function defines a family $\{Ack(x,\cdot)| x \in \Nat \}$ of unary
 maps. The totality of the map $\Ack(x,\cdot)$ from $\Nat$ to $\Nat$ 
 is formulated as the $\Pi^0_2$-predicate 
-$T(x) = \forall y. \Nat y \rightarrow \Tot(x,y)$. The totality of $\Ack$ 
+$T(x) = \forall y( \Nat y \rightarrow \Tot(x,y))$. The totality of $\Ack$ 
 from $\Nat \times \Nat$ to $\Nat$ is stated with the
-$\Pi^0_2$-formula $\forall x. \Nat x \rightarrow T(x)$.
+$\Pi^0_2$-formula $\forall x( \Nat x \rightarrow T(x) )$.
+ 
  
 \subsubsection{Totality of $\Ack:\Nat^2 \rightarrow \Nat$ (informal proof)}
-By $\Pi^0_2$-induction on $x$ such that $\Nat x$ we may prove 
+By induction on $x$ such that $\Nat x$ we may prove totality of $\Ack$.
 
 \begin{lemma}[Ackermann is Total (informal proof)]
 \label{lemma-ackermann-informal}
@@ -546,7 +548,7 @@ $\Ack(0,\cdot)$ is the successor map, which is total from from $\Nat$ to $\Nat$.
 \item
 {\bf Inductive Case: from $x$ to $Sx$}. 
 Assume that $\Nat x$ and that $\Ack(x,\cdot)$ is total in order to prove that
-$\Ack(Sx,\cdot)$ is total. We prove by induction on $y$ such that $\Nat y$ that 
+$\Ack(Sx,\cdot)$ is total. We prove by induction on $y$ such that $\Nat y$ that: 
 $\Ack(Sx,y) \reduces_t z$ for some $t,z$ such that $\Nat t$, $\Nat z$. 
 
 \begin{enumerate}
@@ -563,7 +565,8 @@ We prove that $\Ack(Sx,Sy) \reduces_t z$
 for some $t,z$ such that $\Nat t$, $\Nat z$. 
 By principal induction hypothesis we have $\Ack(Sx,y) \reduces_u z$ for some $u,z$ such that 
 $\Nat u, \Nat z$. By secondary induction hypothesis \emph{istanciated on $y=z$} 
-we have $\Ack(x,z) \reduces_v w$. The thesis follows from 
+we have $\Ack(x,z) \reduces_v w$ for some $v$,$w$ such that $\Nat v$, $\Nat w$. 
+The thesis follows from 
 $\Ack(Sx,Sy) \reduces_1 \Ack(x,z)$ and $\Ack(x,z) \reduces_v w$.
 
 \end{enumerate}
@@ -571,19 +574,21 @@ $\Ack(Sx,Sy) \reduces_1 \Ack(x,z)$ and $\Ack(x,z) \reduces_v w$.
 \end{proof}
 %10:34 09/11/2025
 
-\subsection{Ackermann as an inductive predicate in $\LKID$}
+\subsubsection{Ackermann as an inductive predicate in $\LKID$}
 We replace the statement $\exists t. (\Nat  t) \wedge \Ack(x,y) \reduces_t z$ in $\LKID$ 
-as an \emph{inductive predicate} $\Ack(x,y,z)$. We replace the correctness 
+with an \emph{inductive predicate} $\Ack(x,y,z)$. We replace the correctness 
 statement $\exists z. \Nat z \wedge \Ack(x,y,z)$ with an \emph{inductive predicate}  
  $\Tot(x,y)$. We insert two simplifications:
  \begin{enumerate}
 \item 
 In the definition of $\Ack(x,y,z)$
-we skip the index $t$ such that $\Nat$ counting the number of reduction steps.
+we skip the index $t$ counting the number of reduction steps.
 \item
-In the definition of $\Tot(x,y)$ we skip the requirement $\Nat z$.
-The reason is that $\Nat z$ can be proved from 
-$\Nat y, \Ack(x,y,z)$, by induction on the definition of $\Ack(x,y,z)$.
+In the definition of $\Tot(x,y)$ as $\Ack(x,y,z)$ for some $z$
+we skip the requirement $\Nat z$. The reason is that $\Nat z$ can be proved from 
+$\Nat y, \Ack(x,y,z)$, by induction on the definition of $\Ack(x,y,z)$: we do it
+in the next subsection.
+
 \end{enumerate}
 
 \begin{definition}[The $R$-rules for $\Ack$ and $\Tot$]
@@ -614,40 +619,39 @@ $\infer{\Gamma \vdash \Delta, \Ack(x,y,z)}{\Gamma \vdash \Delta,\Tot(x,y)}$
 \end{enumerate}
 \end{definition}
 
-The $\Ack L$, $\Tot L$-rules are defined in $\LKID$ as a consequence, using \emph{fresh}
-variables. 
-
 $L$-rules are required to prove that the image of $(x,y)$ such that $\Nat x$,
 $\Nat y$ is in $\Nat$ (see later).
 $L$-rules are also required to prove that the image of $(x,y)$ such that $\Nat x$,
-$\Nat y$ is, but we do not include this proof here.
+$\Nat y$ is unique, but we do not include this proof here.
 
-Assume $x,y,z,t \not \in \FV(t,u,v,\Gamma,\Delta)$.
+The $\Ack L$, $\Tot L$-rules are defined in $\LKID$ as a consequence of 
+$\Ack R$, $\Tot R$-rules, using \emph{fresh} variables. 
+Assume $x,y,z,w \not \in \FV(t,u,v,\Gamma,\Delta)$.
 
 \begin{enumerate}
 \item
 The$L$-rule with conclusion $\Ack(t,u,v),\Gamma \vdash \Delta$ 
-has $3$ premises, one for each $R$-rule for the same predicate:
-\begin{enumerate}
+has $3$ premises a,b,c, one for each $R$-rule for the same predicate:
+\begin{itemize}
 \item
-Premise 1 is: 
+Premise (a) is: 
 $t=0, u=y, v=Sy,\Gamma \vdash \Delta$
 \item
-Premise 2 is:  
+Premise (b) is:  
 $t=Sx, u=0, v=z, \Ack(x,1,z),\Gamma \vdash \Delta$
 \item 
-Premise 3 is:  
-$t=Sx, u=Sy, v=z, \Ack(Sx,y,z), \Ack(x,z,t),\Gamma \vdash \Delta$
-\end{enumerate}
-
+Premise (c) is:  
+$t=Sx, u=Sy, v=z, \Ack(Sx,y,w), \Ack(x,z,w),\Gamma \vdash \Delta$
+\end{itemize}
+Here is the $\Ack L$-rule:
 \begin{center}
 {\scriptsize          %in order to make the proof-tree smaller
   \hspace{-3cm} 
- $\infer
+ $\infer[\Ack L]
   {\Ack(t,u,v),\Gamma \vdash \Delta}
-  {   \deduce{t\!=\!0, u\!=\!y, v\!=\!Sy,\Gamma \vdash \Delta}{(1)} & 
-    	 \deduce{t\!=\!Sx, u\!=\!0, v\!=\!z, \Ack(x,1,z),\Gamma \vdash \Delta}{(2)} & 
-    	 \deduce{t\!=\!Sx, u\!=\!Sy, v\!=\!z, \Ack(Sx,y,z), \Ack(x,z,t),\Gamma \vdash \Delta}{(3)}
+  {   \deduce{t\!=\!0, u\!=\!y, v\!=\!Sy,\Gamma \vdash \Delta}{(a)} & 
+    	 \deduce{t\!=\!Sx, u\!=\!0, v\!=\!z, \Ack(x,1,z),\Gamma \vdash \Delta}{(b)} & 
+    	 \deduce{t\!=\!Sx, u\!=\!Sy, v\!=\!z, \Ack(Sx,y,w), \Ack(x,z,w),\Gamma \vdash \Delta}{(c)}
   }
  $
 }
@@ -655,19 +659,27 @@ $t=Sx, u=Sy, v=z, \Ack(Sx,y,z), \Ack(x,z,t),\Gamma \vdash \Delta$
 
 
 \item
-The$L$-rule with conclusion $\Tot(t,u), \Gamma \vdash \Delta$ has a unique premise:
-$$t=x, u=y, \Ack(x,y,z),\Gamma \vdash \Delta$$  
+The $L$-rule with conclusion $\Tot(t,u), \Gamma \vdash \Delta$ has a unique premise:
+\begin{center}
+$\infer[\Tot L]
+  {\Tot(t,u), \Gamma \vdash \Delta}
+  {t=x, u=y, \Ack(x,y,z),\Gamma \vdash \Delta}
+$  
+\end{center}
 \end{enumerate}
 %17:33 02/07/2018
 
-As an immediate consequence we have the following finite proofs, which are parts of 
+As an immediate consequence we have the following finite proofs, which are lemmas of 
 the totality proof. 
-We could prove that $\Tot(Sx,y), \forall z. \Nat z \rightarrow \Tot(x,z) \vdash \Tot(Sx,Sy)$,
-but we only use the weaker property $\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)$.
+In the informal totality proof we used 
+that $$\Tot(Sx,y), \forall z( \Nat z \rightarrow \Tot(x,z) ) \vdash \Tot(Sx,Sy)$$
+but in LKID we only use the weaker property that 
+$\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)$.
 %19:51 09/11/2025
 
 \begin{lemma}
 \label{lemma-ackermann-base}
+Assume $x,y,z,w$ are variables.
 There are finite \emph{cut-free and connective-free} proofs of:
 \begin{enumerate}
 \item
@@ -676,7 +688,7 @@ $\Ack(x,1,z) \vdash \Ack(Sx,0,z)$
 
 \item 
 \label{lemma-ackermann-base-2}
-$\Ack(Sx,y,z), \Ack(x,z,t) \vdash \Ack(Sx,Sy,t)$
+$\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,Sy,w)$
 
 \item
 \label{lemma-ackermann-base-3}
@@ -701,15 +713,50 @@ no \emph{induction on the definition of $\Ack$} is used.
 $\Ack(x,1,z) \vdash \Ack(Sx,0,z)$ is derived by $\Ack R$-rule with premise 
 $\Ack(x,1,z) \vdash \Ack(x,1,z)$. This latter is derived by $\id$-rule.
 
+\begin{center}
+$
+\infer[\Ack R]
+ {\Ack(x,1,z) \vdash \Ack(Sx,0,z)}
+ {\deduce{\Ack(x,1,z) \vdash \Ack(x,1,z)}
+               {\id}
+ }
+$
+\end{center}
+
 \item 
 %\label{lemma-ackermann-base-2}
-$\Ack(Sx,y,z), \Ack(x,z,t) \vdash \Ack(Sx,Sy,t)$ is derived by $\Ack R$ with premise
+$\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,Sy,w)$ is derived by $\Ack R$ with premise
 $\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,y,z)$ and $\Ack(Sx,y,z), \Ack(x,z,w) \vdash  \Ack(x,z,w)$. These latter are derived by $\id$-rules.
+
+\begin{center}
+$
+\infer[\Ack R]
+ {\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,Sy,w)}
+ {
+   \deduce{\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,y,z)}
+               {\id}
+ &
+  \deduce{\Ack(Sx,y,z), \Ack(x,z,w) \vdash  \Ack(x,z,w)}
+               {\id}
+ }
+$
+\end{center}
 
 \item
 %\label{lemma-ackermann-base-3}
-$\vdash \Tot(0,y)$ is derived by $\Tot R$-rule with premise $\vdash \Tot(0,y,Sy)$.
+$\vdash \Tot(0,y)$ is derived by $\Tot R$-rule with premise $\vdash \Ack(0,y,Sy)$.
 This latter is an $\Ack R$-rule.
+
+\begin{center}
+$
+\infer[\Tot R]
+ {\vdash \Tot(0,y)}
+ {\infer[\Ack R]
+    {\vdash \Ack(0,y,Sy)}
+    {}
+ }
+$
+\end{center}
 
 \item 
 %\label{lemma-ackermann-base-4}
@@ -719,13 +766,46 @@ by $\Tot R$-rule with premise $x=x', \Ack(x',1,z) \vdash \Ack(Sx,0,z)$,
 which is derived by $\eq$-rule with premise $\Ack(x,1,z) \vdash \Ack(Sx,0,z)$.
 This is point \ref{lemma-ackermann-base-1} above.
 
+\begin{center}
+$
+\infer[\Tot L]
+ {\Tot(x,1) \vdash \Tot(Sx,0)}
+ {\infer[\Tot R]
+    {x=x', \Ack(x',1,z) \vdash \Tot(Sx,0)}
+    {\infer[\eq]
+      {x=x', \Ack(x',1,z) \vdash \Ack(Sx,0,z)}
+      {\deduce{\Ack(x,1,z) \vdash \Ack(Sx,0,z)}
+                     {\mbox{ point \ref{lemma-ackermann-base-1} above }}
+      }
+    }
+ }
+$
+\end{center}
+
 \item 
 %\label{lemma-ackermann-base-5}
 $\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)$ is derived by $\Tot L$-rule with premise 
-$x=x', z=z', \Ack(Sx,y,z), \Ack(x',z',t) \vdash \Tot(Sx,0)$ with $x',z',t$ fresh.
-This latter is derived by $\Tot R$-rule with premise $x=x', z=z', \Ack(Sx,y,z), \Ack(x',z',t) \vdash  \Ack(Sx,Sy,z)$,
-which is derived by $\eq$-rule with premise $\Ack(Sx,y,z), \Ack(x,z,t) \vdash \Ack(Sx,Sy,t)$.
+$x=x', z=z', \Ack(Sx,y,z), \Ack(x',z',w) \vdash \Tot(Sx,Sy)$ with $x',z',w$ fresh.
+This latter is derived by $\Tot R$-rule with premise $x=x', z=z', \Ack(Sx,y,z), \Ack(x',z',w) \vdash  \Ack(Sx,Sy,z)$,
+which is derived by $\eq$-rule with premise $\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,Sy,w)$.
 This is point \ref{lemma-ackermann-base-2} above.
+
+\begin{center}
+$
+\infer[\Tot L]
+ {\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)}
+ {\infer[\Tot R]
+    {x=x', z=z', \Ack(Sx,y,z), \Ack(x',z',w) \vdash \Tot(Sx,Sy)}
+    {\infer[\eq]
+      {x=x', z=z', \Ack(Sx,y,z), \Ack(x',z',w) \vdash  \Ack(Sx,Sy,z)}
+      {\deduce{\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,Sy,w)}
+                     {\mbox{ point \ref{lemma-ackermann-base-2} above }}
+      }
+    }
+ }
+$
+\end{center}
+
 \end{enumerate}
 \end{proof}
 
@@ -733,30 +813,33 @@ This is point \ref{lemma-ackermann-base-2} above.
 In $\CLKID^\omega$ we may bypass $\Pi^0_2$-induction and we provide a connective-free 
 (hence quantifier-free) proof with cuts of the totality of $\Ack$. We prove first that all $\Ack(t)$ 
 are a \emph{partial} map $:\Nat \rightarrow \Nat$: that is, if $\Nat t, \Nat u, \Ack(t,u,v)$ then
-$\Nat v$. In fact we prove a little more, namely: if $\Nat u, \Ack(t,u,v)$ then $\Nat v$. 
+$\Nat v$. In fact we prove a little more, skipping the assumption $\Nat t$: we prove that 
+if $\Nat u, \Ack(t,u,v)$ then $\Nat v$. 
 
 %17:30 04/07/2018
 
 \begin{lemma}[Ackermann is a partial function on $\Nat$]
 \label{lemma-ackermann-partial}
 Let $t,u$ be any terms of the language $0,S$. There is a connective-free cyclic proof 
-{\bf with cuts} of $\Nat u, \Ack(t,u,v) \vdash \Nat v$ in the same language.
+{\bf with cuts} of $$\Nat u, \Ack(t,u,v) \vdash \Nat v$$
 \end{lemma}
 
 \definecolor{darkred}{rgb}{0.5,0.0,0.0}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.5}
 
-\newcommand{\redStat}[1] { {\color{darkred}\mathbf {#1}} }
-\newcommand{\redProg}[1] { {\color{red}\mathbf {#1}} }
+\newcommand{\redStat}   [1]  { {\color{darkred}\mathbf {#1}} }
+\newcommand{\redProg}  [1]  { {\color{red}\mathbf {#1}} }
 
-\newcommand{\blueStat}[1] { {\color{darkblue}\mathbf {#1}} }
-\newcommand{\blueProg}[1] { {\color{blue}\mathbf {#1}} }
+\newcommand{\blueStat} [1]  { {\color{darkblue}\mathbf {#1}} }
+\newcommand{\blueProg}[1]  { {\color{blue}\mathbf {#1}} }
 
 \begin{proof}
 Let $x,y,z,w\not \in \FV(t,u,v)$ be pairwise distinct variables. We define a connective-free 
 cyclic proof $\Pi_0$ of $\Nat u, \Ack(t,u,v) \vdash \Nat v$ using $\Ack L$ in the root, with 
-$3$ open assumptions. We color the progressing points of traces from $\Ack(t,u,v)$
-in {\bf \color{red}red} and the stationary points in {\bf \color{darkred}dark red}: 
+$3$ open assumptions (1), (2), (3), listed below. 
+We color \emph{some} traces from $\Ack(t,u,v)$, with the progressing points of 
+in {\bf \color{red}red} and the stationary points in {\bf \color{darkred}dark red}.
+We put a box around cut formulas. 
 
 \begin{center}
 $\infer*[\Ack L] %having 3 vertical dots instear of an horizontal line
@@ -769,17 +852,21 @@ $
 \end{center}
 
 We define the $3$ premises of the rule $\Ack L$. Let $x,y,z,w$ be \emph{fresh}
-variables.
-\\
+variables. We frame the cut formula in a box.
 
+\begin{center}
 {\scriptsize
 $
 \infer[\Ack L] 
  {\Nat u, {\redStat{ \Ack(t,u,v) }} \vdash \Nat v}
 %% Premise 1 of \Ack L %%%%%%%
  {
-   \infer*{\Nat u, t\!=\!0, u\!=\!y, v\!=\!Sy \vdash \Nat v} 
-              {} 
+   \infer[\eq]{\Nat u, t\!=\!0, u\!=\!y, v\!=\!Sy \vdash \Nat v} 
+              {\infer[\Nat R]{\Nat y \vdash \Nat Sy}
+                         {\deduce{\Nat y \vdash \Nat y}
+                                        {\id}
+                         } 
+              }
  %% End Premise 1 %%%%%%%%%
  %%%%%%%%%%%%%%%%%%%
 %% Premise 2 of \Ack L %%%%%%%
@@ -800,41 +887,42 @@ $
      {\Nat y,  {\redStat{\Ack(Sx,y,z)}}, 
                    {\redStat{\Ack(x,z,w)}} \vdash \Nat w}
      {
-        \deduce{\Nat y, {\redStat{\Ack(Sx,y,z)}} \vdash \Nat z} {(2)} 
+        \deduce{\Nat y, {\redStat{\Ack(Sx,y,z)}} \vdash \boxed{\Nat z}} {(2)} 
      &
-       \deduce{\Nat z, {\redStat{\Ack(x,z,w)}}  \vdash \Nat w}{(3)}
+       \deduce{\boxed{\Nat z}, {\redStat{\Ack(x,z,w)}}  \vdash \Nat w}{(3)}
      }
    }
 %% End Premise 3 %%%%%%%%%
  }
 $
 }
+\end{center}
 
 \begin{enumerate}
 \item
 \emph{Premise $1$} is $\mathbf{\Nat u, t=0, u=y, v=Sy \vdash \Nat v}$. 
-It is proved by $\eqL$ with premise $\Nat y \vdash \Nat Sy$, 
+It is proved by $\eq$ with premise $\Nat y \vdash \Nat Sy$, 
 which is proved by $\Nat R$ with premise 
 $\Nat y \vdash \Nat y$. This latter is proved by the rule $\id$. 
 
 \item
 \emph{Premise $2$} is $\mathbf{\Nat u, t=x, u=1, v=z, \Ack(x,1,z) \vdash \Nat v}$. 
-It is proved by $\eqL$ with premise $\Nat 1, \Ack(x,1,z) \vdash \Nat z$. This is the 
+It is proved by $\eq$ with premise $\Nat 1, \Ack(x,1,z) \vdash \Nat z$. This is the 
 \emph{open assumption $1$}.
 
 \item
 \emph{Premise $3$} is 
 $\mathbf{\Nat u, t=Sx, u=y, v=w, \Ack(Sx,y,z), \Ack(x,z,w) \vdash \Nat v}$. 
-It is proved by $\eqL$ with premise $\Nat y,  \Ack(Sx,y,z), \Ack(x,z,w) \vdash \Nat w$. 
-This latter is proved by a cut with two premises $\Nat y,  \Ack(Sx,y,z) \vdash \Nat z$ and 
-$\Nat z, \Ack(x,z,w) \vdash \Nat w$. These  two premises are 
-\emph{open assumptions $2$ and $3$}
+It is proved by $\eq$ with premise $\Nat y,  \Ack(Sx,y,z), \Ack(x,z,w) \vdash \Nat w$. 
+This latter is proved by a cut with two premises $\Nat y,  \Ack(Sx,y,z) \vdash \boxed{\Nat z}$ 
+and $\boxed{\Nat z}, \Ack(x,z,w) \vdash \Nat w$. These  two premises are 
+\emph{open assumption $2$} and \emph{open assumption $3$}
 \end{enumerate}
 
 We define a regular infinitary proof tree $\Pi$ \emph{with cuts} out of $\Pi_0$. 
 
-As we said, $\Pi_0$ has $3$ open assumptions, 
-for some variables $x, y, z, w\not \in \FV(t,u,v)$: 
+We can repeat the same operations we did on $\Nat u, \Ack(t,u,v) \vdash \Nat v$ 
+on each of the $3$ open assumption, which are:
 
 \begin{enumerate}
 \item
@@ -845,9 +933,10 @@ $\Nat y, \Ack(Sx,y,z) \vdash \Nat z$
 $\Nat z, \Ack(x,z,w) \vdash \Nat w$
 \end{enumerate} 
 
-We can repeat the same operations we did on $\Nat u, \Ack(t,u,v) \vdash \Nat v$ 
-on each of the $3$ open assumption. From each open assumption we obtain $3$ new open assumptions $\Nat 1, \Ack(x',1,z') \vdash \Nat z$ and $\Nat y', \Ack(Sx',y',z') \vdash \Nat z'$ and $\Nat z', \Ack(x',z',w') \vdash \Nat w'$, for some $x', y', z', w' \not \in \FV(x,y,z,w,t,u,v)$. We rename and we re-obtain the $3$ open assumptions: $\Nat 1, \Ack(x,1,z) \vdash \Nat z$ and $\Nat y, \Ack(Sx,y,z) \vdash \Nat z$ and $\Nat z, \Ack(x,z,w) \vdash \Nat w$.
-This is possible because $x, y, z, w\not \in \FV(t,u,v,x',y',z')$.  We defined a regular tree $\Pi$.
+for some variables $x, y, z, w\not \in \FV(t,u,v)$.
+From each open assumption we obtain $3$ new open assumptions $\Nat 1, \Ack(x',1,z') \vdash \Nat z$ and $\Nat y', \Ack(Sx',y',z') \vdash \Nat z'$ and $\Nat z', \Ack(x',z',w') \vdash \Nat w'$, for some $x', y', z', w' \not \in \FV(x,y,z,w,t,u,v)$. We rename and we re-obtain the $3$ open assumptions: $\Nat 1, \Ack(x,1,z) \vdash \Nat z$ and $\Nat y, \Ack(Sx,y,z) \vdash \Nat z$ and $\Nat z, \Ack(x,z,w) \vdash \Nat w$.
+This is possible because $x, y, z, w\not \in \FV(t,u,v,x',y',z',w')$.  
+We defined a regular tree $\Pi$.
 \\
 
 We prove the global trace condition for $\Pi$. In $\Pi$ whenever we prove $\Nat u, \Ack(t,u,v) \vdash \Nat v$ we derive it from $3$ sequents of the form $\Nat u', \Ack(t',u',v') \vdash \Nat v'$, and in each case there is a \emph{progressing} trace from $\Ack(t,u,v) $ to $\Ack(t',u',v') $. Every infinite path of $\Pi$ has to pass infinitely many times from  $\Nat u, \Ack(t,u,v) \vdash \Nat v$ to some sequent $\Nat u', \Ack(t',u',v') \vdash \Nat v'$, therefore it includes an infinitely progressing trace starting from the unique atom $\Ack(t,u,v) $ in the root.
@@ -857,12 +946,15 @@ $\Box$ \end{proof}
 \subsubsection{Ackermann is a total binary function on $\Nat$}
 From the fact that $\Ack$ is the predicate representing a partial map on $\Nat$ we derive that 
 $\Ack$ is the predicate of a total map on $\Nat$, using cuts but no logical connective.
+In this subsubsection we sue no $\Ack L$-rule, but we use as a lemma the fact that $\Ack$ is
+a partial map on $\Nat$ from the previous subsubsection, and this proof used $\Ack L$.
 
+We write $\eq$ for the equality rule and $\Weak$ for the weakening rule.
 
 \begin{lemma}[Ackermann is a total binary function on $\Nat$]
 \label{lemma-ackermann-total}
 Let $t,u$ be any terms of the language $0,S$. 
-There is a a connective-free cyclic proof with cuts of $\Nat t, \Nat u \vdash \Tot(t,u)$ in the same language, consisting of four finite trees all having $3$ open assumptions.
+There is a a connective-free cyclic proof with cuts of $\Nat t, \Nat u \vdash \Tot(t,u)$ in the same language, consisting of four finite trees all having $3$ open assumptions: (1), (2), (3).
 We color the progressing traces from $\Nat t$
 in {\bf \color{red}red} and the stationary traces from $\Nat t$
 in {\bf \color{darkred} dark red}. 
@@ -872,13 +964,22 @@ in {\bf \color{darkblue} dark blue}.
 
 \begin{center}
 $
-\infer{{\redStat{\Nat t}}, {\blueStat{\Nat u}} \vdash \Tot(t,u)}
-         {\deduce{\vdots}{{\redStat{\Nat x}}, \Nat 1 \vdash \Tot(x,1)}
+\deduce{{\redStat{\Nat t}}, {\blueStat{\Nat u}} \vdash \Tot(t,u)}
+         {
+           \deduce{\vdots}
+                       {\deduce{{\redStat{\Nat x}}, \Nat 1 \vdash \Tot(x,1)}
+                                     {(1)}
+                       }
          &
-           \deduce{\vdots}{{\redStat{\Nat t}}, 
-                                       {\blueStat{\Nat y}} \vdash \Tot(t,y)}
+           \deduce{\vdots}
+                       {\deduce{{\redStat{\Nat t}}, {\blueStat{\Nat y}} \vdash \Tot(t,y)}
+                                     {(2)}
+                        }
          &
-           \deduce{\vdots}{{\redStat{\Nat x}}, \Nat z \vdash \Tot(x,z)}
+           \deduce{\vdots}
+                       {\deduce{{\redStat{\Nat x}}, \Nat z \vdash \Tot(x,z)}
+                                      {(3)}
+                        }
          }
 $ 
 \end{center}
@@ -892,7 +993,8 @@ $
 We use induction on $t$ such that $\Nat t$. We prove $\Nat t, \Nat u \vdash \Tot(t,u)$
 from two premises:
 $t=0, \Nat u \vdash \Tot(t,u)$ and $t=Sx, \Nat x, \Nat u, \Nat t \vdash \Tot(t,u)$
-with $x \not \in \FV(t,u)$. $\Nat t$ progresses to $\Nat x$ in the second premise.
+with $x \not \in \FV(t,u)$. 
+$\Nat t$ {\color{red}{\bf progresses to}} $\Nat x$ in the second premise.
 
 \begin{center}
 $
@@ -913,15 +1015,16 @@ This can be done while using injective traces only.
 \begin{enumerate}
 \item
 {\bf Base case for $\Nat t$: $t=0$}. 
-We prove $t=0, \Nat u \vdash \Tot(t,u)$ from $\eq$-rule
+We prove $t=0, \Nat u \vdash \Tot(t,u)$ from $\eq+\Weak$-rule
 with premise $\Nat u \vdash \Tot(0,u)$. This premise 
 has a finite \emph{cut-free and connective-free} proof
 by Lemma \ref{lemma-ackermann-base}.\ref{lemma-ackermann-base-3}.
+This is Base case for $\Nat t$:
 
 \begin{center}
 $
-\infer{t=0, \Nat u \vdash \Tot(t,u)}
-         {\deduce{\Nat u \vdash \Tot(0,u)}
+\infer[\eq+\Weak]{t=0, \Nat u \vdash \Tot(t,u)}
+         {\deduce{\vdash \Tot(0,u)}
                        {Lemma \ \ref{lemma-ackermann-base}.\ref{lemma-ackermann-base-3}}
          }
 $
@@ -930,33 +1033,39 @@ $
 \item
 {\bf Inductive case for $\Nat t$: $t=Sx$}.
 We prove $t=Sx, \Nat x, \Nat u, \Nat t \vdash \Tot(t,u)$ by $\eq$-rule
-from $\Nat x, \Nat u, \Nat t \vdash \Tot(Sx,u)$.
+from $t=Sx, \Nat x, \Nat u, \Nat t \vdash \Tot(Sx,u)$.
 We prove this latter by induction on $u$ such that $\Nat u$, with first premise
-$\Nat x, u=0, \Nat u, \Nat t \vdash \Tot(Sx,u)$ and second premise 
-$\Nat x, u=Sy, \Nat y, \Nat t \vdash \Tot(Sx,u)$ with $y \not \in \FV(t,u,x)$.
-$\Nat u$ progresses to $\Nat y$ in the second premise.
+$t=Sx, \Nat x, u=0, \Nat t \vdash \Tot(Sx,u)$ and second premise 
+$t=Sx, \Nat x, u=Sy, \Nat y, \Nat t \vdash \Tot(Sx,u)$ with $y \not \in \FV(t,u,x)$.
+$\Nat u$ {\bf \color{blue}{progresses to}} $\Nat y$ in the second premise.
 
 \begin{itemize}
 \item
-The first premise of induction has \emph{1 open assumption $\Nat x, \Nat 1 \vdash \Tot(x,1)$}.
+The base case for induction on $\Nat u$ has \emph{open assumption (1)}: 
+$\Nat x, \Nat 1 \vdash \Tot(x,1)$.
 \item
-The second premise of induction has \emph{2 open assumptions $\Nat t, \Nat y \vdash \Tot(t,y)$
-and $\Nat x, \Nat z \vdash \Tot(x,z)$}, for some variable $z \not = x$.
+The inductive case for induction on $\Nat u$ has \emph{open assumptions (2)}:
+$\Nat t, \Nat y \vdash \Tot(t,y)$
+and \emph{open assumptions (3)}:
+$\Nat x, \Nat z \vdash \Tot(x,z)$, for some variable $z \not = x$.
 \end{itemize}
+This is Inductive case for $\Nat t$:
 
 \begin{center}
 $
-\infer{t=Sx, {\redProg{\Nat x}}, {\blueStat{\Nat u}}, 
-                                {\redStat{\Nat t}} \vdash \Tot(t,u)}
-         {\infer*{{\redStat{\Nat x}}, u=0, \Nat u, \Nat t \vdash \Tot(Sx,u)}
-                      {\deduce{{\redStat{\Nat x}}, \Nat 1 \vdash \Tot(x,1)}{(1)}}
+\infer{t=Sx, {\redProg{\Nat x}}, {\blueStat{\Nat u}}, {\redStat{\Nat t}} \vdash \Tot(t,u)}
+         {\infer{t=Sx, {\redStat{\Nat x}}, u=0, \Nat t \vdash \Tot(Sx,u)}
+                      {\deduce{\mbox{ Base case for } \Nat u}
+                                     {\deduce{{\redStat{\Nat x}}, \Nat 1 \vdash \Tot(x,1)}{(1)}}}
          &
-          \infer{\Nat x, u=Sy, {\blueProg{\Nat y}}, 
+          \infer{t=Sx, \Nat x, u=Sy, {\blueProg{\Nat y}}, 
                     {\redStat{\Nat t}} \vdash \Tot(Sx,u)}
-                   {\deduce{\vdots}{\deduce{{\redStat{\Nat t}}, 
-                                                                 {\blueStat{\Nat y}} \vdash \Tot(t,y)}{(2)}}
+                   {\deduce{\vdots }
+                                  {\deduce{{\redStat{\Nat t}}, {\blueStat{\Nat y}} \vdash \Tot(t,y)}
+                                                {(2)}
+                                  }
                       &
-                    \deduce{\vdots}{\deduce{{\redStat{\Nat x}}, 
+                    \deduce{\vdots }{\deduce{{\redStat{\Nat x}}, 
                                                                 \Nat z \vdash \Tot(x,z)}{(3)}}
                     }
          }
@@ -966,35 +1075,50 @@ $
 \begin{enumerate}
 \item
 {\bf Base case for $\Nat u$: $u=0$}. 
-The first premise $\Nat x, u=0, \Nat u, \Nat t \vdash \Tot(Sx,u)$ 
-is proved by $\eq$-rule + weakening with premise
-$\Nat x \vdash \Tot(Sx,0)$. We prove this latter by a cut between 
-$\Nat x \vdash \Tot(x,1)$ and 
-$\Tot(x,1) \vdash \Tot(Sx,0)$.
-
+The first premise $t=Sx, \Nat x, u=0, \Nat t \vdash \Tot(Sx,u)$ 
+is proved by $\eq+\Weak$-rule with premise
+$\Nat x \vdash \Tot(Sx,0)$. We prove this latter by a cut with premise (i): 
+$\Nat x \vdash \boxed{\Tot(x,1)}$, and with premise (ii):  
+$\boxed{\Tot(x,1)} \vdash \Tot(Sx,0)$. Cut formulas are framed in a box.
+\begin{enumerate}
+\item
 The first premise $\Nat x \vdash \Tot(x,1)$ of the cut 
-is proved by a cut between $\vdash \Nat 1$ and
-$\Nat x, \Nat 1 \vdash \Tot(x,1) $. This latter is open assumption (1).
-
+is proved by a cut between $\vdash \boxed{\Nat 1}$ and
+$\Nat x, \boxed{\Nat 1} \vdash \Tot(x,1) $. This latter is \emph{open assumption (1)}.
+\item
 The second premise $\Tot(x,1) \vdash \Tot(Sx,0)$ of the cut
 has a finite \emph{cut-free and connective-free} proof
 by Lemma \ref{lemma-ackermann-base}.\ref{lemma-ackermann-base-4}.
+\end{enumerate}
+This is  Base case for $\Nat u$.
+
+\newcommand{\firstPremiseCut}
+{{\infer[\tt cut]
+            {{\redStat{\Nat x}} \vdash \boxed{\Tot(x,1)}}
+           {\infer[\Nat R]
+                     {\vdash \boxed{\Nat 1}}
+                     {\infer[\Nat R]{\vdash \Nat 0}{}
+                     }
+              &
+             \deduce{{\redStat{\Nat x}}, \boxed{\Nat 1} \vdash \Tot(x,1)}
+                         {(1)}
+            }
+}}
+
+\newcommand{\secondPremiseCut}
+{{\deduce{\boxed{\Tot(x,1)} \vdash \Tot(Sx,0)}
+                {Lemma \ \ref{lemma-ackermann-base}.\ref{lemma-ackermann-base-4}
+                }
+}}
 
 \begin{center}
 $
-\infer{{\redStat{\Nat x}}, u=0, \Nat u, \Nat t \vdash \Tot(Sx,u)}
+\infer[\tt\eq\Weak]
+         {t=Sx, {\redStat{\Nat x}}, u=0, \Nat t \vdash \Tot(Sx,u)}
          {\infer[\tt cut]{{\redStat{\Nat x}} \vdash \Tot(Sx,0)}
-                                {\infer{{\redStat{\Nat x}} \vdash \Tot(x,1)}
-                                           {\vdash \Nat 1
-                                           &
-                                           \deduce{{\redStat{\Nat x}}, \Nat 1 \vdash \Tot(x,1)}
-                                                        {(1)}
-                                           }
+                                {\firstPremiseCut
                                 &
-                                \deduce{\Nat x, \Nat y, \Tot(Sx,y) \vdash \Tot(Sx,Sy)}
-                                             {Lemma \ \ref{lemma-ackermann-base}.
-                                                               \ref{lemma-ackermann-base-4}
-                                              }
+                                 \secondPremiseCut
                                 }
          }
 $
@@ -1002,57 +1126,75 @@ $
 
 \item
 {\bf Inductive case for $\Nat u$: from $y$ to $Sy$}
-The second premise $\Nat x, u=Sy, \Nat y, \Nat t \vdash \Tot(Sx,u)$
-is proved by an $\eq$-rule+weakening with premise
+The second premise $t=Sx, \Nat x, u=Sy, \Nat y, \Nat t \vdash \Tot(Sx,u)$
+of the induction on $\Nat u$
+is proved by an $\eq$-rule with premise
 $t=Sx,\Nat x, \Nat y, \Nat t \vdash \Tot(Sx,Sy)$.  We prove this latter by a cut between 
-$t=Sx, \Nat x, \Nat y, \Nat t \vdash \Tot(Sx,y)$, and 
-$\Nat x, \Nat y, \Tot(Sx,y) \vdash \Tot(Sx,Sy)$.
-
+$t=Sx, \Nat x, \Nat y, \Nat t \vdash \boxed{\Tot(Sx,y)}$, and 
+$\Nat x, \Nat y,  \boxed{\Tot(Sx,y)} \vdash \Tot(Sx,Sy)$.
+\begin{itemize}
+\item
 The first premise $t=Sx, \Nat x, \Nat t, \Nat y\vdash \Tot(Sx,y)$ of the cut 
-is derived by $\eq$-rule+weakening from 
-$\Nat t, \Nat y \vdash \Tot(t,y)$, which is open assumption (2).
-
+is derived by $\eq+\Weak$-rule from 
+$\Nat t, \Nat y \vdash \Tot(t,y)$, which is \emph{open assumption (2)}.
+\item
 The second premise $\Nat x, \Nat y, \Tot(Sx,y) \vdash \Tot(Sx,Sy)$ of the cut 
 is derived by $\Ack L$ with premise $\Nat x, \Nat y, \Ack(Sx,y,z) \vdash \Tot(Sx,y)$, 
 for some $z \not \in \FV(t,u,x,y)$. 
-We prove this latter by a cut between $\Nat x, \Nat z \vdash \Tot(x,z)$,
-which is open assumption (3), and $\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,y)$.
+We prove this latter by a cut between $\Nat x, \Nat z \vdash \boxed{\Tot(x,z)}$,
+which is \emph{open assumption (3)}, and $\Ack(Sx,y,z), \boxed{\Tot(x,z)} \vdash \Tot(Sx,y)$.
 This premise has a  finite \emph{cut-free and connective-free} proof
 by Lemma \ref{lemma-ackermann-base}.\ref{lemma-ackermann-base-5}.
+\end{itemize}
+
+
 \end{enumerate}
 
+\newcommand{\firstPremiseCut}    
+{{\infer
+           {t=Sx,{\redStat{\Nat t}}, {\blueStat{\Nat y}}, \vdash \boxed{\Tot(Sx,y)}}
+           {\deduce
+                 {{\redStat{\Nat t}}, {\blueStat{\Nat y}} \vdash \Tot(t,y)}
+                 {(2)}
+            }
+}}
+
+\newcommand{\secondPremiseCut}
+{\infer[\Ack L]
+  {\Nat Sx,{\redStat{\Nat x}}, \Nat y, \boxed{\Tot(Sx,y)} \vdash \Tot(Sx,Sy)}
+  {\infer
+  {\Nat Sx,{\redStat{\Nat x}}, \Nat y, \Ack(Sx,y,z) \vdash \Tot(Sx,Sy)}
+  {\infer[\tt cut]
+      { \Nat Sx,{\redStat{\Nat x}}, \Nat y, \Ack(Sx,y,z) \vdash \Tot(x,z)}
+      {\deduce{\Nat Sx, \Nat y, \Ack(Sx,y,z) \vdash \boxed{\Nat z}}
+                     {Lemma \ \ref{lemma-ackermann-partial}: \ \Ack \mbox{ is a partial map } }
+       &
+        \deduce{{\redStat{\Nat x}}, \boxed{\Nat z} \vdash \Tot(x,z)}
+                    {(3)}
+       }
+     &
+      \deduce{\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)}
+                  {Lemma \ \ref{lemma-ackermann-base}.\ref{lemma-ackermann-base-5}
+                   }
+   }
+   }
+}
+
+\scriptsize
+{
 \begin{center}
 $
-\infer{\Nat x, u=Sy, {\blueProg{\Nat y}}, 
-                                {\redStat{\Nat t}} \vdash \Tot(Sx,u)}
-        {\infer[\tt cut]{t=Sx,\Nat x, {\redStat{\Nat y}}, 
-                               {\redStat{\Nat t}} \vdash \Tot(Sx,Sy)}
-                               {\infer{t=Sx, \Nat x, {\blueStat{\Nat y}}, 
-                                            {\redStat{\Nat t}} \vdash \Tot(Sx,y)}
-                                          {\deduce{{\redStat{\Nat t}}, 
-                                                            {\blueStat{\Nat y}} \vdash \Tot(t,y)}
-                                                         {(2)}
-                                          }
+\infer{t=Sx,u=Sy, {\redStat{\Nat t}},{\blueProg{\Nat y}}, \redStat{\Nat x} \vdash \Tot(Sx,u)}
+        {\infer[\tt cut]
+           {t=Sx, {\redStat{\Nat t}}, {\blueStat{\Nat y}}, \Nat Sx, \redStat{\Nat x} \vdash \Tot(Sx,Sy)}
+           {\firstPremiseCut
                                &
-                                \infer[\Ack L]{{\redStat{\Nat x}}, \Nat y, \Tot(Sx,y) 
-                                                         \vdash \Tot(Sx,Sy)}
-                                                       {\infer[\tt cut]{{\redStat{\Nat x}}, 
-                                                                                \Nat y, \Ack(Sx,y,z) \vdash \Tot(Sx,y)}
-                                                                     {\deduce{{\redStat{\Nat x}}, 
-                                                                                       \Nat z \vdash \Tot(x,z)}
-                                                                                    {(3)}
-                                                                               &
-                                                                        \deduce{\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,y)}
-                                                                                     {Lemma \ \ref{lemma-ackermann-base}.
-                                                                                                     \ref{lemma-ackermann-base-5}
-                                                                                       }
-                                                                      }
-                                                       }
-                               } 
-        }
+              \secondPremiseCut
+            }
+         } 
 $
 \end{center}
-
+}
 \end{enumerate}
 
 
@@ -1067,32 +1209,32 @@ $
 %
 %\begin{enumerate}
 %\item
-%We prove $\Nat t, u=0 \vdash \Tot(t,u)$ by $\eqL$ with premise $\Nat t \vdash \Tot(t,0)$, then by $\Nat L$-rule with assumptions: $t=0 \vdash \Tot(t,0)$ and $t=Sx, \Nat x \vdash \Tot(t,0)$. 
+%We prove $\Nat t, u=0 \vdash \Tot(t,u)$ by $\eq$ with premise $\Nat t \vdash \Tot(t,0)$, then by $\Nat L$-rule with assumptions: $t=0 \vdash \Tot(t,0)$ and $t=Sx, \Nat x \vdash \Tot(t,0)$. 
 %
 %\begin{enumerate}
 %\item
-%Proof of $t=0 \vdash \Tot(t,0)$. We use $\eqL$ with premise $\vdash \Tot(0,0)$, 
+%Proof of $t=0 \vdash \Tot(t,0)$. We use $\eq$ with premise $\vdash \Tot(0,0)$, 
 %then $\Tot R$-rule and $\Ack(0,0,1)$, which is an $\Ack R$-axiom. 
 %\item
-%We prove $t=Sx, \Nat x \vdash \Tot(t,0)$ by $\eqL$-rule with premise 
+%We prove $t=Sx, \Nat x \vdash \Tot(t,0)$ by $\eq$-rule with premise 
 %$\Nat x \vdash \Tot(Sx,0)$, and this latter by a \emph{cut} 
 %between $\Nat x \vdash \Tot(x,1)$ and 
 %$\Tot(x,1) \vdash \Tot(Sx,0)$. $\Nat x \vdash \Tot(x,1)$ is proved by a cut between $\Nat 1$ and $\Nat x, \Nat 1 \vdash \Tot(x,1)$: this is \emph{(open assumption 1)}. 
-%$\Tot(x,1) \vdash \Tot(Sx,0)$ is proved by $\Tot L$-rule from $x' = x, y'=1, \Ack(x',y',z) \vdash \Tot(Sx,0)$, then by $\eqL$ with assmption $\Ack(x,1,z) \vdash \Tot(Sx,0)$, by $\Tot R$-rule from $\Ack(x,1,z) \vdash \Ack(Sx,0,z)$, by $\Ack R$-rule from $\Ack(x,1,z) \vdash \Ack(x,1,z)$, eventually by $\id$.
+%$\Tot(x,1) \vdash \Tot(Sx,0)$ is proved by $\Tot L$-rule from $x' = x, y'=1, \Ack(x',y',z) \vdash \Tot(Sx,0)$, then by $\eq$ with assmption $\Ack(x,1,z) \vdash \Tot(Sx,0)$, by $\Tot R$-rule from $\Ack(x,1,z) \vdash \Ack(Sx,0,z)$, by $\Ack R$-rule from $\Ack(x,1,z) \vdash \Ack(x,1,z)$, eventually by $\id$.
 %\end{enumerate}
 %
 %\item
-%Proof of $\Nat t, u=Sy, \Nat y \vdash \Tot(t,u)$. We use $\eqL$ with premise $\Nat t, \Nat y \vdash \Tot(t,Sy)$. Then we use a cut with $\Nat t, \Nat y \vdash \Tot(t,y)$ and $\Nat t, \Nat y,  \Tot(t,y) \vdash \Tot(t,Sy)$.  $\Nat t, \Nat y \vdash \Tot(t,y)$ is \emph{(open assumption 2)}. 
+%Proof of $\Nat t, u=Sy, \Nat y \vdash \Tot(t,u)$. We use $\eq$ with premise $\Nat t, \Nat y \vdash \Tot(t,Sy)$. Then we use a cut with $\Nat t, \Nat y \vdash \Tot(t,y)$ and $\Nat t, \Nat y,  \Tot(t,y) \vdash \Tot(t,Sy)$.  $\Nat t, \Nat y \vdash \Tot(t,y)$ is \emph{(open assumption 2)}. 
 %We prove $\Nat t, \Nat y,  \Tot(t,y) \vdash \Tot(t,Sy)$ by $\Nat L$-rule with premises
 %$t=0, \Nat y,  \Tot(t,y) \vdash \Tot(t,Sy)$ and $t=Sx, \Nat x, \Nat y,  \Tot(t,y) \vdash \Tot(t,Sy)$. 
 %
 %\begin{enumerate}
 %\item
-%We prove the first premise $t=0, \Nat y,  \Tot(t,y) \vdash \Tot(t,Sy)$ by $\eqL$ and $W L$ from $\vdash \Tot(0,Sy)$.  By $\Tot R$-rule it is enough to prove  $\vdash \Ack(0,Sy,SSy)$, which is some $\Ack R$-axiom.
+%We prove the first premise $t=0, \Nat y,  \Tot(t,y) \vdash \Tot(t,Sy)$ by $\eq$ and $W L$ from $\vdash \Tot(0,Sy)$.  By $\Tot R$-rule it is enough to prove  $\vdash \Ack(0,Sy,SSy)$, which is some $\Ack R$-axiom.
 %\item
-%We prove the second premise $t=Sx, \Nat x, \Nat y,  \Tot(t,y) \vdash \Tot(t,Sy)$, by $\eqL$ and $W L$ from $\Nat x, \Tot(Sx,y) \vdash \Tot(Sx,Sy)$. By $\Tot L$-rule we have to prove $\Nat x, Sx=x', y=y', \Ack(x',y',z) \vdash \Tot(Sx,Sy)$, by $\eqL$ we have to prove $\Nat x, \Ack(Sx,y,z) \vdash \Tot(Sx,Sy)$. We prove $\Nat x, \Ack(Sx,y,z) \vdash \Tot(Sx,Sy)$
+%We prove the second premise $t=Sx, \Nat x, \Nat y,  \Tot(t,y) \vdash \Tot(t,Sy)$, by $\eq$ and $W L$ from $\Nat x, \Tot(Sx,y) \vdash \Tot(Sx,Sy)$. By $\Tot L$-rule we have to prove $\Nat x, Sx=x', y=y', \Ack(x',y',z) \vdash \Tot(Sx,Sy)$, by $\eq$ we have to prove $\Nat x, \Ack(Sx,y,z) \vdash \Tot(Sx,Sy)$. We prove $\Nat x, \Ack(Sx,y,z) \vdash \Tot(Sx,Sy)$
 %by a cut between $\Nat x, \Ack(Sx,y,z) \vdash \Nat z$ (provable by Lemma \ref{lemma-ackermann-partial}) and $\Nat x, \Nat z, \Ack(Sx,y,z) \vdash \Tot(Sx,Sy)$.
-%We prove  $\Nat x, \Nat z, \Ack(Sx,y,z) \vdash \Tot(Sx,Sy)$ by a cut between $\Nat x, \Nat z \vdash \Tot(x,z)$, which is is \emph{(open assumption 3)}, and $\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)$. We prove $\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)$ by $\Tot L$-rule and $\Ack(Sx,y,z), x=x',z=z', \Ack(x',z',w) \vdash \Tot(Sx,Sy)$. By $\eqL$ we have to prove $\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Tot(Sx,Sy)$. By $\Tot R$ it is enough to prove that $\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,Sy,w)$, by $\Ack R$ that 
+%We prove  $\Nat x, \Nat z, \Ack(Sx,y,z) \vdash \Tot(Sx,Sy)$ by a cut between $\Nat x, \Nat z \vdash \Tot(x,z)$, which is is \emph{(open assumption 3)}, and $\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)$. We prove $\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)$ by $\Tot L$-rule and $\Ack(Sx,y,z), x=x',z=z', \Ack(x',z',w) \vdash \Tot(Sx,Sy)$. By $\eq$ we have to prove $\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Tot(Sx,Sy)$. By $\Tot R$ it is enough to prove that $\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,Sy,w)$, by $\Ack R$ that 
 %$\Ack(Sx,y,z), \Ack(x,z,w) \vdash \Ack(Sx,y,z)$ and that $\Ack(Sx,y,z), \Ack(x,z,w) \vdash  \Ack(x,z,w)$. These sequents are both $\id$-rules.
 %\end{enumerate}
 %\end{enumerate}
