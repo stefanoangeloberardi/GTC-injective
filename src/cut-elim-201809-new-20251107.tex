@@ -503,36 +503,36 @@ This rules out the possibility of proving $2n$ total. The same argument holds fo
 
 \subsection{The Ackermann function}
 \label{subsection-ackermann}
-From now onw we abbreviate \emph{``$x$ such that $\Nat x$} with  just
-\emph{``$x \in \Nat$}.
+From now onw we abbreviate the English statement \emph{``$x$ such that $\Nat x$} with  just
+\emph{``$x \in \Nat$''}.
 
 The Ackermann–Peter version of the Ackermann function is a map $\Ack:\Nat^2 \rightarrow 
 \Nat$ defined by the following one-step rewriting rules, denoted by  $\reduces_1$. 
-For all $x, y$ if $\Nat x, \Nat y$ we ask that:
+Assume that $t$ and $u$ are terms in the language $0,S,\Ack$:
 \begin{enumerate}
 \item
-$\Ack(0,y) \reduces_1 Sy$ 
+$\Ack(0,u) \ \ \ \ \ \ \ \ \reduces_1 \ \ \ \ Su$ 
 \item
-$\Ack(Sx,0) \reduces_1 \Ack(x,1)$
+$\Ack(St,0)  \ \ \ \ \ \  \reduces_1 \ \ \ \ \Ack(t,1)$
 \item
-$\Ack(Sx,Sy) \reduces_1 \Ack(x,\Ack(Sx,y))$
+$\Ack(St,Su) \ \ \ \ \reduces_1 \ \ \ \ \Ack(t,\Ack(St,u))$
 \end{enumerate}
 We write $\reduces_t$ for reduction $t$ times. Any $z \in \Nat$
-and $\Ack(x,y) \reduces_t z$ for some $t \in \Nat$ is said an image of 
+and such that $\Ack(x,y) \reduces_t z$ for some $t \in \Nat$ is said an image $z$ of 
 the map $\Ack$ in $(x,y)$.
 
 Ackermann is a total map $\Nat^2 \rightarrow 
 \Nat$. The standard way of stating totality of $\Ack$ on a pair $(x, y)$ is 
-$\Tot(x,y) = \exists z, t. (\Nat z) \wedge (\Nat t) \wedge (\Ack(x,y) \reduces_t z)$. 
+$\Tot(x,y) \equiv \exists z, t. (\Nat z) \wedge (\Nat t) \wedge (\Ack(x,y) \reduces_t z)$. 
 The standard totality statement $\Tot(x,y)$ requires that the image $z$ of $(x,y)$ is in $\Nat$ 
 and that it can be obtained in a finite number $t$ of steps.
-The Ackermann binary function defines a family $\{Ack(x,\cdot)| x \in \Nat \}$ 
+The Ackermann binary function defines a family $\{\Ack(x,\cdot)| x \in \Nat \}$ 
 of unary maps. 
 \begin{enumerate}
 \item
 The totality of the map $\Ack(x,\cdot)$ from $\Nat$ to $\Nat$ 
 is formulated as the $\Pi^0_2$-predicate 
-$T(x) = \forall y( \Nat y \rightarrow \Tot(x,y))$. 
+$T(x) \equiv \forall y( \Nat y \rightarrow \Tot(x,y))$. 
 \item
 The totality of $\Ack$ 
 from $\Nat \times \Nat$ to $\Nat$ is stated with the
@@ -550,7 +550,7 @@ $\Ack$ is a total map $:\Nat^2 \rightarrow \Nat$.
 
 \begin{proof}
 We prove by induction on $x \in \Nat$ the totality of each map
-$\Ack(x,\cdot)$ from $\Nat$ to $\Nat$, as stated by $T(x)$. This is the informal proof.
+$\Ack(x,\cdot)$ from $\Nat$ to $\Nat$, as stated by $T(x)$. %This is the informal proof.
 
 \begin{enumerate}
 \item
@@ -561,7 +561,7 @@ $\Ack(0,\cdot)$ is the successor map, which is total from from $\Nat$ to $\Nat$.
 {\bf Inductive Case: from $x$ to $Sx$}. 
 Assume that $\Nat x$ and that $\Ack(x,\cdot)$ is total in order to prove that
 $\Ack(Sx,\cdot)$ is total. We prove by induction on $y \in \Nat$ that: 
-$\Ack(Sx,y) \reduces_t z$ for some $t \in \Nat t$, $z \in \Nat$. 
+$\Ack(Sx,y) \reduces_t z$ for some $t \in \Nat $, $z \in \Nat$. 
 
 \begin{enumerate}
 \item
@@ -589,10 +589,11 @@ $\Ack(Sx,Sy) \reduces_1 \Ack(x,z)$ and $\Ack(x,z) \reduces_v w$.
 
 \subsubsection{Ackermann as an inductive predicate in $\LKID$}
 \label{subsubsection-ackermann-inductive}
-We replace the standard totality 
-statement $\exists t. (\Nat  t) \wedge \Ack(x,y) \reduces_t z$ for the map $\Ack$ 
-with an \emph{inductive predicate} $\Ack(x,y,z)$ in $\LKID$. We replace the correctness 
-statement $\exists z. \Nat z \wedge \Ack(x,y,z)$ 
+We provide a cyclic proof of the totality of Ackermann function. To this aim,
+we first replace the 
+statement \emph{``the image of $(x,y)$ by $\Ack$ is $z$''}
+with an \emph{inductive predicate} $\Ack(x,y,z)$ in $\LKID$. We replace the totality
+statement $\exists z. \Nat z \wedge \Ack(x,y,z)$ of $\Ack$ on $(x,y)$
 with an \emph{inductive predicate} $\Tot(x,y)$. We insert two simplifications:
 
 \begin{enumerate}
@@ -602,11 +603,13 @@ we skip the index $t$ counting the number of reduction steps.
 \item
 In the definition of $\Tot(x,y)$ as ``$\Ack(x,y,z)$ for some $z \in \Nat$''
 we skip the requirement $\Nat z$. The reason is that $\Nat z$ can be proved from 
-$\Nat y$, $\Ack(x,y,z)$, by induction on the definition of $\Ack(x,y,z)$: we do it
+$\Nat y$ and $\Ack(x,y,z)$ by induction on the definition of $\Ack(x,y,z)$: we do it
 in the next subsection.
 \end{enumerate}
 
-The inductive rules we choose for $\Ack(x,y,z)$ and $\Tot(x,y)$ are:
+The inductive rules we choose for $\Ack(x,y,z)$ are the corresponding of 
+the reduction rules.  The only inductive rule we choose for $\Tot(x,y)$ 
+expresses that $\Tot(x,y) \equiv \exists z \Ack(x,y,z)$. The inductive rules are:
 
 \begin{enumerate}
 \item
@@ -650,13 +653,16 @@ $\infer{\Gamma \vdash \Delta, \Ack(x,y,z)}{\Gamma \vdash \Delta,\Tot(x,y)}$
 \end{definition}
 
 $L$-rules for $\Ack$ and $\Tot$ in $\LKID$
-are required to prove that the image of $(x,y)$ such that $\Nat x$,
-$\Nat y$ is in $\Nat$ (see later).
-$L$-rules are also required to prove that the image of $(x,y)$ such that $\Nat x$,
-$\Nat y$ is unique, but we do not include this proof here.
+are required to prove that the image of $x \in \Nat$, $y \in \Nat$ by $\Ack$ 
+is some $z \in \Nat$ (see later).
+$L$-rules are also required to prove that for all $x \in \Nat$, $y \in \Nat$,
+the image $z$ of $(x,y)$ is unique, but we do not include this proof here.
 
 The $\Ack L$, $\Tot L$-rules are defined in $\LKID$ as a consequence of 
 $\Ack R$, $\Tot R$-rules, using \emph{fresh} variables. 
+
+\begin{definition}[The $L$-rules for $\Ack$ and $\Tot$]
+
 Assume $x,y,z,w \not \in \FV(t,u,v,\Gamma,\Delta)$.
 
 \begin{enumerate}
@@ -678,6 +684,7 @@ Here is the $\Ack L$-rule:
 \begin{center}
 {\scriptsize          %in order to make the proof-tree smaller
   \hspace{-3cm} 
+ \boxed{
  $\infer[\Ack L]
   {\Ack(t,u,v),\Gamma \vdash \Delta}
   {   \deduce{t\!=\!0, u\!=\!y, v\!=\!Sy,\Gamma \vdash \Delta}{(a)} & 
@@ -685,6 +692,7 @@ Here is the $\Ack L$-rule:
     	 \deduce{t\!=\!Sx, u\!=\!Sy, v\!=\!z, \Ack(Sx,y,w), \Ack(x,z,w),\Gamma \vdash \Delta}{(c)}
   }
  $
+ }
 }
 \end{center}
 
@@ -692,19 +700,23 @@ Here is the $\Ack L$-rule:
 \item
 The $L$-rule with conclusion $\Tot(t,u), \Gamma \vdash \Delta$ has a unique premise:
 \begin{center}
+\boxed{
 $\infer[\Tot L]
   {\Tot(t,u), \Gamma \vdash \Delta}
   {t=x, u=y, \Ack(x,y,z),\Gamma \vdash \Delta}
 $  
+}
 \end{center}
 \end{enumerate}
+\end{definition}
 %17:33 02/07/2018
 
 As an immediate consequence we have the following finite proofs, which are lemmas of 
 the totality proof. 
 In the standard totality proof in \S \ref{subsubsection-ackermann-standard} we used 
 that $$\Tot(Sx,y), \forall z( \Nat z \rightarrow \Tot(x,z) ) \vdash \Tot(Sx,Sy)$$
-Instead, in LKID we only use an instance on $z$ of the same property, namely: 
+Instead, in LKID we only use an instance $z \in \Nat$ of  
+$\forall z( \Nat z \rightarrow \Tot(x,z) )$, namely the fact that: 
 $$\Ack(Sx,y,z), \Tot(x,z) \vdash \Tot(Sx,Sy)$$
 %19:51 09/11/2025
 
@@ -792,8 +804,8 @@ $
 \item 
 %\label{lemma-ackermann-base-4}
 $\Tot(x,1) \vdash \Tot(Sx,0)$ is derived by $\Tot L$-rule with premise 
-$x=x', \Ack(x',1,z) \vdash \Tot(Sx,0)$ with $x',z$ fresh. This latter is derived
-by $\Tot R$-rule with premise $x=x', \Ack(x',1,z) \vdash \Ack(Sx,0,z)$,
+$x=x', 1=y', \Ack(x',1,z) \vdash \Tot(Sx,0)$ with $x',y',z$ fresh. This latter is derived
+by $\Tot R$-rule with premise $x=x', 1=y', \Ack(x',y',z) \vdash \Ack(Sx,0,z)$,
 which is derived by $\eq$-rule with premise $\Ack(x,1,z) \vdash \Ack(Sx,0,z)$.
 This is point \ref{lemma-ackermann-base-1} above.
 
@@ -802,9 +814,9 @@ $
 \infer[\Tot L]
  {\Tot(x,1) \vdash \Tot(Sx,0)}
  {\infer[\Tot R]
-    {x=x', \Ack(x',1,z) \vdash \Tot(Sx,0)}
+    {x=x',1=y', \Ack(x',y',z) \vdash \Tot(Sx,0)}
     {\infer[\eq]
-      {x=x', \Ack(x',1,z) \vdash \Ack(Sx,0,z)}
+      {x=x', 1=y',\Ack(x',y',z) \vdash \Ack(Sx,0,z)}
       {\deduce{\Ack(x,1,z) \vdash \Ack(Sx,0,z)}
                      {\mbox{ point \ref{lemma-ackermann-base-1} above }}
       }
@@ -842,7 +854,8 @@ $
 
 \subsubsection{Ackermann is a Partial Function on $\Nat$}
 In $\CLKID^\omega$ we may bypass $\Pi^0_2$-induction and we provide a connective-free 
-(hence quantifier-free) proof with cuts of the totality of $\Ack$. We prove first that all $\Ack(t)$ 
+(hence quantifier-free) proof with cuts of the totality of $\Ack$. 
+We prove first that all $\Ack(t,\cdot)$ 
 are a \emph{partial} map $:\Nat \rightarrow \Nat$: that is, if $\Nat t, \Nat u, \Ack(t,u,v)$ then
 $\Nat v$. In fact we prove a little more, skipping the assumption $\Nat t$: we prove that 
 if $\Nat u, \Ack(t,u,v)$ then $\Nat v$. The use of $\Ack L$-rule, namely of induction on
@@ -871,11 +884,11 @@ Let $t,u$ be any terms of the language $0,S$. There is a connective-free cyclic 
 
 \begin{proof}
 Let $x,y,z,w\not \in \FV(t,u,v)$ be pairwise distinct variables. We define a connective-free 
-cyclic proof $\Pi_0$ of $\Nat u, \Ack(t,u,v) \vdash \Nat v$ using $\Ack L$ in the root, with 
+cyclic proof $\Pi_0$ of $$\Nat u, \Ack(t,u,v) \vdash \Nat v$$ using $\Ack L$ in the root, with 
 $3$ open assumptions (1), (2), (3), as listed below. 
 We color \emph{some} traces from $\Ack(t,u,v)$, with the progressing points of 
 in {\bf \color{red}red} and the stationary points in {\bf \color{darkred}dark red}.
-We put a box around cut formulas. 
+We put a box around cut formulas: our only cut formula is $\Nat z$. 
 
 \begin{center}
 $\infer*[\Ack L] %having 3 vertical dots instear of an horizontal line
@@ -888,7 +901,7 @@ $
 \end{center}
 
 We define the $3$ premises of the rule $\Ack L$. Let $x,y,z,w$ be \emph{fresh}
-variables. We frame the cut formula in a box.
+variables. %As we said, we frame the cut formula $\Nat z$ in a box.
 
 \newcommand{\firstPremiseAckL}
 {{ 
@@ -985,29 +998,39 @@ $\Nat z, \Ack(x,z,w) \vdash \Nat w$
 \end{enumerate} 
 
 for some variables $x, y, z, w\not \in \FV(t,u,v)$.
-From each open assumption we obtain $3$ new open assumptions $\Nat 1, \Ack(x',1,z') \vdash \Nat z$ and $\Nat y', \Ack(Sx',y',z') \vdash \Nat z'$ and $\Nat z', \Ack(x',z',w') \vdash \Nat w'$, for some $x', y', z', w' \not \in \FV(x,y,z,w,t,u,v)$. We rename and we re-obtain the $3$ open assumptions: $\Nat 1, \Ack(x,1,z) \vdash \Nat z$ and $\Nat y, \Ack(Sx,y,z) \vdash \Nat z$ and $\Nat z, \Ack(x,z,w) \vdash \Nat w$.
+From each open assumption we obtain $3$ new open assumptions $\Nat 1, \Ack(x',1,z') \vdash 
+\Nat z$ and $\Nat y', \Ack(Sx',y',z') \vdash \Nat z'$ and $\Nat z', \Ack(x',z',w') \vdash \Nat w'$, 
+for some $x', y', z', w' \not \in \FV(x,y,z,w,t,u,v)$. We rename and we re-obtain the same 
+$3$ open assumptions: $\Nat 1, \Ack(x,1,z) \vdash \Nat z$ and $\Nat y, \Ack(Sx,y,z) \vdash \Nat 
+z$ and $\Nat z, \Ack(x,z,w) \vdash \Nat w$.
 Renaming is possible because $x, y, z, w\not \in \FV(t,u,v,x',y',z',w')$.  
-We defined a regular tree $\Pi$.
+We defined 3 finite proofs $\Pi_1, \Pi_2, \Pi_3$
+with conclusion and assumptions the 3 open assumptions.
+With $\Pi_0$ and $\Pi_1, \Pi_2, \Pi_3$ we defines 
+a regular proof tree $\Pi$ for $\Nat u, \Ack(t,u,v) \vdash \Nat v$.
 \\
 
-We prove the global trace condition for $\Pi$. In $\Pi$ whenever we prove some
+In order to have a cyclic proof we have to prove the global trace condition for $\Pi$. 
+In $\Pi$ whenever we prove some
 sequent of the form $\Nat u', \Ack(t',u',v') \vdash \Nat v'$ we derive it from $3$ sequents of the 
 form $\Nat u'', \Ack(t'',u'',v'') \vdash \Nat v'$, and in each case there is a \emph{progressing} 
 trace from $\Ack(t',u',v') $ in the bottom sequent to $\Ack(t'',u'',v'') $ in the top sequent. 
 Every infinite path of $\Pi$ has to pass infinitely many times from  
 $\Nat u', \Ack(t',u',v') \vdash \Nat v'$ to some sequent 
 $\Nat u'', \Ack(t'',u'',v'') \vdash \Nat v'$, therefore it includes an infinitely progressing trace 
-starting from the unique atom $\Ack(t,u,v) $ in the root.
+starting from the unique atom $\Ack(t,u,v) $ in the root and passing through
+$\Ack(t',u',v') , \Ack(t'',u'',v''), \ldots$
 $\Box$ \end{proof}
 
 
 \subsubsection{Ackermann is a total binary function on $\Nat$}
 From the fact that $\Ack$ is the predicate representing a partial map on $\Nat$ we derive that 
-$\Ack$ is the predicate of a total map on $\Nat$
+$\Ack$ is the predicate of a total map on $\Nat$, namely the sequent:
 $$\Nat t, \Nat u \vdash \Tot(t,u)$$
 We use cuts but no logical connective.
-In this subsubsection we use no $\Ack L$-rule, but we use as a lemma the fact that $\Ack$ is
-a partial map on $\Nat$ from the previous subsubsection, and this proof used $\Ack L$.
+In this subsubsection we use no $\Ack L$-rule, 
+but we use Lemma \ref{lemma-ackermann-partial}, the fact that $\Ack$ is
+a partial map on $\Nat$, and the proof of this Lemma used $\Ack L$.
 We use the following notations:
 
 \begin{enumerate}
@@ -1022,7 +1045,7 @@ We color some progressing traces from $\Nat u$
 in {\bf \color{blue}blue} and some stationary traces from $\Nat t$
 in {\bf \color{darkblue} dark blue}. 
 \item
-We put a box around cut formulas.
+We put a box around cut formulas and we draw each pair of cut formulas in the same color.
 \end{enumerate}
 
 We first define a finite proof $\Pi_0$ with open assumptions. Then we will
@@ -1031,10 +1054,12 @@ explain how to remove the open assumptions and to obtain a cyclic proof.
 \begin{lemma}[A totality proof for Ackermann with open assumption]
 \label{lemma-ackermann-total}
 Let $t,u$ be any terms of the language $0,S$. 
-There is a a connective-free cyclic proof with cuts of $\Nat t, \Nat u \vdash \Tot(t,u)$ in the same language, consisting of four finite trees all having $3$ open assumptions: (1), (2), (3).
+There is a a connective-free cyclic proof $\Pi_0$ with cuts of $\Nat t, \Nat u \vdash \Tot(t,u)$ in 
+the same language, consisting of four finite trees all having $3$ open assumptions: (1), (2), (3).
 
 
 \begin{center}
+\boxed{
 $
 \deduce{{\redStat{\Nat t}}, {\blueStat{\Nat u}} \vdash \Tot(t,u)}
          {
@@ -1054,6 +1079,9 @@ $
                         }
          }
 $ 
+}
+\\
+{\bf The proof $\Pi_0$}
 \end{center}
 
 \end{lemma}
@@ -1066,7 +1094,8 @@ We use induction on $t \in \Nat$. We prove $\Nat t, \Nat u \vdash \Tot(t,u)$
 from two premises:
 $t=0, \Nat u \vdash \Tot(t,u)$ and $t=Sx, \Nat x, \Nat u, \Nat t \vdash \Tot(t,u)$
 with $x \not \in \FV(t,u)$. 
-$\Nat t$ {\color{red}{\bf progresses to}} $\Nat x$ in the second premise.
+$\Nat t$ {\color{red}{\bf progresses to}} $\Nat x$ in the second premise, while there is no
+progress from $\Nat u$ to $\Nat u$.
 
 \begin{center}
 $
@@ -1123,12 +1152,12 @@ $\Nat u$ {\bf \color{blue}{progresses to}} $\Nat y$ in the second premise.
 
 \begin{itemize}
 \item
-The base case for induction on $\Nat u$ has \emph{open assumption (1)}: 
+We prove the base case for induction on $\Nat u$ with \emph{open assumption (1)}: 
 $\Nat x, \Nat 1 \vdash \Tot(x,1)$.
 \item
-The inductive case for induction on $\Nat u$ has \emph{open assumptions (2)}:
+We prove the inductive case for induction on $\Nat u$ with \emph{open assumptions (2)}:
 $\Nat t, \Nat y \vdash \Tot(t,y)$
-and \emph{open assumptions (3)}:
+and with \emph{open assumptions (3)}:
 $\Nat x, \Nat z \vdash \Tot(x,z)$, for some variable $z \not = x$.
 \end{itemize}
 Therefore this is the Inductive case for $\Nat t$:
@@ -1167,10 +1196,10 @@ $
 \item
 {\bf Base case for $\Nat u$: $u=0$}. 
 The first premise $t=Sx, \Nat x, u=0, \Nat t \vdash \Tot(Sx,u)$ 
-is proved by $\eq+\Weak$-rule with premise
+is proved by $\eq\Weak$-rule with premise
 $\Nat x \vdash \Tot(Sx,0)$. We prove this latter by a cut with premise (i): 
 $\Nat x \vdash \boxed{\Tot(x,1)}$, and with premise (ii):  
-$\boxed{\Tot(x,1)} \vdash \Tot(Sx,0)$. Cut formulas are framed in a box.
+$\boxed{\Tot(x,1)} \vdash \Tot(Sx,0)$. We recall that formulas are framed in a box.
 \begin{enumerate}
 \item
 The premise (i):  $\Nat x \vdash \Tot(x,1)$ of the cut 
@@ -1226,18 +1255,18 @@ $
 \end{center}
 
 \item
-{\bf Inductive case for $\Nat u$: from $y$ to $Sy$}
+{\bf Inductive case for $\Nat u$: from $y$ to $Sy$}.
 The second premise $t=Sx, \Nat x, u=Sy, \Nat y, \Nat t \vdash \Tot(Sx,u)$
 of the induction on $\Nat u$
-is proved by an $\eq$-rule and permutation of $\Nat y$, $\Nat t$, with premise
-$$t=Sx, \Nat x, \Nat t, \Nat y \vdash \Tot(Sx,Sy)$$
+is proved by an $\eq$-rule with premise
+$$t=Sx, \Nat x, \Nat y, \Nat t \vdash \Tot(Sx,Sy)$$
   We prove this latter by a cut on $\Tot(Sx,y)$ with premise (i):
-$t=Sx, \Nat x, \Nat t, \Nat y \vdash \boxed{\Tot(Sx,y)}$, and with premise (ii):
+$t=Sx, \Nat x, \Nat y, \Nat t \vdash \boxed{\Tot(Sx,y)}$, and with premise (ii):
 $\Nat x, \Nat y,  \boxed{\Tot(Sx,y)} \vdash \Tot(Sx,Sy)$.
 \begin{itemize}
 \item
-The premise (i): $t=Sx, \Nat x, \Nat t, \Nat y \vdash \Tot(Sx,y)$ of the cut 
-is derived by $\eq\Weak$-rule from 
+The premise (i): $t=Sx, \Nat x, \Nat y, \Nat t \vdash \Tot(Sx,y)$ of the cut 
+is derived by $\eq$-rule and permutation for $\Nat t$, $\Nat y$ from 
 $\Nat t, \Nat y \vdash \Tot(t,y)$, which is \emph{open assumption (2)}.
 \item
 The premise (ii): $\Nat x, \Nat y, \Tot(Sx,y) \vdash \Tot(Sx,Sy)$ of the cut 
@@ -1258,7 +1287,7 @@ which is Lemma \ref{lemma-ackermann-partial},
 and $\Nat x, \boxed{\Nat z} \vdash \Tot(x,z)$, which is 
 \emph{open assumption (3)}.
 \end{itemize}
-
+Summing up we obtain:
 \end{enumerate}
 
 \newcommand{\firstPremiseCut}    
@@ -1314,9 +1343,9 @@ and $\Nat x, \boxed{\Nat z} \vdash \Tot(x,z)$, which is
 \begin{center}
 \boxed{
 $
-\infer{t=Sx,u=Sy, {\redStat{\Nat t}},{\blueProg{\Nat y}}, \redStat{\Nat x} \vdash \Tot(Sx,u)}
+\infer{t=Sx, \redStat{\Nat x}, u=Sy,{\blueProg{\Nat y}}, {\redStat{\Nat t}} \vdash \Tot(Sx,u)}
         {\infer[\tt cut]
-           {t=Sx, {\redStat{\Nat t}}, {\blueStat{\Nat y}}, \Nat Sx, \redStat{\Nat x} \vdash \Tot(Sx,Sy)}
+           {t=Sx, \redStat{\Nat x}, {\blueStat{\Nat y}}, {\redStat{\Nat t}} \vdash \Tot(Sx,Sy)}
            {\firstPremiseCut
                                &
               \secondPremiseCut
@@ -1384,8 +1413,16 @@ $$\Nat t, \Nat u \vdash \Tot(t,u)$$
 
 \begin{proof}
 We define a regular infinite proof $\Pi$ from $\Pi_0$ in Lemma \ref{lemma-ackermann-total}. 
-In $\Pi_0$ we proved  $\Nat t, \Nat u \vdash \Tot(t,u)$ from $3$ open assumptions: $\Nat x, \Nat 1 \vdash \Tot(x,1)$ and $\Nat t, \Nat y \vdash \Tot(t,y)$ and $\Nat x, \Nat z \vdash \Tot(x,z)$ for any variables $x,y,z \not \in \FV(t,u)$. We may prove these latter from $\Nat x', \Nat 1 \vdash \Tot(x',1)$ and $\Nat t, \Nat y' \vdash \Tot(t,y')$ and $\Nat x', \Nat z' \vdash \Tot(x',z')$ for any variables $x',y',z' \not \in \FV(t,u,x,y,z)$. By renaming we obtain $\Nat x, \Nat 1 \vdash \Tot(x,1)$ and $\Nat t, \Nat y \vdash \Tot(t,y)$ and $\Nat x, \Nat z \vdash \Tot(x,z)$ because we have $y' \not \in \FV(t)$. 
-Thus, we may define a regular proof $\Pi$ by unfolding $\Pi_0$.
+In $\Pi_0$ we proved  $\Nat t, \Nat u \vdash \Tot(t,u)$ from $3$ open assumptions: $\Nat x, 
+\Nat 1 \vdash \Tot(x,1)$ and $\Nat t, \Nat y \vdash \Tot(t,y)$ and $\Nat x, \Nat z \vdash \Tot(x,z)
+$ for any variables $x,y,z \not \in \FV(t,u)$. Using Lemma \ref{lemma-ackermann-total} again 
+may prove these 3 open assumptions from $\Nat x', \Nat 1 \vdash \Tot(x',1)$ and $\Nat t, \Nat y' 
+\vdash \Tot(t,y')$ and $\Nat x', \Nat z' \vdash \Tot(x',z')$ for any variables $x',y',z' \not \in 
+\FV(t,u,x,y,z)$. By renaming we obtain the original 3 open assumptions: 
+$\Nat x, \Nat 1 \vdash \Tot(x,1)$ and $\Nat t, \Nat y 
+\vdash \Tot(t,y)$ and $\Nat x, \Nat z \vdash \Tot(x,z)$ because we have $y' \not \in \FV(t,y)$. 
+We obtained 3 regular proof $\Pi_1, \Pi_2, \Pi_3$, with conclusion and assumptions the
+3 open assumption. Thus, we define a regular proof $\Pi$ of $\Nat t, \Nat u \vdash \Tot(t,u)$.
 
 We prove the global trace condition for $\Pi$. Each $\Nat t, \Nat u \vdash \Tot(t,u)$ is proved by: $(1) \Nat x, \Nat 1 \vdash \Tot(x,1)$ or $(2) \Nat t, \Nat y \vdash \Tot(t,y)$ or $(3)\Nat x, \Nat z \vdash \Tot(x,z)$. 
 
@@ -1397,7 +1434,7 @@ Take any infinite path $\pi$ of the proof $\Pi$, in order to prove that there is
 
 Assume $\pi$ passes infinitely many times through $(1)$ or $(3)$ and any number of times through $(2)$. Then there is an infinite trace $\tau$ from $\Nat t$ in the root, $\tau$ is infinitely progressing, whenever $\tau$ passes through $(1)$ or $(3)$, and we are done. 
 
-Assume $\pi$ passes finitely many times through $(1)$ or $(3)$. Then from some node $\xi$ on, $\pi$ passes cyclically through $(2)$, progressing each time from some $\Nat u$ to $\Nat x$. From $\xi$ on, the trace $\upsilon$ from the occurrence of $\Nat u$ in $\xi$ progresses in \emph{every} step. Also in this case there is some infinitely progressing trace in $\pi$.
+Assume $\pi$ passes finitely many times through $(1)$ or $(3)$. Then from some node $\xi$ on, $\pi$ passes cyclically through $(2)$, progressing each time from some $\Nat u$ to $\Nat y$. From $\xi$ on, the trace $\upsilon$ from the occurrence of $\Nat u$ in $\xi$ progresses in \emph{every} step. Also in this case there is some infinitely progressing trace in $\pi$.
 $\Box$ 
 
 \end{proof}
