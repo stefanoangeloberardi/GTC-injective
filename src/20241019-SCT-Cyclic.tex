@@ -10,6 +10,7 @@
 \usepackage{mymath,proof,latexsym}
 \usepackage{xcolor}
 \usepackage[pdftex,outline]{contour}
+\usepackage{tikz}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % WE ADD THE COMMANDS 
 % theorem lemma proposition corollary definition  
@@ -28,8 +29,6 @@
 
 \newenvironment{remark}[1][Remark]
 {\begin{trivlist}\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-
-%\bibliographystyle{plainurl}% the mandatory bibstyle for CSL2024
 
 
 \begin{document}
@@ -77,12 +76,9 @@ We want to find a proof of this fact that the  which is both intuitionistic,
 first order arithmetical and with human-readable intermediate step.  
 
 Cyclic proofs are an interesting tool for proof search and have been introduced as
-<<<<<<< Updated upstream
 by Brotherston and Simpson (\cite{BrotherstonSimpson}).
 They have been efficiently implemented 
 (\cite{10.1007/978-3-642-35182-2_25,10.1145/3632888, 10.1007/978-3-031-90643-5_18,  10.1145/3453483.3454087,  10.1145/3018610.3018623, Stratulat_2021, Brotherston2020}).
-=======
->>>>>>> Stashed changes
 by Brotherston and Simpson \cite{BrotherstonSimpson}. 
 Later, the algorithm checking correctness for cyclic proofs turned out to be
 a particular case of the algorithm checking the 
@@ -1678,6 +1674,9 @@ this implies that we have $W(G(\pi,\theta)) >_\lex W(G(\pi',\theta'))$.
 This ends the proof of Termination Theorem 
 (\ref{theorem-finiteness-value-flow-2}).
 
+\bibliographystyle{plain}
+\bibliography{20241019-SCT-Cyclic}
+
 %\begin{thebibliography}{9}
 %
 %\bibitem{Lee1}
@@ -1706,12 +1705,7 @@ This ends the proof of Termination Theorem
 %
 %\end{thebibliography}
 
-<<<<<<< Updated upstream
-\bibliographystyle{entics}
-=======
->>>>>>> Stashed changes
-\bibliographystyle{./entics}
-\bibliography{references}
+
 
 \newpage
 
@@ -2384,7 +2378,7 @@ define $\Pi$: this is irrelevant.
 We say that $i \succeq_1 j$ if $\Pi_i$ has a leaf $C_j$. We write $\succeq$ for 
 $\succeq_1^*$, the reflexive and transitive closure of $\succeq_1$: $\succeq$ is a pre-order,
 and we write $i \approx j$ for the associated equivalence relation:
-$i \succeq j$ and $j \succeq \i$.
+$i \succeq j$ and $j \succeq i$.
 We write $i \succ j$ for the associated strict order:
 $i \succeq j$ and $j \not \succeq \i$. We write $i \preceq j$ for $j \succeq i$ and
 $i \prec j$ for $j \succ i$ 
@@ -2601,6 +2595,554 @@ $Y$ is the new value of $X_{i-1}$, not of $X_i$, which instead disappears.
 Then $\height(X_{i-1},c) > \height(Y,d)$ and the translated proof is correct.
 \end{enumerate}
 \end{proof}
+
+\newpage
+
+\section{A New Classical proof of (Injectivity + PDC) $\implies$ GTC}
+\label{section-classical-proof-PDC-implies-GTC}
+\emph{Proof started in Torino, December 23, 2025}. 
+\\
+
+\newcommand{\MaxVar}{{\tt V}}
+
+We consider finite binary relations whose pairs have two colors.
+Colors are given by decomposing a finite 
+relation in the disjoint union of two sets $\Stat$ and $\Prog$: the color we assign to 
+a pair depends on the subset the pair belongs to.
+
+\begin{definition}[Bicolored  Relation on a finite set]
+\label{definition-bicolored-relation}
+Let $\MaxVar \in \N^+$ be any positive integer. 
+ \begin{enumerate}
+\item
+A bicolored relation on the set $\{1, \ldots, \MaxVar\}$ is any pair
+$R = (\Stat,\Prog)$ of \emph{disjoint} binary relations on $\{1, \ldots, \MaxVar\}$. 
+\item
+When $(x,y) \in \Stat$ we say that $(x,y)$ has the \emph{stationary} color in $R$, 
+and when $(x,y) \in \Prog$ we say that $(x,y)$ has the \emph{progressing} color in $R$.
+\item
+If $R = (\Stat,\Prog)$ we call the binary relation $\universe{R} = \Stat \cup \Prog$ 
+\quotationMarks{the uncolored version of $R$}. 
+\end{enumerate}
+\end{definition}
+
+The assumption $\Stat \cap \Prog =\emptyset$ means that no pair $(x,y)$ has both colors in 
+$R$.  $\universe{R}$ is the plain binary relation obtained by stripping off colors from $R$. 
+We now define a notion of composition for bi-colored relations.
+
+\begin{definition}[Composition of bicolored  relations]
+\label{definition-composition}
+Let $\setR$ be any set of bicolored relations on $\{1, \ldots, \MaxVar\}$ and 
+$(\Stat,\Prog), (\Stat',\Prog') \in \setR$.
+ \begin{enumerate}
+\item
+$(\Stat,\Prog) \comp (\Stat',\Prog') = (\Stat'',\Prog'')$,
+with $\Prog''=\Stat\Prog' \cup \Prog\Stat'\cup \Prog\Prog'$ 
+and $\Stat'' = \Stat\Stat'\setminus \Prog''$.
+\item
+$\setR^+$ is the closure of $\setR$ under composition.
+\end{enumerate}
+\end{definition}
+
+The families $\setR$ and $\setR^+$  have at most $2^{\MaxVar*\MaxVar}$ 
+elements, hence they are finite. 
+Assume $R$, $S$ are bicolored relations on $\{1, \ldots, \MaxVar\}$. 
+This is the unfolding in words of the definition \ref{definition-composition}
+of composition for $RS$. Assume $x, y \in \{1, \ldots, \MaxVar\}$:
+
+\begin{enumerate}
+\item
+if for some $y\in \{1, \ldots, \MaxVar\}$ we have $(x,y) \in \universe{R}$ and $(y,z) \in \universe{S}$ and either 
+$(x,y)$ is progressing in $R$ or $(y,z)$ is progressing in $S$, then  
+$(x,z)$ is progressing in $RS$. 
+
+\item
+if \emph{the previous condition is false}, and for some $y$ we have
+$(x,y) \in \universe{R}$ and $(y,z) \in \universe{S}$  and $(x,y)$ is stationary
+in $R$ and $(y,z)$ is stationary in $S$, then  $(x,z)$ is stationary in $RS$. 
+\end{enumerate}
+
+Remark that $\Stat''$ and $\Prog''$ in the definition
+ $(\Stat'',\Prog'') = (\Stat,\Prog) \comp (\Stat',\Prog')$ are disjoint 
+because we defined $\Stat'' = \Stat\Stat' \setminus \Prog''$. 
+Unstripping colors commutes with composition of colored relations:
+
+\begin{lemma}[Composition Lemma]
+\label{lemma-composition}
+Assume $R=(\Stat,\Prog)$, $R’=(\Stat',\Prog')$ are two pairs of disjoint relations on 
+$\{1, \ldots, \MaxVar\}$. Then $\universe{RR’} = \universe{R}\universe{R'}$.
+\end{lemma}
+
+\begin{proof}
+By definition unfolding we have 
+\begin{enumerate}
+\item
+$
+\universe{RR’} = 
+\Stat'' \cup \Prog'' = 
+(\Stat\Stat'\setminus \Prog'') \cup \Prog'' = 
+\Stat\Stat'\cup \Prog'' = 
+\Stat\Stat'\cup \Stat\Prog' \cup \Prog\Stat'\cup \Prog'\Prog''$
+
+\item
+$
+\universe{R}\universe{R'} = 
+(\Stat \cup \Prog)(\Stat'\cup \Prog') = 
+\Stat\Stat'\cup \Stat\Prog' \cup \Prog\Stat'\cup \Prog\Prog'
+$
+\end{enumerate}
+We conclude that $\universe{RR’} = \universe{R}\universe{R'}$
+\end{proof}
+
+We suppose having a finite direct multigraph $\setG$ whose edges are labeled with relation of $\setR$. Namely, $\setG$ is any finite set of triples $(a,R,b)$ with $R \in \setR$, $a,b \in \N$,
+and $a,b$ are called the nodes of $\setG$. We write $R:a \rightarrow b$ for: $(a,R,b) \in \setG$. 
+Assume $I=[0,k]$ for some $k \in \N$ or $I=\N$.
+We call a path $\pi$  in $\setG$ any sequence of labeled 
+edges $\pi: I \rightarrow \setG$, such that $\pi(i)=(a_i,R_i,a_{i+1})$ for all $i \in I$: the
+ending node of $\pi(i)$ is the starting node of $\pi(i+1)$, if $i+1 \in I$. If $I=[0,k]$, 
+we call $R_0 \ldots R_k: a_0 \rightarrow a_{k+1}$ the composition of $\pi$. 
+We call $\setG^+$ the set of compositions of paths of $\setG$. The nodes of $\setG^+$ are the nodes of $\setG$ and $\setG^+$ is labeled by bicolored relations in $\setR^+$.
+\\
+
+Assume $\pi: I \rightarrow \setR$ is a path, with  $I=[0,k]$ for some $k \in \N$ or $I=\N$.
+Assume $\pi(i)=(a_i,R_i,a_{i+1})$ for all $i \in I$. A trace associated to $\pi$
+is any sequence $\sigma : J \rightarrow \{1, \ldots, \MaxVar\}$, with $J=[0,k+1]$ or $J=\N$ according
+if $I=[0,k]$ or $I=\N$,
+and such that $\sigma(i) \universe{R_i} \sigma(i+1)$ for all $i \in I$. 
+\\
+
+If $\pi = \{ R_i = (\Stat_i,\Prog_i):a_i \rightarrow a_{i+1} | i \in \N\} $ is any infinite path, for all $0 \le i \le j$ we define $D_{i,j} = \dom(R_i \ldots R_j)$ and $D_{i} = \cap_{j \ge i} D_{I,j}$. $D_i$ is the set of $x \in \{1, \ldots, \MaxVar\}$ such that for all integer $j \ge i$ there is some trace associated to the restriction of $\pi$ to $[i,j]$ and starting from $x$. $D_{i,j}$ is a weakly decreasing sequence in the index $j$ because $\dom(R_i \ldots R_j) \supseteq \dom(R_i \ldots R_{j+1})$. Each $D_{i,j}$ has at most $\MaxVar$ elements, therefore $D_{i,j}$  can decrease at most $\MaxVar$ times. Thus, for some $j \ge i$ and all $k \ge j$ we have $D_{i,j} = D_{i,k}$, hence $D_i = D_{i,j} = D_{i,k}$. Conversely, if $D_i = D_{i,j}$ then for all $k \ge j$ we have $D_i = D_{i,k}$. We define $\phi(i) = $ the first $j$ such that $D_i = D_{i,j}$.
+\\
+
+\begin{definition}[Progressing trace]
+\label{definition-progressing-trace}
+Assume $\sigma$ is a trace associated to a path $\pi = \{ R_i = (\Stat_i,\Prog_i):a_i \rightarrow a_{i+1} | i \in I\} $.
+\begin{enumerate}
+\item
+$\sigma$ is progressing in the step $i$ if and only if  $i, i+1 \in I$ and $\sigma(i) \Prog_i \sigma(i+1)$. \item
+$\sigma$ is infinitely progressing if and only if $\sigma$ is progressing in infinitely many steps.  
+\end{enumerate}
+\end{definition}
+
+The Global Trace Condition (GTC) says: 
+
+\begin{center}
+\emph{any infinite path on $\setG$ has some tail associated to some infinitely progressing trace}. 
+\end{center}
+
+It is know that GTC is equivalent to: \emph{for all $R = (\Stat,\Prog) : a \rightarrow a \in \setR^+$, if $R=RR$ then there is some $x \in \{1, \ldots, \MaxVar\}$ which is progressing to itself: $x \Prog x$}. We want to find a simpler condition equivalent to GTC in a particular case.
+
+\begin{definition}[The Progressing Domain Condition (PDC)]
+\label{definition-Progressing-Domain-Condition-PDC}
+Assume that $R = (\Stat,\Prog) : a \rightarrow a$ is a bicolored binary relation on 
+$\{1, \ldots,\MaxVar\}$ and $\setR$ is a finite set of such relations.
+\begin{enumerate}
+\item
+We say that $R$ satisfies PDC if and only if $x \Prog y$ for some 
+$x, y \in \dom(\universe{R})$.
+\item
+We say that $\setR$ satisfies PDC if and only all $R \in \setR$ satisfy PCD
+\end{enumerate}
+\end{definition}
+
+PCD for  $R=(\Stat,\Prog)$ implies that $\Prog \not = \emptyset$ and therefore $\universe{R} \not = \emptyset $ are not empty. It says a little more, namely that there is some connection $x R y$ starting and ending in $\dom(R)$. We only consider injective relations.
+\\
+
+\begin{definition}
+\label{definition-injectivity-condition-IC}
+\emph{The injectivity condition for $\setR$} (IC) says: 
+\quotationMarks{$\universe{R}$ is injective for all $R \in \setR$} . 
+\end{definition}
+
+Our goal is to prove that:
+
+\begin{center}
+IC for $\setR$ $\implies$ 
+(GTC for $\setR^+$ $\Leftrightarrow$ PDC  for $\setR^+$)
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FORSE NON E’ NECESSARIO CARATTERIZZARE LA CONDIZIONE DI INIETTIVITA’
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%We first characterize injectivity of $\universe{(\Stat,\Prog)}$ for disjoint pairs.
+%
+%\begin{lemma}[Injectivity]
+%\label{lemma-injectivity}
+%Assume $(\Stat, \Prog)$ is any pair of disjoint binary relations on $\{1, \ldots, \MaxVar\}$.
+%Then $\universe{R}$ is injective if and only if $\Stat$ and $\Prog$ are injective and for no $x,y,z \in \{1, \ldots, \MaxVar\}$ we have $x \Stat y$ and $z \Prog y$.
+%\end{lemma}
+%
+%\begin{proof}
+%\begin{enumerate}
+%\item
+%Assume $\Stat \cup \Prog$ is injective: then $\Stat, \Prog$ are injective. Assume for contradiction that $x \Stat y$ and $z \Prog y$. By injectivity of $\Stat \cup \Prog$ we would have $x = z$, hence $(x,y) \in \Stat \cap \Prog$, contradicting the assumption $\Stat \cap \Prog = \emptyset$.
+%\item
+%Conversely, assume that $\Stat, \Prog$ are injective and for no $x,y,z \in \{1, \ldots, \MaxVar\}$ we have $x \Stat y$ and $z \Prog y$, in order to prove that $\Stat \cup \Prog$ is injective. For, assume that $x \Stat \cup \Prog y$, $z \Stat \cup \Prog y$, in order to prove that $x=z$. There are four cases. If $x \Stat y$ and $z \Stat y$ then $x=z$ by injectivity of $\Stat$. If $x \Prog y$ and $z \Prog y$ then $x=z$ by injectivity of $\Prog$. If $x \Stat y$ and $z \Prog y$, or if $z \Stat y$ and $x \Prog y$ we get a contradiction from our assumptions.
+%\end{enumerate}
+%\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FORSE NON E’ NECESSARIO CARATTERIZZARE LA CONDIZIONE DI INIETTIVITA’
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The implication GTC $\implies$ PDC is immediate and it does not require the 
+additional assumption IC.
+
+\begin{lemma}
+GTC for $\setR^+$ $\implies$  PDC for $\setR^+$
+\end{lemma}
+
+\begin{proof}
+Assume $R:a \rightarrow a \in \setR^+$. We take the infinite path $\pi = R:a \rightarrow a, R:a \rightarrow a, R:a \rightarrow a,\ldots$ always repeating $R$ and cycling around $a$. By GTC some tail of $\pi$ has some infinitely progressing trace $\sigma$. Then $\sigma$ is progressing in some step $i$. Therefore $\sigma(i) \Prog \sigma(i+1)$ and $\sigma(i) \in \dom(\universe{R})$, $\sigma(i+1) \in \dom(\universe{R})$ by definition of trace. Thus, $\universe{R}$ is progressing in some $x, y \in \dom(\universe{R})$. 
+\end{proof}
+
+Instead, the proof that 
+\begin{center}
+(IC for $\setR$),  (PDC for $\setR^+$)  $\implies$  (GTC for $\setR^+$) 
+\end{center}
+requires several steps. 
+We first show how to simplify the definition of composition when we have injectivity.
+
+%113 27/12/2025
+
+\begin{lemma}[Composition and Injectivity]
+\label{lemma-composition-injectivity}
+Assume $R=(\Stat,\Prog)$, $R’=(\Stat',\Prog')$ are bicolored relations on $\{1, \ldots, \MaxVar\}$
+satisfying IC, and $RR’ = (\Stat'',\Prog'')$. 
+Assume $\setR$ is a family of bicolored relations on $\{1, \ldots, \MaxVar\}$. 
+\begin{enumerate}
+\item
+\label{lemma-composition-injectivity-01}
+$RR’$ satisfies IC 
+
+\item
+\label{lemma-composition-injectivity-02}
+If $\setR$ satisfies IC, 
+then $\setR^+$ satisfies IC.
+
+\item
+\label{lemma-composition-injectivity-03}
+$\Stat\Stat' \cap \Prog'' = \emptyset$
+
+\item
+\label{lemma-composition-injectivity-04}
+$
+(\Stat,\Prog) \comp (\Stat',\Prog') 
+= 
+(\Stat\Stat', \Stat\Prog' \cup \Prog\Stat'\cup \Prog\Prog')
+$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\begin{enumerate}
+
+\item
+%\label{lemma-composition-injectivity-01}
+We assume that $\universe{R}$ and $\universe{R'}$ are injective
+and we have to prove that $\universe{RR'}$ is injective.
+By Lemma \ref{lemma-composition} we have $\universe{RR’} = \universe{R} \universe{R'}$. 
+Then $\universe{RR’}$ is injective 
+because the composition of two injective relations is injective.
+
+\item
+\label{lemma-composition-injectivity-02}
+We assume that $\setR$ is a family of bicolored relations satisfying IC, 
+and we prove that the closure by composition $\setR^+$ of $\setR$
+satisfies IC.
+This follow from the fact that IC 
+is closed by composition (point \ref{lemma-composition-injectivity-01} above).
+
+\item
+\label{lemma-composition-injectivity-03}
+We have to prove that $\Stat\Stat' \cap \Prog'' = \emptyset$.
+We assume that $x \Stat\Stat' y$ and $x \Prog'' y$ in order to derive a contradiction. 
+From $x \Stat\Stat' y$ we deduce that for some $z$ we have 
+$x \Stat z \Stat' y$. From $x \Prog'' y$ we deduce that for some $t$ we have 
+either $x \Stat t \Prog' y$ or $x \Prog t \Stat' y$ or $x \Prog t \Prog' y$. 
+We consider the three sub-cases separately.
+\begin{enumerate}
+\item
+\emph{Assume $x \Stat t \Prog' y$}.
+Then we have $z \Stat' y$ and $t \Prog' y$. By injectivity of 
+$\universe{R'} = \Stat'\cup \Prog'$ we deduce that $z = t$, then that 
+$(z,y) \in \Stat'\cap \Prog'$, contradiction. 
+\item
+\emph{Assume $x \Prog t \Stat' y$}. Then we have $z \Stat' y$ and $t \Stat' y$.
+By injectivity of $\universe{R'} = \Stat' \cup \Prog'$ we deduce again that $z = t$. 
+From $x \Stat z$ and $x \Prog t$ and $z=t$ we conclude that 
+$(x,t) \in \Stat \cap \Prog$, contradiction.
+\item
+\emph{Assume $x \Prog t \Prog' y$}. 
+Then we have $z \Stat' y$ and $t \Prog' y$. By injectivity of 
+$\universe{R'} = \Stat'\cup \Prog'$ we deduce again that $z = t$, then that 
+$(z,y) \in \Stat'\cap \Prog'$, contradiction. 
+\end{enumerate}
+
+\item
+\label{lemma-composition-injectivity-04}
+From $\Stat\Stat'\cap \Prog'' = \emptyset$ and the definition
+$\Prog'' =  \Prog\Stat'\cup \Prog\Prog'$ we deduce that 
+$$
+R \comp R’
+= 
+(\Stat\Stat'\setminus \Prog'', \Prog'')
+= 
+(\Stat\Stat', \Prog'')
+=
+(\Stat\Stat',   \Stat\Prog' \cup \Prog\Stat'\cup \Prog\Prog' )
+$$ 
+
+\end{enumerate}
+\end{proof}
+
+The next step is to provide a sufficient condition for the restriction of a bicolored relation
+to be a bijection.
+
+\begin{lemma}[Bijection Lemma]
+\label{lemma-bijection}
+\begin{enumerate}
+\item
+Assume $R$ is a bicolored relation on $\{1, \ldots, \MaxVar\}$
+with IC.  
+\item
+Assume $X \subseteq \{1, \ldots, \MaxVar\}$
+and $\universe{R} \cap (X \times X)$ is everywhere defined.
+\end{enumerate}
+Then $\universe{R} \cap (X \times X)$ is a bijection. 
+\end{lemma}
+
+\begin{proof}
+Assume that $x \in X$ has $n_x$ images in $X$. By the assumption that $\universe{R} \cap (X \times X)$ is everywhere defined we have $n_x \ge 1$, therefore 
+$\Card(X) \le \Sigma_{x \in X} n_x$. 
+The $\universe{R}$-images of two different $x,y \in X$ are disjoint by injectivity, therefore $ \Sigma_{x \in X} n_x$ is the cardinality of the set of $\universe{R}$-images of $X$ in $X$, in particular we have $\Sigma_{x \in X} n_x \le \Card(X)$. 
+We deduce that $\Sigma_{x \in X} n_x = \Card(X)$ and $n_x=1$ for all $x \in X$. 
+\begin{enumerate}
+\item
+From  $n_x=1$ for all $x \in X$ we deduce that the images of $\universe{R} \cap (X \times X)$ exist and they are unique: $\universe{R} \cap (X \times X)$ is a function.
+\item
+From $\Sigma_{x \in X} n_x = \Card(X)$ we deduce surjectivity of $\universe{R} \cap (X \times X)$.
+\item
+$\universe{R} \cap (X \times X)$ is injective because it is a subset of an injective relation $R$.
+\end{enumerate}
+We conclude that $\universe{R} \cap (X \times X)$ is a bijection.
+\end{proof}
+
+Now we provide a sufficient condition for having an infinitely progressing trace.
+
+\begin{lemma}[Infinitely Progressing Trace]
+\label{lemma-infinitely-progressing}
+ Assume that:
+\begin{enumerate}
+\item
+IC holds for $\setR$. 
+\item 
+PDC (the Progressing Domain Condition) holds for $\setR^+$. 
+\item
+$\pi = \{R_i = (\Stat_i,\Prog_i) : a_i \rightarrow a_{i+1} | i \in \N \}$ is an infinite path in $\setG^+$, and that for some $X$ and all $i \in \N$ we have $X = \dom(\universe{R_i}) = \dom(\universe{R_i R_{i+1}})$.
+\end{enumerate}
+Then $\pi$ is associated to some infinitely progressing path.
+\end{lemma}
+
+\begin{proof}
+We first prove that all $R_i \cap (X \times X)$ are everywhere defined.
+By assumption we have $X = \dom(\universe{R_i}) =  \dom(\universe{R_iR_{i+1}})$. By 
+Lemma \ref{lemma-composition} we have $\universe{R_iR_{i+1}} = \universe{R_i} 
+\universe{R_{i+1}}$. Thus, for all $x \in X$ we have 
+$x \in  \universe{R_i} \universe{R_{i+1}}$, 
+therefore there are $y$, $z$ such that $x R_i y R_{i+1} z$. Then $y \in 
+\dom(\universe{R_{i+1}})$, then $y \in X$ by the assumption $X = \dom(\universe{R_{i+1}})
+$. We proved that $R_i \cap (X \times X)$ is everywhere defined. 
+
+Any infinite trace $\sigma$ associated to $\pi$ satisfies $\sigma(i) R_i \sigma(i+1)$
+and therefore $\sigma(i) \in \dom(R_i) = X$. By Lemma \ref{lemma-bijection} all relations 
+$\universe{R_i} \cap (X \times X)$ are bijections, therefore $\sigma(i+1)$ is the
+unique $R_i$-image of $\sigma(i)$ in $X$. Let $c = \Card(X)$: 
+there are $c$ infinite traces associated to $\pi$, each one having some 
+$x \in \dom(\universe{R_0}) = X$ as starting point and uniquely determined by $x$ 
+because all $\universe{R_i} \cap (X \times X)$ are bijections. By 
+PDC for $\setR^+$, for all $i \in \N$ there are some $a,b \in \dom(\universe{R_i})=X$ such 
+that $a \Prog_i b$. Thus, for each $i \in \N$ at least one of the $c$ traces is progressing
+in the step $i$. 
+We conclude that at least one infinite trace is infinitely progressing.
+\end{proof}
+
+Now we can prove the following:
+
+\begin{theorem}[The Progressing Domain Condition Theorem]
+\label{theorem-PDC}
+Assume IC for $\setR$. Then
+\begin{center}
+PDC for $\setR^+$ $\implies$ GTC for $\setR^+$
+\end{center}
+\end{theorem}
+
+\begin{proof}
+Take any infinite path $\pi = \{R_i = (\Stat_i,\Prog_i) : a_i \rightarrow a_{i+1} | i \in \N\}$ 
+in $\setG^+$. Define $D_i = \bigcap_{j \ge i} \dom(R_i \ldots R_j)$. 
+There are at most $2^{\MaxVar}$ 
+possible values for $D_i$, therefore there is some $X$ such that $X=D_i$ infinitely many 
+times. We already proved that there is a first $j = \phi(i)$ such that $D_i = \dom(R_i \ldots R_k)
+$ for all $k \ge j$.
+
+We define a subsequence $\pi’$ of $\pi$: $i_0 =$ the first $i$ such that $X = D_i$, and $i_{k+1} =$ the first $i$ such that $X= D_i$ and $i  \ge \phi(i_k) + 1$. Define $S_k = R_{i_k} \ldots R_{i_{k+1}-1}$: then $\dom(S_k) = D_{i_k, i_{k+1}-1} = X$ by $i_{k+1} -1 \ge (\phi(i_k) + 1) – 1 = \phi(i_k)$. From $ i_{k+2}-1 > i_{k+1}-1$ we have $\dom(S_k S_{k+1}) = D_{i_k, i_{k+2}-1} = X$. 
+
+All relations $S_k$ satisfy IC by closure of IC under composition (Lemma \ref{lemma-composition-injectivity}.\ref{lemma-composition-injectivity-02}). Besides, we assumed PDC for $\setR^+$. 
+From $\dom(S_k S_{k+1}) = D_{i_k, i_{k+2}-1} = X = \dom(S_k)$ for all $k \in \N$, 
+by Lemma \ref{lemma-infinitely-progressing} we conclude the existence of some infinitely progressing trace for $\pi’$, hence for $\pi$.
+\end{proof}
+
+
+
+
+\newpage
+
+\section{A Translation from Injective Cyclic to Inductive Proofs}
+\emph{Proof started in Arma di Taggia, January 9, 2026}. 
+
+We take from the previous section \S \ref{section-classical-proof-PDC-implies-GTC} 
+the definitions of: 
+\begin{enumerate}
+\item
+bicolored relation $R = (\Stat, \Prog)$ on a finite non-empty set 
+$\{1, \ldots, \MaxVar\}$  (\ref{definition-bicolored-relation}), 
+\item
+composition $RS$ of bicolored relations $R,S$, and closure by composition $\setR^+$ 
+of a family $\setR$ of bicolored relations (\ref{definition-composition}),
+\item
+progressing trace $\sigma:[1,n] \rightarrow \{1,\ldots,\MaxVar\}$
+and infinitely progressing trace
+$\tau:\N \rightarrow  \{1,\ldots,\MaxVar\}$ (\ref{definition-progressing-trace}),
+\item
+Progressing Domain Condition PDC (\ref{definition-Progressing-Domain-Condition-PDC})
+\item
+Injectivity Condition IC (\ref{definition-injectivity-condition-IC}).
+\end{enumerate}
+
+In Thm. \ref{theorem-PDC} 
+we proved that PDC and GTC are the same for a family $\setR^+$ when we have IC,
+namely, that for any set $\setR$ of bicolored relations: 
+\begin{center}
+(IC for $\setR^+$) 
+$\implies$ 
+(GTC for $\setR^+$ $\Leftrightarrow$ PDC  for $\setR^+$)
+\end{center}
+The injectivity condition IC for
+$\setR$ and for $\setR^+$ are equivalent by Lemma 
+\ref{lemma-composition-injectivity}.\ref{lemma-composition-injectivity-02}.
+\\
+
+There are $2^{\MaxVar*\MaxVar}$ relations on $\{1,\ldots,\MaxVar\}$. The bicolored
+relations are all disjoint pairs of relations, therefore at most 
+$2^{\MaxVar*\MaxVar} \times 2^{\MaxVar*\MaxVar}$, or $2^{2*\MaxVar*\MaxVar}$.
+
+
+We suppose having a cyclic proof $\Pi : \Gamma \vdash \Delta$, consisting in a finite proof-tree 
+with a single companion $c$ in the root, with any number of free assumptions
+$\setF = \{\Gamma' \vdash \Delta', \Gamma'' \vdash \Delta'', \ldots\}$. Some free assumptions
+are buds $b_1, \ldots, b_k$,
+all associated to the companion $c$ in the conclusion $\Gamma \vdash \Delta$ of the
+proof. For all $i = 1, \ldots, k$ we call $R_i$ the bicolored 
+relation associated to the path from $c$ to $b_i$. 
+
+We assume that the renaming rule is merged
+with the bud/companion relatoin, namely that if the free variables in the companion
+are $\vec{x} = x_1, \ldots, x_\MaxVar$, then the free variables in the bud are 
+$\vec{y} = y_1, \ldots, y_\MaxVar$ and they are renamed to $\vec{x}$.
+\\
+
+\begin{center}
+\begin{tikzpicture}
+\node[draw] at (-1.5,1.5) {Proof $\Pi$};
+\node[] at (3,-0.5) {$\Gamma \vdash \Delta$};
+\draw[gray, thick] (3,0) -- (0,3);
+\draw[gray, thick] (3,0) -- (6,3);
+\draw[gray, thick] (3,3) -- (3,0);
+\filldraw[black] (3,0) circle (2pt) node[anchor=west]{Companion $c$};
+\filldraw[black] (0,3) circle (2pt) node[anchor=west]{Bud $b_1$};
+\filldraw[black] (3,3) circle (2pt) node[anchor=west]{Bud $b_i$};
+\filldraw[black] (6,3) circle (2pt) node[anchor=west]{Bud $b_k$};
+\node[] at (2,3) {\ldots};
+\node[] at (5,3) {\ldots};
+\node[] at (1.5,1.5) {$R_1$};
+\node[] at (3,1.5) {$R_i$};
+\node[] at (4.5,1.5) {$R_k$};
+\end{tikzpicture}
+\end{center}
+
+We call $\setR = \{R_i | i=1, \ldots, k\}$
+the set of bicolored relations associated to the path from $c$ to some $b_i$. The number $k$
+can have any value, but the number of distinct bicolored relations in $\setR$ and in $\setR^+$
+are at most $2^{2*\MaxVar*\MaxVar}$.
+\\
+  
+We assume IC and PDC for the set $\setR^+$ of bicolored relations of $\Pi$.
+
+We turn $\Pi$ into an inductive proof $P$, using
+induction nested at most $\MaxVar$-times, and with set of free assumptions 
+$\setF \setminus \{b_1, \ldots, b_k\}$. 
+In the case we have several companions, we define our transformation 
+by induction on $\Pi$.
+
+Assume $\FV(\Gamma \vdash \Delta) = \{x_1, \ldots, x_{\MaxVar}\}$. For each
+colored injective binary relation $R$ on $\{1, \ldots, {\MaxVar}\}$ we associate an
+expression which is a sum of maximum of set of variables:
+$$
+[R] 
+= 
+\Sigma_{i \in \dom(\universe{R})} \max(\{x_j | i \universe{R} j\})
+$$
+
+Assume $\pi$ is any path in $\Pi$ from the companion $c$ to $c$ itself. 
+$\pi$ passes through some finite list of buds $b_{i_1}, \ldots, b_{i_h}$, for some $h \in \N$,
+with possibly $h=0$. $\pi$ defines a bicolored relation $S = R_{i_1}  \ldots  R_{i_h}$,
+when $h=0$ we set $S=\id=\{(i,i) | i=1, \ldots, \MaxVar\}$.
+Let us abbreviate $S_a =  R_{i_a} \ldots  R_{i_h}$ for $a=1, \ldots,h$.
+The integer sequence $\Card(\dom(\universe{S_a}))$ for $a=1, \ldots,h$ is weaky increasing
+by Lemma \ref{lemma-composition-injective-relations}.
+\ref{lemma-composition-injective-relations-02}. 
+We cannot have $\Card(\dom(\universe{S_a})) = 0$, namely $S_a=\emptyset$,
+because PDC says that there is some progressing $(x,y) \in \universe{S_a}$
+and therefore $S_a \not = \emptyset$.
+
+%19:49 13/01/2026
+
+We take the smallest increasing subsequence ${a_1, \ldots, a_m}$ in the lexicographic ordering. 
+This subsequence is recursively defined as follows. 
+
+
+\begin{definition}[The subsequence ${a_1, \ldots, a_m}$]
+\begin{enumerate}
+\item
+$a_0 = 1$
+\item
+$a_{b+1}=$ the first $j \in ]a_b,h]$
+such that $\Card(\dom(\universe{S_{a_b}})) < \Card(\universe{\dom(S_j)})$,
+if any exists, otherwise the subsequence stops. 
+\end{enumerate}
+\end{definition}
+
+
+We associate to $\pi$ the index $\alpha_\pi = ([S_{a_1}], \ldots, [S_{a_m}])$. 
+Even if the paths are infinitely many,
+the bicolored relations $R_{i_a} \ldots  R_{i_h}$ are finitely many, therefore the
+indexes $\alpha_\pi$ are finitely many.
+
+Let $\vec{x} = x_1, \ldots, x_{\MaxVar}$.
+We define a predice $P_\pi(\vec{x})$ stating that the path $\pi$ ends with the
+values $\vec{x}$. We define 
+$\phi(\vec{x})$ as the lexicographic minimum  
+of all $\alpha_\pi$ such that there is a path ending in $\vec{x}$:
+$$
+\phi(\vec{x}) 
+= 
+\min(\{\alpha_\pi | P_\pi(\vec{x})\})
+$$ 
+We claim that the cyclic proof $\Pi$ can be replaced by an inductive proof on $\phi(\vec{x})$.
+
+\ldots\ldots\ldots
+
+%12:44 12/01/2026
+
 
 \end{document}
 
