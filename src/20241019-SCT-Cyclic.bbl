@@ -1,0 +1,68 @@
+\begin{thebibliography}{10}
+
+\bibitem{10.1007/978-3-642-35182-2_25}
+James Brotherston, Nikos Gorogiannis, and Rasmus Petersen.
+\newblock A generic cyclic theorem prover.
+\newblock In Ranjit Jhala and Atsushi Igarashi, editors, {\em Programming
+  Languages and Systems}, pages 350--367, Berlin, Heidelberg, 2012. Springer
+  Berlin Heidelberg.
+
+\bibitem{BrotherstonSimpson}
+James Brotherston and Alex Simpson.
+\newblock Sequent calculi for induction and infinite descent.
+\newblock {\em J. Log. and Comput.}, 21(6):1177–1216, December 2011.
+
+\bibitem{10.1145/3632888}
+Liron Cohen, Adham Jabarin, Andrei Popescu, and Reuben N.~S. Rowe.
+\newblock The complex(ity) landscape of checking infinite descent.
+\newblock {\em Proc. ACM Program. Lang.}, 8(POPL), January 2024.
+
+\bibitem{10.1007/978-3-031-90643-5_18}
+Liron Cohen, Reuben N.~S. Rowe, and Matan Shaked.
+\newblock Cyclone: A heterogeneous tool for verifying infinite descent.
+\newblock In Arie Gurfinkel and Marijn Heule, editors, {\em Tools and
+  Algorithms for the Construction and Analysis of Systems}, pages 336--354,
+  Cham, 2025. Springer Nature Switzerland.
+
+\bibitem{10.1145/3453483.3454087}
+Shachar Itzhaky, Hila Peleg, Nadia Polikarpova, Reuben N.~S. Rowe, and Ilya
+  Sergey.
+\newblock Cyclic program synthesis.
+\newblock In {\em Proceedings of the 42nd ACM SIGPLAN International Conference
+  on Programming Language Design and Implementation}, PLDI 2021, page
+  944–959, New York, NY, USA, 2021. Association for Computing Machinery.
+
+\bibitem{Lee2}
+Chin~Soon Lee.
+\newblock Ranking functions for size-change termination.
+\newblock {\em ACM Trans. Program. Lang. Syst.}, 31(3), April 2009.
+
+\bibitem{Lee1}
+Chin~Soon Lee, Neil~D. Jones, and Amir~M. Ben-Amram.
+\newblock The size-change principle for program termination.
+\newblock In {\em Proceedings of the 28th ACM SIGPLAN-SIGACT Symposium on
+  Principles of Programming Languages}, POPL '01, page 81–92, New York, NY,
+  USA, 2001. Association for Computing Machinery.
+
+\bibitem{10.1145/3018610.3018623}
+Reuben N.~S. Rowe and James Brotherston.
+\newblock Automatic cyclic termination proofs for recursive procedures in
+  separation logic.
+\newblock In {\em Proceedings of the 6th ACM SIGPLAN Conference on Certified
+  Programs and Proofs}, CPP 2017, page 53–65, New York, NY, USA, 2017.
+  Association for Computing Machinery.
+
+\bibitem{Stratulat_2021}
+Sorin Stratulat.
+\newblock E-cyclist: Implementation of an efficient validation of folid cyclic
+  induction reasoning.
+\newblock {\em Electronic Proceedings in Theoretical Computer Science},
+  342:129–135, September 2021.
+
+\bibitem{Brotherston2020}
+G.~Tellez and Brotherston J.
+\newblock Automatically verifying temporal properties of pointer programs with
+  cyclic proof.
+\newblock {\em J. Autom. Reason. 64(3)}, pages 555--57, 2020.
+
+\end{thebibliography}

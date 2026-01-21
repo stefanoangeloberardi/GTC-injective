@@ -2997,11 +2997,188 @@ by Lemma \ref{lemma-infinitely-progressing} we conclude the existence of some in
 
 \newpage
 
-\section{A Poly-time Translation from Injective Cyclic to Inductive Proofs}
-\emph{Proof started in Arma di Taggia, January 9, 2026. Janaury, 20}.
+\section{A Poly-exponential Translation from Injective Cyclic to Inductive Proofs}
+\emph{Proof started in Arma di Taggia, January 9, 2026. 
+Janaury, 20: Ugo suggests adding complexity results}.
+
+Mirai \cite{} provided a translation from from cyclic to inductive proofs. The proof builds
+on an existing algorithm for SCT requiring triple exponential time. If we switch to an equivalent
+formulation of cyclic proofs with injective bicolored relation (i.e. fan-in free, with at most one
+arrow entering in each node), the same algorithm provides a double exponential time \cite{}.
+In this paper we move to a single exponential (poly-exponential) time, at the price of 
+defining a new algorithm.
+
+Let us start from a cyclic proof with set $\setR$ of bicolored relations. 
+Assume $\setR^+$ is the closure of $\setR$ under composition.
+We assume that:
+
+\begin{enumerate}
+\item  
+$\setR$ is a set of injective relations, hence $\setR^+$ is a set of injective relations
+\item
+$\setR^+$ satisfies GTC (equivalently, it satisfies SCT)
+\end{enumerate}
+
+Suppose we have a path $\pi$ from a companion c to itself, moving back  through $c$
+for $k \ge 1$ times: we have $c \rightarrow c \rightarrow \ldots \rightarrow c$, with $k$ arrows.
+For any $i \in \{1, \ldots, k\}$, suppose the step $c \rightarrow c$ having number $i$
+is associated to some bicolored relation $R_i \in \setR^+$. The path $\pi$ itself is associated
+to the composition $R_1 \ldots R_k$ of such relations.
+
+\begin{definition}[Grouping]
+A grouping of bicolored relations $S_1, \ldots, S_n$ is defined by induction on $n$
+as follows.
+\begin{enumerate}
+\item
+If $n=0$, then $S_1, \ldots, S_n$ is the unique grouping of $S_1, \ldots, S_n$.
+\item
+Suppose $T_1, \ldots, T_m$ is any grouping of $S_1, \ldots, S_n$. 
+Then $T_1, \ldots, T_{i-1}, (T_i\ldots T_m)$ is a grouping of 
+$S_1, \ldots, S_n$, for all $1 \le i \le m$. 
+\end{enumerate}
+\end{definition}
+
+To put otherwise, the grouping of $S_1, \ldots, S_n$ are all and only 
+sequences of products of the form: 
+$$S_1 \ldots S_{i_1}, \ \ \ S_{i_1+1} \ldots S_{i_2}, \ \ \ \ldots, \ \ \ S_{i_h+1} \ldots S_{n}$$
+for any increasing sequence 
+$1 \le i_1 < i_2 < i_3 < \ldots < i_h \le n$. 
+
+We can have $h=0$ and a trivial grouping consisting of a single product  $S_1 \ldots S_n$.
+We can have $h=m$ and a trivial grouping of $S_1, \ldots, S_n$ consisting of the sequence 
+$S_1, \ldots, S_n$ itself, considered a sequence of unary products.
+
+We say that a binary product of $R, S \in  \setR^+$ is stable if $\dom(R) = \dom(RS)$.
+A product of $S_1, \ldots, S_n$ is stable if and only if for all grouping $T_1, \ldots, T_m$
+of $S_1, \ldots, S_n$, if $1 \le i$ and $i+1 \le m$ then the binary product $T_i, T_m{i+1}$
+is stable. 
+
+By induction on the definition of stability we can prove
+that the product of $S_1, \ldots, S_n$ is stable if and only if for all $1 \le i \le n-1$ we have:
+$$
+\dom(S_i) = \dom(S_iS_{i+1}) = \dom(S_iS_{i+1}S_{i+2}) = \ldots = \dom(S_i \ldots S_n)
+$$
+
+The canonical stable grouping is a stable grouping defined as follows. 
+
+\begin{definition}[Canonical Stable Grouping]
+The canonical stable grouping of bicolored relations $S_1, \ldots, S_n$ 
+is defined by induction on $n$
+as follows.
+\begin{enumerate}
+\item
+If $n=0$, then $S_1, \ldots, S_n$ is the canonical stable grouping of $S_1, \ldots, S_n$.
+\item
+Suppose $T_1, \ldots, T_m$ is the canonical stable grouping of $S_1, \ldots, S_n$.
+Then the  canonical stable grouping of $S_1, \ldots, S_{n+1}$ is:
+\begin{enumerate}
+\item
+$T_1, \ldots, T_m, S_{n+1}$ if $T_1, \ldots, T_m, S_{n+1}$ is stable.
+\item
+$T_1, \ldots, T_i \ldots T_m S_{n+1}$ for the first $i$ such that 
+$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$,
+if $T_1, \ldots, T_m, S_{n+1}$ is \emph{not} stable.
+\end{enumerate}
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}[Canonical Stable Grouping]
+The canonical stable grouping $T_1, \ldots, T_m$ of $S_1, \ldots, S_n$ is stable.
+\end{lemma}
+
+\begin{proof}
+By induction on $n$.
+\begin{enumerate}
+\item
+If $n=0$ then $T_1, \ldots, T_m$ is empty and therefore it is stable.
+\item
+Assume that the canonical stable grouping $T_1, \ldots, T_m$ of $S_1, \ldots, S_n$ is stable.
+We argue by cases.
+\begin{enumerate}
+\item
+Assume $T_1, \ldots, T_m, S_{n+1}$ if $T_1, \ldots, T_m, S_{n+1}$ is stable. Then it
+is the canonical stable grouping and we are done.
+\item
+Assume $T_1, \ldots, T_m, S_{n+1}$ if $T_1, \ldots, T_m, S_{n+1}$ is \emph{not} stable. 
+Then the canonical stable grouping is  $T_1, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$
+We have $\dom(T_i \ldots T_m) \supseteq \dom(T_i \ldots T_m S_{n+1})$ for all
+$i=1, \ldots, m$ and by $T_1, \ldots, T_m, S_{n+1}$ not stalbe 
+there is a first $i=1, \ldots, m$ such that 
+$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. By the choice of $i$ we have 
+$\dom(T_j \ldots T_m) = \dom(T_j \ldots T_m S_{n+1})$ for all $1 \le j <i$. 
+For all $1 \le j<i \le m$, from $T_1, \ldots, T_m$ stable we deduce that 
+$
+\dom(T_j ) = 
+\dom(T_j T_{j+1}) = 
+\ldots = 
+\dom(T_j \ldots T_{i-1}) 
+= \dom(T_j \ldots T_m) =  
+$ 
+(by what we just proved)  $\dom(T_j \ldots T_{i-1}(T_i \ldots T_m S_{n+1}))$.
+This implies that $T_j, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$ is stable.
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+ 
+Assume $S_1, \ldots, S_n$ is any sequence of bicolored relations. 
+We define the integer sequence $\sigma(i) = \Card(S_i \ldots S_n)$ for $i=1, \ldots, n$.
+If $S_1, \ldots, S_n$ are injective,  then $\sigma$ is weakly increasing.
+Suppose $\codom(\sigma) = \{c_1, \ldots, c_h\}$ for some increasing sequence 
+$0 \le c_1 < c_2 < \ldots < c_h$. For $i=1, \ldots, h$, let $a_i$ be the last index such that
+$ \sigma(a_i) = c_i$. If $S_1, \ldots, S_n$ are injective, then $a_i$ is increasing
+and $\sigma$ decomposes in $h$ adiacent constant subsequences:
+$$
+\sigma(1), \ldots, \sigma(a_1),
+\ \ \
+\sigma(a_1+1), \ldots, \sigma(a_2),
+\ \ \ 
+\ldots,
+\ \ \
+\sigma(a_{h-1}+1), \ldots, \sigma(a_h)
+$$ 
+The subsequence number $i$ has constant value $c_i$.
+
+Suppose:
+\begin{enumerate}
+\item
+$R_1, \ldots, R_n \in \setR^+$ (hence each $R_i$ is injective and satisfies PDC) 
+\item
+Suppose $R_1, \ldots, R_n$ is stable. 
+\end{enumerate}
+Set $X_i = \dom(R_i \ldots R_n)$ for all $1 \le i \le n$.
+
+\begin{lemma}
+\begin{enumerate}
+\item
+If $1 \le i \le j \le n$ and $X_i = X_j$ then $R_i \ldots R_j$ is progressing on $X_i$.
+\item
+If $1 \le i \le j \le n$ and $\Card(X_i) = \Card(X_j)$ and $j-i \ge 2^\MaxVar$ 
+then $R_i \ldots R_j$ is progressing on $X_i$.
+\end{enumerate}
+\end{lemma}
+
+The degree $\deg(j,\vec{R})$ of $j=1, \ldots, n$ in 
+$\vec{R} = R_1, \ldots, R_n$ as above is the maximum distance of
+an index $i \le j$ such that $R_{i} \ldots R_j$ is progressing on $X_i$.
+
+The map $\size(i)$ compute the number of constructor in the inductive expression number $i$
+$\size(X)$ is the sum of all $\size(i)$ for $i \in X$.
+
+If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ is stable then we associate the index 
+$$
+\size(\vec{R}) 
+= 
+(\size(X_{a_1}), \deg(a_1,\vec{R}), \ldots,\size(X_{a_h},\deg(a_h,\vec{R}))
+$$
+
+If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ and $\vec{S}$ is the canonical stable
+grouping of $\vec{R} $ then we set $\size(\vec{R})  = \size(\vec{S}) $.
+
+We claim that $\min(\size(\vec{R}))$ is a ranking function.
 
 
-
+ 
+\subsection{Version of the Proof started in Arma di Taggia, January 9, 2026}
 We take from the previous section \S \ref{section-classical-proof-PDC-implies-GTC} 
 the definitions of: 
 \begin{enumerate}
