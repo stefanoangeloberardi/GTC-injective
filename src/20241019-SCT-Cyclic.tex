@@ -3171,6 +3171,23 @@ $$
 (\size(X_{a_1}), \deg(a_1,\vec{R}), \ldots,\size(X_{a_h},\deg(a_h,\vec{R}))
 $$
 
+The corresponding state is 
+$(R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+\ldots,
+R_{a_h}\ldots R_{n}, \deg(a_h,\vec{R}))
+$
+The number of states is bounded by 
+$2^{O(\MaxVar^2)} \times 2^\MaxVar \times \ldots 2^{O(\MaxVar^2)} \times 2^\Max$,
+at most $\MaxVar$ times, namely it is bounded by $2^{O(\MaxVar^3)}$. Each step requires 
+$O(2^{\MaxVar^2}) \times \log_2(2^{O(\MaxVar^3)})$. We have $n \le 2^{\MaxVar^2}$,
+and cyclically 
+for each $R_i$ with $i = 1, \ldots, n$ we add the state obtained by concatenating with 
+$R_i$ and we compare it with the existing states sorted in order to decide whether it is a new
+state or not. We stop adding states in the first cycle we add no new state.
+The total time cost is bounded by 
+$O(2^{\MaxVar^2}) \times {O(\MaxVar^3)} \times 2^{O(\MaxVar^3)}$,
+namely it is $2^{O(\MaxVar^3)}$ again. Therefore it is poly-exponential.
+
 If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ and $\vec{S}$ is the canonical stable
 grouping of $\vec{R} $ then we set $\size(\vec{R})  = \size(\vec{S}) $.
 
