@@ -2285,11 +2285,14 @@ value $\sigma(x)$, and all traces progresses at most $n-1$ times, where $n=\Card
 \section{New version of the paper on injectivity (from 2025)}
 \label{section-newversion}
 
-\newcommand{\size} 		{{\tt s}}
-\newcommand{\unfold}{{\tt u}}
-\newcommand{\height} {{\tt h}}
-\newcommand{\setF} 		{{\mathcal F}}
-\newcommand{\setU} 	{{\mathcal U}}
+\newcommand{\size} 		          {{\tt s}}
+\newcommand{\state} 		       {{\tt S}}
+\newcommand{\minStable}    {{\tt m}}
+\newcommand{\unfold}          {{\tt u}}
+\newcommand{\height}           {{\tt h}}
+\newcommand{\setF} 		          {{\mathcal F}}
+\newcommand{\setU} 	          {{\mathcal U}}
+\newcommand{\cons}              {{\tt cons}}
 
 \subsection{Notation for product}
 We write $N^+$ for the set of positive integers. 
@@ -2563,37 +2566,37 @@ The translated inductive proof is correct.
 Suppose $\vec{R}$ is some $a$-sequence from $C_b$ to $C_c$. 
 Suppose $\vec{R}$ increases to  $\vec{R},S$, with $S$ from $C_c$ to $C_d$.
 Suppose we have nested induction on 
-$(\size(X_1),h_1,\size(X_2),h_2, \ldots, \size(X_k),h_k)$. We prove 
+$(\size(D_1),h_1,\size(D_2),h_2, \ldots, \size(D_k),h_k)$. We prove 
 that the translated inductive proof is correct. 
 
 \begin{enumerate}
 \item
-Suppose $X_k \subseteq \dom(S)$. Then $\Card(S(X_k)) \ge \Card(X_k)$.
-Suppose  that $\Card(S(X_k)) > \Card(X_k)$.
-Then all $X_1, \ldots, X_k$ stay the same and we add a new set $X_{k+1} = S(X_k)$. 
+Suppose $D_k \subseteq \dom(S)$. Then $\Card(S(D_k)) \ge \Card(D_k)$.
+Suppose  that $\Card(S(D_k)) > \Card(D_k)$.
+Then all $D_1, \ldots, D_k$ stay the same and we add a new set $D_{k+1} = S(D_k)$. 
 Then the translated proof is correct because when we add a new element the sequence
 is smaller.
 
 \item
-Suppose $X_k \subseteq \dom(S)$ and $\Card(S(X_k)) = \Card(X_k)$.
-Then all $X_1, \ldots, X_{k-1}$ stay the same and $S$ is a bijection 
-from $X_k$ to $X'_k=S(X_k)$. Then $\size(X_k) \ge \size(X'_k)$.
-Suppose $S$ is a \emph{stationary} bijection. Then $\height(X_k,c) > \height(X'_k,d)$
+Suppose $D_k \subseteq \dom(S)$ and $\Card(S(D_k)) = \Card(D_k)$.
+Then all $D_1, \ldots, D_{k-1}$ stay the same and $S$ is a bijection 
+from $D_k$ to $X'_k=S(D_k)$. Then $\size(D_k) \ge \size(X'_k)$.
+Suppose $S$ is a \emph{stationary} bijection. Then $\height(D_k,c) > \height(X'_k,d)$
 and the translated proof is correct.
 
 \item
-Suppose  $S$ is a \emph{progressing} bijection. Then $\size(X_k) \ge \size(X'_k)$ 
+Suppose  $S$ is a \emph{progressing} bijection. Then $\size(D_k) \ge \size(X'_k)$ 
 and the translated proof is correct.
 
 \item
-Suppose $X_k \not \subseteq \dom(S)$. Then there is a first $i \in [1,k]$ such that the new value 
-of $X_i$ is some $Y \subset X_i$ and $X_i$ is associated to some $c$. 
-If $i=1$ or $i>1$ and $\Card(X_{i-1}) <  \Card'(Y)$
-then $Y$ is the new value of $X_{i-1}$ and $\size(X_i) > \size(Y)$. 
+Suppose $D_k \not \subseteq \dom(S)$. Then there is a first $i \in [1,k]$ such that the new value 
+of $D_i$ is some $Y \subset D_i$ and $D_i$ is associated to some $c$. 
+If $i=1$ or $i>1$ and $\Card(D_{i-1}) <  \Card'(Y)$
+then $Y$ is the new value of $D_{i-1}$ and $\size(D_i) > \size(Y)$. 
 Then the translated proof is correct.
-Otherwise we have $i>1$ and  $\Card(X_{i-1}) =  \Card(Y)$. In this case
-$Y$ is the new value of $X_{i-1}$, not of $X_i$, which instead disappears.
-Then $\height(X_{i-1},c) > \height(Y,d)$ and the translated proof is correct.
+Otherwise we have $i>1$ and  $\Card(D_{i-1}) =  \Card(Y)$. In this case
+$Y$ is the new value of $D_{i-1}$, not of $D_i$, which instead disappears.
+Then $\height(D_{i-1},c) > \height(Y,d)$ and the translated proof is correct.
 \end{enumerate}
 \end{proof}
 
@@ -2742,11 +2745,11 @@ $\{1, \ldots,\MaxVar\}$ and $\setR$ is a finite set of such relations.
 We say that $R$ satisfies PDC if and only if $x \Prog y$ for some 
 $x, y \in \dom(\universe{R})$.
 \item
-We say that $\setR$ satisfies PDC if and only all $R \in \setR$ satisfy PCD
+We say that $\setR$ satisfies PDC if and only all $R \in \setR$ satisfy PDC
 \end{enumerate}
 \end{definition}
 
-PCD for  $R=(\Stat,\Prog)$ implies that $\Prog \not = \emptyset$ and therefore $\universe{R} \not = \emptyset $ are not empty. It says a little more, namely that there is some connection $x R y$ starting and ending in $\dom(R)$. We only consider injective relations.
+PDC for  $R=(\Stat,\Prog)$ implies that $\Prog \not = \emptyset$ and therefore $\universe{R} \not = \emptyset $ are not empty. It says a little more, namely that there is some connection $x R y$ starting and ending in $\dom(R)$. We only consider injective relations.
 \\
 
 \begin{definition}
@@ -3002,22 +3005,42 @@ by Lemma \ref{lemma-infinitely-progressing} we conclude the existence of some in
 Janaury, 20: Ugo suggests adding complexity results}.
 
 Mirai \cite{} provided a translation from from cyclic to inductive proofs. The proof builds
-on an existing algorithm for SCT requiring triple exponential time. If we switch to an equivalent
+on an existing algorithm for generating ranking functions and 
+requiring triple exponential time. A first improvement would be to switch to an equivalent
 formulation of cyclic proofs with injective bicolored relation (i.e. fan-in free, with at most one
-arrow entering in each node), the same algorithm provides a double exponential time \cite{}.
-In this paper we move to a single exponential (poly-exponential) time, at the price of 
-defining a new algorithm.
+arrow entering in each node). In this case, the same algorithm provides a double exponential
+time \cite{} and an inductive proof in output of size $O(2^{n \log(n)})$.
+In this paper we further improve the translation to a single exponential (poly-exponential) time, 
+by introducing a new algorithm. The price is having an inductive proof in output
+of poly-exponential size.
 
 Let us start from a cyclic proof with set $\setR$ of bicolored relations. 
-Assume $\setR^+$ is the closure of $\setR$ under composition.
+Assume $\setR^+$ is the closure of $\setR$ under composition. PDC for a bicolored
+relation says: there are $x, y \in \dom(R)$ such that $R$ is progressing on $(x,y)$.
+A set $\setR$ of bicolored relations on a graph $\setG$
+satisfies PDC if and only if all $R \in \setR$ satisfy PDC.
+
 We assume that:
 
 \begin{enumerate}
 \item  
-$\setR$ is a set of injective relations, hence $\setR^+$ is a set of injective relations
+$\setR$ is a set of injective relations, hence $\setR^+$ is a set of injective relations, too.
 \item
-$\setR^+$ satisfies GTC (equivalently, it satisfies SCT)
+$\setR^+$ satisfies GTC 
 \end{enumerate}
+
+GTC for injective relations is equivalent to PDC, in general GTC is a stronger condition
+than PDC. 
+\\
+
+{\bf An example.} Let $R = (\{(1,1),(2,2)\},\{(2,1)\})$ with $R$ progressing
+on $(2,1)$. Then $R$ satisfies PDC on the graph $\{(a,a)\}$, and $RR=R$, 
+therefore  $\setR^+=\{R\}$ and $\setR^+$ satisfies PDC. However, the only traces any
+infinite path are $(1,1,1,\ldots)$ and $(2,2,2,\ldots)$ and $(2,2,2,\ldots,1,1,1,\ldots)$. The
+first two traces never progress, the third trace progresses once, on $(2,1)$. So $\setR^+$
+does \emph{not} satisfy GTC. This is not in contradiction with what we said, because
+$R$ is  \emph{not} injective.
+\\
 
 Suppose we have a path $\pi$ from a companion c to itself, moving back  through $c$
 for $k \ge 1$ times: we have $c \rightarrow c \rightarrow \ldots \rightarrow c$, with $k$ arrows.
@@ -3026,87 +3049,152 @@ is associated to some bicolored relation $R_i \in \setR^+$. The path $\pi$ itsel
 to the composition $R_1 \ldots R_k$ of such relations.
 
 \begin{definition}[Grouping]
-A grouping of bicolored relations $S_1, \ldots, S_n$ is defined by induction on $n$
+A grouping of bicolored relations $\vec{S} = S_1, \ldots, S_n$ is defined by induction on $n$
 as follows.
 \begin{enumerate}
 \item
-If $n=0$, then $S_1, \ldots, S_n$ is the unique grouping of $S_1, \ldots, S_n$.
+If $n=0$, then $\vec{S}$ (empty) is the unique grouping of $\vec{S}$.
 \item
-Suppose $T_1, \ldots, T_m$ is any grouping of $S_1, \ldots, S_n$. 
+Suppose $T_1, \ldots, T_m$ is any grouping of $\vec{S}$. 
 Then $T_1, \ldots, T_{i-1}, (T_i\ldots T_m)$ is a grouping of 
-$S_1, \ldots, S_n$, for all $1 \le i \le m$. 
+$\vec{S}$, for all $1 \le i \le m$. 
 \end{enumerate}
 \end{definition}
 
 To put otherwise, the grouping of $S_1, \ldots, S_n$ are all and only 
 sequences of products of the form: 
-$$S_1 \ldots S_{i_1}, \ \ \ S_{i_1+1} \ldots S_{i_2}, \ \ \ \ldots, \ \ \ S_{i_h+1} \ldots S_{n}$$
-for any increasing sequence 
-$1 \le i_1 < i_2 < i_3 < \ldots < i_h \le n$. 
-
-We can have $h=0$ and a trivial grouping consisting of a single product  $S_1 \ldots S_n$.
-We can have $h=m$ and a trivial grouping of $S_1, \ldots, S_n$ consisting of the sequence 
+$$
+S_1 \ldots S_{b_1}, \ \ \ S_{b_1+1} \ldots S_{b_2}, \ \ \ \ldots, \ \ \ S_{b_h+1} \ldots S_{n}
+$$
+for some increasing sequence 
+$0 = b_0 < b_1 < b_2 < i_3 < \ldots < b_h < b_{h+1} = n$. 
+We can have $h=0$, $b_1=n$ 
+and the trivial grouping consisting of a single product  $S_1 \ldots S_n$.
+We can have $h=m$, $b_1=1$, \ldots, $b_m=n$ 
+and the trivial grouping consisting of the sequence 
 $S_1, \ldots, S_n$ itself, considered a sequence of unary products.
 
-We say that a binary product of $R, S \in  \setR^+$ is stable if $\dom(R) = \dom(RS)$.
-A product of $S_1, \ldots, S_n$ is stable if and only if for all grouping $T_1, \ldots, T_m$
-of $S_1, \ldots, S_n$, if $1 \le i$ and $i+1 \le m$ then the binary product $T_i, T_m{i+1}$
-is stable. 
+The degree of a group is the sequence
+of the lengths of its products, namely $(b_1-b_0, b_2 - b_1, \ldots, b_{h+1} - b_h)$. 
+We compare two grouping of the same sequence by comparing their degrees in the 
+lexicographic ordering: $S_1 \ldots S_n$ is the maximum grouping and 
+$S_1, \ldots, S_n$ the minimum grouping.
 
-By induction on the definition of stability we can prove
-that the product of $S_1, \ldots, S_n$ is stable if and only if for all $1 \le i \le n-1$ we have:
+For any two relations $R$, $S$ we have $\dom(R) \supseteq \dom(RS)$.
+We say that a pair $R, S$ is domain-stable, only stable for short, if $\dom(R) = \dom(RS)$.
+
+$R,S$ stable means that whenever $x$ has an $R$-image $y$, then $x$ has some
+$R$-image $y'$ having some $S$-image $z$. It does \emph{not} say, however,
+that each $R$-image of $x$ has some $S$-image: it only says that if $x$ has some
+$R$-image, then some of the $R$-images of $x$ has some $S$-image.
+
+Let $\vec{S}=S_1, \ldots, S_n$ be any sequence. 
+We define $vec{S}$ is stable if and only if for all $i \in [1,n-1]$
+the pair $S_i, S_{i+1}$ is stable. Let us abbreviate $D_i = \dom(S_i)$ for $i \in [1,n]$.
+Then  $vec{S}$ is stable if and only if $S_i \restr D_i \times D_{i+1}$ is everywhere
+defined for all $i \in [1,n-1]$. 
+
+Indeed, this is just another way of saying that if $x$ has some $S_i$-image,
+then some $S_i$-image of $x$ has some $S_{i+1}$-image. This is the definition
+of $S_i$, $S_{i+1}$ domain-stable for $i \in [1,n-1]$. 
+
+A length $0$ or $1$ sequence is trivially stable. 
+
+\begin{lemma}[Domain-Stability]
+\label{lemma-domain-stability}
+$\vec{S}=S_1, \ldots, S_n$ is stable if and only if:
+
+\begin{enumerate}
+\item 
+for all $1 \le i \le n-1$ we have:
+$$
+\dom(S_i) = \dom(S_i \ldots S_n)
+$$
+
+\item
+for all $1 \le i \le n-1$ we have:
 $$
 \dom(S_i) = \dom(S_iS_{i+1}) = \dom(S_iS_{i+1}S_{i+2}) = \ldots = \dom(S_i \ldots S_n)
 $$
 
-The canonical stable grouping is a stable grouping defined as follows. 
+\item
+all grouping $\vec{T}$
+of $\vec{S}$ are stable.
+\end{enumerate}
 
-\begin{definition}[Canonical Stable Grouping]
-The canonical stable grouping of bicolored relations $S_1, \ldots, S_n$ 
-is defined by induction on $n$
+\end{lemma}
+
+\begin{proof}
+For each sequence $\vec{S}$ we have $\dom(S_i) \supseteq \dom(S_iS_{i+1}) \supseteq
+ \dom(S_iS_{i+1}S_{i+2}) \supseteq \ldots \supseteq \dom(S_i \ldots S_n)$, therefore
+ the two conditions are equivalent.
+We prove the first condition by induction on the definition of stability. The second condition
+implies that in any grouping the product of two consecutive relations is stable.
+\end{proof}
+
+The above Lemma says that a sequence is stable if whenever $x$ has some $S_i$-image,
+then $x$ has some chain of $S_i, S_{i+1}, S_{i+2}, \ldots$-images of any lenght
+moving through the sequence. This is an alternative definition of domain-stable sequence.
+
+All sequences $\vec{S}=S_1, \ldots, S_n$ have a trivial stable grouping, by taking the
+product $S_1 \ldots S_n$ of the sequence. It is the maximum stable grouping in the
+lexicographic ordering. 
+
+Lexicographic ordering is total, therefore there is a minimum
+stable grouping.
+The minimum stable grouping can be computed  as follows. 
+
+\begin{definition}[Minimum Stable Grouping]
+The Minimum Stable grouping of a sequence of bicolored relations 
+$\vec{S} = S_1, \ldots, S_n$ 
+is $\minStable(\vec{S})$, defined by induction on $n$
 as follows.
 \begin{enumerate}
 \item
-If $n=0$, then $S_1, \ldots, S_n$ is the canonical stable grouping of $S_1, \ldots, S_n$.
+If $n=0$, then $\minStable(\vec{S}) = \vec{S}$.
 \item
-Suppose $T_1, \ldots, T_m$ is the canonical stable grouping of $S_1, \ldots, S_n$.
-Then the  canonical stable grouping of $S_1, \ldots, S_{n+1}$ is:
+Suppose $\minStable(\vec{S}) = T_1, \ldots, T_m$ 
+is the Minimum Stable grouping of $\vec{S}$.
 \begin{enumerate}
 \item
-$T_1, \ldots, T_m, S_{n+1}$ if $T_1, \ldots, T_m, S_{n+1}$ is stable.
+if $\minStable(\vec{S}), S_{n+1}$ is stable, then 
+$\minStable(\vec{S}, S_{n+1}) = \minStable(\vec{S}), S_{n+1}$.
 \item
-$T_1, \ldots, T_i \ldots T_m S_{n+1}$ for the first $i$ such that 
+if $\minStable(\vec{S}), S_{n+1}$ is \emph{not} stable, then
+$\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, (T_i \ldots T_m S_{n+1})$, 
+for the first $i \in [1,m]$ such that 
 $\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$,
-if $T_1, \ldots, T_m, S_{n+1}$ is \emph{not} stable.
 \end{enumerate}
 \end{enumerate}
 \end{definition}
 
-\begin{lemma}[Canonical Stable Grouping]
-The canonical stable grouping $T_1, \ldots, T_m$ of $S_1, \ldots, S_n$ is stable.
+\begin{lemma}[Minimum Stable Grouping]
+Let $\vec{S} = S_1, \ldots, S_n$.
+Then $\minStable(\vec{S})$ of $\vec{S}$ is stable, and it is the minimum stable grouping.
 \end{lemma}
 
 \begin{proof}
-By induction on $n$.
+We prove that $\minStable(\vec{S})$ is stable induction on $n$.
+
 \begin{enumerate}
 \item
-If $n=0$ then $T_1, \ldots, T_m$ is empty and therefore it is stable.
+If $n=0$ then $\minStable(\vec{S})$ is empty and therefore it is stable.
 \item
-Assume that the canonical stable grouping $T_1, \ldots, T_m$ of $S_1, \ldots, S_n$ is stable.
+Assume $\minStable(\vec{S}) = T_1, \ldots, T_m$ is stable.
 We argue by cases.
+
 \begin{enumerate}
 \item
-Assume $T_1, \ldots, T_m, S_{n+1}$ if $T_1, \ldots, T_m, S_{n+1}$ is stable. Then it
-is the canonical stable grouping and we are done.
+Assume $T_1, \ldots, T_m, S_{n+1}$ is stable. Then 
+$\minStable(\vec{S}) = T_1, \ldots, T_m S_{n+1}$ is stable and we are done.
 \item
-Assume $T_1, \ldots, T_m, S_{n+1}$ if $T_1, \ldots, T_m, S_{n+1}$ is \emph{not} stable. 
-Then the canonical stable grouping is  $T_1, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$
+Assume $T_1, \ldots, T_m, S_{n+1}$ is \emph{not} stable.
 We have $\dom(T_i \ldots T_m) \supseteq \dom(T_i \ldots T_m S_{n+1})$ for all
-$i=1, \ldots, m$ and by $T_1, \ldots, T_m, S_{n+1}$ not stalbe 
+$i=1, \ldots, m$ and by $T_1, \ldots, T_m, S_{n+1}$ not stable 
 there is a first $i=1, \ldots, m$ such that 
 $\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. By the choice of $i$ we have 
 $\dom(T_j \ldots T_m) = \dom(T_j \ldots T_m S_{n+1})$ for all $1 \le j <i$. 
-For all $1 \le j<i \le m$, from $T_1, \ldots, T_m$ stable we deduce that 
+For all $1 \le j<i \le m$ and from $T_1, \ldots, T_m$ stable we deduce that 
 $
 \dom(T_j ) = 
 \dom(T_j T_{j+1}) = 
@@ -3114,9 +3202,23 @@ $
 \dom(T_j \ldots T_{i-1}) 
 = \dom(T_j \ldots T_m) =  
 $ 
-(by what we just proved)  $\dom(T_j \ldots T_{i-1}(T_i \ldots T_m S_{n+1}))$.
+(by what we just said)  $\dom(T_j \ldots T_{i-1}(T_i \ldots T_m S_{n+1})$.
 This implies that $T_j, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$ is stable.
 \end{enumerate}
+
+We prove that $\minStable(\vec{S})$ is the lexicographic minimum among
+stable grouping. For each $i$ we say that $(i,j)$ is a stable pair
+if and only if $1 \le i \le j \le n$ and there is some $x$ having some 
+$S_i \ldots, S_{j-1}$-image but no
+$S_i \ldots, S_{j-1}$-image. $(i,i)$ is a stable pair, 
+we define $\phi(i)$ the maximum $j$ such that $(i,j)$ is a stable pair. In any stable
+grouping a product starting with $S_i$ must include $S_{\phi(i)}$, too. Therefore any stable
+sequence is greater or equal than the following sequence: 
+$(S_{a_1}\ldots S_{\phi(a_1)}),  (S_{a_2}\ldots S_{\phi(a_2)}),
+\ldots, S_{a_{h+1}}\ldots S_{\phi(a_{h+1})}$, with $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
+for all $i \in [1,h]$. By induction on the definition of  $\minStable(\vec{S})$ we prove
+that this sequence is indeed  $\minStable(\vec{S})$.
+
 \end{enumerate}
 \end{proof}
  
@@ -3145,53 +3247,176 @@ $R_1, \ldots, R_n \in \setR^+$ (hence each $R_i$ is injective and satisfies PDC)
 \item
 Suppose $R_1, \ldots, R_n$ is stable. 
 \end{enumerate}
-Set $X_i = \dom(R_i \ldots R_n)$ for all $1 \le i \le n$.
+Set $D_i = \dom(R_i \ldots R_n)$ for all $1 \le i \le n$.
 
 \begin{lemma}
 \begin{enumerate}
 \item
-If $1 \le i \le j \le n$ and $X_i = X_j$ then $R_i \ldots R_j$ is progressing on $X_i$.
+If $1 \le i \le j \le n$ and $D_i = D_j$ then $R_i \ldots R_j$ is progressing on $D_i$.
 \item
-If $1 \le i \le j \le n$ and $\Card(X_i) = \Card(X_j)$ and $j-i \ge 2^\MaxVar$ 
-then $R_i \ldots R_j$ is progressing on $X_i$.
+If $1 \le i \le j \le n$ and $\Card(D_i) = \Card(D_j)$ and $j-i \ge 2^\MaxVar$ 
+then $R_i \ldots R_j$ is progressing on $D_i$.
 \end{enumerate}
 \end{lemma}
 
 The degree $\deg(j,\vec{R})$ of $j=1, \ldots, n$ in 
-$\vec{R} = R_1, \ldots, R_n$ as above is the maximum distance of
-an index $i \le j$ such that $R_{i} \ldots R_j$ is progressing on $X_i$.
+$\vec{R} = R_1, \ldots, R_n$ as above is $2^\MaxVar-1-d$, for $d$ the minimum distance of
+an index $i \le j$ such that $i=1$, or $i>1$ and $\Card(D_{i-1}) < \Card(D_j)$,
+or $R_{i} \ldots R_j$ is progressing between $D_i$ and $D_j$.
 
-The map $\size(i)$ compute the number of constructor in the inductive expression number $i$
+Suppose that in a given node of the proof and for $i=1, \ldots, \MaxVar$ 
+the inductive expression number $i$ is $q(\vec{t})$. Then $\size(i)$ is any expression
+of the language computing, in any assignment $\sigma$ to the variable of the node, 
+the maximum nesting of constructors in $\sigma(\vec{t})$. 
+Two examples:
+
+\begin{enumerate}
+\item 
+if $q(\vec{t}) = \N(v)$, then $\sigma(i)=v$, because if $v$ has value $a$ 
+then $v=S^a(0)$ and $v$ has maximum nesting $a$ itself. 
+
+\item
+If $q(\vec{t}) = \List(l)$ states that $l$ is a list of integers, 
+then $\size(l)$ is any expression computing the maximum between $\length(l)$ and 
+all $e+i$, for $e$ element of $l$ in position $i=1, \ldots, \length(l)$. 
+We have $e+i$ and not $e$ because we take into account that we to pass through 
+$i$ constructors $\cons$ inthe list $l$ before reaching the integer notation $e$.
+\end{enumerate}
+
 $\size(X)$ is the sum of all $\size(i)$ for $i \in X$.
 
 If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ is stable then we associate the index 
+$\size(\vec{R})$
+
 $$
 \size(\vec{R}) 
 = 
-(\size(X_{a_1}), \deg(a_1,\vec{R}), \ldots,\size(X_{a_h},\deg(a_h,\vec{R}))
+(c_1, \size(D_{a_1}), \deg(a_1,\vec{R}), \ldots,c_h,\size(D_{a_h},\deg(a_h,\vec{R}))
 $$
 
-The corresponding state is 
-$(R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+The corresponding state is $\state(\vec{R})$, defined as:
+
+$$
+\state(\vec{R})
+=
+(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
 \ldots,
-R_{a_h}\ldots R_{n}, \deg(a_h,\vec{R}))
-$
+c_h, R_{a_h}\ldots R_{n}, \deg(a_h,\vec{R}))
+$$
+
+In the general case we first compute the Minimum Stable grouping $\minStable(\vec{R})$ 
+of $\vec{R}$, then we set $\size(\vec{R}) = \size(\minStable(\vec{R}))$ 
+and $\state(\vec{R}) = \state(\minStable(\vec{R}))$. If $\vec{R}$ is stable then 
+$\minStable(\vec{R}) = \vec{R}$ and the general definition includes the definition for the
+stable case.
+
+We prove that adding any $R_{n+1}$ to the sequence reduces the index in the 
+lexicographic ordering: $\size(\vec{R}) > \size(\vec{R}R_{n+1}) $. Besides,
+$\size(\vec{R})$ can be computed from $\state(\vec{R})$. Indeed, if
+$\vec{R} = \minStable(\vec{S})$, then $\vec{R}$ is stable and
+
+$$
+\size(\vec{S})
+=
+\size(\vec{R})
+=
+(\dom(R_{a_1}\ldots R_{a_2-1}), \deg(a_1,\vec{R}), 
+\ldots,
+\dom(R_{a_h}\ldots R_{n}), \deg(a_h,\vec{R}))
+$$
+
+We can compute $\state(\vec{S}S_{n+1})$ from $\state(\vec{S})$.
+There are six cases. Suppose $\minStable(\vec{S}) = \vec{R}$.
+We have $\Card(\dom(S_{n+1}) \ge c_h$.
+
+\begin{enumerate}
+\item
+Suppose$ \vec{R}S_{n+1}$ is stable and $\Card(\dom(R_{n+1})> c_h$. Then
+$c_{h+1} = \Card(\dom(R_{n+1})$, $a_h = n$, $a_{h+1} = n+1$ and 
+$\state(\vec{S}S_{n+1})$ is 
+
+$$
+(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+\ldots,
+c_h, R_{a_h}, \deg(a_h,\vec{R}),
+c_{h+1}, S_{n+1}, 2^{\MaxVar} - 1)
+$$
+
+\item
+Suppose$ \vec{R}S_{n+1}$ is stable and $\Card(\dom(R_{n+1})= c_h$
+and $R_n S_{n+1}$ is progressing on $\dom(R_{n})$.
+Then the new value of $a_h$ is $n+1$ and $\state(\vec{S}S_{n+1})$ is 
+
+$$
+(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+\ldots,
+c_{h-1}, R_{a_{h-1}}\ldots R_{a_h}, \deg(a_h,\vec{R}),
+c_{h}, S_{n+1}, 2^{\MaxVar} - 1)
+$$
+
+\item
+Suppose$ \vec{R}S_{n+1}$ is stable and $\Card(\dom(R_{n+1})= c_h$
+and $R_n S_{n+1}$ is stationary on $\dom(R_{n})$.
+
+Then $\state(\vec{S}S_{n+1})$ is 
+
+$$
+(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+\ldots,
+c_{h-1}, R_{a_{h-1}}\ldots R_{a_h}, \deg(a_h,\vec{R}),
+c_{h}, S_{n+1}, \deg(a_h,\vec{R}) - 1)
+$$
+
+\item
+Suppose$ \vec{R}S_{n+1}$ is not stable and $j \in [1,n]$ is the first index
+such that $\dom(R_j \ldots R_n) \supset \dom(R_j \ldots R_n S_{n+1})$.
+Then $j = a_i + 1$ for some $i$ and the Minimum Stable grouping of $\vec{S}S_{n+1}$
+is $R_1, \ldots, R_{a_i}, R$ with $R = R_j \ldots R_n S_{n+1}$. If $R_{a_i} R$
+is progressing on $\dom(R_{a_i})$ then the new value of $a_i$ is
+$a_{i+1}$ and $\state(\vec{S}S_{n+1})$ is 
+
+$$
+(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+\ldots,
+c_{i-1}, R_{a_{i-1}}\ldots R_{a_i}, \deg(a_i,\vec{R}),
+c_{i}, R, 2^{\MaxVar}-1)
+$$
+
+\item
+If instead $R_{a_i} R$
+is stationary on $\dom(R_{a_i})$ then $\state(\vec{S}S_{n+1})$ is:
+
+$$
+(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+\ldots,
+c_{i-1}, R_{a_{i-1}}\ldots R_{a_i}R, \deg(a_i,\vec{R})-1)
+$$
+
+\end{enumerate}
+
+
 The number of states is bounded by 
-$2^{O(\MaxVar^2)} \times 2^\MaxVar \times \ldots 2^{O(\MaxVar^2)} \times 2^\Max$,
-at most $\MaxVar$ times, namely it is bounded by $2^{O(\MaxVar^3)}$. Each step requires 
-$O(2^{\MaxVar^2}) \times \log_2(2^{O(\MaxVar^3)})$. We have $n \le 2^{\MaxVar^2}$,
-and cyclically 
+$
+(2^{O(\MaxVar^2)} \times 2^\MaxVar \times \MaxVar)
+\times \ldots \times
+(2^{O(\MaxVar^2)} \times 2^\MaxVar \times \MaxVar)
+$,
+with at most $3\MaxVar$ product. 
+We conclude that it is bounded by $2^{O(\MaxVar^3)}$. Each step requires time bounded by
+$O(2^{\MaxVar^2}) \times \log_2(2^{O(\MaxVar^3)})$. 
+We have $n \le 2^{\MaxVar^2}$, and cyclically 
 for each $R_i$ with $i = 1, \ldots, n$ we add the state obtained by concatenating with 
-$R_i$ and we compare it with the existing states sorted in order to decide whether it is a new
+$R_i$ and we compare it with the existing states sorted, in order to decide whether it is a new
 state or not. We stop adding states in the first cycle we add no new state.
-The total time cost is bounded by 
-$O(2^{\MaxVar^2}) \times {O(\MaxVar^3)} \times 2^{O(\MaxVar^3)}$,
-namely it is $2^{O(\MaxVar^3)}$ again. Therefore it is poly-exponential.
+The total time cost is bounded by the number of relations times the cost of checking
+whether we have a new state times the upper bound to the number of states.
+The total is $O(2^{\MaxVar^2}) \times {O(\MaxVar^3)} \times 2^{O(\MaxVar^3)}$,
+namely it is $2^{O(\MaxVar^3)}$ again. Therefore the total cost is poly-exponential.
 
-If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ and $\vec{S}$ is the canonical stable
-grouping of $\vec{R} $ then we set $\size(\vec{R})  = \size(\vec{S}) $.
+%If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ and $\vec{S}$ is the Minimum Stable
+%grouping of $\vec{R} $ then we set $\size(\vec{R})  = \size(\vec{S}) $.
 
-We claim that $\min(\size(\vec{R}))$ is a ranking function.
+We claim that $\min(\size(\vec{R}))$ is a ranking function \ldots \ldots \ldots
 
 
  
@@ -3242,7 +3467,7 @@ proof. For all $i = 1, \ldots, k$ we call $R_i$ the bicolored
 relation associated to the path from $c$ to $b_i$. 
 
 We assume that the renaming rule is merged
-with the bud/companion relatoin, namely that if the free variables in the companion
+with the bud/companion relation, namely that if the free variables in the companion
 are $\vec{x} = x_1, \ldots, x_\MaxVar$, then the free variables in the bud are 
 $\vec{y} = y_1, \ldots, y_\MaxVar$ and they are renamed to $\vec{x}$.
 \\
