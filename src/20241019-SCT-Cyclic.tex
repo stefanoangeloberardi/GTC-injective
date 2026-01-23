@@ -1682,7 +1682,6 @@ This ends the proof of Termination Theorem
 %
 %\bibitem{Lee1}
 %Chin Soon Lee and Neil D. Jones and Amir M. Ben-Amram,
-%2001, January,
 %The Size-Change Principle for Program Termination,
 %in ACM SIGPLAN Notices, Vol. 36 (3), 
 %doi 10.1145/360204.360210
@@ -3207,17 +3206,49 @@ This implies that $T_j, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$ is stable.
 \end{enumerate}
 
 We prove that $\minStable(\vec{S})$ is the lexicographic minimum among
-stable grouping. For each $i$ we say that $(i,j)$ is a stable pair
-if and only if $1 \le i \le j \le n$ and there is some $x$ having some 
-$S_i \ldots, S_{j-1}$-image but no
-$S_i \ldots, S_{j-1}$-image. $(i,i)$ is a stable pair, 
-we define $\phi(i)$ the maximum $j$ such that $(i,j)$ is a stable pair. In any stable
-grouping a product starting with $S_i$ must include $S_{\phi(i)}$, too. Therefore any stable
-sequence is greater or equal than the following sequence: 
+stable grouping. For each $i \in [i,n]$ we say that $j \in [i,n]$ is a stable matching of $i$
+in $\vec{S}$
+if and only if all $x \in [1,\MaxVar]$ having some $S_i \ldots S_j$-image have some
+$S_i \ldots S_n$-image, namely, $\dom(S_i \ldots S_j) \subseteq \dom(S_i \ldots S_n)$,
+which is equivalent to $\dom(S_i \ldots S_j) = \dom(S_i \ldots S_n)$. 
+$n$ is trivially a stable matching of any $i \in [i,n]$.
+We define $\phi(i) \in [i,n]$ as the minimum stable matching of $i \in [i,n]$. By definition
+whenever $k \in [i,\phi(i)-1]$ then $\dom(S_i \ldots S_k) = \dom(S_i \ldots S_n)$,
+which is equivalent to $\dom(S_i \ldots S_k) \subset \dom(S_i \ldots S_n)$. 
+Thus, in any stable
+grouping a product $S_i \ldots S_k$ starting with $S_i$ must include $S_{\phi(i)}$, too,
+because if it were $k<\phi(i)$ then stability would imply 
+$\dom(S_i \ldots S_k) = \dom(S_i \ldots S_n)$, contradicting what we just said. 
+
+Therefore in any stable grouping any product $S_i \ldots S_j$ is of the form 
 $(S_{a_1}\ldots S_{\phi(a_1)}),  (S_{a_2}\ldots S_{\phi(a_2)}),
-\ldots, S_{a_{h+1}}\ldots S_{\phi(a_{h+1})}$, with $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
-for all $i \in [1,h]$. By induction on the definition of  $\minStable(\vec{S})$ we prove
-that this sequence is indeed  $\minStable(\vec{S})$.
+\ldots, S_{a_{k+1}}\ldots S_{\phi(a_{k+1})}$ with $a_1=i$ and $a_{b+1} = \phi(a_b)+1$ 
+for all $b \in [1,k]$ and $\phi(a_{k+1}) = j$. Conversely, if all products of the 
+grouping are of this form then the grouping is stable. 
+
+We conclude that all stable grouping are greater or equal than the following grouping 
+$\vec{R}=R_1, \ldots, R_{h+1}$: 
+$$
+(S_{a_1}\ldots S_{\phi(a_1)}), 
+ (S_{a_2}\ldots S_{\phi(a_2)}),
+\ldots, 
+S_{a_{h+1}}\ldots S_{\phi(a_{h+1})}
+$$ 
+where $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
+for all $i \in [1,h]$ and $\phi(a_{h+1}) = n$. 
+
+Conversely, we can prove that the grouping above is stable because 
+$
+\dom(R_i) = 
+\dom(S_{a_i}\ldots S_{\phi(a_i)}) = 
+$ (by definition of $\phi$)  = $
+\dom(S_{a_i}\ldots S_{n}) =
+\dom(R_{i}\ldots R_h)
+$
+Therefore $\vec{R}$ is the minimum stable grouping.
+
+By induction on the definition of  $\minStable(\vec{S})$ we prove
+that $\vec{R} = \minStable(\vec{S})$.
 
 \end{enumerate}
 \end{proof}
@@ -3267,25 +3298,25 @@ or $R_{i} \ldots R_j$ is progressing between $D_i$ and $D_j$.
 Suppose that in a given node of the proof and for $i=1, \ldots, \MaxVar$ 
 the inductive expression number $i$ is $q(\vec{t})$. Then $\size(i)$ is any expression
 of the language computing, in any assignment $\sigma$ to the variable of the node, 
-the maximum nesting of constructors in $\sigma(\vec{t})$. 
+the number of constructors in $\sigma(\vec{t})$. Any map returning a positive integer
+and increasing w.r.t. the subterm relation would work. 
 Two examples:
 
 \begin{enumerate}
 \item 
-if $q(\vec{t}) = \N(v)$, then $\sigma(i)=v$, because if $v$ has value $a$ 
-then $v=S^a(0)$ and $v$ has maximum nesting $a$ itself. 
+if $q(\vec{t}) = \N(v)$, then $$\sigma(i)=v+1$$ because if $v$ has value $a$ 
+then $v=S^a(0)$ and $v$ has $a$ constructors $S$ and $1$ constructor $0$.t
 
 \item
 If $q(\vec{t}) = \List(l)$ states that $l$ is a list of integers, 
-then $\size(l)$ is any expression computing the maximum between $\length(l)$ and 
-all $e+i$, for $e$ element of $l$ in position $i=1, \ldots, \length(l)$. 
-We have $e+i$ and not $e$ because we take into account that we to pass through 
-$i$ constructors $\cons$ inthe list $l$ before reaching the integer notation $e$.
+then $$\size(i) = (\length(l)+1)+\Sigma_{i=1}^{i=\length(l)}(l[i]+1)$$
+Here we count $\length(l)$ times the constructor $\cons$, once the constructor $\nil$,
+the we add the total size of all elements of $l$.
 \end{enumerate}
 
-$\size(X)$ is the sum of all $\size(i)$ for $i \in X$.
+If $X \subseteq [1,\MaxVar]$, then $\size(X)$ is the sum of all $\size(i)$ for $i \in X$.
 
-If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ is stable then we associate the index 
+If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ is stable then we define a size for $\vec{R}$: 
 $\size(\vec{R})$
 
 $$
@@ -3320,9 +3351,11 @@ $$
 =
 \size(\vec{R})
 =
-(\dom(R_{a_1}\ldots R_{a_2-1}), \deg(a_1,\vec{R}), 
-\ldots,
-\dom(R_{a_h}\ldots R_{n}), \deg(a_h,\vec{R}))
+(
+ c_1,(\dom(R_{a_1}\ldots R_{a_2-1}), \deg(a_1,\vec{R}), 
+ \ldots,
+ c_h,\dom(R_{a_h}\ldots R_{n}), \deg(a_h,\vec{R})
+ )
 $$
 
 We can compute $\state(\vec{S}S_{n+1})$ from $\state(\vec{S})$.
@@ -3416,7 +3449,23 @@ namely it is $2^{O(\MaxVar^3)}$ again. Therefore the total cost is poly-exponent
 %If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ and $\vec{S}$ is the Minimum Stable
 %grouping of $\vec{R} $ then we set $\size(\vec{R})  = \size(\vec{S}) $.
 
-We claim that $\min(\size(\vec{R}))$ is a ranking function \ldots \ldots \ldots
+We define a ranking function. Assume $\vec{S}$ has minimum stable grouping 
+$\vec{R} = R_1, \ldots, R_n$.
+The size $\size(\vec{S})$ of the state of $\vec{S}$ are made with the size of the domains
+$\dom(R_{a_1}\ldots R_{a_2-1}), \ldots, \dom(R_{a_h}\ldots R_{n})$, whose
+cardinality are, respectively, $c_1, \ldots, c_h$, and whose total cardinality is 
+$c_1 + \ldots c_h$, which is $\le 1+\ldots+\MaxVar = \MaxVar(\MaxVar+1)/2$. We add
+this number of variables and we assume the set $Eq(\vec{S})$ of equations and unequations 
+between old and new variables which are expressed by $R_1, \ldots, R_n$. 
+We choose any vector $\vec{z}$ of length $\le \MaxVar$, each bud of the proof, we assume that if $Eq(\vec{S})$ holds and $\size(\vec{S}) < \vec{z}$ 
+then the cyclic proof derives the conclusion whenever $Eq(\vec{S})$ holds and 
+$\size(\vec{S}) \le \vec{z}$. In particular the conclusion is true when $\vec{S}=$ empty, 
+$Eq(\vec{S}) = \emptyset$ and $\vec{z} = (z) = \size(\vec{S}) = $ the sum of sizes of
+the inductive formulas in the left-hand-side of the conclusion. 
+
+This derives the conclusion, as wished.
+
+
 
 
  
