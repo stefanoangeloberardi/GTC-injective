@@ -3073,84 +3073,336 @@ We can have $h=m$, $b_1=1$, \ldots, $b_m=n$
 and the trivial grouping consisting of the sequence 
 $S_1, \ldots, S_n$ itself, considered a sequence of unary products.
 
-The degree of a group is the sequence
-of the lengths of its products, namely $(b_1-b_0, b_2 - b_1, \ldots, b_{h+1} - b_h)$. 
-We compare two grouping of the same sequence by comparing their degrees in the 
-lexicographic ordering: $S_1 \ldots S_n$ is the maximum grouping and 
-$S_1, \ldots, S_n$ the minimum grouping.
 
+
+\begin{lemma}[Domain-inclusion]
+\label{lemma-domain-inclusion}
+Assume $R, S, T$ are any relations and $R_1, \ldots, R_n$ is any sequence of relations.
+\begin{enumerate}
+
+\item
+\label{lemma-domain-inclusion-01}
 For any two relations $R$, $S$ we have $\dom(R) \supseteq \dom(RS)$.
-We say that a pair $R, S$ is domain-stable, only stable for short, if $\dom(R) = \dom(RS)$.
 
-$R,S$ stable means that whenever $x$ has an $R$-image $y$, then $x$ has some
+\item
+\label{lemma-domain-inclusion-02}
+
+$$
+\dom(R_1)   \ \ \  \supseteq  \ \ \ 
+\dom(R_1 R_2)    \ \ \  \supseteq  \ \ \ 
+\dom(R_1 R_2 R_3)    \ \ \  \supseteq  \ \ \  
+\ldots   \ \ \  \supseteq
+\dom(R_1 \ldots R_n)
+$$
+
+\item
+\label{lemma-domain-inclusion-03}
+$(\dom(R) = \dom(RS))  
+\ \ \  \Leftrightarrow \ \ \ 
+(\dom(R) \subseteq \dom(RS)) 
+\ \ \  \Leftrightarrow \ \ \  
+(\dom(R) \not \supset  \dom(RS))
+$.
+
+\item
+\label{lemma-domain-inclusion-04}
+If $\dom(S) = \dom(ST)$ then 
+$\dom(RS) = \dom(RST)$.
+
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\begin{enumerate}
+
+\item
+%\label{lemma-domain-inclusion-01}
+We have to prove that $\dom(R) \supseteq \dom(RS)$, namely that
+$\dom(RS) \subseteq \dom(R)$. We assume $x \in \dom(RS)$ in order to prove that
+$x \in \dom(R)$. If $x \in \dom(RS)$ then for some $z$ we have $x RS z$, therefore $x R y S z$ for some $y$. We conclude that $x \in \dom(R)$, as wished.
+
+\item
+%\label{lemma-domain-inclusion-02}
+We prove 
+$
+\dom(R_1) \supseteq 
+\dom(R_1 R_2) \supseteq 
+\dom(R_1 R_2 R_3) \supseteq 
+\ldots \supseteq 
+\dom(R_1 \ldots R_n)
+$ 
+by induction
+on $n$. When $n=0,1$ there is no inclusion to prove. Suppose $n \ge 1$ and the thesis 
+for $n$, namely that $\dom(R_1) \supseteq \dom(R_1 R_2) \supseteq \dom(R_1 R_2 R_3) 
+\supseteq \ldots \supseteq \dom(R_1 \ldots R_n)$. We have to prove the thesis for $n+1$. 
+By point \ref{lemma-domain-inclusion-01}above 
+we have $\dom(R_1 \ldots R_{n}) \supseteq \dom(R_1 \ldots R_{n} R_{n+1})$: 
+from this and the inductive hypothesis we deduce the thesis for $n+1$.
+
+\item
+%\label{lemma-domain-inclusion-03}
+If $(\dom(R) = \dom(RS))$ then $(\dom(R) \subseteq \dom(RS))$. If
+$(\dom(R) \subseteq \dom(RS))$, then $(\dom(R) \not \supset \dom(RS))$.
+If $(\dom(R) \not \supset \dom(RS))$, then from $(\dom(R) \supseteq \dom(RS))$
+(point \ref{lemma-domain-inclusion-01}above) we deduce that $(\dom(R) = \dom(RS))$.
+
+\item
+%\label{lemma-domain-inclusion-04}
+Assume that $\dom(S) = \dom(ST)$ in order to prove that 
+$\dom(RS) = \dom(RST)$. 
+We have $\dom(RS) \supseteq \dom(RST)$ by point \ref{lemma-domain-inclusion-01} above,
+so we only have to prove that $\dom(RS) \subseteq \dom(RST)$.
+For, we assume $a \in \dom(RS)$ in order to prove that $a \in \dom(RST)$. 
+From $a \in \dom(RS)$ we deduce that there are $b \in \dom(S)$ and $c$ such that $a R b S c$. 
+From  $\dom(S) = \dom(ST)$ we deduce that $b \in \dom(ST)$, namely that
+for some $c' \in \dom(T)$ and $d$ we have $b S c' T d$. From $a R b S c' T d$ we conclude
+that $a \in \dom(RST)$.
+
+\end{enumerate}
+\end{proof}
+
+\begin{definition}[Domain-Stability]
+Let $R$, $S$ be any two relations and $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
+\begin{enumerate}
+
+\item
+We say that a pair $R, S$ is \emph{}domain-stable, only \emph{stable} for short, if 
+and only if $\dom(R) = \dom(RS)$.
+
+\item
+$\vec{S}$ is stable if and only if for all $i \in [1,n-1]$
+the pair $S_i$, $S_{i+1}$ is stable.
+
+\end{enumerate} 
+\end{definition}
+
+
+A sequence of length $n=0,1$ is trivially stable because $[1,n-1] = \emptyset$.
+By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-03} we can
+restate domain-stability. We have
+$R,S$ stable $ \Leftrightarrow (\dom(R) = \dom(RS))  
+  \Leftrightarrow  
+(\dom(R) \subseteq \dom(RS)) 
+  \Leftrightarrow   
+(\dom(R) \not \supset  \dom(RS))
+$.
+
+In particular, $R,S$ stable means that $(\dom(R) \subseteq \dom(RS))$, 
+namely that whenever $x$ has an $R$-image $y$, then $x$ has some
 $R$-image $y'$ having some $S$-image $z$. It does \emph{not} say, however,
 that each $R$-image of $x$ has some $S$-image: it only says that if $x$ has some
-$R$-image, then some of the $R$-images of $x$ has some $S$-image.
+$R$-image, then some of the $R$-images of $x$ have some $S$-image.
 
-Let $\vec{S}=S_1, \ldots, S_n$ be any sequence. 
-We define $vec{S}$ is stable if and only if for all $i \in [1,n-1]$
-the pair $S_i, S_{i+1}$ is stable. Let us abbreviate $D_i = \dom(S_i)$ for $i \in [1,n]$.
-Then  $vec{S}$ is stable if and only if $S_i \restr D_i \times D_{i+1}$ is everywhere
+\begin{proposition}
+Let $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
+Let us abbreviate $D_i = \dom(S_i)$ for $i \in [1,n]$.
+Then  $\vec{S}$ is stable if and only if $S_i \restr D_i \times D_{i+1}$ is everywhere
 defined for all $i \in [1,n-1]$. 
+\end{proposition}
 
+\begin{proof}
 Indeed, this is just another way of saying that if $x$ has some $S_i$-image,
 then some $S_i$-image of $x$ has some $S_{i+1}$-image. This is the definition
 of $S_i$, $S_{i+1}$ domain-stable for $i \in [1,n-1]$. 
+\end{proof}
 
-A length $0$ or $1$ sequence is trivially stable. 
 
 \begin{lemma}[Domain-Stability]
 \label{lemma-domain-stability}
-$\vec{S}=S_1, \ldots, S_n$ is stable if and only if:
+Let $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. The following are equalent:
 
 \begin{enumerate}
+\item
+\label{lemma-domain-stability-01}
+$\vec{S}$ is stable
+
+\item
+\label{lemma-domain-stability-02}
+for all $i, j \in [1, n]$, $i \le j$ we have:
+$$
+\dom(S_i) =  \dom(S_i \ldots S_j)
+$$
+
+\item
+\label{lemma-domain-stability-03}
+all grouping $\vec{T}$ of $\vec{S}$ are stable.
+
 \item 
-for all $1 \le i \le n-1$ we have:
+\label{lemma-domain-stability-04}
+for all $i \in [1,n]$ we have:
 $$
 \dom(S_i) = \dom(S_i \ldots S_n)
 $$
 
-\item
-for all $1 \le i \le n-1$ we have:
-$$
-\dom(S_i) = \dom(S_iS_{i+1}) = \dom(S_iS_{i+1}S_{i+2}) = \ldots = \dom(S_i \ldots S_n)
-$$
-
-\item
-all grouping $\vec{T}$
-of $\vec{S}$ are stable.
 \end{enumerate}
+
+
 
 \end{lemma}
 
 \begin{proof}
-For each sequence $\vec{S}$ we have $\dom(S_i) \supseteq \dom(S_iS_{i+1}) \supseteq
- \dom(S_iS_{i+1}S_{i+2}) \supseteq \ldots \supseteq \dom(S_i \ldots S_n)$, therefore
- the two conditions are equivalent.
-We prove the first condition by induction on the definition of stability. The second condition
-implies that in any grouping the product of two consecutive relations is stable.
+We first prove the equivalence of points 
+\ref{lemma-domain-stability-01},
+\ref{lemma-domain-stability-02},
+\ref{lemma-domain-stability-03},
+namely we prove that
+\begin{center}
+\ref{lemma-domain-stability-01} 
+$\implies$ 
+\ref{lemma-domain-stability-02}
+$\implies$ 
+\ref{lemma-domain-stability-03} 
+$\implies$ 
+\ref{lemma-domain-stability-01}
+\end{center}
+Then we prove the equivalence of points
+\ref{lemma-domain-stability-02},
+\ref{lemma-domain-stability-04},
+by proving that 
+\begin{center}
+\ref{lemma-domain-stability-02} $\implies$  
+\ref{lemma-domain-stability-04} $\implies$  
+\ref{lemma-domain-stability-02}
+\end{center}
+
+
+\begin{enumerate}
+
+
+\item
+\ref{lemma-domain-stability-01} $\implies$ \ref{lemma-domain-stability-02}.
+
+We assume point \ref{lemma-domain-stability-01}: $\vec{S}$ is stable, in to prove 
+point \ref{lemma-domain-stability-02}: 
+for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i) =  \dom(S_i \ldots S_j)$.
+
+For, we assume $j \ge i$ and we prove $\dom(S_i) =  \dom(S_i \ldots S_j)$ by induction on $j$.
+\begin{enumerate}
+\item
+Assume $j=i$. Then $\dom(S_i) =  \dom(S_i)$.
+\item
+Assume $\dom(S_i) =  \dom(S_i \ldots S_j)$ in order to prove that 
+$\dom(S_i) =  \dom(S_i \ldots S_jS_{j+1})$. By stability we have 
+$\dom(S_j) = \dom(S_jS_{j+1})$. By Lemma 
+\ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-04} 
+applied to $S_i \ldots S_{j-1}, S_j, S_{j+1}$ we deduce 
+$\dom(S_i \ldots S_j) = \dom(S_i \ldots S_jS_{j+1})$.
+From the inductive hypothesis $\dom(S_i) =  \dom(S_i \ldots S_j)$
+we conclude that $\dom(S_i) =  \dom(S_i \ldots S_jS_{j+1})$, as wished.
+\end{enumerate}
+
+
+\item
+\ref{lemma-domain-stability-02} $\implies$ \ref{lemma-domain-stability-03}.
+
+We assume point \ref{lemma-domain-stability-02}: 
+for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i)  =  \dom(S_i \ldots S_j)$,
+in order to prove point \ref{lemma-domain-stability-03}:
+all grouping of $\vec{S}$ are stable. 
+
+For, we assume that
+$i, j,k\in [1, n]$, $i \le j < k$ and that $S_i \ldots S_j$, $S_{j+1} \ldots S_k$
+are two consecutive products in some grouping of $\vec{S}$, and we have to prove 
+that $\dom(S_i \ldots S_j) = \dom(S_i \ldots S_j S_{j+1} \ldots S_k)$. 
+By point \ref{lemma-domain-stability-02} we have 
+$$
+\dom(S_i \ldots S_j) = \dom(S_i) = \dom(S_i \ldots S_j S_{j+1} \ldots S_k)
+$$
+This proves point \ref{lemma-domain-stability-03}.
+
+
+\item
+\ref{lemma-domain-stability-03} $\implies$ \ref{lemma-domain-stability-01}.
+
+We assume point \ref{lemma-domain-stability-03}: all grouping of $\vec{S}$ are stable,
+and we have to prove point \ref{lemma-domain-stability-01}: $\vec{S}$ is stable. 
+
+This follows from the fact that $\vec{S}$ is a trivial case of grouping of $\vec{S}$.
+
+
+\item
+\ref{lemma-domain-stability-02} $\implies$  \ref{lemma-domain-stability-04}.
+We assume point \ref{lemma-domain-stability-02}:
+for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i) =  \dom(S_i \ldots S_j)$
+and we have to prove point \ref{lemma-domain-stability-04}: 
+for all $i \in [1, n]$ we have $\dom(S_i) =  \dom(S_i \ldots S_n)$.
+
+This follows by choosing $j=n$.
+
+
+\item
+\ref{lemma-domain-stability-04} $\implies$  \ref{lemma-domain-stability-02}.
+
+We assume point \ref{lemma-domain-stability-04}: 
+for all $i \in [1, n]$ we have $\dom(S_i) =  \dom(S_i \ldots S_n)$, and we have to prove
+point \ref{lemma-domain-stability-02}: 
+for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i) =  \dom(S_i \ldots S_j)$.
+
+
+By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01},
+for each sequence $\vec{S}$ of relations we have 
+$$
+\dom(S_i)  \ \ \ \supseteq \ \ \ 
+\dom(S_iS_{i+1})  \ \ \  \supseteq \ \ \ 
+\dom(S_iS_{i+1}S_{i+2})  \ \ \  \supseteq  \ \ \ 
+\ldots  \ \ \  \supseteq  \ \ \ 
+\dom(S_i \ldots S_n)
+$$ 
+therefore if we add $\dom(S_i \ldots S_n) = \dom(S_i)$ we conclude that
+$$
+\dom(S_i)   \ \ \ =  \ \ \ 
+\dom(S_iS_{i+1})  \ \ \  =  \ \ \ 
+\dom(S_iS_{i+1}S_{i+2})   \ \ \ =  \ \ \ 
+\ldots   \ \ \ =  \ \ \ 
+\dom(S_i \ldots S_n)
+$$ 
+as wished.
+ 
+\end{enumerate}
 \end{proof}
 
-The above Lemma says that a sequence is stable if whenever $x$ has some $S_i$-image,
+Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02}
+says that a sequence is stable if and only if whenever $x$ has some $S_i$-image,
 then $x$ has some chain of $S_i, S_{i+1}, S_{i+2}, \ldots$-images of any lenght
 moving through the sequence. This is an alternative definition of domain-stable sequence.
 
+We compare two groupings, looking for the grouping with less products.
+
+\begin{definition}[Lexicographic Ordering on Grouping]
+\label{definition-grouping-order}
+Assume $\vec{S}=S_1, \ldots, S_n$ is a sequence of relations and 
+$$
+\vec{R} \ \ \ = \ \ \ 
+S_{b_0+1} \ldots S_{b_1}, \ \ \ S_{b_1+1} \ldots S_{b_2}, \ \ \ \ldots, \ \ \ S_{b_h+1} \ldots S_{b_{h+1}}
+$$
+is a grouping of $\vec{S}$ (with $b_0=0, b_{h+1}=n$.
+
+\begin{enumerate}
+\item
+The degree of the grouping $\vec{R}$ of $\vec{S}$ is the sequence
+of the lengths of its products, namely $(b_1, b_2 - b_1, \ldots, b_{h+1} - b_h)$. 
+\item
+We compare two grouping of the same sequence by comparing their degrees in the 
+lexicographic ordering.
+\end{enumerate}
+\end{definition} 
+
+For instance, 
+$S_1 \ldots S_n$ is the maximum grouping and $S_1, \ldots, S_n$ the minimum grouping.
 All sequences $\vec{S}=S_1, \ldots, S_n$ have a trivial stable grouping, by taking the
-product $S_1 \ldots S_n$ of the sequence. It is the maximum stable grouping in the
-lexicographic ordering. 
+product $S_1 \ldots S_n$ of the sequence. This is the maximum grouping, 
+and therefore it is the maximum stable grouping.
 
-Lexicographic ordering is total, therefore there is a minimum
-stable grouping.
-The minimum stable grouping can be computed  as follows. 
+Lexicographic ordering is total, therefore there is a minimum stable grouping.
+We claim that minimum stable grouping can be computed  by the map $\minStable(\vec{S})$. 
 
-\begin{definition}[Minimum Stable Grouping]
-The Minimum Stable grouping of a sequence of bicolored relations 
-$\vec{S} = S_1, \ldots, S_n$ 
-is $\minStable(\vec{S})$, defined by induction on $n$
+\begin{definition}[The Map $\minStable(\vec{S})$]
+Assume $\vec{S} = S_1, \ldots, S_n$. We define the map 
+$\minStable(\vec{S})$ by induction on $n$
 as follows.
 \begin{enumerate}
 \item
-If $n=0$, then $\minStable(\vec{S}) = \vec{S}$.
+If $n=0$, then $\minStable(\vec{S}) = \vec{S} = $ the empty sequence.
 \item
 Suppose $\minStable(\vec{S}) = T_1, \ldots, T_m$ 
 is the Minimum Stable grouping of $\vec{S}$.
@@ -3166,6 +3418,10 @@ $\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$,
 \end{enumerate}
 \end{enumerate}
 \end{definition}
+
+We first check that $\minStable(\vec{S})$ is a total map:
+\ldots\ldots\ldots %16:10 2026/01/23
+
 
 \begin{lemma}[Minimum Stable Grouping]
 Let $\vec{S} = S_1, \ldots, S_n$.
