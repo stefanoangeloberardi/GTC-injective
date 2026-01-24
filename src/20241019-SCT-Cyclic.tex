@@ -3230,7 +3230,6 @@ In the same way we can restate the stability for a sequence.
 
 \begin{proposition}[Restating Stability]
 Let $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
-Let us abbreviate $D_i = \dom(S_i)$ for $i \in [1,n]$.
 Then  $\vec{S}$ is stable if and only if $S_i \restr \dom(S_i) \times \dom(S_{i+1})$ 
 is everywhere defined for all $i \in [1,n-1]$. 
 \end{proposition}
@@ -3813,13 +3812,18 @@ $$
 $$
 Then either $h=k+1$ and
 $$
-\vec{C_j} \subseteq \vec{D_j} \ \ \ \mbox{ for all $j \in [1,k]$ }
+\vec{C_j} = \vec{D_j} \ \ \ \mbox{ for all $j \in [1,k]$ }
 $$
-or for some $i \in [1,h] \cap [1,k]$ and some $\vec{C'_i} \subseteq \vec{C_i}$ we have 
+or for some $i \in [1,h] \cap [1,k]$, and for $c_i = $ the domain-cardinality associated to 
+$\vec{C_i}$, we have both
 $$
-\vec{C_j} \subseteq \vec{D_j} \ \ \ \mbox{ for all $j \in [1,i-1]$ and } \ \ \ \vec{C'_i} < \vec{D_i}
+\vec{C_j} = \vec{D_j} \ \ \ \mbox{ for all $j \in [1,i-1]$}
 $$
-
+and
+$$
+\mbox{ either } \ \ \ c_i > d_i    
+\mbox{ or }      \ \ \ (c_i = d_i) \mbox{ and } \vec{C_i} < \vec{D_i} \ \ \ 
+$$
 \end{lemma}
 
 Lemma \ref{lemma-cardinality-stability} above has the following use. Suppose we have
@@ -3832,11 +3836,14 @@ a measure $\mu(\vec{C})$ for each component $\vec{C} \in \setC$, which is weakly
 decreasing w.r.t. $\supseteq$ and strictly decreasing w.r.t. $<$. 
 \end{enumerate}
 
-Then if $\vec{C_1}, \ldots,\vec{C_k}$ are the constant-
-cardinality-domain components of $\minStable(\vec{S})$, we take as measure $\mu(\vec{S})$ 
-the list $\mu(\vec{C_1}), \ldots,\mu(\vec{C_k})$ of measures of components.
-Lemma \ref{lemma-cardinality-stability} says that that this measure is strictly decreasing w.r.t. 
-$<$.
+Then if $\vec{C_1}, \ldots,\vec{C_k}$ are the constant-cardinality-domain components of 
+$\minStable(\vec{S})$, with associated cardinalities $c_1, \ldots c_k$,
+we take as measure $\mu(\vec{S})$ the list 
+$$
+c_1,\mu(\vec{C_1}), \ \ \ \ldots, \ \ \ c_k, \mu(\vec{C_k})
+$$ 
+of measures of components. Lemma \ref{lemma-cardinality-stability} says that that this 
+measure is strictly decreasing w.r.t. $<$.
 
 
 \subsection{Injective bicolored Relation Sequences}
@@ -3870,17 +3877,62 @@ $R_1, \ldots, R_n \in \setR^+$ (hence each $R_i$ is injective and satisfies PDC)
 \item
 Suppose $R_1, \ldots, R_n$ is stable. 
 \end{enumerate}
-Set $D_i = \dom(R_i \ldots R_n)$ for all $1 \le i \le n$.
+Set $D_i = \dom(R_i)$ for all $i \in [1,n-1]$ 
+and $D_n = \codom(R_n)$ if $R_n$ is a bijection 
+and $D_n = \dom(R_n)$ otherwise.
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 20:36 24/01/2026
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% forse è meglio mettere il caso particolare per D_n tra i possibili miglioramenti
+% per la leggibilità della prova ottenuta, anziché nelle definizione di base
+%
+% Altro miglioramento: se il massimo valore del grado \deg(\vec{R},j) per j 
+% ultima posizione della componente numero h è M allora si può rimpiazzare 
+% 2^\MaxInd e (2^\MaxInd - 1 - \deg(\vec{R},j))  
+% con M e con (M - 1 - \deg(\vec{R},j)) 
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \begin{lemma}
 \begin{enumerate}
 \item
-If $1 \le i \le j \le n$ and $D_i = D_j$ then $R_i \ldots R_j$ is progressing on $D_i$.
+If $i,j \in [1,n]$, $i<j$ and $D_i = D_j$ then $R_i \ldots R_j$ is progressing on $D_i$.
 \item
-If $1 \le i \le j \le n$ and $\Card(D_i) = \Card(D_j)$ and $j-i \ge 2^\MaxInd$ 
+If  $i,j \in [1,n]$, $i<j$ and $\Card(D_i) = \Card(D_j)$ and $j-i \ge 2^{\MaxInd}$ 
 then $R_i \ldots R_j$ is progressing on $D_i$.
 \end{enumerate}
 \end{lemma}
+
+We assume having for each predicate a size map $\size : Assignements, 
+[1,\MaxInd] \rightarrow \N$,
+such that if $q(\vec{u})$ is the inductive formula number $i$, if $q(\vec{t})$ is the inductive
+formula number $j$ and $\sigma$ is an assigment, and $q(\sigma(\vec{u}))$ is an assumption
+of the proof of $q(\sigma(\vec{t}))$, then $\size(\sigma,i) < \sigma(\sigma,j)$. We usually 
+skip $\sigma$ and we write $\sigma(i), \sigma(j)$.
+
+We include some examples of size map. The first example is the size map counting the
+inductive rules in the proof of $q(\vec{t})$.
+
+\begin{enumerate}
+\item 
+if $q(\vec{t}) = \N(v)$, then $$\sigma(i)=v+1$$ because if $v$ has value $a$ 
+then $v=S^a(0)$ and the proof of $\N(v)$ has $a$ times an $S$-rule and $1$-time
+the $0$-rule.
+
+\item
+If $q(\vec{t}) = \List(l)$ states that $l$ is a list on $\N$, 
+then $$\size(i) = (\length(l)+1)+\Sigma_{i=1}^{i=\length(l)}(l[i]+1)$$
+Here we count $\length(l)$ times the rule $\cons$, once the rule $\nil$,
+the we add the total size of all elements of $l$.
+
+\item
+If $q(\vec{t}) = \Tree(t)$ states that $t$ is a binary tree with labels in $\N$, 
+then $\size(i)$ is any expression counting the number of rules for nodes in $t$, plus the size
+of all labels of $t$.
+\end{enumerate}
+
+Alternatively, the size map can count the maximum nesting of inductive rules in the proof of $q(\vec{t})$. In this case the size of $\N(v)$ is $v$ itself.
+\\
 
 We claim that after at most $2^\MaxInd$ steps any constant-domain sequence progresses.
 We formally express this fact through the notion of degree.
@@ -3905,28 +3957,12 @@ the inductive expression number $i$ is $q(\vec{t})$. Then $\size(i)$ is any expr
 of the language computing, in any assignment $\sigma$ to the variable of the node, 
 the number of constructors in $\sigma(\vec{t})$. Any map returning a positive integer
 and increasing w.r.t. the subterm relation would work. 
-We include some examples of size map.
 
-\begin{enumerate}
-\item 
-if $q(\vec{t}) = \N(v)$, then $$\sigma(i)=v+1$$ because if $v$ has value $a$ 
-then $v=S^a(0)$ and $v$ has $a$ constructors $S$ and $1$ constructor $0$.t
-
-\item
-If $q(\vec{t}) = \List(l)$ states that $l$ is a list on $\N$, 
-then $$\size(i) = (\length(l)+1)+\Sigma_{i=1}^{i=\length(l)}(l[i]+1)$$
-Here we count $\length(l)$ times the constructor $\cons$, once the constructor $\nil$,
-the we add the total size of all elements of $l$.
-
-\item
-If $q(\vec{t}) = \Tree(t)$ states that $t$ is a binary tree with labels in $\N$, 
-then $\size(i)$ is any expression counting the number of nodes, in $t$, plus the size
-of all labels of $t$.
-\end{enumerate}
 
 
 If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ is stable then we will define a size for $\vec{R}$: 
-$\size(\vec{R})$. We need the stability assumption for $\vec{R}$, otherwise we cannot prove that 
+$\size(\vec{R})$. We need the stability assumption for $\vec{R}$, 
+otherwise we cannot prove that 
 the size is a decreasing map. For a generic injective sequence $\vec{S}$, we will first compute
 the Minimum Stable Grouping of $\vec{S}$.
 
