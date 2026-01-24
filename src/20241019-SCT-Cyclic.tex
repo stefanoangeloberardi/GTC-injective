@@ -3008,13 +3008,23 @@ arrow entering in each node). In this case, the same algorithm provides a double
 time \cite{} and an inductive proof in output of size $O(2^{n \log(n)})$.
 In this paper we further improve the translation to a single exponential (poly-exponential) time, 
 by introducing a new algorithm. The price is having an inductive proof in output
-of poly-exponential size.
+of poly-exponential size, instead than an ouput of size $O(2^{n \log(n)})$.
 
-Let us start from a cyclic proof with set $\setR$ of bicolored relations. 
-Assume $\setR^+$ is the closure of $\setR$ under composition. PDC for a bicolored
-relation says: there are $x, y \in \dom(R)$ such that $R$ is progressing on $(x,y)$.
-A set $\setR$ of bicolored relations on a graph $\setG$
-satisfies PDC if and only if all $R \in \setR$ satisfy PDC.
+
+\subsection{Quick Overview of the GTC and PDC Conditions}
+Let us start from a cyclic proof $\Pi$ with set $\setR$ of bicolored relations on a set 
+$[1,\MaxInd]$. $\MaxInd$ is the maximum number of inductive formula in the left-hand side 
+of some sequent in $\Pi$. Each relation $R$ is associated to an arrow $a \rightarrow b$ 
+between nodes of $\Pi$, and any two relations $R:a \rightarrow b$, $S:b \rightarrow c$
+are said to be composable.
+ 
+Assume $\setR^+$ is the closure of $\setR$ under composition. The Progressing Domain 
+Condition (PDC) for a bicolored relation $R : a \rightarrow a$ says: 
+there are $x, y \in \dom(R)$ such that $R$ is progressing on $(x,y)$.
+We say that set $\setR$ of bicolored relations on $\Pi$
+satisfies PDC if and only if all $R \in \setR$ with $R: a \rightarrow a$ satisfy PDC. 
+Remark that the Global Trace Condition (GTC) is a property of $\setR$ as a whole, 
+while PDC is a property of single relations $R \in \setR$, $R:a \rightarrow a$. 
 
 We assume that:
 
@@ -3022,10 +3032,10 @@ We assume that:
 \item  
 $\setR$ is a set of injective relations, hence $\setR^+$ is a set of injective relations, too.
 \item
-$\setR^+$ satisfies GTC 
+$\setR^+$ satisfies PDC 
 \end{enumerate}
 
-GTC for injective relations is equivalent to PDC, in general GTC is a stronger condition
+PDC for injective relations is equivalent to GTC, in general GTC is a stronger condition
 than PDC. 
 \\
 
@@ -3041,20 +3051,26 @@ $R$ is  \emph{not} injective.
 Suppose we have a path $\pi$ from a companion c to itself, moving back  through $c$
 for $k \ge 1$ times: we have $c \rightarrow c \rightarrow \ldots \rightarrow c$, with $k$ arrows.
 For any $i \in \{1, \ldots, k\}$, suppose the step $c \rightarrow c$ having number $i$
-is associated to some bicolored relation $R_i \in \setR^+$. The path $\pi$ itself is associated
-to the composition $R_1 \ldots R_k$ of such relations.
+is associated to some bicolored relation $R_i : c \rightarrow c$, $R_i \in \setR^+$. 
+The path $\pi$ itself is associated to the sequence $\vec{R} = R_1 \ldots R_k$ of such relations. 
+For the translation, we have to associate a measure to each such sequence $\vec{R}$
+which is decreasing by extension.
 
-\subsection{Domain-Stable sequences and Grouping}
+In order to do so, we first to derive some elementar properties of the sequences of uncolored injective relations on $[1,\MaxInd]$. This properties having nothing to do with colors and
+with cyclic proofs.
+
+
+\subsection{Domain-Stable Sequences and Grouping}
 \begin{definition}[Grouping]
-A grouping of bicolored relations $\vec{S} = S_1, \ldots, S_n$ is defined by induction on $n$
-as follows.
+A grouping of a sequence $\vec{S} = S_1, \ldots, S_n$ of binary relations is defined by 
+induction on $n$ as follows.
 \begin{enumerate}
 \item
 If $n=0$, then $\vec{S}$ (empty) is the unique grouping of $\vec{S}$.
 \item
 Suppose $T_1, \ldots, T_m$ is any grouping of $\vec{S}$. 
 Then $T_1, \ldots, T_{i-1}, (T_i\ldots T_m)$ is a grouping of 
-$\vec{S}$, for all $1 \le i \le m$. 
+$\vec{S}$, for all $i \in [i,m]$. 
 \end{enumerate}
 \end{definition}
 
@@ -3067,16 +3083,22 @@ S_{a_2} \ldots S_{b_2}, \ \ \
 S_{a_{h+1}} \ldots S_{b_{h+1}}
 $$
 for some increasing sequence 
-$0 < b_1 < b_2 < i_3 < \ldots < b_h < b_{h+1} = n$ and $a_0=1$, $a_{i+1} = b_i+1$ for all
-$i \in [1,h]$.
+$0 < b_1 < b_2 < i_3 < \ldots < b_h < b_{h+1} = n$, and with $a_0=1$, $a_{i+1} = b_i+1$ 
+for all $i \in [1,h]$.
 
-We can have $h=0$, $b_1=n$ 
-and the trivial grouping consisting of a single product  $S_1 \ldots S_n$.
+Some trivial examples. 
+\begin{enumerate}
+\item
+We can have $h=0$, $b_1=n$ and the trivial grouping consisting of a single product  
+$S_1 \ldots S_n$. 
+\item
 We can have $h=m$, $b_1=1$, \ldots, $b_m=n$ 
 and the trivial grouping consisting of the sequence 
 $S_1, \ldots, S_n$ itself, considered a sequence of unary products.
+\end{enumerate}
 
-
+We first define some domain inclusions and equalities 
+which are valid for all sequences of relations.
 
 \begin{lemma}[Domain-inclusion]
 \label{lemma-domain-inclusion}
@@ -3120,9 +3142,9 @@ $\dom(RS) = \dom(RST)$.
 
 \item
 %\label{lemma-domain-inclusion-01}
-We have to prove that $\dom(R) \supseteq \dom(RS)$, namely that
-$\dom(RS) \subseteq \dom(R)$. We assume $x \in \dom(RS)$ in order to prove that
-$x \in \dom(R)$. If $x \in \dom(RS)$ then for some $z$ we have $x RS z$, therefore $x R y S z$ for some $y$. We conclude that $x \in \dom(R)$, as wished.
+We have to prove that $\dom(RS) \subseteq \dom(R)$. For, we assume $x \in \dom(RS)$ in 
+order to prove that $x \in \dom(R)$. If $x \in \dom(RS)$ then for some $z$ we have $x RS z$, 
+therefore $x R y S z$ for some $y$. We conclude that $x \in \dom(R)$, as wished.
 
 \item
 %\label{lemma-domain-inclusion-02}
@@ -3134,13 +3156,14 @@ $
 \ldots \supseteq 
 \dom(R_1 \ldots R_n)
 $ 
-by induction
-on $n$. When $n=0,1$ there is no inclusion to prove. Suppose $n \ge 1$ and the thesis 
+by induction on $n$. 
+When $n=0,1$ there is no inclusion to prove. Suppose $n \ge 1$ and the thesis 
 for $n$, namely that $\dom(R_1) \supseteq \dom(R_1 R_2) \supseteq \dom(R_1 R_2 R_3) 
 \supseteq \ldots \supseteq \dom(R_1 \ldots R_n)$. We have to prove the thesis for $n+1$. 
 By point \ref{lemma-domain-inclusion-01}above 
-we have $\dom(R_1 \ldots R_{n}) \supseteq \dom(R_1 \ldots R_{n} R_{n+1})$: 
-from this and the inductive hypothesis we deduce the thesis for $n+1$.
+we have $\dom(R_1 \ldots R_{n} R_{n+1}) \subseteq \dom(R_1 \ldots R_{n})$, namely. 
+$\dom(R_1 \ldots R_{n}) \supseteq \dom(R_1 \ldots R_{n} R_{n+1})$. 
+From this and the inductive hypothesis we deduce the thesis for $n+1$.
 
 \item
 %\label{lemma-domain-inclusion-03}
@@ -3159,17 +3182,25 @@ For, we assume $a \in \dom(RS)$ in order to prove that $a \in \dom(RST)$.
 From $a \in \dom(RS)$ we deduce that there are $b \in \dom(S)$ and $c$ such that $a R b S c$. 
 From  $\dom(S) = \dom(ST)$ we deduce that $b \in \dom(ST)$, namely that
 for some $c' \in \dom(T)$ and $d$ we have $b S c' T d$. From $a R b S c' T d$ we conclude
-that $a \in \dom(RST)$.
+that $a \in \dom(RST)$, as wished.
 
 \end{enumerate}
 \end{proof}
 
+%16:38 24/01/2026
+
+The inclusion $\dom(RS) \subseteq \dom(R)$ proved in
+ Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}
+ is often strict. An example: if $R = \{(1,1)\}$ and $S = \{(2,2)\}$ then 
+ $\dom(RS) = \emptyset \subset \dom(R) = \{1\}$. We call domain-stable any sequence
+ $\vec{R}$ of relation in which this never happens.
+ 
 \begin{definition}[Domain-Stability]
 Let $R$, $S$ be any two relations and $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
 \begin{enumerate}
 
 \item
-We say that a pair $R, S$ is \emph{}domain-stable, only \emph{stable} for short, if 
+We say that a pair $R, S$ is \emph{domain-stable}, only \emph{stable} for short, if 
 and only if $\dom(R) = \dom(RS)$.
 
 \item
@@ -3182,7 +3213,7 @@ the pair $S_i$, $S_{i+1}$ is stable.
 
 A sequence of length $n=0,1$ is trivially stable because $[1,n-1] = \emptyset$.
 By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-03} we can
-restate domain-stability. We have
+restate domain-stability in several ways. We have
 $R,S$ stable $ \Leftrightarrow (\dom(R) = \dom(RS))  
   \Leftrightarrow  
 (\dom(R) \subseteq \dom(RS)) 
@@ -3194,13 +3225,14 @@ In particular, $R,S$ stable means that $(\dom(R) \subseteq \dom(RS))$,
 namely that whenever $x$ has an $R$-image $y$, then $x$ has some
 $R$-image $y'$ having some $S$-image $z$. It does \emph{not} say, however,
 that each $R$-image of $x$ has some $S$-image: it only says that if $x$ has some
-$R$-image, then some of the $R$-images of $x$ have some $S$-image.
+$R$-image, then some of the $R$-images of $x$ have some $S$-image. 
+In the same way we can restate the stability for a sequence.
 
-\begin{proposition}
+\begin{proposition}[Restating Stability]
 Let $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
 Let us abbreviate $D_i = \dom(S_i)$ for $i \in [1,n]$.
-Then  $\vec{S}$ is stable if and only if $S_i \restr D_i \times D_{i+1}$ is everywhere
-defined for all $i \in [1,n-1]$. 
+Then  $\vec{S}$ is stable if and only if $S_i \restr \dom(S_i) \times \dom(S_{i+1})$ 
+is everywhere defined for all $i \in [1,n-1]$. 
 \end{proposition}
 
 \begin{proof}
@@ -3209,6 +3241,7 @@ then some $S_i$-image of $x$ has some $S_{i+1}$-image. This is the definition
 of $S_i$, $S_{i+1}$ domain-stable for $i \in [1,n-1]$. 
 \end{proof}
 
+Domain-stable sequences satisfy more domain equalities than generic sequences.
 
 \begin{lemma}[Domain-Stability]
 \label{lemma-domain-stability}
@@ -3228,7 +3261,7 @@ $$
 
 \item
 \label{lemma-domain-stability-03}
-all grouping $\vec{T}$ of $\vec{S}$ are stable.
+all grouping and all prefixes of $\vec{S}$ are stable.
 
 \item 
 \label{lemma-domain-stability-04}
@@ -3284,14 +3317,14 @@ For, we assume $j \ge i$ and we prove $\dom(S_i) =  \dom(S_i \ldots S_j)$ by ind
 \item
 Assume $j=i$. Then $\dom(S_i) =  \dom(S_i)$.
 \item
-Assume $\dom(S_i) =  \dom(S_i \ldots S_j)$ in order to prove that 
-$\dom(S_i) =  \dom(S_i \ldots S_j S_{j+1})$. By stability we have 
+Assume $\dom(S_i) =  \dom(S_i \ldots S_j)$ and $j<n$ in order to prove that 
+$\dom(S_i) =  \dom(S_i \ldots S_j S_{j+1})$. By defiition of stability we have 
 $\dom(S_j) = \dom(S_j S_{j+1})$. By Lemma 
 \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-04} 
-applied to $S_i \ldots S_{j-1}, S_j, S_{j+1}$ we deduce 
-$\dom(S_i \ldots S_j) = \dom(S_i \ldots S_j S_{j+1})$.
-From the inductive hypothesis $\dom(S_i) =  \dom(S_i \ldots S_j)$
-we conclude that $\dom(S_i) =  \dom(S_i \ldots S_j S_{j+1})$, as wished.
+applied to $(S_i \ldots S_{j-1}), \ S_j, \ S_{j+1}$ we deduce 
+$\dom( (S_i \ldots S_{j-1}) S_j) = \dom( (S_i \ldots S_{j-1}) S_j S_{j+1})$.
+From the inductive hypothesis $\dom(S_i) =  \dom( (S_i \ldots S_{j-1}) S_j)$
+we conclude that $\dom(S_i) =  \dom((S_i \ldots S_{j-1}) S_j S_{j+1})$, as wished.
 \end{enumerate}
 
 
@@ -3301,12 +3334,15 @@ we conclude that $\dom(S_i) =  \dom(S_i \ldots S_j S_{j+1})$, as wished.
 We assume point \ref{lemma-domain-stability-02}: 
 for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i)  =  \dom(S_i \ldots S_j)$,
 in order to prove point \ref{lemma-domain-stability-03}:
-all grouping of $\vec{S}$ are stable. 
+all prefixes and grouping of $\vec{S}$ are stable. 
 
-For, we assume that
+All prefixes are stable because the finite quantification defining stability for a prefix 
+is a restriction of the finite quantification defining stability for the sequence. 
+
+We prove that all grouping are stable. We assume that
 $i, j,k\in [1, n]$, $i \le j < k$ and that $S_i \ldots S_j$, $S_{j+1} \ldots S_k$
 are two consecutive products in some grouping of $\vec{S}$, and we have to prove 
-that $\dom(S_i \ldots S_j) = \dom(S_i \ldots S_j S_{j+1} \ldots S_k)$. 
+that $\dom(S_i \ldots S_j) = \dom( (S_i \ldots S_j) (S_{j+1} \ldots S_k))$. 
 By point \ref{lemma-domain-stability-02} we have 
 $$
 \dom(S_i \ldots S_j) = \dom(S_i) = \dom(S_i \ldots S_j S_{j+1} \ldots S_k)
@@ -3317,7 +3353,8 @@ This proves point \ref{lemma-domain-stability-03}.
 \item
 \ref{lemma-domain-stability-03} $\implies$ \ref{lemma-domain-stability-01}.
 
-We assume point \ref{lemma-domain-stability-03}: all grouping of $\vec{S}$ are stable,
+We assume point \ref{lemma-domain-stability-03}: all prefixes 
+and grouping of $\vec{S}$ are stable,
 and we have to prove point \ref{lemma-domain-stability-01}: $\vec{S}$ is stable. 
 
 This follows from the fact that $\vec{S}$ is a trivial case of grouping of $\vec{S}$.
@@ -3330,7 +3367,7 @@ for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i) =  \dom(S_i \ldots S_j)$
 and we have to prove point \ref{lemma-domain-stability-04}: 
 for all $i \in [1, n-1]$ we have $\dom(S_i) =  \dom(S_i \ldots S_n)$.
 
-This follows by choosing $j=n$.
+This follows by choosing $j=n \ge i$.
 
 
 \item
@@ -3340,10 +3377,11 @@ We assume point \ref{lemma-domain-stability-04}:
 for all $i \in [1, n-1]$ we have $\dom(S_i) =  \dom(S_i \ldots S_n)$, and we have to prove
 point \ref{lemma-domain-stability-02}: 
 for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i) =  \dom(S_i \ldots S_j)$.
-If $i=n$ then the thesis becomes $\dom(S_n) =  \dom(S_n$, which is trivially true.
-Suppose $i \in [1,n-1]$.
 
+\emph{Suppose $i=n$}. 
+Then the thesis becomes $\dom(S_n) =  \dom(S_n)$, which is trivially true.
 
+\emph{Suppose $i \in [1,n-1]$}.
 By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01},
 for each sequence $\vec{S}$ of relations we have 
 $$
@@ -3353,7 +3391,7 @@ $$
 \ldots  \ \ \  \supseteq  \ \ \ 
 \dom(S_i \ldots S_n)
 $$ 
-therefore if we add $\dom(S_i \ldots S_n) = \dom(S_i)$ we conclude that
+therefore if we add the assumption $\dom(S_i \ldots S_n) = \dom(S_i)$ we conclude that
 $$
 \dom(S_i)   \ \ \ =  \ \ \ 
 \dom(S_iS_{i+1})  \ \ \  =  \ \ \ 
@@ -3368,19 +3406,20 @@ as wished.
 
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02}
 says that a sequence is stable if and only if whenever $x$ has some $S_i$-image,
-then $x$ has some chain of $S_i, S_{i+1}, S_{i+2}, \ldots$-images of any lenght
+then $x$ has some chain of $S_i, S_{i+1}, S_{i+2}, \ldots$-images of any length
 moving through the sequence. This is an alternative definition of domain-stable sequence.
 
-We compare two groupings, looking for the grouping with less products.
+We compare two groupings, looking for the grouping whose product in front are shorter.
 
 \begin{definition}[Lexicographic Ordering on Grouping]
 \label{definition-grouping-order}
 Assume $\vec{S}=S_1, \ldots, S_n$ is a sequence of relations and 
 $$
 \vec{R} \ \ \ = \ \ \ 
-S_{b_0+1} \ldots S_{b_1}, \ \ \ S_{b_1+1} \ldots S_{b_2}, \ \ \ \ldots, \ \ \ S_{b_h+1} \ldots S_{b_{h+1}}
+S_{a_1} \ldots S_{b_1}, \ \ \ S_{a_2} \ldots S_{b_2}, \ \ \ \ldots, \ \ \ S_{a_{h+1}} \ldots S_{b_{h+1}}
 $$
-is a grouping of $\vec{S}$ (with $b_0=0, b_{h+1}=n$.
+is a grouping of $\vec{S}$ with $a_1=1, a_{i+1} = b_i+1$ for all $i \in [1,h]$ and 
+$b_{h+1} = n$.
 
 \begin{enumerate}
 \item
@@ -3394,11 +3433,19 @@ lexicographic ordering.
 
 For instance, 
 $S_1 \ldots S_n$ is the maximum grouping and $S_1, \ldots, S_n$ the minimum grouping.
+
+We us order on grouping to select a simplest stable grouping.
 All sequences $\vec{S}=S_1, \ldots, S_n$ have a trivial stable grouping, by taking the
 product $S_1 \ldots S_n$ of the sequence. This is the maximum grouping, 
-and therefore it is the maximum stable grouping.
+and therefore it is the maximum stable grouping, but it is trivial.
 
 Lexicographic ordering is total, therefore there is a minimum stable grouping.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 17:12 24/01/2026 Ridefinire \minStable(\vec{S}) a partire da \phi(\vec{S},\cdot)
+% e dedurre l'attuale definizione di \minStable come proprietà
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 We claim that minimum stable grouping can be computed  by the map $\minStable(\vec{S})$. 
 
 \begin{definition}[The Map $\minStable(\vec{S})$]
