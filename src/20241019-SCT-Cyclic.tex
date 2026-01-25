@@ -992,7 +992,7 @@ $\dom(R) \supseteq \dom(RS)$.
 \label{lemma-composition-injective-relations-02}
 If $R$ is injective then 
 $R \cap (\dom(RS) \times \dom(S))$ is everywhere defined and
-surjective, and $\Card(\dom(RS)) \le \Card(\dom(S))$
+injective, and $\Card(\dom(RS)) \le \Card(\dom(S))$
 
 \item
 \label{lemma-composition-injective-relations-03}
@@ -1002,7 +1002,7 @@ then $R\cap (\dom(RS) \times \dom(S))$ is a bijection.
 \item
 \label{lemma-composition-injective-relations-04}
 If $R$ is injective and $\dom(R)=\dom(RS)=\dom(S)$ 
-then $R\restr \dom(R)$ is a bijection.
+then $R\restr \dom(R) \times \dom(S)$ is a bijection.
 
 \end{enumerate}
 \end{lemma}
@@ -1813,7 +1813,7 @@ $\setR$ is closed by composition.
 
 \item
 \label{lemma-composition-closed-02}
-$\setR$
+$\setR$ satisfies PDC
 \end{enumerate}
 \end{lemma}
 
@@ -3187,13 +3187,11 @@ that $a \in \dom(RST)$, as wished.
 \end{enumerate}
 \end{proof}
 
-%16:38 24/01/2026
-
 The inclusion $\dom(RS) \subseteq \dom(R)$ proved in
- Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}
- is often strict. An example: if $R = \{(1,1)\}$ and $S = \{(2,2)\}$ then 
- $\dom(RS) = \emptyset \subset \dom(R) = \{1\}$. We call domain-stable any sequence
- $\vec{R}$ of relation in which this never happens.
+Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}
+is often strict. An example: if $R = \{(1,1)\}$ and $S = \{(2,2)\}$ then $RS=\emptyset$,
+therefore $\dom(RS) = \emptyset \subset \dom(R) = \{1\}$. 
+We call domain-stable any sequence $\vec{R}$ of relation in which this never happens.
  
 \begin{definition}[Domain-Stability]
 Let $R$, $S$ be any two relations and $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
@@ -3442,120 +3440,125 @@ Lexicographic ordering is total, therefore there is a minimum stable grouping.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 17:12 24/01/2026 Ridefinire \minStable(\vec{S}) a partire da \phi(\vec{S},\cdot)
-% e dedurre l'attuale definizione di \minStable come proprietà
+% dedurre l'attuale definizione di \minStable come proprietà ???
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We claim that minimum stable grouping can be computed  by the map $\minStable(\vec{S})$. 
-
 \begin{definition}[The Map $\minStable(\vec{S})$]
-Assume $\vec{S} = S_1, \ldots, S_n$. We define the map 
-$\minStable(\vec{S})$ by induction on $n$.
-\begin{enumerate}
-\item
-If $n=0$, then we set $\minStable(\vec{S}) = \vec{S} = $ the empty sequence.
-\item
-Suppose $\minStable(\vec{S}) = \vec{T} = T_1, \ldots, T_m$.
-\begin{enumerate}
-\item
-if $\minStable(\vec{S}), S_{n+1}$ is stable, then we set
-$\minStable(\vec{S}, S_{n+1}) = \minStable(\vec{S}), S_{n+1}$.
-\item
-if $\minStable(\vec{S}), S_{n+1}$ is \emph{not} stable, then we set
-$\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, (T_i \ldots T_m S_{n+1})$, 
-for the first $i \in [1,m]$ such that 
-$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$,
-\end{enumerate}
-\end{enumerate}
+\label{definition-minstable}
+Assume $\vec{S}$ is any sequence of relations. We define 
+$\minStable(\vec{S})$ as the minimum stable grouping of $\vec{S}$ in the
+lexicographic ordering.
 \end{definition}
-
-We first check that $\minStable(\vec{S})$ is well-defined.
-
-
-\begin{lemma}[$\minStable(\vec{S})$ is a total map]
-\label{lemma-minstable-total}
-For any sequence $\vec{S}$ of relations, $\minStable(\vec{S})$ is well-defined. 
-\end{lemma}
-
-\begin{proof}
-$\minStable(\vec{S})$ is defined from previously defined objects, except when 
-$\minStable(\vec{S})S_{n+1}$ is \emph{not} domain-stable. In this case if
-$\minStable(\vec{S})=\vec{T}=T_1, \ldots, T_m$ then
-$\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, (T_i \ldots T_m S_{n+1})$, 
-for the first $i \in [1,m]$ such that 
-$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. We have to prove
-that there is some $i \in [1,m]$ such that
-$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. 
-
-Assume for contradiction that for all $i \in [1,m]$ we have 
-$\dom(T_i \ldots T_m) \not \supset \dom(T_i \ldots T_m S_{n+1})$:
-then  $\dom(T_i \ldots T_m) = \dom(T_i \ldots T_m S_{n+1})$ because we have
-$\dom(T_i \ldots T_m) \supseteq \dom(T_i \ldots T_m S_{n+1})$ 
-by Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}.
-
-From $\vec{T}$ stable we have $\dom(T_i) = \dom(T_i \ldots T_m)$
-by Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}, 
-therefore $\dom(T_i) = \dom(T_i \ldots T_m S_{n+1})$.
-We conclude that $\minStable(\vec{S})S_{n+1}$ is stable, 
-again by Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}, contradicting
-the assumption that $\minStable(\vec{S})S_{n+1}$ is not stable.
-\end{proof}
-
-\begin{lemma}[$\minStable(\vec{S})$ Stable Grouping]
-\label{lemma-minStable-stable}
-Let $\vec{S} = S_1, \ldots, S_n$.
-Then $\minStable(\vec{S})$ of $\vec{S}$ is stable.
-\end{lemma}
-
-\begin{proof}
-We prove that $\minStable(\vec{S})$ is stable induction on $n$.
-
-\begin{enumerate}
-\item
-If $n=0$ then $\minStable(\vec{S})$ is empty and therefore it is stable.
-\item
-Assume $\minStable(\vec{S}) = T_1, \ldots, T_m$ is stable.
-We argue by cases.
-
-\begin{enumerate}
-\item
-Assume $T_1, \ldots, T_m, S_{n+1}$ is stable. Then 
-$\minStable(\vec{S}) = T_1, \ldots, T_m S_{n+1}$ is stable and we are done.
-\item
-Assume $T_1, \ldots, T_m, S_{n+1}$ is \emph{not} stable.
-By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01},
-we have $\dom(T_i \ldots T_m) \supseteq \dom(T_i \ldots T_m S_{n+1})$ for all
-$i=1, \ldots, m$ and by $T_1, \ldots, T_m, S_{n+1}$ not stable  and 
-$\minStable(\vec{S}S_{n+1})$ well-defined (Lemma \ref{lemma-minstable-total})
-there is a first $i=1, \ldots, m$ such that 
-$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. By the choice of $i$ we have 
-$\dom(T_j \ldots T_m) = \dom(T_j \ldots T_m S_{n+1})$ for all $j \in [1,i-1]$. 
-
-From $T_1, \ldots, T_m$ stable and 
-Lemma \ref{lemma-domain-stability-02}.\ref{lemma-domain-stability-02} 
-we deduce 
-$\dom(T_j) = \dom(T_j \ldots T_m)$, then 
-$\dom(T_j) = \dom(T_j \ldots T_m) = \dom(T_j \ldots T_m S_{n+1})$ for all $j \in [1,i-1]$.
-By Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04},
-we conclude that $T_j, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$ is stable.
-\end{enumerate}
-\end{enumerate}
-\end{proof}
+%
+%We claim that minimum stable grouping can be computed  by the map $\minStable(\vec{S})$. 
+%
+%\begin{definition}[The Map $\minStable(\vec{S})$]
+%\label{definition-minstable}
+%Assume $\vec{S} = S_1, \ldots, S_n$. We define the map 
+%$\minStable(\vec{S})$ by induction on $n$.
+%\begin{enumerate}
+%\item
+%If $n=0$, then we set $\minStable(\vec{S}) = \vec{S} = $ the empty sequence.
+%\item
+%Suppose $\minStable(\vec{S}) = \vec{T} = T_1, \ldots, T_m$.
+%\begin{enumerate}
+%\item
+%if $\minStable(\vec{S}), S_{n+1}$ is stable, then we set
+%$\minStable(\vec{S}, S_{n+1}) = \minStable(\vec{S}), S_{n+1}$.
+%\item
+%if $\minStable(\vec{S}), S_{n+1}$ is \emph{not} stable, then we set
+%$\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, (T_i \ldots T_m S_{n+1})$, 
+%for the first $i \in [1,m]$ such that 
+%$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$,
+%\end{enumerate}
+%\end{enumerate}
+%\end{definition}
+%
+%We first check that $\minStable(\vec{S})$ is well-defined.
+%
+%
+%\begin{lemma}[$\minStable(\vec{S})$ is a total map]
+%\label{lemma-minstable-total}
+%For any sequence $\vec{S}$ of relations, $\minStable(\vec{S})$ is well-defined. 
+%\end{lemma}
+%
+%\begin{proof}
+%$\minStable(\vec{S})$ is defined from previously defined objects, except when 
+%$\minStable(\vec{S})S_{n+1}$ is \emph{not} domain-stable. In this case if
+%$\minStable(\vec{S})=\vec{T}=T_1, \ldots, T_m$ then
+%$\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, (T_i \ldots T_m S_{n+1})$, 
+%for the first $i \in [1,m]$ such that 
+%$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. We have to prove
+%that there is some $i \in [1,m]$ such that
+%$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. 
+%
+%Assume for contradiction that for all $i \in [1,m]$ we have 
+%$\dom(T_i \ldots T_m) \not \supset \dom(T_i \ldots T_m S_{n+1})$:
+%then  $\dom(T_i \ldots T_m) = \dom(T_i \ldots T_m S_{n+1})$ because we have
+%$\dom(T_i \ldots T_m) \supseteq \dom(T_i \ldots T_m S_{n+1})$ 
+%by Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}.
+%
+%From $\vec{T}$ stable we have $\dom(T_i) = \dom(T_i \ldots T_m)$
+%by Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}, 
+%therefore $\dom(T_i) = \dom(T_i \ldots T_m S_{n+1})$.
+%We conclude that $\minStable(\vec{S})S_{n+1}$ is stable, 
+%again by Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}, contradicting
+%the assumption that $\minStable(\vec{S})S_{n+1}$ is not stable.
+%\end{proof}
+%
+%\begin{lemma}[$\minStable(\vec{S})$ Stable Grouping]
+%\label{lemma-minStable-stable}
+%Let $\vec{S} = S_1, \ldots, S_n$.
+%Then $\minStable(\vec{S})$ of $\vec{S}$ is stable.
+%\end{lemma}
+%
+%\begin{proof}
+%We prove that $\minStable(\vec{S})$ is stable induction on $n$.
+%
+%\begin{enumerate}
+%\item
+%If $n=0$ then $\minStable(\vec{S})$ is empty and therefore it is stable.
+%\item
+%Assume $\minStable(\vec{S}) = T_1, \ldots, T_m$ is stable.
+%We argue by cases.
+%
+%\begin{enumerate}
+%\item
+%Assume $T_1, \ldots, T_m, S_{n+1}$ is stable. Then 
+%$\minStable(\vec{S}) = T_1, \ldots, T_m S_{n+1}$ is stable and we are done.
+%\item
+%Assume $T_1, \ldots, T_m, S_{n+1}$ is \emph{not} stable.
+%By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01},
+%we have $\dom(T_i \ldots T_m) \supseteq \dom(T_i \ldots T_m S_{n+1})$ for all
+%$i=1, \ldots, m$ and by $T_1, \ldots, T_m, S_{n+1}$ not stable  and 
+%$\minStable(\vec{S}S_{n+1})$ well-defined (Lemma \ref{lemma-minstable-total})
+%there is a first $i=1, \ldots, m$ such that 
+%$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. By the choice of $i$ we have 
+%$\dom(T_j \ldots T_m) = \dom(T_j \ldots T_m S_{n+1})$ for all $j \in [1,i-1]$. 
+%
+%From $T_1, \ldots, T_m$ stable and 
+%Lemma \ref{lemma-domain-stability-02}.\ref{lemma-domain-stability-02} 
+%we deduce 
+%$\dom(T_j) = \dom(T_j \ldots T_m)$, then 
+%$\dom(T_j) = \dom(T_j \ldots T_m) = \dom(T_j \ldots T_m S_{n+1})$ for all $j \in [1,i-1]$.
+%By Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04},
+%we conclude that $T_j, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$ is stable.
+%\end{enumerate}
+%\end{enumerate}
+%\end{proof}
 
 We provide an alternative characterization of the minimum stable grouping, then using
 this characterization we will prove that $\minStable(\vec{S})$ is the minimum stable
 grouping of $\vec{S}$.
 
-For each $i \in [1,n]$ 
-
 \begin{definition}[Stable Matching]
-We say that $j \in [i,n]$ is a stable matching of $i$ in $\vec{S}$
+Let $i \in [1,n]$. We say that $j \in [i,n]$ is a stable matching of $i$ in $\vec{S}$
 if and only if $\dom(S_i \ldots S_j) = \dom(S_i \ldots S_n)$.
 \end{definition}
 
 By definition unfolding, $j \in [i,n]$ is a stable matching of $i$ in $\vec{S}$
 if and only if all $x \in [1,\MaxInd]$ having some $S_i \ldots S_j$-image have some
-$S_i \ldots S_n$-image and conversely, namely, if and only if 
-$\dom(S_i \ldots S_j) = \dom(S_i \ldots S_n)$. 
+$S_i \ldots S_n$-image and conversely. 
 
 $j=n$ is trivially a stable matching of any $i \in [1,n]$.
 
@@ -3565,7 +3568,7 @@ of $i$ in $\vec{S}$. We write $\phi(i)$ when $\vec{S}$ is clear from the context
 \end{definition}
 
 
-\begin{lemma}[Totality and Characterization of $\phi(\vec{S},i)$]
+\begin{lemma}[Characterization of $\phi(\vec{S},i)$]
 \label{lemma-phi-characterization}
 We have $\phi(\vec{S} S_{n+1}, n+1) = n+1$ and for all $i \in [1,n]$
 one of the following holds:
@@ -3576,9 +3579,8 @@ and $\phi(\vec{S}S_{n+1},i) = \phi(\vec{S},i)$;
 \item
 or $\dom(S_i \ldots S_n) \supset \dom(S_i \ldots S_n S_{n+1})$
 and $\phi(\vec{S}S_{n+1},i) = n+1$.
-\item
-$\phi(\vec{S},\cdot):[1,n] \rightarrow [1,n]$ is a weakly increasing map.
 \end{enumerate}
+$\phi(\vec{S},\cdot):[1,n] \rightarrow [1,n]$ is a weakly increasing map.
 \end{lemma}
 
 \begin{proof}
@@ -3589,14 +3591,15 @@ either $\dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$
 or $\dom(S_i \ldots S_n) \supset \dom(S_i \ldots S_n S_{n+1})$. 
 \begin{enumerate}
 \item
-Suppose $\dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$.
+\emph{Suppose $\dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$}.
 Then for $j = \phi(\vec{S},i)$
 we have $\dom(S_i \ldots S_j) = \dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$,
 while for all $k<j$ we have 
-$\dom(S_i \ldots S_k) = \dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$.
+$\dom(S_i \ldots S_k) \not = \dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$.
 This implies $\phi(\vec{S}S_{n+1},i) = \phi(\vec{S},i)$
+
 \item
-Suppose $\dom(S_i \ldots S_n) \supset \dom(S_i \ldots S_n S_{n+1})$.
+\emph{Suppose $\dom(S_i \ldots S_n) \supset \dom(S_i \ldots S_n S_{n+1})$}.
 Then for all $j \in [i,n]$, $j \ge i$ 
 by Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-02} 
 we have 
@@ -3604,53 +3607,40 @@ $\dom(S_i \ldots S_j)  \supseteq \dom(S_i \ldots S_n) \supset \dom(S_i \ldots S_
 We deduce $\phi(\vec{S}S_{n+1},i) >n$ 
 and we conclude that $\phi(\vec{S}S_{n+1},i) = n+1$.
 
-\item
+\end{enumerate}
+
+Now we check that $\phi$ is weakly increasing.
+
 We assume $i,j \in [1,n]$, $i < j$ in order to prove that $\phi(\vec{S},i) \le \phi(\vec{S},j)$.
 Let $b =  \phi(\vec{S},j)$. Then by definition of $\phi$ we have 
 $\dom(S_j \ldots S_b) = \dom(S_j \ldots S_n)$. 
 By Lemma \ref{lemma-domain-inclusion}.{lemma-domain-inclusion-04} we deduce
-$\dom(S_i \ldots S_{j-1} S_j \ldots S_b) = \dom(S_i \ldots S_{j-1} S_j \ldots S_n)$.
+$\dom((S_i \ldots S_{j-1}) S_j \ldots S_b) = \dom((S_i \ldots S_{j-1}) S_j \ldots S_n)$.
 By definition of $\phi$, this implies $\phi(\vec{S},i) \le b =  \phi(\vec{S},j)$,
 as wished.
-\end{enumerate}
 \end{proof}
 
-\begin{lemma}[Stable Grouping and the map $\phi$]
-\label{lemma-stable-phi}
-In any stable grouping a product $S_{a_i+1} \ldots S_{a_{i+1}}$  
-must include $S_{\phi(a_i+1)}$.
-\end{lemma}
+We define a stable grouping $\vec{S}^{\phi}$ of $\vec{S}$ using the map $\phi$.
 
-\begin{proof}
-Indeed, stability of the grouping and 
-Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04} 
-imply
-$$
-\dom(S_{a_i+1} \ldots S_{a_{i+1}}) = 
-\dom(S_{a_i+1} \ldots S_{a_{i+1}} \ \ \ S_{a_{i+1}+1} \ldots S_{a_{i+2}} \ \ \ \ldots) =
-\dom(S_{a_i+1} \ldots S_n)
-$$ 
-Then by definition of $\phi$ we have $\phi(a_i+1) \le a_{i+1} $.
-
-Therefore in any stable grouping any product $S_i \ldots S_j$ is a finite concatenation
-of the form 
-$(S_{a_1}\ldots S_{\phi(a_1)}) (S_{a_2}\ldots S_{\phi(a_2)})
-\ldots S_{a_{k+1}}\ldots S_{\phi(a_{k+1})}$ with $a_1=i$ and $a_{b+1} = \phi(a_b)+1$ 
-for all $b \in [1,k]$ and $\phi(a_{k+1}) = j$. Conversely, if all products of the 
-grouping are of this form then the grouping is stable. 
-
-We conclude that all stable grouping are greater or equal than the following grouping 
-$\vec{R}=R_1, \ldots, R_{h+1}$: 
+\begin{definition} [A Stable Grouping Defined by the Map $\phi$]
+$\vec{S}^{\phi}=R_1, \ldots, R_{h+1}$ and: 
 $$
 R_1 = (S_{a_1}\ldots S_{\phi(a_1)}), \ \ \ 
 R_2 = (S_{a_2}\ldots S_{\phi(a_2)}), \ \ \ 
 \ldots, \ \ \ 
 R_{h+1} = (S_{a_{h+1}}\ldots S_{\phi(a_{h+1})}
 $$ 
-where $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
+and $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
 for all $i \in [1,h]$ and $\phi(a_{h+1}) = n$. 
+\end{definition}
 
-Conversely, we have
+\begin{lemma} [A Stable Grouping Defined by the Map $\phi$]
+\label{lemma-stable-phi-1}
+$\vec{S}^\phi$ is a stable grouping of $\vec{S}$.
+\end{lemma}
+
+\begin{proof}
+Let $\vec{R} = \vec{S}^\phi$. We have
 $
 \dom(R_i) = 
 \dom(S_{a_i}\ldots S_{\phi(a_i)}) = 
@@ -3662,82 +3652,180 @@ $
 $
 We deduce that the grouping $\vec{R}$ is stable by 
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}.
-Therefore $\vec{R}$ is the minimum stable grouping.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-minstable-stable}
-$\minStable(\vec{S})$ is the minimum stable grouping.
+
+\begin{lemma} [The Minimum Stable Grouping is Definable by the Map $\phi$]
+\label{lemma-stable-phi-2}
+Stable groupings of $\vec{S}$ are exactly the grouping of $\vec{S}^\phi$
+and $\vec{S}^\phi$ is equal to the minimum stable grouping $\minStable{\vec{S}}$.
 \end{lemma}
 
-%19:18 23/01/2026 RICONTROLLARE LA PROVA
 
 \begin{proof}
-We do not build on the proof that $\minStable(\vec{S})$ is stable 
-(\ref{lemma-minStable-stable}).
-We assume that $\vec{R}$ is the lexicographic minimum stable grouping
-and we prove that $\minStable(\vec{S})=\vec{R}$.
+We proved in \ref{lemma-stable-phi-1} that $\vec{S}^\phi$ is stable. We have still to
+prove that all stable grouping of $\vec{S}$ 
+are less or equal than $\vec{S}^\phi$ in the lexicographic ordering.
 
-Using the characterization above of $\vec{R}$ and by induction on the definition of  
-$\minStable(\vec{S})$ we prove that $\vec{R} = \minStable(\vec{S})$.
+We will in fact prove that stable grouping of $\vec{S}$ are exactly the grouping of 
+$\vec{S}^\phi$, we will deduce that they are all less or equal than $\vec{S}^\phi$.
 
-If $\vec{S}$ is empty, then $\vec{R} = \minStable(\vec{S}) = $ empty.
+From $\vec{S}$ stable and 
+Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-03} 
+we deduce that all grouping of $\vec{S}$ are stable.
 
-Suppone that $\minStable(\vec{S})=\vec{R}$, namely both are: 
+Conversely, we have to prove that any stable grouping of $\vec{S}$  is a grouping
+of $\vec{S}^\phi$.
+
+We first check that in any stable grouping of $\vec{S}$ any 
+product $S_{a_i+1} \ldots S_{a_{i+1}}$  must include $S_{\phi(a_i+1)}$.
+
+Indeed, stability of the grouping and 
+Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04} 
+imply
 $$
-(S_{a_1}\ldots S_{\phi(a_1)}), 
- (S_{a_2}\ldots S_{\phi(a_2)}),
-\ldots, 
-S_{a_{h+1}}\ldots S_{\phi(a_{h+1})}
+\dom(S_{a_i+1} \ldots S_{a_{i+1}}) = 
+\dom(S_{a_i+1} \ldots S_{a_{i+1}} \ \ \ S_{a_{i+1}+1} \ldots S_{a_{i+2}} \ \ \ \ldots) =
+\dom(S_{a_i+1} \ldots S_n)
+$$ 
+Then by definition of $\phi$ we have $\phi(a_i+1) \le a_{i+1} $.
+
+Therefore in any stable grouping of $\vec{S}$
+any product $S_i \ldots S_j$ is either $(S_{i}\ldots 
+S_{\phi(i)})$, or if $\phi(i) < j$ it includes $(S_{\phi(i)+1}\ldots S_{\phi(\phi(i)+1)})$,
+and so forth. By induction on $j-i$ we can prove that $S_i \ldots S_j$ has the form
+$(S_{a_1}\ldots S_{\phi(a_1)}) (S_{a_2}\ldots S_{\phi(a_2)})
+\ldots S_{a_{k+1}}\ldots S_{\phi(a_{k+1})}$ with $a_1=i$ and $a_{b+1} = \phi(a_b)+1$ 
+for all $b \in [1,k]$ and $\phi(a_{k+1}) = j$. 
+
+
+We conclude that all stable grouping are greater or equal than the following grouping 
+$\vec{S}^\phi =R_1, \ldots, R_{h+1}$: 
+$$
+R_1 = (S_{a_1}\ldots S_{\phi(a_1)}), \ \ \ 
+R_2 = (S_{a_2}\ldots S_{\phi(a_2)}), \ \ \ 
+\ldots, \ \ \ 
+R_{h+1} = (S_{a_{h+1}}\ldots S_{\phi(a_{h+1})}
 $$ 
 where $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
 for all $i \in [1,h]$ and $\phi(a_{h+1}) = n$. 
-
-Assume $\dom(T_i) =
-\dom(T_i \ldots T_m S_{n+1})$ for all $i \in [1,n]$. 
-Then $\vec{T}S_{n+1}$ is stable and by stability of $\vec{T}$ and 
-Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
-we get  $\dom(T_i) = \dom(T_i \ldots T_m)$.
-
-We deduce 
-$\dom(T_i \ldots T_m) = \dom(T_i \ldots T_m S_{n+1})$, therefore
-$\phi(\vec{S},a_i) = \phi(vec{S}S_{n+1},a_i)$ for all $i \in [1,m]$. Then
-$\minStable(\vec{S})$ is 
-$$
-(S_{a_1}\ldots S_{\phi(a_1)}), 
- (S_{a_2}\ldots S_{\phi(a_2)}),
-\ldots, 
-S_{a_{h+1}}\ldots S_{\phi(a_{h+1})},
-S_{n+1}
-$$ 
-and so is the minimum stable grouping, because $\phi(\vec{S},i) =n+1$ adds a unary product
-the minimum stable grouping.
-
-Assume $\phi(\vec{S},i) \not = \phi(vec{S}S_{n+1},i)$ for some $i \in [1,m]$. 
-Then $\vec{T}S_{n+1}$ is not stable, otherwise we would have $\dom(T_i) =
-\dom(T_i \ldots T_m)$ and $\dom(T_i) =
-\dom(T_i \ldots T_mS_{n+1})$
-Then the only possible value for $\phi(vec{S}S_{n+1},i)$ is $n+1$, given that
-$S_i \ldots S_j = S_i \ldots S_{n}$.
 \end{proof}
+
+%\begin{lemma}
+%\label{lemma-minstable-stable}
+%$\minStable(\vec{S})$ is the minimum stable grouping.
+%\end{lemma}
+%
+%%19:18 23/01/2026 RICONTROLLARE LA PROVA
+%
+%\begin{proof}
+%We do not build on the proof that $\minStable(\vec{S})$ is stable 
+%(\ref{lemma-minStable-stable}).
+%We assume that $\vec{R}$ is the lexicographic minimum stable grouping
+%and we prove that $\minStable(\vec{S})=\vec{R}$.
+%
+%Using the characterization above of $\vec{R}$ and by induction on the definition of  
+%$\minStable(\vec{S})$ we prove that $\vec{R} = \minStable(\vec{S})$.
+%
+%If $\vec{S}$ is empty, then $\vec{R} = \minStable(\vec{S}) = $ empty.
+%
+%Suppone that $\minStable(\vec{S})=\vec{R}$, namely both are: 
+%$$
+%(S_{a_1}\ldots S_{\phi(a_1)}), 
+% (S_{a_2}\ldots S_{\phi(a_2)}),
+%\ldots, 
+%S_{a_{h+1}}\ldots S_{\phi(a_{h+1})}
+%$$ 
+%where $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
+%for all $i \in [1,h]$ and $\phi(a_{h+1}) = n$. 
+%
+%Assume $\dom(T_i) =
+%\dom(T_i \ldots T_m S_{n+1})$ for all $i \in [1,n]$. 
+%Then $\vec{T}S_{n+1}$ is stable and by stability of $\vec{T}$ and 
+%Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
+%we get  $\dom(T_i) = \dom(T_i \ldots T_m)$.
+%
+%We deduce 
+%$\dom(T_i \ldots T_m) = \dom(T_i \ldots T_m S_{n+1})$, therefore
+%$\phi(\vec{S},a_i) = \phi(vec{S}S_{n+1},a_i)$ for all $i \in [1,m]$. Then
+%$\minStable(\vec{S})$ is 
+%$$
+%(S_{a_1}\ldots S_{\phi(a_1)}), 
+% (S_{a_2}\ldots S_{\phi(a_2)}),
+%\ldots, 
+%S_{a_{h+1}}\ldots S_{\phi(a_{h+1})},
+%S_{n+1}
+%$$ 
+%and so is the minimum stable grouping, because $\phi(\vec{S},i) =n+1$ adds a unary product
+%the minimum stable grouping.
+%
+%Assume $\phi(\vec{S},i) \not = \phi(vec{S}S_{n+1},i)$ for some $i \in [1,m]$. 
+%Then $\vec{T}S_{n+1}$ is not stable, otherwise we would have $\dom(T_i) =
+%\dom(T_i \ldots T_m)$ and $\dom(T_i) =
+%\dom(T_i \ldots T_mS_{n+1})$
+%Then the only possible value for $\phi(vec{S}S_{n+1},i)$ is $n+1$, given that
+%$S_i \ldots S_j = S_i \ldots S_{n}$.
+%\end{proof}
  
+%09:49 25/01/2026
+
 \subsection{Injective Domain-Stable Relation Sequences}
 
 \begin{lemma}[Injective Relation Sequences]
 \label{lemma-stable-sequences}
-Assume $\vec{R}=R_1, \ldots, R_n$ is a sequence of injective relations 
+Assume $R, S$, $\vec{R}=R_1, \ldots, R_n$ all are \emph{injective} relations.
 \begin{enumerate}
+\item
+$\Card(\dom(RS)) \le \Card(\dom(S))$
+and if $\Card(\dom(RS)) \le \Card(\dom(S))$ then $R$ restricted to $\dom(R) \times \dom(S)$
+is a bijection.
+
 \item
 $$
 \Card(\dom(R_1 \ldots R_n)) \le \Card(\dom(R_2 \ldots R_n)) \le \ldots \le \Card(\dom(R_n))
 $$
+
 \item
-If  $i, j \in[1,n]$ and $i \le j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$
-then $R_i \ldots R_j$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$
+If  $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$
+then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$
 is a bijection.
 \end{enumerate}
 \end{lemma}
 
+\begin{proof}
+\begin{enumerate}
+
+\item
+for all $x \in \dom(RS)$ the sets $X_x = \{ y \in \dom(S) | x R y \}$ are inhabited,
+because if $x \in \dom(RS)$ then for some $y \dom(S), z$ we have $x R y z$.
+They are pairwise disjoint subsets of $\dom(S)$, because $R$ is injective. We deduce that 
+$\Card(\dom(RS)) \le \Card(\bigcup_{x \in \dom(RS)} X_x) \le \Card(\dom(S))$.
+
+Now assume that $\Card(\dom(RS)) = \Card(\dom(S))$. Then 
+$\Card(\dom(RS)) = \Card(\bigcup_{x \in \dom(RS)} X_x) = \Card(\dom(S))$. 
+From $\Card(\bigcup_{x \in \dom(RS)} X_x) = \Card(\dom(S))$, 
+$\bigcup_{x \in \dom(RS)} X_x \subseteq \dom(S)$ and $\dom(S)$ finite we deduce
+that $\bigcup_{x \in \dom(RS)} X_x = \dom(S)$. 
+From the fact that all $\Card(\dom(RS)) = \Card(\dom(S))$ and all $X_x$ are inhabited we 
+deduce that all $X_x$ are singleton. This says that $R$ restricted to $\dom(R) \times \dom(S)$
+is a bijection.
+
+\item
+Let $i \in [1,n-1]$.
+From the point 1 above applied to $R = R_i$, $S = R_{i+1}\ldots R_n$ we deduce that
+$\Card(\dom(R_i R_{i+1}\ldots R_n)) \le \Card(\dom(R_{i+1} \ldots R_n))$
+
+\item
+$i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$.
+From the point 1 above applied to $R = R_i \ldots R_{j-1}$, $S = R_i \ldots R_{j-1}$ 
+we deduce that $R_i \ldots R_{j-1}$ restricted to 
+$\dom(R_i \ldots R_{j-1} \ldots R_j \ldots R_n) \times \dom(R_i \ldots R_{j-1})$
+is a bijection.
+
+\end{enumerate}
+\end{proof}
+
+%14:31 25/01/2026
 
 \begin{lemma}[Injective Domain-Stable Relation Sequences]
 \label{lemma-injective-stable-sequences}
@@ -3877,19 +3965,20 @@ $R_1, \ldots, R_n \in \setR^+$ (hence each $R_i$ is injective and satisfies PDC)
 \item
 Suppose $R_1, \ldots, R_n$ is stable. 
 \end{enumerate}
-Set $D_i = \dom(R_i)$ for all $i \in [1,n-1]$ 
-and $D_n = \codom(R_n)$ if $R_n$ is a bijection 
-and $D_n = \dom(R_n)$ otherwise.
+Set $D_i = \dom(R_i)$ for all $i \in [1,n]$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % 20:36 24/01/2026
 %%%%%%%%%%%%%%%%%%%%%%%%%%
+% and $D_n = \codom(R_n)$ if $R_n$ is a bijection 
+% and $D_n = \dom(R_n)$ otherwise.
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 % forse è meglio mettere il caso particolare per D_n tra i possibili miglioramenti
 % per la leggibilità della prova ottenuta, anziché nelle definizione di base
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Altro miglioramento: se il massimo valore del grado \deg(\vec{R},j) per j 
 % ultima posizione della componente numero h è M allora si può rimpiazzare 
 % 2^\MaxInd e (2^\MaxInd - 1 - \deg(\vec{R},j))  
-% con M e con (M - 1 - \deg(\vec{R},j)) 
+% con M+1 e con (M - \deg(\vec{R},j)) 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
