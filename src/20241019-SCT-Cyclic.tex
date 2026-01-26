@@ -37,6 +37,17 @@
 \vbadness=10000
 
 \input{macro}
+% MORE MACRO
+\newcommand{\size} 		              {{\tt s}}
+\newcommand{\state} 		           {{\tt S}}
+\newcommand{\minStable}         {{\tt m}}
+\newcommand{\unfold}               {{\tt u}}
+\newcommand{\height}                {{\tt h}}
+\newcommand{\setF} 		               {{\mathcal F}}
+\newcommand{\setU} 	               {{\mathcal U}}
+\newcommand{\cons}                   {{\tt cons}}
+\newcommand{\newton} [2]   {{\genfrac(){0pt}{1}{#1}{#2}}}
+%END MACRO
 
 \title{An Intuitionistic and First Order proof that GTC implies Correctness}
 \date{}
@@ -739,7 +750,7 @@ bypassing the use of Ramsey.
 %as an ordinary proof by adding first order intuitionistic reasoning and 
 %induction on $[0,\infty]$ nested $n$ times, 
 %where $n = \Card(X)$ is the cardinality of the set of variables,
-%together with induction on the finite sets $[1, \genfrac(){0pt}{1}{n}{k}[$ nested $n$ times,
+%together with induction on the finite sets $[1, \newton{n}{k}[$ nested $n$ times,
 %for $k=1, \ldots, n$.
 %\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -896,7 +907,7 @@ $$
 \{ \ \ 
 (m_1,r_1, \ldots, m_n,r_n)
   \ \  | \ \ 
-    m_i \in [0,\infty] \ \wedge \ r_i \in [0, g \cdot \genfrac(){0pt}{1}{n}{k}[, \ \forall i \in [1,n]
+    m_i \in [0,\infty] \ \wedge \ r_i \in [0, g \cdot \newton{n}{k}[, \ \forall i \in [1,n]
 \ \ \}
 $$
 with the lexicographic ordering. 
@@ -904,7 +915,7 @@ with the lexicographic ordering.
 
 $\setL$ is order-isomorphic to the set $((m_1,r_1), \ldots, 
 (m_n,r_n))$ of sequences of pairs, with
-$(m_i,r_i) \in [0,\infty] \times [0,g \genfrac(){0pt}{1}{n}{k}[$ and with
+$(m_i,r_i) \in [0,\infty] \times [0,g \newton{n}{k}[$ and with
 the lexicographic ordering both on the sequence of pairs and on each pair.
 
 %We define a map 
@@ -1221,19 +1232,19 @@ $g = \Card(V)$.
 \label{theorem-finiteness-value-flow-2-1}
 The value flows on $\setG$ 
 with \emph{constant-cardinality non-progressing domains} 
-have length $\le g\genfrac(){0pt}{1}{n}{k}$, where $k$ is 
+have length $\le g\newton{n}{k}$, where $k$ is 
 the common cardinality of the domains.
 
 Besides, we can prove that these value flows terminate 
 by induction on the distance
 between the length (number of elements)
-of the flow and $g\genfrac(){0pt}{1}{n}{k}$.
+of the flow and $g\newton{n}{k}$.
 
 \item 
 \label{theorem-finiteness-value-flow-2-2}
 There is a decreasing embedding $w$ from the value flows on $\setR, \setG$ 
 with \emph{constant-cardinality} to the set 
-$[0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
+$[0,\infty] \times [0,g\newton{n}{k}[$. 
 Therefore these value flows terminate.
 
 \item
@@ -1272,7 +1283,7 @@ In this case we have $\Card(\dom(R_{1})) \le \Card(\dom(R_{2})) \le \ldots \le
 \Card(\dom(R_{l}))$, and if $\Card(\dom(R_{1})) = \Card(\dom(R_{2})) = \ldots = 
 \Card(\dom(R_{l}))=k$ then 
 the sum of values of the elements of $\dom(R_i)$ weakly decreases,
-and within $g\genfrac(){0pt}{1}{n}{k}$ steps strictly decreases.
+and within $g\newton{n}{k}$ steps strictly decreases.
 
 \begin{lemma}
 [stable-cardinality injective bi-coloring and the Progressing Domain condition]
@@ -1320,7 +1331,7 @@ Assume that $\setG=(V,E,X)$
 satisfies the Progressing-domain condition PDC.
 Then the number of indexes $i \in[1,m]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ is
-$\le g\genfrac(){0pt}{1}{n}{k}$, for all $v \in \N$.
+$\le g\newton{n}{k}$, for all $v \in \N$.
 
 \end{enumerate}
 \end{lemma}
@@ -1389,9 +1400,9 @@ and $\val(\dom(R_i),\theta(i))=\val(\dom(R_j),\theta(j))=v$.
 By point \ref{lemma-stable-cardinality-injective-03} above
 we deduce that $\dom(R_i) \not = \dom(R_j)$.
 
-If $n = \Card(X)$ there are $\genfrac(){0pt}{1}{n}{k}$ 
+If $n = \Card(X)$ there are $\newton{n}{k}$ 
 different cardinality $k$ subsets of a set $X$. 
-If $g=\Card(V)$ there are at most $g\genfrac(){0pt}{1}{n}{k}$ indexes 
+If $g=\Card(V)$ there are at most $g\newton{n}{k}$ indexes 
 $i\in[1,m]$ such that $\Card(\dom(R_i))=k$
 and $\val(\dom(R_i),\theta(i))=v$ and 
 $\dom(\pi(i)) = \dom(\pi(j))$. 
@@ -1420,37 +1431,37 @@ Lemma \ref{lemma-stable-cardinality-injective}.
 \ref{lemma-stable-cardinality-injective-04} says that 
 each non-empty 
 constant-cardinality \emph{non-progressing} domain path on $\setR^\setG$
-has $\le g\genfrac(){0pt}{1}{n}{k}$ elements, that is, has
-length in $[1,  g\genfrac(){0pt}{1}{n}{k}]$. Then we can prove
+has $\le g\newton{n}{k}$ elements, that is, has
+length in $[1,  g\newton{n}{k}]$. Then we can prove
 point $1$ of Termination Theorem \ref{theorem-finiteness-value-flow-2}
 by induction on the distance between the length of the flow and
-$g\genfrac(){0pt}{1}{n}{k}$. 
-This is a value in $[0,g\genfrac(){0pt}{1}{n}{k}[$.
+$g\newton{n}{k}$. 
+This is a value in $[0,g\newton{n}{k}[$.
 
 \item
 %\label{theorem-finiteness-value-flow-2-2}
 We assume that $\pi:[1,l] \rightarrow E^+$ is a constant-cardinality
 path on $E$: we dropped the \quotationMarks{non-progressing} assumption. 
 We define a decreasing map $w$ from
-$(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  g\genfrac(){0pt}{1}{n}{k}[$.
+$(\pi,\theta) \in \setS$ to $[0,\infty] \times[0,  g\newton{n}{k}[$.
 We define $w(\pi,\theta) = (m,r)$ where 
 \begin{enumerate}
 \item
 $m = \val(\pi(l),\theta(l))$ is the last value of $\val(\pi(i),\theta(i))$ 
 \item
-$r = g\genfrac(){0pt}{1}{n}{k} - s$, 
+$r = g\newton{n}{k} - s$, 
 where $s \ge 1$ is the number of $i \in[1,m]$ 
 such that $\val(\pi(i),\theta(i)) = m$.
 \end{enumerate}
 By point \ref{theorem-finiteness-value-flow-2-1} 
-above we have $s \le g\genfrac(){0pt}{1}{n}{k}$,
-therefore $r \in [0, g\genfrac(){0pt}{1}{n}{k}[$.
+above we have $s \le g\newton{n}{k}$,
+therefore $r \in [0, g\newton{n}{k}[$.
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have constant-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $w(\pi,\theta) >
 w(\pi',\theta')$ in the lexicographic ordering. Suppose $w(\pi,\theta) = (m,r)$
-and $w(\pi',\theta') = (m',r')$ with $r = \genfrac(){0pt}{1}{n}{k} - s$,
-$r' = g\genfrac(){0pt}{1}{n}{k} - s'$, in order to prove $(m,r) > (m',r')$.
+and $w(\pi',\theta') = (m',r')$ with $r = \newton{n}{k} - s$,
+$r' = g\newton{n}{k} - s'$, in order to prove $(m,r) > (m',r')$.
 We have $m = \val(\pi'(l),\theta') \ge m' = \val(\pi'(l+1),\theta')$.
 If $m > m'$ then $(m,r) > (m',r')$. Suppose now that $m=m'$.
 Then the number of of $i \in[1,m]$ such that $\val(\pi(i),\theta(i)) = m$
@@ -1503,11 +1514,11 @@ defined $\pi_1$.
 We define a list of $n$ weights $W(\pi,\theta) = (w(\pi_1, \theta_1),
 \ldots, w(\pi_n, \theta_n))$ 
 for a length $l$ path $\pi$ with stable-cardinality. Each weight
-is some pair $(l,r) \in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$. 
+is some pair $(l,r) \in [0,\infty] \times [0,g\newton{n}{k}[$. 
 
 If there is no $i \in[1,m]$ such that $\Card(\dom(\universe{\pi(i)}))=k$
 then we set $w(\pi,\theta)_k = (\infty,0)  
-\in [0,\infty] \times [0,g\genfrac(){0pt}{1}{n}{k}[$.
+\in [0,\infty] \times [0,g\newton{n}{k}[$.
 
 Now we prove that if $(\pi,\theta)$, $(\pi',\theta')$ have stable-cardinality
 domains and $(\pi,\theta) <_1 (\pi',\theta')$, then $W(\pi,\theta) >
@@ -1761,10 +1772,10 @@ with a unique vertex.
 \end{enumerate}
 \end{definition}
 
-We already proved that $\kappa(g,n,k) \le g  \genfrac(){0pt}{1}{n}{k}-1$:
+We already proved that $\kappa(g,n,k) \le g  \newton{n}{k}-1$:
 see Theorem 
 \ref{theorem-finiteness-value-flow-2}.{theorem-finiteness-value-flow-2-1}.
-When $g=1$ we deduce $\kappa(n,k) \le \genfrac(){0pt}{1}{n}{k}-1$. 
+When $g=1$ we deduce $\kappa(n,k) \le \newton{n}{k}-1$. 
 
 Our aim is to prove the following lower bound result
 for one-vertex multigraph: $\kappa(n,k) \ge (n-k)k$, then
@@ -1772,11 +1783,11 @@ the following results for any multigraph: $\kappa(g,n,k) \ge g(n-k)k + (g-1)$
 We will obtain in this way a more precise interval for the value $\kappa(n,k)$:
 
 $$
-\kappa(n,k) \ \in \ [ (n-k)k,  \ \genfrac(){0pt}{1}{n}{k}-1 ]
+\kappa(n,k) \ \in \ [ (n-k)k,  \ \newton{n}{k}-1 ]
 $$
 
 For multigraphs with any number $g$ of vertices we will deduce the more general result:
-$\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \genfrac(){0pt}{1}{n}{k}-1 ]$.
+$\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \newton{n}{k}-1 ]$.
 Unfortunately, this is a wide iterval, with a polynomial lower bound and an exponential 
 upper bound, this is all we know for the moment.
 
@@ -1928,7 +1939,7 @@ $\dom(R_{a+1,b})$ if $b=n-k$ and $a<k$.
 
 \begin{corollary}[Lower bound for the Worst Case of 
 non-Progressing Constant-cardinality Path]
-$\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \genfrac(){0pt}{1}{n}{k}-1 ]$.
+$\kappa(g,n,k) \ \in \ [ g(n-k)k+(g-1),  \ g  \newton{n}{k}-1 ]$.
 \end{corollary}
 
 
@@ -2284,15 +2295,7 @@ value $\sigma(x)$, and all traces progresses at most $n-1$ times, where $n=\Card
 \section{New version of the paper on injectivity (from 2025)}
 \label{section-newversion}
 
-\newcommand{\size} 		          {{\tt s}}
-\newcommand{\state} 		       {{\tt S}}
-\newcommand{\minStable}    {{\tt m}}
-\newcommand{\unfold}          {{\tt u}}
-\newcommand{\height}           {{\tt h}}
-\newcommand{\setF} 		          {{\mathcal F}}
-\newcommand{\setU} 	          {{\mathcal U}}
-\newcommand{\cons}              {{\tt cons}}
-
+       
 \subsection{Notation for product}
 We write $N^+$ for the set of positive integers. 
 We use $a,b,c,d,e,f,g,h,i,j,k$ to denote elements of $N^+$. 
@@ -2518,7 +2521,7 @@ The index $\height(X,b)$ has a finite value, which is decreasing through station
 \begin{lemma} 
 \begin{enumerate}
 \item
-$\height(X,b) \le \Card(\setG_{\approx i}) \times \genfrac(){0pt}{1}{v}{k}$, where 
+$\height(X,b) \le \Card(\setG_{\approx i}) \times \newton{v}{k}$, where 
 $k = \Card(X)$.
 \item
 If $R$ is a relation between $C_b$ and $C_c$ and a stationary bijection between
@@ -4084,6 +4087,7 @@ measure is strictly decreasing w.r.t. $<$.
 
 
 \subsection{Constant-domain of Injective Bicolored Sequences}
+
 If $R= (\Stat,Prog)$ is a bicolored sequence, we define $\universe{R} = \Stat \cup \Prog$
 and if $\vec{R}=R_1, ldots, R_n$ is a bicolored sequence, we define
  $\universe{\vec{R}} = \universe{R_1}, \ldots, \universe{R_n}$.
@@ -4094,40 +4098,71 @@ satisfies the injective condition, the domain-stable
 condition, the constant domain condition. Namely, we move the properties of relation to 
 colored relation by forgetting colors.
 
+\begin{definition}[Stationary and progressing relation sequences]
+Assume $R$ is an colored relation and $\vec{R}=R_1, \ldots, R_n$ is any colored sequence 
+and $i \in [1,n-1]$.
+\begin{enumerate}
+
+\item
+We say that $R=(\Stat,\Prog)$ is progressing if $\Prog \not = \emptyset$, otherwise we say
+that $R$ is 
+
+\item
+We say that $\vec{R}$ is progressing in $i$ if and only if 
+$R_i \cap (\dom(R_i) \times \dom(R_{i+1}))$ is progressing,
+and that that $\vec{R}$ is stationary in $i$ otherwise.
+\end{enumerate}
+\end{definition}
+
 A constant-domain bicolored sequence $\vec{R}=R_1, ldots, R_n$
 of injective relations is stationary if and only if for all $i,j \in [1,n]$, $i < j$ we have
-$R_i \ldots R_{j-1} \cap (\dom(R_i) \times \dom(R_j))$ a stationary bijection.
+$R_i \ldots R_{j-1} \cap (\dom(R_i) \times \dom(R_j))$ stationary (and necessarily
+a stationary bijection).
 
 \begin{lemma}[Constant-domain sequence of injective relations]
 \label{lemma-constant-injective}
 A stationary constant-domain bicolored sequence $\vec{C}$ of injective bijections 
-with associated cardinality $\Card(\dom(C_1))=c$ has length 
-$< \genfrac(){0pt}{1}{\MaxInd}{c}$.
+with associated cardinality $\Card(\dom(C_1))=c$ has length $< \newton{\MaxInd}{c}$.
 \end{lemma}
 
 
 \begin{definition}[Degree of a constant-domain stable colored sequence]
-Assume $R,S$ is a constant-domain sequence of injective \emph{colored} relations. 
+Assume $\setR$ is a set of injective colored relations on $[1,\MaxInd]$ and
+$R,S$ is a constant-domain $\setR^+$-sequence. 
+
+We call any $d \in \N$ a degree of the pair $R,S$ 
+if and only if for some constant-domain $\setR^+$-sequence 
+$R_1, \ldots, R_n, S$ of relations in $\setR^+$ we have:
+
 \begin{enumerate}
-\item
-We call a constant-domain stable colored sequence $R_1, \ldots, R_n$ stationary if
-and only if for all $i \in[1,n-1]$ we have $R_i \cap (\dom(R_i) \times \dom(R_{i+1})$ 
-stationary.
 
 \item
-We call a degree of $R,S$ any $d \in \N+$ such that there is a constant-domain injective
-\emph{stationary} colored sequence $R_1, \ldots, R_d, S$ such that $R_1 \ldots R_d S = R S$.
+$R_1, \ldots, R_n, S$ is a constant-domain $\setR^+$-sequence with
+a \emph{stationary} suffix of $d$ elements. 
+
+\item
+$R_1 \ldots R_n = R$.
+
 \end{enumerate}
 \end{definition}
 
-An example. Let $\id = \{(i,i) | i \in \dom(S)\}$. Then $\id, S$ has degree $0$. 
+All pairs have degree $0$, if $R,S$ is stationary in the step $1$ then $d=1$ is a degree
+if we choose $n=1$, $R_1 = R$.
 
-A constant-domain stationary stable sequence $\vec{C}$ 
-of injective colored relations, with constant cardinality $c$,
-has length less than $\genfrac(){0pt}{1}{\MaxInd}{c}$. If $d$ is any of the degrees of
+A non-empty constant-domain stationary $\setR^+$-sequence $\vec{C}=C_1, \ldots, C_n$, 
+with constant cardinality $c$,
+has relations with distinct domain $\dom(C_1), \ldots, \dom(C_n)$. There are 
+$\newton{\MaxInd}{c}$ subsets of $[1,\MaxInd]$
+of cardinality $c$, therefore $n \le \newton{\MaxInd}{c}$. In the same way
+we prove that the longest stationary prefix of $\vec{C}$ has at most
+$\newton{\MaxInd}{c}$ elements. If $d$ is any of the degrees of
 $\vec{C}$, then we can extend $\vec{C}$ in a stationary way to 
 an constant-domain stationary stable sequence of injective colored relations for at most
-$\genfrac(){0pt}{1}{\MaxInd}{c}-1) $ times.
+$\newton{\MaxInd}{c}-d$ times. We have a bound to the
+number of constant-domain stationary stable injective extensions. $\newton{\MaxInd}{c}-1$
+is a bound for all $\vec{C}$, some constant-domain stationary $setR^+$-sequences
+have smaller bound, even $0$ when all constant-domain extensions in $\setR^+$
+are progressing.
 
 \begin{lemma}[Degree of a constant-domain sequence of injective colored relations]
 \label{lemma-degree-constant}
@@ -4135,12 +4170,12 @@ $\genfrac(){0pt}{1}{\MaxInd}{c}-1) $ times.
 
 \item
 If $R,S$ has degree $d$,
-and $R,S,T$ is constant-domain, injective stationary, with $c = \Card(\dom(R))$, then either 
+and $R,S,T$ is constant-domain $\setR^+$-sequence, with $c = \Card(\dom(R))$, then either 
 $S \cap \dom(S) \times \dom(T)$ is a progressing bijection on $\dom(S) \times \dom(T)$
 or $RS, T$ has degree $d+1$.
 
 \item
-If $R,S$ has degree $d$, then $< \genfrac(){0pt}{1}{\MaxInd}{c}$.
+If $R,S$ has degree $d$, then $d \le \newton{\MaxInd}{c}$.
 \end{enumerate}
 \end{lemma}
 
