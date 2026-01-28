@@ -1453,22 +1453,69 @@ $$
 \ldots\ldots\ldots
 \end{proof}
 
-\begin{corollary}[Length Boundgiven PDC, IC, Constant-Cardinality Domain]
-Assume $\setR^+$ satisfies PDC and the Injectivity Condition IC. 
-Assume $R_1, \ldots, R_n, R_{n+1} \setR$ is a constant-cardinality-domain sequence of 
+\begin{corollary}[Length Bound from PDC, IC, Constant-Cardinality Domain]
+\begin{enumerate}
+\item
+For all colored relations $R$: $size(\dom(R)) \ge \size(R)$.
+ 
+\item
+If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ then $\size(R_1) \ge \size(\dom(R_2))$.
+
+\item
+Assume $R_1,R_2$ is a constant-cardinality domain sequence 
+of injective colored relations.
+If $\size(R_1) = \size(R_2)$, then $\size(R_1) = \size(\dom(R_2)) = \size(R_2)$ and 
+$R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a
+stationary bijection.
+
+\item
+Assume $R_1, \ldots, R_n, R_{n+1}$ is a constant-cardinality-domain sequence of 
 relations in $\setR^+$ with domain-cardinality $c$.
-
 Suppose for some $k$
-we have $k = \size(R_1 \ldots R_i)$ for all $i \in [1,n+1]$. Then
-
-$$n+1 \le \newton{\MaxInd}{c}+1$$ 
+we have $\size(R_i) = k$ for all $i \in [1,n+1]$. Then $\size(\dom(R_i)) = k$
+for all $i \in [2,n+1]$ and 
+$R_i \cap (\dom(R_i) \times \dom(R_{i+1}))$ is a stationary bijection for all $i \in [2,n]$ and
+$$
+n \le \newton{\MaxInd}{c}+1
+$$ 
+\end{enumerate}
 \end{corollary}
 
+
 \begin{proof}
-By Lemma \ref{lemma-size-colored-relation} 
-$R_i \cap \dom(R_i) \times \dom(R_{i+1})$ is a stationary bijection for all $i \in [1,n ]$.
-This implies that the sets $\dom(R_i)$ are distinct for $i \in [1,n ]$, namely that 
-$n \le  \newton{\MaxInd}{c}$
+
+\begin{enumerate}
+\item
+For all $x \in \dom(R)$, $y \in R(x)$ from $x R y$ and the conditions 
+about coloring, this implies that $\size(x) \ge size(y)$. Thus, $\size(x) \ge \max(\size(R(x))$.
+We conclude that $size(\dom(R)) = \Sigma_{x \in \dom(R)} \size(x) \ge 
+\Sigma_{x \in \dom(R)} \max(\size(R(x)) = \size(R)$.
+
+\item
+If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection.
+then for all $y \in \dom(R_2)$ there is exactly one $x \in \dom(R_1)$
+such that $y \in R_1(x)$. The conditions about coloring imply that $\size(x) \ge size(y)$. 
+Thus, $ \size(R_1) = \Sigma_{x \in \dom(R_1)} \max(\size(R_1(x)) \ge 
+\Sigma_{y \in \dom(R_2)} \size(y) = \size(\dom(R_2)$.
+
+\item
+By $R_1, R_2$ constant-cardinality-domain sequence and $R_1, R_2$ injective and
+Lemma \ref{} we deduce that $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection.
+By points above we deduce that $\size(R_1) \ge \size(\dom(R_2)) \ge \size(R_2)$,
+and from $\size(R_1) = \size(R_2)$ we deduce 
+$\size(R_1) = \size(\dom(R_2)) = \size(R_2)$. 
+
+\item
+By Lemma \ref{lemma-size-colored-relation} $R_i \cap \dom(R_i) \times \dom(R_{i+1})$ 
+is a stationary bijection for all $i \in [1,n ]$. By the previous point we have 
+$\size(\dom(R_i)) = k$ for all $i \in [2,n+1]$. Thus, $R_i \cap (\dom(R_i) \times 
+\dom(R_{i+1}))$ is a stationary bijection for all $i \in [2,n]$, otherwise we would have
+$\size(\dom(R_i)) > \size(\dom(R_{i+1}))$
+By Lemma \ref{} implies that the sets $\dom(R_i)$ are distinct 
+for $i \in [2,n ]$, namely that they are at most $\newton{\MaxInd}{c}$.
+We conclude that $(n-2)+1 \le  \newton{\MaxInd}{c}$, that is, 
+$n \le \newton{\MaxInd}{c}+1$.
+\end{enumerate}
 \end{proof}
 
 
