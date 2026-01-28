@@ -48,6 +48,7 @@
 \newcommand{\cons}                       {{\tt cons}}
 \newcommand{\newton} [2]             {{\genfrac(){0pt}{1} {#1}{#2}}}
 \newcommand{\questionMarks} [1] {{‘‘#1’’}}
+\newcommand{\DomCard}               {{\tt DomCard}}
 %END MACRO
 
 \title{An Intuitionistic and First Order proof that GTC implies Correctness}
@@ -1601,7 +1602,7 @@ If $n=0$ then $M=()$
 is the only re-grouping of $\pi=()$ with $a=()$.
 \item
 Suppose $n \ge 1$ and we defined re-grouping and adjacence for all lists
-of length $\le n-1$ and $\pi=\pi_1 \star \pi_2 \star (c_n)$ 
+of length $\le n-1$ and $\pi = \pi_1 \star \pi_2 \star (c_n)$ 
 is any decomposition of $\pi$ into two possibly empty 
 consecutive sublists $\pi_1$, $\pi_2$, plus one element. 
 Assume $M$ is any re-grouping of $\pi_1$ with adjacence sequence $a$.
@@ -3221,15 +3222,15 @@ fixed. We will abbreviate \questionMarks{binary relations on $[1,\MaxInd]$} with
 \questionMarks{relations}. 
 
 \begin{definition}[Grouping]
-A grouping of a sequence $\vec{S} = S_1, \ldots, S_n$ of relations is defined by 
-induction on $n$ as follows.
+A grouping of a sequence $\vec{S} = S_1, \ldots, S_n$ of relations is a sequence
+of non-empty products of relations, defined by induction on $n$ as follows.
 \begin{enumerate}
 \item
 If $n=0$, then $\vec{S}$ (empty) is the unique grouping of $\vec{S}$.
 \item
-Suppose $T_1, \ldots, T_m$ is any grouping of $\vec{S}$. 
-Then $T_1, \ldots, T_{i-1}, (T_i\ldots T_m)$ is a grouping of 
-$\vec{S}$, for all $i \in [i,m]$. 
+Suppose $T_1, \ldots, T_m$ is any grouping of some $\vec{S}$. 
+Then $T_1, \ldots, T_{i-1}, (T_i \ldots T_m S)$ is a grouping of 
+$\vec{S},S$, for all $i \in [1,m]$. 
 \end{enumerate}
 \end{definition}
 
@@ -3241,9 +3242,10 @@ S_{a_2} \ldots S_{b_2}, \ \ \
 \ldots, \ \ \ 
 S_{a_{h+1}} \ldots S_{b_{h+1}}
 $$
-for some increasing sequence 
-$0 < b_1 < b_2 < i_3 < \ldots < b_h < b_{h+1} = n$, and with $a_0=1$, $a_{i+1} = b_i+1$ 
-for all $i \in [1,h]$.
+The segments $[a_1,b_1], \ldots, [a_{h+1},b_{h+1}]$ are a decomposition
+of $[1,n]$ into a disjoint union for some increasing sequence 
+$0 < b_1 < b_2 < i_3 < \ldots < b_h < b_{h+1} = n$. We necessarily have
+$a_0=1$ and $a_{i+1} = b_i+1$ for all $i \in [1,h]$. 
 
 Some trivial examples. 
 \begin{enumerate}
@@ -3251,9 +3253,8 @@ Some trivial examples.
 We can have $h=0$, $b_1=n$ and the trivial grouping consisting of a single product  
 $S_1 \ldots S_n$. 
 \item
-We can have $h=m$, $b_1=1$, \ldots, $b_m=n$ 
-and the trivial grouping consisting of the sequence 
-$S_1, \ldots, S_n$ itself, considered a sequence of unary products.
+We can have $h=m$, $b_1=1$, \ldots, $b_m=n$ and the trivial grouping consisting of the 
+sequence $S_1, \ldots, S_n$ itself, considered a sequence of unary products.
 \end{enumerate}
 
 We first define some domain inclusions and equalities 
@@ -3483,7 +3484,6 @@ by proving that
 
 \begin{enumerate}
 
-
 \item
 \ref{lemma-domain-stability-01} $\implies$ \ref{lemma-domain-stability-02}.
 
@@ -3623,122 +3623,19 @@ and therefore it is the maximum stable grouping, but it is trivial.
 
 Lexicographic ordering is total, therefore there is a minimum stable grouping.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 17:12 24/01/2026 Ridefinire \minStable(\vec{S}) a partire da \phi(\vec{S},\cdot)
-% dedurre l'attuale definizione di \minStable come proprietà ???
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{definition}[The Map $\minStable(\vec{S})$]
+\begin{definition}[The Minimum Stable Grouping]
 \label{definition-minstable}
 Assume $\vec{S}$ is any sequence of relations. We define 
 $\minStable(\vec{S})$ as the minimum stable grouping of $\vec{S}$ in the
 lexicographic ordering.
 \end{definition}
-%%%%%%%%%%%%%%%%%%%
-% ALTERNATIVE DEFINITION OF \minStable(\vec{S}) BY INDUCTION ON \vec{S}
-%%%%%%%%%%%%%%%%%%%
-%
-%We claim that minimum stable grouping can be computed  by the map $\minStable(\vec{S})$. 
-%
-%\begin{definition}[The Map $\minStable(\vec{S})$]
-%\label{definition-minstable}
-%Assume $\vec{S} = S_1, \ldots, S_n$. We define the map 
-%$\minStable(\vec{S})$ by induction on $n$.
-%\begin{enumerate}
-%\item
-%If $n=0$, then we set $\minStable(\vec{S}) = \vec{S} = $ the empty sequence.
-%\item
-%Suppose $\minStable(\vec{S}) = \vec{T} = T_1, \ldots, T_m$.
-%\begin{enumerate}
-%\item
-%if $\minStable(\vec{S}), S_{n+1}$ is stable, then we set
-%$\minStable(\vec{S}, S_{n+1}) = \minStable(\vec{S}), S_{n+1}$.
-%\item
-%if $\minStable(\vec{S}), S_{n+1}$ is \emph{not} stable, then we set
-%$\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, (T_i \ldots T_m S_{n+1})$, 
-%for the first $i \in [1,m]$ such that 
-%$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$,
-%\end{enumerate}
-%\end{enumerate}
-%\end{definition}
-%
-%We first check that $\minStable(\vec{S})$ is well-defined.
-%
-%
-%\begin{lemma}[$\minStable(\vec{S})$ is a total map]
-%\label{lemma-minstable-total}
-%For any sequence $\vec{S}$ of relations, $\minStable(\vec{S})$ is well-defined. 
-%\end{lemma}
-%
-%\begin{proof}
-%$\minStable(\vec{S})$ is defined from previously defined objects, except when 
-%$\minStable(\vec{S})S_{n+1}$ is \emph{not} domain-stable. In this case if
-%$\minStable(\vec{S})=\vec{T}=T_1, \ldots, T_m$ then
-%$\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, (T_i \ldots T_m S_{n+1})$, 
-%for the first $i \in [1,m]$ such that 
-%$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. We have to prove
-%that there is some $i \in [1,m]$ such that
-%$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. 
-%
-%Assume for contradiction that for all $i \in [1,m]$ we have 
-%$\dom(T_i \ldots T_m) \not \supset \dom(T_i \ldots T_m S_{n+1})$:
-%then  $\dom(T_i \ldots T_m) = \dom(T_i \ldots T_m S_{n+1})$ because we have
-%$\dom(T_i \ldots T_m) \supseteq \dom(T_i \ldots T_m S_{n+1})$ 
-%by Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}.
-%
-%From $\vec{T}$ stable we have $\dom(T_i) = \dom(T_i \ldots T_m)$
-%by Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}, 
-%therefore $\dom(T_i) = \dom(T_i \ldots T_m S_{n+1})$.
-%We conclude that $\minStable(\vec{S})S_{n+1}$ is stable, 
-%again by Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}, contradicting
-%the assumption that $\minStable(\vec{S})S_{n+1}$ is not stable.
-%\end{proof}
-%
-%\begin{lemma}[$\minStable(\vec{S})$ Stable Grouping]
-%\label{lemma-minStable-stable}
-%Let $\vec{S} = S_1, \ldots, S_n$.
-%Then $\minStable(\vec{S})$ of $\vec{S}$ is stable.
-%\end{lemma}
-%
-%\begin{proof}
-%We prove that $\minStable(\vec{S})$ is stable induction on $n$.
-%
-%\begin{enumerate}
-%\item
-%If $n=0$ then $\minStable(\vec{S})$ is empty and therefore it is stable.
-%\item
-%Assume $\minStable(\vec{S}) = T_1, \ldots, T_m$ is stable.
-%We argue by cases.
-%
-%\begin{enumerate}
-%\item
-%Assume $T_1, \ldots, T_m, S_{n+1}$ is stable. Then 
-%$\minStable(\vec{S}) = T_1, \ldots, T_m S_{n+1}$ is stable and we are done.
-%\item
-%Assume $T_1, \ldots, T_m, S_{n+1}$ is \emph{not} stable.
-%By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01},
-%we have $\dom(T_i \ldots T_m) \supseteq \dom(T_i \ldots T_m S_{n+1})$ for all
-%$i=1, \ldots, m$ and by $T_1, \ldots, T_m, S_{n+1}$ not stable  and 
-%$\minStable(\vec{S}S_{n+1})$ well-defined (Lemma \ref{lemma-minstable-total})
-%there is a first $i=1, \ldots, m$ such that 
-%$\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$. By the choice of $i$ we have 
-%$\dom(T_j \ldots T_m) = \dom(T_j \ldots T_m S_{n+1})$ for all $j \in [1,i-1]$. 
-%
-%From $T_1, \ldots, T_m$ stable and 
-%Lemma \ref{lemma-domain-stability-02}.\ref{lemma-domain-stability-02} 
-%we deduce 
-%$\dom(T_j) = \dom(T_j \ldots T_m)$, then 
-%$\dom(T_j) = \dom(T_j \ldots T_m) = \dom(T_j \ldots T_m S_{n+1})$ for all $j \in [1,i-1]$.
-%By Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04},
-%we conclude that $T_j, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$ is stable.
-%\end{enumerate}
-%\end{enumerate}
-%\end{proof}
 
-We provide an alternative characterization of the minimum stable grouping. Then using
-this characterization we will provide an alternative definition of $\minStable(\vec{S})$ by
-induction on $\vec{S}$, which is computable in polynomial time. We first need the
-notion of matching between 
+
+We provide an alternative characterization of the minimum stable grouping of $\vec{S}$
+using a map $\phi(\vec{S},\cdot) : [1,\MaxInd] \rightarrow  [1,\MaxInd]$. 
+Then using the map  map $\phi(\vec{S},\cdot)$ we will provide an alternative definition of 
+$\minStable(\vec{S})$ by induction on $\vec{S}$, which is computable in polynomial time. 
+We first need the notion of matching between $i,j \in [1,n]$.
 
 \begin{definition}[Stable Matching]
 Let $\vec{S} = S_1, \ldots, S_n$ and $i,j \in [1,n]$, $i \le j$.
@@ -3757,8 +3654,6 @@ Let $\vec{S} = S_1, \ldots, S_n$ and $i \in [1,n]$.
 We define the integer $\phi(\vec{S},i) \in [i,n]$ as the minimum stable matching $j\in [i,n]$ 
 of $i$ in $\vec{S}$. We write just $\phi(i)$ when $\vec{S}$ is clear from the context,
 \end{definition}
-
-%19:47 26/01/2026
 
 We define a stable grouping $\vec{S}^{\phi}$ of $\vec{S}$ using the map $\phi$.
 
@@ -3990,88 +3885,38 @@ of $\minStable(\vec{S},S_{n+1})$ is $S_{a_j} \ldots S_{\phi(\vec{S},S_{n+1},a_j)
 which is $S_{a_i} \ldots S_{\phi(\vec{S},a_j)}$, namely $T_j$.
 The product number $i$ is the last product and it is $S_{a_i} \ldots S_{n+1}$.
 
-We conclude that $\minStable(\vec{S}, S_{n+1}) = 
-T_1, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$.
+We conclude that 
+$\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$.
 \end{enumerate}
 \end{enumerate}
 \end{proof}
 
 
-%\begin{lemma}
-%\label{lemma-minstable-stable}
-%$\minStable(\vec{S})$ is the minimum stable grouping.
-%\end{lemma}
-%
-%%19:18 23/01/2026 RICONTROLLARE LA PROVA
-%
-%\begin{proof}
-%We do not build on the proof that $\minStable(\vec{S})$ is stable 
-%(\ref{lemma-minStable-stable}).
-%We assume that $\vec{R}$ is the lexicographic minimum stable grouping
-%and we prove that $\minStable(\vec{S})=\vec{R}$.
-%
-%Using the characterization above of $\vec{R}$ and by induction on the definition of  
-%$\minStable(\vec{S})$ we prove that $\vec{R} = \minStable(\vec{S})$.
-%
-%If $\vec{S}$ is empty, then $\vec{R} = \minStable(\vec{S}) = $ empty.
-%
-%Suppone that $\minStable(\vec{S})=\vec{R}$, namely both are: 
-%$$
-%(S_{a_1}\ldots S_{\phi(a_1)}), 
-% (S_{a_2}\ldots S_{\phi(a_2)}),
-%\ldots, 
-%S_{a_{h+1}}\ldots S_{\phi(a_{h+1})}
-%$$ 
-%where $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
-%for all $i \in [1,h]$ and $\phi(a_{h+1}) = n$. 
-%
-%Assume $\dom(T_i) =
-%\dom(T_i \ldots T_m S_{n+1})$ for all $i \in [1,n]$. 
-%Then $\vec{T}S_{n+1}$ is stable and by stability of $\vec{T}$ and 
-%Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
-%we get  $\dom(T_i) = \dom(T_i \ldots T_m)$.
-%
-%We deduce 
-%$\dom(T_i \ldots T_m) = \dom(T_i \ldots T_m S_{n+1})$, therefore
-%$\phi(\vec{S},a_i) = \phi(vec{S}S_{n+1},a_i)$ for all $i \in [1,m]$. Then
-%$\minStable(\vec{S})$ is 
-%$$
-%(S_{a_1}\ldots S_{\phi(a_1)}), 
-% (S_{a_2}\ldots S_{\phi(a_2)}),
-%\ldots, 
-%S_{a_{h+1}}\ldots S_{\phi(a_{h+1})},
-%S_{n+1}
-%$$ 
-%and so is the minimum stable grouping, because $\phi(\vec{S},i) =n+1$ adds a unary product
-%the minimum stable grouping.
-%
-%Assume $\phi(\vec{S},i) \not = \phi(vec{S}S_{n+1},i)$ for some $i \in [1,m]$. 
-%Then $\vec{T}S_{n+1}$ is not stable, otherwise we would have $\dom(T_i) =
-%\dom(T_i \ldots T_m)$ and $\dom(T_i) =
-%\dom(T_i \ldots T_mS_{n+1})$
-%Then the only possible value for $\phi(vec{S}S_{n+1},i)$ is $n+1$, given that
-%$S_i \ldots S_j = S_i \ldots S_{n}$.
-%\end{proof}
- 
-%09:49 25/01/2026
 
 \subsection{Injective Domain-Stable Relation Sequences}
+
+We first derive some inequalities for domain-cardinality
+valid for sequences of injective relations.
 
 \begin{lemma}[Injective Relation Sequences]
 \label{lemma-stable-sequences}
 Assume $R, S$, $\vec{R}=R_1, \ldots, R_n$ all are \emph{injective} relations.
 \begin{enumerate}
 \item
+%\label{lemma-stable-sequences-01}
 $\Card(\dom(RS)) \le \Card(\dom(S))$
 and if $\Card(\dom(RS)) \le \Card(\dom(S))$ then $R$ restricted to $\dom(R) \times \dom(S)$
 is a bijection.
 
 \item
+%\label{lemma-stable-sequences-02}
+For all $i,j \in [1,n]$, $i \le j$:
 $$
-\Card(\dom(R_1 \ldots R_n)) \le \Card(\dom(R_2 \ldots R_n)) \le \ldots \le \Card(\dom(R_n))
+\Card(\dom(R_i \ldots R_n)) \le \Card(\dom(R_j \ldots R_n))
 $$
 
 \item
+%\label{lemma-stable-sequences-03}
 If  $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$
 then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$
 is a bijection.
@@ -4099,7 +3944,8 @@ is a bijection.
 \item
 Let $i \in [1,n-1]$.
 From the point 1 above applied to $R = R_i$, $S = R_{i+1}\ldots R_n$ we deduce that
-$\Card(\dom(R_i R_{i+1}\ldots R_n)) \le \Card(\dom(R_{i+1} \ldots R_n))$
+$\Card(\dom(R_i R_{i+1}\ldots R_n)) \le \Card(\dom(R_{i+1} \ldots R_n))$. The thesis
+follows by induction on $j-i$.
 
 \item
 $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$.
@@ -4111,56 +3957,112 @@ is a bijection.
 \end{enumerate}
 \end{proof}
 
-%14:31 25/01/2026
+We derive more inequalities for domain-cardinality
+valid for \emph{stable} sequences of injective relations. 
+
 
 \begin{lemma}[Injective Domain-Stable Relation Sequences]
 \label{lemma-injective-stable-sequences}
 Assume $\vec{R}=R_1, \ldots, R_n$ is a \emph{domain-stable}
-sequence of injective relations.
+sequence of \emph{injective} relations.
 \begin{enumerate}
+
 \item
 \label{lemma-injective-stable-sequences-01}
 $$
-\Card(\dom(R_1)) \le \Card(\dom(R_2)) \le \ldots \le \Card(\dom(R_n))
+\forall i,j \in [1,n]. (i \le j) \implies \Card(\dom(R_i)) \le \Card(\dom(R_j))
 $$
 
 \item
 \label{lemma-injective-stable-sequences-02}
-If  $i, j \in[1,n]$ and $i \le j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$
-then $R_i \ldots R_j$ has domain $\dom(R_i)$ and
+If  $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$
+then $R_i \ldots R_{j-1}$ has domain $\dom(R_i)$ and
 when restricted to $\dom(R_i) \times \dom(R_j)$
 is a bijection.
 \end{enumerate}
 \end{lemma}
 
-We define constant-cardinality domain and weakly-increasing cardinality domain.
 
-\begin{definition}[Constant-Cardinality Domain and Weakly-increasing Cardinality Domain]
+\begin{proof}
+\begin{enumerate}
+
+\item
+%\label{lemma-injective-stable-sequences-01}
+Assume $i,j \in [1,n]$, $i \le j$. By stability and
+Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
+we have
+$\Card(\dom(R_i)) = \Card(\dom(R_i \ldots R_n))$ and
+$\Card(\dom(R_j)) = \Card(\dom(R_j \ldots R_n))$.
+By injectivity and Lemma \ref{lemma-stable-sequences}.\ref{lemma-stable-sequences-02}  
+we have 
+$\Card(\dom(R_i \ldots R_n)) \le \Card(\dom(R_j \ldots R_n))$.
+We conclude that 
+$\Card(\dom(R_i)) \le \Card(\dom(R_j))$.
+
+\item
+%\label{lemma-injective-stable-sequences-02}
+Assume $i,j \in [1,n]$, $i < j$. By stability and Lemma \ref{lemma-stable-sequences-03}
+$i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$
+then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$.
+By stability and
+Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
+we have
+$\dom(R_i) = \dom(R_i \ldots R_n)$ and
+$\dom(R_j) = \dom(R_j \ldots R_n)$ and
+$\Card(\dom(R_i)) = \Card(\dom(R_i \ldots R_n))$ and
+$\Card(\dom(R_j)) = \Card(\dom(R_j \ldots R_n))$.
+We conclude that if 
+ $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$
+then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i) \times \dom(R_j)$
+is a bijection.
+\end{enumerate}
+
+\end{proof}
+
+
+We define a property stronger than domain-stability: constant-cardinality domain.
+
+
+\begin{definition}[Constant-Cardinality Domain]
 Assume $\vec{S}=S_1, \ldots S_n$ is any sequence of relations.
 \begin{enumerate}
+
 \item
-$\vec{S}$ is a constant-cardinality domain sequence if and only if for all $i,j \in [1,n]$:
+$\vec{S}$ is a constant-cardinality domain sequence if and only if $\vec{S}$ is is stable
+and for all $i,j \in [1,n]$:
 $$
 \Card(\dom(S_i)) = \Card(\dom(S_j))
 $$
-If $\vec{S}$ is not empty then we call $\Card(S_1)$ the domain-cardinality of $\vec{S}$.
 
 \item
-$\vec{S}$ is a weakly-increasing-cardinality-domain sequence if and only if 
-for all $i,j \in [1,n]$, $i \le j$:
-$$
-\Card(\dom(S_i)) \le \Card(\dom(S_j))
-$$
+If $\vec{S}$ is not empty then we call $\DomCard(\vec{S}) = \Card(S_1)$ 
+the domain-cardinality of $\vec{S}$.
+
+\item
+A constant-cardinality component $\vec{C}$ of $\vec{S}$ is a maximal segment 
+in $\vec{S}$ which is a constant-cardinality domain sequence.
 \end{enumerate}
 \end{definition}
 
-Lemma  \ref{lemma-injective-stable-sequences}.\ref{lemma-injective-stable-sequences-01}
-says that every injective domain-stable sequence is a weakly-increasing-cardinality-domain
-sequence.
+If $\vec{S}=S_1, \ldots S_n$ is constant-cardinality domain, then $\Card(\dom(S_i)) = \Card(\dom(S_j))$ for all $i,j \in [1,n]$ and for all $k \in [i,n]$, $h \in [j,n]$ by
+stability we have
+$\Card(\dom(S_i)) =\Card(\dom(S_i \ldots S_k))$ and
+$\Card(\dom(S_j)) = \Card(\dom(S_j \ldots S_h))$. This means that all products of
+all segments in in $[i,j]$ have the same cardinality: 
+$\Card(\dom(S_i \ldots S_k)) = \Card(\dom(S_j \ldots S_h))$.
 
-Every weakly-increasing-cardinality-domain sequence $\vec{S}$ can be decomposed in a 
-unique way into a concatenation of non-empty constant-cardinality-domain sequences with 
-increasing cardinality domain. Namely we have:
+\begin{lemma}[Decomposing stable sequences of injective relations]
+Every stable sequence $\vec{S}$ of injective relations is equal to the 
+concatenation $\vec{C_1}, \ldots \vec{C_h}$
+of some non-empty constant-cardinality-domain components 
+such that $\DomCard(\vec{C_i})  < \DomCard(\vec{C_j})$ for all $i,j \in [1,h]$, $i < j$.
+\end{lemma}
+
+\begin{proof}
+We define $a_1=a$, $b_i = $ the last $j \in [i,n]$ such that 
+$\Card(\dom(S_{a_i})) = \Card(\dom(S_j))$, and if $b_i<n$ then $a_{i+1}=b_i+1$.
+Then for some $h \in [1,n]$ we have:
+
 $$
 \vec{S}
 =
@@ -4168,17 +4070,27 @@ S_{a_1},\ldots,S_{b_1}
 \ldots
 S_{a_{h}},\ldots,S_{b_{h}}
 $$
-with each $S_{a_{i}},\ldots,S_{b_{i}}$ constant cardinality domain and 
-$\Card(\dom(S_{a_i})) < \Card(\dom(S_{a_j}))$ for all $i,j \in [1,h]$, $i < j$.
-We call each subsequence $S_{a_{i}}, \ldots, S_{b_{i}}$ 
-a constant-cardinality-domain component of $\vec{S}$.
 
-If $\vec{R}= R_1, \ldots R_n$, $\vec{S}=S_1, \ldots, S_m$ we define
-$\vec{R} \subseteq \vec{S}$ as $n = m$ and $R_i \subseteq S_i$ for all $i \in [1,n]$.
+Each $S_{a_{i}},\ldots,S_{b_{i}}$ is a segment of $\vec{S}$, therefore it is stable
+by Lemma \ref{}, and all domains of $S_{a_{i}},\ldots,S_{b_{i}}$ have the same cardinality 
+by the choice of $b_i$. Thus, $S_{a_{i}},\ldots,S_{b_{i}}$ is a constant-cardinality domain. 
+
+By the choice of $b_i$ we also have $\Card(S_{b_{i}}) \not = \Card(S_{a_{i+1}})$.
+By Lemma \ref{} we deduce that
+$\Card(\dom(S_{a_i})) < \Card(\dom(S_{a_j}))$ for all $i,j \in [1,h]$, $i < j$.
+
+\end{proof}
+
+Remark that the subsequence $S_{a_{i}}, \ldots, S_{b_{i}}$ 
+are exactly the \emph{maximal} constant-cardinality-domain component of $\vec{S}$.
+
+We describe how the \emph{maximal} constant-cardinality-domain component of $\minStable(\vec{S})$ change as $\vec{S}$ increases.
+
+%17:15 27/01/2026
 
 \begin{lemma}[Constant-cardinality-domain Components and Domain-Stability]
 \label{lemma-cardinality-stability}
-Assume $\vec{S}, S_{n+1}$ is any sequence of injective relations, Suppose 
+Assume $\vec{S}, S_{n+1}$ is any sequence of injective relations. Suppose 
 the constant-cardinality-domain components of $\minStable(\vec{S})$ and 
 $\minStable(\vec{S}, S_{n+1})$ are, respectively, 
 $$
@@ -4579,21 +4491,71 @@ namely it is $2^{O(\MaxInd^3)}$ again. Therefore the total cost is poly-exponent
 %If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ and $\vec{S}$ is the Minimum Stable
 %grouping of $\vec{R} $ then we set $\size(\vec{R})  = \size(\vec{S}) $.
 
+\subsection{A Ranking Function}
 We define a ranking function. Assume $\vec{S}$ has minimum stable grouping 
-$\vec{R} = R_1, \ldots, R_n$.
-The size $\size(\vec{S})$ of the state of $\vec{S}$ are made with the size of the domains
-$\dom(R_{a_1}\ldots R_{a_2-1}), \ldots, \dom(R_{a_h}\ldots R_{n})$, whose
-cardinality are, respectively, $c_1, \ldots, c_h$, and whose total cardinality is 
-$c_1 + \ldots c_h$, which is $\le 1+\ldots+\MaxInd = \MaxInd(\MaxInd+1)/2$. We add
-this number of variables and we assume the set $Eq(\vec{S})$ of equations and unequations 
-between old and new variables which are expressed by $R_1, \ldots, R_n$. 
-We choose any vector $\vec{z}$ of length $\le \MaxInd$, each bud of the proof, we assume that if $Eq(\vec{S})$ holds and $\size(\vec{S}) < \vec{z}$ 
-then the cyclic proof derives the conclusion whenever $Eq(\vec{S})$ holds and 
-$\size(\vec{S}) \le \vec{z}$. In particular the conclusion is true when $\vec{S}=$ empty, 
-$Eq(\vec{S}) = \emptyset$ and $\vec{z} = (z) = \size(\vec{S}) = $ the sum of sizes of
-the inductive formulas in the left-hand-side of the conclusion. 
+$\minStable{\vec{C}} = \vec{R} = R_1, \ldots, R_n$. Assume there are $h$ maximal
+constant-cardinality domain components, and the component number $i$ is  
+$R_{a_i}, \ldots ,R_{b_i}$, with $c_i  = \Card(R_{a_i})$.  
 
-This derives the conclusion, as wished.
+We associate to each colored $R$ and each node $\alpha$ an index $\size(\alpha, R) =
+\Sigma_{x \in \dom(R)} \max(\size(R(x))$, with $\size(X)=\Sigma_{x \in X} \size(x)$
+and if the inductive formula number $x$ of $\alpha$ is $\N(t)$, then $\size(x) =t$.
+
+\begin{lemma}[Size of a Colored Relation Eventually Decreases]
+\label{lemma-size-colored-relation}
+Assume $\setR^+$ satisfies PDC and the Injectivity Condition IC. 
+Assume $R_1, \ldots, R_n, R_{n+1} \setR$ is a constant-cardinality-domain sequence of 
+relations in $\setR^+$. Then:
+
+$$
+\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})
+\implies
+R_n \cap \dom(R_{n}) \times \dom(R_{n+1}) \mbox{ stationary }
+$$
+\end{lemma}
+
+\begin{proof}
+\ldots\ldots\ldots
+\end{proof}
+
+\begin{corollary}[Length Boundgiven PDC, IC, Constant-Cardinality Domain]
+Assume $\setR^+$ satisfies PDC and the Injectivity Condition IC. 
+Assume $R_1, \ldots, R_n, R_{n+1} \setR$ is a constant-cardinality-domain sequence of 
+relations in $\setR^+$ with domain-cardinality $c$.
+
+Suppose for some $k$
+we have $k = \size(R_1 \ldots R_i)$ for all $i \in [1,n+1]$. Then
+
+$$n+1 \le \newton{\MaxInd}{c}+1$$ 
+\end{corollary}
+
+\begin{proof}
+By Lemma \ref{lemma-size-colored-relation} 
+$R_i \cap \dom(R_i) \times \dom(R_{i+1})$ is a stationary bijection for all $i \in [1,n ]$.
+This implies that the sets $\dom(R_i)$ are distinct for $i \in [1,n ]$, namely that 
+$n \le  \newton{\MaxInd}{c}$
+\end{proof}
+
+
+We define $Eq(\alpha, \beta)$ the set of equations $\size(x) > \size(y)$ such that the
+the inductive formula number $x$ of $\alpha$ progresses to the inductive formula number $y$
+ of $\beta$.
+ 
+ We associate to $\alpha$ and $\vec{S}$ a list 
+ $f(\alpha,\vec{S})=(l_1, \ldots, l_h)$ elements, with the element 
+ number $i$ equal to 
+ $(
+ c_i, 
+ \size(\alpha, R_{b_i}\ldots, R_n), 
+ \newton{\MaxInd}{c_i} - \deg(R_{a_i} \ldots R_{b_i-1}, R_{b_i})
+ )$.
+ 
+
+We claim that if $\beta$ is a bud with companion $\alpha$, then 
+$Eq(\alpha, \beta) \vdash f(\alpha,\vec{S}) > f(\beta,\vec{S})$
+
+The minimum of all $f(\alpha,\vec{S})$ for all $\vec{S}$ is the required ranking function.
+We represent $\vec{S}$ with $h$ pairs of the form $(R_{a_i}\ldots R_{b_i-1}),R_{b_i}$
 
 
 
