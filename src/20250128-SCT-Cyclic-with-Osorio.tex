@@ -50,6 +50,8 @@
 \newcommand{\questionMarks} [1] {{‘‘#1’’}}
 \newcommand{\DomCard}               {{\tt DomCard}}
 \newcommand{\MaxInd}                  {{\tt M}}
+\newcommand{\DomIncr}                {{\tt DomIncr}}
+\newcommand{\trans}                       {{\tt trans}}
 %END MACRO
 
 \title{A Poly-exponential Translation from Injective Cyclic to Inductive Proofs}
@@ -367,7 +369,7 @@ or equivalently $\Card(\dom(S_i)) =  \Card(\dom(S_i \ldots S_j))$.
 
 \item
 \label{lemma-domain-stability-03}
-all grouping and all prefixes of $\vec{S}$ are stable.
+all grouping and all subsegments of $\vec{S}$ are stable.
 
 \item 
 \label{lemma-domain-stability-04}
@@ -383,6 +385,7 @@ $$
 \end{lemma}
 
 \begin{proof}
+
 We can equivalently restate $\dom(S_i) =  \dom(S_i \ldots S_j)$ as
 $\Card(\dom(S_i)) =  \Card(\dom(S_i \ldots S_j))$, 
 given that we have $\dom(S_i) \supseteq  \dom(S_i \ldots S_j)$ 
@@ -448,9 +451,9 @@ we conclude that $\dom(S_i) =  \dom((S_i \ldots S_{j-1}) S_j S_{j+1})$, as wishe
 We assume point \ref{lemma-domain-stability-02}: 
 for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i)  =  \dom(S_i \ldots S_j)$,
 in order to prove point \ref{lemma-domain-stability-03}:
-all prefixes and grouping of $\vec{S}$ are stable. 
+all subsegments and grouping of $\vec{S}$ are stable. 
 
-All prefixes are stable because the finite quantification defining stability for a prefix 
+All subsegments are stable because the finite quantification defining stability for a subsegment 
 is a restriction of the finite quantification defining stability for the sequence. 
 
 We prove that all grouping of $\vec{S}$ are stable. We assume that
@@ -983,7 +986,7 @@ If $\vec{S}=S_1, \ldots S_n$ is constant-cardinality domain, then $\Card(\dom(S_
 stability we have
 $\Card(\dom(S_i)) =\Card(\dom(S_i \ldots S_k))$ and
 $\Card(\dom(S_j)) = \Card(\dom(S_j \ldots S_h))$. This means that all products of
-all segments in in $[i,j]$ have the same cardinality: 
+all segments in in $[1,n]$ have domains of the same cardinality: 
 $\Card(\dom(S_i \ldots S_k)) = \Card(\dom(S_j \ldots S_h))$.
 
 \begin{lemma}[Decomposing stable sequences of injective relations]
@@ -994,8 +997,8 @@ such that $\DomCard(\vec{C_i})  < \DomCard(\vec{C_j})$ for all $i,j \in [1,h]$, 
 \end{lemma}
 
 \begin{proof}
-We define $a_1=a$, $b_i = $ the last $j \in [i,n]$ such that 
-$\Card(\dom(S_{a_i})) = \Card(\dom(S_j))$, and if $b_i<n$ then $a_{i+1}=b_i+1$.
+We define $a_1=1$, $b_i = $ the last $j \in [i,n]$ such that 
+$\Card(\dom(S_{a_i})) = \Card(\dom(S_j))$, and if $b_i<n$ then $a_{i+1}=b_i + 1$.
 Then for some $h \in [1,n]$ we have:
 
 $$
@@ -1006,20 +1009,59 @@ S_{a_1},\ldots,S_{b_1}
 S_{a_{h}},\ldots,S_{b_{h}}
 $$
 
-Each $S_{a_{i}},\ldots,S_{b_{i}}$ is a segment of $\vec{S}$, therefore it is stable
-by Lemma \ref{}, and all domains of $S_{a_{i}},\ldots,S_{b_{i}}$ have the same cardinality 
-by the choice of $b_i$. Thus, $S_{a_{i}},\ldots,S_{b_{i}}$ is a constant-cardinality domain. 
+Each $S_{a_{i}},\ldots,S_{b_{i}}$ is a sub-segment of $\vec{S}$, therefore it is stable
+by Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}, 
+and all sets $\dom(S_{a_{i}}), \ldots, \dom(S_{b_{i}})$ have the same cardinality 
+by the choice of $b_i$. 
+Thus, each $S_{a_{i}},\ldots,S_{b_{i}}$ is a constant-cardinality domain. 
 
-By the choice of $b_i$ we also have $\Card(S_{b_{i}}) \not = \Card(S_{a_{i+1}})$.
-By Lemma \ref{} we deduce that
-$\Card(\dom(S_{a_i})) < \Card(\dom(S_{a_j}))$ for all $i,j \in [1,h]$, $i < j$.
+By Lemma \ref{lemma-injective-stable-sequences}.\ref{lemma-injective-stable-sequences-01}
+we have $\Card(\dom(S_{a_i})) \le \Card(\dom(S_{a_{i+1}}))$ for all $i \in [1,h-1]$.
+By the choice of $b_i$ we also have 
+$\Card(S_{a_{i}}) = \Card(S_{b_{i}}) \not = \Card(S_{a_{i+1}})$.
+We deduce that
+$\Card(\dom(S_{a_i})) <  \Card(\dom(S_{a_{i+1}}))$ for all $i \in [1,h-1]$.
+We conclude  that
+$\Card(\dom(S_{a_i})) <  \Card(\dom(S_{a_{j}}))$ for all $i,j \in [1,h]$, $i < j$,
+by induction on $j$.
 
 \end{proof}
 
 Remark that the subsequence $S_{a_{i}}, \ldots, S_{b_{i}}$ 
-are exactly the \emph{maximal} constant-cardinality-domain component of $\vec{S}$.
+are exactly the \emph{maximal} constant-cardinality-domain components of $\vec{S}$.
 
-We describe how the \emph{maximal} constant-cardinality-domain component of $\minStable(\vec{S})$ change as $\vec{S}$ increases.
+\begin{definition}[Suffixes of $\vec{S}$ with increasing cardinality] 
+Assume $\vec{S}$ is sequence of injective relations. 
+\begin{enumerate}
+
+\item
+Assume $\vec{S}$ is stable. Suppose $a_i$ is the first index of 
+$S_{a_{i}}, \ldots, S_{b_{i}}$,
+the $i$-th constant-cardinality-domain component of $\vec{S}$, with $i \in [1,h]$.
+We set
+$$
+\DomIncr(\vec{S}) = \{S_{a_i} \ldots S_n | i \in [1,h] \}
+$$
+
+\item
+In general we set 
+$$
+\DomIncr(\vec{S}) = \DomIncr(\minStable(\vec{S}))
+$$
+\end{enumerate}
+\end{definition}
+
+
+
+$\DomIncr(\vec{S}) $ is a finite information, no matter what is the size of $\vec{S}$,
+and can be defined by induction on $\vec{S}$.
+
+%15:39 29/01/2026
+
+In order to inductively define $\DomIncr(\vec{S}) $, we have to describe how the 
+\emph{maximal} constant-cardinality-domain component of $\minStable(\vec{S})$ 
+change as $\vec{S}$ increases.
+
 
 %17:15 27/01/2026
 
@@ -1033,21 +1075,26 @@ $$
 $$
 Then either $h=k+1$ and
 $$
-\vec{C_j} = \vec{D_j} \ \ \ \mbox{ for all $j \in [1,k]$ }
+\vec{C_j} = \vec{D_j} \ \ \ \mbox{ for all $j \in [1,k]$ }   \mbox{ and } \vec{D_h} = S_{n+1}
 $$
 or for some $i \in [1,h] \cap [1,k]$, and for $c_i = $ the domain-cardinality associated to 
-$\vec{C_i}$ and for some colored relation $R$ we have $h=i$ and
+$\vec{C_i}$ and $h=i$ and
 $$
 \vec{C_j} = \vec{D_j} \ \ \ \mbox{ for all $j \in [1,i-1]$}
 $$
-and
+and for $R$ product of $\vec{C_{i+1}}, \ldots,\vec{C_k}, S_{n+1})$,
+$S$ product of $\vec{C_{i}}, \vec{C_{i+1}}, \ldots,\vec{C_k}, S_{n+1})$
 $$
-\mbox{ either } \ \ \ c_i > d_i   \mbox{ and } \vec{D_i} = R
-\mbox{ or }      \ \ \ (c_i = d_i) \mbox{ and } \vec{D_i} = \vec{C_i}, R \ \ \ 
+\mbox{ either } (c_i > d_i)   
+\mbox{ and } \vec{D_i} = S  \ \ \ 
+\mbox{ or }    (c_i = d_i)
+\mbox{ and } \vec{D_i} = \vec{C_i}, R
 $$
 \end{lemma}
 
+\begin{proof}
 
+\end{proof}
 
 Lemma \ref{lemma-cardinality-stability} above has the following use. Suppose we have
 \begin{enumerate}
@@ -1108,60 +1155,114 @@ A stationary constant-domain bicolored sequence $\vec{C}$ of injective bijection
 with associated cardinality $\Card(\dom(C_1))=c$ has length $< \newton{\MaxInd}{c}$.
 \end{lemma}
 
+%%%%%%%%%%%%%%%%%%%%
+% NOT YET  CORRECT
+%%%%%%%%%%%%%%%%%%%%
+%\begin{definition}[Degree of a constant-domain stable colored sequence]
+%Assume $\setR$ is a set of injective colored relations on $[1,\MaxInd]$ and
+%$R,S$ is a constant-domain $\setR^+$-sequence. 
+%
+%We call any $d \in \N$ a degree of the pair $R,S$ 
+%if and only if for some constant-domain $\setR^+$-sequence 
+%$R_1, \ldots, R_n, S$ of relations in $\setR^+$ we have:
+%
+%\begin{enumerate}
+%
+%\item
+%$R_1, \ldots, R_n, S$ is a constant-domain $\setR^+$-sequence with
+%a \emph{stationary} suffix of $d$ elements. 
+%
+%\item
+%$R_1 \ldots R_n = R$.
+%
+%\end{enumerate}
+%\end{definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{definition}[Degree of a constant-domain stable colored sequence]
-Assume $\setR$ is a set of injective colored relations on $[1,\MaxInd]$ and
-$R,S$ is a constant-domain $\setR^+$-sequence. 
+We say that $R \in \setR^+$ has stationary degree $d \in \N$ if and only if
+$R$ can be decomposed as a product in $\setR^+$ having a suffix 
+$R_1, \ldots, R_{d}$ such that all $R_i$ are stationary 
+$\dom(R_i) \times \dom(R_{i+1})$. All traces in the product must move from 
+$\dom(R_i)$ to $\dom(R_{i+1})$ through $R_i$, therefore must have $d$ consecutive
+stationary steps. 
 
-We call any $d \in \N$ a degree of the pair $R,S$ 
-if and only if for some constant-domain $\setR^+$-sequence 
-$R_1, \ldots, R_n, S$ of relations in $\setR^+$ we have:
+\begin{definition}[Stationary Degree of a Colored Relation]
+Assume $\setR$ is a set of injective colored relations on $[1,\MaxInd]$
+$R \in \setR^+$. 
+
+We call any $d \in \N$ a stationary degree of $R$  in $\setR^+$ 
+if and only if for some constant-cardinality domain sequence 
+$S, R_1, \ldots, R_{d+1}$ in $\setR^+$ we have:
 
 \begin{enumerate}
 
 \item
-$R_1, \ldots, R_n, S$ is a constant-domain $\setR^+$-sequence with
-a \emph{stationary} suffix of $d$ elements. 
+$R_i \cap \dom(R_i) \times \dom(R_{i+1})$ is a stationary for all $i \in [1,d]$. 
 
 \item
-$R_1 \ldots R_n = R$.
+$S R_1 \ldots R_{d+1} = R$.
 
 \end{enumerate}
 \end{definition}
 
-All pairs have degree $0$, if $R,S$ is stationary in the step $1$ then $d=1$ is a degree
-if we choose $n=1$, $R_1 = R$.
+All $R \in \setR^+$ have at least one stationary degree in $\setR^+$, which is $0$. 
+Suppose $R  \in \setR^+$ has stationary degree $d$, namely $R$ decomposes as 
+$S R_1 \ldots R_{n+1}$ with all $R_i \cap \dom(R_i) \times \dom(R_{i+1})$
+stationary. 
 
-A non-empty constant-domain stationary $\setR^+$-sequence $\vec{C}=C_1, \ldots, C_n$, 
-with constant cardinality $c$,
-has relations with distinct domain $\dom(C_1), \ldots, \dom(C_n)$. There are 
-$\newton{\MaxInd}{c}$ subsets of $[1,\MaxInd]$
-of cardinality $c$, therefore $n \le \newton{\MaxInd}{c}$. In the same way
-we prove that the longest stationary prefix of $\vec{C}$ has at most
-$\newton{\MaxInd}{c}$ elements. If $d$ is any of the degrees of
-$\vec{C}$, then we can extend $\vec{C}$ in a stationary way to 
-an constant-domain stationary stable sequence of injective colored relations for at most
-$\newton{\MaxInd}{c}-d$ times. We have a bound to the
-number of constant-domain stationary stable injective extensions. $\newton{\MaxInd}{c}-1$
-is a bound for all $\vec{C}$, some constant-domain stationary $setR^+$-sequences
-have smaller bound, even $0$ when all constant-domain extensions in $\setR^+$
-are progressing.
+For all $i, j \in [1,d]$, $i \le j$ we have $R_i \ldots R_j \cap \dom(R_i) \times \dom(R_{j+1})$
+equal to the product of all $R_i \cap \dom(R_i) \times \dom(R_{i+1})$, 
+\ldots, $R_j \cap \dom(R_j) \times \dom(R_{j+1})$ and therefore it is stationary.
+
+
+
 
 \begin{lemma}[Degree of a constant-domain sequence of injective colored relations]
 \label{lemma-degree-constant}
 \begin{enumerate}
 
 \item
-If $R,S$ has degree $d$,
-and $R,S,T$ is constant-domain $\setR^+$-sequence, with $c = \Card(\dom(R))$, then either 
+If $S, R_1, \ldots, R_{d+1},T$ has stationary degree $d$,
+Assume $S, R_1, \ldots, R_{d+1},T$ is constant-domain $\setR^+$-sequence, with 
+$c = \Card(\dom(S))$ the domain-cardinality of the sequence. Then either 
 $S \cap \dom(S) \times \dom(T)$ is a progressing bijection on $\dom(S) \times \dom(T)$
 or $RS, T$ has degree $d+1$.
 
 \item
+Suppose $\setR^+$ stisfies PDC.
 If $R,S$ has degree $d$, then $d \le \newton{\MaxInd}{c}$.
 \end{enumerate}
 \end{lemma}
 
+\begin{proof}
+\begin{enumerate}
+\item
+Suppose that for
+some $ T \in \setR^+$ the sequence $S, R_1, \ldots, R_{d+1}$ has constant domain-cardinality.
+If $R_{d+1} \cap \dom(R_{d+1}) \times T)$ is progressing we are done.
+Suppose $R_{d+1} \cap \dom(R_{d+1}) \times T)$ is stationary. 
+Then $RT \in \setR^+$ has stationary degree $d+1$.
+
+\item
+$S, R_1, \ldots, R_{d+1}$ has constant-cardinality domain, therefore it is stable
+and $\dom(R_i \ldots R_j) = \dom(R_i)$. If $\setR^+$ satisfies PDC, then 
+$R_i \ldots R_j$ is progressing from $\dom(R_i \ldots R_j)$ to $\dom(R_i \ldots R_j)$,
+namely from  $\dom(R_i)$ to $\dom(R_i)$. Instead $R_i \ldots R_j$ is \emph{not}
+progressing from  $\dom(R_i)$ to $\dom(R_{j+1})$, this forces 
+$\dom(R_i) \not = \dom(R_{j+1})$.
+Let $c = \Card(\dom(R_1))$ the common 
+domain cardinality of $R$ and of all products of consecutive elements of 
+$S, R_1, \ldots, R_{d+1}$. 
+There are $\newton{\MaxInd}{c}$ subsets of $[1,\MaxInd]$
+of cardinality $c$, therefore $d \le \newton{\MaxInd}{c}$. 
+If $d$ is any of the degrees of
+$\vec{C}$, then we can extend $\vec{C}$ in a stationary way to 
+an constant-domain stationary sequence of colored relations for at most
+$\newton{\MaxInd}{c}-d$ times. When $\newton{\MaxInd}{c}-d=0$, in 
+all constant-domain extensions $S, R_1, \ldots, R_{d+1},T$ of the sequence
+the relation $R_{d+1}$ is progressing between $\dom(R_{d+1})$ and $\dom(T)$.
+\end{enumerate}
+\end{proof}
 
 
 \newpage   \section{Injective bicolored Relation Sequences}
@@ -1188,14 +1289,16 @@ $$
 $$ 
 The subsequence number $i$ has constant value $c_i$.
 
-Suppose:
-\begin{enumerate}
-\item
-$R_1, \ldots, R_n \in \setR^+$ (hence each $R_i$ is injective and satisfies PDC) 
-\item
-Suppose $R_1, \ldots, R_n$ is stable. 
-\end{enumerate}
-Set $D_i = \dom(R_i)$ for all $i \in [1,n]$.
+%Suppose:
+%\begin{enumerate}
+%\item
+%$R_1, \ldots, R_n \in \setR^+$ (hence each $R_i$ is injective and satisfies PDC) 
+%\item
+%Suppose $R_1, \ldots, R_n$ is stable. 
+%\end{enumerate}
+%Set $D_i = \dom(R_i)$ for all $i \in [1,n]$.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % 20:36 24/01/2026
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1210,36 +1313,45 @@ Set $D_i = \dom(R_i)$ for all $i \in [1,n]$.
 % 2^\MaxInd e (2^\MaxInd - 1 - \deg(\vec{R},j))  
 % con M+1 e con (M - \deg(\vec{R},j)) 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-% (iii). Altro miglioramento: se tutte le immagini della componente di cardinalità h non 
-% decrescono nel passaggio nelle componenti successive, si possono eliminare nelle
-% componenti successive, perché se decrescono entro la componente di cardinalità h
+% (iii). Altro miglioramento: se un elemento della componente di cardinalità h ha
+% una sola immagine nella componente successiva, si può eliminare nella
+% nella componente successiva, perché se decresce entro la componente di cardinalità h
 % allora la componente di cardinalità h decresce e le successive sono irrilevanti.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\begin{lemma}
+%\begin{lemma}
+%\begin{enumerate}
+%\item
+%If $i,j \in [1,n]$, $i<j$ and $D_i = D_j$ then $R_i \ldots R_j$ is progressing on $D_i$.
+%\item
+%If  $i,j \in [1,n]$, $i<j$ and $\Card(D_i) = \Card(D_j)$ and $j-i \ge 2^{\MaxInd}$ 
+%then $R_i \ldots R_j$ is progressing on $D_i$.
+%\end{enumerate}
+%\end{lemma}
+
+We assume having for each predicate a size map $\size : Assignments, 
+[1,\MaxInd] \rightarrow \N^+$, returning an expression denoting a 
+\emph{positive} integer. We require that:
 \begin{enumerate}
 \item
-If $i,j \in [1,n]$, $i<j$ and $D_i = D_j$ then $R_i \ldots R_j$ is progressing on $D_i$.
+if $q(\vec{t})$ is the inductive formula number $i$, 
+and $\sigma$ is a closed assigment making $q(\sigma(\vec{t}))$ derivable with inductive
+rules, then $q(\sigma(\vec{t}))$ is derivable with some proof $\Pi$ with
+$\sigma(\size(\alpha,i))$ inductive rules.
 \item
-If  $i,j \in [1,n]$, $i<j$ and $\Card(D_i) = \Card(D_j)$ and $j-i \ge 2^{\MaxInd}$ 
-then $R_i \ldots R_j$ is progressing on $D_i$.
+if $q(\vec{u})$ is the inductive formula number $j$ and
+and $q(\sigma(\vec{u}))$ is an assumption
+of the conclusion of $\Pi$, then $\size(\sigma,j) < \sigma(\sigma,i)$. 
 \end{enumerate}
-\end{lemma}
+We usually skip $\alpha$ and we just write $\size(i), \size(j)$.
 
-We assume having for each predicate a size map $\size : Assignements, 
-[1,\MaxInd] \rightarrow \N$,
-such that if $q(\vec{u})$ is the inductive formula number $i$, if $q(\vec{t})$ is the inductive
-formula number $j$ and $\sigma$ is an assigment, and $q(\sigma(\vec{u}))$ is an assumption
-of the proof of $q(\sigma(\vec{t}))$, then $\size(\sigma,i) < \sigma(\sigma,j)$. We usually 
-skip $\sigma$ and we write $\sigma(i), \sigma(j)$.
-
-We include some examples of size map. The first example is the size map counting the
-inductive rules in the proof of $q(\vec{t})$.
+We include some examples of size map, counting the
+inductive rules in the proof of a closure of $q(\vec{t})$.
 
 \begin{enumerate}
 \item 
-if $q(\vec{t}) = \N(v)$, then $$\sigma(i)=v+1$$ because if $v$ has value $a$ 
+if $q(\vec{t}) = \N(v)$, then $$\size(i)=v+1$$ because if $v$ has value $a$ 
 then $v=S^a(0)$ and the proof of $\N(v)$ has $a$ times an $S$-rule and $1$-time
 the $0$-rule.
 
@@ -1251,159 +1363,303 @@ the we add the total size of all elements of $l$.
 
 \item
 If $q(\vec{t}) = \Tree(t)$ states that $t$ is a binary tree with labels in $\N$, 
-then $\size(i)$ is any expression counting the number of rules for nodes in $t$, plus the size
-of all labels of $t$.
+then $\size(i)$ is any expression counting the nodes in $t$, plus the size
+of all labels of the nodes $t$.
 \end{enumerate}
 
-Alternatively, the size map can count the maximum nesting of inductive rules in the proof of $q(\vec{t})$. In this case the size of $\N(v)$ is $v$ itself.
+Alternatively, the size map can count the maximum length of sequence of 
+inductive rules in the proof of $q(\vec{t})$. In this case the size of $\N(v)$ is $v+1$ again,
+but the size of a list or of a tree can be smaller.
 \\
 
-We claim that after at most $2^\MaxInd$ steps any constant-domain sequence progresses.
-We formally express this fact through the notion of degree.
-
-\begin{definition}[Degree of an Index in a Domain-Stable Injective Sequence]
-The degree $\deg(j,\vec{R})$ of $j \in [1,n]$ in 
-$\vec{R} = R_1, \ldots, R_n$ as above is $2^\MaxInd-1-d$, for $d$ the minimum distance of
-an index $i \le j$ such that at least one of the following happens:
-\begin{enumerate}
-\item
-$i=1$
-\item
-$i>1$ and $\Card(D_{i-1}) < \Card(D_j)$
-\item
-$R_{i} \ldots R_j$ is progressing between $D_i$ and $D_j$.
-\end{enumerate}
-If $X \subseteq [1,\MaxInd]$, we set $\size(X) = \Sigma_{i \in X} \size(i)$.
-\end{definition}
+%We claim that after at most $2^\MaxInd$ steps any constant-domain sequence progresses.
+%We formally express this fact through the notion of degree.
+% 
+%\begin{definition}[Degree of an Index in a Domain-Stable Injective Sequence]
+%The degree $\deg(j,\vec{R})$ of $j \in [1,n]$ in 
+%$\vec{R} = R_1, \ldots, R_n$ as above is $2^\MaxInd-1-d$, for $d$ the minimum distance of
+%an index $i \le j$ such that at least one of the following happens:
+%\begin{enumerate}
+%\item
+%$i=1$
+%\item
+%$i>1$ and $\Card(D_{i-1}) < \Card(D_j)$
+%\item
+%$R_{i} \ldots R_j$ is progressing between $D_i$ and $D_j$.
+%\end{enumerate}
+%\end{definition}
  
-Suppose that in a given node of the proof and for $i \in [1, \MaxInd]$ 
-the inductive expression number $i$ is $q(\vec{t})$. Then $\size(i)$ is any expression
-of the language computing, in any assignment $\sigma$ to the variable of the node, 
-the number of constructors in $\sigma(\vec{t})$. Any map returning a positive integer
-and increasing w.r.t. the subterm relation would work. 
 
+We extend the size map to sets of inductive formulas in a node $\alpha$,
+and relations $R$ associated to a path between two nodes $\alpha$ and $\beta$.
+ 
+ 
+\begin{definition}[Size of Sets and Relations]
+Assume $X \subseteq [1,\MaxInd]$ and $R:\alpha \rightarrow \beta$  is a colored
+relation.
+\begin{enumerate} 
+\item
+We set $\size(\alpha, X) = \Sigma_{i \in X} \size(\alpha,i)$.
+\item
+For each relation $S$ we define $S(x) = \{y \in [1,\MaxInd] | x S y \}$. 
+If $R$is colored we define $R(x) = \universe{R}(x)$, forgetting colors.
+\item
+We associate to each colored $R:\alpha \rightarrow \beta$ 
+an index $\size(\beta, R) =
+\Sigma_{x \in \dom(R)} \max(\size(\beta, R(x))$.
+\end{enumerate}
+\end{definition}
 
+\begin{lemma}[Decreasing Size]
+\label{lemma-decreasing-size}
+If $R:\alpha \rightarrow \beta$, $S:\beta \rightarrow \gamma$ 
+are colored injective and $\dom(RS) \subset \dom(R)$ then
+$\size(\gamma, RS) < \size(\beta, R)$.
+\end{lemma}
 
-If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ is stable then we will define a size for $\vec{R}$: 
-$\size(\vec{R})$. We need the stability assumption for $\vec{R}$, 
-otherwise we cannot prove that 
-the size is a decreasing map. For a generic injective sequence $\vec{S}$, we will first compute
-the Minimum Stable Grouping of $\vec{S}$.
+\begin{proof}
+We have $\size(\gamma, RS) =
+\Sigma_{x \in \dom(RS)} \max(\size(\gamma, RS(x))$. For all $x \in \dom(RS)$ we have
+$x \in \dom(R)$ and if $z \in RS(x)$ then for some $y \in R(x)$ we have $x R y S z$
+therefore $\size(\beta,y) \ge \size(\gamma,z)$. We deduce 
+$\max(\size(\gamma, RS(x)) \le \max(\size(\beta, R(x))$, hence 
+$
+\size(\gamma, RS) =
+\Sigma_{x \in \dom(RS)} \max(\size(\gamma, RS(x)) \le
+\Sigma_{x \in \dom(RS)} \max(\size(\beta, RS(x)) =
+\size(\beta, R)
+$.
+\end{proof}
+
+If $\vec{S} = S_1, \ldots, S_n \in \setR^+$ is stable then we will define a list of 
+sizes $\size(\vec{S})$ for $\vec{S}$: 
+For a generic injective sequence $\vec{R}$, we will first compute
+the Minimum Stable Grouping of $\vec{R}$,
+otherwise we cannot prove that the size is a decreasing map. 
 
 \begin{definition}[Size of an Injective Sequence]
-If $\dom(R)$ is any injective domain-stable sequence then we set:
+Suppose $\dom(S)$ is any injective domain-stable sequence with $h$ constant-components
+$S_{a_i}\ldots S_{b_i}$ for $i \in [1,h]$. Then we set:
+
 $$
-\size(\vec{R}) 
+\size(\vec{S}) 
 = 
-(c_1, \size(D_{a_1}), \deg(a_1,\vec{R}), \ldots,c_h,\size(D_{a_h},\deg(a_h,\vec{R}))
+(
+( \size(S_{a_1}\ldots S_n), \deg(a_1,\vec{S}) ), 
+\ldots,
+( \size(S_{a_h}\ldots S_n), \deg(a_h,\vec{S}) )
+)
 $$
-If $\dom(S)$ is any injective sequence then we set $\size(\vec{R}) = \size(\minStable(\vec{S}))$.
+
+If $\dom(R)$ is any injective sequence then we set 
+$\size(\vec{S}) = \size(\minStable(\vec{R}))$.
 \end{definition}
 
-If $\vec{R}$ is stable then $\minStable(\vec{R}) = \vec{R}$, therefore 
+If $\vec{S}$ is stable then $\minStable(\vec{S}) = \vec{S}$, therefore 
 the general definition includes the definition for the stable case.
 
-The corresponding state for the algorithm translating a cyclic proof into an
-injective proof is $\state(\vec{R})$, defined as follows.
+
+We define a graph of states and transitions for the algorithm translating a cyclic proof. We first
+associate a state to each sequence of injective relations.
+
+%19:11 31/01/2026
 
 \begin{definition}[State of an Injective Domain-Stable Sequence]
-If $\dom(R)$ is any injective domain-stable sequence then we set:
+If $\dom(S) =$ is any injective domain-stable sequence with constant-domain-cardinality
+components $S_{a_i},\ldots, S_{b_i}$ for $i \in [1,h]$, 
+and $d_i$ is a degree of $S_{a_i},\ldots, S_{b_i}$, then a state $\sigma$ of $\vec{S}$ is
 $$
-\state(\vec{R})
-=
-(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+\sigma \ \ \ 
+= \ \ \ 
+(
+(S_{a_1}\ldots S_{b_h}, d_1), 
 \ldots,
-c_h, R_{a_h}\ldots R_{n}, \deg(a_h,\vec{R}))
+(S_{a_h}\ldots S_{b_h}, d_h)
 $$
-If $\dom(S)$ is any injective sequence then we set $\state(\vec{R}) = \state(\minStable(\vec{S}))$.
-\end{definition}
- 
-We prove that adding any $R_{n+1}$ to the sequence reduces the index in the 
-lexicographic ordering: $\size(\vec{R}) > \size(\vec{R}R_{n+1}) $. Besides,
-$\size(\vec{R})$ can be computed from $\state(\vec{R})$. Indeed, if
-$\vec{R} = \minStable(\vec{S})$, then $\vec{R}$ is stable and
-
+If $\dom(R)$ is any injective sequence then a state $\sigma$ of $\dom(R)$ is a state
+$\tau$ of $\minStable(\vec{R})$. 
+If $\sigma$ is any state we set:
 $$
-\size(\vec{S})
-=
-\size(\vec{R})
+\size(\sigma)
 =
 (
- c_1,(\dom(R_{a_1}\ldots R_{a_2-1}), \deg(a_1,\vec{R}), 
- \ldots,
- c_h,\dom(R_{a_h}\ldots R_{n}), \deg(a_h,\vec{R})
- )
+(\size(S_{a_1}\ldots S_{b_h}), d_1), 
+\ldots,
+(\size(S_{a_h}\ldots S_{b_h}), d_h)
+)
 $$
 
-We can compute $\state(\vec{S}S_{n+1})$ from $\state(\vec{S})$.
-There are six cases. Suppose $\minStable(\vec{S}) = \vec{R}$.
-We have $\Card(\dom(S_{n+1}) \ge c_h$.
+\end{definition}
+ 
+By definition unfolding, if $\dom(R)=R_1, \ldots, R_n$ is any injective sequence, 
+$\minStable(\vec{R})$ has constant-domain-cardinality components  
+$S_{a_i},\ldots, S_{b_i}$ for $i \in [1,h]$, and $\sigma$
+is a state of $\vec{R}$, then $S_{a_i}\ldots S_{b_h} = R_{a_i}\ldots R_{n}$,
+therefore $\size(\sigma)$ is
 
+$$
+(
+(\size(R_{a_1}\ldots R_{n}), d_1), 
+\ldots,
+(\size(R_{a_h}\ldots R_{n}), d_h)
+)
+$$
+
+Suppose we add any composable 
+$R : \beta \rightarrow \gamma$ 
+to the sequence $\vec{R}:\alpha \rightarrow \beta$. For each state $\sigma$ of 
+$\vec{R}$ we define a next state $\tau = \trans(\sigma,R)$ in such a way
+that $\sigma > \tau$ in the lexicographic ordering.
+
+We consider the cases of Lemma \ref{lemma-cardinality-stability}. 
+Suppose $\minStable(\vec{R}) = \vec{S}$.
+
+\begin{definition}
+\label{definition-transition}
+Assume $\vec{R}, R$ is any sequence of injective relations, with $c = \Card(\dom(R))$. 
+Suppose a state $\sigma$ of $\vec{R}$ is
+$$
+(
+(\size(R_{a_1}\ldots R_{n}), d_1), 
+\ldots,
+(\size(R_{a_h}\ldots R_{n}), d_h)
+)
+$$ 
+ and the constant-cardinality-domain components of
+$\minStable(\vec{R}, R)$ are, 
+$$
+\vec{D_1}, \ldots,\vec{D_h}
+$$
+Then either $h=k+1$ and $\trans(\sigma,R)$ is
+
+$$
+(
+(\size(R_{a_1}\ldots R_{n} R), d_1), 
+\ldots,
+(\size(R_{a_h}\ldots R_{n} R), d_h),
+(\size(R),                                     \newton{\MaxInd}{c})
+)
+$$ 
+
+or $k \in [1,h]$ and if 
+$c_i = \Card(\dom(\vec{C_i}))$, 
+$d_i = \Card(\dom(\vec{D_i}))$ for all $i \in [1,k]$ 
+and $R_{a_k}\ldots R_{n} <_1 R_{a_k}\ldots R_{n}, R$ 
+is a progressing extension or $(c_k < d_k)$ and $\trans(\sigma,R)$ is
+
+$$
+(
+(\size(R_{a_1}\ldots R_{n} R), d_1), 
+\ldots,
+(\size(R_{a_{k-1}}\ldots R_{n} R), d_{k-1}),
+(\size(R_{a_k}\ldots R_{n} R), \newton{\MaxInd}{c})
+)
+$$ 
+
+or $R_{a_k}\ldots R_{n} <_1 R_{a_k}\ldots R_{n}, R$ is a stationary extension and 
+$(c_k < d_k)$ and
+
+$$
+(
+(\size(R_{a_1}\ldots R_{n} R),         d_1), 
+\ldots,
+(\size(R_{a_{i-1}}\ldots R_{n} R),  d_{k-1}),
+(\size(R_{a_{i}}\ldots R_{n} R),     d_k -1)
+)
+$$ 
+
+\end{definition}
+
+%\begin{enumerate}
+%\item %1
+%Suppose$ \vec{R}S$ is stable and $\Card(\dom(S))> c_h$. Then
+%$c_{h+1} = \Card(\dom(S))$, $a_h = n$, $a_{h+1} = n+1$ and 
+%the state of $\vec{S}S$ is 
+%
+%$$
+%(R_{a_1}\ldots R_{b_1}, d_1, 
+%\ldots,
+%R_{a_h}\ldots R_{b_h}, d_h,
+%S, \newton{\MaxInd}{c_{h+1}})
+%$$
+%
+%\item %2
+%Suppose$ \vec{R}S$ is stable and $\Card(\dom(R)= c_h$
+%and $R_n S$ is progressing on $\dom(R_{n})$.
+%Then the new value of $a_h$ is $n+1$ and $\state(\vec{S}S)$ is 
+%
+%$$
+%(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+%\ldots, 
+%c_{h-1}, R_{a_{h-1}}\ldots R_{a_h}, \deg(a_h,\vec{R}),
+%c_{h}, S, 2^{\MaxInd} - 1)
+%$$
+%
+%\item %3
+%Suppose$ \vec{R}S$ is stable and $\Card(\dom(R)= c_h$
+%and $R_n S$ is stationary on $\dom(R_{n})$.
+%
+%Then $\state(\vec{S}S)$ is 
+%
+%$$
+%(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+%\ldots,
+%c_{h-1}, R_{a_{h-1}}\ldots R_{a_h}, \deg(a_h,\vec{R}),
+%c_{h}, S, \deg(a_h,\vec{R}) - 1)
+%$$
+%
+%\item %4
+%Suppose$ \vec{R}S$ is not stable and $j \in [1,n]$ is the first index
+%such that $\dom(R_j \ldots R_n) \supset \dom(R_j \ldots R_n S)$.
+%Then $j = a_i + 1$ for some $i$ and the Minimum Stable grouping of $\vec{S}S$
+%is $R_1, \ldots, R_{a_i}, R$ with $R = R_j \ldots R_n S$. If $R_{a_i} R$
+%is progressing on $\dom(R_{a_i})$ then the new value of $a_i$ is
+%$a_{i+1}$ and $\state(\vec{S}S)$ is 
+%
+%$$
+%(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+%\ldots,
+%c_{i-1}, R_{a_{i-1}}\ldots R_{a_i}, \deg(a_i,\vec{R}),
+%c_{i}, R, 2^{\MaxInd}-1)
+%$$
+%
+%\item %5
+%If instead $R_{a_i} R$
+%is stationary on $\dom(R_{a_i})$ then $\state(\vec{S}S)$ is:
+%
+%$$
+%(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
+%\ldots,
+%c_{i-1}, R_{a_{i-1}}\ldots R_{a_i}R, \deg(a_i,\vec{R})-1)
+%$$
+%
+%\end{enumerate}
+
+\subsection{The Graph of States of the Translation Algorithm}
+Assuem be given a set $\setR$ of colored relations on $[1,\MaxInd]$. We assume
+that $\setR^+$ satisfies the Injectivity Condition IC and the Progressing Domain Condition
+PDC. 
+
+A preliminary step for the translation algorithm is to derive the closure $\setR^+$ of $\setR$ 
+by compatible composition: $\setR^+$ is the smallest set of relations such that 
+$\setR \subseteq \setR^+$ and for all $R:\alpha \rightarrow \beta \in \setR^+$ and 
+$S:\beta \rightarrow \gamma \in \setR^+$ we have $RS:\beta \rightarrow \gamma \in \setR^+$.
+
+$\setR^+$ can be computed in time $2^{O(\MaxInd^2)}$, more precisely with 
+$2^{3*\MaxInd^2}$ operations. The rest of the algorithm requires time $2^{O(\MaxInd^3)}$,
+hence exponential time.
+
+The state of an algorithm is any sequence $(R_1, d_1, \ldots, R_n, d_n)$ such that:
 \begin{enumerate}
 \item
-Suppose$ \vec{R}S_{n+1}$ is stable and $\Card(\dom(R_{n+1})> c_h$. Then
-$c_{h+1} = \Card(\dom(R_{n+1})$, $a_h = n$, $a_{h+1} = n+1$ and 
-$\state(\vec{S}S_{n+1})$ is 
-
-$$
-(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
-\ldots,
-c_h, R_{a_h}, \deg(a_h,\vec{R}),
-c_{h+1}, S_{n+1}, 2^{\MaxInd} - 1)
-$$
+$R_1, \ldots, R_n \in \setR^+$
 
 \item
-Suppose$ \vec{R}S_{n+1}$ is stable and $\Card(\dom(R_{n+1})= c_h$
-and $R_n S_{n+1}$ is progressing on $\dom(R_{n})$.
-Then the new value of $a_h$ is $n+1$ and $\state(\vec{S}S_{n+1})$ is 
-
-$$
-(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
-\ldots,
-c_{h-1}, R_{a_{h-1}}\ldots R_{a_h}, \deg(a_h,\vec{R}),
-c_{h}, S_{n+1}, 2^{\MaxInd} - 1)
-$$
-
-\item
-Suppose$ \vec{R}S_{n+1}$ is stable and $\Card(\dom(R_{n+1})= c_h$
-and $R_n S_{n+1}$ is stationary on $\dom(R_{n})$.
-
-Then $\state(\vec{S}S_{n+1})$ is 
-
-$$
-(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
-\ldots,
-c_{h-1}, R_{a_{h-1}}\ldots R_{a_h}, \deg(a_h,\vec{R}),
-c_{h}, S_{n+1}, \deg(a_h,\vec{R}) - 1)
-$$
-
-\item
-Suppose$ \vec{R}S_{n+1}$ is not stable and $j \in [1,n]$ is the first index
-such that $\dom(R_j \ldots R_n) \supset \dom(R_j \ldots R_n S_{n+1})$.
-Then $j = a_i + 1$ for some $i$ and the Minimum Stable grouping of $\vec{S}S_{n+1}$
-is $R_1, \ldots, R_{a_i}, R$ with $R = R_j \ldots R_n S_{n+1}$. If $R_{a_i} R$
-is progressing on $\dom(R_{a_i})$ then the new value of $a_i$ is
-$a_{i+1}$ and $\state(\vec{S}S_{n+1})$ is 
-
-$$
-(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
-\ldots,
-c_{i-1}, R_{a_{i-1}}\ldots R_{a_i}, \deg(a_i,\vec{R}),
-c_{i}, R, 2^{\MaxInd}-1)
-$$
-
-\item
-If instead $R_{a_i} R$
-is stationary on $\dom(R_{a_i})$ then $\state(\vec{S}S_{n+1})$ is:
-
-$$
-(c_1, R_{a_1}\ldots R_{a_2-1}, \deg(a_1,\vec{R}), 
-\ldots,
-c_{i-1}, R_{a_{i-1}}\ldots R_{a_i}R, \deg(a_i,\vec{R})-1)
-$$
-
+for all $i \in [n-1]$, $\Card(\dom(R_i) \not = \dom(R_{i+1})$ 
+and there is some $S_i \in \setR^+$ such that $R_i = S_i R_{i+1}$
 \end{enumerate}
 
+%09:43 02/02/2026
 
 The number of states is bounded by 
 $
@@ -1429,39 +1685,29 @@ namely it is $2^{O(\MaxInd^3)}$ again. Therefore the total cost is poly-exponent
 \newpage   \section{A Ranking Function}
 We define a ranking function. Assume $\vec{S}$ has minimum stable grouping 
 $\minStable{\vec{C}} = \vec{R} = R_1, \ldots, R_n$. Assume there are $h$ maximal
-constant-cardinality domain components, and the component number $i$ is  
+constant-cardinality domain components, and the component n umber $i$ is  
 $R_{a_i}, \ldots ,R_{b_i}$, with $c_i  = \Card(R_{a_i})$.  
 
-We associate to each colored $R$ and each node $\alpha$ an index $\size(\alpha, R) =
-\Sigma_{x \in \dom(R)} \max(\size(R(x))$, with $\size(X)=\Sigma_{x \in X} \size(x)$
-and if the inductive formula number $x$ of $\alpha$ is $\N(t)$, then $\size(x) =t$.
 
-\begin{lemma}[Size of a Colored Relation Eventually Decreases]
-\label{lemma-size-colored-relation}
-Assume $\setR^+$ satisfies PDC and the Injectivity Condition IC. 
-Assume $R_1, \ldots, R_n, R_{n+1} \setR$ is a constant-cardinality-domain sequence of 
-relations in $\setR^+$. Then:
 
-$$
-\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})
-\implies
-R_n \cap \dom(R_{n}) \times \dom(R_{n+1}) \mbox{ stationary }
-$$
-\end{lemma}
-
-\begin{proof}
-\ldots\ldots\ldots
-\end{proof}
-
-\begin{corollary}[Length Bound from PDC, IC, Constant-Cardinality Domain]
+\begin{lemma}[Length Bound from PDC, IC, Constant-Cardinality Domain]
+\label{lemma-length-bound}
 \begin{enumerate}
 \item
+%\label{lemma-length-bound-01}
+For all constant-cardinality domain colored sequence $R_1 \ldots R_n R_{n+1}$ we have
+$\size(R_1 \ldots R_n R_{n+1}) = \size(R_{n+1})$.
+
+\item
+%\label{lemma-length-bound-02}
 For all colored relations $R$: $size(\dom(R)) \ge \size(R)$.
  
 \item
+%\label{lemma-length-bound-03}
 If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ then $\size(R_1) \ge \size(\dom(R_2))$.
 
 \item
+%\label{lemma-length-bound-04}
 Assume $R_1,R_2$ is a constant-cardinality domain sequence 
 of injective colored relations.
 If $\size(R_1) = \size(R_2)$, then $\size(R_1) = \size(\dom(R_2)) = \size(R_2)$ and 
@@ -1469,6 +1715,7 @@ $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a
 stationary bijection.
 
 \item
+%\label{lemma-length-bound-05}
 Assume $R_1, \ldots, R_n, R_{n+1}$ is a constant-cardinality-domain sequence of 
 relations in $\setR^+$ with domain-cardinality $c$.
 Suppose for some $k$
@@ -1479,12 +1726,33 @@ $$
 n \le \newton{\MaxInd}{c}+1
 $$ 
 \end{enumerate}
-\end{corollary}
+\end{lemma}
 
 
 \begin{proof}
 
 \begin{enumerate}
+\item
+We assume that $R_1, \ldots, R_n, R_{n+1}$ is some colored constant-cardinality domain 
+sequence  with $R = R_1 \ldots R_n R_{n+1}$ in order to prove that
+$\size(R) = \size(R_{n+1})$.
+By Lemma \ref{}, $\dom(R) = \dom(R_1)$
+and $R_1 \ldots R_n$ restricted to $\dom(R_1)$ and  $\dom(R_{n+1})$ 
+is the graph of some bijection $\phi$. Therefore for
+all $x \in \dom(R_1)$ we have $R(x) = R_1 \ldots R_n R_{n+1}(x) = R_{n+1}(\phi(x))$.
+
+If $\phi:X \rightarrow Y$ is a bijection, for any sum $\Sigma_{x \in X} a_{\phi(x)}$, 
+we have $\Sigma_{x \in X} a_{\phi(x)} = \Sigma_{y \in Y} a_y$. 
+
+Thus, from $\dom(R) = \dom(R_1)$ and $R(x) = R_{n+1}(\phi(x))$ and $\phi$ deduce that 
+$$
+\size(R) =
+\Sigma_{x \in \dom(R)} \max(\size(R(x)) = 
+\Sigma_{x \in \dom(R_1)} \max(\size( R_{n+1}(\phi(x))) =
+\Sigma_{y \in \dom(R_{n+1})} \max(\size( R_{n+1}(y)) =
+\size(R_{n+1})
+$$
+
 \item
 For all $x \in \dom(R)$, $y \in R(x)$ from $x R y$ and the conditions 
 about coloring, this implies that $\size(x) \ge size(y)$. Thus, $\size(x) \ge \max(\size(R(x))$.
@@ -1493,7 +1761,7 @@ We conclude that $size(\dom(R)) = \Sigma_{x \in \dom(R)} \size(x) \ge
 
 \item
 If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection.
-then for all $y \in \dom(R_2)$ there is exactly one $x \in \dom(R_1)$
+then for all $y \in \dom(R_2)$ there is exactly  one $x \in \dom(R_1)$
 such that $y \in R_1(x)$. The conditions about coloring imply that $\size(x) \ge size(y)$. 
 Thus, $ \size(R_1) = \Sigma_{x \in \dom(R_1)} \max(\size(R_1(x)) \ge 
 \Sigma_{y \in \dom(R_2)} \size(y) = \size(\dom(R_2)$.
@@ -1511,27 +1779,69 @@ is a stationary bijection for all $i \in [1,n ]$. By the previous point we have
 $\size(\dom(R_i)) = k$ for all $i \in [2,n+1]$. Thus, $R_i \cap (\dom(R_i) \times 
 \dom(R_{i+1}))$ is a stationary bijection for all $i \in [2,n]$, otherwise we would have
 $\size(\dom(R_i)) > \size(\dom(R_{i+1}))$
-By Lemma \ref{} implies that the sets $\dom(R_i)$ are distinct 
-for $i \in [2,n ]$, namely that they are at most $\newton{\MaxInd}{c}$.
-We conclude that $(n-2)+1 \le  \newton{\MaxInd}{c}$, that is, 
-$n \le \newton{\MaxInd}{c}+1$.
+Lemma \ref{} implies that the sets $\dom(R_i)$ are distinct 
+for $i \in [2,n+1]$, namely that they are at most $\newton{\MaxInd}{c}$.
+The segment  $[2,n+1]$ has cardinality $((n+1)-2)+1$, namely $n$.
+We conclude that $n \le \newton{\MaxInd}{c}$.
 \end{enumerate}
 \end{proof}
 
+\begin{lemma}[Size of a Colored Relation Eventually Decreases]
+\label{lemma-size-colored-relation}
+Assume that:
 
+\begin{enumerate}
+\item
+$\setR^+$ satisfies PDC and the Injectivity Condition IC. 
+\item 
+$R_1, \ldots, R_n, R_{n+1}$ is a constant-cardinality-domain sequence of 
+relations in $\setR^+$. 
+\item
+Suppose $\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})$.
+\end{enumerate}
+
+Then:
+
+\begin{enumerate}
+\item
+$R_n \cap \dom(R_{n}) \times \dom(R_{n+1})$ is stationary.
+\item
+If $R_1 \ldots R_n$ has stationary degree $d$, then 
+$R_1 \ldots R_{n+1} $ has stationary degree $d+1$.
+\end{enumerate}
+
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-01}
+from $\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})$
+we deduce that $\size(R_n) = \size(R_{n+1})$.
+
+By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-04}
+we conclude that $R_n \cap \dom(R_{n}) \times \dom(R_{n+1})$ is stationary.
+
+Thus, if $R_1 \ldots R_n$ has stationary degree $d$, then 
+$R_1 \ldots R_{n+1} $ has stationary degree $d+1$.
+
+\end{proof}
+
+\subsection{An Exponential Time Translation From Cyclic To Inductive}
 We define $Eq(\alpha, \beta)$ the set of equations $\size(x) > \size(y)$ such that the
 the inductive formula number $x$ of $\alpha$ progresses to the inductive formula number $y$
  of $\beta$.
  
  We associate to $\alpha$ and $\vec{S}$ a list 
- $f(\alpha,\vec{S})=(l_1, \ldots, l_h)$ elements, with the element 
- number $i$ equal to 
+ $f(\alpha,\vec{S})=(l_1, \ldots, l_h)$ elements. If $c_i = \Card(\dom(R_{a_i})$,
+ and $d$ is a stationary degree of $R_{a_i} \ldots R_{b_i}$
+ then $l_i$ is
  $(
- c_i, 
  \size(\alpha, R_{b_i}\ldots, R_n), 
- \newton{\MaxInd}{c_i} - \deg(R_{a_i} \ldots R_{b_i-1}, R_{b_i})
+ \newton{\MaxInd}{c_i} - d
  )$.
- 
+Alternatively, we can use a single integer index
+$$
+(\newton{\MaxInd}{c_i}+1)\size(\alpha, R_{b_i}\ldots, R_n) + (\newton{\MaxInd}{c_i} - d)
+$$
 
 We claim that if $\beta$ is a bud with companion $\alpha$, then 
 $Eq(\alpha, \beta) \vdash f(\alpha,\vec{S}) > f(\beta,\vec{S})$
@@ -1544,6 +1854,7 @@ We represent $\vec{S}$ with $h$ pairs of the form $(R_{a_i}\ldots R_{b_i-1}),R_{
 
  
 
-
+ 
 \end{document}
 
+ 
