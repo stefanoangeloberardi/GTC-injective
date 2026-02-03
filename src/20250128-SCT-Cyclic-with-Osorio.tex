@@ -48,10 +48,10 @@
 \newcommand{\cons}                       {{\tt cons}}
 \newcommand{\newton} [2]             {{\genfrac(){0pt}{1} {#1}{#2}}}
 \newcommand{\questionMarks} [1] {{‘‘#1’’}}
-\newcommand{\DomCard}               {{\tt DomCard}}
 \newcommand{\MaxInd}                  {{\tt M}}
 \newcommand{\DomIncr}                {{\tt DomIncr}}
 \newcommand{\trans}                       {{\tt trans}}
+\newcommand{\DomCard}               {{\tt DomCard}}
 %END MACRO
 
 \title{A Poly-exponential Translation from Injective Cyclic to Inductive Proofs}
@@ -60,7 +60,7 @@
 \author[S. Berardi]{Stefano Berardi}
 \address{Universit\`{a} di Torino,
 Torino, Italy}
-\email{stefano@unito.it}
+\email{stefano.berardi@unito.it}
 
 %% mandatory lists of keywords 
 \keywords{
@@ -152,11 +152,19 @@ with cyclic proofs.
 
 \newpage   \section{Domain-Stable Sequences and Grouping}
 From now on we write $\N$ for the set of non-negative integers and for any $a,b \in \N$
-we write $[a,b] = \{c \in \N | a \le c \le b\}$. 
+we write $[a,b]$ for the segment $\{c \in \N | a \le c \le b\}$. A sub-segment $[a',b']$ of
+$[a,b]$ is any $[a',b'] \subseteq [a,b]$, namely with $[a',b']=\emptyset$ or $a \le a', b' \le b$.
+
 We consider binary relations on a finite set: for sake of simplicity we only 
 consider the finite sets $[1,\MaxInd]$, for some $\MaxInd \in \N$ which we assume to be
 fixed. We will abbreviate \questionMarks{binary relations on $[1,\MaxInd]$} with
-\questionMarks{relations}. 
+\questionMarks{relations}. We write $\dom(R) = \{x | \exists y (x R y)\}$ and
+$R(x)$ for the set $\{y | x R y\}$ of $R$-images of $x \in \dom(R)$. We call 
+$\DomCard(R) = \Card(\dom(R))$ the domain-cardinality of $R$. We extend
+$\dom$ and $\DomCard$ to relation sequences by taking the product of the sequence:
+$\dom(R_1, \ldots, R_n) =  \dom(R_1 \ldots R_n)$ and 
+$\DomCard(R_1, \ldots, R_n) = \DomCard(R_1 \ldots R_n)$
+
 
 \begin{definition}[Grouping]
 A grouping of a sequence $\vec{S} = S_1, \ldots, S_n$ of relations is a sequence
@@ -206,7 +214,7 @@ Assume $R, S, T$ are any relations and $R_1, \ldots, R_n$ is any sequence of rel
 \item
 \label{lemma-domain-inclusion-01}
 For any two relations $R$, $S$ we have $\dom(RS) \subseteq \dom(R)$
-and therefore $\Card(\dom(RS)) \le \Card(\dom(R))$.
+and therefore $\DomCard(RS) \le \DomCard(R)$.
 
 \item
 \label{lemma-domain-inclusion-02}
@@ -228,7 +236,7 @@ $
 \ \ \  \Leftrightarrow \ \ \  
 (\dom(R) \not \supset  \dom(RS))
 \ \ \  \Leftrightarrow \ \ \ 
-(\Card(\dom(RS)) = \Card(\dom(R))
+(\DomCard(RS) = \DomCard(R)
 $.
 
 \item
@@ -273,7 +281,7 @@ If $(\dom(R) = \dom(RS))$ then $(\dom(R) \subseteq \dom(RS))$. If
 $(\dom(R) \subseteq \dom(RS))$, then $(\dom(R) \not \supset \dom(RS))$.
 If $(\dom(R) \not \supset \dom(RS))$, then from $(\dom(R) \supseteq \dom(RS))$
 (point \ref{lemma-domain-inclusion-01}above) we deduce that $(\dom(R) = \dom(RS))$,
-hence $(\Card(\dom(R)) = \Card(\dom(RS)))$. If $(\Card(\dom(R)) = \Card(\dom(RS)))$
+hence $(\DomCard(R) = \DomCard(RS))$. If $(\DomCard(R) = \DomCard(RS))$
 then from $(\dom(R) \supseteq \dom(RS))$ and the fact that both sets are included in
 $[1,\MaxInd]$ and therefore finite we deduce that $(\dom(R) = \dom(RS))$.
 
@@ -365,7 +373,7 @@ for all $i, j \in [1, n]$, $i \le j$ we have:
 $$
 \dom(S_i) =  \dom(S_i \ldots S_j)
 $$
-or equivalently $\Card(\dom(S_i)) =  \Card(\dom(S_i \ldots S_j))$.
+or equivalently $\DomCard(S_i) =  \Card(\dom(S_i \ldots S_j))$.
 
 \item
 \label{lemma-domain-stability-03}
@@ -387,12 +395,12 @@ $$
 \begin{proof}
 
 We can equivalently restate $\dom(S_i) =  \dom(S_i \ldots S_j)$ as
-$\Card(\dom(S_i)) =  \Card(\dom(S_i \ldots S_j))$, 
+$\DomCard(S_i) =  \Card(\dom(S_i \ldots S_j))$, 
 given that we have $\dom(S_i) \supseteq  \dom(S_i \ldots S_j)$ 
 by Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-02})
 and the fact that they are subsets of the finite set $[1,\MaxInd]$.
 Therefore we can skip the formulation using 
-$\Card(\dom(S_i)) =  \Card(\dom(S_i \ldots S_j))$
+$\DomCard(S_i) =  \Card(\dom(S_i \ldots S_j))$
 when deriving the equivalences about point \ref{lemma-domain-stability-02}.
 
 We will now prove the equivalence of points 
@@ -571,27 +579,39 @@ lexicographic ordering.
 
 We provide an alternative characterization of the minimum stable grouping of $\vec{S}$
 using a map $\phi(\vec{S},\cdot) : [1,\MaxInd] \rightarrow  [1,\MaxInd]$. 
-Then using the map  map $\phi(\vec{S},\cdot)$ we will provide an alternative definition of 
-$\minStable(\vec{S})$ by induction on $\vec{S}$, which is computable in polynomial time. 
-We first need the notion of matching between $i,j \in [1,n]$.
+Then using the map $\phi(\vec{S},\cdot)$ we will provide an alternative definition of 
+$\minStable(\vec{S})$ by induction on $\vec{S}$, together with an algorithm computing
+it in polynomial time. 
+We first need the notion of $j$ dropping index for $i$, for $i,j \in [1,n]$.
 
 \begin{definition}[Stable Matching]
-Let $\vec{S} = S_1, \ldots, S_n$ and $i,j \in [1,n]$, $i \le j$.
-We say that $j$ is a stable matching of $i$ in $\vec{S}$
-if and only if $\dom(S_i \ldots S_j) = \dom(S_i \ldots S_n)$.
+Let $\vec{S} = S_1, \ldots, S_n$ and $i,j \in [1,n]$, $i < j$.
+We say that $j$ is a dropping index for $i$ in $\vec{S}$
+if and only if $\dom(S_i \ldots S_{j-1}) \supset \dom(S_i \ldots S_j)$.  
 \end{definition}
 
-By definition unfolding, $j$ is a stable matching of $i$ in $\vec{S}$
-if and only if all $x \in [1,\MaxInd]$ having some $S_i \ldots S_j$-image have some
-$S_i \ldots S_n$-image and conversely. 
+By definition unfolding, $j$ is $j$ is a dropping index for $i$ in $\vec{S}$
+if and only if there is some $x \in [1,\MaxInd]$ having some $S_i \ldots S_{j-1}$-image 
+but no $S_i \ldots S_j$-image. 
 
-Thus, $j=n$ is trivially a stable matching of any $i \in [1,n]$.
+If $j$ is the last dropping index for $i$ then 
+$\dom(S_i \ldots S_j) = \dom(S_i \ldots S_{j+1}) = \ldots = \dom(S_i \ldots S_n)$.
+If there are no dropping index for $i$ then 
+$\dom(S_i ) = \dom(S_i S_{i+1}) = \ldots = \dom(S_i \ldots S_n)$.
 
-\begin{definition}[Minimum Stable Matching $\phi(\vec{S},i)$]
+\begin{definition}[Maximum Dropping index $\phi(\vec{S},i)$]
 Let $\vec{S} = S_1, \ldots, S_n$ and $i \in [1,n]$.
-We define the integer $\phi(\vec{S},i) \in [i,n]$ as the minimum stable matching $j\in [i,n]$ 
-of $i$ in $\vec{S}$. We write just $\phi(i)$ when $\vec{S}$ is clear from the context,
+\begin{enumerate}
+\item
+We define the integer $\phi(\vec{S},i) \in [i,n]$ as the maximum dropping index $j\in [i,n]$ 
+of $i$ in $\vec{S}$, with $\phi(i) =  i$ if there is none. We write just $\phi(i)$ when $\vec{S}$ is clear from the context.
+\item
+We say that $i \in [1,n]$ is $\phi$-closed if and only if $\phi([1,i[) \subseteq [1,i[$
+\end{enumerate}
 \end{definition}
+
+By definition unfolding, $i \in [1,n]$ is $\phi$-closed if and only if for all $a \in [1,i[$,
+all dropping index $b \in [1,n]$ of $a$ we have $b \in [1,i[$.
 
 We define a stable grouping $\vec{S}^{\phi}$ of $\vec{S}$ using the map $\phi$.
 
@@ -841,20 +861,20 @@ valid for sequences of injective relations.
 Assume $R, S$, $\vec{R}=R_1, \ldots, R_n$ all are \emph{injective} relations.
 \begin{enumerate}
 \item
-%\label{lemma-stable-sequences-01}
-$\Card(\dom(RS)) \le \Card(\dom(S))$
-and if $\Card(\dom(RS)) \le \Card(\dom(S))$ then $R$ restricted to $\dom(R) \times \dom(S)$
+\label{lemma-stable-sequences-01}
+$\DomCard(RS) \le \DomCard(S)$
+and if $\DomCard(RS) \le \DomCard(S)$ then $R$ restricted to $\dom(R) \times \dom(S)$
 is a bijection.
 
 \item
-%\label{lemma-stable-sequences-02}
+\label{lemma-stable-sequences-02}
 For all $i,j \in [1,n]$, $i \le j$:
 $$
 \Card(\dom(R_i \ldots R_n)) \le \Card(\dom(R_j \ldots R_n))
 $$
 
 \item
-%\label{lemma-stable-sequences-03}
+\label{lemma-stable-sequences-03}
 If  $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$
 then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$
 is a bijection.
@@ -865,27 +885,30 @@ is a bijection.
 \begin{enumerate}
 
 \item
+%\label{lemma-stable-sequences-01}
 for all $x \in \dom(RS)$ the sets $X_x = \{ y \in \dom(S) | x R y \}$ are inhabited,
 because if $x \in \dom(RS)$ then for some $y \dom(S), z$ we have $x R y z$.
 They are pairwise disjoint subsets of $\dom(S)$, because $R$ is injective. We deduce that 
-$\Card(\dom(RS)) \le \Card(\bigcup_{x \in \dom(RS)} X_x) \le \Card(\dom(S))$.
+$\DomCard(RS) \le \Card(\bigcup_{x \in \dom(RS)} X_x) \le \DomCard(S)$.
 
-Now assume that $\Card(\dom(RS)) = \Card(\dom(S))$. Then 
-$\Card(\dom(RS)) = \Card(\bigcup_{x \in \dom(RS)} X_x) = \Card(\dom(S))$. 
-From $\Card(\bigcup_{x \in \dom(RS)} X_x) = \Card(\dom(S))$, 
+Now assume that $\DomCard(RS) = \DomCard(S)$. Then 
+$\DomCard(RS) = \Card(\bigcup_{x \in \dom(RS)} X_x) = \DomCard(S)$. 
+From $\Card(\bigcup_{x \in \dom(RS)} X_x) = \DomCard(S)$, 
 $\bigcup_{x \in \dom(RS)} X_x \subseteq \dom(S)$ and $\dom(S)$ finite we deduce
 that $\bigcup_{x \in \dom(RS)} X_x = \dom(S)$. 
-From the fact that all $\Card(\dom(RS)) = \Card(\dom(S))$ and all $X_x$ are inhabited we 
+From the fact that all $\DomCard(RS) = \DomCard(S)$ and all $X_x$ are inhabited we 
 deduce that all $X_x$ are singleton. This says that $R$ restricted to $\dom(R) \times \dom(S)$
 is a bijection.
 
 \item
+%\label{lemma-stable-sequences-02}
 Let $i \in [1,n-1]$.
 From the point 1 above applied to $R = R_i$, $S = R_{i+1}\ldots R_n$ we deduce that
 $\Card(\dom(R_i R_{i+1}\ldots R_n)) \le \Card(\dom(R_{i+1} \ldots R_n))$. The thesis
 follows by induction on $j-i$.
 
 \item
+%\label{lemma-stable-sequences-03}
 $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$.
 From the point 1 above applied to $R = R_i \ldots R_{j-1}$, $S = R_i \ldots R_{j-1}$ 
 we deduce that $R_i \ldots R_{j-1}$ restricted to 
@@ -908,12 +931,12 @@ sequence of \emph{injective} relations.
 \item
 \label{lemma-injective-stable-sequences-01}
 $$
-\forall i,j \in [1,n]. (i \le j) \implies \Card(\dom(R_i)) \le \Card(\dom(R_j))
+\forall i,j \in [1,n]. (i \le j) \implies \DomCard(R_i) \le \Card(\dom(R_j))
 $$
 
 \item
 \label{lemma-injective-stable-sequences-02}
-If  $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$
+If  $i, j \in[1,n]$ and $i < j$ and $\DomCard(R_i) = \Card(\dom(R_j))$
 then $R_i \ldots R_{j-1}$ has domain $\dom(R_i)$ and
 when restricted to $\dom(R_i) \times \dom(R_j)$
 is a bijection.
@@ -929,13 +952,13 @@ is a bijection.
 Assume $i,j \in [1,n]$, $i \le j$. By stability and
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
 we have
-$\Card(\dom(R_i)) = \Card(\dom(R_i \ldots R_n))$ and
+$\DomCard(R_i) = \Card(\dom(R_i \ldots R_n))$ and
 $\Card(\dom(R_j)) = \Card(\dom(R_j \ldots R_n))$.
 By injectivity and Lemma \ref{lemma-stable-sequences}.\ref{lemma-stable-sequences-02}  
 we have 
 $\Card(\dom(R_i \ldots R_n)) \le \Card(\dom(R_j \ldots R_n))$.
 We conclude that 
-$\Card(\dom(R_i)) \le \Card(\dom(R_j))$.
+$\DomCard(R_i) \le \Card(\dom(R_j))$.
 
 \item
 %\label{lemma-injective-stable-sequences-02}
@@ -947,10 +970,10 @@ Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
 we have
 $\dom(R_i) = \dom(R_i \ldots R_n)$ and
 $\dom(R_j) = \dom(R_j \ldots R_n)$ and
-$\Card(\dom(R_i)) = \Card(\dom(R_i \ldots R_n))$ and
+$\DomCard(R_i) = \Card(\dom(R_i \ldots R_n))$ and
 $\Card(\dom(R_j)) = \Card(\dom(R_j \ldots R_n))$.
 We conclude that if 
- $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i)) = \Card(\dom(R_j))$
+ $i, j \in[1,n]$ and $i < j$ and $\DomCard(R_i) = \Card(\dom(R_j))$
 then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i) \times \dom(R_j)$
 is a bijection.
 \end{enumerate}
@@ -969,7 +992,7 @@ Assume $\vec{S}=S_1, \ldots S_n$ is any sequence of relations.
 $\vec{S}$ is a constant-cardinality domain sequence if and only if $\vec{S}$ is is stable
 and for all $i,j \in [1,n]$:
 $$
-\Card(\dom(S_i)) = \Card(\dom(S_j))
+\DomCard(S_i) = \DomCard(S_j)
 $$
 
 \item
@@ -982,12 +1005,12 @@ in $\vec{S}$ which is a constant-cardinality domain sequence.
 \end{enumerate}
 \end{definition}
 
-If $\vec{S}=S_1, \ldots S_n$ is constant-cardinality domain, then $\Card(\dom(S_i)) = \Card(\dom(S_j))$ for all $i,j \in [1,n]$ and for all $k \in [i,n]$, $h \in [j,n]$ by
+If $\vec{S}=S_1, \ldots S_n$ is constant-cardinality domain, then $\DomCard(S_i) = \DomCard(S_j)$ for all $i,j \in [1,n]$ and for all $k \in [i,n]$, $h \in [j,n]$ by
 stability we have
-$\Card(\dom(S_i)) =\Card(\dom(S_i \ldots S_k))$ and
-$\Card(\dom(S_j)) = \Card(\dom(S_j \ldots S_h))$. This means that all products of
+$\DomCard(S_i) =\DomCard(S_i \ldots S_k)$ and
+$\DomCard(S_j) = \Card(\dom(S_j \ldots S_h))$. This means that all products of
 all segments in in $[1,n]$ have domains of the same cardinality: 
-$\Card(\dom(S_i \ldots S_k)) = \Card(\dom(S_j \ldots S_h))$.
+$\DomCard(S_i \ldots S_k) = \DomCard(S_j \ldots S_h)$.
 
 \begin{lemma}[Decomposing stable sequences of injective relations]
 Every stable sequence $\vec{S}$ of injective relations is equal to the 
@@ -998,7 +1021,7 @@ such that $\DomCard(\vec{C_i})  < \DomCard(\vec{C_j})$ for all $i,j \in [1,h]$, 
 
 \begin{proof}
 We define $a_1=1$, $b_i = $ the last $j \in [i,n]$ such that 
-$\Card(\dom(S_{a_i})) = \Card(\dom(S_j))$, and if $b_i<n$ then $a_{i+1}=b_i + 1$.
+$\DomCard(S_{a_i}) = \DomCard(S_j)$, and if $b_i<n$ then $a_{i+1}=b_i + 1$.
 Then for some $h \in [1,n]$ we have:
 
 $$
@@ -1016,13 +1039,13 @@ by the choice of $b_i$.
 Thus, each $S_{a_{i}},\ldots,S_{b_{i}}$ is a constant-cardinality domain. 
 
 By Lemma \ref{lemma-injective-stable-sequences}.\ref{lemma-injective-stable-sequences-01}
-we have $\Card(\dom(S_{a_i})) \le \Card(\dom(S_{a_{i+1}}))$ for all $i \in [1,h-1]$.
+we have $\DomCard(S_{a_i}) \le \DomCard(S_{a_{i+1}})$ for all $i \in [1,h-1]$.
 By the choice of $b_i$ we also have 
-$\Card(S_{a_{i}}) = \Card(S_{b_{i}}) \not = \Card(S_{a_{i+1}})$.
+$\DomCard(S_{a_{i}}) = \DomCard(S_{b_{i}}) \not = \DomCard(S_{a_{i+1}})$.
 We deduce that
-$\Card(\dom(S_{a_i})) <  \Card(\dom(S_{a_{i+1}}))$ for all $i \in [1,h-1]$.
+$\DomCard(S_{a_i}) <  \DomCard(S_{a_{i+1}})$ for all $i \in [1,h-1]$.
 We conclude  that
-$\Card(\dom(S_{a_i})) <  \Card(\dom(S_{a_{j}}))$ for all $i,j \in [1,h]$, $i < j$,
+$\DomCard(S_{a_i}) <  \DomCard(S_{a_{j}})$ for all $i,j \in [1,h]$, $i < j$,
 by induction on $j$.
 
 \end{proof}
@@ -1051,7 +1074,10 @@ $$
 \end{enumerate}
 \end{definition}
 
-
+By definition unfolding, $\DomIncr(\vec{S})$ consists of all products $S_{a_i} \ldots S_n$ 
+of suffixes of $\vec{S}$ with $a_1=1$ and $a_{i+1} =$ the first $\phi$-closed $j \in [a_i+1,n]$
+such that $\DomCard(S_{a_{i+1}} \ldots S_n) > \DomCard(S_{a_i} \ldots S_n)$. That is, if
+$a \in ]a_i, a_{i+1}[$ and $b$ is a dropping index of $a$ then $b \in ]a_i,a_{i+1}[$.
 
 $\DomIncr(\vec{S}) $ is a finite information, no matter what is the size of $\vec{S}$,
 and can be defined by induction on $\vec{S}$.
@@ -1152,7 +1178,8 @@ a stationary bijection).
 \begin{lemma}[Constant-domain sequence of injective relations]
 \label{lemma-constant-injective}
 A stationary constant-domain bicolored sequence $\vec{C}$ of injective bijections 
-with associated cardinality $\Card(\dom(C_1))=c$ has length $< \newton{\MaxInd}{c}$.
+with associated cardinality $\DomCard(C_1)=c$ has number of elements 
+$\le \newton{\MaxInd}{c}$.
 \end{lemma}
 
 %%%%%%%%%%%%%%%%%%%%
@@ -1224,7 +1251,7 @@ equal to the product of all $R_i \cap \dom(R_i) \times \dom(R_{i+1})$,
 \item
 If $S, R_1, \ldots, R_{d+1},T$ has stationary degree $d$,
 Assume $S, R_1, \ldots, R_{d+1},T$ is constant-domain $\setR^+$-sequence, with 
-$c = \Card(\dom(S))$ the domain-cardinality of the sequence. Then either 
+$c = \DomCard(S)$ the domain-cardinality of the sequence. Then either 
 $S \cap \dom(S) \times \dom(T)$ is a progressing bijection on $\dom(S) \times \dom(T)$
 or $RS, T$ has degree $d+1$.
 
@@ -1250,7 +1277,7 @@ $R_i \ldots R_j$ is progressing from $\dom(R_i \ldots R_j)$ to $\dom(R_i \ldots 
 namely from  $\dom(R_i)$ to $\dom(R_i)$. Instead $R_i \ldots R_j$ is \emph{not}
 progressing from  $\dom(R_i)$ to $\dom(R_{j+1})$, this forces 
 $\dom(R_i) \not = \dom(R_{j+1})$.
-Let $c = \Card(\dom(R_1))$ the common 
+Let $c = \DomCard(R_1)$ the common 
 domain cardinality of $R$ and of all products of consecutive elements of 
 $S, R_1, \ldots, R_{d+1}$. 
 There are $\newton{\MaxInd}{c}$ subsets of $[1,\MaxInd]$
@@ -1274,8 +1301,9 @@ $\minStable(\vec{S}) = \minStable(\universe{\vec{S}})$.
 
 We define the integer sequence $\sigma(i) = \Card(S_i \ldots S_n)$ for $i=1, \ldots, n$.
 If $S_1, \ldots, S_n$ are injective,  then $\sigma$ is weakly increasing.
-Suppose $\codom(\sigma) = \{c_1, \ldots, c_h\}$ for some increasing sequence 
-$0 \le c_1 < c_2 < \ldots < c_h$. For $i=1, \ldots, h$, let $a_i$ be the last index such that
+Suppose $\sigma([1,n]) = \{c_1, \ldots, c_h\}$ for some increasing sequence 
+$0 \le c_1 < c_2 < \ldots < c_h$ (i.e., if we skip repeated values). 
+For $i=1, \ldots, h$, let $a_i$ be the last index such that
 $ \sigma(a_i) = c_i$. If $S_1, \ldots, S_n$ are injective, then $a_i$ is increasing
 and $\sigma$ decomposes in $h$ adiacent constant subsequences:
 $$
@@ -1406,7 +1434,7 @@ If $R$is colored we define $R(x) = \universe{R}(x)$, forgetting colors.
 \item
 We associate to each colored $R:\alpha \rightarrow \beta$ 
 an index $\size(\beta, R) =
-\Sigma_{x \in \dom(R)} \max(\size(\beta, R(x))$.
+\Sigma_{x \in \dom(R)} \max( \{ \size(\beta,y) | y \in R(x) \} )$.
 \end{enumerate}
 \end{definition}
 
@@ -1422,11 +1450,12 @@ We have $\size(\gamma, RS) =
 \Sigma_{x \in \dom(RS)} \max(\size(\gamma, RS(x))$. For all $x \in \dom(RS)$ we have
 $x \in \dom(R)$ and if $z \in RS(x)$ then for some $y \in R(x)$ we have $x R y S z$
 therefore $\size(\beta,y) \ge \size(\gamma,z)$. We deduce 
-$\max(\size(\gamma, RS(x)) \le \max(\size(\beta, R(x))$, hence 
+$\max( \{ \size(\beta,z) | z \in RS(x) \}\le \max( \{ \size(\beta,y) | y \in R(x) \}$, 
+hence 
 $
-\size(\gamma, RS) =
-\Sigma_{x \in \dom(RS)} \max(\size(\gamma, RS(x)) \le
-\Sigma_{x \in \dom(RS)} \max(\size(\beta, RS(x)) =
+\size(\gamma, RS)                                                                              =
+\Sigma_{x \in \dom(RS)} \max( \{ \size(\beta,z) | z \in RS(x) \})     \le
+\Sigma_{x \in \dom(R)}   \max( \{ \size(\beta,y) | y \in R(x) \}        =
 \size(\beta, R)
 $.
 \end{proof}
@@ -1465,43 +1494,49 @@ associate a state to each sequence of injective relations.
 %19:11 31/01/2026
 
 \begin{definition}[State of an Injective Domain-Stable Sequence]
-If $\dom(S) =$ is any injective domain-stable sequence with constant-domain-cardinality
+If $\vec(S) = S_1, \ldots, S_n$ 
+is any injective domain-stable sequence with constant-domain-cardinality
 components $S_{a_i},\ldots, S_{b_i}$ for $i \in [1,h]$, 
 and $d_i$ is a degree of $S_{a_i},\ldots, S_{b_i}$, then a state $\sigma$ of $\vec{S}$ is
 $$
 \sigma \ \ \ 
 = \ \ \ 
 (
-(S_{a_1}\ldots S_{b_h}, d_1), 
+S_{a_1}\ldots S_{b_h}, d_1, 
 \ldots,
-(S_{a_h}\ldots S_{b_h}, d_h)
+S_{a_h}\ldots S_{b_h}, d_h,
+S_n
 $$
 If $\dom(R)$ is any injective sequence then a state $\sigma$ of $\dom(R)$ is a state
-$\tau$ of $\minStable(\vec{R})$. 
+$\tau$ of $\vec{S} = \minStable(\vec{R})$. 
 If $\sigma$ is any state we set:
 $$
 \size(\sigma)
 =
 (
-(\size(S_{a_1}\ldots S_{b_h}), d_1), 
+\size(S_{a_1}\ldots S_{b_h}), d_1, 
 \ldots,
-(\size(S_{a_h}\ldots S_{b_h}), d_h)
+\size(S_{a_h}\ldots S_{b_h}), d_h,
+S_n
 )
 $$
 
 \end{definition}
- 
-By definition unfolding, if $\dom(R)=R_1, \ldots, R_n$ is any injective sequence, 
+
+By definition unfolding, if $\dom(R) = R_1, \ldots, R_n$ is any injective sequence, 
 $\minStable(\vec{R})$ has constant-domain-cardinality components  
 $S_{a_i},\ldots, S_{b_i}$ for $i \in [1,h]$, and $\sigma$
-is a state of $\vec{R}$, then $S_{a_i}\ldots S_{b_h} = R_{a_i}\ldots R_{n}$,
-therefore $\size(\sigma)$ is
+is a state of $\vec{R}$, then $S_{a_i}\ldots S_{b_h} = R_{a_i}\ldots R_{n}$.
+$S_n$ is $R_k \ldots R_n$ for the first $k \in [1,n]$
+such that $\phi(k)=n$: we can have $k=n$. 
+We deduce that $\size(\sigma)$ is
 
 $$
 (
-(\size(R_{a_1}\ldots R_{n}), d_1), 
+\size(R_{a_1}\ldots R_{n}), d_1, 
 \ldots,
-(\size(R_{a_h}\ldots R_{n}), d_h)
+\size(R_{a_h}\ldots R_{n}), d_h,
+R_k \ldots R_n
 )
 $$
 
@@ -1516,7 +1551,7 @@ Suppose $\minStable(\vec{R}) = \vec{S}$.
 
 \begin{definition}
 \label{definition-transition}
-Assume $\vec{R}, R$ is any sequence of injective relations, with $c = \Card(\dom(R))$. 
+Assume $\vec{R}, R$ is any sequence of injective relations, with $c = \DomCard(R)$. 
 Suppose a state $\sigma$ of $\vec{R}$ is
 $$
 (
@@ -1542,8 +1577,8 @@ $$
 $$ 
 
 or $k \in [1,h]$ and if 
-$c_i = \Card(\dom(\vec{C_i}))$, 
-$d_i = \Card(\dom(\vec{D_i}))$ for all $i \in [1,k]$ 
+$c_i = \DomCard(\vec{C_i}))$, 
+$d_i = \DomCard(\dom(\vec{D_i})$ for all $i \in [1,k]$ 
 and $R_{a_k}\ldots R_{n} <_1 R_{a_k}\ldots R_{n}, R$ 
 is a progressing extension or $(c_k < d_k)$ and $\trans(\sigma,R)$ is
 
@@ -1572,8 +1607,8 @@ $$
 
 %\begin{enumerate}
 %\item %1
-%Suppose$ \vec{R}S$ is stable and $\Card(\dom(S))> c_h$. Then
-%$c_{h+1} = \Card(\dom(S))$, $a_h = n$, $a_{h+1} = n+1$ and 
+%Suppose$ \vec{R}S$ is stable and $\DomCard(S)> c_h$. Then
+%$c_{h+1} = \DomCard(S)$, $a_h = n$, $a_{h+1} = n+1$ and 
 %the state of $\vec{S}S$ is 
 %
 %$$
@@ -1636,7 +1671,7 @@ $$
 %\end{enumerate}
 
 \subsection{The Graph of States of the Translation Algorithm}
-Assuem be given a set $\setR$ of colored relations on $[1,\MaxInd]$. We assume
+Assume be given a set $\setR$ of colored relations on $[1,\MaxInd]$. We assume
 that $\setR^+$ satisfies the Injectivity Condition IC and the Progressing Domain Condition
 PDC. 
 
@@ -1648,18 +1683,97 @@ $S:\beta \rightarrow \gamma \in \setR^+$ we have $RS:\beta \rightarrow \gamma \i
 $\setR^+$ can be computed in time $2^{O(\MaxInd^2)}$, more precisely with 
 $2^{3*\MaxInd^2}$ operations. The rest of the algorithm requires time $2^{O(\MaxInd^3)}$,
 hence exponential time.
+\\
 
-The state of an algorithm is any sequence $(R_1, d_1, \ldots, R_n, d_n)$ such that:
+\begin{definition}[The Translation Algorithm State]
+The state $\sigma$ of the Translation algorithm is either the empty sequence $()$,
+or any sequence $(R_1, d_1, \ldots, R_n, d_n, S)$ for some $n \in \N$, 
+$R_1, \ldots, R_n, S \in \setR^+$ and $d_1, \ldots, d_n \in \N$, and such that:
+
 \begin{enumerate}
 \item
-$R_1, \ldots, R_n \in \setR^+$
+for all $i \in [1,n-1]$, $\DomCard(R_i) \not = \DomCard(R_{i+1})$ 
+and there is some $S_i \in \setR^+$ such that $R_i = S_i R_{i+1}$
 
 \item
-for all $i \in [n-1]$, $\Card(\dom(R_i) \not = \dom(R_{i+1})$ 
-and there is some $S_i \in \setR^+$ such that $R_i = S_i R_{i+1}$
+$\DomCard(R_n) = \DomCard(S)$ and for all $i \in [1,n]$ there is some $T_i \in \setR^+$ 
+such that $R_i = T_i S$
 \end{enumerate}
 
-%09:43 02/02/2026
+$()$ is called the \emph{initial state}.
+\end{definition}
+
+By Lemma \ref{lemma-stable-sequences}.\ref{lemma-stable-sequences-01}, 
+injectivity imply that $\DomCard(S_i R_{i+1}) \le \DomCard(R_{i+1})$, 
+therefore if $R_i = S_i R_{i+1}$ then we have $\DomCard(R_i) \le \DomCard(R_{i+1})$. 
+Thus, the condition $\DomCard(R_i) \not = \DomCard(R_{i+1})$ is equivalent to
+$\DomCard(R_i) < \DomCard(R_{i+1})$.
+
+For each state $\sigma$ and each $R \in \setR$ we define a transition 
+$\sigma \rightarrow_{R} \tau$ for some state $\tau$. Let $c = \DomCard(R)$.
+Let 
+
+$$
+R'_i = R_i R \mbox{ for all $i \in [1,n]$ \ \ \ and }R'_{n+1} = R
+$$ 
+
+The first condition about is still verified for $R'_1, \ldots, R'_{n+1}$.
+
+By Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-01}, 
+we have $\dom(R'_i) = \dom(R_i R) \subseteq \dom(R_i)$ for
+all $i \in [1,n]$. 
+
+
+\begin{definition}[The Transition $\sigma \rightarrow_{R} \tau$]
+\label{definition-transition-state}
+Let $R_1, \ldots,R_n, R, R'_1, \ldots, R'_{n+1}$ as above.
+Suppose that $i$ is the first element of $i \in [1,n+1]$ such that:
+
+\begin{enumerate} 
+\item
+either $i \in [1,n]$ and $\dom(R'_i) \subset \dom(R_i)$
+\item 
+or $i=n+1$
+\end{enumerate}
+
+We define a transition $(\sigma \rightarrow_{R} \tau) \in \setG$ for some state $\tau$. 
+Let $c = \DomCard(R'_i)$.
+
+\begin{enumerate}
+
+\item
+\emph{Assume that $i>1$ and $\DomCard(R'_i) = \DomCard(R'_{i-1}) $
+for some $c \in \N$}.
+If $R$ is progressing from $\dom(S)$ to $\dom(R)$
+then we reset the counter number $(i-1)$ to its maximum value
+
+$$
+\tau = (R'_1, d_1, \ldots, R'_{i-1}, \newton{\MaxInd}{c}, R'_i)
+$$
+
+otherwise we reduce the counter number $(i-1)$ by one
+
+$$
+\tau = (R'_1, d_1, \ldots, R'_{i-1}, d_{i-1} - 1, R'_i)
+$$
+
+\item 
+\emph{Assume that $i=1$ or $\DomCard(R'_i) \not = \DomCard(R'_{i-1})$}.
+Then we (re)set the counter number $i$ to its maximum value
+
+$$
+\tau = (R'_1, d_1, \ldots, R'_{i-1}, d_{i-1}, R'_i, \newton{\MaxInd}{c}, R'_i)
+$$
+
+ 
+\end{enumerate}
+\end{definition}
+ 
+In the definition above, we have $i=n+1$ if and only if $\dom(R'_i) = \dom(R_i)$
+for all $i \in [1,n]$. 
+
+
+%10:50 02/02/2026
 
 The number of states is bounded by 
 $
@@ -1694,20 +1808,20 @@ $R_{a_i}, \ldots ,R_{b_i}$, with $c_i  = \Card(R_{a_i})$.
 \label{lemma-length-bound}
 \begin{enumerate}
 \item
-%\label{lemma-length-bound-01}
+\label{lemma-length-bound-01}
 For all constant-cardinality domain colored sequence $R_1 \ldots R_n R_{n+1}$ we have
 $\size(R_1 \ldots R_n R_{n+1}) = \size(R_{n+1})$.
 
 \item
-%\label{lemma-length-bound-02}
-For all colored relations $R$: $size(\dom(R)) \ge \size(R)$.
+\label{lemma-length-bound-02}
+For all colored relations $R:\alpha \rightarrow \beta$: $size(\alpha,\dom(R)) \ge \size(\beta,R)$.
  
 \item
-%\label{lemma-length-bound-03}
+\label{lemma-length-bound-03}
 If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ then $\size(R_1) \ge \size(\dom(R_2))$.
 
 \item
-%\label{lemma-length-bound-04}
+\label{lemma-length-bound-04}
 Assume $R_1,R_2$ is a constant-cardinality domain sequence 
 of injective colored relations.
 If $\size(R_1) = \size(R_2)$, then $\size(R_1) = \size(\dom(R_2)) = \size(R_2)$ and 
@@ -1715,7 +1829,7 @@ $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a
 stationary bijection.
 
 \item
-%\label{lemma-length-bound-05}
+\label{lemma-length-bound-05}
 Assume $R_1, \ldots, R_n, R_{n+1}$ is a constant-cardinality-domain sequence of 
 relations in $\setR^+$ with domain-cardinality $c$.
 Suppose for some $k$
@@ -1733,40 +1847,46 @@ $$
 
 \begin{enumerate}
 \item
+%\label{lemma-length-bound-01}
 We assume that $R_1, \ldots, R_n, R_{n+1}$ is some colored constant-cardinality domain 
 sequence  with $R = R_1 \ldots R_n R_{n+1}$ in order to prove that
 $\size(R) = \size(R_{n+1})$.
 By Lemma \ref{}, $\dom(R) = \dom(R_1)$
 and $R_1 \ldots R_n$ restricted to $\dom(R_1)$ and  $\dom(R_{n+1})$ 
-is the graph of some bijection $\phi$. Therefore for
-all $x \in \dom(R_1)$ we have $R(x) = R_1 \ldots R_n R_{n+1}(x) = R_{n+1}(\phi(x))$.
+is the graph of some bijection $\psi$. Therefore for
+all $x \in \dom(R_1)$ we have $R(x) = R_1 \ldots R_n R_{n+1}(x) = R_{n+1}(\psi(x))$.
 
-If $\phi:X \rightarrow Y$ is a bijection, for any sum $\Sigma_{x \in X} a_{\phi(x)}$, 
-we have $\Sigma_{x \in X} a_{\phi(x)} = \Sigma_{y \in Y} a_y$. 
+If $\psi:X \rightarrow Y$ is a bijection, for any sum $\Sigma_{x \in X} a_{\psi(x)}$, 
+we have $\Sigma_{x \in X} a_{\psi(x)} = \Sigma_{y \in Y} a_y$. 
 
-Thus, from $\dom(R) = \dom(R_1)$ and $R(x) = R_{n+1}(\phi(x))$ and $\phi$ deduce that 
+Thus, from $\dom(R) = \dom(R_1)$ and $x R z \equiv \psi(x) R_{n+1} z$ and $\psi$ bijection 
+we deduce that 
 $$
 \size(R) =
-\Sigma_{x \in \dom(R)} \max(\size(R(x)) = 
-\Sigma_{x \in \dom(R_1)} \max(\size( R_{n+1}(\phi(x))) =
-\Sigma_{y \in \dom(R_{n+1})} \max(\size( R_{n+1}(y)) =
+\Sigma_{x \in \dom(R)}             \max(\{\size(z) | z \in R(x) \})                            = 
+\Sigma_{x \in \dom(R_1)}         \max(\{\size(z) | z \in R_{n+1}(\psi(x) )  \})     =
+\Sigma_{y \in \dom(R_{n+1})} \max(\{\size(z) | z \in R_{n+1}(y)           \})      =
 \size(R_{n+1})
 $$
 
 \item
+%\label{lemma-length-bound-02}
 For all $x \in \dom(R)$, $y \in R(x)$ from $x R y$ and the conditions 
-about coloring, this implies that $\size(x) \ge size(y)$. Thus, $\size(x) \ge \max(\size(R(x))$.
+about coloring, we deduce that $\size(x) \ge size(y)$. 
+Thus, $\size(x) \ge \max(\{\size(z) | z \in R(x) \}$.
 We conclude that $size(\dom(R)) = \Sigma_{x \in \dom(R)} \size(x) \ge 
-\Sigma_{x \in \dom(R)} \max(\size(R(x)) = \size(R)$.
+\Sigma_{x \in \dom(R)} \max(\{\size(z) | z \in R(x) \}) = \size(R)$.
 
 \item
-If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection.
-then for all $y \in \dom(R_2)$ there is exactly  one $x \in \dom(R_1)$
-such that $y \in R_1(x)$. The conditions about coloring imply that $\size(x) \ge size(y)$. 
-Thus, $ \size(R_1) = \Sigma_{x \in \dom(R_1)} \max(\size(R_1(x)) \ge 
-\Sigma_{y \in \dom(R_2)} \size(y) = \size(\dom(R_2)$.
+%\label{lemma-length-bound-03}
+If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection $\psi$,
+then for all $x \in \dom(R_1)$ there is exactly  one $y \in \dom(R_1)$ with $y = \psi(x)$.
+Thus, $ \size(R_1) = \Sigma_{x \in \dom(R_1)} \max(\{\size(y) | y \in R_1(x) \}) \ge 
+ \Sigma_{x \in \dom(R_1)} \size(\psi(x)) =  
+\Sigma_{y \in \dom(R_2)} \size(y) = \size(\dom(R_2))$.
 
 \item
+%\label{lemma-length-bound-04}
 By $R_1, R_2$ constant-cardinality-domain sequence and $R_1, R_2$ injective and
 Lemma \ref{} we deduce that $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection.
 By points above we deduce that $\size(R_1) \ge \size(\dom(R_2)) \ge \size(R_2)$,
@@ -1774,6 +1894,7 @@ and from $\size(R_1) = \size(R_2)$ we deduce
 $\size(R_1) = \size(\dom(R_2)) = \size(R_2)$. 
 
 \item
+%\label{lemma-length-bound-05}
 By Lemma \ref{lemma-size-colored-relation} $R_i \cap \dom(R_i) \times \dom(R_{i+1})$ 
 is a stationary bijection for all $i \in [1,n ]$. By the previous point we have 
 $\size(\dom(R_i)) = k$ for all $i \in [2,n+1]$. Thus, $R_i \cap (\dom(R_i) \times 
@@ -1831,7 +1952,7 @@ the inductive formula number $x$ of $\alpha$ progresses to the inductive formula
  of $\beta$.
  
  We associate to $\alpha$ and $\vec{S}$ a list 
- $f(\alpha,\vec{S})=(l_1, \ldots, l_h)$ elements. If $c_i = \Card(\dom(R_{a_i})$,
+ $f(\alpha,\vec{S})=(l_1, \ldots, l_h)$ elements. If $c_i = \DomCard(R_{a_i})$,
  and $d$ is a stationary degree of $R_{a_i} \ldots R_{b_i}$
  then $l_i$ is
  $(
