@@ -90,37 +90,63 @@ infinite Ramsey theorem
 \emph{Proof started in Torino, January 20, 2026. 
 Ugo suggested adding complexity results to motivate the new algorithm}.
 
-Mirai \cite{} provided a translation from from cyclic to inductive proofs. The proof builds
+Mirai \cite{Mirai} provided a translation from from cyclic to inductive proofs. The proof builds
 on an existing algorithm for generating ranking functions and 
 requiring triple exponential time. A first improvement would be to switch to an equivalent
 formulation of cyclic proofs with injective bicolored relation (i.e. fan-in free, with at most one
 arrow entering in each node). In this case, the same algorithm provides a double exponential
-time \cite{} and an inductive proof in output of size $O(2^{n \log(n)})$.
+time \cite{Lee2} 
+and an inductive proof in output of size $O(2^{n \log(n)})$.
 In this paper we further improve the translation to a single exponential (poly-exponential) time, 
 by introducing a new algorithm. The price is having an inductive proof in output
 of poly-exponential size, instead than an ouput of size $O(2^{n \log(n)})$.
 
 
-\newpage   \section{Quick Overview of the GTC and PDC Conditions}
-Let us start from a cyclic proof $\Pi$ with set $\setR$ of bicolored relations on a set 
+   \section{Quick Overview of the GTC and PDC Conditions}
+Let us start from a cyclic proof $P$ with set $\setR$ of bicolored relations on a set 
 $[1,\MaxInd]$. $\MaxInd$ is the maximum number of inductive formula in the left-hand side 
-of some sequent in $\Pi$. Each relation $R$ is associated to an arrow $a \rightarrow b$ 
+of some sequent in $\Pi$. A bicolored relation is any pair $(\Stat,\Prog)$ of relations on
+$[1,\MaxInd]$. Each relation $R$ is associated to an arrow $a \rightarrow b$ 
 between nodes of $\Pi$, and any two relations $R:a \rightarrow b$, $S:b \rightarrow c$
-are said to be composable.
+are said to be composable. We call $\setR$ the set of relations $R:a \rightarrow b$
+in the proof, for some $R, a, b$.
  
-Assume $\setR^+$ is the closure of $\setR$ under composition. The Progressing Domain 
-Condition (PDC) for a bicolored relation $R : a \rightarrow a$ says: 
-there are $x, y \in \dom(R)$ such that $R$ is progressing on $(x,y)$.
-We say that set $\setR$ of bicolored relations on $\Pi$
-satisfies PDC if and only if all $R \in \setR$ with $R: a \rightarrow a$ satisfy PDC. 
-Remark that the Global Trace Condition (GTC) is a property of $\setR$ as a whole, 
-while PDC is a property of single relations $R \in \setR$, $R:a \rightarrow a$. 
+\begin{definition}[Injectivity, PDC and GTC]
+Assume $\setR^+$ is the closure of $\setR$ under composition, $R=(\Stat,\Prog)$
+is a bi-colored relation on $[1,\MaxInd]$, and $X,Y \subseteq [1,\MaxInd]$ are sets
+of positive integer.
 
-We assume that:
+\begin{enumerate}
+\item
+$R$ is progressing from $X$ to $Y$ if and only if $\Prog \cap (X \times Y) \not = \emptyset$.
+
+\item
+The Progressing Domain Condition (PDC) for a bicolored relation $R : a \rightarrow a$ says: 
+$R$ is progressing from $\dom(X)$ to $\dom(X)$.
+
+\item
+We say that closure $\setR^+$ of $\setR$
+satisfies PDC if and only if all $R \in \setR$ with $R: a \rightarrow a$ satisfy PDC. 
+\item
+We say that closure $\setR^+$ of $\setR$
+satisfies GTC if and only if all infinite composable sequences
+$R_1 : \alpha_1 \rightarrow \alpha_2, 
+  R_2 : \alpha_2 \rightarrow \alpha_3, 
+  \ldots,
+  R_n : \alpha_n \rightarrow \alpha_{n+1} \in \setR^+$ with $R_i = (\Stat_i,\Prog_i)$ 
+  there is some infinite sequence $x_1 R_1 x_2 R_2 x_3 \ldots  x_n R_n x_{n+1}$ such that 
+  $(x_i, x_{i+1}) \in \Prog_i$ for infinitely many $i \in \N^+$.
+\end{enumerate}
+\end{definition}
+
+Remark that the Global Trace Condition (GTC) is a property of infinite composable
+chains of $\setR$, while PDC is a property of single relations $R \in \setR$, $R:a \rightarrow a$. 
+
+Through the paper assume that:
 
 \begin{enumerate}
 \item  
-$\setR$ is a set of injective relations, hence $\setR^+$ is a set of injective relations, too.
+$\setR^+$ is a set of injective relations.
 \item
 $\setR^+$ satisfies PDC 
 \end{enumerate}
@@ -129,14 +155,53 @@ PDC for injective relations is equivalent to GTC, in general GTC is a stronger c
 than PDC. 
 \\
 
-{\bf An example.} Let $R = (\{(1,1),(2,2)\},\{(2,1)\})$ with $R$ progressing
-on $(2,1)$. Then $R$ satisfies PDC on the graph $\{(a,a)\}$, and $RR=R$, 
+{\bf An example.} Let $R = (\{(1,1)\},\{(2,1)\}): a \rightarrow a$ with $R$ stationary on $(1,1)$
+and progressing on $(2,1)$. Then $R$ satisfies PDC on the graph $\{(a,a)\}$, and $RR=R$, 
 therefore  $\setR^+=\{R\}$ and $\setR^+$ satisfies PDC. However, the only traces any
-infinite path are $(1,1,1,\ldots)$ and $(2,2,2,\ldots)$ and $(2,2,2,\ldots,1,1,1,\ldots)$. The
-first two traces never progress, the third trace progresses once, on $(2,1)$. So $\setR^+$
-does \emph{not} satisfy GTC. The fact that GTC is false for $\setR^+$ 
-is not in contradiction with what we said, because $R \in \setR^+$ is  \emph{not} injective.
-\\
+infinite path are $(1,1,1,\ldots)$ and $(2,1,1,1,\ldots)$. The
+first trace never progresses, the second trace progresses once, on the first arrow $(2,1)$. 
+So $\setR^+$ does \emph{not} satisfy GTC. The fact that GTC is false for $\setR^+$ 
+is not in contradiction with what we said. Indeed, $R \in \setR^+$ is  \emph{not} injective,
+given that $1$ has two $R$-counter-images, namely $1$ and $2$.
+
+\begin{center}
+\begin{tikzpicture}
+\draw[->,blue, thick] (0,0) -- (1,0);
+\draw[->,red, thick]   (0,1) -- (1,0);
+
+\draw[->,red, thick]   (1.1,1) -- (2.1,0);
+\draw[->,blue, thick] (1.1,0) -- (2.1,0);
+
+\draw[->,red, thick]   (2.2,1) -- (3.2,0);
+\draw[->,blue, thick] (2.2,0) -- (3.2,0);
+
+\draw[->,red, thick] (3.3,1) -- (4.3,0);
+\draw[->,blue, thick] (3.3,0) -- (4.3,0);
+
+\filldraw[black] (0,0) circle (1pt) node[anchor=west]{1};
+\filldraw[black] (0,1) circle (1pt) node[anchor=west]{2};
+
+\filldraw[black] (1.1,0) circle (1pt) node[anchor=west]{1};
+\filldraw[black] (1.1,1) circle (1pt) node[anchor=west]{2};
+
+\filldraw[black] (2.2,0) circle (1pt) node[anchor=west]{1};
+\filldraw[black] (2.2,1) circle (1pt) node[anchor=west]{2};
+
+\filldraw[black] (3.3,0) circle (1pt) node[anchor=west]{1};
+\filldraw[black] (3.3,1) circle (1pt) node[anchor=west]{2};
+
+
+\filldraw[black] (4.4,0) circle (1pt) node[anchor=west]{1};
+\filldraw[black] (4.4,1) circle (1pt) node[anchor=west]{2};
+
+\node[] at (0,1.5) {$R$};
+\node[] at (1.1,1.5) {$R$};
+\node[] at (2.2,1.5) {$R$};
+\node[] at (3.3,1.5) {$R$};
+\node[] at (4.4,1.5) {$\ldots$};
+
+\end{tikzpicture}
+\end{center}
 
 Suppose we have a path $\pi$ from a companion c to itself, moving back  through $c$
 for $k \ge 1$ times: we have $c \rightarrow c \rightarrow \ldots \rightarrow c$, with $k$ arrows.
@@ -146,11 +211,12 @@ The path $\pi$ itself is associated to the sequence $\vec{R} = R_1 \ldots R_k$ o
 For the translation, we have to associate a measure to each such sequence $\vec{R}$
 which is decreasing by extension.
 
-In order to do so, we first to derive some elementar properties of the sequences of uncolored injective relations on $[1,\MaxInd]$. This properties having nothing to do with colors and
+In order to do so, we first to derive some elementar properties of the sequences of uncolored injective relations on $[1,\MaxInd]$. These properties have nothing to do with colors and
 with cyclic proofs.
 
+%15:56 03/02/2026
 
-\newpage   \section{Domain-Stable Sequences and Grouping}
+   \section{Domain-Stable Sequences and Grouping}
 From now on we write $\N$ for the set of non-negative integers and for any $a,b \in \N$
 we write $[a,b]$ for the segment $\{c \in \N | a \le c \le b\}$. A sub-segment $[a',b']$ of
 $[a,b]$ is any $[a',b'] \subseteq [a,b]$, namely with $[a',b']=\emptyset$ or $a \le a', b' \le b$.
@@ -851,7 +917,7 @@ $\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$.
 
 
 
-\newpage   \section{Injective Domain-Stable Relation Sequences}
+   \section{Injective Domain-Stable Relation Sequences}
 
 We first derive some inequalities for domain-cardinality
 valid for sequences of injective relations.
@@ -1142,7 +1208,7 @@ of measures of components. Lemma \ref{lemma-cardinality-stability} says that tha
 measure is strictly decreasing w.r.t. $<$.
 
 
-\newpage   \section{Constant-domain of Injective Bicolored Sequences}
+   \section{Constant-domain of Injective Bicolored Sequences}
 
 If $R= (\Stat,Prog)$ is a bicolored sequence, we define $\universe{R} = \Stat \cup \Prog$
 and if $\vec{R}=R_1, ldots, R_n$ is a bicolored sequence, we define
@@ -1292,7 +1358,7 @@ the relation $R_{d+1}$ is progressing between $\dom(R_{d+1})$ and $\dom(T)$.
 \end{proof}
 
 
-\newpage   \section{Injective bicolored Relation Sequences}
+   \section{Injective bicolored Relation Sequences}
 
 Assume $\vec{S} = S_1, \ldots, S_n$ is any sequence of bicolored relations. We define
 the uncolored version of $\vec{S}$ as $\universe{\vec{S}} = \universe{S_1}, \ldots, 
@@ -1796,7 +1862,7 @@ namely it is $2^{O(\MaxInd^3)}$ again. Therefore the total cost is poly-exponent
 %If $\vec{R} = R_1, \ldots, R_n \in \setR^+$ and $\vec{S}$ is the Minimum Stable
 %grouping of $\vec{R} $ then we set $\size(\vec{R})  = \size(\vec{S}) $.
 
-\newpage   \section{A Ranking Function}
+	\		\   \section{A Ranking Function}
 We define a ranking function. Assume $\vec{S}$ has minimum stable grouping 
 $\minStable{\vec{C}} = \vec{R} = R_1, \ldots, R_n$. Assume there are $h$ maximal
 constant-cardinality domain components, and the component n umber $i$ is  
@@ -1971,7 +2037,8 @@ The minimum of all $f(\alpha,\vec{S})$ for all $\vec{S}$ is the required ranking
 We represent $\vec{S}$ with $h$ pairs of the form $(R_{a_i}\ldots R_{b_i-1}),R_{b_i}$
 
 
-
+\bibliographystyle{plain}
+\bibliography{20241019-SCT-Cyclic}
 
  
 

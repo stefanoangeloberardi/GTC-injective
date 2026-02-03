@@ -24,6 +24,11 @@ Liron Cohen, Reuben N.~S. Rowe, and Matan Shaked.
   Algorithms for the Construction and Analysis of Systems}, pages 336--354,
   Cham, 2025. Springer Nature Switzerland.
 
+\bibitem{Mirai}
+Mirai Ikebuchi.
+\newblock Cyclic proofs and size-change termination.
+\newblock {\em Theoretical Computer Science}, 1045:115273, 2025.
+
 \bibitem{10.1145/3453483.3454087}
 Shachar Itzhaky, Hila Peleg, Nadia Polikarpova, Reuben N.~S. Rowe, and Ilya
   Sergey.
