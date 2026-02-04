@@ -111,31 +111,61 @@ between nodes of $\Pi$, and any two relations $R:a \rightarrow b$, $S:b \rightar
 are said to be composable. We call $\setR$ the set of relations $R:a \rightarrow b$
 in the proof, for some $R, a, b$.
  
+From now on we write $\N$ for the set of non-negative integers and $\N^+$ for the set of positive integers. For any $a,b \in \N$
+we write $[a,b]$ for the segment $\{c \in \N | a \le c \le b\}$. A sub-segment $[a',b']$ of
+$[a,b]$ is any $[a',b'] \subseteq [a,b]$, namely with $[a',b']=\emptyset$ or $a \le a', \le b' \le b$.
+
+We consider binary relations on a finite set: for sake of simplicity we only 
+consider the finite sets $[1,\MaxInd]$, for some $\MaxInd \in \N$ which we assume to be
+fixed. We will abbreviate \questionMarks{binary relations on $[1,\MaxInd]$} with
+\questionMarks{relations}. We write $\dom(R) = \{x | \exists y (x R y)\}$ and
+$R(x)$ for the set $\{y | x R y\}$ of $R$-images of $x \in \dom(R)$. We call 
+$\DomCard(R) = \Card(\dom(R))$ the domain-cardinality of $R$. We extend
+$\dom$ and $\DomCard$ to relation sequences by taking the product of the sequence:
+$\dom(R_1, \ldots, R_n) =  \dom(R_1 \ldots R_n)$ and 
+$\DomCard(R_1, \ldots, R_n) = \DomCard(R_1 \ldots R_n)$.
+
+
 \begin{definition}[Injectivity, PDC and GTC]
+\label{definition-inj-PDC-GTC}
 Assume $\setR^+$ is the closure of $\setR$ under composition, $R=(\Stat,\Prog)$
 is a bi-colored relation on $[1,\MaxInd]$, and $X,Y \subseteq [1,\MaxInd]$ are sets
 of positive integer.
 
 \begin{enumerate}
 \item
+\label{definition-inj-PDC-GTC-01}
 $R$ is progressing from $X$ to $Y$ if and only if $\Prog \cap (X \times Y) \not = \emptyset$.
 
 \item
+\label{definition-inj-PDC-GTC-02}
 The Progressing Domain Condition (PDC) for a bicolored relation $R : a \rightarrow a$ says: 
-$R$ is progressing from $\dom(X)$ to $\dom(X)$.
+$R$ is progressing from $\dom(R)$ to $\dom(R)$.
 
 \item
+\label{definition-inj-PDC-GTC-03}
 We say that closure $\setR^+$ of $\setR$
-satisfies PDC if and only if all $R \in \setR$ with $R: a \rightarrow a$ satisfy PDC. 
+satisfies PDC if and only if for all $R: a \rightarrow a \in \setR$, $R$ satisfies PDC. 
+
 \item
-We say that closure $\setR^+$ of $\setR$
-satisfies GTC if and only if all infinite composable sequences
-$R_1 : \alpha_1 \rightarrow \alpha_2, 
-  R_2 : \alpha_2 \rightarrow \alpha_3, 
-  \ldots,
-  R_n : \alpha_n \rightarrow \alpha_{n+1} \in \setR^+$ with $R_i = (\Stat_i,\Prog_i)$ 
-  there is some infinite sequence $x_1 R_1 x_2 R_2 x_3 \ldots  x_n R_n x_{n+1}$ such that 
-  $(x_i, x_{i+1}) \in \Prog_i$ for infinitely many $i \in \N^+$.
+\label{definition-inj-PDC-GTC-04}
+An infinite path $\pi$ in $\setR^+ $ is any infinite composable sequence
+$$\{(\Stat_i,\Prog_i):  \alpha_i \rightarrow \alpha_{i+1}\}_{i \in \N} \subseteq \setR^+$$
+\begin{enumerate}
+\item
+An infinite trace $\sigma$ in $\pi$ is any map $\sigma: [i_0, \infty[ \rightarrow [1,\MaxInd]$, 
+for some $i_0 \in \N$, such that $\sigma(i) \Stat_i \cup \Prog_i \sigma(i+1)$ 
+for all $i \in [i_0, \infty[$. 
+\item
+$\sigma$ is infinitely progressing in $\pi$ if and only if $\sigma(i) \Prog_i \sigma(i+1)$ 
+for infinitely many $i \ge i_0$.
+\end{enumerate}
+
+\item
+\label{definition-inj-PDC-GTC-05}
+We say that $\setR^+ $ satisfies GTC if and only if for all infinite composable sequences 
+$\pi$ there is some infinitely progressing path $\sigma$ in $\pi$.
+
 \end{enumerate}
 \end{definition}
 
@@ -155,10 +185,12 @@ PDC for injective relations is equivalent to GTC, in general GTC is a stronger c
 than PDC. 
 \\
 
-{\bf An example.} Let $R = (\{(1,1)\},\{(2,1)\}): a \rightarrow a$ with $R$ stationary on $(1,1)$
-and progressing on $(2,1)$. Then $R$ satisfies PDC on the graph $\{(a,a)\}$, and $RR=R$, 
-therefore  $\setR^+=\{R\}$ and $\setR^+$ satisfies PDC. However, the only traces any
-infinite path are $(1,1,1,\ldots)$ and $(2,1,1,1,\ldots)$. The
+{\bf An example.} Let $R = (\{(1,1)\},\{(2,1)\})$ with $R$ stationary on $(1,1)$
+and progressing on $(2,1)$. Let $\setR=\{R: a \rightarrow a\}$.
+Then $R$ satisfies PDC on the graph $\{(a,a)\}$, and $RR=R$, 
+therefore  $\setR^+=\{R: a \rightarrow a\}$ and $\setR^+$ satisfies PDC. 
+However, the only infinite traces in $R: a \rightarrow a, R: a \rightarrow a, R: a \rightarrow a,
+\ldots$ are $(1,1,1,\ldots)$ and $(2,1,1,1,\ldots)$. The
 first trace never progresses, the second trace progresses once, on the first arrow $(2,1)$. 
 So $\setR^+$ does \emph{not} satisfy GTC. The fact that GTC is false for $\setR^+$ 
 is not in contradiction with what we said. Indeed, $R \in \setR^+$ is  \emph{not} injective,
@@ -214,23 +246,16 @@ which is decreasing by extension.
 In order to do so, we first to derive some elementar properties of the sequences of uncolored injective relations on $[1,\MaxInd]$. These properties have nothing to do with colors and
 with cyclic proofs.
 
-%15:56 03/02/2026
 
-   \section{Domain-Stable Sequences and Grouping}
-From now on we write $\N$ for the set of non-negative integers and for any $a,b \in \N$
-we write $[a,b]$ for the segment $\{c \in \N | a \le c \le b\}$. A sub-segment $[a',b']$ of
-$[a,b]$ is any $[a',b'] \subseteq [a,b]$, namely with $[a',b']=\emptyset$ or $a \le a', b' \le b$.
 
-We consider binary relations on a finite set: for sake of simplicity we only 
-consider the finite sets $[1,\MaxInd]$, for some $\MaxInd \in \N$ which we assume to be
-fixed. We will abbreviate \questionMarks{binary relations on $[1,\MaxInd]$} with
-\questionMarks{relations}. We write $\dom(R) = \{x | \exists y (x R y)\}$ and
-$R(x)$ for the set $\{y | x R y\}$ of $R$-images of $x \in \dom(R)$. We call 
-$\DomCard(R) = \Card(\dom(R))$ the domain-cardinality of $R$. We extend
-$\dom$ and $\DomCard$ to relation sequences by taking the product of the sequence:
-$\dom(R_1, \ldots, R_n) =  \dom(R_1 \ldots R_n)$ and 
-$\DomCard(R_1, \ldots, R_n) = \DomCard(R_1 \ldots R_n)$
 
+\section{Domain-Stable Sequences and Grouping}
+We define the notion of grouping of a sequence of relations. An example: a possible 
+grouping of $\vec{S} = S_1, S_2, S_3, S_4, S_5, S_6$ is the following list of $3$ products:
+ 
+$$ 
+S_1S_2, S_3, S_4 S_5 S_6
+$$
 
 \begin{definition}[Grouping]
 A grouping of a sequence $\vec{S} = S_1, \ldots, S_n$ of relations is a sequence
@@ -256,7 +281,7 @@ $$
 The segments $[a_1,b_1], \ldots, [a_{h+1},b_{h+1}]$ are a decomposition
 of $[1,n]$ into a disjoint union for some increasing sequence 
 $0 < b_1 < b_2 < i_3 < \ldots < b_h < b_{h+1} = n$. We necessarily have
-$a_0=1$ and $a_{i+1} = b_i+1$ for all $i \in [1,h]$. 
+$a_0=1$ and $a_{i+1} = b_i + 1$ for all $i \in [1,h]$. 
 
 Some trivial examples. 
 \begin{enumerate}
@@ -274,7 +299,8 @@ grouping, in which more domain inclusions are valid.
 
 \begin{lemma}[Domain-inclusion]
 \label{lemma-domain-inclusion}
-Assume $R, S, T$ are any relations and $R_1, \ldots, R_n$ is any sequence of relations.
+Assume $R, S, T$ are any relations and $R_1, \ldots, R_n$ is any sequence of relations
+on $[1,\MaxInd]$.
 \begin{enumerate}
 
 \item
@@ -286,10 +312,10 @@ and therefore $\DomCard(RS) \le \DomCard(R)$.
 \label{lemma-domain-inclusion-02}
 
 $$
-\dom(R_1)   \ \ \  \supseteq  \ \ \ 
-\dom(R_1 R_2)    \ \ \  \supseteq  \ \ \ 
-\dom(R_1 R_2 R_3)    \ \ \  \supseteq  \ \ \  
-\ldots   \ \ \  \supseteq
+\dom(R_1) \supseteq 
+\dom(R_1 R_2) \supseteq 
+\dom(R_1 R_2 R_3) \supseteq 
+\ldots \supseteq 
 \dom(R_1 \ldots R_n)
 $$
 
@@ -333,23 +359,40 @@ $
 \dom(R_1 \ldots R_n)
 $ 
 by induction on $n$. 
-When $n=0,1$ there is no inclusion to prove. Suppose $n \ge 1$ and the thesis 
+When $n=0$ there is no inclusion to prove, when $n=1$ we have 
+$\dom(R_1) \supseteq \dom(R_1)$. Suppose $n \ge 1$ and the thesis 
 for $n$, namely that $\dom(R_1) \supseteq \dom(R_1 R_2) \supseteq \dom(R_1 R_2 R_3) 
 \supseteq \ldots \supseteq \dom(R_1 \ldots R_n)$. We have to prove the thesis for $n+1$. 
 By point \ref{lemma-domain-inclusion-01}above 
-we have $\dom(R_1 \ldots R_{n} R_{n+1}) \subseteq \dom(R_1 \ldots R_{n})$, namely. 
+we have $\dom(R_1 \ldots R_{n} R_{n+1}) \subseteq \dom(R_1 \ldots R_{n})$, which is
 $\dom(R_1 \ldots R_{n}) \supseteq \dom(R_1 \ldots R_{n} R_{n+1})$. 
 From this and the inductive hypothesis we deduce the thesis for $n+1$.
 
 \item
 %\label{lemma-domain-inclusion-03}
-If $(\dom(R) = \dom(RS))$ then $(\dom(R) \subseteq \dom(RS))$. If
-$(\dom(R) \subseteq \dom(RS))$, then $(\dom(R) \not \supset \dom(RS))$.
-If $(\dom(R) \not \supset \dom(RS))$, then from $(\dom(R) \supseteq \dom(RS))$
-(point \ref{lemma-domain-inclusion-01}above) we deduce that $(\dom(R) = \dom(RS))$,
-hence $(\DomCard(R) = \DomCard(RS))$. If $(\DomCard(R) = \DomCard(RS))$
-then from $(\dom(R) \supseteq \dom(RS))$ and the fact that both sets are included in
-$[1,\MaxInd]$ and therefore finite we deduce that $(\dom(R) = \dom(RS))$.
+\begin{enumerate}
+\item
+\emph{Assume $(\dom(R) = \dom(RS))$}. 
+We conclude $(\dom(R) \subseteq \dom(RS))$. 
+\item
+\emph{Assume $(\dom(R) \subseteq \dom(RS))$}. 
+We conclude $(\dom(R) \not \supset \dom(RS))$.
+\item
+\emph{Assume $(\dom(R) \not \supset \dom(RS))$}. 
+Then from $(\dom(R) \supseteq \dom(RS))$
+(point \ref{lemma-domain-inclusion-01}above) we deduce that $(\dom(R) = \dom(RS))$.
+We conclude $(\DomCard(R) = \DomCard(RS))$. 
+\item
+\emph{Assume $(\DomCard(R) = \DomCard(RS))$}, 
+that is, $(\Card(\dom(R)) = \Card(\dom(RS)))$.
+Both sets are included in $[1,\MaxInd]$ and therefore finite.
+For finite sets, strict subsets have a smaller cardinality: if cardinality is the same
+then an inclusion cannot be strict.
+From $(\dom(R) \supseteq \dom(RS))$
+(point \ref{lemma-domain-inclusion-01}above) 
+and $(\Card(\dom(R)) = \Card(\dom(RS)))$ and finiteness 
+we conclude that $(\dom(R) = \dom(RS))$.
+\end{enumerate}
 
 \item
 %\label{lemma-domain-inclusion-04}
@@ -370,21 +413,15 @@ The inclusion $\dom(RS) \subseteq \dom(R)$ proved in
 Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}
 is often strict. An example: if $R = \{(1,1)\}$ and $S = \{(2,2)\}$ then $RS=\emptyset$,
 therefore $\dom(RS) = \emptyset \subset \dom(R) = \{1\}$. 
-We call domain-stable any sequence $\vec{R}$ of relations in which this never happens.
+We call domain-stable any sequence $\vec{S}$ of relations in which the strict
+inclusion $\dom(S_i S_{i+1}) \subset \dom(S_i)$ never happens.
  
 \begin{definition}[Domain-Stability]
-Let $R$, $S$ be any two relations and $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
-\begin{enumerate}
+Let $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
 
-\item
-We say that a pair $R, S$ is \emph{domain-stable}, only \emph{stable} for short, if 
-and only if $\dom(R) = \dom(RS)$.
+We say that $\vec{S}$ is stable if and only if for all $i \in [1,n-1]$ we have 
+$\dom(S_i S_{i+1}) = \dom(S_i)$.
 
-\item
-$\vec{S}$ is stable if and only if for all $i \in [1,n-1]$
-the pair $S_i$, $S_{i+1}$ is stable.
-
-\end{enumerate} 
 \end{definition}
 
 
@@ -411,7 +448,7 @@ In the same way we can restate the stability for a sequence.
 
 \begin{proposition}[Restating Stability]
 Let $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
-Then  $\vec{S}$ is stable if and only if $S_i \restr \dom(S_i) \times \dom(S_{i+1})$ 
+Then  $\vec{S}$ is stable if and only if $S_i \cap (\dom(S_i) \times \dom(S_{i+1}))$ 
 is everywhere defined for all $i \in [1,n-1]$. 
 \end{proposition}
 
@@ -421,7 +458,10 @@ then some $S_i$-image of $x$ has some $S_{i+1}$-image. This is the definition
 of $S_i$, $S_{i+1}$ domain-stable for $i \in [1,n-1]$. 
 \end{proof}
 
-Domain-stable sequences satisfy more domain equalities than generic sequences.
+We can restate stability in many more ways.
+
+
+
 
 
 \begin{lemma}[Domain-Stability]
@@ -439,7 +479,7 @@ for all $i, j \in [1, n]$, $i \le j$ we have:
 $$
 \dom(S_i) =  \dom(S_i \ldots S_j)
 $$
-or equivalently $\DomCard(S_i) =  \Card(\dom(S_i \ldots S_j))$.
+or equivalently $\DomCard(S_i) =  \DomCard(S_i \ldots S_j)$.
 
 \item
 \label{lemma-domain-stability-03}
@@ -453,20 +493,20 @@ $$
 $$
 
 \end{enumerate}
-
-
-
 \end{lemma}
 
-\begin{proof}
 
+
+\begin{proof}
 We can equivalently restate $\dom(S_i) =  \dom(S_i \ldots S_j)$ as
-$\DomCard(S_i) =  \Card(\dom(S_i \ldots S_j))$, 
+$\DomCard(S_i) = \DomCard(\dom(S_i \ldots S_j)$, 
 given that we have $\dom(S_i) \supseteq  \dom(S_i \ldots S_j)$ 
 by Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-02})
-and the fact that they are subsets of the finite set $[1,\MaxInd]$.
-Therefore we can skip the formulation using 
-$\DomCard(S_i) =  \Card(\dom(S_i \ldots S_j))$
+and the fact that they are subsets of the finite set $[1,\MaxInd]$, therefore 
+strict subsets have a smaller cardinality.
+
+So we can skip the formulation using 
+$\DomCard(S_i) = \DomCard(\dom(S_i \ldots S_j)$
 when deriving the equivalences about point \ref{lemma-domain-stability-02}.
 
 We will now prove the equivalence of points 
@@ -509,7 +549,7 @@ For, we assume $j \ge i$ and we prove $\dom(S_i) =  \dom(S_i \ldots S_j)$ by ind
 Assume $j=i$. Then $\dom(S_i) =  \dom(S_i)$.
 \item
 Assume $\dom(S_i) =  \dom(S_i \ldots S_j)$ and $j<n$ in order to prove that 
-$\dom(S_i) =  \dom(S_i \ldots S_j S_{j+1})$. By defiition of stability we have 
+$\dom(S_i) =  \dom(S_i \ldots S_j S_{j+1})$. By definition of stability we have 
 $\dom(S_j) = \dom(S_j S_{j+1})$. By Lemma 
 \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-04} 
 applied to $(S_i \ldots S_{j-1}), \ S_j, \ S_{j+1}$ we deduce 
@@ -527,9 +567,6 @@ for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i)  =  \dom(S_i \ldots S_j)
 in order to prove point \ref{lemma-domain-stability-03}:
 all subsegments and grouping of $\vec{S}$ are stable. 
 
-All subsegments are stable because the finite quantification defining stability for a subsegment 
-is a restriction of the finite quantification defining stability for the sequence. 
-
 We prove that all grouping of $\vec{S}$ are stable. We assume that
 $i, j,k\in [1, n]$, $i \le j < k$ and that $S_i \ldots S_j$, $S_{j+1} \ldots S_k$
 are two consecutive products in some grouping of $\vec{S}$, and we have to prove 
@@ -538,14 +575,21 @@ By point \ref{lemma-domain-stability-02} we have
 $$
 \dom(S_i \ldots S_j) = \dom(S_i) = \dom(S_i \ldots S_j S_{j+1} \ldots S_k)
 $$
+
+We prove that all sub-segments are stable. We proved that all grouping of $\vec{S}$ are stable.
+Therefore $\vec{S}$ itself is stable, being a trivial grouping of $\vec{S}$.
+The finite quantification defining stability for a subsegment of $\vec{S}$ 
+is a restriction of the finite quantification defining stability for $\vec{S}$. From
+stability of $\vec{S}$ we deduce stability for each sub-segment.
+
 This proves point \ref{lemma-domain-stability-03}.
 
 
 \item
 \ref{lemma-domain-stability-03} $\implies$ \ref{lemma-domain-stability-01}.
 
-We assume point \ref{lemma-domain-stability-03}: all prefixes 
-and grouping of $\vec{S}$ are stable,
+We assume point \ref{lemma-domain-stability-03}: all sub-segments 
+and groupings of $\vec{S}$ are stable,
 and we have to prove point \ref{lemma-domain-stability-01}: $\vec{S}$ is stable. 
 
 This follows from the fact that $\vec{S}$ itself is a trivial case of grouping of $\vec{S}$.
@@ -595,12 +639,18 @@ as wished.
 \end{enumerate}
 \end{proof}
 
+
+
+
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02}
 says that a sequence is stable if and only if whenever $x$ has some $S_i$-image,
 then $x$ has some chain of $S_i, S_{i+1}, S_{i+2}, \ldots$-images of any length
 moving through the sequence. More informally, that we never drop any element of $\dom(S_i)$
 when composing with $S_{i+1}$, $S_{i+2}$, \ldots.
 This is an alternative definition of domain-stable sequence.
+
+%13:25 04/02/2026
+
 
 We compare two groupings, looking for the grouping whose product closet to the left 
 are shorter.
@@ -646,8 +696,8 @@ lexicographic ordering.
 We provide an alternative characterization of the minimum stable grouping of $\vec{S}$
 using a map $\phi(\vec{S},\cdot) : [1,\MaxInd] \rightarrow  [1,\MaxInd]$. 
 Then using the map $\phi(\vec{S},\cdot)$ we will provide an alternative definition of 
-$\minStable(\vec{S})$ by induction on $\vec{S}$, together with an algorithm computing
-it in polynomial time. 
+$\minStable(\vec{S})$ by induction on $\vec{S}$, 
+together with an algorithm computing it in polynomial time. 
 We first need the notion of $j$ dropping index for $i$, for $i,j \in [1,n]$.
 
 \begin{definition}[Stable Matching]
@@ -1790,9 +1840,10 @@ we have $\dom(R'_i) = \dom(R_i R) \subseteq \dom(R_i)$ for
 all $i \in [1,n]$. 
 
 
-\begin{definition}[The Transition $\sigma \rightarrow_{R} \tau$]
+\begin{definition}[The Transition Function $f(\sigma,R)$]
 \label{definition-transition-state}
 Let $R_1, \ldots,R_n, R, R'_1, \ldots, R'_{n+1}$ as above.
+Let $c = \DomCard(R'_i)$.
 Suppose that $i$ is the first element of $i \in [1,n+1]$ such that:
 
 \begin{enumerate} 
@@ -1802,42 +1853,57 @@ either $i \in [1,n]$ and $\dom(R'_i) \subset \dom(R_i)$
 or $i=n+1$
 \end{enumerate}
 
-We define a transition $(\sigma \rightarrow_{R} \tau) \in \setG$ for some state $\tau$. 
-Let $c = \DomCard(R'_i)$.
+We define a transition function $f(\sigma,R)$. 
 
 \begin{enumerate}
+
+\item 
+\emph{Assume that $i=1$ or $\DomCard(R'_i) \not = \DomCard(R'_{i-1})$}.
+Then $f$ sets the counter number $i$ to its maximum value
+
+$$
+f(\sigma,R) = (R'_1, d_1, \ldots, R'_{i-1}, d_{i-1}, R'_i, \newton{\MaxInd}{c}, R'_i)
+$$
 
 \item
 \emph{Assume that $i>1$ and $\DomCard(R'_i) = \DomCard(R'_{i-1}) $
 for some $c \in \N$}.
-If $R$ is progressing from $\dom(S)$ to $\dom(R)$
-then we reset the counter number $(i-1)$ to its maximum value
+\begin{enumerate}
+\item
+\emph{Assume $R$ is progressing from $\dom(S)$ to $\dom(R)$}.
+Then $f$ sets the counter number $(i-1)$ to its maximum value
 
 $$
-\tau = (R'_1, d_1, \ldots, R'_{i-1}, \newton{\MaxInd}{c}, R'_i)
+f(\sigma,R) = (R'_1, d_1, \ldots, R'_{i-1}, \newton{\MaxInd}{c}, R'_i)
 $$
 
-otherwise we reduce the counter number $(i-1)$ by one
+\item
+\emph{Assume  $R$ is stationary from $\dom(S)$ to $\dom(R)$}.
+Then $f$ reduces the counter number $(i-1)$ by one, unless the counter is zero:
 
 $$
-\tau = (R'_1, d_1, \ldots, R'_{i-1}, d_{i-1} - 1, R'_i)
+f(\sigma,R) = (R'_1, d_1, \ldots, R'_{i-1}, \max(0,d_{i-1} - 1), R'_i)
 $$
-
-\item 
-\emph{Assume that $i=1$ or $\DomCard(R'_i) \not = \DomCard(R'_{i-1})$}.
-Then we (re)set the counter number $i$ to its maximum value
-
-$$
-\tau = (R'_1, d_1, \ldots, R'_{i-1}, d_{i-1}, R'_i, \newton{\MaxInd}{c}, R'_i)
-$$
-
  
+\end{enumerate}
 \end{enumerate}
 \end{definition}
  
 In the definition above, we have $i=n+1$ if and only if $\dom(R'_i) = \dom(R_i)$
 for all $i \in [1,n]$. 
 
+\begin{lemma}
+If $\sigma$ is a state for $\setR^+$ and $R \in \setR^+$ then $f(\sigma,R)$ is a state 
+for $\setR^+$.
+\end{lemma}
+
+We define a graph $\setG$ with transitions $\sigma \rightarrow_R f(\sigma,R)$ labeled
+by $R \in \setR$.
+
+\begin{theorem}
+In the part of $\setG$ reachable from the initial state $()$ we have 
+$\size(\sigma) > \size(f(\sigma,R))$ lexicographically.
+\end{theorem}
 
 %10:50 02/02/2026
 
