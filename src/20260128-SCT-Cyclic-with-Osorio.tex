@@ -52,6 +52,7 @@
 \newcommand{\DomIncr}                {{\tt DomIncr}}
 \newcommand{\trans}                       {{\tt trans}}
 \newcommand{\DomCard}               {{\tt DomCard}}
+\newcommand{\grouping}                {{\succeq}}
 %END MACRO
 
 \title{A Poly-exponential Translation from Injective Cyclic to Inductive Proofs}
@@ -250,28 +251,31 @@ with cyclic proofs.
 
 
 \section{Domain-Stable Sequences and Grouping}
-We define the notion of grouping of a sequence of relations. An example: a possible 
-grouping of $\vec{S} = S_1, S_2, S_3, S_4, S_5, S_6$ is the following list of $3$ products:
+We define the grouping relation between sequences of relations. An example: a possible 
+grouping of $\vec{S} = S_1, S_2, S_3, S_4, S_5, S_6$ is the following list $\vec{T}$
+of $3$ products:
  
 $$ 
-S_1S_2, S_3, S_4 S_5 S_6
+S_1S_2, \ \ \ S_3, \ \ \ S_4 S_5 S_6
 $$
 
-\begin{definition}[Grouping]
-A grouping of a sequence $\vec{S} = S_1, \ldots, S_n$ of relations is a sequence
-of non-empty products of relations, defined by induction on $n$ as follows.
+\begin{definition}[The Grouping Relation]
+Assume $\vec{T} = T_1, \ldots, T_m$ and 
+$\vec{S} = S_1, \ldots, S_n$. We define the grouping relation $\vec{T} \grouping \vec{S}$ 
+by induction on $n$ as follows.
 \begin{enumerate}
+
 \item
-If $n=0$, then $\vec{S}$ (empty) is the unique grouping of $\vec{S}$.
+If $n=0$, then $\vec{T}$ = empty sequence = $\vec{S}$.
+
 \item
-Suppose $T_1, \ldots, T_m$ is any grouping of some $\vec{S}$. 
-Then $T_1, \ldots, T_{i-1}, (T_i \ldots T_m S)$ is a grouping of 
-$\vec{S},S$, for all $i \in [1,m]$. 
+Suppose $\vec{T} = T_1, \ldots, T_m \grouping \vec{S}$. 
+Then $T_1, \ldots, T_{i-1}, (T_i \ldots T_m S) \grouping \vec{S},S$, for all $i \in [1,m]$. 
 \end{enumerate}
 \end{definition}
 
-To put otherwise, the groupings of $S_1, \ldots, S_n$ are all and only 
-sequences of products of the form: 
+To put otherwise, the groupings of $\vec{S} = S_1, \ldots, S_n$ are all and only 
+sequences of non-empty products of consecutive elements of $\vec{S}$, of the form: 
 $$
 S_{a_1} \ldots S_{b_1}, \ \ \ 
 S_{a_2} \ldots S_{b_2}, \ \ \ 
@@ -649,90 +653,137 @@ moving through the sequence. More informally, that we never drop any element of 
 when composing with $S_{i+1}$, $S_{i+2}$, \ldots.
 This is an alternative definition of domain-stable sequence.
 
-%13:25 04/02/2026
 
 
-We compare two groupings, looking for the grouping whose product closet to the left 
-are shorter.
+%We compare two groupings, looking for the grouping whose product closet to the left 
+%are shorter.
+%
+%\begin{definition}[Lexicographic Ordering on Grouping]
+%\label{definition-grouping-order}
+%Assume $\vec{S}=S_1, \ldots, S_n$ is a sequence of relations and 
+%$$
+%\vec{R} \ \ \ = \ \ \ 
+%S_{a_1} \ldots S_{b_1}, \ \ \ S_{a_2} \ldots S_{b_2}, \ \ \ \ldots, \ \ \ S_{a_{h+1}} \ldots S_{b_{h+1}}
+%$$
+%is a grouping of $\vec{S}$ with $a_1=1, a_{i+1} = b_i+1$ for all $i \in [1,h]$ and 
+%$b_{h+1} = n$.
+%
+%\begin{enumerate}
+%\item
+%The degree of the grouping $\vec{R}$ of $\vec{S}$ is the sequence
+%of the lengths of its products, namely $(b_1, b_2 - b_1, \ldots, b_{h+1} - b_h)$. 
+%\item
+%We compare two grouping of the same sequence by comparing their degrees in the 
+%lexicographic ordering.
+%\end{enumerate}
+%\end{definition} 
 
-\begin{definition}[Lexicographic Ordering on Grouping]
-\label{definition-grouping-order}
-Assume $\vec{S}=S_1, \ldots, S_n$ is a sequence of relations and 
-$$
-\vec{R} \ \ \ = \ \ \ 
-S_{a_1} \ldots S_{b_1}, \ \ \ S_{a_2} \ldots S_{b_2}, \ \ \ \ldots, \ \ \ S_{a_{h+1}} \ldots S_{b_{h+1}}
-$$
-is a grouping of $\vec{S}$ with $a_1=1, a_{i+1} = b_i+1$ for all $i \in [1,h]$ and 
-$b_{h+1} = n$.
-
-\begin{enumerate}
-\item
-The degree of the grouping $\vec{R}$ of $\vec{S}$ is the sequence
-of the lengths of its products, namely $(b_1, b_2 - b_1, \ldots, b_{h+1} - b_h)$. 
-\item
-We compare two grouping of the same sequence by comparing their degrees in the 
-lexicographic ordering.
-\end{enumerate}
-\end{definition} 
-
-For instance, 
+We claim that the grouping relation $\grouping$ is a partial order, but we include
+no proof because it is not required for the paper. For instance, 
 $S_1 \ldots S_n$ is the maximum grouping and $S_1, \ldots, S_n$ the minimum grouping.
 
-We use the ordering on grouping to select a simplest stable grouping of $\vec{S}$.
+We use the grouping relation $\grouping$ to select a simplest stable grouping of $\vec{S}$.
 All sequences $\vec{S}=S_1, \ldots, S_n$ have a trivial stable grouping, by taking the
-product $S_1 \ldots S_n$ of the sequence. This is the maximum grouping, 
+product $S_1 \ldots S_n$ of the sequence. This is the maximum grouping w.r.t. $\grouping$, 
 and therefore it is the maximum stable grouping, but it is trivial.
 
-Lexicographic ordering is total, therefore there is a minimum stable grouping.
+We will prove that there is a minimum stable grouping  w.r.t. $\grouping$ for each $\vec{S}$.
+Namely, we claim that 
+there is some $\vec{T} \grouping \vec{S}$ such that $\vec{U} \grouping \vec{S}$
+is stable if and only if $\vec{U} \grouping \vec{T}$. This is not
+self-evident, because $\grouping$ is only a partial ordering.
 
-\begin{definition}[The Minimum Stable Grouping]
-\label{definition-minstable}
-Assume $\vec{S}$ is any sequence of relations. We define 
-$\minStable(\vec{S})$ as the minimum stable grouping of $\vec{S}$ in the
-lexicographic ordering.
-\end{definition}
+%Lexicographic ordering is total, therefore there is a minimum stable grouping.
 
 
-We provide an alternative characterization of the minimum stable grouping of $\vec{S}$
-using a map $\phi(\vec{S},\cdot) : [1,\MaxInd] \rightarrow  [1,\MaxInd]$. 
-Then using the map $\phi(\vec{S},\cdot)$ we will provide an alternative definition of 
-$\minStable(\vec{S})$ by induction on $\vec{S}$, 
-together with an algorithm computing it in polynomial time. 
+
+
+We provide a existence proof and a characterization of the minimum stable grouping of 
+$\vec{S}$ using a map $\phi(\vec{S},\cdot) : [1,\MaxInd] \rightarrow  [1,\MaxInd]$. 
+Then using the map $\phi(\vec{S},\cdot)$ we will provide an algorithm computing 
+the minimum stable group in polynomial time. 
 We first need the notion of $j$ dropping index for $i$, for $i,j \in [1,n]$.
 
-\begin{definition}[Stable Matching]
-Let $\vec{S} = S_1, \ldots, S_n$ and $i,j \in [1,n]$, $i < j$.
+\begin{definition}[Dropping Index]
+\label{definition-dropping-index}
+Let $\vec{S} = S_1, \ldots, S_n$ and $i,j \in [1,n]$, $i \le j$.
 We say that $j$ is a dropping index for $i$ in $\vec{S}$
-if and only if $\dom(S_i \ldots S_{j-1}) \supset \dom(S_i \ldots S_j)$.  
+if and only if $j=i$ or $\dom(S_i \ldots S_{j-1}) \supset \dom(S_i \ldots S_j)$.  
 \end{definition}
 
-By definition unfolding, $j$ is $j$ is a dropping index for $i$ in $\vec{S}$
+By definition unfolding, if $j>i$ then $j$ is a dropping index for $i$ in $\vec{S}$
 if and only if there is some $x \in [1,\MaxInd]$ having some $S_i \ldots S_{j-1}$-image 
-but no $S_i \ldots S_j$-image. 
+but no $S_i \ldots S_j$-image: some traces from $x$ continue until step $j-1$, then they all
+die out. 
 
-If $j$ is the last dropping index for $i$ then 
-$\dom(S_i \ldots S_j) = \dom(S_i \ldots S_{j+1}) = \ldots = \dom(S_i \ldots S_n)$.
-If there are no dropping index for $i$ then 
-$\dom(S_i ) = \dom(S_i S_{i+1}) = \ldots = \dom(S_i \ldots S_n)$.
 
 \begin{definition}[Maximum Dropping index $\phi(\vec{S},i)$]
 Let $\vec{S} = S_1, \ldots, S_n$ and $i \in [1,n]$.
 \begin{enumerate}
 \item
 We define the integer $\phi(\vec{S},i) \in [i,n]$ as the maximum dropping index $j\in [i,n]$ 
-of $i$ in $\vec{S}$, with $\phi(i) =  i$ if there is none. We write just $\phi(i)$ when $\vec{S}$ is clear from the context.
+of $i$ in $\vec{S}$. We write just $\phi(i)$ when $\vec{S}$ is clear from the context.
 \item
 We say that $i \in [1,n]$ is $\phi$-closed if and only if $\phi([1,i[) \subseteq [1,i[$
 \end{enumerate}
 \end{definition}
 
-By definition unfolding, $i \in [1,n]$ is $\phi$-closed if and only if for all $a \in [1,i[$,
-all dropping index $b \in [1,n]$ of $a$ we have $b \in [1,i[$.
 
-We define a stable grouping $\vec{S}^{\phi}$ of $\vec{S}$ using the map $\phi$.
+\begin{lemma}[Equivalent Definition of $\phi$]
+\label{lemma-equivalent-phi}
+Assume $\vec{S} = S_1, \ldots, S_n$ is any relation sequence and $i,j \in [i,n]$.
+Let us abbreviate $\phi(i) = \phi(\vec{S},i)$.
+
+\begin{enumerate}
+\item
+\label{lemma-equivalent-phi-01}
+$\dom(S_i \ldots S_{\phi(i)}) = \dom(S_i \ldots S_n)$.
+
+\item
+\label{lemma-equivalent-phi-02}
+$\phi(i)$ is the minimum $j \in [i,n]$ such that
+$\dom(S_i \ldots S_j) = \dom(S_i \ldots S_n)$.
+\end{enumerate}
+
+\end{lemma}
+
+\begin{proof}
+
+\begin{enumerate}
+
+\item
+$\phi(i)$ is the last dropping index for $i$. By definition of dropping index we have
+$\dom(S_i \ldots S_{k-1}) = \dom(S_i \ldots S_{k})$ for all $k \in [\phi(i)+1,n]$. By induction
+on $k \in [\phi(i),n]$ we deduce that 
+$\dom(S_i \ldots S_{\phi(i)}) = \dom(S_i \ldots S_k)$. We conclude that 
+$\dom(S_i \ldots S_{\phi(i)}) = \dom(S_i \ldots S_n)$.
+
+\item
+Assume $j \in [i,n]$ is the first index such that $\dom(S_i \ldots S_{j}) = \dom(S_i \ldots S_n)$. 
+By the previous point we have $j \le \phi(i)$.
+
+By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-02}
+for all $k \in [j+1,n]$ we have 
+$\dom(S_i \ldots S_j) \supseteq \dom(S_i \ldots S_{k-1}) \supseteq 
+\dom(S_i \ldots S_{k}) \supseteq \dom(S_i \ldots S_n)$.
+If we add $\dom(S_i \ldots S_{j}) = \dom(S_i \ldots S_n)$ we deduce 
+$\dom(S_i \ldots S_j) = \dom(S_i \ldots S_{k-1}) = 
+\dom(S_i \ldots S_{k}) = \dom(S_i \ldots S_n)$, namely that there is no dropping
+index $k$ of $i$ with $k>j$. This means that $j \ge \phi(i)$. 
+
+We conclude that $j = \phi(i)$.
+\end{enumerate}
+\end{proof}
+
+By definition unfolding, $i \in [1,n]$ is $\phi$-closed if and only if for all $a \in [1,i[$,
+for all dropping index $b \in [1,n]$ of $a$ we have $b \in [1,i[$.
+
+We define a stable grouping $\vec{S}^{\phi}$ of $\vec{S}$ using the map $\phi$,
+then we prove that it stable and the minimum stable.
 
 \begin{definition} [A Stable Grouping Defined by the Map $\phi$]
-$\vec{S}^{\phi}=R_1, \ldots, R_{h+1}$ and: 
+Assume $\vec{S}$ is any relation sequence.
+We define $\vec{S}^{\phi}=R_1, \ldots, R_{h+1}$ for some $h \in \N$ by: 
 $$
 R_1 = (S_{a_1}\ldots S_{\phi(a_1)}), \ \ \ 
 R_2 = (S_{a_2}\ldots S_{\phi(a_2)}), \ \ \ 
@@ -754,7 +805,7 @@ $
 \dom(R_i) = 
 \dom(S_{a_i}\ldots S_{\phi(a_i)}) = 
 $ 
-(by definition of $\phi$)  = 
+(by Lemma \ref{lemma-equivalent-phi})  = 
 $
 \dom(S_{a_i}\ldots S_{n}) =
 \dom(R_{i}\ldots R_h)
@@ -767,20 +818,18 @@ $\vec{S}^\phi$ is the minimum stable grouping.
 
 \begin{lemma} [The Minimum Stable Grouping is Definable by the Map $\phi$]
 \label{lemma-stable-phi-2}
-Stable groupings of $\vec{S}$ are exactly the grouping of $\vec{S}^\phi$
-and $\vec{S}^\phi=\minStable{\vec{S}}$, the minimum stable grouping of $\vec{S}$.
+Stable groupings of $\vec{S}$ are exactly the grouping of $\vec{S}^\phi$,
+in particular $\vec{S}^\phi$ is the minimum stable grouping of $\vec{S}$ w.r.t. $\grouping$.
 \end{lemma}
 
 
 \begin{proof}
-We proved in \ref{lemma-stable-phi-1} that $\vec{S}^\phi$ is stable. We have still to
-prove that all stable grouping of $\vec{S}$ 
-are less or equal than $\vec{S}^\phi$ in the lexicographic ordering.
+We proved in \ref{lemma-stable-phi-1} that $\vec{S}^\phi$ is stable. 
+We now prove that stable grouping of $\vec{S}$ are exactly the grouping of 
+$\vec{S}^\phi$, we will deduce that $\vec{S}^\phi$ is the minimum stable grouping of 
+$\vec{S}$ w.r.t. $\grouping$.
 
-We will in fact prove that stable grouping of $\vec{S}$ are exactly the grouping of 
-$\vec{S}^\phi$, we will deduce that they are all less or equal than $\vec{S}^\phi$.
-
-From $\vec{S}$ stable and 
+From $\vec{S}^\phi$ stable and 
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-03} 
 we deduce that all grouping of $\vec{S}$ are stable.
 
@@ -798,30 +847,32 @@ $$
 \dom(S_{a_i+1} \ldots S_{a_{i+1}} \ \ \ S_{a_{i+1}+1} \ldots S_{a_{i+2}} \ \ \ \ldots) =
 \dom(S_{a_i+1} \ldots S_n)
 $$ 
-Then by definition of $\phi$ we have $\phi(a_i+1) \le a_{i+1} $.
+Then Lemma \ref{lemma-equivalent-phi} we have $\phi(a_i+1) \le a_{i+1} $.
 
 Therefore in any stable grouping of $\vec{S}$
 any product $S_i \ldots S_j$ is either $(S_{i}\ldots 
 S_{\phi(i)})$, or if $\phi(i) < j$ it includes $(S_{\phi(i)+1}\ldots S_{\phi(\phi(i)+1)})$,
-and so forth. By induction on $j-i$ we can prove that $S_i \ldots S_j$ has the form
+and so forth. By induction on $j \in [i,n]$ we can prove that $S_i \ldots S_j$ has the form
 $(S_{a_1}\ldots S_{\phi(a_1)}) (S_{a_2}\ldots S_{\phi(a_2)})
 \ldots S_{a_{k+1}}\ldots S_{\phi(a_{k+1})}$ with $a_1=i$ and $a_{b+1} = \phi(a_b)+1$ 
 for all $b \in [1,k]$ and $\phi(a_{k+1}) = j$. 
 
 
-We conclude that all stable grouping are greater or equal than the following grouping 
-$\vec{S}^\phi =R_1, \ldots, R_{h+1}$: 
-$$
-R_1 = (S_{a_1}\ldots S_{\phi(a_1)}), \ \ \ 
-R_2 = (S_{a_2}\ldots S_{\phi(a_2)}), \ \ \ 
-\ldots, \ \ \ 
-R_{h+1} = (S_{a_{h+1}}\ldots S_{\phi(a_{h+1})}
-$$ 
-where $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
-for all $i \in [1,h]$ and $\phi(a_{h+1}) = n$. 
+We conclude that all stable grouping are greater or equal than $\vec{S}^\phi$.
 \end{proof}
+ 
+We proved the existence of the minimum stable grouping of $\vec{S}$, 
+which we call $\minStable(\vec{S})$.
 
-$\phi(\vec{S},i)$ can be computed by induction on $\vec{S}$, as follows. 
+\begin{definition}[The Minimum Stable Grouping]
+\label{definition-minstable}
+Assume $\vec{S}$ is any sequence of relations. We define 
+$\minStable(\vec{S})$ as the minimum stable grouping of $\vec{S}$ w.r.t. $\grouping$.
+\end{definition}
+
+We are looking for a polynomial time algorithm for $\minStable(\vec{S})$.
+$\phi(\vec{S},i)$ can be computed in polynomial time
+by induction on $\vec{S}$, as follows. 
 
 \begin{lemma}[Characterization of $\phi(\vec{S},i)$]
 \label{lemma-phi-characterization}
@@ -844,30 +895,33 @@ and $\phi(\vec{S} S_{n+1}, n+1) \in [1,n+1]$.
 By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}, 
 either $\dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$ 
 or $\dom(S_i \ldots S_n) \supset \dom(S_i \ldots S_n S_{n+1})$. 
+We argue by cases.
+
 \begin{enumerate}
 \item
 \emph{Suppose $\dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$}.
-Then for $j = \phi(\vec{S},i)$
-we have $\dom(S_i \ldots S_j) = \dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$,
-while for all $k<j$ we have 
+By Lemma \ref{lemma-equivalent-phi}.\ref{lemma-equivalent-phi-02} 
+for $j = \phi(\vec{S},i)$
+we have $\dom(S_i \ldots S_j) = \dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$.
+By Lemma \ref{lemma-equivalent-phi}.\ref{lemma-equivalent-phi-02} 
+for all $k<j$ we have 
 $\dom(S_i \ldots S_k) \not = \dom(S_i \ldots S_n) = \dom(S_i \ldots S_n S_{n+1})$.
-This implies $\phi(\vec{S}S_{n+1},i) = \phi(\vec{S},i)$
+Then Lemma \ref{lemma-equivalent-phi}.\ref{lemma-equivalent-phi-02} 
+implies $\phi(\vec{S}S_{n+1},i) = \phi(\vec{S},i)$
 
 \item
 \emph{Suppose $\dom(S_i \ldots S_n) \supset \dom(S_i \ldots S_n S_{n+1})$}.
-Then for all $j \in [i,n]$, $j \ge i$ 
-by Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-02} 
-we have 
-$\dom(S_i \ldots S_j)  \supseteq \dom(S_i \ldots S_n) \supset \dom(S_i \ldots S_n S_{n+1})$.
-We deduce $\phi(\vec{S}S_{n+1},i) >n$ 
-and we conclude that $\phi(\vec{S}S_{n+1},i) = n+1$.
+Then $n+1$ is a dropping index for $i$ in $\vec{S}S_{n+1}$.
+We deduce $\phi(\vec{S}S_{n+1},i) \ge n+1$,
+namely $\phi(\vec{S}S_{n+1},i) = n+1$.
 
 \end{enumerate}
 
 Now we check that $\phi$ is weakly increasing.
 
 We assume $i,j \in [1,n]$, $i < j$ in order to prove that $\phi(\vec{S},i) \le \phi(\vec{S},j)$.
-Let $b =  \phi(\vec{S},j)$. Then by definition of $\phi$ we have 
+Let $b =  \phi(\vec{S},j)$. 
+Then by Lemma \ref{lemma-equivalent-phi}.\ref{lemma-equivalent-phi-02} we have 
 $\dom(S_j \ldots S_b) = \dom(S_j \ldots S_n)$. 
 By Lemma \ref{lemma-domain-inclusion}.{lemma-domain-inclusion-04} we deduce
 $\dom((S_i \ldots S_{j-1}) S_j \ldots S_b) = \dom((S_i \ldots S_{j-1}) S_j \ldots S_n)$.
@@ -875,11 +929,11 @@ By definition of $\phi$, this implies $\phi(\vec{S},i) \le b =  \phi(\vec{S},j)$
 as wished.
 \end{proof}
 
- Using the characterization of $\phi(\vec{S},i)$, we have an alternative
+Using the characterization of $\phi(\vec{S},i)$, we have a polynomial
 way of computing $\minStable(\vec{S})$ by induction on $\vec{S}$.
 
 \begin{lemma}[Computing $\minStable(\vec{S})$ by induction on $\vec{S}$]
-\label{lemma-minstable.inductive}
+\label{lemma-minstable-inductive}
 Assume $\vec{S} = S_1, \ldots, S_n$. 
 \begin{enumerate}
 \item
@@ -889,7 +943,7 @@ Suppose $\minStable(\vec{S}) = \vec{T} = T_1, \ldots, T_m$. Then exactly
 one of the following holds.
 \begin{enumerate}
 \item
-$\minStable(\vec{S}), S_{n+1}$ is stable and we set
+$\minStable(\vec{S}), S_{n+1}$ is stable and 
 $\minStable(\vec{S}, S_{n+1}) = \minStable(\vec{S}), S_{n+1}$.
 \item
 $\minStable(\vec{S}), S_{n+1}$ is \emph{not} stable and
@@ -923,13 +977,17 @@ we have
 $\dom(T_i \ldots T_m) = \dom(T_i ) = \dom(T_i \ldots T_m S_{n+1})$ for all $i \in [1,m]$,
 namely $\dom(S_{a_i} \ldots S_n) = \dom(S_{a_i} \ldots  S_{n+1})$ for all $i \in [1,m]$.
 From Lemma \ref{lemma-phi-characterization} we deduce that $\phi(\vec{S},a_i) = 
-\phi(\vec{S}S_{n+1},a_i)$ for all $i \in [1,m]$. We have 
-$\phi(\vec{S},S_{n+1},\phi(a_{m}) +1)
-= \phi(\vec{S},S_{n+1},n+1)=n+1$. By Lemma \ref{lemma-stable-phi-2}, the products of
-$\minStable(\vec{S},S_{n+1})$ are $S_{a_i} \ldots S_{\phi(\vec{S},S,a_i)}$, which is
-$S_{a_i} \ldots S_{\phi(\vec{S},a_i)}$, namely $T_i$, and the unary product $S_{n+1}$.
+\phi(\vec{S}S_{n+1},a_i)$ for all $i \in [1,m]$. 
 
-We conclude that $\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, T_m, S_{n+1}$.
+By induction on $i \in [1,m]$ we deduce that the first $m$ of products of 
+$\minStable(\vec{S},S_{n+1})$ are $S_{a_i} \ldots S_{\phi(\vec{S},S,a_i)}$, which is
+$S_{a_i} \ldots S_{\phi(\vec{S},a_i)}$, namely $T_i$.
+
+We also have  $\phi(\vec{S},S_{n+1},\phi(a_{m}) +1)
+= \phi(\vec{S},S_{n+1},n+1)=n+1$. We deduce that the last product is 
+the unary product $S_{n+1}$.
+
+We conclude that $\minStable(\vec{S}, S_{n+1}) = \minStable(\vec{S}), S_{n+1}$.
 
 \item
 Assume $\minStable(\vec{S}), S_{n+1}$ is \emph{not} stable. By 
@@ -937,15 +995,16 @@ Lemma \ref{lemma-domain-stability-02}.
 \ref{lemma-domain-stability-02},\ref{lemma-domain-stability-04} 
 we have
 $\dom(T_i \ldots T_m) = \dom(T_i ) \not = \dom(T_i \ldots T_m S_{n+1})$ 
-for a first $i \in [1,m]$, and by the choice of $i$ that 
-$\dom(T_j \ldots T_m) = \dom(T_j ) = \dom(T_j \ldots T_m S_{n+1})$ for all $j \in [1,i-1]$.
-For all $j \in [1,i-1]$ we deduce $\dom(T_i \ldots T_m)\supset \dom(T_i \ldots T_m S_{n+1})$.
+for a first $i \in [1,m]$.
 By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}
 we have $\dom(T_i ) \supseteq  \dom(T_i \ldots T_m S_{n+1})$:
 we deduce $\dom(T_i \ldots T_m) \supset \dom(T_i \ldots T_m S_{n+1})$.
 
+By the choice of $i$ that 
+$\dom(T_j \ldots T_m) = \dom(T_j ) = \dom(T_j \ldots T_m S_{n+1})$ for all $j \in [1,i-1]$.
+
 By Lemma \ref{lemma-phi-characterization} we have 
-$\phi(\vec{S},S_{n+1},a_j) = \phi(\vec{S},a_j)$ for all $j \in [1,i-1]$ and 
+$\phi(\vec{S},S_{n+1},a_j) = \phi(\vec{S},a_j)$ for all $j \in [1,i-1]$, while 
 $\phi(\vec{S},S_{n+1},a_i) = n+1$. 
 
 By Lemma \ref{lemma-stable-phi-2} and induction on $j \in [1,i-1]$,
@@ -957,7 +1016,9 @@ is $a_j$, with $a_j = 1$ if $j=1$, and $a_j = \phi(\vec{S},a_ {j-1}+1)$ if $j>1$
 Again by by Lemma \ref{lemma-stable-phi-2} the product number $j$ 
 of $\minStable(\vec{S},S_{n+1})$ is $S_{a_j} \ldots S_{\phi(\vec{S},S_{n+1},a_j)}$, 
 which is $S_{a_i} \ldots S_{\phi(\vec{S},a_j)}$, namely $T_j$.
-The product number $i$ is the last product and it is $S_{a_i} \ldots S_{n+1}$.
+The product number $i$ is the last product and it is  
+$S_{a_i} \ldots S_{\phi(\vec{S},S_{n+1},a_i)}$,
+namely $S_{a_i} \ldots S_{n+1}$.
 
 We conclude that 
 $\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$.
@@ -966,8 +1027,9 @@ $\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$.
 \end{proof}
 
 
+%16:36 04/02/2026
 
-   \section{Injective Domain-Stable Relation Sequences}
+\section{Injective Domain-Stable Relation Sequences}
 
 We first derive some inequalities for domain-cardinality
 valid for sequences of injective relations.
