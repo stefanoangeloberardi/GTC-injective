@@ -53,6 +53,7 @@
 \newcommand{\trans}                       {{\tt trans}}
 \newcommand{\DomCard}               {{\tt DomCard}}
 \newcommand{\grouping}                {{\succeq}}
+\newcommand{\cod}                         {{\tt cod}}
 %END MACRO
 
 \title{A Poly-exponential Translation from Injective Cyclic to Inductive Proofs}
@@ -1027,34 +1028,34 @@ $\minStable(\vec{S}, S_{n+1}) = T_1, \ldots, T_{i-1}, (T_i \ldots T_m S_{n+1})$.
 \end{proof}
 
 
-%16:36 04/02/2026
-
 \section{Injective Domain-Stable Relation Sequences}
 
 We first derive some inequalities for domain-cardinality
-valid for sequences of injective relations.
+valid for sequences of \emph{injective} relations.
 
 \begin{lemma}[Injective Relation Sequences]
-\label{lemma-stable-sequences}
+\label{lemma-injective-sequences}
 Assume $R, S$, $\vec{R}=R_1, \ldots, R_n$ all are \emph{injective} relations.
+
 \begin{enumerate}
 \item
-\label{lemma-stable-sequences-01}
+\label{lemma-injective-sequences-01}
 $\DomCard(RS) \le \DomCard(S)$
-and if $\DomCard(RS) \le \DomCard(S)$ then $R$ restricted to $\dom(R) \times \dom(S)$
+and if $\DomCard(RS) = \DomCard(S)$ then $R$ restricted to $\dom(R) \times \dom(S)$
 is a bijection.
 
 \item
-\label{lemma-stable-sequences-02}
+\label{lemma-injective-sequences-02}
 For all $i,j \in [1,n]$, $i \le j$:
 $$
-\Card(\dom(R_i \ldots R_n)) \le \Card(\dom(R_j \ldots R_n))
+\DomCard(R_i \ldots R_n) \le \DomCard(\dom(R_j \ldots R_n)
 $$
 
 \item
-\label{lemma-stable-sequences-03}
-If  $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$
-then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$
+\label{lemma-injective-sequences-03}
+Assume $i, j \in[1,n]$ and $i < j$ and 
+$\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$.
+Then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$
 is a bijection.
 \end{enumerate}
 \end{lemma}
@@ -1063,31 +1064,44 @@ is a bijection.
 \begin{enumerate}
 
 \item
-%\label{lemma-stable-sequences-01}
-for all $x \in \dom(RS)$ the sets $X_x = \{ y \in \dom(S) | x R y \}$ are inhabited,
-because if $x \in \dom(RS)$ then for some $y \dom(S), z$ we have $x R y z$.
+%\label{lemma-injective-sequences-01}
+For all $x \in \dom(RS)$ the sets $\dom(S) \cap R(x)$ are inhabited,
+because if $x \in \dom(RS)$ then for some $y \dom(S), z$ we have $x R y S z$.
 They are pairwise disjoint subsets of $\dom(S)$, because $R$ is injective. We deduce that 
-$\DomCard(RS) \le \Card(\bigcup_{x \in \dom(RS)} X_x) \le \DomCard(S)$.
+$$
+\DomCard(RS) = 
+\Card(\dom(RS)) \le
+\Card(\bigcup_{x \in \dom(RS)} \dom(S) \cap R(x)) \le 
+\Card(\dom(S)) = 
+\DomCard(S)
+$$
 
 Now assume that $\DomCard(RS) = \DomCard(S)$. Then 
-$\DomCard(RS) = \Card(\bigcup_{x \in \dom(RS)} X_x) = \DomCard(S)$. 
-From $\Card(\bigcup_{x \in \dom(RS)} X_x) = \DomCard(S)$, 
-$\bigcup_{x \in \dom(RS)} X_x \subseteq \dom(S)$ and $\dom(S)$ finite we deduce
-that $\bigcup_{x \in \dom(RS)} X_x = \dom(S)$. 
-From the fact that all $\DomCard(RS) = \DomCard(S)$ and all $X_x$ are inhabited we 
-deduce that all $X_x$ are singleton. This says that $R$ restricted to $\dom(R) \times \dom(S)$
-is a bijection.
+$$
+\DomCard(RS) = \Card(\bigcup_{x \in \dom(RS)} \dom(S) \cap R(x)) = \DomCard(S)
+$$ 
+From 
+$$
+\Card(\bigcup_{x \in \dom(RS)} \dom(S) \cap R(x)) = \Card(\dom(S)), \ \ \ 
+\bigcup_{x \in \dom(RS)} \dom(S) \cap R(x) \subseteq \dom(S)
+$$ 
+and $\dom(S)$ finite 
+we deduce that $$\bigcup_{x \in \dom(RS)} \dom(S) \cap R(x) = \dom(S)$$ 
+From the fact that $\Card(\dom(RS)) = \Card(\dom(S))$ and all $\dom(S) \cap R(x)$ are 
+inhabited we deduce that all $\dom(S) \cap R(x)$ are singleton. 
+This says that $R$ restricted to $\dom(R) \times \dom(S)$ is a bijection.
 
 \item
-%\label{lemma-stable-sequences-02}
+%\label{lemma-injective-sequences-02}
 Let $i \in [1,n-1]$.
 From the point 1 above applied to $R = R_i$, $S = R_{i+1}\ldots R_n$ we deduce that
 $\Card(\dom(R_i R_{i+1}\ldots R_n)) \le \Card(\dom(R_{i+1} \ldots R_n))$. The thesis
 follows by induction on $j-i$.
 
 \item
-%\label{lemma-stable-sequences-03}
-$i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$.
+%\label{lemma-injective-sequences-03}
+Assume $i, j \in[1,n]$ and $i < j$ and 
+$\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$.
 From the point 1 above applied to $R = R_i \ldots R_{j-1}$, $S = R_i \ldots R_{j-1}$ 
 we deduce that $R_i \ldots R_{j-1}$ restricted to 
 $\dom(R_i \ldots R_{j-1} \ldots R_j \ldots R_n) \times \dom(R_i \ldots R_{j-1})$
@@ -1129,20 +1143,26 @@ is a bijection.
 %\label{lemma-injective-stable-sequences-01}
 Assume $i,j \in [1,n]$, $i \le j$. By stability and
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
-we have
+we have:
 $\DomCard(R_i) = \Card(\dom(R_i \ldots R_n))$ and
 $\Card(\dom(R_j)) = \Card(\dom(R_j \ldots R_n))$.
-By injectivity and Lemma \ref{lemma-stable-sequences}.\ref{lemma-stable-sequences-02}  
+
+By injectivity and 
+Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-02}  
 we have 
 $\Card(\dom(R_i \ldots R_n)) \le \Card(\dom(R_j \ldots R_n))$.
+
 We conclude that 
 $\DomCard(R_i) \le \Card(\dom(R_j))$.
 
 \item
 %\label{lemma-injective-stable-sequences-02}
-Assume $i,j \in [1,n]$, $i < j$. By stability and Lemma \ref{lemma-stable-sequences-03}
+Assume $i,j \in [1,n]$, $i < j$. By stability and Lemma \ref{lemma-injective-sequences-03}
 $i, j \in[1,n]$ and $i < j$ and $\Card(\dom(R_i \ldots R_n)) = \Card(\dom(R_j \ldots R_n))$
-then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$.
+we have: 
+$R_i \ldots R_{j-1}$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$
+is a bijection.
+
 By stability and
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
 we have
@@ -1150,6 +1170,7 @@ $\dom(R_i) = \dom(R_i \ldots R_n)$ and
 $\dom(R_j) = \dom(R_j \ldots R_n)$ and
 $\DomCard(R_i) = \Card(\dom(R_i \ldots R_n))$ and
 $\Card(\dom(R_j)) = \Card(\dom(R_j \ldots R_n))$.
+
 We conclude that if 
  $i, j \in[1,n]$ and $i < j$ and $\DomCard(R_i) = \Card(\dom(R_j))$
 then $R_i \ldots R_{j-1}$ restricted to $\dom(R_i) \times \dom(R_j)$
@@ -1159,7 +1180,8 @@ is a bijection.
 \end{proof}
 
 
-We define a property stronger than domain-stability: constant-cardinality domain.
+We define a property stronger than domain-stability: having constant domain-cardinality
+for all product of sub-segments of $\vec{S}$.
 
 
 \begin{definition}[Constant-Cardinality Domain]
@@ -1167,35 +1189,108 @@ Assume $\vec{S}=S_1, \ldots S_n$ is any sequence of relations.
 \begin{enumerate}
 
 \item
-$\vec{S}$ is a constant-cardinality domain sequence if and only if $\vec{S}$ is is stable
+$\vec{S}$ is a constant domain-cardinality sequence if and only if $\vec{S}$ is is stable
 and for all $i,j \in [1,n]$:
 $$
 \DomCard(S_i) = \DomCard(S_j)
 $$
 
 \item
-If $\vec{S}$ is not empty then we call $\DomCard(\vec{S}) = \Card(S_1)$ 
+If $\vec{S}$ is not empty, then we call $\DomCard(\vec{S}) = \DomCard(S_1 \ldots S_n)$ 
 the domain-cardinality of $\vec{S}$.
 
 \item
 A constant-cardinality component $\vec{C}$ of $\vec{S}$ is a maximal segment 
-in $\vec{S}$ which is a constant-cardinality domain sequence.
+in $\vec{S}$ which is a constant domain-cardinality sequence.
 \end{enumerate}
 \end{definition}
 
-If $\vec{S}=S_1, \ldots S_n$ is constant-cardinality domain, then $\DomCard(S_i) = \DomCard(S_j)$ for all $i,j \in [1,n]$ and for all $k \in [i,n]$, $h \in [j,n]$ by
-stability we have
-$\DomCard(S_i) =\DomCard(S_i \ldots S_k)$ and
+If $\vec{S}=S_1, \ldots S_n$ is constant domain-cardinality, then by definition
+$\DomCard(S_i) = \DomCard(S_j)$ for all $i,j \in [1,n]$. 
+
+For all $k \in [i,n]$, $h \in [j,n]$ 
+by Lemma \ref{lemma-domain-stability-02}.\ref{lemma-domain-stability-02} 
+we have $\DomCard(S_i) =\DomCard(S_i \ldots S_k)$ and
 $\DomCard(S_j) = \Card(\dom(S_j \ldots S_h))$. This means that all products of
-all segments in in $[1,n]$ have domains of the same cardinality: 
+all non-empty segments $[i,j],[k,h] \subseteq [1,n]$ have domains of the same cardinality: 
 $\DomCard(S_i \ldots S_k) = \DomCard(S_j \ldots S_h)$.
 
+By Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-01}, 
+for all $i \in [1,n-1]$, $S_i$ is a bijection from $\dom(S_i)$ to
+$\dom(S_{i+1})$.  We can picture $\vec{S}$ as a composition of 
+bijection from $\dom(S_i)$ to $\dom(S_{i+1})$, plus some traces missing $\dom(S_{i+1})$
+and dying out.
+
+\begin{center}
+\begin{tikzpicture}
+\draw[->,black, thick] (0,0) -- (1,-1);
+\draw[->,black, thick] (0,0) -- (1,0);
+\draw[->,black, thick] (0,1) -- (1,1);
+\draw[->,black, thick] (0,2) -- (1,2);
+
+\draw[->,black, thick] (1,0) -- (2,-1);
+\draw[->,black, thick] (1,0) -- (2,0);
+\draw[->,black, thick] (1,1) -- (2,1);
+\draw[->,black, thick] (1,2) -- (2,2);
+
+\draw[->,black, thick] (2,0) -- (3,-1);
+\draw[->,black, thick] (2,0) -- (3,0);
+\draw[->,black, thick] (2,1) -- (3,1);
+\draw[->,black, thick] (2,2) -- (3,2);
+
+\filldraw[black] (0,0) circle (1pt) node[anchor=north]{$a_1$};
+\filldraw[black] (0,1) circle (1pt) node[anchor=north]{$b_1$};
+\filldraw[black] (0,2) circle (1pt) node[anchor=north]{$c_1$};
+
+\filldraw[black] (1,-1) circle (1pt) node[anchor=north]{};
+\filldraw[black] (1,0) circle (1pt) node[anchor=north]{$a_2$};
+\filldraw[black] (1,1) circle (1pt) node[anchor=north]{$b_2$};
+\filldraw[black] (1,2) circle (1pt) node[anchor=north]{$c_2$};
+
+\filldraw[black] (2,-1) circle (1pt) node[anchor=north]{};
+\filldraw[black] (2,0) circle (1pt) node[anchor=north]{$a_3$};
+\filldraw[black] (2,1) circle (1pt) node[anchor=north]{$b_3$};
+\filldraw[black] (2,2) circle (1pt) node[anchor=north]{$c_3$};
+
+\filldraw[black] (3,-1) circle (1pt) node[anchor=north]{};
+\filldraw[black] (3,0) circle (1pt) node[anchor=north]{$\ldots$};
+\filldraw[black] (3,1) circle (1pt) node[anchor=north]{$\ldots$};
+\filldraw[black] (3,2) circle (1pt) node[anchor=north]{$\ldots$};
+
+\node[] at (1,3.2) {\tiny $\cod(S_1)$};
+\node[] at (2,3.2) {\tiny $\cod(S_2)$};
+\node[] at (3,3.2) {\tiny $\cod(S_3)$};
+
+\node[] at (0,2.6) {\tiny $\dom(S_1)$};
+\node[] at (1,2.6) {\tiny $\dom(S_2)$};
+\node[] at (2,2.6) {\tiny $\dom(S_3)$};
+\node[] at (3,2.6) {\tiny $\ldots$};
+
+\draw[blue] (0,1) ellipse (.5cm and 1.5cm);
+\draw[blue] (1,1) ellipse (.5cm and 1.5cm);
+\draw[blue] (2,1) ellipse (.5cm and 1.5cm);
+\draw[blue] (3,1) ellipse (.5cm and 1.5cm);
+  
+\draw[red] (1,1) ellipse (.5cm and 2.1cm);
+\draw[red] (2,1) ellipse (.5cm and 2.1cm);
+\draw[red] (3,1) ellipse (.5cm and 2.1cm);
+\end{tikzpicture}
+\end{center}
+
+Each sequence can be transformed into a stable sequence by a minimum of grouping,
+then into a concatenation of constant domain-cardinality sequences with increasing
+domain-cardinality.
+
+%18:22 04/02/2026
+
 \begin{lemma}[Decomposing stable sequences of injective relations]
+\label{lemma-decomposition-stable}
 Every stable sequence $\vec{S}$ of injective relations is equal to the 
 concatenation $\vec{C_1}, \ldots \vec{C_h}$
 of some non-empty constant-cardinality-domain components 
 such that $\DomCard(\vec{C_i})  < \DomCard(\vec{C_j})$ for all $i,j \in [1,h]$, $i < j$.
 \end{lemma}
+
 
 \begin{proof}
 We define $a_1=1$, $b_i = $ the last $j \in [i,n]$ such that 
@@ -1881,7 +1976,7 @@ such that $R_i = T_i S$
 $()$ is called the \emph{initial state}.
 \end{definition}
 
-By Lemma \ref{lemma-stable-sequences}.\ref{lemma-stable-sequences-01}, 
+By Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-01}, 
 injectivity imply that $\DomCard(S_i R_{i+1}) \le \DomCard(R_{i+1})$, 
 therefore if $R_i = S_i R_{i+1}$ then we have $\DomCard(R_i) \le \DomCard(R_{i+1})$. 
 Thus, the condition $\DomCard(R_i) \not = \DomCard(R_{i+1})$ is equivalent to
@@ -1954,7 +2049,8 @@ $$
 In the definition above, we have $i=n+1$ if and only if $\dom(R'_i) = \dom(R_i)$
 for all $i \in [1,n]$. 
 
-\begin{lemma}
+\begin{lemma}[Transition Lemma]
+\label{lemma-transition}
 If $\sigma$ is a state for $\setR^+$ and $R \in \setR^+$ then $f(\sigma,R)$ is a state 
 for $\setR^+$.
 \end{lemma}
