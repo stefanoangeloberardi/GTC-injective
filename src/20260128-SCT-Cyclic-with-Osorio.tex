@@ -1389,8 +1389,8 @@ $\Raising(\vec{S}) $ can be defined by induction on $\vec{S}$.
 %15:39 29/01/2026
 
 In order to inductively define $\Raising(\vec{S}) $, we have to describe how the 
-components of $\minStable(\vec{S})$ 
-change as $\vec{S}$ increases.
+(constant domain-cardinality) 
+components of $\minStable(\vec{S})$ change as $\vec{S}$ increases.
 
 
 %11:26 06/02/2026
@@ -1403,48 +1403,41 @@ $\minStable(\vec{S}, S_{n+1})$ are, respectively,
 $$
 \vec{C_1}, \ldots,\vec{C_k} \ \ \ \mbox{ and } \ \ \   \vec{D_1}, \ldots,\vec{D_h}
 $$
+with $\vec{C_i} = C_{i,1}, \ldots, C_{i,n_i}$ for $i \in [1,k]$. 
+Let us abbreviate for all $i \in [1,k]$: 
+$c_i = \DomCard(\vec{C_i})$ and $d_i = \DomCard(\vec{D_i})$.
+Let $R$ be the last relation in $\minStable(\vec{S},S_{n+1})$ 
+(i.e, the stable tail of $\vec{S},S_{n+1}$).
 Then exactly one of the following holds.
 \begin{enumerate}
 \item
 \label{lemma-cardinality-stability-01}
 Either $h=k+1$ and
 $$
-\vec{C_j} = \vec{D_j} \ \ \ \mbox{ for all $j \in [1,k]$ }   \mbox{ and } \vec{D_h} = S_{n+1}
+(\vec{C_j} = \vec{D_j} \mbox{ for all $j \in [1,k]$ })  \ \ \  
+\mbox{ and } (\vec{D_h} = R)
 $$
 
 \item
 \label{lemma-cardinality-stability-02}
-or for some $i \in [1,k]$, and for 
-$c_i = \DomCard(\vec{C_i}, d_i = \DomCard(\vec{D_i})$ we have
+or for some $i \in [1,k]$ we have
 $$
-\vec{C_j} = \vec{D_j} \ \ \ \mbox{ for all $j \in [1,i-1]$}
-$$
-and for $R$ product of $\vec{C_{i}}, \ldots,\vec{C_k}, S_{n+1}$
-we have
-$$
-(h=i) 
-\mbox{ and }    (c_{i} > d_{i})   
-\mbox{ and }    (\vec{D_{i-1}} = \vec{C_{i-1}})
+(\vec{C_j} = \vec{D_j} \mbox{ for all $j \in [1,i-1]$}) \ \ \ 
+\mbox{ and }     (h=i)  \ \ \ 
+\mbox{ and }    (c_{i} > d_{i})    \ \ \ 
 \mbox{ and }    (\vec{D_{i}} = R)
 $$
 
 \item
 \label{lemma-cardinality-stability-03}
-or for some $i \in [1,k]$, and for 
-$c_i = \DomCard(\vec{C_i}, d_i = \DomCard(\vec{D_i})$ we have
+or for some $i \in [1,k]$ we have
 $$
-\vec{C_j} = \vec{D_j} \ \ \ \mbox{ for all $j \in [1,i-2]$}
-$$
-and for $R$ product of $\vec{C_{i}}, \ldots,\vec{C_k}, S_{n+1}$
-we have
-$$
-(h=i-1) 
-\mbox{ and }   (c_i = d_i)
+(\vec{C_j} = \vec{D_j} \ \ \ \mbox{ for all $j \in [1,i-2]$}) \ \ \ 
+\mbox{ and }   (h=i-1)  \ \ \ 
+\mbox{ and }   (c_i = d_i) \ \ \ 
 \mbox{ and }   (\vec{D_{i-1}} = \vec{C_{i-1}}, R)
 $$
 \end{enumerate}
-In the first case $S_{n+1}$ is the stable tail of $\minStable(\vec{S},S_{n+1})$
-and in the remaining cases $R$ is the stable tail of $\minStable(\vec{S},S_{n+1})$.
 \end{lemma}
 
 %09:15 05/02/2026
@@ -1456,25 +1449,31 @@ We have to prove that $\minStable(\vec{S})$ falls in one of cases
 \ref{lemma-cardinality-stability-03}.
 above. The components of 
 $\minStable(\vec{S}) = \vec{T} = T_1, \ldots, T_m$
-are $\vec{C_1}, \ldots,\vec{C_k}$. Either $\minStable(\vec{S}),S_{n+1}$ is
-stable or not. 
+are $\vec{C_1}, \ldots,\vec{C_k}$. 
+By Lemma \ref{lemma-injective-stable}.\ref{lemma-injective-stable-01} 
+we have $c_1 \le \ldots \le c_k$.
+Either $\minStable(\vec{S}),S_{n+1}$ is stable or it is not. 
 
 \begin{enumerate}
 
 \item
 \emph{Assume $\minStable(\vec{S}),S_{n+1}$ is stable}. Then 
-$\minStable(\vec{S},S_{n+1}) = \minStable(\vec{S}),S_{n+1}$.
-By injectivity and stability we have $\DomCard(\vec{C_h}) \le \DomCard(S_{n+1})$.
+$\minStable(\vec{S},S_{n+1}) = \minStable(\vec{S}),S_{n+1}$ and the
+stable tail of $\vec{S},S_{n+1}$ is $S_{n+1}$.
+By Lemma \ref{lemma-injective-stable-sequences}.\ref{lemma-injective-stable-sequences-01},
+injectivity and stability we have $\DomCard(C_{k,1}) \le \DomCard(S_{n+1})$.
+%12:20 06/02/2026
 \begin{enumerate}
 \item
-\emph{Assume $\DomCard(\vec{C_h}) < \DomCard(S_{n+1})$}. Then the
-components of $\minStable(\vec{S},S_{n+1})$.
-are $\vec{D_1}=\vec{C_1}$, \ldots, $\vec{D_h} = \vec{C_h}$ and 
-$\vec{D_k} = S_{n+1}$. This is case \ref{lemma-cardinality-stability-01}.
+\emph{Assume $\DomCard(C_{k,1}) < \DomCard(S_{n+1})$}. Then the
+components of $\minStable(\vec{S},S_{n+1})$ are in number of $h=k+1$ and
+$\vec{D_1}=\vec{C_1}$, \ldots, $\vec{D_k} = \vec{C_k}$ and 
+$\vec{D_{k+1}} = S_{n+1}$. This is case \ref{lemma-cardinality-stability-01}.
 \item
-\emph{Assume $\DomCard(\vec{C_h}) = \DomCard(S_{n+1})$}. Then the
-components of $\minStable(\vec{S},S_{n+1})$.
-are $\vec{D_1}=\vec{C_1}$, \ldots, $\vec{D_h} = \vec{C_h}, S_{n+1}$. 
+\emph{Assume $\DomCard(C_{k,1}) = \DomCard(S_{n+1})$}. Then the
+components of $\minStable(\vec{S},S_{n+1})$ are in number of $h=k$ and
+$\vec{D_1}=\vec{C_1}$, \ldots, $\vec{D_{k-1}} = \vec{C_{k-1}}$ and
+$\vec{D_k} = \vec{C_k}, S_{n+1}$. 
 This is case \ref{lemma-cardinality-stability-03}.
 \end{enumerate}
 
@@ -1483,14 +1482,14 @@ This is case \ref{lemma-cardinality-stability-03}.
 $\minStable(\vec{S},S_{n+1}) = T_1, \ldots T_j, (T_{j+1} \ldots T_m S_{n+1})$
 for the first $j \in [1,m-1]$ such that 
 $\DomCard(T_j) > \DomCard(T_j \ldots T_m S_{n+1})$. 
-$j$ is one of the raising indexes $a_1, \ldots a_h$ of $\vec{T}$: if it were
-$\DomCard(T_{j-1}) = \DomCard(T_j)$, then 
+$j$ is one of the raising indexes $a_1, \ldots a_h$ of $\vec{T}$: we have $c_{j-1} \le c_j$
+and if it were $c_{j-1} = c_j$, then we would have
 $\DomCard(T_{j-1}) = \DomCard(T_j) > \DomCard(T_j \ldots T_m S_{n+1})$,
 contradicting the choice of $j$. So $j =a_i$ for some $i \in [1,h]$. 
 Let $S=$ the product of $\vec{C_{i}}, \ldots,\vec{C_k}, S_{n+1})$.
-If $i>1$ by definition of components
-we have $\DomCard(\vec{C_i}) \le \DomCard(S_{n+1})$.
-
+%If $i>1$ 
+%by Lemma \ref{lemma-injective-stable-sequences}.\ref{lemma-injective-stable-sequences-01}
+%we have $\DomCard(C_{i,1}) \le \DomCard(S_{n+1})$.
 
 \begin{enumerate}
 \item
@@ -1509,7 +1508,10 @@ This is case \ref{lemma-cardinality-stability-03}.
 
 \end{proof}
 
-Lemma \ref{lemma-cardinality-stability} above has the following use. Suppose we have
+%12:49 06/02/2026
+
+Lemma \ref{lemma-cardinality-stability} above has the following role in the paper. 
+Suppose we have
 \begin{enumerate}
 \item
 a set $\setS$ of sequences of injective relations and a set $\setT$ of  
