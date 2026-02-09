@@ -1615,7 +1615,10 @@ $R =  R_1 \ldots R_{d+1}$, namely $R$ is the product of $\vec{C}$
 \item
 $R_i$ is a stationary bijection from $\dom(R_i)$ to $\dom(R_{i+1})$, for all $i \in [2,d]$.
 \end{enumerate}
-
+$R \in \setR^+$ has stationary degree $d \in \N^+$ wr.t. $\setR^+$
+if and only if
+$R \in \setR^+$ has stationary degree $d \in \N^+$ wr.t. $\vec{C}, \setR^+$
+for some$\vec{C}$.
 \end{definition}
 
 In the definition above, all traces in the path $\vec{C}=R_1, \ldots, R_{d+1}$ must move 
@@ -2080,31 +2083,68 @@ associate a state to each sequence of injective relations.
 
 %19:11 31/01/2026
 
+\begin{definition}[The Set $\setS$ of States]
+A state is any sequence $\sigma \Seq(\setR^+ \times \N \times \setR^+)$ 
+on $\setR^+ \times \N \times \setR^+$:
+$$
+\sigma 
+=
+(
+R_1, d_1, S_1;
+\ldots;
+R_h, d_h, S_h
+)
+$$
+such that:
+\begin{enumerate}
+\item
+there are some $T_1, \ldots, T_h \in \setR+ \cup \{\id_{[1,\MaxInd]}\}$ such that 
+for all $i \in [1,h-1]$:
+\begin{enumerate}
+\item
+if $i<h$ then $R_i = T_i S_i R_{i+1}$
+\item
+if $i=h$ then $R_h = T_h S_h$.
+\item
+$d_i$ is a degree of $T_i S_i$ in $\setR^+$.
+\end{enumerate}
+\item
+For all $i,j \in [1,d]$, $i<j$ we have $\DomCard(R_i) < \DomCard(R_j)$.
+\end{enumerate}
+$\States(\setR^+) = 
+\{\sigma \in \Seq(\setR^+ \times \N \times \setR^+)
+ | \sigma \mbox{ is a state} \}$ 
+ is the set of states of $\setR^+$.
+\end{definition}
+
 \begin{definition}[State of an Injective Domain-Stable Sequence in $\setR^+$]
 Assume  $\setR^+$ is any set of injective relations and $\vec(S) = S_1, \ldots, S_n$ 
 is any domain-stable sequence in $\setR^+$ with 
 components $\vec{C_i} = S_{a_i},\ldots, S_{b_i}$ for $i \in [1,h]$.
-Suppose $C_i = S_{a_i}\ldots S_{b_i}$ and $d_i$ is a degree of  $C_i$ w.r.t. 
-$\vec{C},\setR^+$.
+Suppose $C_i = S_{a_i}\ldots S_{b_i}$
 \begin{enumerate}
 \item
-A state $\sigma$ of $\vec{S}$ in $\setR^+$ is
+We say that a sequence $\sigma$ on $\setR^+ \times \N \times \setR^+$ is a state of 
+$\vec{S}
+= S_1, \ldots, Sn$ 
+in $\setR^+$ and we write $\sigma \state \vec{S}$ if and only if for some degree $d_i$ of  
+$C_i$ w.r.t. $\vec{C},\setR^+$ we have
 $$
 \sigma \ \ \ 
 = \ \ \ 
 (
-C_1, d_1, S_{b_1};
+S_{a_1} \ldots S_{n }, d_1, S_{b_1};
 \ldots;
-C_h, d_h, S_{b_h}
+S_{a_h} \ldots S_{n }, d_h, S_{b_h}
 )
 $$
 
 \item
-If $\vec(R)$ is any injective sequence then a state $\sigma$ of $\vec(R)$ in $\setR^+$ is
-any state $\tau$ of $\minStable(\vec{R})$ in $\setR^+$. 
+If $\vec(R)$ is any injective sequence then $\sigma \state\vec(R)$ in $\setR^+$ if and only
+if $\sigma \state \minStable(\vec{R})$ in $\setR^+$. 
 
 \item
-If $\sigma$ is any state of $\vec(R)$ in $\setR^+$, then 
+If $\sigma \state \minStable(\vec{R})$ in $\setR^+$ then 
 $$
 \size(\sigma)
 =
@@ -2117,8 +2157,43 @@ $$
 \end{enumerate}
 \end{definition}
 
-If  $\sigma$ is a state of $\dom(R)$ in $\setR^+$ then $\size(\sigma)$ is a size of $\vec(R)$ in 
-$\setR^+$.
+\begin{lemma}[State of a Sequence]
+Assume  $\setR^+$ is any set of injective relations and
+$\sigma \state \vec(R)$ in $\setR^+$. Then $\sigma \in \States(\setR^+)$.
+\end{lemma}
+
+\begin{proof}
+Assume  $\setR^+$ is any set of injective relations and
+$\sigma \state \vec(R)$ in $\setR^+$, in order to check the clauses for 
+$\sigma \in \States(\setR^+)$.
+Suppose $\minStable(\vec{R}) = \vec{S} = S_1,\ldots, S_n$ and
+$$
+\sigma \ \ \ 
+= \ \ \ 
+(
+S_{a_1} \ldots S_{n }, d_1, S_{b_1};
+\ldots;
+S_{a_h} \ldots S_{n }, d_h, S_{b_h}
+)
+$$
+We check the definition of state.
+\begin{enumerate}
+\item
+there are some $T_1=S_{a_1} \ldots S_{b_1-1}, \ldots, T_h=S_{a_h} \ldots S_{b_h-1} \in \setR+ \cup \{\id_{[1,\MaxInd]}\}$ such that 
+for all $i \in [1,h-1]$:
+\begin{enumerate}
+\item
+if $i<h$ then 
+$S_{a_i} \ldots S_{n } = (S_{a_i} \ldots S_{b_i-1}) S_{b_i} (S_{a_{i+1}} \ldots S_{n })$.
+\item
+if $i=h$ then 
+$S_{a_h} \ldots S_{n } = (S_{a_h} \ldots S_{b_h-1}) S_{b_h}$.
+\item
+$d_i$ is a degree of $(S_{a_i} \ldots S_{b_i-1}) S_{b_i}$ in $\setR^+$ by
+definition of $\sigma \state \vec(R)$.
+\end{enumerate}
+\end{enumerate}
+\end{proof}
 
 %By definition unfolding, if $\dom(R) = R_1, \ldots, R_n$ is any injective sequence, 
 %$\minStable(\vec{R})$ has components  
@@ -2305,61 +2380,63 @@ hence exponential time.
 
 Suppose we add any composable 
 $R : \beta \rightarrow \gamma$ 
-to the sequence $\vec{R}:\alpha \rightarrow \beta$ in $\setR^+$. For each state $\sigma$ of 
-$\vec{R}$ we define a state $\tau = \trans(\sigma,R)$ of $\vec{R},R$, in such a way
-that $\sigma > \tau$ in the lexicographic ordering.
+to the sequence $\vec{R}:\alpha \rightarrow \beta$ in $\setR^+$.
+For each state $\sigma \in \States(\setR^+)$ we define a state $\tau = \trans(\sigma,R) \in \States(\setR^+)$
+such that if $\sigma \state \vec{R}$ then $\tau \state \vec{R},R$ and $\sigma > \tau$ in the lexicographic ordering.
 
 %In the next definition we consider the same cases of Lemma \ref{lemma-cardinality-stability}. 
 
 
-\begin{definition}[The Transition Function $\trans(\sigma,R)$]
+\begin{definition}[The Transition Function $\trans(\sigma,R) \in \States(\setR^+)$]
 \label{definition-transition-state}
 
-Suppose $\minStable(\vec{R}) = \vec{S}$ and
-$\sigma = (C_1, d_1,T_1; \ldots; C_h, d_h T_h)$. We set
+Suppose $\sigma = (U_1, d_1,V_1; \ldots; U_h, d_h V_h) \in \States(\setR^+)$ and
+$R \in \setR^+$. We set
 $$
-C'_i = C_i R \mbox{ for all $i \in [1,h]$ \ \ \ and } C'_{h+1} = R
+U'_i = U_i R \mbox{ for all $i \in [1,h]$ \ \ \ and } U'_{h+1} = R
 $$ 
-Suppose that $i$ is the first element of $i \in [1,n+1]$ such that:
+Suppose that $i$ is the first element of $i \in [1,h+1]$ such that:
 
 \begin{enumerate} 
 \item
-either $i \in [1,n]$ and $\dom(C'_i) \subset \dom(C_i)$
+either $i \in [1,h]$ and $\dom(U'_i) \subset \dom(U_i)$
 \item 
-or $i=n+1$
+or $i=h+1$
 \end{enumerate}
 
-We define a transition function $\trans(\sigma,S)$. 
+We define a transition function $\trans(\sigma,R)$. 
 
 \begin{enumerate}
 
 \item 
-\emph{Assume that $i=1$ or $\DomCard(C'_i) \not = \DomCard(C'_{i-1})$}.
+\emph{Assume that $i=1$ or $\DomCard(U'_i) \not = \DomCard(U'_{i-1})$}.
 Then $\trans$ sets the counter number $i$ to its minimum value $0$
 
 $$
-\trans(\sigma,S) = (R'_1, d_1, T_1; \ \ldots; R'_{i-1}, d_{i-1},T_{i-1}; \ R'_i, 0, \ R'_i)
+\trans(\sigma,S) = (U'_1, d_1, V_1; \ \ldots; U'_{i-1}, d_{i-1},V_{i-1}; \ U'_i, 0, \ U'_i)
 $$
 
 \item
-\emph{Assume that $i>1$ and $\DomCard(R'_i) = \DomCard(R'_{i-1})$}.
+\emph{Assume that $i>1$ and $\DomCard(U'_i) = \DomCard(U'_{i-1})$}.
 \begin{enumerate}
 \item
 \emph{Assume $d_{i-1}\ge 1$ and
-$T_{i}$ is progressing from $\dom(T_{i})$ to $\dom(R'_{i-1})$}.
+$V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$}.
 Then $\trans$ sets the counter number $(i-1)$ to $1$
 
 $$
-\trans(\sigma,S) = (R'_1, d_1,T_1;  \ \ldots;  \ R'_{i-1}, 1, R'_{i-1})
+\trans(\sigma,S) = 
+(U'_1, d_1,V_1;  \ \ldots; U'_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, 1, U'_{i-1})
 $$
 
 \item
 \emph{Assume $d-{i-1}= 0$ or 
-$T_{i}$ is stationary from $\dom(T_{i})$ to $\dom(R'_{i-1})$}.
+$V_{i-1}$ is stationary from $\dom(V_{i-1})$ to $\dom(U'_{i})$}.
 Then $\trans$ increases the counter number $(i-1)$ by one:
 
 $$
-\trans(\sigma,S) = (R'_1, d_1,T_1;  \ \ldots;  \ R'_{i-1}, d_{i-1}+1, R'_{i})
+\trans(\sigma,S) = 
+(U'_1, d_1,V_1;  \ \ldots; U'_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, d_{i-1}+1, U'_{i})
 $$
  
 \end{enumerate}
@@ -2373,27 +2450,121 @@ for all $i \in [1,n]$.
 
 % 14:19 08/02/2026
 
-\begin{lemma}[Transition Lemma]
-\label{lemma-transition}
-If $\sigma$ is a state for $\setR^+$ and $R \in \setR^+$ then $\trans(\sigma,R)$ is a state 
-for $\setR^+$.
-\end{lemma}
-
-\begin{proof}
-\ldots\ldots\ldots
-\end{proof}
-
-We define a graph $\setG$ with transitions $\sigma \rightarrow_R \trans(\sigma,R)$ labeled
-by $R \in \setR$.
-
-\begin{theorem}
-In the part of $\setG$ reachable from the initial state $()$ we have 
-$\size(\sigma) > \size(\trans(\sigma,R))$ lexicographically.
+\begin{theorem}[Transition Lemma]
+\label{theorem-transition}
+Suppose $\setR^+$ is injective, $\vec{R}$ is a sequence on $\setR^+$ and  
+$\sigma \state \vec{R}$ and $R \in \setR^+$. Let $\tau = \trans(\sigma,R) $.
+Then$\size(\sigma) > \size(\tau)$ and  $\tau \state \vec{R},R$.
 \end{theorem}
 
 \begin{proof}
-\ldots\ldots\ldots
+Suppose $\setR^+$ is injective, $\vec{R}$ is a sequence on $\setR^+$ and
+$\minStable(\vec{R}) = \vec{S} = S_1, \ldots, S_n$. Let $\tau = \trans(\sigma,R) $.
+Let $S_{a_i}, \ldots, S_{b_i}$ for $i \in [1,h]$ be the components of $\vec{S}$,
+$\sigma = (U_1, d_1,V_1; \ldots; U_h, d_h, V_h) \state \vec{R}$
+with $U_i = S_{a_i}, \ldots, S_{n}$ and $V_i = S_{b_i}$. Suppose
+$R \in \setR^+$, in order to prove that $\tau \state \vec{R},R$. We argue by cases on the
+definition of $\tau$. Let
+$$
+U'_i = U_i R \mbox{ for all $i \in [1,h]$ \ \ \ and } U'_{h+1} = R
+$$ 
+Suppose that $i$ is the first element of $i \in [1,h+1]$ such that:
+
+\begin{enumerate} 
+\item
+either $i \in [1,h]$ and $\dom(U'_i) \subset \dom(U_i)$
+\item 
+or $i=h+1$
+\end{enumerate}
+
+We argue by cases on the definition of $\tau$.
+\begin{enumerate}
+
+\item 
+\emph{Assume that $i=1$ or $\DomCard(U'_i) \not = \DomCard(U'_{i-1})$}and
+$$
+\trans(\sigma,R) = (U'_1, d_1, V_1; \ \ldots; U'_{i-1}, d_{i-1},V_{i-1}; \ U'_i, 0, \ U'_i)
+$$
+Suppose $i=1$. Then $\dom(U'_1) \subset \dom(U_1)$, therefore $\minStable(\vec{R},R) =
+$ the product of $vec{S},R$, and $\trans(\sigma,R) = (U'_1, 0, U'_0)$.
+From $\dom(U'_1) \subset \dom(U_1)$ we deduce $\size(U'_1) < \size(U_1)$,
+hence $\sigma > \trans(\sigma,R)$. $(U'_1, 0, U'_0) = (S_1 \ldots S_n,0,S_1 \ldots S_n)$ 
+is a state of $\vec{R},R$.
+
+Suppose $i \in [2,h]$. Then $\dom(U'_i) \subset \dom(U_i)$
+ therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
+ and $\DomCard(U'_i) \not = \DomCard(U'_{i-1})$. We deduce that 
+ $\DomCard(U'_i) > \DomCard(U'_{i-1})$, namely $S_{b_i} \ldots S_n R$
+ is a component of $\vec{R},R$ and $\tau \state \vec{R},R$. 
+From $\dom(U'_i) \subset \dom(U_i)$ we deduce $\size(U'_i) < \size(U_i)$,
+hence $\sigma > \trans(\sigma,R)$.
+
+Suppose $i=h+1$. Then $\dom(U'_{h+1}) \subset \dom(U_{h+1})$
+ therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{h}}, R$
+ and $\DomCard(U'_{h+1}) \not = \DomCard(U'_{h})$. We deduce that 
+ $\DomCard(R) = \DomCard(U'_{h+1}) > \DomCard(U'_{h})$, namely 
+ $R = U_{h+1}$ is a component of $\vec{R},R$ and $\tau \state \vec{R},R$. 
+We have $\sigma > \trans(\sigma,R)$ because $\trans(\sigma,R)$ is the
+concatenation of $\sigma$ and of $(R,0,R)$.
+
+\item
+\emph{Assume that $i>1$ and $\DomCard(U'_i) = \DomCard(U'_{i-1})$}. 
+\begin{enumerate}
+\item
+\emph{Assume $d_{i-1}\ge 1$ and
+$V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$} and
+
+$$
+\trans(\sigma,S) = 
+(U'_1, d_1,V_1;  \ \ldots; U'_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, 1, U'_{i-1})
+$$
+
+Suppose $i \in [2,h]$. By assumption, $\dom(U'_i) \subset \dom(U_i)$
+ therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
+ and $\DomCard(U'_i) = \DomCard(U'_{i-1})$. We deduce that 
+ $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
+ is a component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_n R)$. 
+ $1$ is a degree of the product of  
+ $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$,
+ therefore $\tau \state \vec{R},R$.
+ $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$, we
+ deduce that $\size(U_{i-1}) = \size(V_{i-1}) > \size(U'_{i-1})$. Thus, $\sigma > \tau$.
+ 
+ Suppose $i=h+1$. By assumption, $\dom(R) = \dom(U'_{h+1}) \subset \dom(U_{h+1})$
+ therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_h}, R$
+ and $\DomCard(U'_{h+1}) = \DomCard(U'_{h})$. We deduce that 
+ $S_{a_h}, \ldots, S_{b_h}, R$
+ is a component of $\vec{R},R$ with last element $R = U'_{h+1}$. 
+ $1$ is a degree of the product of  
+ $S_{a_h}, \ldots, S_{b_h}, R$,
+ therefore $\tau \state \vec{R},R$.
+ $V_{h}$ is progressing from $\dom(V_{h})$ to $\dom(U'_{h+1})$, we
+ deduce that $\size(U_{h}) = \size(V_{h}) > \size(U'_{h+1})$. Thus, $\sigma > \tau$.
+ 
+\item
+\emph{Assume $d-{i-1}= 0$ or 
+$V_{i-1}$ is stationary from $\dom(V_{i-1})$ to $\dom(U'_{i})$} and
+$$
+\trans(\sigma,S) = 
+(U'_1, d_1,V_1;  \ \ldots; U'_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, d_{i-1}+1, U'_{i})
+$$
+If $i \in [2,h]$ then $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
+ is the last component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_n R)$. 
+ Then $d_{i-1}+1$ 
+ is a degree of $U'_{i-1}$ and $\tau \state \vec{R},R$ and $d_{i-1}+1$ is a degree of
+ $U'_{i-1}$ and $\sigma > \tau$.
+ 
+ If $i = h+1$ then $S_{a_{h}}, \ldots, S_{b_{h}}, R$
+ is the last component of $\vec{R},R$ with last element 
+ $R$. Then $d_{i-1}+1$ 
+ is a degree of $U'_{i-1}$ and $\tau \state \vec{R},R$ and $d_{i-1}+1$ is a degree of
+ $U'_{i-1}$ and $\sigma > \tau$.
+\end{enumerate}
+\end{enumerate}
 \end{proof}
+
+We define a graph $\setG$ with transitions $\sigma \rightarrow_R \trans(\sigma,R)$ labeled
+by $R \in \setR^+$.
 
 %10:50 02/02/2026
 
