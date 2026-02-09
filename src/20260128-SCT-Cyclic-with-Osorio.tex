@@ -858,7 +858,7 @@ We deduce that the grouping $\vec{R}$ is stable by
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}[Minimum Stable Grouping]
 \label{lemma-stable-phi-2}
 $\vec{S}^\phi$ is the minimum stable grouping 
 w.r.t. the lexicographic ordering.
@@ -1656,7 +1656,7 @@ or $R T$ has degree $d+1$.
 
 \item
 \label{lemma-degree-constant-02}
-Suppose $\setR^+$ stisfies PDC.
+Suppose $\setR^+$ satisfies PDC.
 If $R \in \setR^+$ has degree $d$, then $d \le \newton{\MaxInd}{c}$.
 \end{enumerate}
 \end{lemma}
@@ -1932,23 +1932,24 @@ For all colored relations $R:\alpha \rightarrow \beta$: $size(\alpha,\dom(R)) \g
  
 \item
 \label{lemma-length-bound-03}
-If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ then $\size(R_1) \ge \size(\dom(R_2))$.
+If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection then 
+$\size(R_1) \ge \size(\dom(R_2)) \ge \size(\beta,R)$.
 
 \item
 \label{lemma-length-bound-04}
 Assume $R_1,R_2$ is a constant-cardinality domain sequence 
 of injective colored relations.
-If $\size(R_1) = \size(R_2)$, then $\size(R_1) = \size(\dom(R_2)) = \size(R_2)$ and 
-$R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a
-stationary bijection.
+If $\size(R_1) = \size(R_2)$, then $\size(R_1) = \size(\dom(R_2)) = \size(R_2)$
+% and $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a stationary bijection.
 
 \item
 \label{lemma-length-bound-05}
 Assume $R_1, \ldots, R_n, R_{n+1}$ is a constant domain-cardinality sequence of 
 relations in $\setR^+$ with domain-cardinality $c$.
 Suppose for some $k$
-we have $\size(R_i) = k$ for all $i \in [1,n+1]$. Then $\size(\dom(R_i)) = k$
-for all $i \in [2,n+1]$ and 
+we have $\size(R_i) = k$ for all $i \in [1,n+1]$. 
+
+Then $\size(\dom(R_i)) = k$ for all $i \in [2,n+1]$ and  
 $R_i \cap (\dom(R_i) \times \dom(R_{i+1}))$ is a stationary bijection for all $i \in [2,n]$ and
 $$
 n \le \newton{\MaxInd}{c}
@@ -1965,8 +1966,10 @@ $$
 We assume that $R_1, \ldots, R_n, R_{n+1}$ is some colored constant-cardinality domain 
 sequence  with $R = R_1 \ldots R_n R_{n+1}$ in order to prove that
 $\size(R) = \size(R_{n+1})$.
-By Lemma \ref{}, $\dom(R) = \dom(R_1)$
-and $R_1 \ldots R_n$ restricted to $\dom(R_1)$ and  $\dom(R_{n+1})$ 
+By Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02}, 
+$\dom(R) = \dom(R_1)$.
+By Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-01},
+$R_1 \ldots R_n$ restricted to $\dom(R_1)$ and  $\dom(R_{n+1})$ 
 is the graph of some bijection $\psi$. Therefore for
 all $x \in \dom(R_1)$ we have $R(x) = R_1 \ldots R_n R_{n+1}(x) = R_{n+1}(\psi(x))$.
 
@@ -1999,13 +2002,16 @@ Thus, $ \size(R_1) = \Sigma_{x \in \dom(R_1)} \max(\{\size(y) | y \in R_1(x) \})
  \Sigma_{x \in \dom(R_1)} \size(\psi(x)) =  
 \Sigma_{y \in \dom(R_2)} \size(y) = \size(\dom(R_2))$.
 
+We have $\size(\dom(R_2)) \ge \size(R_2)$ by point \ref{lemma-length-bound-02} above.
+
 \item
 %\label{lemma-length-bound-04}
 By $R_1, R_2$ constant domain-cardinality sequence and $R_1, R_2$ injective and
-Lemma \ref{} we deduce that $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection.
-By points above we deduce that $\size(R_1) \ge \size(\dom(R_2)) \ge \size(R_2)$,
-and from $\size(R_1) = \size(R_2)$ we deduce 
-$\size(R_1) = \size(\dom(R_2)) = \size(R_2)$. 
+Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-01} 
+we deduce that $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection.
+By point \ref{lemma-length-bound-03} above we deduce that 
+$\size(R_1) \ge \size(\dom(R_2)) \ge \size(R_2)$, and from $\size(R_1) = \size(R_2)$ 
+we conclude that $\size(R_1) = \size(\dom(R_2)) = \size(R_2)$. 
 
 \item
 %\label{lemma-length-bound-05}
@@ -2013,11 +2019,9 @@ By Lemma \ref{lemma-size-colored-relation} $R_i \cap \dom(R_i) \times \dom(R_{i+
 is a stationary bijection for all $i \in [1,n ]$. By the previous point we have 
 $\size(\dom(R_i)) = k$ for all $i \in [2,n+1]$. Thus, $R_i \cap (\dom(R_i) \times 
 \dom(R_{i+1}))$ is a stationary bijection for all $i \in [2,n]$, otherwise we would have
-$\size(\dom(R_i)) > \size(\dom(R_{i+1}))$
-Lemma \ref{} implies that the sets $\dom(R_i)$ are distinct 
-for $i \in [2,n+1]$, namely that they are at most $\newton{\MaxInd}{c}$.
-The segment  $[2,n+1]$ has cardinality $((n+1)-2)+1$, namely $n$.
-We conclude that $n \le \newton{\MaxInd}{c}$.
+$\size(\dom(R_i)) > \size(\dom(R_{i+1}))$.
+Lemma \ref{lemma-degree-constant}.\ref{lemma-degree-constant-02}
+implies that $n \le \newton{\MaxInd}{c}$.
 \end{enumerate}
 \end{proof}
 
@@ -2035,15 +2039,11 @@ relations in $\setR^+$.
 Suppose $\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})$.
 \end{enumerate}
 
-Then:
-
-\begin{enumerate}
-\item
-$R_n \cap \dom(R_{n}) \times \dom(R_{n+1})$ is stationary.
-\item
-If $R_1 \ldots R_n$ has stationary degree $d$, then 
+Then for all $i, j \in [1,n]$, $i \le j$:
+If $\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})$,
+then $\size(R_n) = \size(\dom(R_n) = \size(R_{n+1})$ is stationary,
+and if $R_1 \ldots R_n$ has stationary degree $d$, then 
 $R_1 \ldots R_{n+1} $ has stationary degree $d+1$.
-\end{enumerate}
 
 \end{lemma}
 
@@ -2053,9 +2053,12 @@ from $\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})$
 we deduce that $\size(R_n) = \size(R_{n+1})$.
 
 By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-04}
-we conclude that $R_n \cap \dom(R_{n}) \times \dom(R_{n+1})$ is stationary.
+we conclude that $\size(R_n) = \size(\dom(R_n)) = \size(R_{n+1})$.
 
-Thus, if $R_1 \ldots R_n$ has stationary degree $d$, then 
+Thus, if $R_1 \ldots R_n$ has stationary degree $d$, then  
+$ \size(\dom(R_{n-d})) = \ldots = \dom(R_{n-1}) = \size(\dom(R_n))$, hence
+all relations $R_{n-i}$ are stationary bijections between $\dom(R_{n-i})$
+and $\dom(R_{n-i+1})$. Thus,
 $R_1 \ldots R_{n+1} $ has stationary degree $d+1$.
 
 \end{proof}
@@ -2459,15 +2462,20 @@ Then$\size(\sigma) > \size(\tau)$ and  $\tau \state \vec{R},R$.
 
 \begin{proof}
 Suppose $\setR^+$ is injective, $\vec{R}$ is a sequence on $\setR^+$ and
-$\minStable(\vec{R}) = \vec{S} = S_1, \ldots, S_n$. Let $\tau = \trans(\sigma,R) $.
-Let $S_{a_i}, \ldots, S_{b_i}$ for $i \in [1,h]$ be the components of $\vec{S}$,
-$\sigma = (U_1, d_1,V_1; \ldots; U_h, d_h, V_h) \state \vec{R}$
-with $U_i = S_{a_i}, \ldots, S_{n}$ and $V_i = S_{b_i}$. Suppose
+$\minStable(\vec{R}) = \vec{S} = S_1, \ldots, S_n$ be the minimum stable grouping
+of $\vec{R}$. 
+Let $S_{a_i}, \ldots, S_{b_i}$ for $i \in [1,h]$ be the components of $\vec{S}$. Assume
+$\sigma = (U_1, d_1,V_1; \ldots; U_h, d_h, V_h) \state \vec{R}$: by definition of $\state$
+we have $U_i = S_{a_i}, \ldots, S_{n}$ and $V_i = S_{b_i}$. 
+
+Let $\tau = \trans(\sigma,R) $. Suppose
 $R \in \setR^+$, in order to prove that $\tau \state \vec{R},R$. We argue by cases on the
 definition of $\tau$. Let
 $$
-U'_i = U_i R \mbox{ for all $i \in [1,h]$ \ \ \ and } U'_{h+1} = R
+U'_i = U_i R = S_{a_i}, \ldots, S_{n} R \mbox{ for all $i \in [1,h]$ \ \ \ and } U'_{h+1} = R
 $$ 
+We have $\dom(U'_i) \subseteq \dom(U_i)$ 
+by Lemma \ref{lemma-domain-inclusion-01}.\ref{lemma-domain-inclusion-01}.
 Suppose that $i$ is the first element of $i \in [1,h+1]$ such that:
 
 \begin{enumerate} 
@@ -2477,6 +2485,20 @@ either $i \in [1,h]$ and $\dom(U'_i) \subset \dom(U_i)$
 or $i=h+1$
 \end{enumerate}
 
+By definition unfolding, $i$ is the first index in $[1,h]$ such that 
+$\dom(S_{a_i} \ldots S_{n} R) \subset \dom(S_{a_i} \ldots S_{n})$, if any, otherwise $i=h+1$.
+By Lemma \ref{lemma-minstable-inductive}, 
+in the case $i \in [1,h]$we have 
+$$
+\minStable(\vec{R},R) = 
+S_{a_1}, \ldots, S_{b_1}, \ldots, S_{a_{i-1}}\ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_{n} R)
+$$,
+in the case $i = h+1$ we have
+$$
+\minStable(\vec{R},R) = 
+S_{a_1}, \ldots, S_{b_1}, \ldots, S_{a_{h}}\ldots, S_{b_{h}}, R
+$$
+
 We argue by cases on the definition of $\tau$.
 \begin{enumerate}
 
@@ -2485,25 +2507,39 @@ We argue by cases on the definition of $\tau$.
 $$
 \trans(\sigma,R) = (U'_1, d_1, V_1; \ \ldots; U'_{i-1}, d_{i-1},V_{i-1}; \ U'_i, 0, \ U'_i)
 $$
+
 Suppose $i=1$. Then $\dom(U'_1) \subset \dom(U_1)$, therefore $\minStable(\vec{R},R) =
-$ the product of $vec{S},R$, and $\trans(\sigma,R) = (U'_1, 0, U'_0)$.
+(S_{a_1} \ldots S_{n} R) = U'_1$, a grouping made of a single product, 
+and $\trans(\sigma,R) = (U'_1, 0, U'_0)$.
+$0$ is a degree of $U'_1$ w.r.t. $\setR^+$, therefore
+$(U'_1, 0, U'_0)$ is a state of $\vec{R},R$.
 From $\dom(U'_1) \subset \dom(U_1)$ we deduce $\size(U'_1) < \size(U_1)$,
-hence $\sigma > \trans(\sigma,R)$. $(U'_1, 0, U'_0) = (S_1 \ldots S_n,0,S_1 \ldots S_n)$ 
-is a state of $\vec{R},R$.
+hence $\sigma > \trans(\sigma,R)$. 
+\\
 
 Suppose $i \in [2,h]$. Then $\dom(U'_i) \subset \dom(U_i)$
  therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
  and $\DomCard(U'_i) \not = \DomCard(U'_{i-1})$. We deduce that 
- $\DomCard(U'_i) > \DomCard(U'_{i-1})$, namely $S_{b_i} \ldots S_n R$
- is a component of $\vec{R},R$ and $\tau \state \vec{R},R$. 
+ $\DomCard(U'_i) > \DomCard(U'_{i-1})$, namely $\DomCard(S_{a_i} \ldots S_n R)
+ > \DomCard(S_{a_{i-1}} \ldots S_{n} R) = $ 
+ (by stability and 
+ Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02}) 
+ $ \DomCard(S_{a_{i-1}} \ldots S_{b_{i-1}}$.
+ Thus $(S_{b_i} \ldots S_n R)$
+ is a component of $\vec{R},R$ made of a single product, therefore $\tau \state \vec{R},R$. 
 From $\dom(U'_i) \subset \dom(U_i)$ we deduce $\size(U'_i) < \size(U_i)$,
 hence $\sigma > \trans(\sigma,R)$.
+\\
 
 Suppose $i=h+1$. Then $\dom(U'_{h+1}) \subset \dom(U_{h+1})$
  therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{h}}, R$
  and $\DomCard(U'_{h+1}) \not = \DomCard(U'_{h})$. We deduce that 
- $\DomCard(R) = \DomCard(U'_{h+1}) > \DomCard(U'_{h})$, namely 
- $R = U_{h+1}$ is a component of $\vec{R},R$ and $\tau \state \vec{R},R$. 
+ $\DomCard(R) = \DomCard(U'_{h+1}) > \DomCard(U'_{h}) =
+  \DomCard(S_{a_{h}} \ldots S_{b_{h}} R) = $ 
+ (by stability and 
+ Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02})  
+ $ \DomCard(S_{a_{h}} \ldots S_{b_{h}}$. Namely 
+ $R = U_{h+1}$ is a one-product component of $\vec{R},R$ and $\tau \state \vec{R},R$. 
 We have $\sigma > \trans(\sigma,R)$ because $\trans(\sigma,R)$ is the
 concatenation of $\sigma$ and of $(R,0,R)$.
 
@@ -2523,23 +2559,27 @@ Suppose $i \in [2,h]$. By assumption, $\dom(U'_i) \subset \dom(U_i)$
  therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
  and $\DomCard(U'_i) = \DomCard(U'_{i-1})$. We deduce that 
  $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
- is a component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_n R)$. 
- $1$ is a degree of the product of  
- $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$,
- therefore $\tau \state \vec{R},R$.
- $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$, we
- deduce that $\size(U_{i-1}) = \size(V_{i-1}) > \size(U'_{i-1})$. Thus, $\sigma > \tau$.
+ is the last component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_n R)$. 
+ $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$ is a component with two or 
+ more elements, therefore $1$ is a degree of its product $U'_{i-1}$ in $\setR^+$.
+ We deduce $\tau \state \vec{R},R$.
+ $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$. 
+ By Lemma \ref{lemma-decreasing-size}we deduce that 
+ $\size(U'_{i}) > \size(U'_{i}) \ge \size(U'_{i-1})$. 
+ Thus, $\sigma > \tau$.
+ \\
  
  Suppose $i=h+1$. By assumption, $\dom(R) = \dom(U'_{h+1}) \subset \dom(U_{h+1})$
  therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_h}, R$
  and $\DomCard(U'_{h+1}) = \DomCard(U'_{h})$. We deduce that 
  $S_{a_h}, \ldots, S_{b_h}, R$
  is a component of $\vec{R},R$ with last element $R = U'_{h+1}$. 
- $1$ is a degree of the product of  
- $S_{a_h}, \ldots, S_{b_h}, R$,
- therefore $\tau \state \vec{R},R$.
- $V_{h}$ is progressing from $\dom(V_{h})$ to $\dom(U'_{h+1})$, we
- deduce that $\size(U_{h}) = \size(V_{h}) > \size(U'_{h+1})$. Thus, $\sigma > \tau$.
+ This is a component with two or more elements, therefore $1$ is a degree of its product  
+ $U'_{h}$ in $\setR^+$. We deduce $\tau \state \vec{R},R$.
+ $V_{h}$ is progressing from $\dom(V_{h})$ to $\dom(U'_{h+1})$
+ By Lemma \ref{lemma-decreasing-size}we deduce that 
+ $\size(U'_{h+1}) > \size(U'_{h+1}) \ge \size(U'_{h})$.  
+ Thus, $\sigma > \tau$.
  
 \item
 \emph{Assume $d-{i-1}= 0$ or 
@@ -2548,17 +2588,30 @@ $$
 \trans(\sigma,S) = 
 (U'_1, d_1,V_1;  \ \ldots; U'_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, d_{i-1}+1, U'_{i})
 $$
+
 If $i \in [2,h]$ then $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
  is the last component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_n R)$. 
- Then $d_{i-1}+1$ 
- is a degree of $U'_{i-1}$ and $\tau \state \vec{R},R$ and $d_{i-1}+1$ is a degree of
- $U'_{i-1}$ and $\sigma > \tau$.
+ By Lemma \ref{lemma-degree-constant},
+  $d_{i-1}+1$ 
+ is a degree of $U'_{i-1}$. We deduce $\tau \state \vec{R},R$.
+ Let $c = \DomCard(U_{i-1}) = \DomCard(U'_{i-1}) $. We conclude that 
+ $$
+ \size(\sigma) = 
+ (U_1, d_1, \ldots, U_{i-2}, d_{i-2}, U_{i-1}, \newton{\MaxInd}{c}-d_{i-1}) > 
+  (U'_1, d_1, \ldots, U'_{i-2}, d_{i-2}, U'_{i-1}, \newton{\MaxInd}{c}-d_{i-1}-1) = 
+  	size(\tau)
+  	$$
  
- If $i = h+1$ then $S_{a_{h}}, \ldots, S_{b_{h}}, R$
- is the last component of $\vec{R},R$ with last element 
- $R$. Then $d_{i-1}+1$ 
- is a degree of $U'_{i-1}$ and $\tau \state \vec{R},R$ and $d_{i-1}+1$ is a degree of
- $U'_{i-1}$ and $\sigma > \tau$.
+If $i = h+1$ then $S_{a_{h}}, \ldots, S_{b_{h}}, R$ is the last component of $\vec{R},R$ with last element $R$. 
+By Lemma \ref{lemma-degree-constant}, $d_{i-1}+1$ 
+ is a degree of $U'_{i-1}$. We deduce $\tau \state \vec{R},R$.
+ Let $c = \DomCard(U_{i-1}) = \DomCard(U'_{i-1}) $. We conclude that 
+$$
+ \size(\sigma) = 
+(U_1, d_1, \ldots, U_{h-1}, d_{h-1},  U_{h},  \newton{\MaxInd}{c}-d_{i-1}) > 
+(U'_1, d_1, \ldots, U'_{h-1}, d_{h-1}, U'_{h}, \newton{\MaxInd}{c}-d_{i-1}-1) = 
+size(\tau)
+$$
 \end{enumerate}
 \end{enumerate}
 \end{proof}
