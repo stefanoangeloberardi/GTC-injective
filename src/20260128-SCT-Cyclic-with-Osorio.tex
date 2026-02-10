@@ -1547,20 +1547,10 @@ satisfies the injective condition, the domain-stable
 condition, the constant domain condition. Namely, we move the properties of relation to 
 colored relation by forgetting colors.
 
-\begin{definition}[Stationary and progressing relation sequences]
-Assume $R$ is an colored relation and $\vec{R}=R_1, \ldots, R_n$ is any colored sequence 
-and $i \in [1,n-1]$.
-\begin{enumerate}
-
-\item
-We say that $R=(\Stat,\Prog)$ is progressing if $\Prog \not = \emptyset$, otherwise we say
-that $R$ is stationary.
-
-\item
-We say that $\vec{R}$ is progressing in $i$ if and only if 
-$R_i \cap (\dom(R_i) \times \dom(R_{i+1}))$ is progressing,
-and that that $\vec{R}$ is stationary in $i$ otherwise.
-\end{enumerate}
+\begin{definition}[Necessarily Progressing]
+Assume $R$ is an colored relation.
+We say that $R=(\Stat,\Prog)$ is \emph{necessarily progressing} on $x \in \dom(R)$
+if and only if for all $y \in R(x)$ we have $(x,y) \in \Prog$.
 \end{definition}
 
 %A constant domain-cardinality bicolored sequence $\vec{R}=R_1, ldots, R_n$
@@ -1603,40 +1593,51 @@ and that that $\vec{R}$ is stationary in $i$ otherwise.
 
 %17:56 05/02/2026
 
-\begin{definition}[Stationary degree of $R$ in $\setR^+$]
-We say that $R \in \setR^+$ has stationary degree $d \in \N^+$ wr.t. $\vec{C}, \setR^+$
-if and only if $\vec{C}= R_1, \ldots, R_{d+1}$ is some 
-constant domain-cardinality sequence in $\setR^+$ and:
+
+\begin{definition}[Stationary degree in $\setR^+$]
+Assume $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d$ is some 
+\emph{non-empty} constant domain-cardinality sequence in $\setR^+$.
+Let $d \in \N$. We say that $\vec{C}$ has stationary degree $d$ wr.t. $\setR^+$
+if and only if  and:
 
 \begin{enumerate}
 \item
-$R =  R_1 \ldots R_{d+1}$, namely $R$ is the product of $\vec{C}$
+$R_i$ is a stationary bijection from $\dom(R_i)$ to $\dom(R_{i+1})$, for all $i \in [1,d-1]$.
 
 \item
-$R_i$ is a stationary bijection from $\dom(R_i)$ to $\dom(R_{i+1})$, for all $i \in [2,d]$.
+no $x \in \dom(R_n)$ is necessarily progressing  
+(i.e., for all $x \in \dom(R_n)$ there is some $y$ such that $R_n$ is stationary on $(x,y)$).
 \end{enumerate}
-$R \in \setR^+$ has stationary degree $d \in \N^+$ wr.t. $\setR^+$
-if and only if
-$R \in \setR^+$ has stationary degree $d \in \N^+$ wr.t. $\vec{C}, \setR^+$
-for some$\vec{C}$.
+
+We say that $R \in \setR^+$ has stationary degree $d$ wr.t. $\setR^+$
+if and only if there is some $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d$
+with stationary degree $d$ wr.t. $\setR^+$ and such that
+$R =  S_1 \ldots S_e R_1 \ldots R_d$, namely, $R$ is the product of $\vec{C}$
 \end{definition}
 
-In the definition above, all traces in the path $\vec{C}=R_1, \ldots, R_{d+1}$ must move 
-from $\dom(R_i)$ to $\dom(R_{i+1})$ through $R_i$, therefore must have $d$ consecutive
-stationary steps. 
+We explain the role of stationary degree. 
+If $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_{d-1}, R_d$ 
+has stationary degree $d$ wr.t. $\setR^+$, then in the worst case \emph{all} infinite path $\pi$
+passing through $\vec{C}$ could have $d$ consecutive stationary steps.
+Indeed, all infinite $\pi$ must move from $\dom(R_i)$ to $\dom(R_{i+1})$ through $R_i$, 
+therefore must have $d-1$ consecutive stationary steps. 
+Then, no matter what is the step $x \in \dom(R_d)$ of $\pi$, all infinite $\pi$ could have one 
+more stationary step, because there is some $y$ with $R_d$ progressing on $(x,y)$.
 
-All $R \in \setR^+$ have at least stationary degree $0$ in $\setR^+$: we take $\vec{C}=R_1$.
-If $R,S$ is a constant domain-cardinality sequence then $RS$ has degree $1$:
-in this case the condition \quotationMarks{for all $i \in [2,d]$ \ldots} is vacously true
-because $[2,1] = \emptyset$.
- 
+The stationary degree measure an obstacle for having an infinitely progressing path.
+
+All $R \in \setR^+$ have at least stationary degree $0$ in $\setR^+$: we take $\vec{C}=S_1$.
+
 Suppose $R  \in \setR^+$ has stationary degree $d$, namely $R$ decomposes as 
-$R_1 \ldots R_{d+1}$ with all $R_i \cap \dom(R_i) \times \dom(R_{i+1})$
-stationary.  
-Then for all $i, j \in [2,d]$, $i \le j$ we have 
+$R =  S_1 \ldots S_e R_1 \ldots R_d$ 
+with all $R_i \cap \dom(R_i) \times \dom(R_{i+1})$ stationary.  
+Then for all $i, j \in [1,d-1]$, $i \le j$ the relation 
 $R_i \ldots R_j \cap \dom(R_i) \times \dom(R_{j+1})$
-equal to the product of all $R_i \cap \dom(R_i) \times \dom(R_{i+1})$, 
-\ldots, $R_j \cap \dom(R_j) \times \dom(R_{j+1})$, and therefore a stationary bijection.
+is equal to the product of all 
+$
+R_i \cap \dom(R_i) \times \dom(R_{i+1})$, \ldots, $R_j \cap \dom(R_j) \times \dom(R_{j+1})
+$, 
+and therefore it is a stationary bijection.
 
 
 
@@ -1644,15 +1645,15 @@ equal to the product of all $R_i \cap \dom(R_i) \times \dom(R_{i+1})$,
 \begin{lemma}[Degree of a constant-domain sequence of injective colored relations]
 \label{lemma-degree-constant}
 
-Assume $\vec{C}= R_1, \ldots, R_{d+1}$ and $R$ has stationary degree $d$ in 
-$\vec{C}, \setR^+$ and $c=\DomCard(R)$. 
+Assume $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_{d}$ is not empty and $R$ has stationary 
+degree $d$ in $\vec{C}, \setR^+$ and $c=\DomCard(R)$. 
 Assume $\vec{C}, T$ is a constant domain-cardinality sequence in $\setR^+$.
 
 \begin{enumerate}
 \item
 \label{lemma-degree-constant-01}
 Either $R_{d+1}$ is a progressing bijection from $\dom(R_{d+1})$ to $\dom(T)$
-or $R T$ has degree $d+1$.
+or $T$ has some necessarily progressing $x \in \dom(T)$ or $R T$ has degree $d+1$.
 
 \item
 \label{lemma-degree-constant-02}
@@ -1665,14 +1666,17 @@ If $R \in \setR^+$ has degree $d$, then $d \le \newton{\MaxInd}{c}$.
 \begin{proof}
 \begin{enumerate}
 \item
-Suppose $R_1, \ldots, R_{d+1}, T$ is a constant domain-cardinality sequence, and 
-$R = R_1 \ldots R_{d+1} T$.
+Suppose $\vec{C}, T$ are constant domain-cardinality sequence, 
+and $R = S_1 \ldots S_e R_1 \ldots R_{d} T$.
 By Lemma \ref{lemma-injective-stable-sequences}.\ref{lemma-injective-stable-sequences-02}
-$R_{d+1}$ is a bijection from $\dom(R_{d+1})$ to $\dom(T)$.
+$R_{d}$ is a bijection from $\dom(R_{d})$ to $\dom(T)$.
 If $d=0$ then $R$ has degree $1$. Suppose $d \ge 1$.
-Either $R_{d+1}$ is a progressing bijection from $\dom(R_{d+1})$ to $\dom(T)$
-or it is stationary, and since all $R_i$ with $i \in [2,d]$ are stationary from $\dom(R_i)$
+Suppose $R_{d}$ is not a progressing bijection from $\dom(R_{d+1})$ to $\dom(T)$;
+then it is stationary. Suppose $T$ has no necessarily progressing $x \in \dom(T)$. 
+Since all $R_i$ with $i \in [2,d]$ are stationary from $\dom(R_i)$
 to $\dom(R_{i+1})$, then $R$ has degree $d+1$.
+
+%10:13 10/02/2026
 
 \item
 Suppose $\setR^+$ satisfies PDC and $R \in \setR^+$ has degree $d$. 
@@ -1699,7 +1703,6 @@ a constant domain-cardinality sequence for at most
 $\newton{\MaxInd}{c}-d$ times. When $\newton{\MaxInd}{c}-d=0$, in 
 all constant domain-cardinality extensions $R_1, \ldots, R_{d+1},T$
 the relation $R_{d+1}$ is progressing between $\dom(R_{d+1})$ and $\dom(T)$.
-
 
 
 %Assume $\vec{S} = S_1, \ldots, S_n$ is any sequence of bicolored relations. We define
@@ -1932,8 +1935,8 @@ For all colored relations $R:\alpha \rightarrow \beta$: $size(\alpha,\dom(R)) \g
  
 \item
 \label{lemma-length-bound-03}
-If $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection then 
-$\size(R_1) \ge \size(\dom(R_2)) \ge \size(\beta,R)$.
+Assume $R_1 \cap (\dom(R_1) \times \dom(R_2))$ is a bijection.
+Then $\size(R_1) \ge \size(\dom(R_2)) \ge \size(\beta,R)$.
 
 \item
 \label{lemma-length-bound-04}
@@ -2041,7 +2044,7 @@ Suppose $\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})$.
 
 Then for all $i, j \in [1,n]$, $i \le j$:
 If $\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})$,
-then $\size(R_n) = \size(\dom(R_n) = \size(R_{n+1})$ is stationary,
+then $\size(R_n) = \size(\dom(R_n) = \size(R_{n+1})$,
 and if $R_1 \ldots R_n$ has stationary degree $d$, then 
 $R_1 \ldots R_{n+1} $ has stationary degree $d+1$.
 
@@ -2053,15 +2056,17 @@ from $\size(R_1 \ldots R_n) = \size(R_1 \ldots R_n R_{n+1})$
 we deduce that $\size(R_n) = \size(R_{n+1})$.
 
 By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-04}
-we conclude that $\size(R_n) = \size(\dom(R_n)) = \size(R_{n+1})$.
+we conclude that $\size(R_n) = \size(\dom(R_{n+1})) = \size(R_{n+1})$.
 
-Thus, if $R_1 \ldots R_n$ has stationary degree $d$, then  
-$ \size(\dom(R_{n-d})) = \ldots = \dom(R_{n-1}) = \size(\dom(R_n))$, hence
-all relations $R_{n-i}$ are stationary bijections between $\dom(R_{n-i})$
-and $\dom(R_{n-i+1})$. Thus,
-$R_1 \ldots R_{n+1} $ has stationary degree $d+1$.
-
+Assume $R_1 \ldots R_n$ has stationary degree $d$.
+If $d=0$, then $R_1, \ldots, R_{n+1} $ includes at least two relations and therefore it
+has stationary degree $1$. Now assume $d \ge 1$. By definition of state, 
+$\size(\dom(R_{n})) = \size(R_n)$, therefore 
+ $ \size(\dom(R_{n})) = \size(\dom(R_{n+1})) $. Thus,
+ $R_n \cap \dom(R_n) \times \dom(R_{n+1})$ is a stationary bijection
+and $R_1 \ldots R_{n+1} $ has stationary degree $d+1$.
 \end{proof}
+
 %We claim that after at most $2^\MaxInd$ steps any constant-domain sequence progresses.
 %We formally express this fact through the notion of degree.
 % 
@@ -2141,6 +2146,9 @@ S_{a_1} \ldots S_{n }, d_1, S_{b_1};
 S_{a_h} \ldots S_{n }, d_h, S_{b_h}
 )
 $$
+and for all $i \in [1,h]$, either $\size(\dom(R_{b_i})) = \size(R_{b_i})$ or $d_i=0$.
+
+%CONTROLLARE 20:55 09/02/2026
 
 \item
 If $\vec(R)$ is any injective sequence then $\sigma \state\vec(R)$ in $\setR^+$ if and only
@@ -2159,6 +2167,11 @@ $$
 $$
 \end{enumerate}
 \end{definition}
+
+Remark that we can decide whether $\size(\dom(R)) = \size(R)$, by checking whether
+for all $x \in \dom(R)$ there is some $y \in R(x)$ such that $R$ is stationary on $(x,y)$.
+When $\size(\dom(R_{b_i})) = \size(R_{b_i})$ we will reset the counter $d_i$ to $0$.
+
 
 \begin{lemma}[State of a Sequence]
 Assume  $\setR^+$ is any set of injective relations and
@@ -2423,18 +2436,18 @@ $$
 \emph{Assume that $i>1$ and $\DomCard(U'_i) = \DomCard(U'_{i-1})$}.
 \begin{enumerate}
 \item
-\emph{Assume $d_{i-1}\ge 1$ and
-$V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$}.
-Then $\trans$ sets the counter number $(i-1)$ to $1$
+\emph{Assume $\size(\dom(U'_{i})) \not = \size(U'_i)$ or 
+($d_{i-1}\ge 1$ and $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to 
+$\dom(U'_{i})$)}. Then $\trans$ sets the counter number $(i-1)$ to $0$
 
 $$
 \trans(\sigma,S) = 
-(U'_1, d_1,V_1;  \ \ldots; U'_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, 1, U'_{i-1})
+(U'_1, d_1,V_1;  \ \ldots; U'_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, 0, U'_{i-1})
 $$
 
 \item
-\emph{Assume $d-{i-1}= 0$ or 
-$V_{i-1}$ is stationary from $\dom(V_{i-1})$ to $\dom(U'_{i})$}.
+\emph{Assume $\size(\dom(U'_{i})) = \size(U'_i)$ and
+($d-{i-1}= 0$ or $V_{i-1}$ is stationary from $\dom(V_{i-1})$ to $\dom(U'_{i})$)}.
 Then $\trans$ increases the counter number $(i-1)$ by one:
 
 $$
@@ -2559,9 +2572,8 @@ Suppose $i \in [2,h]$. By assumption, $\dom(U'_i) \subset \dom(U_i)$
  therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
  and $\DomCard(U'_i) = \DomCard(U'_{i-1})$. We deduce that 
  $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$
- is the last component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_n R)$. 
- $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_n R)$ is a component with two or 
- more elements, therefore $1$ is a degree of its product $U'_{i-1}$ in $\setR^+$.
+ is the last component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_n R)$.
+ $0$ is a degree of its product $U'_{i-1}$ in $\setR^+$.
  We deduce $\tau \state \vec{R},R$.
  $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$. 
  By Lemma \ref{lemma-decreasing-size}we deduce that 
@@ -2574,7 +2586,7 @@ Suppose $i \in [2,h]$. By assumption, $\dom(U'_i) \subset \dom(U_i)$
  and $\DomCard(U'_{h+1}) = \DomCard(U'_{h})$. We deduce that 
  $S_{a_h}, \ldots, S_{b_h}, R$
  is a component of $\vec{R},R$ with last element $R = U'_{h+1}$. 
- This is a component with two or more elements, therefore $1$ is a degree of its product  
+ $0$ is a degree of its product  
  $U'_{h}$ in $\setR^+$. We deduce $\tau \state \vec{R},R$.
  $V_{h}$ is progressing from $\dom(V_{h})$ to $\dom(U'_{h+1})$
  By Lemma \ref{lemma-decreasing-size}we deduce that 
