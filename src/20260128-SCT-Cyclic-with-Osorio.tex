@@ -38,16 +38,16 @@
 
 \input{macro}
 % MORE MACRO
-\newcommand{\size} 		                  {{\tt s}}
-\newcommand{\state} 		               {{\tt S}}
-\newcommand{\minStable}             {{\tt m}}
-\newcommand{\unfold}                   {{\tt u}}
-\newcommand{\height}                    {{\tt h}}
-\newcommand{\setF} 		                   {{\mathcal F}}
-\newcommand{\setU} 	                   {{\mathcal U}}
-\newcommand{\cons}                       {{\tt cons}}
-\newcommand{\newton} [2]             {{\genfrac(){0pt}{1} {#1}{#2}}}
-\newcommand{\questionMarks} [1] {{‘‘#1’’}}
+\newcommand{\size} 		                    {{\tt s}}
+\newcommand{\state} 		                 {{\tt S}}
+\newcommand{\minStable}               {{\tt m}}
+\newcommand{\unfold}                     {{\tt u}}
+\newcommand{\height}                      {{\tt h}}
+\newcommand{\setF} 		                     {{\mathcal F}}
+\newcommand{\setU} 	                     {{\mathcal U}}
+\newcommand{\cons}                         {{\tt cons}}
+\newcommand{\newton} [2]               {{\genfrac(){0pt}{1} {#1}{#2}}}
+%\newcommand{\quotationMarks} [1] {{‘‘#1’’}}
 \newcommand{\MaxInd}                  {{\tt M}}
 \newcommand{\Raising}                {{\tt Raising}}
 \newcommand{\trans}                       {{\tt trans}}
@@ -96,22 +96,39 @@ Mirai \cite{Mirai} provided a translation from from cyclic to inductive proofs. 
 on an existing algorithm for generating ranking functions and 
 requiring triple exponential time. A first improvement would be to switch to an equivalent
 formulation of cyclic proofs with injective bicolored relation (i.e. fan-in free, with at most one
-arrow entering in each node). In this case, the same algorithm provides a double exponential
-time \cite{Lee2} 
-and an inductive proof in output of size $O(2^{n \log(n)})$.
-In this paper we further improve the translation to a single exponential (poly-exponential) time, 
-by introducing a new algorithm. The price is having an inductive proof in output
-of poly-exponential size, instead than an ouput of size $O(2^{n \log(n)})$.
+arrow entering in each node). 
+In this case, the same algorithm provides a double exponential time \cite{Lee2} 
+and an inductive proof in output of size $2^{O(n \log(n))}$.
+In this paper we further improve the translation to a single exponential time
+(poly-exponential time) , by introducing a new algorithm. The price is having an inductive proof 
+in output of poly-exponential size, to be precise $2^{O(n^3)}$ size, instead than an ouput 
+of size $2^{O(n \log(n))}$.
 
-
-   \section{Quick Overview of the GTC and PDC Conditions}
-Let us start from a cyclic proof $P$ with set $\setR$ of bicolored relations on a set 
+The translation starts from a cyclic proof $P$ with set $\setR$ of bicolored relations on a set 
 $[1,\MaxInd]$. $\MaxInd$ is the maximum number of inductive formula in the left-hand side 
-of some sequent in $\Pi$. A bicolored relation is any pair $(\Stat,\Prog)$ of relations on
-$[1,\MaxInd]$. Each relation $R$ is associated to an arrow $a \rightarrow b$ 
+of some sequent in $\Pi$. 
+
+
+\section{Quick Overview of the GTC, Injectivity and PDC Conditions}
+
+\subsection{Bicolored Binary relations on a Finite Set}
+A bicolored relation is any pair $(\Stat,\Prog)$ of binary relations on
+$[1,\MaxInd]$ such that $\Stat \cap \Prog = \emptyset$. We say that any pair $(x,y) \in \Stat$
+has the stationary color, and any pair $(x,y) \in \Prog$
+has the progressing color. If $R= (\Stat,\Prog)$ is a bicolored relation, we define 
+$\universe{R} = \Stat \cup \Prog$ the uncolored associated relation. 
+We have a notion of composition for bicolored relations 
+$(\Stat,\Prog)(\Stat',\Prog') = (\Stat'', \Prog'')$ with $\Prog'' = \Stat \Prog' \cup 
+\Stat' \Prog \cup \Prog \Prog'$ and $\Stat'' = \Stat \Stat' \setminus \Prog''$. In the
+case of colored relations associated to injective relations the definition of $\Stat''$
+can be simplified to $\Stat'' = \Stat \Stat'$. Uncoloring and composition commute:
+we have $\universe{RS} = \universe{R}\universe{S}$ for all colored relations $R$, $S$.
+
+Each (possibly colored) relation $R$ is associated to an arrow $a \rightarrow b$ 
 between nodes of $\Pi$, and any two relations $R:a \rightarrow b$, $S:b \rightarrow c$
-are said to be composable. We call $\setR$ the set of relations $R:a \rightarrow b$
-in the proof, for some $R, a, b$.
+are said to be composable, with composition $RS: a \rightarrow c$. 
+We fix a $\setR$ of colored relations $R:a \rightarrow b$
+in the paper, for some $R, a, b$. 
  
 From now on we write $\N$ for the set of non-negative integers and $\N^+$ for the set of positive integers. For any $a,b \in \N$
 we write $[a,b]$ for the segment $\{c \in \N | a \le c \le b\}$. A sub-segment $[a',b']$ of
@@ -119,52 +136,63 @@ $[a,b]$ is any $[a',b'] \subseteq [a,b]$, namely with $[a',b']=\emptyset$ or $a 
 
 We consider binary relations on a finite set: for sake of simplicity we only 
 consider the finite sets $[1,\MaxInd]$, for some $\MaxInd \in \N$ which we assume to be
-fixed. We will abbreviate \questionMarks{binary relations on $[1,\MaxInd]$} with
-\questionMarks{relations}. We write $\dom(R) = \{x | \exists y (x R y)\}$ and
-$R(x)$ for the set $\{y | x R y\}$ of $R$-images of $x \in \dom(R)$. We call 
-$\DomCard(R) = \Card(\dom(R))$ the domain-cardinality of $R$. We extend
-$\dom$ and $\DomCard$ to relation sequences by taking the product of the sequence:
-$\dom(R_1, \ldots, R_n) =  \dom(R_1 \ldots R_n)$ and 
+fixed. 
+
+We will abbreviate \quotationMarks{binary relations on $[1,\MaxInd]$} with
+\quotationMarks{relations}. We write $\dom(R) = \{x | \exists y (x R y)\}$ and
+$R(x)$ for the set $\{y | x R y\}$ of $R$-images of $x \in \dom(R)$. For colored
+relation we define $\dom(R) = \dom(\universe{R})$. We call $\DomCard(R) = \Card(\dom(R))$ 
+the domain-cardinality of $R$. We extend $\dom$ and $\DomCard$ to relation sequences by 
+taking the product of the sequence: $\dom(R_1, \ldots, R_n) =  \dom(R_1 \ldots R_n)$ and 
 $\DomCard(R_1, \ldots, R_n) = \DomCard(R_1 \ldots R_n)$.
 
 
-\begin{definition}[Injectivity, PDC and GTC]
-\label{definition-inj-PDC-GTC}
-Assume $\setR^+$ is the closure of $\setR$ under composition, $R=(\Stat,\Prog)$
-is a bi-colored relation on $[1,\MaxInd]$, and $X,Y \subseteq [1,\MaxInd]$ are sets
-of positive integer.
+\subsection{GTC, Injectivity and PDC Conditions}
+
+\begin{definition}[Injectivity, PDC]
+\label{definition-inj-PDC}
+Assume $\setR^+$ is the closure of a family $\setR$ under colored composition, 
+$R=(\Stat,\Prog)$ is a bi-colored relation on $[1,\MaxInd]$, and 
+$X,Y \subseteq [1,\MaxInd]$ are sets of positive integer.
 
 \begin{enumerate}
 \item
-\label{definition-inj-PDC-GTC-01}
+\label{definition-inj-PDC-01}
 $R$ is progressing from $X$ to $Y$ if and only if $\Prog \cap (X \times Y) \not = \emptyset$.
 
 \item
-\label{definition-inj-PDC-GTC-02}
+\label{definition-inj-PDC-02}
 The Progressing Domain Condition (PDC) for a bicolored relation $R : a \rightarrow a$ says: 
 $R$ is progressing from $\dom(R)$ to $\dom(R)$.
 
 \item
-\label{definition-inj-PDC-GTC-03}
+\label{definition-inj-PDC-03}
 We say that closure $\setR^+$ of $\setR$
 satisfies PDC if and only if for all $R: a \rightarrow a \in \setR$, $R$ satisfies PDC. 
+\end{enumerate}
+\end{definition}
 
+
+\begin{definition}[The Global Trace Condition GTC]
+\label{definition-GTC}
+\begin{enumerate}
 \item
-\label{definition-inj-PDC-GTC-04}
+\label{definition-GTC-01}
 An infinite path $\pi$ in $\setR^+ $ is any infinite composable sequence
-$$\{(\Stat_i,\Prog_i):  \alpha_i \rightarrow \alpha_{i+1}\}_{i \in \N} \subseteq \setR^+$$
+$$\{(\Stat_i, \Prog_i):  \alpha_i \rightarrow \alpha_{i+1}\}_{i \in \N} \subseteq \setR^+$$
 \begin{enumerate}
 \item
 An infinite trace $\sigma$ in $\pi$ is any map $\sigma: [i_0, \infty[ \rightarrow [1,\MaxInd]$, 
 for some $i_0 \in \N$, such that $\sigma(i) \Stat_i \cup \Prog_i \sigma(i+1)$ 
 for all $i \in [i_0, \infty[$. 
+
 \item
 $\sigma$ is infinitely progressing in $\pi$ if and only if $\sigma(i) \Prog_i \sigma(i+1)$ 
 for infinitely many $i \ge i_0$.
 \end{enumerate}
 
 \item
-\label{definition-inj-PDC-GTC-05}
+\label{definition-GTC-02}
 We say that $\setR^+ $ satisfies GTC if and only if for all infinite composable sequences 
 $\pi$ there is some infinitely progressing path $\sigma$ in $\pi$.
 
@@ -172,7 +200,8 @@ $\pi$ there is some infinitely progressing path $\sigma$ in $\pi$.
 \end{definition}
 
 Remark that the Global Trace Condition (GTC) is a property of infinite composable
-chains of $\setR$, while PDC is a property of single relations $R \in \setR$, $R:a \rightarrow a$. 
+chains of $\setR^+$, while PDC is a property of single relations $R:a \rightarrow a \in \setR^+$,
+which is extended to a property of  $\setR^+$. 
 
 Through the paper assume that:
 
@@ -183,20 +212,24 @@ $\setR^+$ is a set of injective relations.
 $\setR^+$ satisfies PDC 
 \end{enumerate}
 
-PDC for injective relations is equivalent to GTC, in general GTC is a stronger condition
+PDC for injective relations is equivalent to GTC, while in general GTC is a stronger condition
 than PDC. 
 \\
 
-{\bf An example.} Let $R = (\{(1,1)\},\{(2,1)\})$ with $R$ stationary on $(1,1)$
+\begin{example}
+\label{example-PDC-GTC}
+Let $R = (\{(1,1)\},\{(2,1)\})$ with $R$ stationary on $(1,1)$
 and progressing on $(2,1)$. Let $\setR=\{R: a \rightarrow a\}$.
-Then $R$ satisfies PDC on the graph $\{(a,a)\}$, and $RR=R$, 
-therefore  $\setR^+=\{R: a \rightarrow a\}$ and $\setR^+$ satisfies PDC. 
-However, the only infinite traces in $R: a \rightarrow a, R: a \rightarrow a, R: a \rightarrow a,
-\ldots$ are $(1,1,1,\ldots)$ and $(2,1,1,1,\ldots)$. The
-first trace never progresses, the second trace progresses once, on the first arrow $(2,1)$. 
+Then $R$ satisfies PDC %on the graph $\{(a,a)\}$, 
+and $RR=R$, therefore  $\setR^+=\{R: a \rightarrow a\}$ and $\setR^+$ satisfies PDC. 
+However, the only infinite traces in the infinite path 
+$R: a \rightarrow a, R: a \rightarrow a, R: a \rightarrow a, \ldots$ are $(1,1,1,\ldots)$ and $(2,1,1,1,\ldots)$. The first trace never progresses, the second trace progresses once, 
+on the first arrow $(2,1)$. 
+
 So $\setR^+$ does \emph{not} satisfy GTC. The fact that GTC is false for $\setR^+$ 
 is not in contradiction with what we said. Indeed, $R \in \setR^+$ is  \emph{not} injective,
 given that $1$ has two $R$-counter-images, namely $1$ and $2$.
+\end{example}
 
 \begin{center}
 \begin{tikzpicture}
@@ -228,78 +261,223 @@ given that $1$ has two $R$-counter-images, namely $1$ and $2$.
 \filldraw[black] (4.4,0) circle (1pt) node[anchor=west]{1};
 \filldraw[black] (4.4,1) circle (1pt) node[anchor=west]{2};
 
+\filldraw[black] (5.5,0) circle (1pt) node[anchor=west]{$\ldots$};
+\filldraw[black] (5.5,1) circle (1pt) node[anchor=west]{$\ldots$};
+
 \node[] at (0,1.5) {$R$};
 \node[] at (1.1,1.5) {$R$};
 \node[] at (2.2,1.5) {$R$};
 \node[] at (3.3,1.5) {$R$};
 \node[] at (4.4,1.5) {$\ldots$};
+\node[] at (5.5,1.5) {$\ldots$};
 
 \end{tikzpicture}
+\\
+\emph{\small The only infinite traces are $(1,1,1,\ldots)$ and $(2,1,1,1,\ldots)$}
 \end{center}
 
-Suppose we have a path $\pi$ from a companion c to itself, moving back  through $c$
-for $k \ge 1$ times: we have $c \rightarrow c \rightarrow \ldots \rightarrow c$, with $k$ arrows.
-For any $i \in \{1, \ldots, k\}$, suppose the step $c \rightarrow c$ having number $i$
-is associated to some bicolored relation $R_i : c \rightarrow c$, $R_i \in \setR^+$. 
-The path $\pi$ itself is associated to the sequence $\vec{R} = R_1 \ldots R_k$ of such relations. 
-For the translation, we have to associate a measure to each such sequence $\vec{R}$
-which is decreasing by extension.
-
-In order to do so, we first to derive some elementar properties of the sequences of uncolored injective relations on $[1,\MaxInd]$. These properties have nothing to do with colors and
-with cyclic proofs.
+%Suppose we have a path $\pi$ from a companion $c$ to itself, moving back  through $c$
+%for $k \ge 1$ times: we have $c \rightarrow c \rightarrow \ldots \rightarrow c$, with $k$ arrows.
+%For any $i \in \{1, \ldots, k\}$, suppose the step $c \rightarrow c$ having number $i$
+%is associated to some bicolored relation $R_i : c \rightarrow c$, $R_i \in \setR^+$. 
+%The path $\pi$ itself is associated to the sequence $\vec{R} = R_1 \ldots, R_k$ of such 
+%relations. For the translation, we have to associate a measure to each such sequence $\vec{R}$
+%which is decreasing by extension.
 
 
+\section{Infinite Traces of an infinite Path and Injectivity}
+We first provide a picture of the traces of the infinite traces of an infinite path in the case of 
+injective relations
+$$
+\pi = 
+R_1:\alpha_1 \rightarrow \alpha_2, \ \ \ 
+\ldots, \ \ \ 
+R_k:\alpha_k \rightarrow \alpha_{k+1}, \ \ \ 
+\ldots
+$$
+then we will sketch a decreasing measure on each finite prefix $R_1 \ldots, R_k$ of $\pi$. 
+This section is informal and only intended as a plan for the paper.
+\\ 
+
+We assume having some map $\size:Nodes, [1,\MaxInd] \rightarrow \N^+$, assigning a positive
+integer $\size(\alpha, x)$ to the inductive formula number $y$ in the node $\alpha$.
+We assume that if $x$ progresses to $y$ when moving from node $\alpha$ to node $\beta$, 
+then $\size(\alpha, x) > \size(\beta, x)$, while if $(x,y)$ is stationary then 
+$\size(\alpha, x) = \size(\beta, x)$. 
+
+When we study GTC, for each $i \in \N$ we only are interested to elements $x \in [1,\MaxInd]$
+from which some infinite trace $x_i R_i x_{i+1} R_{i+1} x_{i+2} \ldots$ starts or
+passes through. For each $i \in \N$, these elements are the elements of the infinite intersection
+$$
+I_i = \dom(R_i) \cap \dom(R_i R_{i+1}) \cap \dom(R_i R_{i+1} R_{i+2}) \ldots
+$$
+It is immediate to check that 
+$
+\dom(R_i) \supseteq 
+\dom(R_i R_{i+1}) \supseteq 
+\dom(R_i R_{i+1} R_{i+2}) \supseteq 
+\ldots
+$,
+therefore $I_i = \bigcap_{j \ge i} \dom(R_i \ldots R_j)$. $I_i$ is an infinite intersection of a
+weakly decreasing family of finite sets, therefore $I_i = \dom(R_i \ldots R_j)$ 
+for some $j \ge i$. If we group the relations of $\pi$ in these groups
+$R_i \ldots R_j$, we obtain an infinite path 
+$$
+\pi' = 
+S_1:\beta_1 \rightarrow \beta_2, \ \ \ 
+S_2:\beta_2 \rightarrow \beta_3, \ \ \  
+S_3:\beta_3 \rightarrow \beta_4, \ \ \  
+\ldots, \ \ \ 
+S_m:\beta_m \rightarrow \beta_{m+1}, \ \ \ 
+\ldots
+$$ 
+which we call \emph{stable}. This path has a simpler behaviour, it has the property
+$$
+\dom(S_i) = 
+\dom(S_i S_{i+1}) =
+\dom(S_i S_{i+1} S_{i+2}) =
+\ldots
+$$
+Each $x \in \dom(S_i)$ is the first element of one or more infinite traces in the path $\pi'$,
+to put otherwise, each $x \in \dom(S_i)$ has some $S_i$-image $y \in \dom(S_{i+1})$
+Furthermore, in the case of \emph{injective} relations, these images are distinct, therefore
+$\Card(\dom(S_i)) \le \Card(\dom(S_{i+1})$. Let $c_i = \Card(\dom(S_i))$:then 
+$c_1 \le c_2 \le \ldots \le c_m \le \ldots$. 
+For all $i \in \N$ we have $c_i = \Card(\dom(S_i)) \le \MaxInd$, therefore
+we can decompose $\pi'$ in finitely many sub-sequences, the last one infinite, such that  
+$$
+c_{a_1} = \ldots = c_{b_1}   < 
+c_{a_2} = \ldots = c_{b_2}   < 
+\ldots                                       <
+c_{a_h} = \ldots 
+$$
+We decompose $\pi' = S_1, S_2, \ldots$ in the same way:
+$S_{a_1}, \ldots, S_{b_1}$, \ldots, $S_{a_{h-1}}, \ldots, S_{b_{h-1}}$, $S_{a_{h}}, \ldots$. 
+We call these subsequences the \emph{components} of $\pi$.
+Again by injectivity, we can prove that $S_{a_1}$ is a bijection from 
+$\dom(S_{a_1})$ to $\dom(S_{a_1 + 1})$, $S_{a_1 + 1}$ is a bijection from 
+$\dom(S_{a_1 + 1})$ to $\dom(S_{a_1 + 2})$ and \ldots and 
+$S_{b_1 - 1}$ is a bijection from $\dom(S_{b_1 - 1})$ to $\dom(S_{b_1})$.
+The same is true for all sub-sequences, including the infinite subsequence $S_{a_{h}}, \ldots$.
+
+This means that eventually the traces all follow the bijections in $S_{a_{h}}, \ldots$,
+and from the index $a_h$ on there are at most $c$ traces, with $c = c_{a_h}$
+the common cardinality of all $\dom(S_j)$ for $j \ge a_{h}$. There are at most 
+$\newton{\MaxInd}{c}$ different sets of
+cardinality $c$, therefore for some $j > k \ge a_h$ we have $\dom(S_j) = \dom(S_k)$
+and $S_j \ldots S_{k-1}$ is a bijection from $\dom(S_j)$ to $\dom(S_k) = \dom(S_j)$.
+Using PDC, we will prove that $S_j \ldots S_{k-1}$ is progressing from some 
+$x \in \dom(S_j)$ to some $y \in \dom(S_k)$. This progression happens at least once each 
+$\newton{\MaxInd}{c}$ steps.
+
+This first suggesta using an induction with last parameter 
+$$
+\Sigma_{x \in \dom(S_n)} \size(\beta_n,x)
+$$ 
+Whenever some $x \in \dom(S_n)$ progresses then the sum decreases. 
+However, this idea is incomplete in several ways, as we will see.
+\begin{enumerate}
+
+\item
+First, given a finite prefix $R_1, \ldots, R_n$ of $\pi$, we ignore whether the last component 
+$S_{a_{h}}, \ldots, S_m$ of the stable version $S_1, \ldots, S_m$ of $R_1, \ldots, R_n$ 
+is the last component of the infinite sequence $\pi$ or not. The grouping required to produce a 
+stable relation sequence may erase one or more components to the end. 
+We can fix this objection by taking nested induction on:
+$$
+\Sigma_{x \in \dom(S_{b_1})} \size(\beta_{b_1},x), \ \ \ 
+\ldots, \ \ \ 
+\Sigma_{x \in \dom(S_{b_h})} \size(\beta_{b_h},x)
+$$
+When a component is erased we use induction on the index for the last non-erased component
+$\Sigma_{x \in \dom(S_{b_i})} \size(\beta_{b_i},x)$.
+
+\item
+Second, the last relation $S_m$ makes a special case.
+If $x \in \dom(S_{b_h})$ has a set $S_{b_h}(x)$ of one or more $S_n$-images, 
+then any of them can be the next element of the infinite progressing trace. 
+The worst case from the viewpoint of the induction is when the next element is 
+some $y \in S_{b_h}(x)$ such that $\size(\beta_{b_h},y)$ is maximum. 
+This suggests switching to the indexes
+$$
+\Sigma_{x \in \dom(S_{b_i})} \max(\{\size(\beta_{b_i+1},y) | y \in S_{b_i}(x)\}
+$$
+expressing such worst-case possibility.
+
+\item
+Third, we can have up to $\newton{\MaxInd}{c_{a_i}}$ steps until the index number $i$
+decreases (even if such a bound looks a vast exaggeration). We need an auxiliary index 
+$t \in [0,\newton{\MaxInd}{c_{a_i}}]$ which, whenever the index number $i$ is the last index,
+counts how many steps we can still have 
+until the index number $i$ decreases. Such an index decreases by $1$ at each step
+in which the index number $i$ is the last index and it does not decrease.
+
+\end{enumerate}
+
+In the rest of the paper we will realize such a plan. We first to derive some elementar properties 
+of the sequences of uncolored injective relations on $[1,\MaxInd]$ whic are required to
+prove that our index decrease. These properties are combinatorial properties and they 
+have nothing to do with colors, nor with cyclic proofs.
+
+
+%19:00 10/02/2026
 
 
 \section{Domain-Stable Sequences and Grouping}
-We define the grouping relation between sequences of relations. An example: a possible 
-grouping of $\vec{S} = S_1, S_2, S_3, S_4, S_5, S_6$ is the following list $\vec{T}$
-of $3$ products:
+
+
+We define the grouping relation between sequences of (uncolored) relations. 
+An example: a possible grouping of $\vec{R} = R_1, R_2, R_3, R_4, R_5, R_6$ 
+is the following list $\vec{T} = T_1, T_2, T_3$ of $3$ products:
  
 $$ 
-S_1S_2, \ \ \ S_3, \ \ \ S_4 S_5 S_6
+R_1S_2, \ \ \ R_3, \ \ \ R_4 R_5 R_6
 $$
 
 \begin{definition}[The Grouping Relation]
 Assume $\vec{T} = T_1, \ldots, T_m$ and 
-$\vec{S} = S_1, \ldots, S_n$. We define the grouping relation $\vec{T} \grouping \vec{S}$ 
+$\vec{R} = R_1, \ldots, R_n$. We define the grouping relation $\vec{T} \grouping \vec{R}$ 
 by induction on $n$ as follows.
 \begin{enumerate}
 
 \item
-If $n=0$, then $\vec{T}$ = empty sequence = $\vec{S}$.
+If $n=0$, then $\vec{T}$ = empty sequence = $\vec{R}$.
 
 \item
-Suppose $\vec{T} = T_1, \ldots, T_m \grouping \vec{S}$. 
-Then $T_1, \ldots, T_{i-1}, (T_i \ldots T_m S) \grouping \vec{S},S$, for all $i \in [1,m]$. 
+Suppose $\vec{T} = T_1, \ldots, T_m \grouping \vec{R}$. 
+Then 
+\begin{enumerate}
+\item $T_1, \ldots, T_{i-1}, (T_i \ldots T_m R) \ \grouping \ \vec{R},R$, for all $i \in [1,m]$
+\item $T_1, \ldots, T_{m}, R \ \grouping \ \vec{R},R$ 
+\end{enumerate}
 \end{enumerate}
 \end{definition}
 
-To put otherwise, the groupings of $\vec{S} = S_1, \ldots, S_n$ are all and only 
-sequences of non-empty products of consecutive elements of $\vec{S}$, of the form: 
+To put otherwise, the groupings of $\vec{R} = R_1, \ldots, R_n$ are all and only 
+sequences of non-empty products of consecutive elements of $\vec{R}$, of the form: 
 $$
-S_{a_1} \ldots S_{b_1}, \ \ \ 
-S_{a_2} \ldots S_{b_2}, \ \ \ 
+(R_{a_1} \ldots R_{b_1}), \ \ \ 
+(R_{a_2} \ldots R_{b_2}), \ \ \ 
 \ldots, \ \ \ 
-S_{a_{h+1}} \ldots S_{b_{h+1}}
+(R_{a_{h}} \ldots R_{b_{h}})
 $$
-The segments $[a_1,b_1], \ldots, [a_{h+1},b_{h+1}]$ are a decomposition
+The segments $[a_1,b_1], \ldots, [a_{h},b_{h}]$ are a decomposition
 of $[1,n]$ into a disjoint union for some increasing sequence 
-$0 < b_1 < b_2 < i_3 < \ldots < b_h < b_{h+1} = n$. We necessarily have
-$a_0=1$ and $a_{i+1} = b_i + 1$ for all $i \in [1,h]$. 
+$0 < b_1 < b_2 <  \ldots < b_h = n$. We necessarily have
+$a_0=1$ and $a_{i+1} = b_i + 1$ for all $i \in [1,h-1]$. 
 
 Some trivial examples. 
 \begin{enumerate}
 \item
 We can have $h=0$, $b_1=n$ and the trivial grouping consisting of a single product  
-$S_1 \ldots S_n$. 
+$(R_1 \ldots R_n)$ of all relations. 
 \item
 We can have $h=m$, $b_1=1$, \ldots, $b_m=n$ and the trivial grouping consisting of the 
-sequence $S_1, \ldots, S_n$ itself, considered a sequence of unary products.
+sequence $R_1, \ldots, R_n$ itself, considered a sequence of unary products.
 \end{enumerate}
 
-We first define some domain inclusions and equalities 
-which are valid for all sequences of relations, then we isolate the \questionMarks{stable}
+We first prove some domain inclusions and equalities 
+which are valid for all sequences of relations, then we isolate the \quotationMarks{stable}
 grouping, in which more domain inclusions are valid. 
 
 \begin{lemma}[Domain-inclusion]
@@ -311,7 +489,7 @@ on $[1,\MaxInd]$.
 \item
 \label{lemma-domain-inclusion-01}
 For any two relations $R$, $S$ we have $\dom(RS) \subseteq \dom(R)$
-and therefore $\DomCard(RS) \le \DomCard(R)$.
+and therefore $\DomCard(RS) \le \DomCard(R))$.
 
 \item
 \label{lemma-domain-inclusion-02}
@@ -416,16 +594,22 @@ that $a \in \dom(RST)$, as wished.
 
 The inclusion $\dom(RS) \subseteq \dom(R)$ proved in
 Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-01}
-is often strict. An example: if $R = \{(1,1)\}$ and $S = \{(2,2)\}$ then $RS=\emptyset$,
+is often strict, as the next example says. 
+
+\begin{example} 
+\label{example-domain-inclusion}
+$R = \{(1,1)\}$ and $S = \{(2,2)\}$ then $RS=\emptyset$,
 therefore $\dom(RS) = \emptyset \subset \dom(R) = \{1\}$. 
+\end{example}
+
 We call domain-stable any sequence $\vec{S}$ of relations in which the strict
 inclusion $\dom(S_i S_{i+1}) \subset \dom(S_i)$ never happens.
  
 \begin{definition}[Domain-Stability]
 Let $\vec{S}=S_1, \ldots, S_n$ be any sequence of relations. 
 
-We say that $\vec{S}$ is stable if and only if for all $i \in [1,n-1]$ we have 
-$\dom(S_i S_{i+1}) = \dom(S_i)$.
+We say that $\vec{S}$ is domain-stable, only \emph{stable} for short, 
+if and only if for all $i \in [1,n-1]$ we have $\dom(S_i S_{i+1}) = \dom(S_i)$.
 
 \end{definition}
 
@@ -583,22 +767,24 @@ We assume point \ref{lemma-domain-stability-02}:
 for all $i, j \in [1, n]$, $i \le j$ we have $\dom(S_i)  =  \dom(S_i \ldots S_j)$,
 in order to prove point \ref{lemma-domain-stability-03}:
 all subsegments and grouping of $\vec{S}$ are stable. 
-
-We prove that all grouping of $\vec{S}$ are stable. We assume that
-$i, j,k\in [1, n]$, $i \le j < k$ and that $S_i \ldots S_j$, $S_{j+1} \ldots S_k$
+\begin{enumerate}
+\item
+\emph{We prove that all grouping of $\vec{S}$ are stable}. We assume that
+$i, j,k\in [1, n]$, $i \le j < k$ and that $(S_i \ldots S_j)$, $(S_{j+1} \ldots S_k)$
 are two consecutive products in some grouping of $\vec{S}$, and we have to prove 
 that $\dom(S_i \ldots S_j) = \dom( (S_i \ldots S_j) (S_{j+1} \ldots S_k))$. 
 By point \ref{lemma-domain-stability-02} we have 
 $$
 \dom(S_i \ldots S_j) = \dom(S_i) = \dom(S_i \ldots S_j S_{j+1} \ldots S_k)
 $$
-
-We prove that all sub-segments are stable. We proved that all grouping of $\vec{S}$ are stable.
+\item
+\emph{We prove that all sub-segments are stable}. 
+We proved that all grouping of $\vec{S}$ are stable.
 Therefore $\vec{S}$ itself is stable, being a trivial grouping of $\vec{S}$.
 The finite quantification defining stability for a subsegment of $\vec{S}$ 
 is a restriction of the finite quantification defining stability for $\vec{S}$. From
 stability of $\vec{S}$ we deduce stability for each sub-segment.
-
+\end{enumerate}
 This proves point \ref{lemma-domain-stability-03}.
 
 
@@ -662,8 +848,8 @@ as wished.
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02}
 says that a sequence is stable if and only if whenever $x$ has some $S_i$-image,
 then $x$ has some chain of $S_i, S_{i+1}, S_{i+2}, \ldots$-images of any length
-moving through the sequence. More informally, that we never drop any element of $\dom(S_i)$
-when composing with $S_{i+1}$, $S_{i+2}$, \ldots.
+moving through the sequence. We never drop any element of $\dom(S_i)$
+when moving to the sets $\dom(S_i S_{i+1})$, $\dom(S_i S_{i+1} S_{i+2})$, \ldots.
 This is an alternative definition of domain-stable sequence.
 
 
@@ -676,46 +862,52 @@ $S_1 \ldots S_n$ is the maximum grouping and $S_1, \ldots, S_n$ the minimum grou
 
 All sequences $\vec{S}=S_1, \ldots, S_n$ have a trivial stable grouping, by taking the
 product $S_1 \ldots S_n$ of the sequence. This is the maximum grouping w.r.t. $\grouping$, 
-and therefore it is the maximum stable grouping, but it is trivial. There is no minimum
+and therefore it is the maximum stable grouping, but it is trivial. 
+
+There is no minimum
 stable grouping w.r.t. $\grouping$. For instance,
 in the Example \ref{example-stable} $R,ST$ and $RS,T$
 are stable grouping and they are not comparable. The unique smaller grouping is 
 $R,S,T$ and it is not stable.
 
-We extend the $\grouping$ relation to a total order $\le$,
-and will prove that there is a minimum stable grouping  w.r.t. $\le$ for each $\vec{S}$.
-Namely, we claim that 
-there is some stable $\vec{T} \grouping \vec{S}$ such that for all stable 
+However, we can extend the $\grouping$ relation to a total order $\le$:
+by totality of $\le$ and finiteness of grouping of $\vec{S}$, there is a minimum stable grouping  w.r.t. $\le$ for each $\vec{S}$.
+Namely, there is some stable $\vec{T} \grouping \vec{S}$ such that for all stable 
 $\vec{U} \grouping \vec{S}$ we have $\vec{U} \le \vec{T}$. 
 
-Lexicographic ordering compares two groupings, looking for the grouping, 
-whose products closest to the left are shorter.
+Lexicographic ordering compares two groupings, looking for the grouping
+whose products which are closest to the left are shorter.
 
 \begin{definition}[Lexicographic Ordering on Grouping]
 \label{definition-grouping-order}
 Assume $\vec{S}=S_1, \ldots, S_n$ is a sequence of relations and 
 $$
-\vec{R} \ \ \ = \ \ \ 
-S_{a_1} \ldots S_{b_1}, \ \ \ S_{a_2} \ldots S_{b_2}, \ \ \ \ldots, \ \ \ S_{a_{h+1}} \ldots S_{b_{h+1}}
+\vec{R} \ \ \ 
+= \ \ \ 
+(S_{a_1} \ldots S_{b_1}), \ \ \ 
+(S_{a_2} \ldots S_{b_2}), \ \ \ 
+\ldots, \ \ \ 
+(S_{a_{h}} \ldots S_{b_{h}})
 $$
-is a grouping of $\vec{S}$ with $a_1=1, a_{i+1} = b_i+1$ for all $i \in [1,h]$ and 
-$b_{h+1} = n$.
+is a grouping of $\vec{S}$ with $a_1=1, a_{i+1} = b_i+1$ for all $i \in [1,h-1]$ and 
+$b_{h} = n$.
 
 \begin{enumerate}
 \item
 The degree of the grouping $\vec{R}$ of $\vec{S}$ is the sequence
-of the lengths of its products, namely $(b_1, b_2 - b_1, \ldots, b_{h+1} - b_h)$. 
+of the lengths of its products, namely $(b_1, b_2 - b_1, \ldots, b_{h} - b_{h-1})$. 
 \item
 We compare two grouping of the same sequence by comparing their degrees in the 
 lexicographic ordering.
 \end{enumerate}
 \end{definition} 
 
-Lexicographic ordering $\le$ is a total order on a finite set, 
+Lexicographic ordering $\le$ is a total order on a finite set, and there is the trivial stable
+grouping consisting of a single product,
 therefore there is a minimum stable grouping w.r.t. $\le$.
 
 
-We provide a existence proof and a characterization of the minimum stable grouping of 
+We provide a characterization of the minimum stable grouping of 
 $\vec{S}$ using a map $\phi(\vec{S},\cdot) : [1,\MaxInd] \rightarrow  [1,\MaxInd]$. 
 Then using the map $\phi(\vec{S},\cdot)$ we will provide an algorithm computing 
 the minimum stable group in polynomial time. 
@@ -728,10 +920,10 @@ We say that $j$ is a dropping index for $i$ in $\vec{S}$
 if and only if $j=i$ or $\dom(S_i \ldots S_{j-1}) \supset \dom(S_i \ldots S_j)$.  
 \end{definition}
 
-By definition unfolding, if $j>i$ then $j$ is a dropping index for $i$ in $\vec{S}$
-if and only if there is some $x \in [1,\MaxInd]$ having some $S_i \ldots S_{j-1}$-image 
-but no $S_i \ldots S_j$-image: some traces from $x$ continue until step $j-1$, then they all
-die out. 
+By definition unfolding, $j$ dropping index for $i$ in $\vec{S}$
+if and only if either $j=i$ or $j>i$ and there is some $x \in [1,\MaxInd]$ having some 
+$S_i \ldots S_{j-1}$-image  but no $S_i \ldots S_j$-image: 
+some traces from $x$ continue until step $j-1$, then they all die out. 
 
 
 \begin{definition}[Maximum Dropping index $\phi(\vec{S},i)$]
@@ -740,14 +932,13 @@ $\phi(\vec{S},i) \in [i,n]$ is the maximum dropping index $j\in [i,n]$
 of $i$ in $\vec{S}$. 
 
 We write just $\phi(i)$ when $\vec{S}$ is clear from the context. 
-If $\vec{S}$ has $n$ elements, then $\phi(\vec{S},n) \in [n,n]$ and therefore
-$\phi(\vec{S},n)=n$.
-%\item
-%We say that $i \in [1,n]$ is $\phi$-closed if and only if $\phi([1,i[) \subseteq [1,i[$
 \end{definition}
 
+If $\vec{S}$ has $n$ elements, then $\phi(\vec{S},n) \in [n,n]$ and therefore
+$\phi(\vec{S},n)=n$.
+
 In the Example \ref{example-stable}, with  $n=3$, $R=\{(1,1)\}$, $S=\{(1,1),(2,2)\}$, 
-$T=\{(1,1)\}$, we have $\phi(1)=1$ because $\dom(RS) = \{1\} = \dom(R)$.
+$T=\{(1,1)\}$, we have $\phi(1)=1$ because $\dom(R) = \dom(RS) = \dom(RST) =  \{1\}$.
 We have $\phi(2)=3$ because $\dom(ST) = \{1\} \subset \{1,2\} = \dom(S)$. 
 From $\phi(n)=n$ and $n=3$ we deduce $\phi(3)=3$.
 
@@ -803,12 +994,12 @@ We conclude that $j = \phi(i)$.
 
 \item
 \label{lemma-equivalent-phi-03}
-Assume that $T_i= S_{a_i} \ldots S_{b_i}$ is a product in a stable grouping 
-$\vec{T} = T_1, \ldots, T_m$ of $\vec{S}$, in order to prove that $\phi(a) \le b$. 
+Assume that $\vec{T} = T_1, \ldots, T_m$ is a stable grouping of $\vec{S}$
+with $T_i= S_{a_i} \ldots S_{b_i}$, in order to prove that $\phi(a_i) \le b_i$. 
 By Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02} 
 and stability of $\vec{T}$ we have $\dom(T_i) = \dom(T_i \ldots T_m)$,
-that is, $\dom(S_a \ldots S_b) = \dom(S_a \ldots S_b S_{b+1} \ldots S_n)$.
-By point \ref{lemma-equivalent-phi-02} above, this implies $\phi(\vec{S},a) \le b$.
+that is, $\dom(S_{a_i} \ldots S_{b_i}) = \dom(S_{a_i} \ldots S_{b_i} S_{b_i +1} \ldots S_n)$.
+By point \ref{lemma-equivalent-phi-02} above, this implies $\phi(\vec{S},a_i) \le b_i$.
 
 \end{enumerate}
 \end{proof}
@@ -821,8 +1012,8 @@ then we prove that it stable and the minimum stable.
 
 \begin{definition} [A Grouping Defined by the Map $\phi$]
 Assume $\vec{S}$ is any relation sequence.
-Let $a_1=1$ and $a_{i+1} = \phi(a_i)+1$ 
-for all $i \in [1,h-1]$ and $\phi(a_{h}) = n$.
+Let $a_1 < \ldots < a_h$ be the unique integer sequence such that:
+$a_1=1$ and $a_{i+1} = \phi(a_i)+1$ for all $i \in [1,h-1]$ and $\phi(a_{h}) = n$.
 We define $\vec{S}^{\phi} = R_1, \ldots, R_h$ by: 
 $$
 R_i = (S_{a_i}\ldots S_{\phi(a_i)}) \ \ \ \mbox{ for all $i \in [1,h]$}
@@ -860,15 +1051,15 @@ Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}.
 
 \begin{lemma}[Minimum Stable Grouping]
 \label{lemma-stable-phi-2}
-$\vec{S}^\phi$ is the minimum stable grouping 
+$\vec{S}^\phi$ is the minimum stable grouping of $\vec{S}$
 w.r.t. the lexicographic ordering.
 \end{lemma}
 
 \begin{proof}
-Assume $S_{a}, \ldots, S_{b}$ is the first product of a stable
-grouping (hence $a=1$). 
+Assume $S_{a_1}, \ldots, S_{b_1}$ is the first product of a stable
+grouping (hence $a_1=1$). 
 By Lemma \ref{lemma-equivalent-phi}.\ref{lemma-equivalent-phi-03}.
-we have $b \ge \phi(a_1)$, hence the shortest first product is 
+we have $b_1 \ge \phi(a_1)$, hence the shortest first product is 
 $S_{a_1} \ldots S_{b_1}$, with $a_1 = 1$ and $b_1 = \phi(a_1)$.
 By the same reasoning, 
 for any stable grouping starting with the product $S_{a_1} \ldots S_{b_1}$, 
@@ -884,9 +1075,10 @@ $\vec{T}  \ge \vec{S}^\phi$ lexicographically.
 Assume $\vec{S}$ is any sequence of relations. 
 \begin{enumerate}
 \item
-$\minStable(\vec{S}) = \vec{S}^\phi$.
+$\minStable(\vec{S}) = \vec{S}^\phi$
+is the minimum stable grouping of $\vec{S}$ w.r.t. the lexicographic ordering $\le$.
 \item
-$S_{a_h} \ldots S_{b_h}$, the last product of $\minStable(\vec{S}) $, 
+$(S_{a_h} \ldots S_{b_h})$, the last product of $\minStable(\vec{S}) $, 
 is the stable tail of $\vec{S}$.
 \end{enumerate}
 \end{definition}
@@ -896,7 +1088,7 @@ We are looking for a polynomial time algorithm for $\minStable(\vec{S})$.
 $\phi(\vec{S},i)$ can be computed in polynomial time
 by induction on $\vec{S}$, as follows. 
 
-\begin{lemma}[Characterization of $\phi(\vec{S},i)$]
+\begin{lemma}[Inductive Characterization of $\phi(\vec{S},i)$]
 \label{lemma-phi-characterization}
 We have $\phi(\vec{S} S_{n+1}, n+1) = n+1$ and for all $i \in [1,n]$
 one of the following holds:
@@ -945,7 +1137,7 @@ We assume $i,j \in [1,n]$, $i < j$ in order to prove that $\phi(\vec{S},i) \le \
 Let $b =  \phi(\vec{S},j)$. 
 Then by Lemma \ref{lemma-equivalent-phi}.\ref{lemma-equivalent-phi-02} we have 
 $\dom(S_j \ldots S_b) = \dom(S_j \ldots S_n)$. 
-By Lemma \ref{lemma-domain-inclusion}.{lemma-domain-inclusion-04} we deduce
+By Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-04} we deduce
 $\dom((S_i \ldots S_{j-1}) S_j \ldots S_b) = \dom((S_i \ldots S_{j-1}) S_j \ldots S_n)$.
 By definition of $\phi$, this implies $\phi(\vec{S},i) \le b =  \phi(\vec{S},j)$,
 as wished.
@@ -1056,7 +1248,7 @@ valid for sequences of \emph{injective} relations.
 
 \begin{lemma}[Injective Relation Sequences]
 \label{lemma-injective-sequences}
-Assume $R, S$, $\vec{R}=R_1, \ldots, R_n$ all are \emph{injective} relations.
+Assume $R$, $S$ and $\vec{R}=R_1, \ldots, R_n$ all are \emph{injective} relations.
 
 \begin{enumerate}
 \item
@@ -1168,17 +1360,14 @@ is a bijection.
 %\label{lemma-injective-stable-sequences-01}
 Assume $i,j \in [1,n]$, $i \le j$. By stability and
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
-we have $\dom(R_i) = \dom(R_i \ldots R_n)$ and  $\dom(R_j) = \dom(R_j \ldots R_n)$,
-therefore $\DomCard(R_i) = \DomCard(R_i \ldots R_n))$ and
-$\DomCard(R_j) = \DomCard(R_j \ldots R_n))$.
+we have $\dom(R_i) = \dom(R_i \ldots R_n)$ and  $\dom(R_j) = \dom(R_j \ldots R_n)$:
 
-By injectivity and 
+We deduce $\DomCard(R_i) = \DomCard(R_i \ldots R_n))$ and
+$\DomCard(R_j) = \DomCard(R_j \ldots R_n))$. By injectivity and 
 Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-02}  
-we have 
-$\DomCard(R_i \ldots R_n) \le \DomCard(R_j \ldots R_n)$.
+we obtain $\DomCard(R_i \ldots R_n) \le \DomCard(R_j \ldots R_n)$.
 
-We conclude that 
-$\DomCard(R_i) \le \DomCard(R_j)$.
+We conclude that $\DomCard(R_i) \le \DomCard(R_j)$.
 
 \item
 %\label{lemma-injective-stable-sequences-02}
@@ -1186,26 +1375,30 @@ Assume $i,j \in [1,n]$, $i < j$ and $\DomCard(R_i) = \DomCard(R_j)$.
 
 By stability and
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
-we have
-$\dom(R_i) = \dom(R_i \ldots R_n)$ and
-$\dom(R_j) = \dom(R_j \ldots R_n)$ and
-$\DomCard(R_i) = \DomCard(R_i \ldots R_n)$ and
-$\DomCard(R_j) = \DomCard(R_j \ldots R_n)$.
-By the assumption $\DomCard(R_i) = \DomCard(R_j)$
+we have $\dom(R_i) = \dom(R_i \ldots R_{j-1})$, this is the first half of our thesis.
+
+From the same Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-04}
+we deduce $\dom(R_i) = \dom(R_i \ldots R_n)$ and $\dom(R_j) = \dom(R_j \ldots R_n)$. 
+Thus, $\DomCard(R_i) = \DomCard(R_i \ldots R_n)$ and
+$\DomCard(R_j) = \DomCard(R_j \ldots R_n)$. 
+By assumption we have $\DomCard(R_i) = \DomCard(R_j)$,
 we deduce $ \DomCard(R_i \ldots R_n) = \DomCard(R_j \ldots R_n)$.
 
-By stability and Lemma \ref{lemma-injective-sequences-03}
-$i, j \in[1,n]$ and $i < j$ and $ \DomCard(R_i \ldots R_n) = \DomCard(R_j \ldots R_n)$
-we have: 
+By injectivity and Lemma \ref{lemma-injective-sequences-03} we obtain: 
 $R_i \ldots R_{j-1}$ restricted to $\dom(R_i \ldots R_n) \times \dom(R_j \ldots R_n)$
-is a bijection.
+is a bijection. 
+
+By $\dom(R_i) = \dom(R_i \ldots R_n)$ and 
+$\dom(R_j) = \dom(R_j \ldots R_n)$ we conclude that
+$R_i \ldots R_{j-1}$ restricted to $\dom(R_i) \times \dom(R_j)$
+is a bijection. 
 \end{enumerate}
 
 \end{proof}
 
-
+%11/02/2026 11:24
 We define a property stronger than domain-stability: having constant domain-cardinality
-for all product of sub-segments of $\vec{S}$.
+for all product of non-empty sub-segments of $\vec{S}$.
 
 
 \begin{definition}[Constant Domain-Cardinality]
@@ -1534,9 +1727,9 @@ This is case \ref{lemma-cardinality-stability-03}.
 
 \section{Constant Domain-Cardinality Sequences of Injective Bicolored Relations}
 
-If $R= (\Stat,Prog)$ is a bicolored sequence, we define $\universe{R} = \Stat \cup \Prog$
-and if $\vec{R}=R_1, \ldots, R_n$ is a bicolored sequence, we define
- $\universe{\vec{R}} = \universe{R_1}, \ldots, \universe{R_n}$.
+%If $R= (\Stat,Prog)$ is a bicolored sequence, we define $\universe{R} = \Stat \cup \Prog$
+%and if $\vec{R}=R_1, \ldots, R_n$ is a bicolored sequence, we define
+% $\universe{\vec{R}} = \universe{R_1}, \ldots, \universe{R_n}$.
 
 We have a notion of composition between bicolored relations satisfying $\universe{R S} =
 \universe{R} \cup \universe{S}$.
@@ -1610,9 +1803,9 @@ no $x \in \dom(R_n)$ is necessarily progressing
 \end{enumerate}
 
 We say that $R \in \setR^+$ has stationary degree $d$ wr.t. $\setR^+$
-if and only if there is some $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d$
-with stationary degree $d$ wr.t. $\setR^+$ and such that
-$R =  S_1 \ldots S_e R_1 \ldots R_d$, namely, $R$ is the product of $\vec{C}$
+if and only if there is some costant domain-degree sequence 
+$\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d$ with stationary degree $d$ wr.t. $\setR^+$ 
+and such that $R =  S_1 \ldots S_e R_1 \ldots R_d$, namely, $R$ is the product of $\vec{C}$
 \end{definition}
 
 We explain the role of stationary degree. 
@@ -1624,7 +1817,14 @@ therefore must have $d-1$ consecutive stationary steps.
 Then, no matter what is the step $x \in \dom(R_d)$ of $\pi$, all infinite $\pi$ could have one 
 more stationary step, because there is some $y$ with $R_d$ progressing on $(x,y)$.
 
-The stationary degree measure an obstacle for having an infinitely progressing path.
+Let $c = \DomCard(S_1)$ be the domain-cardinality of the last constant domain-cardinality
+sequence in an infinite path $\pi$. From $S_1$ on there are $c$ infinite traces in $\pi$.
+We will prove that the stationary degree is at most $\newton{\MaxInd}{c}$, therefore
+every $\newton{\MaxInd}{c}$ steps some trace progresses. After $n \newton{\MaxInd}{c}$
+steps there are at least $n$ progressions, and the maximum number of progressions 
+in the $c$ traces is at least $n/c$.
+Therefore after infinitely many steps the maximum is infinite and there is some infinitely 
+progressing trace.
 
 All $R \in \setR^+$ have at least stationary degree $0$ in $\setR^+$: we take $\vec{C}=S_1$.
 
@@ -2136,7 +2336,7 @@ We say that a sequence $\sigma$ on $\setR^+ \times \N \times \setR^+$ is a state
 $\vec{S}
 = S_1, \ldots, Sn$ 
 in $\setR^+$ and we write $\sigma \state \vec{S}$ if and only if for some degree $d_i$ of  
-$C_i$ w.r.t. $\vec{C},\setR^+$ we have
+$\vec{C_i}$ w.r.t. $\setR^+$ we have
 $$
 \sigma \ \ \ 
 = \ \ \ 
@@ -2146,7 +2346,8 @@ S_{a_1} \ldots S_{n }, d_1, S_{b_1};
 S_{a_h} \ldots S_{n }, d_h, S_{b_h}
 )
 $$
-and for all $i \in [1,h]$, either $\size(\dom(R_{b_i})) = \size(R_{b_i})$ or $d_i=0$.
+% THIS IS BUT A CONSEQUENCE OF THE DEFINITION OF DEGREE
+% and for all $i \in [1,h]$, either $\size(\dom(R_{b_i})) = \size(R_{b_i})$ or $d_i=0$.
 
 %CONTROLLARE 20:55 09/02/2026
 
@@ -2169,6 +2370,7 @@ $$
 \end{definition}
 
 Remark that we can decide whether $\size(\dom(R)) = \size(R)$, by checking whether
+no $x \in \dom(R)$ is necessarily progressing
 for all $x \in \dom(R)$ there is some $y \in R(x)$ such that $R$ is stationary on $(x,y)$.
 When $\size(\dom(R_{b_i})) = \size(R_{b_i})$ we will reset the counter $d_i$ to $0$.
 
@@ -2361,7 +2563,8 @@ PDC.
 A preliminary step for the translation algorithm is to derive the closure $\setR^+$ of $\setR$ 
 by compatible composition: $\setR^+$ is the smallest set of relations such that 
 $\setR \subseteq \setR^+$ and for all $R:\alpha \rightarrow \beta \in \setR^+$ and 
-$S:\beta \rightarrow \gamma \in \setR^+$ we have $RS:\beta \rightarrow \gamma \in \setR^+$.
+$S : \beta \rightarrow \gamma \in \setR^+$ we have 
+$RS:\beta \rightarrow \gamma \in \setR^+$.
 
 $\setR^+$ can be computed in time $2^{O(\MaxInd^2)}$, more precisely with 
 $2^{3*\MaxInd^2}$ operations. The rest of the algorithm requires time $2^{O(\MaxInd^3)}$,
@@ -2394,8 +2597,7 @@ hence exponential time.
 %Thus, the condition $\DomCard(R_i) \not = \DomCard(R_{i+1})$ is equivalent to
 %$\DomCard(R_i) < \DomCard(R_{i+1})$.
 
-Suppose we add any composable 
-$R : \beta \rightarrow \gamma$ 
+Suppose we add any $R : \beta \rightarrow \gamma \in \setR^+$ 
 to the sequence $\vec{R}:\alpha \rightarrow \beta$ in $\setR^+$.
 For each state $\sigma \in \States(\setR^+)$ we define a state $\tau = \trans(\sigma,R) \in \States(\setR^+)$
 such that if $\sigma \state \vec{R}$ then $\tau \state \vec{R},R$ and $\sigma > \tau$ in the lexicographic ordering.
