@@ -1914,11 +1914,10 @@ Assume $\vec{C}, T$ is a constant domain-cardinality sequence.
 \item
 \label{lemma-degree-constant-01}
 Assume that $T$ has no necessarily progressing $x \in \dom(T)$,
-and if $d \ge 1$ then $R_{d}$ is a stationary bijection from $\dom(R_{d})$ to $\dom(T)$.
+and either $d = 0$ or $R_{d}$ is a stationary bijection from $\dom(R_{d})$ to $\dom(T)$.
 
 Then $\vec{C}, T$ has stationary degree $d+1$.
- 
- The entire thesis is part of the assumptions.
+
 
 \item
 \label{lemma-degree-constant-02}
@@ -2122,8 +2121,10 @@ Assume $R:\alpha \rightarrow \beta, S:\beta \rightarrow \gamma \in \TypedRel$
 and $\pi_1 = \pi, (R:\alpha \rightarrow \beta) \in \setT$ a finite composable path.
 \begin{enumerate}
 \item
+\label{lemma-decreasing-size-01}
 $\size(\pi_1, RS) \le \size(\pi, R)$.
 \item
+\label{lemma-decreasing-size-02}
 If $\dom(RS) \subset \dom(R)$ then
 $\size(\pi_1, RS) < \size(\pi, R)$.
 \end{enumerate}
@@ -2133,6 +2134,7 @@ $\size(\pi_1, RS) < \size(\pi, R)$.
 \begin{enumerate}
 
 \item
+%\label{lemma-decreasing-size-01}
 We have $\size(\pi_1, RS) =
 \Sigma_{x \in \dom(RS)} \max(\size(\pi_1, RS(x))$. For all $x \in \dom(RS)$ we have
 $x \in \dom(R)$ and if $z \in RS(x)$ then for some $y \in R(x)$ we have $y S z$,
@@ -2151,6 +2153,7 @@ $
 $.
 
 \item
+%\label{lemma-decreasing-size-02}
 Assume $\dom(RS) \subset \dom(R)$.
 Then 
 $
@@ -2216,10 +2219,15 @@ Then $\size(\pi, R) \ge \size(\pi,\dom(S)) \ge \size(\pi_1,S)$.
 
 \item
 \label{lemma-length-bound-04}
-Assume $R,S$ is a constant-cardinality domain sequence 
-of injective colored relations.
+Assume $R,S \in \InjColRel$ is a constant-cardinality domain sequence.
 If $\size(\pi,R) = \size(\pi_1,S)$, then $\size(\pi,R) = \size(\pi,\dom(S)) = \size(\pi_1,S)$
 
+\item
+\label{lemma-length-bound-05}
+Assume $R,S \in \InjColRel$ is a constant-cardinality domain sequence.
+If $\size(\pi,\dom(R)) = \size(\pi,R)$, then $\size(\pi,RS) > \size(\pi_1,S)$
+if and only if $\size(\pi,\dom(R)) > \size(\pi,\dom(S))$ or 
+$\size(\pi,\dom(R)) >\size(\pi_1,\dom(S))$
 
 %
 %\item
@@ -2372,7 +2380,7 @@ for all $x \in \dom(R)$ there is some $y \in R(x)$ such that $R$ is stationary o
 %\end{enumerate}
 %\end{definition}
  
-% 09:14 12/02/2026
+
 
 \section{State of a Path}
 We define a graph of states and transitions for the algorithm translating a cyclic proof. We first
@@ -2465,7 +2473,7 @@ $\size(\sigma) \le \size(\tau)$ in the lexicographic order.
 \end{enumerate}
 \end{definition}
 
-%09:36 12/02/2026
+
 %
 %\begin{lemma}[State of a Sequence]
 %Assume  $\setR^+$ is any set of injective relations and
@@ -2696,7 +2704,7 @@ $\tau \state \pi_1$ and $\sigma > \tau$ in the lexicographic ordering.
 
 %In the next definition we consider the same cases of Lemma \ref{lemma-cardinality-stability}. 
 
-%10:17 12/02/2026
+
 
 \begin{definition}[The Transition Function $\trans(\sigma,R) \in \States(\setR^+)$]
 \label{definition-transition-state}
@@ -2825,68 +2833,91 @@ $$
 \trans(\sigma,R) = (U'_1, d_1, V_1; \ \ldots; U'_{i-1}, d_{i-1},V_{i-1}; \ U'_i, 0, \ U'_i)
 $$
 
-Suppose $i=1$. Then $\dom(U'_1) \subset \dom(U_1)$, therefore $\minStable(\vec{R},R) =
-(S_{a_1} \ldots S_m  R) = U'_1$, a grouping made of a single product, 
-and $\trans(\sigma,R) = (U'_1, 0, U'_0)$.
-$0$ is a degree of $U'_1$ w.r.t. $\setR^+$, therefore
-$(U'_1, 0, U'_0)$ is a state of $\vec{R},R$.
-From $\dom(U'_1) \subset \dom(U_1)$ we deduce $\size(U'_1) < \size(U_1)$,
-hence $\sigma > \trans(\sigma,R)$. 
-\\
-
-Suppose $i \in [2,h]$. Then $\dom(U'_i) \subset \dom(U_i)$
- therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$
- and $\DomCard(U'_i) \not = \DomCard(U'_{i-1})$. We deduce that 
- $\DomCard(U'_i) > \DomCard(U'_{i-1})$, namely $\DomCard(S_{a_i} \ldots S_m R)
- > \DomCard(S_{a_{i-1}} \ldots S_m  R) = $ 
- (by stability and 
- Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02}) 
- $ \DomCard(S_{a_{i-1}} \ldots S_{b_{i-1}}$.
- Thus $(S_{b_i} \ldots S_m R)$
- is a component of $\vec{R},R$ made of a single product, therefore $\tau \state \vec{R},R$. 
-From $\dom(U'_i) \subset \dom(U_i)$ we deduce $\size(U'_i) < \size(U_i)$,
-hence $\sigma > \trans(\sigma,R)$.
-\\
-
-Suppose $i=h+1$. Then $\dom(U'_{h+1}) \subset \dom(U_{h+1})$
- therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{h}}, R$
- and $\DomCard(U'_{h+1}) \not = \DomCard(U'_{h})$. We deduce that 
- $\DomCard(R) = \DomCard(U'_{h+1}) > \DomCard(U'_{h}) =
-  \DomCard(S_{a_{h}} \ldots S_{b_{h}} R) = $ 
- (by stability and 
- Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02})  
- $ \DomCard(S_{a_{h}} \ldots S_{b_{h}}$. Namely 
- $R = U_{h+1}$ is a one-product component of $\vec{R},R$ and $\tau \state \vec{R},R$. 
-We have $\sigma > \trans(\sigma,R)$ because $\trans(\sigma,R)$ is the
-concatenation of $\sigma$ and of $(R,0,R)$.
+\begin{enumerate}
+\item
+Suppose $i=1$. Then $\dom(U'_1) \subset \dom(U_1)$, therefore 
+$\minStable(\vec{R},R) = (S_{a_1} \ldots S_m  R) = U'_1$, 
+a grouping made of a single product, and $\trans(\sigma,R) = (U'_1, 0, U'_0)$. 
+$0$ is a degree of $U'_1$, therefore $(U'_1, 0, U'_0)$ 
+is a state of $\vec{R},R$. From $\dom(U'_1) = \dom(U_1 R) \subset \dom(U_1)$ 
+and Lemma \ref{lemma-decreasing-size}.\ref{lemma-decreasing-size-02}
+we deduce $\size(U'_1) < \size(U_1)$, hence $\sigma > \trans(\sigma,R)$. 
+\item
+Suppose $i \in [2,h]$. Then $\dom(U'_i) \subset \dom(U_i)$, namely
+$
+\dom(S_{a_i} \ldots S_m R) \not = 
+\dom(S_{a_{i-1}} \ldots S_m  R) 
+$ 
+therefore 
+$$
+\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)
+$$
+and $\DomCard(U'_i) \not = \DomCard(U'_{i-1})$, namely
+$
+\DomCard(S_{a_i} \ldots S_m R) \not = 
+\DomCard(S_{a_{i-1}} \ldots S_m  R) 
+$ 
+By injectivity and 
+Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-02} 
+we have 
+$
+\DomCard(S_{a_i} \ldots S_m R) > 
+\DomCard(S_{a_{i-1}} \ldots S_m  R) = 
+$ 
+(by stability and Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02}) 
+$\DomCard(S_{a_{i-1}} \ldots S_{b_{i-1}})$.
+Thus $(S_{b_i} \ldots S_m R)$ is a component of $\vec{R},R$ made of a single product, 
+therefore $\tau \state \vec{R},R$. From $\dom(U'_i) \subset \dom(U_i)$ 
+and Lemma \ref{lemma-decreasing-size}.\ref{lemma-decreasing-size-02}
+we deduce $\size(U'_i) < \size(U_i)$, hence $\sigma > \trans(\sigma,R)$.
+\item
+Suppose $i=h+1 > 1$. Then $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{h}}, R$.
+By assumption from $i>1$ we deduce$\DomCard(U'_{h+1}) \not = \DomCard(U'_{h})$. 
+We obtain 
+$
+\DomCard(R) = 
+\DomCard(U'_{h+1}) > 
+\DomCard(U'_{h}) = 
+\DomCard(S_{a_{h}} \ldots S_{b_{h}} R) = 
+$ 
+(by stability and 
+Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02})  
+$ \DomCard(S_{a_{h}} \ldots S_{b_{h}}$. Namely $R = U_{h+1}$ is a one-product 
+component of $\vec{R},R$, with a larger domain-cardinality, and $\tau=\trans(\sigma,R)$ is the
+concatenation of $\sigma$ and of $(R,0,R)$. We deduce $\tau \state \vec{R},R$ and 
+$\sigma > \trans(\sigma,R)$. 
+\end{enumerate}
 
 \item
 \emph{Assume that $i>1$ and $\DomCard(U'_i) = \DomCard(U'_{i-1})$}. 
 \begin{enumerate}
+
 \item
-\emph{Assume $d_{i-1}\ge 1$ and
-$V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$} and
+\emph{Assume either $U'_{i}$ has some necessarily progressing
+$x \in \dom(U'_{i})$ or $d_{i-1}\ge 1$ and $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$}. Assume
 
 $$
 \trans(\sigma,S) = 
 (U'_1, d_1,V_1;  \ \ldots; U'_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, 1, U'_{i-1})
 $$
-
+\begin{enumerate}
+\item
 Suppose $i \in [2,h]$. By assumption, $\dom(U'_i) \subset \dom(U_i)$
- therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$
- and $\DomCard(U'_i) = \DomCard(U'_{i-1})$. We deduce that 
- $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$
- is the last component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_m R)$.
- $0$ is a degree of its product $U'_{i-1}$ in $\setR^+$.
- We deduce $\tau \state \vec{R},R$.
- $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$. 
- By Lemma \ref{lemma-decreasing-size}we deduce that 
- $\size(U'_{i}) > \size(U'_{i}) \ge \size(U'_{i-1})$. 
- Thus, $\sigma > \tau$.
- \\
+ therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$.
+ By assumption $\DomCard(U'_i) = \DomCard(U'_{i-1})$. We deduce that 
+ $U'_{i} = S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$
+ is the last component of $\vec{R},R$, and it has last element 
+ $U'_{i} = (S_{a_i} \ldots S_m R)$ and element before the last $V_{i-1} = S_{b_{i-1}}$.
+ $0$ is a stationary degree of the last component. We deduce $\tau \state \vec{R},R$.
  
- Suppose $i=h+1$. By assumption, $\dom(R) = \dom(U'_{h+1}) \subset \dom(U_{h+1})$
- therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_h}, R$
+ We assumed that either $U'_{i}$ has some necessarily progressing $x \in \dom(U'_{i})$ 
+ or $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$. 
+ By Lemma \ref{lemma-decreasing-size} we deduce that 
+ %12:32 12/02/2026 
+ $\size(U_{i-1}) = \size(V_{i-1} U'_i) > \size(U'_{i}) \ge \size(U'_{i-1})$. 
+ Thus, $\sigma > \tau$.
+ \item
+ Suppose $i=h+1$. Therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_h}, R$
  and $\DomCard(U'_{h+1}) = \DomCard(U'_{h})$. We deduce that 
  $S_{a_h}, \ldots, S_{b_h}, R$
  is a component of $\vec{R},R$ with last element $R = U'_{h+1}$. 
@@ -2894,22 +2925,24 @@ Suppose $i \in [2,h]$. By assumption, $\dom(U'_i) \subset \dom(U_i)$
  $U'_{h}$ in $\setR^+$. We deduce $\tau \state \vec{R},R$.
  $V_{h}$ is progressing from $\dom(V_{h})$ to $\dom(U'_{h+1})$
  By Lemma \ref{lemma-decreasing-size}we deduce that 
- $\size(U'_{h+1}) > \size(U'_{h+1}) \ge \size(U'_{h})$.  
+ $\size(U_{h}) =  \size(V_{h} U'_{h+1})  > \size(U'_{h+1}) \ge \size(U'_{h})$.  
  Thus, $\sigma > \tau$.
+ \end{enumerate}
  
 \item
-\emph{Assume $d-{i-1}= 0$ or 
-$V_{i-1}$ is stationary from $\dom(V_{i-1})$ to $\dom(U'_{i})$} and
+\emph{Assume $U'_{i}$ has no necessarily progressing $x \in \dom(U'_{i})$ and
+($d-{i-1}  = 0$ or $V_{i-1}$ is stationary from $\dom(V_{i-1})$ to $\dom(U'_{i})$}.
+Assume
+
 $$
 \trans(\sigma,S) = 
 (U'_1, d_1,V_1;  \ \ldots; U'_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, d_{i-1}+1, U'_{i})
 $$
 
 If $i \in [2,h]$ then $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$
- is the last component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_m R)$. 
- By Lemma \ref{lemma-degree-constant},
-  $d_{i-1}+1$ 
- is a degree of $U'_{i-1}$. We deduce $\tau \state \vec{R},R$.
+ is the last component of $\vec{R},R$ with last element $U'_i = (S_{a_i} \ldots S_m R)$. 
+ By Lemma \ref{lemma-degree-constant}.\ref{lemma-degree-constant-01},
+ $d_{i-1}+1$ is a degree of $U'_{i-1}$. We deduce $\tau \state \vec{R},R$.
  Let $c = \DomCard(U_{i-1}) = \DomCard(U'_{i-1}) $. We conclude that 
  $$
  \size(\sigma) = 
