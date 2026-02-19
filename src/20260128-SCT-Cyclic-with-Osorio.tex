@@ -2622,16 +2622,21 @@ associate a state to each sequence of injective relations.
 \begin{definition}[State of an Injective Domain-Stable Sequence in $\setR^+$]
 Assume  $\pi = \{(S_i:\alpha_i \rightarrow \alpha_{i+1}) | i \in [1,m]\}$
 and $\vec(S) = S_1, \ldots, S_m$ is stable.
+
 Suppose $\vec{S}$ has components $\vec{C_i} = S_{a_i},\ldots, S_{b_i}$ for $i \in [1,h]$
 and $\pi_i = \{(S_j:\alpha_i \rightarrow \alpha_{j+1}) | j \in [a_i,b_i]\}$ 
 is the typed version of $\vec{C_i}$, with codomain $\beta_i = \alpha_{b_i + 1}$.
+
 Suppose $C_i = S_{a_i}\ldots S_{b_i}$ is the product of $\vec{C_i}$.
+
+Suppose $d_1, \ldots, d_h$ are stationarity degrees of  $\vec{C_1}$, \ldots,  $\vec{C_h}$.
+
 \begin{enumerate}
 
 \item
-We say that a sequence $\sigma \in \Seq(\ColRel \times \N \times \ColRel)$ is a state of 
-$\vec{S} = S_1, \ldots, S_n$ and we write $\sigma \state \vec{S}$ if and only if for some 
-degrees $d_1, \ldots, d_h$ of  $\vec{C_1}$, \ldots,  $\vec{C_1}$ we have
+We say that a sequence $\sigma \in \Seq(\ColRel \times \N \times \ColRel \times \Graph)$ 
+is a state of $\vec{S} = S_1, \ldots, S_n$ and we write $\sigma \state \vec{S}$ if and only if 
+for some degrees  $d_1, \ldots, d_h$ and some codomains $\beta_1, \ldots, \beta_h$ we have:
 $$
 \sigma \ \ \ 
 = \ \ \ 
@@ -2669,15 +2674,16 @@ $$
 the set of states. 
 
 \item
-For $\pi_1, \pi_2 \in \ProofUnfolding$ we we write $\pi_1 \preceq \pi_2$ for: 
-$\size(\pi_1,\sigma_1) \le \size(\pi_2,\sigma_2)$ in the lexicographic order,
-when $\sigma_1 \state \pi_1$ and $\sigma_2 \state \pi_2$.
+Assume $\pi_1, \pi_2 \in \ProofUnfolding$ and $\sigma_1 \state \pi_1$ and 
+$\sigma_2 \state \pi_2$. We write $(\pi_1,\sigma_1) \preceq (\pi_2,\sigma_2)$ for: 
+$\size(\pi_1,\sigma_1) \le \size(\pi_2,\sigma_2)$ in the lexicographic order.
 \end{enumerate}
 \end{definition}
 
-The state of each path $\pi$ exists and it is unique, therefore we can compute the truth
-value of $\pi_1 \le \pi_2$. The computation is polynomial time and only depends on
-the state of $\pi_1$, $\pi_2$ and on $\beta_1, \ldots, \beta_h$.
+Each path $\pi$ has some state $\sigma$: we can always choose some codomains 
+$\beta_1, \ldots, \beta_h$ and we always choose the trivial stationarity degree $d_i = 0$. 
+We can decide $(\pi_1,\sigma_1) \preceq (\pi_2,\sigma_2)$ in polynomial time.
+
 
 %
 %\begin{lemma}[State of a Sequence]
@@ -2863,7 +2869,7 @@ the state of $\pi_1$, $\pi_2$ and on $\beta_1, \ldots, \beta_h$.
 
 \subsection{The Graph of States of the Translation Algorithm}
 Assume be given a set $\setR$ of colored relations on $[1,\MaxInd]$. We assume
-that $\setR^+ \subseteq \TypedRel$ satisfies the Injectivity Condition IC and the Progressing 
+that $\setR^+ \subseteq \TypedRel$ is a set of injective relations which satisfies the Progressing 
 Domain Condition PDC. 
 
 A preliminary step for the translation algorithm is to derive the closure $\setR^+$ of $\setR$ 
@@ -2874,7 +2880,7 @@ $RS:\beta \rightarrow \gamma \in \setR^+$.
 
 $\setR^+$ can be computed in time $2^{O(\MaxInd^2)}$, more precisely with 
 $2^{3*\MaxInd^2}$ operations. The rest of the algorithm requires time $2^{O(\MaxInd^3)}$,
-hence exponential time.
+hence poly-exponential time.
 \\
 
 %12:58 08/02/2026
@@ -2904,12 +2910,12 @@ hence exponential time.
 %$\DomCard(R_i) < \DomCard(R_{i+1})$.
 
 Suppose $\pi_1 = \pi, (R : \beta \rightarrow \gamma) \in \ProofUnfolding$ is a typed path in 
-$\setR^+$.
-For each state $\sigma \in \States(\setR^+)$ we define a state 
+$\setR^+$. For each state $\sigma \in \States(\setR^+)$ we define a state 
 $\tau = \trans(\sigma,R) \in \States(\setR^+)$ such that if $\sigma \state \pi$ then 
-$\tau \state \pi_1$. We also check that $\pi \succ \pi_1$ in the lexicographic ordering.
+$\tau \state \pi_1$. We also check that $(\pi,\sigma) \succ (\pi_1, \tau)$ 
+in the lexicographic ordering.
 
-%16:38 19/02/2026
+%18:47 19/02/2026
 
 %
 %In the next definition we consider the same cases of Lemma \ref{lemma-cardinality-stability}. 
@@ -2919,10 +2925,10 @@ $\tau \state \pi_1$. We also check that $\pi \succ \pi_1$ in the lexicographic o
 \begin{definition}[The Transition Function $\trans(\sigma,R) \in \States(\setR^+)$]
 \label{definition-transition-state}
 
-Suppose $\sigma = (U_1, d_1,V_1; \ldots; U_h, d_h V_h) \in \States(\setR^+)$ and
-$R \in \setR^+$. We set
+Suppose $\sigma = (U_1, d_1,V_1,\beta_1; \ldots; U_h, d_h, V_h,\beta_h) \in \States(\setR^+)$ 
+with $\beta_h = \beta$ and $(R:\beta \rightarrow \gamma) \in \setR^+$. We set
 $$
-U'_i = U_i R \mbox{ for all $i \in [1,h]$ \ \ \ and } U'_{h+1} = R
+U'_i = U_i R \mbox{ for all $i \in [1,h]$ \ \ \ and } U'_{h+1} = R, \beta_{h+1}=\gamma
 $$
 Suppose that $i$ is the first element of $i \in [1,h+1]$ such that:
 
@@ -2933,7 +2939,7 @@ either $i \in [1,h]$ and $\dom(U'_i) \subset \dom(U_i)$
 or $i=h+1$
 \end{enumerate}
 
-We define a transition function $\trans(\sigma,R)$. 
+We define a transition function $\trans(\sigma,R:\beta_h \rightarrow \gamma)$. 
 
 \begin{enumerate}
 
@@ -2942,7 +2948,9 @@ We define a transition function $\trans(\sigma,R)$.
 Then $\trans$ sets the counter number $i$ to its minimum value $0$
 
 $$
-\trans(\sigma,S) = (U_1, d_1, V_1; \ \ldots; U_{i-1}, d_{i-1},V_{i-1}; \ U'_i, 0, \ U'_i)
+\trans(\sigma,S) 
+= 
+(U_1, d_1, V_1,\beta_1; \ \ldots; U_{i-1}, d_{i-1},V_{i-1},\beta_{i-1}; \ U'_i, 0, \ U'_i, \beta_i)
 $$
 
 \item
@@ -2955,7 +2963,8 @@ $\dom(U'_{i})$)}. Then $\trans$ sets the counter number $(i-1)$ to $0$
 
 $$
 \trans(\sigma,S) = 
-(U_1, d_1,V_1;  \ \ldots; U_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, 0, U'_{i-1})
+(U_1, d_1,V_1,\beta_1;  \ \ldots; U_{i-2}, d_{i-1},V_{i-2},\beta_{i-2}; 
+ \ U'_{i-1}, 0, U'_{i-1},\beta_{i-1})
 $$
 
 \item
@@ -2965,7 +2974,8 @@ Then $\trans$ increases the counter $d_{i-1}$ by one:
 
 $$
 \trans(\sigma,S) = 
-(U_1, d_1,V_1;  \ \ldots; U_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, d_{i-1}+1, U'_{i})
+(U_1, d_1,V_1,\beta_1;  \ \ldots; U_{i-2}, d_{i-1},V_{i-2},\beta_{i-2}; 
+  \ U'_{i-1}, d_{i-1}+1, U'_{i}, \gamma)
 $$
  
 \end{enumerate}
@@ -2981,9 +2991,12 @@ we have $\dom(U'_i) = \dom(U_i R) \subseteq \dom(U_i)$ for all $i \in [1,n]$.
 In the definition above, we have $i=n+1$ if and only if $\dom(U'_i) = \dom(U_i)$
 for all $i \in [1,n]$. 
 
-We extend the transition map $\trans$ to any path in the proof-graph moving from the position
-$\pi$ in the proof-graph of the state $\pi$ 
-by repeating the one-step transition map for each edge of the path.
+We extend the transition map $\trans$ to any path in the proof-graph moving from the 
+state $\sigma$ of the position
+$\pi$ in the proof-graph by a path $\pi'$. 
+We repeat the one-step transition map for each edge of the path.
+
+%19:16 19/02/2026
 
 \begin{definition}[Extending the Transition map to Paths]
 \label{definition-extending-transition}
@@ -2997,18 +3010,18 @@ We set $\trans(\sigma,\nil) = ()$, the empty state.
 
 \item
 Let $\pi'=\pi'', (R:\alpha \rightarrow \beta)$ and $\tau = \trans(\sigma,\pi'')$.
-We set $\trans(\sigma,\pi') = \trans(\tau,R)$, the empty state.
+We set $\trans(\sigma,\pi') = \trans(\tau,R:\alpha \rightarrow \beta)$, the empty state.
 
 \end{enumerate}
 \end{definition}
 % 14:19 08/02/2026
-%17:48 12/02/2026
-
+% 17:48 12/02/2026
+% 18:56 19/02/2026
 \begin{theorem}[Transition Theorem]
 \label{theorem-transition}
 Suppose $\setR^+$ is injective, $\pi_1 = \pi, (R:\beta \rightarrow \gamma) \in \ProofUnfolding$ 
 is a finite path on $\setR^+$ and  $\sigma \state \pi$ and $R \in \setR^+$. 
-Let $\tau = \trans(\sigma,R) $. Then$\sigma > \tau$ and $\tau \state \pi_1$.
+Let $\tau = \trans(\sigma,R) $. Then $\sigma > \tau$ and $\tau \state \pi_1$.
 \end{theorem}
 
 %18:59 14/02/2026
