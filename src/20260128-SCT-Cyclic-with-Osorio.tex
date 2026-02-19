@@ -76,6 +76,17 @@
 Torino, Italy}
 \email{stefano.berardi@unito.it}
 
+\author[U. deLiguoro]{Ugo de' Liguoro}
+\address{Universit\`{a} di Torino,
+Torino, Italy}
+\email{ugo.deliguoro@unito.it}
+
+\author[D. Osorio]{Daniel Osorio}
+\address{Universit\`{a} di Torino,
+Torino, Italy}
+\email{daniel.osorio@unito.it}
+
+
 %% mandatory lists of keywords 
 \keywords{
 proof theory
@@ -101,9 +112,11 @@ cyclic proofs
 \maketitle
 
 
-\emph{Proof started in Torino, January 20, 2026. 
-Ugo suggested adding complexity results to motivate the new algorithm}.
-
+\emph{Proof started in Torino, January 20, 2026}. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NOTE January 20, 2026. 
+% Ugo suggested adding complexity results to motivate the new algorithm.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Mirai \cite{Mirai} provided a translation from from cyclic to inductive proofs. The proof builds
 on an existing algorithm for generating ranking functions and 
 requiring triple exponential time. A first improvement would be to switch to an equivalent
@@ -2048,7 +2061,6 @@ $g \newton{\MaxInd}{c}$.
 %$, 
 %and therefore it is a stationary bijection.
 
-%14:52 19/02/2026
 
 
 \begin{lemma}[Degree of a constant-domain sequence of injective colored relations]
@@ -2250,39 +2262,43 @@ the relation $R_{d}$ is progressing between $\dom(R_{d})$ and $\dom(T)$.
 
 
 
-\section{Size of a Set and of a Relation}.  
+\section{The Size Map}  
 
-For sake of simplicity we consider the case in which we have a unique inductive predicate
-$N$. 
+For sake of simplicity we consider the case in which the unique inductive predicate is $N$. 
 We define a size map $\size$, taking any node $\alpha \in \Graph$, any $i \in [1,\MaxInd]$, 
 and returning $t+1$ if the $i$-th inductive formula in the antecedent of $\alpha$ is $N(t)$,
-returning $0$ if there is no $i$-th inductive formula.
+returning $0$ if there is no $i$-th inductive formula.  We extend size to any path 
+$\pi \in \ProofUnfolding$ with last node $\alpha$ by $\size(\pi,i) = \size(\alpha,i)$. 
+
+%%%%% IRRELEVANT ? %%%%%%%%%
+% The set of expressions returned by $\size(\alpha,i)$ has at most $g n$ expressions. Paths can % be infinitely many, but the set of expressions returned by $\size(\pi,i)$ is finite.
+%%%%%%%%%%%%%%%%%%%%%%%
 
 We extend the size map to sets of integers $X \subseteq [1,\MaxInd]$,
 and to typed colored relations $R:\alpha \rightarrow \beta \in \TypedRel$.
  
  %16:19 06/02/2026
-%15:26 19/02/2026
 
-For each colored relation $R \in \ColRel$ we recall that 
-$R(x) = \{y \in [1,\MaxInd] | x \universe{R} y \}$. 
+%For each colored relation $R \in \ColRel$ we recall that 
+%$R(x) = \{y \in [1,\MaxInd] | x \universe{R} y \}$. 
 
-\begin{definition}[Size of Sets and Relations]
+
+\begin{definition}[Size of Sets and of Relations]
 Assume $X \subseteq [1,\MaxInd]$ and $R:\alpha \rightarrow \beta$  is a colored
-relation and $\pi \in \ProofUnfolding$ a finite composable path.
+relation and $\pi \in \ProofUnfolding$ a finite composable path from $\Root$.
 \begin{enumerate} 
 \item
 $\size(\pi, X) = \Sigma_{i \in X} \size(\pi,i)$.
 
 \item
-$\size(\pi, R) = \Sigma_{x \in \dom(R)} \max( \{ \size(\pi,y) | y \in R(x) \} )$.
+$\size(\pi, R) = \Sigma_{x \in \dom(R)} \max( \{ \size(\pi,y) | y \universe{R} x \} )$.
 \end{enumerate}
 \end{definition}
 
 \begin{lemma}[Decreasing Size]
 \label{lemma-decreasing-size}
 Assume $R:\alpha \rightarrow \beta, S:\beta \rightarrow \gamma \in \TypedRel$
-and $\pi_1 = \pi, (R:\alpha \rightarrow \beta)$, $\pi_2 = \pi, (S:\beta \rightarrow \gamma)$
+and $\pi_1 = \pi, (R:\alpha \rightarrow \beta)$, $\pi_2 = \pi_1, (S:\beta \rightarrow \gamma)$
 with $\pi_2 \in \ProofUnfolding$.
 \begin{enumerate}
 \item
@@ -2325,7 +2341,8 @@ $
 \Sigma_{x \in \dom(RS)} \max( \{ \size(\pi_1,y) | y \in RS(x) \}           <
 \Sigma_{x \in \dom(R)}   \max( \{ \size(\pi_1,y) | y \in R(x) \}
 $, 
-because the second sum has more addends and all addends are positive. We conclude that 
+because the second sum has more addends and all addends are positive
+by definition of $\size(\pi,i)$. We conclude that 
 $
 \size(\pi_2, RS)                                                                                    =
 \Sigma_{x \in \dom(RS)} \max( \{ \size(\pi_2,z) | z \in RS(x) \})     \le
@@ -2558,7 +2575,8 @@ for all $x \in \dom(R)$ there is some $y \in R(x)$ such that $R$ is stationary o
 %$R_{i} \ldots R_j$ is progressing between $D_i$ and $D_j$.
 %\end{enumerate}
 %\end{definition}
- 
+
+
 
 
 \section{State of a Path}
@@ -2605,15 +2623,15 @@ associate a state to each sequence of injective relations.
 Assume  $\pi = \{(S_i:\alpha_i \rightarrow \alpha_{i+1}) | i \in [1,m]\}$
 and $\vec(S) = S_1, \ldots, S_m$ is stable.
 Suppose $\vec{S}$ has components $\vec{C_i} = S_{a_i},\ldots, S_{b_i}$ for $i \in [1,h]$
-and $\pi_i = \{(S_j:\alpha_i \rightarrow \alpha_{j+1}) | j \in [a_i,b_i]\}$ is the typed version of 
-$\vec{C_i}$.
+and $\pi_i = \{(S_j:\alpha_i \rightarrow \alpha_{j+1}) | j \in [a_i,b_i]\}$ 
+is the typed version of $\vec{C_i}$, with codomain $\beta_i = \alpha_{b_i + 1}$.
 Suppose $C_i = S_{a_i}\ldots S_{b_i}$ is the product of $\vec{C_i}$.
 \begin{enumerate}
 
 \item
-We say that a sequence $\sigma \in \Seq(\ColRel \times \N \times \ColRel)$ 
-is a state of $\vec{S} = S_1, \ldots, S_n$ and we write $\sigma \state \vec{S}$ 
-if and only if for some degree $d_i$ of  $\vec{C_i}$ we have
+We say that a sequence $\sigma \in \Seq(\ColRel \times \N \times \ColRel)$ is a state of 
+$\vec{S} = S_1, \ldots, S_n$ and we write $\sigma \state \vec{S}$ if and only if for some 
+degrees $d_1, \ldots, d_h$ of  $\vec{C_1}$, \ldots,  $\vec{C_1}$ we have
 $$
 \sigma \ \ \ 
 = \ \ \ 
@@ -2623,16 +2641,18 @@ C_1, d_1, S_{b_1};
 C_h, d_h, S_{b_h}
 )
 $$
+%%%%%%%%%%%%%%%%%%%%%%
 % THE NEXT CLAUSE IS BUT A CONSEQUENCE OF THE DEFINITION OF DEGREE
 % and for all $i \in [1,h]$, either $\size(\dom(R_{b_i})) = \size(R_{b_i})$ or $d_i=0$.
+%%%%%%%%%%%%%%%%%%%%%%
 We define the size of $\sigma$ in $\pi$ as:
 $$
 \size(\pi,\sigma)
 =
 (
-\size(\pi_1, C_1), \newton{\MaxInd}{c_1}-d_1; 
+\size(\beta_1, C_1), \newton{\MaxInd}{c_1}-d_1; 
 \ldots;
-\size(\pi_1 \ldots \pi_h, C_h), \newton{\MaxInd}{c_h}-d_h
+\size(\beta_h, C_h), \newton{\MaxInd}{c_h}-d_h
 )
 $$
 
@@ -2649,11 +2669,15 @@ $$
 the set of states. 
 
 \item
-For $\sigma, \tau \in \States$ we we write $\sigma \le_\pi \tau$ for: 
-$\size(\pi,\sigma) \le \size(\pi,\tau)$ in the lexicographic order.
+For $\pi_1, \pi_2 \in \ProofUnfolding$ we we write $\pi_1 \preceq \pi_2$ for: 
+$\size(\pi_1,\sigma_1) \le \size(\pi_2,\sigma_2)$ in the lexicographic order,
+when $\sigma_1 \state \pi_1$ and $\sigma_2 \state \pi_2$.
 \end{enumerate}
 \end{definition}
 
+The state of each path $\pi$ exists and it is unique, therefore we can compute the truth
+value of $\pi_1 \le \pi_2$. The computation is polynomial time and only depends on
+the state of $\pi_1$, $\pi_2$ and on $\beta_1, \ldots, \beta_h$.
 
 %
 %\begin{lemma}[State of a Sequence]
@@ -2879,12 +2903,13 @@ hence exponential time.
 %Thus, the condition $\DomCard(R_i) \not = \DomCard(R_{i+1})$ is equivalent to
 %$\DomCard(R_i) < \DomCard(R_{i+1})$.
 
-Suppose $\pi_1 = \pi, (R : \beta \rightarrow \gamma) \in \ProofUnfolding$ is a typed path in $\setR^+$.
+Suppose $\pi_1 = \pi, (R : \beta \rightarrow \gamma) \in \ProofUnfolding$ is a typed path in 
+$\setR^+$.
 For each state $\sigma \in \States(\setR^+)$ we define a state 
 $\tau = \trans(\sigma,R) \in \States(\setR^+)$ such that if $\sigma \state \pi$ then 
-$\tau \state \pi_1$ and $\sigma > \tau$ in the lexicographic ordering.
+$\tau \state \pi_1$. We also check that $\pi \succ \pi_1$ in the lexicographic ordering.
 
-
+%16:38 19/02/2026
 
 %
 %In the next definition we consider the same cases of Lemma \ref{lemma-cardinality-stability}. 
