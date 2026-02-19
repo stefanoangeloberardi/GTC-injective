@@ -165,7 +165,7 @@ possibly infinite proof-tree with root $\Root$:
 we call $\ProofUnfolding$ \emph{the unfolding of $\Graph$}.
 
 
-\section{Quick Overview of the GTC, Injectivity and PDC Conditions}
+\section{A Quick Overview of the GTC, Injectivity and PDC Conditions}
 
 \subsection{Binary Relations on a Finite Set}
 From now on we write $\N$ for the set of non-negative integers and $\N^+$ for the set of positive integers. For any $a,b \in \N$
@@ -602,13 +602,18 @@ have nothing to do with colors, nor with cyclic proofs.
 
 
 \section{Domain-Stable Sequences and Grouping for Binary Relations}
+We define the grouping relation between sequences of (uncolored) relations. We define
+a total ordering $\le$ on grouping and we prove that there exists a minimum stable
+grouping w.r.t. $\le$.
 
-We define the grouping relation between sequences of (uncolored) relations. 
-An example: a possible grouping of $\vec{R} = R_1, R_2, R_3, R_4, R_5, R_6 \subseteq \Rel$ 
+We introduce the notion of grouping through an example.
+A possible grouping of $\vec{R} = R_1, R_2, R_3, R_4, R_5, R_6 \subseteq \Rel$ 
 is the following list $\vec{T} = T_1, T_2, T_3$ of $3$ products:
  
 $$ 
-R_1S_2, \ \ \ R_3, \ \ \ R_4 R_5 R_6
+T_1 = R_1R_2, \ \ \ 
+T_2 = R_3, \ \ \ 
+T_3 = R_4 R_5 R_6
 $$
 
 \begin{definition}[The Grouping Relation]
@@ -684,12 +689,21 @@ $$
 $
 (\dom(R) = \dom(RS))  
 \ \ \  \Leftrightarrow \ \ \ 
-(\dom(R) \subseteq \dom(RS)) 
-\ \ \  \Leftrightarrow \ \ \  
-(\dom(R) \not \supset  \dom(RS))
+$
+\\
+$
+\ \ (\dom(R) \subseteq \dom(RS)) 
 \ \ \  \Leftrightarrow \ \ \ 
-(\DomCard(RS) = \DomCard(R)
-$.
+$
+\\
+$ 
+\ \ (\dom(R) \not \supset  \dom(RS))
+\ \ \  \Leftrightarrow \ \ \ 
+$
+\\
+$
+\ \ (\DomCard(RS) = \DomCard(R))
+$
 
 \item
 \label{lemma-domain-inclusion-04}
@@ -775,8 +789,8 @@ is often strict, as the next example says.
 
 \begin{example} 
 \label{example-domain-inclusion}
-$R = \{(1,1)\}$ and $S = \{(2,2)\}$ then $RS=\emptyset$,
-therefore $\dom(RS) = \emptyset \subset \dom(R) = \{1\}$. 
+Let $R = \{(1,1)\}$, $S = \{(2,2)\}$. Then $RS=\emptyset$ and 
+$\dom(RS) = \emptyset \subset \{1\} = \dom(R) $. 
 \end{example}
 
 We call domain-stable any sequence $\vec{S}$ of relations in which the strict
@@ -796,7 +810,8 @@ if and only if for all $i \in [1,n-1]$ we have $\dom(S_i S_{i+1}) = \dom(S_i)$.
 A sequence of length $n=0,1$ is trivially stable because $[1,n-1] = \emptyset$. 
 Another example, with $n=3$. Let $R=\{(1,1)\}$, $S=\{(1,1),(2,2)\}$, $T=\{(1,1)\}$.
 Then $\dom(ST) = \{1\} \subset \{1,2\} = \dom(S)$, therefore $R,S,T$ is \emph{not} stable.
-Instead we have $R=T=RS=ST=RST=\{(1,1)\}$, therefore all other groupings
+Instead we have $R=T=RS=ST=RST=\{(1,1)\}$, therefore all other groupings  of
+$R,S,T$, namely:
 \begin{center}
 $RS,T$ and $R,ST$ and $RST$
 \end{center} 
@@ -814,7 +829,7 @@ $R,S$ stable $ \Leftrightarrow (\dom(R) = \dom(RS))
 $.
 
 Another way of saying that the pair $R,S$ is stable is that we do not remove elements
-from $\dom(R)$ when we compose $R$ with $S$.
+from $\dom(R)$ when we compute $\dom(RS)$.
 
 In particular, $R,S$ stable means that $(\dom(R) \subseteq \dom(RS))$, 
 namely that whenever $x$ has an $R$-image $y$, then $x$ has some
@@ -880,8 +895,8 @@ We can equivalently restate $\dom(S_i) =  \dom(S_i \ldots S_j)$ as
 $\DomCard(S_i) = \DomCard(\dom(S_i \ldots S_j)$, 
 given that we have $\dom(S_i) \supseteq  \dom(S_i \ldots S_j)$ 
 by Lemma \ref{lemma-domain-inclusion}.\ref{lemma-domain-inclusion-02})
-and the fact that they are subsets of the finite set $[1,\MaxInd]$, therefore 
-strict subsets have a smaller cardinality.
+and the fact for all subsets of the finite set $[1,\MaxInd]$, any
+strict subset has a smaller cardinality.
 
 So we can skip the formulation using 
 $\DomCard(S_i) = \DomCard(\dom(S_i \ldots S_j)$
@@ -1044,13 +1059,14 @@ and therefore it is the maximum stable grouping, but it is trivial.
 There is no minimum
 stable grouping w.r.t. $\grouping$. For instance,
 in the Example \ref{example-stable} $R,ST$ and $RS,T$
-are stable grouping and they are not comparable. The unique smaller grouping is 
-$R,S,T$ and it is not stable.
+are two minimal stable groupings and they are not comparable. The unique grouping smaller
+than $R,ST$ and $RS,T$ is $R,S,T$ itself, which is no stable grouping of $R,S,T$.
 
 However, we can extend the $\grouping$ relation to a total order $\le$:
-by totality of $\le$ and finiteness of grouping of $\vec{S}$, there is a minimum stable grouping  w.r.t. $\le$ for each $\vec{S}$.
-Namely, there is some stable $\vec{T} \grouping \vec{S}$ such that for all stable 
-$\vec{U} \grouping \vec{S}$ we have $\vec{U} \le \vec{T}$. 
+by totality of $\le$ and finiteness of the number of groupings of $\vec{S}$, 
+there is a minimum stable grouping  w.r.t. $\le$ for each $\vec{S}$.
+To say otherwise: there is some stable $\vec{T} \grouping \vec{S}$ such that for all stable 
+$\vec{U} \grouping \vec{S}$ we have $\vec{U} \ge \vec{T}$. 
 
 Lexicographic ordering compares two groupings, looking for the grouping
 whose products which are closest to the left are shorter.
@@ -1072,7 +1088,11 @@ $b_{h} = n$.
 \begin{enumerate}
 \item
 The degree of the grouping $\vec{R}$ of $\vec{S}$ is the sequence
-of the lengths of its products, namely $(b_1, b_2 - b_1, \ldots, b_{h} - b_{h-1})$. 
+of the lengths of its products, namely 
+$$
+(b_1, b_2 - b_1, \ldots, b_{h} - b_{h-1})
+$$
+
 \item
 We compare two grouping of the same sequence by comparing their degrees in the 
 lexicographic ordering.
@@ -1080,8 +1100,8 @@ lexicographic ordering.
 \end{definition} 
 
 Lexicographic ordering $\le$ is a total order on a finite set, and there is the trivial stable
-grouping consisting of a single product,
-therefore there is a minimum stable grouping w.r.t. $\le$.
+grouping consisting of a single product. 
+We conclude that there is a minimum stable grouping w.r.t. $\le$.
 
 
 We provide a characterization of the minimum stable grouping of 
@@ -1255,8 +1275,8 @@ Assume $\vec{S}$ is any sequence of relations.
 $\minStable(\vec{S}) = \vec{S}^\phi$
 is the minimum stable grouping of $\vec{S}$ w.r.t. the lexicographic ordering $\le$.
 \item
-$(S_{a_h} \ldots S_{b_h})$, the last product of $\minStable(\vec{S}) $, 
-is the stable tail of $\vec{S}$.
+We call the last product $(S_{a_h} \ldots S_{b_h})$ of $\minStable(\vec{S}) $: 
+ the \emph{stable tail} of $\vec{S}$.
 \end{enumerate}
 \end{definition}
 
@@ -1588,7 +1608,7 @@ $$
 $$
 
 \item
-If $\vec{S}$ is not empty, then we call $\DomCard(\vec{S}) = \DomCard(S_1)$ 
+If $\vec{S} \not = \nil$, then we call $\DomCard(\vec{S}) = \DomCard(S_1 \ldots S_n)$ 
 the domain-cardinality of $\vec{S}$.
 
 \item
@@ -1608,9 +1628,10 @@ $\DomCard(S_i \ldots S_k) = \DomCard(S_j \ldots S_h)$.
 
 By Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-01}, 
 for all $i \in [1,n-1]$, $S_i$ is a bijection from $\dom(S_i)$ to
-$\dom(S_{i+1})$.  We can picture the traces of $\vec{S}$ as a composition of 
-bijections from $\dom(S_i)$ to $\dom(S_{i+1})$, 
-plus some traces passing through $\dom(S_i)$, missing $\dom(S_{i+1})$ and dying out.
+$\dom(S_{i+1})$.  We can picture the maximal traces of $\vec{S}$ from $\dom(S_1)$ as a 
+composition of bijections from $\dom(S_i)$ to $\dom(S_{i+1})$, followed by a single 
+application of $S_n$, plus some traces passing through $\dom(S_i)$, missing $\dom(S_{i+1})$ 
+and dying out.
 
 \begin{center}
 \begin{tikzpicture}
@@ -1666,11 +1687,15 @@ plus some traces passing through $\dom(S_i)$, missing $\dom(S_{i+1})$ and dying 
 \draw[red] (2,1) ellipse (.5cm and 2.1cm);
 \draw[red] (3,1) ellipse (.5cm and 2.1cm);
 \end{tikzpicture}
+\\
+{\tiny The traces of $\vec{S}$ from $\dom(S_1)$ are the compositions \\ 
+of the bijections from $\dom(S_i)$ to $\dom(S_{i+1})$, followed by $S_n$}
 \end{center}
 
 Each sequence can be transformed into a stable sequence by a minimum of grouping,
-then it can be decomposed into a concatenation of constant domain-cardinality sequences with 
-increasing domain-cardinality.
+then it can be decomposed into a concatenation of its components (its maximal
+constant domain-cardinality sequences). The domain-cardinality of the sequences
+is increasing.
 
 %18:22 04/02/2026
 
@@ -1913,7 +1938,7 @@ We call the set of indexes $a_i$ the \emph{raising indexes} of $\vec{S}$.
 We say that  a bicolored sequence $\vec{R}$ satisfies domain-stable
 condition, the constant domain condition if and only if, respectively, $\universe{\vec{R}}$
 satisfies domain-stable
-condition, the constant domain condition. Namely, we move the properties of relation to 
+condition, the constant domain condition. Namely, we move the properties of relations to 
 colored relation by forgetting colors.
 
 \begin{definition}[Necessarily Progressing]
@@ -1979,33 +2004,37 @@ no $x \in \dom(R_n)$ is necessarily progressing
 (i.e., for all $x \in \dom(R_n)$ there is some $y$ such that $R_n$ is stationary on $(x,y)$).
 \end{enumerate}
 
-We say that $R \in \TypedRel$ has stationary degree $d$
-if and only if there is some costant domain-degree sequence 
-$\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d \in \Seq(\TypedRel)$ with stationary degree $d$
-and such that $R =  (S_1 \ldots S_e R_1 \ldots R_d)$, namely, $R$ is the product of $\vec{C}$.
+%We say that $R \in \TypedRel$ has stationary degree $d$
+%if and only if there is some costant domain-degree sequence 
+%$\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d \in \Seq(\TypedRel)$ with stationary degree $d$
+%and such that $R =  (S_1 \ldots S_e R_1 \ldots R_d)$, 
+%namely, $R$ is the product of $\vec{C}$.
+
 \end{definition}
 
-All $R \in \TypedRel$ have at least stationary degree $0$ in $\setR^+$: 
-it is enough to take $\vec{C}=S_1$. In some case we can have a non-trivial degree, too.
+%
+%All $R \in \TypedRel$ have at least stationary degree $0$ in $\setR^+$: 
+%it is enough to take $\vec{C}=S_1$. In some case we can have a non-trivial degree, too.
 
 We explain the role of stationary degree. 
 If $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_{d-1}, R_d$ 
-has stationary degree $d$, then in the worst case \emph{all} infinite path $\pi$
+has stationary degree $d$, then in the worst case \emph{all} infinite trace $\sigma$
 passing through $\vec{C}$ could have $d$ consecutive stationary steps.
-Indeed, all infinite $\pi$ must move from $\dom(R_i)$ to $\dom(R_{i+1})$ through $R_i$, 
+Indeed, all infinite $\sigma$ must move from $\dom(R_i)$ to $\dom(R_{i+1})$ through $R_i$, 
 therefore must have $d-1$ consecutive stationary steps. 
-Then all infinite $\pi$ could have one more stationary step, because no matter what is the step 
-$x \in \dom(R_d)$ of $\pi$, there is some $y$ such that $R_d$ is progressing on $(x,y)$.
+Then all infinite $\sigma$ could have one more stationary step, because no matter what is 
+the element $x \in \dom(R_d)$ of $\sigma$, there is some $y$ such that $R_d$ is stationary 
+on $(x,y)$.
 
-Let $c = \DomCard(S_1)$ be the domain-cardinality of the last constant domain-cardinality
-sequence in an infinite path $\pi$. From $S_1$ on there are $c$ infinite traces in $\pi$.
-Our next task is proving that the stationary degree is at most $\newton{\MaxInd}{c}$, therefore
-every $\newton{\MaxInd}{c}$ steps some trace progresses. After $n \newton{\MaxInd}{c}$
-steps there are at least $n$ progressions, and the maximum number of progressions 
-in the $c$ traces is at least $n/c$.
+Let $c = \DomCard(S_{a_h})$ be the domain-cardinality of the last constant domain-cardinality
+sequence in an infinite path $\pi$. From $S_{a_h}$ on there are $c$ infinite traces in $\pi$.
+Let $g = \Card(\Graph)$. Our next task is proving that the stationary degree is at most 
+$g\newton{\MaxInd}{c}$, therefore every $\newton{\MaxInd}{c}$ steps some trace 
+progresses. After $n g \newton{\MaxInd}{c}$steps there are at least $n$ progressions, and the 
+maximum number of progressions in the $c$ traces is at least $n/c$.
 Therefore after infinitely many steps the maximum is infinite and there is some infinitely 
 progressing trace, provided we are able to prove that the stationary degree is at most 
-$\newton{\MaxInd}{c}$.
+$g \newton{\MaxInd}{c}$.
 
 
 %Suppose $R \in \TypedRel$ has stationary degree $d$, namely $R$ decomposes as 
@@ -2019,14 +2048,14 @@ $\newton{\MaxInd}{c}$.
 %$, 
 %and therefore it is a stationary bijection.
 
-
+%14:52 19/02/2026
 
 
 \begin{lemma}[Degree of a constant-domain sequence of injective colored relations]
 \label{lemma-degree-constant}
 
 Assume $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_{d}$ has stationary degree $d$.
-Assume $\vec{C}, T$ is a constant domain-cardinality sequence.
+Assume $\vec{C}, T$ is a constant domain-cardinality sequence. Let $g = \Card(\Graph)$.
 
 \begin{enumerate}
 \item
@@ -2040,7 +2069,7 @@ Then $\vec{C}, T$ has stationary degree $d+1$.
 \item
 \label{lemma-degree-constant-02}
 Suppose $\vec{C} \in \Seq(\setR^+)$ and $\setR^+$ satisfies PDC.
-Then $d \le \newton{\MaxInd}{c}$.
+Then $d \le g \newton{\MaxInd}{c}$.
 \end{enumerate}
 \end{lemma}
 
@@ -2071,27 +2100,35 @@ Suppose $\vec{C} \in \Seq(\setR^+)$ and $\setR^+$ satisfies PDC, in order to pro
 that $d \le \newton{\MaxInd}{c}$. If $d=0$ then $0 \le \newton{\MaxInd}{c}$, 
 so let $d \ge 1$.
 
-Assume $i,j \in [1,d]$, $i < j$, hence $i \in [1,d-1]$.
-By assumption, $R_i$ is a stationary bijection from $\dom(R_i)$ to $\dom(R_{i+1})$.
+Assume $i,j \in [1,d]$, $i < j$, hence $i \in [1,d-1]$. Suppose $R_i$ has domain $\alpha_i$ 
+and $R_j$ has domain $\alpha_j$. By assumption, $R_i$ is a stationary bijection from 
+$\dom(R_i)$ to $\dom(R_{i+1})$.
 $\vec{C} = S_1, \ldots, S_e, R_1, \ldots, R_{d+1}$ is constant domain-cardinality sequence, 
 therefore it is stable and $\dom(R_i \ldots R_{j-1}) = \dom(R_i)$. 
 
-If $\setR^+$ satisfies PDC, then $R_i \ldots R_{j-1}$ is \emph{progressing} from 
-$\dom(R_i \ldots R_{j-1})$ to $\dom(R_i \ldots R_{j-1})$, namely from  $\dom(R_i)$ to 
-$\dom(R_i)$. By assumption, $R_i \ldots R_{j-1}$ is \emph{stationary} from  $\dom(R_i)$ to
-$\dom(R_{j})$. This forces $\dom(R_i) \not = \dom(R_{j})$, for all $i,j \in [1,d]$, $i < j$.
+If $\setR^+$ satisfies PDC, then either $\alpha_i \not = \alpha_j$, or
+if  $\alpha_i = \alpha_j$, then $R_i \ldots R_{j-1}$ is \emph{progressing} from 
+$\dom(R_i \ldots R_{j-1})$ to $\dom(R_i \ldots R_{j-1})$, namely from  
+$\dom(R_i)$ to $\dom(R_i)$. By assumption, $R_i \ldots R_{j-1}$ is \emph{stationary} 
+from  $\dom(R_i)$ to $\dom(R_{j})$. This forces $\alpha_i \not = \alpha_j$ or 
+$\dom(R_i) \not = \dom(R_{j})$, for all $i,j \in [1,d]$, $i < j$.
+
 Let $c = \DomCard(R_{1})$ the common domain-cardinality of all $R_1, \ldots, R_{d}$. 
-There are $\newton{\MaxInd}{c}$ subsets of $[1,\MaxInd]$
-of cardinality $c$, and $d$ different domains for $R_1, \ldots, R_{d}$,
-therefore $d \le \newton{\MaxInd}{c}$. 
+There are $d$ different sets $\dom(R_i)$, and for each of them there is
+a different pair $(\alpha_i,\dom(R_i)$. These pairs are $g \newton{\MaxInd}{c}$. Indeed,
+there are $g$ different domains $\alpha_i$ for $R_i$, and there are $\newton{\MaxInd}{c}$ 
+subsets of $[1,\MaxInd]$ of cardinality $c$. We conclude that
+$$
+d \le g \newton{\MaxInd}{c}
+$$  
 \end{enumerate}
 \end{proof}
 
 In the proof above, if $d$ is any of the degrees of
-$\vec{C}$, then $(\newton{\MaxInd}{c}-d) \in [0,\newton{\MaxInd}{c}]$.
+$\vec{C}$, then $(g\newton{\MaxInd}{c}-d) \in [0,\newton{\MaxInd}{c}]$.
 We can extend $\vec{C}$ with stationary bijections to 
 a constant domain-cardinality sequence for at most
-$\newton{\MaxInd}{c}-d$ times. When $\newton{\MaxInd}{c}-d=0$, in 
+$\newton{\MaxInd}{c}-d$ times. When $g\newton{\MaxInd}{c}-d=0$, in 
 all constant domain-cardinality extensions $R_1, \ldots, R_{d},T$
 the relation $R_{d}$ is progressing between $\dom(R_{d})$ and $\dom(T)$.
 
@@ -2211,12 +2248,21 @@ the relation $R_{d}$ is progressing between $\dom(R_{d})$ and $\dom(T)$.
 
 %16:41 11/02/2026
 
+
+
 \section{Size of a Set and of a Relation}.  
 
-We extend the size map to sets of integers in $[1,\MaxInd]$,
+For sake of simplicity we consider the case in which we have a unique inductive predicate
+$N$. 
+We define a size map $\size$, taking any node $\alpha \in \Graph$, any $i \in [1,\MaxInd]$, 
+and returning $t+1$ if the $i$-th inductive formula in the antecedent of $\alpha$ is $N(t)$,
+returning $0$ if there is no $i$-th inductive formula.
+
+We extend the size map to sets of integers $X \subseteq [1,\MaxInd]$,
 and to typed colored relations $R:\alpha \rightarrow \beta \in \TypedRel$.
  
  %16:19 06/02/2026
+%15:26 19/02/2026
 
 For each colored relation $R \in \ColRel$ we recall that 
 $R(x) = \{y \in [1,\MaxInd] | x \universe{R} y \}$. 
