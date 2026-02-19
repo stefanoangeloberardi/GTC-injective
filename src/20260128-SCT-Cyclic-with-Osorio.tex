@@ -63,6 +63,8 @@
 \newcommand{\Nodes}                     {{\tt Nodes}}
 %\newcommand{\Paths}                    {{\tt Paths}}
 \newcommand{\PowerSet}                {{\mathcal P}}
+\newcommand{\ProofUnfolding}      {{\tt Proof}}
+\newcommand{\Graph}                       {{\tt Graph}}
 %\newcommand{\Eq}                           {{\tt Eq}}
 %END MACRO
 
@@ -79,7 +81,7 @@ Torino, Italy}
 proof theory
 inductive definitions
 cyclic proofs
-infinite Ramsey theorem
+%infinite Ramsey theorem
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -114,14 +116,53 @@ In this paper we further improve the translation to a single exponential time
 in output of poly-exponential size, to be precise $2^{O(n^3)}$ size, instead than an ouput 
 of size $2^{O(n \log(n))}$.
 
-The translation starts from a cyclic proof $P$ with set $\setR$ of bicolored relations on a set 
-$[1,\MaxInd]$. 
-$\MaxInd \in \N$ is the maximum number of inductive formula in the left-hand side 
-of some sequent in $\Pi$. 
+\begin{definition}[Cyclic Proof]
+\label{definition-cyclic-proof}
+A cyclic proof consists of:
+\begin{enumerate}
+\item 
+a finite proof tree $\Pi$ in sequent calculus for Martin Lof inductive definitions, with 
+root $\Root$ and free assumptions called \emph{buds}. 
+\item 
+a map $f$ from buds to the nodes of $\Graph$, such that the sequent labeling $f(\beta)$ is a renaming of the sequent labeling $\beta$. When $\alpha = f(\beta)$ we say that
+$\alpha$ is the \emph{companion} of the bud $\beta$. 
+\item 
+A proof-graph $\Graph$, whose nodes are those of $\Pi$, and whose edges are those 
+of $\Pi$ plus the bud/companion relationship. We write $g = \Card(\Graph)$ for the 
+number of nodes of $\Graph$.
+\item
+a labeling of each edge of the proof-graph with some bicolored relation 
+$R \subseteq [1,\MaxInd] \times [1,\MaxInd]$, where  $\MaxInd$ is any upper bound to
+the number of inductive formulas $N(t)$ in the antecedent of a sequent of $\Graph$. 
+\end{enumerate}
+We will include a figure with a description of $R$ for each rule of the system and for the 
+bud/companion relationship.
+\end{definition}
+
+The translation starts from a cyclic proof $\Graph$ and returns a proof in Martin-Lof
+inductive system.
 
 Each (possibly colored) relation $R$ is associated to an arrow $a \rightarrow b$ 
-between nodes of $\Pi$, and any two relations $R:a \rightarrow b$, $S:b \rightarrow c$
+between nodes of $\Graph$, and any two relations $R:a \rightarrow b$, $S:b \rightarrow c$
 are said to be composable, with composition $RS: a \rightarrow c$. 
+
+A finite path in $\Graph$ is any finite composable sequence 
+$$
+\pi  \ \ \
+=  \ \ \
+R_1:\alpha_1 \rightarrow \alpha_2, \ \ \ 
+R_2:\alpha_2 \rightarrow \alpha_3, \ \ \ 
+\ldots, \ \ \ 
+R_n:\alpha_n \rightarrow \alpha_{n+1}
+$$
+We write $R_1 \ldots R_n : \pi$ to express the fact that $R_1 \ldots R_n$ is the product
+of the labels associated to the path $\pi$, and $R_1 \ldots R_n : \alpha_1 \rightarrow \alpha_{n+1}$ to express the fact that $R_1 \ldots R_n$ is the product
+of the labels of some path $\pi$ from $\alpha_1$ to $\alpha_{n+1}$.
+
+We write $\Paths$ for the set of all finite path in $\Graph$. We write $\ProofUnfolding$ for the 
+set of paths in $\Graph$ from the root $\Root$ of $\Graph$. The set $\ProofUnfolding$ is a 
+possibly infinite proof-tree with root $\Root$: 
+we call $\ProofUnfolding$ \emph{the unfolding of $\Graph$}.
 
 
 \section{Quick Overview of the GTC, Injectivity and PDC Conditions}
@@ -129,11 +170,13 @@ are said to be composable, with composition $RS: a \rightarrow c$.
 \subsection{Binary Relations on a Finite Set}
 From now on we write $\N$ for the set of non-negative integers and $\N^+$ for the set of positive integers. For any $a,b \in \N$
 we write $[a,b]$ for the segment $\{c \in \N | a \le c \le b\}$. A sub-segment $[a',b']$ of
-$[a,b]$ is any $[a',b'] \subseteq [a,b]$, namely with $[a',b']=\emptyset$ or $a \le a', \le b' \le b$.
+$[a,b]$ is any $[a',b'] \subseteq [a,b]$, namely with $[a',b']=\emptyset$ or with
+$a \le a' \le b' \le b$.
 
 We consider binary relations on a finite set: for sake of simplicity we only 
-consider the finite sets $[1,\MaxInd]$, for some $\MaxInd \in \N$ which we assume to be
-fixed. 
+consider the finite sets $[1,\MaxInd]$. The integer $\MaxInd \in \N$ is some
+fixed value representing an upper bound to the number of inductive formulas in the
+antecedent of the sequents of $\Graph$. 
 
 We will abbreviate \quotationMarks{binary relations on $[1,\MaxInd]$} with
 \quotationMarks{relations}. We write $\dom(R) = \{x | \exists y (x R y)\}$ and
@@ -145,33 +188,49 @@ the domain-cardinality of $R$.
 %taking the product of the sequence: $\dom(R_1, \ldots, R_n) =  \dom(R_1 \ldots R_n)$ and 
 %$\DomCard(R_1, \ldots, R_n) = \DomCard(R_1 \ldots R_n)$.
 
-We denote with $\Rel = \PowerSet([1,\MaxInd] \times [1,\MaxInd])$ the set of binary relations on 
-the finite set $[1,\MaxInd]$. $\InjRel$ is the subset of \emph{injective} colored relations.
+We denote with $\Rel = \PowerSet([1,\MaxInd] \times [1,\MaxInd])$ 
+the set of all binary relations on the finite set $[1,\MaxInd]$.
+
 
 \subsection{Bicolored Typed Binary relations on a Finite Set}
-
-
 A bicolored relation, a colored relation for short, 
 is any tuple $(\Stat,\Prog) \in \Rel^2$ of binary relations on
 $[1,\MaxInd]$ such that $\Stat \cap \Prog = \emptyset$. We say that any pair $(x,y) \in \Stat$
-has the stationary color, and any pair $(x,y) \in \Prog$
-has the progressing color. We call $\ColRel \subseteq \Rel^2$ the set of colored relations. 
+has the \emph{stationary color}, and any pair $(x,y) \in \Prog$ has the 
+\emph{progressing color}. We call $\ColRel \subseteq \Rel^2$ the set of colored relations. 
 
-If $R= (\Stat,\Prog) \in \ColRel$, we define 
-$\universe{R} = \Stat \cup \Prog \in \Rel$ the associated (uncolored) relation and we say
-that $R$ is injective if $\universe{R}$ is. 
-$\InjColRel \subseteq \ColRel$ is the subset of injective colored relations.
+If $R= (\Stat,\Prog) \in \ColRel$, we define $\universe{R} = \Stat \cup \Prog \in \Rel$ 
+the associated (uncolored) relation and we say that $R$ is injective if $\universe{R}$ is. 
+$\InjColRel \subseteq \ColRel$ is the subset of \emph{injective colored relations}.
 For colored relation we define $\dom(R) = \dom(\universe{R})$ and 
 $\DomCard(R) = \DomCard(\universe{R})$. 
 
+We suppose be fixed some finite proof-graph 
+$\Graph = \{\alpha, \beta, \ldots\}$ whose elements are called nodes. 
 
-We suppose be fixed some finite set $\Nodes = \{\alpha, \beta, \ldots\}$ whose elements
-are called nodes. We call $\TypedRel = \ColRel \times \Nodes \times \Nodes$ the set
-of typed colored relation, and we write any triple $(R,\alpha,\beta)$ as $R: \alpha \rightarrow \beta$. We say that $(R,\alpha,\beta)$ has domain $\alpha$ and codomain $\beta$.
-$(R,\alpha,\beta)$ is injective if $\universe{R}$ is, and  $\TypedInjRel$ is the subset of
+\begin{definition}
+\label{definition-typed-injective-colored-rel}
+\begin{enumerate}
+\item
+We call $\TypedRel = \ColRel \times \Graph \times \Graph$ the set of typed colored relation.
+\item
+We write any triple $(R,\alpha,\beta)$ as $R: \alpha \rightarrow \beta$. 
+\item
+We say that $(R,\alpha,\beta)$ has domain $\alpha$ and codomain $\beta$.
+\item
+We say that $(R,\alpha,\beta)$ is injective if $\universe{R}$ is.
+\item
+$\TypedInjRel$ is the subset of
 typed injective colored relations
+\end{enumerate}
+\end{definition}
 
-We fix a $\setR \subseteq \TypedInjRel$ of typed injective colored relations in the paper. 
+We fix a set $\setR \subseteq \TypedInjRel$ of typed injective colored relations in the paper. 
+We define a composion of colored relation. The color of an edge $(x,z) \in RS$ is progressing 
+if and only if there are two edge $(x,y) \in \universe{R}$ and $(y,z) \in \universe{S}$ 
+and at least one of them is progressing. 
+The color of an edge $(x,z) \in RS$ is stationary otherwise.
+
  
 \begin{definition}[Colored Composition] 
 \label{definition-colored-composition}
@@ -185,44 +244,67 @@ RS = (\Stat'', \Prog'')
 $$ 
 For any $R:\alpha \rightarrow \beta, S:\beta \rightarrow \gamma \in\TypedRel$ we define
 $(R:\alpha \rightarrow \beta)(S:\beta \rightarrow \gamma) = (RS:\alpha \rightarrow \gamma)$.
+
+$\setR^+ \subseteq \ColRel$ is the closure of a family $\setR \subseteq \ColRel$ 
+under colored composition.
 \end{definition}
 
-In the case of $R = (\Stat,\Prog), S = (\Stat',\Prog')\in\InjColRel$ we have 
-$\Stat \Stat' \cap \Prog'' = \emptyset$ and the definition of $\Stat''$ in $RS$
-can be simplified to $\Stat'' = \Stat \Stat'$. Uncoloring and composition commute:
-we can prove that $\universe{RS} = \universe{R}\universe{S}$ for all $R, S \in \ColRel$.
+We deduce that 
+$$
+\Stat'' \cup \Prog'' = 
+\Stat \Stat' \setminus \Prog'' \cup \Prog'' =
+\Stat \Stat' \cup \Prog'' =
+\Stat \Stat' \cup \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog' = 
+(\Stat \cup \Prog) \cup (\Stat' \cup \Prog')
+$$
+We just proved that $\universe{RS} = \universe{R}\universe{S}$ for all $R, S \in \ColRel$, 
+namely, that uncoloring and colored composition commute.
 \\
+
+In the case of $R = (\Stat,\Prog), S = (\Stat',\Prog')\in\InjColRel$ we have 
+$\Stat \Stat' \cap \Prog'' = \emptyset$, because there is at most one $z$ such that
+$(x,y) \in \universe{R}$ and $(y,z) \in \universe{S}$.
+For injective colored relations, 
+the definition of composition can be simplified to $\Stat'' = \Stat \Stat'$ and to 
+$ \Prog'' = \Stat \Prog' \cup \Prog \Stat' \cup \Prog \Prog'$. 
+
 
 \subsection{GTC and PDC Conditions For  Typed Colored Relations}
 
+We introduce the the Progressing Domain Condition PDC. We will prove that when all colored 
+relations in a cyclic proof $\Graph$ are injective, then PDC is a sufficient condition for 
+correctness of $\Graph$. 
+
 \begin{definition}[The Progressing Domain Condition PDC]
 \label{definition-PDC}
-Assume that $\setR^+ \subseteq \ColRel$ is the closure of a family $\setR \subseteq \ColRel$ 
-under colored composition,  that $R=(\Stat,\Prog) \in \ColRel$, and that 
-$X,Y \subseteq [1,\MaxInd]$ are sets of positive integer.
+Assume that $\setR \subseteq \ColRel$, that $R=(\Stat,\Prog) \in \ColRel$, and that 
+$X,Y \subseteq [1,\MaxInd]$ are sets of positive integers.
 
 \begin{enumerate}
 \item
 \label{definition-PDC-01}
-$R$ is progressing from $X$ to $Y$ if and only if $\Prog \cap (X \times Y) \not = \emptyset$.
+$R$ is \emph{progressing from $X$ to $Y$} if and only if 
+$\Prog \cap (X \times Y) \not = \emptyset$.
 
 \item
 \label{definition-PDC-02}
-The Progressing Domain Condition (PDC) for $(R : \alpha \rightarrow \alpha)  \in \ColRel$ says: 
+The \emph{Progressing Domain Condition (PDC)} for 
+$(R : \alpha \rightarrow \alpha)  \in \ColRel$ says: 
 $R$ is progressing from $\dom(R)$ to $\dom(R)$.
 
 \item
 \label{definition-PDC-03}
-$\setR^+$ satisfies PDC if and only if for all $(R : \alpha \rightarrow \alpha) \in \setR$,
-$(R : \alpha \rightarrow \alpha)$ satisfy PDC. 
+\emph{$\setR^+$ satisfies PDC} if and only if: $(R : \alpha \rightarrow \alpha)$ satisfies PDC
+for all $(R : \alpha \rightarrow \alpha) \in \setR$.
 \end{enumerate}
 \end{definition}
 
+When not all colored relations in a cyclic proof $\Graph$ are injective, then we need a stronger
+condition for correctness of $\Graph$: the Global Trace Condition GTC.
 
 \begin{definition}[The Global Trace Condition GTC]
 \label{definition-GTC}
-Assume that $\setR^+ \subseteq \TypedRel$ is the closure of a family $\setR \subseteq \TypedRel$ 
-under colored composition.
+Assume that $\setR \subseteq \TypedRel$.
 
 \begin{enumerate}
 \item
@@ -231,13 +313,13 @@ An infinite path $\pi$ in $\setR^+ $ is any infinite composable sequence
 $$\{(\Stat_i, \Prog_i):  \alpha_i \rightarrow \alpha_{i+1}\}_{i \in \N} \subseteq \setR^+$$
 
 \item
-label{definition-GTC-02}
+\label{definition-GTC-02}
 An infinite trace $\sigma$ in $\pi$ is any map $\sigma: [i_0, \infty[ \rightarrow [1,\MaxInd]$, 
 for some $i_0 \in \N$, such that $\sigma(i) (\Stat_i \cup \Prog_i) \sigma(i+1)$ 
 for all $i \in [i_0, \infty[$. 
 
 \item
-label{definition-GTC-03}
+\label{definition-GTC-03}
 $\sigma$ is infinitely progressing in $\pi$ if and only if $\sigma(i) \Prog_i \sigma(i+1)$ 
 for infinitely many $i \ge i_0$.
 
@@ -257,7 +339,7 @@ Through the paper assume that:
 
 \begin{enumerate}
 \item  
-$\setR^+ \subseteq \TypedRel$ is a set of typed injective colored relations.
+$\setR^+ \subseteq \TypedRel$ is a set of typed \emph{injective} colored relations.
 \item
 $\setR^+$ satisfies PDC
  \emph{(i.e., all relation of the form $R:\alpha \rightarrow \alpha$ in $\setR^+$ satisfy PDC)}
@@ -272,11 +354,15 @@ than PDC.
 Let $R = (\{(1,1)\},\{(2,1)\}) \in \ColRel$ with $R$ stationary on $(1,1)$
 and progressing on $(2,1)$ and  $\universe{R} = \{(1,1),(2,1)\}$. 
 Let $\setR=\{R: \alpha \rightarrow \alpha\} \subseteq \TypedRel$.
-Then $R: \alpha \rightarrow \alpha$ satisfies PDC %on the graph $\{(a,a)\}$, 
-and $RR=R$, therefore  $\setR^+=\{R: \alpha \rightarrow \alpha\}$ and $\setR^+$ satisfies PDC. 
-However, the only infinite traces in the infinite path 
-$R: \alpha \rightarrow \alpha, R: \alpha \rightarrow \alpha, R: \alpha \rightarrow \alpha, \ldots$ are $(1,1,1,\ldots)$ and $(2,1,1,1,\ldots)$. The first trace never progresses, the second trace progresses 
-once, on the first arrow $(2,1)$. 
+Then $\dom(R) = \{1,2\}$ and $R$ is progressing on $(2,1)$, therefore 
+$R: \alpha \rightarrow \alpha$ satisfies PDC. From $RR=R$ we deduce that  
+$\setR^+=\{R: \alpha \rightarrow \alpha\}$, therefore $\setR^+$ satisfies PDC. 
+
+However, there is a unique infinite path 
+$
+\pi = 
+R: \alpha \rightarrow \alpha, R: \alpha \rightarrow \alpha, R: \alpha \rightarrow \alpha, \ldots$.
+The only infinite traces in $\pi$ are $(1,1,1,\ldots)$ and $(2,1,1,1,\ldots)$. The first trace never progresses, the second trace progresses \emph{only once}, on the first arrow $(2,1)$. 
 
 So $\setR^+$ does \emph{not} satisfy GTC. The fact that GTC is false for $\setR^+$ 
 is not in contradiction with what we said. Indeed, $R: \alpha \rightarrow \alpha \in \setR^+$ 
@@ -342,7 +428,8 @@ namely $1$ and $2$.
 We first provide a picture of the traces of the infinite traces of an infinite path in the case of 
 injective relations
 $$
-\pi = 
+\pi \ \ \ 
+= \ \ \ 
 R_1:\alpha_1 \rightarrow \alpha_2, \ \ \ 
 \ldots, \ \ \ 
 R_k:\alpha_k \rightarrow \alpha_{k+1}, \ \ \ 
@@ -352,18 +439,15 @@ then we will sketch a decreasing measure on each finite prefix $R_1 \ldots, R_k$
 This section is informal and only intended as a plan for the paper.
 \\ 
 
-A finite path is any finite composable sequence $\pi = R_1:\alpha_1 \rightarrow \alpha_2,
-R_2:\alpha_2 \rightarrow \alpha_3, \ldots, R_n:\alpha_n \rightarrow \alpha_{n+1}$.
-We say that $\pi: \alpha_1 \rightarrow \alpha_{n+1}$
-$\Paths$ is the set of all finite paths.
-We assume having some tree $\setT \subseteq \Paths$ of paths. We assume having
-some map $\size:\setT, [1,\MaxInd] \rightarrow \N^+$, assigning a positive integer $\size(\pi,i)$
-to each $\pi \in \setT$ and each $i \in [1,\MaxInd]$.
+
+We assume having some tree $\ProofUnfolding \subseteq \Paths$ of paths. We assume having
+some map $\size$, assigning an expression denoting a positive integer 
+$\size(\pi,i)$ to each $\pi \in \ProofUnfolding$ and each $i \in [1,\MaxInd]$.
 
 We assume that if $x$ $R$-progresses to $y$ when moving from $\pi:\alpha \rightarrow \beta$ 
 to $\pi_1 = \pi, (R:\beta \rightarrow \gamma)$, 
-then $\size(\pi, x) > \size(\pi_1, y)$, while if $(x,y)$ is $R$-stationary then 
-$\size(\pi, x) = \size(\pi_1, y)$. 
+then we can prove $\size(\pi, x) > \size(\pi_1, y)$, while if $(x,y)$ is $R$-stationary then 
+we can prove $\size(\pi, x) = \size(\pi_1, y)$. 
 
 When we study GTC, for each $i \in \N$ we only are interested to elements $x \in [1,\MaxInd]$
 from which some infinite trace $x_i R_i x_{i+1} R_{i+1} x_{i+2} \ldots$ starts or
@@ -398,85 +482,118 @@ $$
 \dom(S_i S_{i+1} S_{i+2}) =
 \ldots
 $$
-Each $x \in \dom(S_i)$ is the first element of one or more infinite traces in the path $\pi'$,
-to put otherwise, each $x \in \dom(S_i)$ has some $S_i$-image $y \in \dom(S_{i+1})$
-Furthermore, in the case of \emph{injective} relations, these images are distinct, therefore
-$\Card(\dom(S_i)) \le \Card(\dom(S_{i+1})$. Let $c_i = \Card(\dom(S_i))$:then 
-$c_1 \le c_2 \le \ldots \le c_m \le \ldots$. 
+Each $x \in \dom(S_i)$ is the first element of one or more infinite traces in the path $\pi'$.
+To put otherwise, each $x \in \dom(S_i)$ has some $S_i$-image $y \in \dom(S_{i+1})$.
+Furthermore, in the case of \emph{injective} relations, the images of distinct $x, x', \ldots
+\in \dom(S_i)$ are distinct in $ \dom(S_{i+1})$, therefore
+$\Card(\dom(S_i)) \le \Card(\dom(S_{i+1})$. Let $c_i = \Card(\dom(S_i))$ be the cardinality
+of the $i$-th domain of the stable path: then $c_1 \le c_2 \le \ldots \le c_m \le \ldots$,
+the cardinality sequence is weakly increasing. 
 For all $i \in \N$ we have $c_i = \Card(\dom(S_i)) \le \MaxInd$, therefore
 we can decompose $\pi'$ in finitely many sub-sequences, the last one infinite, such that  
 $$
 c_{a_1} = \ldots = c_{b_1}   < 
 c_{a_2} = \ldots = c_{b_2}   < 
 \ldots                                       <
-c_{a_h} = \ldots 
+c_{a_h} = \ldots = \ldots 
 $$
-We decompose $\pi' = S_1, S_2, \ldots$ in the same way:
-$S_{a_1}, \ldots, S_{b_1}$, \ldots, $S_{a_{h-1}}, \ldots, S_{b_{h-1}}$, $S_{a_{h}}, \ldots$. 
-We call these subsequences the \emph{components} of $\pi$.
-Again by injectivity, we can prove that $S_{a_1}$ is a bijection from 
+We decompose the stable path $\pi' = S_1, S_2, \ldots$ in the same way:
+$$
+S_{a_1}, \ldots, S_{b_1}, \ \ \ 
+\ldots, \ \ \ 
+S_{a_{h-1}}, \ldots, S_{b_{h-1}}, \ \ \ 
+S_{a_{h}}, \ldots, \ldots
+$$ 
+We call these subsequences the \emph{components} of $\pi$. The behaviour of each
+$S_i$ in each component is particulary simple: a bijection.
+Indeed, by injectivity we can prove that $S_{a_1}$ is a bijection from 
 $\dom(S_{a_1})$ to $\dom(S_{a_1 + 1})$, $S_{a_1 + 1}$ is a bijection from 
 $\dom(S_{a_1 + 1})$ to $\dom(S_{a_1 + 2})$ and \ldots and 
 $S_{b_1 - 1}$ is a bijection from $\dom(S_{b_1 - 1})$ to $\dom(S_{b_1})$.
+All $S_j \ldots S_{k-1} : \alpha \rightarrow \beta$ with $j, k \in [a_1, b_1]$, $j>k$
+are biejctions.
 The same is true for all sub-sequences, including the infinite subsequence $S_{a_{h}}, \ldots$.
 
-This means that eventually the traces all follow the bijections in $S_{a_{h}}, \ldots$,
-and from the index $a_h$ on there are at most $c$ traces, with $c = c_{a_h}$
-the common cardinality of all $\dom(S_j)$ for $j \ge a_{h}$. There are at most 
-$\newton{\MaxInd}{c}$ different sets of
-cardinality $c$, therefore for some $j > k \ge a_h$ we have $\dom(S_j) = \dom(S_k)$
-and $S_j \ldots S_{k-1}$ is a bijection from $\dom(S_j)$ to $\dom(S_k) = \dom(S_j)$.
-Using PDC, we will prove that $S_j \ldots S_{k-1}$ is progressing from some 
+This means that eventually the traces all follow the bijections 
+$S_j \ldots S_{k-1} : \alpha \rightarrow \beta$ in $S_{a_{h}}, \ldots$,
+and from the index $a_h$ on there are exactly $c$ traces, with $c = c_{a_h}$
+the common cardinality of all $\dom(S_j)$ for $j \ge a_{h}$. Assume $g = \Card(\Graph)$.
+There are at most $\newton{\MaxInd}{c}$ different sets of
+cardinality $c$, and $g$ nodes, therefore for some node $\alpha$ and some 
+$j > k \ge a_h$ we have  $S_j \ldots S_{k-1} : \alpha \rightarrow \alpha$,
+with same domain and codomain, and 
+$\dom(S_j) = \dom(S_k)$. $S_j \ldots S_{k-1}$ is a bijection from 
+$\dom(S_j)$ to $\dom(S_k) = \dom(S_j)$.
+We will prove that $\dom(S_j) = \dom(S_j \ldots S_{k-1}) = \dom(S_k)$.
+PDC implies that $S_j \ldots S_{k-1}$ is progressing from some 
 $x \in \dom(S_j)$ to some $y \in \dom(S_k)$. This progression happens at least once each 
-$\newton{\MaxInd}{c}$ steps.
+$g \newton{\MaxInd}{c}$ steps.
 
-This suggests using an induction with one parameter 
+This suggests that we first take a stable sequence $S_1, \ldots, S_m$, then we decompose
+it into components $S_{a_i}, \ldots, S_{b_i}$ for $i \in [1,h]$;
+and eventually we prove correctness of the cyclic proof using induction with one parameter 
 $$
-\Sigma_{x \in \dom(S_{b_h} \ldots S_m)} \size(\pi,x)
+\size(\dom(S_{a_h} \ldots S_{b_h})) 
+=
+\Sigma_{x \in \dom(S_{a_h} \ldots S_{b_h})} \size(\pi,x)
 $$ 
-Whenever some $x \in \dom(S_m)$ progresses then the sum decreases. 
-However, this idea is incomplete in several ways, as we will see.
+Whenever some $x \in \dom(S_{a_h} \ldots S_{b_h})$ progresses then this sum decreases. 
+\\
+
+However, this idea is incomplete in several ways, as soon as we check it in detail.
 
 \begin{enumerate}
 
 \item
 First, given a finite prefix $R_1, \ldots, R_n$ of $\pi$, we ignore whether the last component 
-$S_{a_{h}}, \ldots, S_m$ of the stable version $S_1, \ldots, S_m$ of $R_1, \ldots, R_n$ 
-is the last component of the infinite sequence $\pi$ or not. The grouping required to produce a 
-stable relation sequence may erase one or more components to the end. 
-We can fix this objection by taking nested induction on one index for each component:
+$S_{a_{h}}, \ldots, S_{b_h}$ of the stable version $S_1, \ldots, S_m$ of $R_1, \ldots, R_n$ 
+is the last component of the stable version for infinite sequence $\pi$. It could not be.
+The grouping required to produce a stable relation sequence may erase one or more components 
+of $R_1, \ldots, R_n$, starting from the rightmost one. 
+
+We can fix this objection by taking \emph{nested induction} on one index for each component:
 $$
-\Sigma_{x \in \dom(S_{b_1}\ldots S_m)} \size(\pi,x), \ \ \ 
+\size(\dom(S_{a_1} \ldots S_{b_1})) 
+=
+\Sigma_{x \in \dom(S_{a_1}\ldots S_{b_1})} \size(\pi,x), \ \ \ 
 \ldots, \ \ \ 
-\Sigma_{x \in \dom(S_{b_h}\ldots S_m)} \size(\pi,x)
+\size(\dom(S_{a_h} \ldots S_{b_h})) 
+=
+\Sigma_{x \in \dom(S_{a_h}\ldots S_{b_h})} \size(\pi,x)
 $$
 When a component is erased we use induction on the index for the last non-erased component
-$\Sigma_{x \in \dom(S_{b_i}\ldots S_m)} \size(\pi,x)$.
+$\Sigma_{x \in \dom(S_{a_i}\ldots S_{b_i})} \size(\pi,x)$.
 
 \item
-Second, the last relation $S_m$ makes a special case.
-If $x \in \dom(S_{b_h})$ has a set $S_{b_h}(x)$ of one or more $S_n$-images, 
+Second, if $x \in \dom(S_{a_h}\ldots S_{b_h})$ has a set 
+$S_{a_h}\ldots S_{b_h}(x)$ of one or more $S_{a_h}\ldots S_{b_h}$-images, 
 then any of them can be the next element of the infinite progressing trace. 
 The worst case from the viewpoint of the induction is when the next element is 
-some $y \in S_{b_h}(x)$ such that $\size(\beta_{b_h},y)$ is maximum. 
+some $y \in S_{a_h}\ldots S_{b_h}(x)$ such that $\size(\beta_{b_h},y)$ is maximum.
+In this case, the trace through $y$ requires more steps to decrease to zero. 
 This suggests switching to the indexes
 $$
-\Sigma_{x \in \dom(S_{b_i} \ldots S_m)} \max(\{\size(\pi,y) | y \in S_{b_i} \ldots S_m(x)\}
+\size(S_{a_i} \ldots S_{b_i}) 
+=
+\Sigma_{x \in \dom(S_{a_i} \ldots S_{b_i})} 
+\max(\{\size(\pi,y) | y \in S_{a_i} \ldots S_{b_i}(x)\}
 $$
-expressing such worst-case possibility.
+expressing such worst-case possibility for traces.
 
 \item
-Third, we can have up to $\newton{\MaxInd}{c_{a_i}}$ steps until the index number $i$
-decreases (even if such a bound looks a vast exaggeration). We need $h$ auxiliary indexes
-$t_i \in [0,\newton{\MaxInd}{c_{a_i}}]$ which, whenever the index number $i$ 
+Third, we can have up to $g \newton{\MaxInd}{c_{a_i}}$ steps until the index number $i$
+decreases (even if such a bound looks like a vast exaggeration). We need $h$ auxiliary indexes
+$t_i \in [0, g \newton{\MaxInd}{c_{a_i}}]$ which, whenever the index number $i$ 
 is the last index, counts how many steps we can still have until the index number $i$ decreases. 
-Such an index decreases by $1$ at each step in which the index number $i$ is the last index 
-and it does not decrease.
+Such an index decreases by $1$ at each step in which $\size(S_{a_i} \ldots S_{b_i}) $,
+the index number $i$, is the last index and it does not decrease.
 
 \end{enumerate}
 
-In the rest of the paper we will realize such a plan. We first to derive some elementar properties 
-of the sequences of uncolored injective relations on $[1,\MaxInd]$ whic are required to
+This is no formal translation, rather this a plan which we will realize in the paper. 
+
+We first to derive some elementar properties 
+of the sequences of uncolored injective relations on $[1,\MaxInd]$ which are required to
 prove that our index decrease. These properties are combinatorial properties and they 
 have nothing to do with colors, nor with cyclic proofs.
 
@@ -1765,10 +1882,10 @@ We call the set of indexes $a_i$ the \emph{raising indexes} of $\vec{S}$.
 %Suppose we have
 %\begin{enumerate}
 %\item
-%a set $\setS$ of sequences of injective relations and a set $\setT$ of  
+%a set $\setS$ of sequences of injective relations and a set $\ProofUnfolding$ of  
 %raising suffixes of sequences of $\setS$
 %\item 
-%a measure $\mu:\setT \rightarrow \N$, which is 
+%a measure $\mu:\ProofUnfolding \rightarrow \N$, which is 
 %strictly decreasing w.r.t. $\DomCard(\cdot)$. and w.r.t. right-composition.  
 %\end{enumerate}
 %
@@ -2047,7 +2164,7 @@ the relation $R_{d}$ is progressing between $\dom(R_{d})$ and $\dom(T)$.
 %
 %\section{The Size Map}
 %
-%We assume having a size map $\size : \Nodes, [1,\MaxInd] \rightarrow \N^+$, 
+%We assume having a size map $\size : \Graph, [1,\MaxInd] \rightarrow \N^+$, 
 %returning an expression $\sigma(\alpha,i)$ denoting a 
 %\emph{positive} integer. 
 %
@@ -2106,7 +2223,7 @@ $R(x) = \{y \in [1,\MaxInd] | x \universe{R} y \}$.
 
 \begin{definition}[Size of Sets and Relations]
 Assume $X \subseteq [1,\MaxInd]$ and $R:\alpha \rightarrow \beta$  is a colored
-relation and $\pi \in \setT$ a finite composable path.
+relation and $\pi \in \ProofUnfolding$ a finite composable path.
 \begin{enumerate} 
 \item
 $\size(\pi, X) = \Sigma_{i \in X} \size(\pi,i)$.
@@ -2120,7 +2237,7 @@ $\size(\pi, R) = \Sigma_{x \in \dom(R)} \max( \{ \size(\pi,y) | y \in R(x) \} )$
 \label{lemma-decreasing-size}
 Assume $R:\alpha \rightarrow \beta, S:\beta \rightarrow \gamma \in \TypedRel$
 and $\pi_1 = \pi, (R:\alpha \rightarrow \beta)$, $\pi_2 = \pi, (S:\beta \rightarrow \gamma)$
-with $\pi_2 \in \setT$.
+with $\pi_2 \in \ProofUnfolding$.
 \begin{enumerate}
 \item
 \label{lemma-decreasing-size-01}
@@ -2203,7 +2320,7 @@ as wished.
 \begin{lemma}[Length Bound from PDC, IC, Constant-Cardinality Domain]
 \label{lemma-length-bound}
 Assume $\pi_1 = \pi, (R:\alpha \rightarrow \beta)$ and 
-$\pi_2 = \pi_1, (S:\beta \rightarrow \gamma) $ and $\pi_2 \in \setT$.
+$\pi_2 = \pi_1, (S:\beta \rightarrow \gamma) $ and $\pi_2 \in \ProofUnfolding$.
 \begin{enumerate}
 \item
 \label{lemma-length-bound-01}
@@ -2716,7 +2833,7 @@ hence exponential time.
 %Thus, the condition $\DomCard(R_i) \not = \DomCard(R_{i+1})$ is equivalent to
 %$\DomCard(R_i) < \DomCard(R_{i+1})$.
 
-Suppose $\pi_1 = \pi, (R : \beta \rightarrow \gamma) \in \setT$ is a typed path in $\setR^+$.
+Suppose $\pi_1 = \pi, (R : \beta \rightarrow \gamma) \in \ProofUnfolding$ is a typed path in $\setR^+$.
 For each state $\sigma \in \States(\setR^+)$ we define a state 
 $\tau = \trans(\sigma,R) \in \States(\setR^+)$ such that if $\sigma \state \pi$ then 
 $\tau \state \pi_1$ and $\sigma > \tau$ in the lexicographic ordering.
@@ -2818,7 +2935,7 @@ We set $\trans(\sigma,\pi') = \trans(\tau,R)$, the empty state.
 
 \begin{theorem}[Transition Theorem]
 \label{theorem-transition}
-Suppose $\setR^+$ is injective, $\pi_1 = \pi, (R:\beta \rightarrow \gamma) \in \setT$ 
+Suppose $\setR^+$ is injective, $\pi_1 = \pi, (R:\beta \rightarrow \gamma) \in \ProofUnfolding$ 
 is a finite path on $\setR^+$ and  $\sigma \state \pi$ and $R \in \setR^+$. 
 Let $\tau = \trans(\sigma,R) $. Then$\sigma > \tau$ and $\tau \state \pi_1$.
 \end{theorem}
@@ -2832,7 +2949,8 @@ of $\vec{R}$. Let $S_{a_i}, \ldots, S_{b_i}$ for $i \in [1,h]$ be the components
 Assume $\sigma = (U_1, d_1,V_1; \ldots; U_h, d_h, V_h)$, $\sigma \state \pi$.
 By definition of $\state$ we have $U_i = S_{a_i} \ldots S_{b_i} $ and $V_i = S_{b_i}$. 
 
-Let $\tau = \trans(\sigma,R) $. Suppose $\pi_1 = \pi, (R:\beta \rightarrow \gamma) \in \setT$ , 
+Let $\tau = \trans(\sigma,R) $. 
+Suppose $\pi_1 = \pi, (R:\beta \rightarrow \gamma) \in \ProofUnfolding$ , 
 in order to prove that $\tau \state \pi_1$. We argue by cases on the definition of $\tau$. 
 Let
 $$
