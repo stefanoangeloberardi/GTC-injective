@@ -1953,12 +1953,47 @@ condition, the constant domain condition if and only if, respectively, $\univers
 satisfies domain-stable
 condition, the constant domain condition. Namely, we move the properties of relations to 
 colored relation by forgetting colors.
+\\
 
-\begin{definition}[Necessarily Progressing]
-Assume $R=(\Stat,\Prog) \in \ColRel$ is an colored relation.
-We say that $R$ is \emph{necessarily progressing} on $x \in \dom(R)$
-if and only if for all $y \in R(x)$ we have $(x,y) \in \Prog$.
+We say that $R$ is necessarily progressing if and only if it is not possible that all infinite
+traces passing through $R$ have a stationary step in $\dom(R)$. We say that $R$ is possibly 
+stationary if and only if it is possible that all infinite traces passing through $R$ have a 
+stationary step in $\dom(R)$.
+
+The formal definition runs as follows.
+
+\begin{definition}[Necessarily Progressing and Possibly Stationary]
+\label{definition-possibly-stationary}
+Assume $R=(\Stat,\Prog) \in \ColRel$ is an colored relation and 
+$X,Y \subseteq [1,\MaxInd]$.
+
+\begin{enumerate}
+\item
+We say that $R$ is \emph{necessarily progressing} if and only if:
+$$
+\exists x \in \dom(\universe{R}) \forall y \in \universe{R}(x)((x,y) \in \Prog)
+$$
+
+\item
+We say that $R$ is \emph{possibly stationary} otherwise:
+$$
+\forall x \in \dom(\universe{R}) \exists y \in \universe{R}(x)((x,y) \in \Stat)
+$$
+
+\item
+$R$ is possibly stationary (necessarily progressing) from $X$ to $Y$ if and only if 
+$R \cap (X \times Y)$ is possibly stationary (necessarily progressing)
+
+\item
+A sequence $R_1, \ldots, R_n$ is possibly stationary (necessarily progressing) if and only if 
+$R_1 \ldots R_n$ is possibly stationary (necessarily progressing).
+
+\end{enumerate}
 \end{definition}
+
+The empty sequence $\nil$ is possibly stationary.
+Indeed, when $n=0$ then $R_1 \ldots R_n$ is the identity on $[1,\MaxInd]$ with only
+the stationary color, therefore possibly stationary. 
 
 %A constant domain-cardinality bicolored sequence $\vec{R}=R_1, ldots, R_n$
 %of injective relations is stationary if and only if for all $i,j \in [1,n]$, $i < j$ we have
@@ -2003,27 +2038,56 @@ if and only if for all $y \in R(x)$ we have $(x,y) \in \Prog$.
 %14:16 11/02/2026
 
 \begin{definition}[Stationary degree in $\setR^+$]
-Assume $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d \in \Seq(\TypedRel)$ is some 
-\emph{non-empty} constant domain-cardinality sequence.
-Let $d \in \N$. We say that $\vec{C}$ has stationary degree $d$
-if and only if  and:
+Assume $\vec{S} \in \Seq(\TypedRel)$ is some constant domain-cardinality sequence
+of length $n \ge 1$. The stationary degree $\deg(\vec{S})$ of $\vec{S}$ is the maximum $d<n$ 
+such that $\vec{S}$ has some length $d$ possibly stationary suffix.
+\end{definition}
+
+All sequences have the possibly stationary suffix $\nil$, of length $0$.
+Therefore $\deg(\vec{S})$ is a maximum on a set including $0$. 
+
+Assume $\vec{S}$ is some constant domain-cardinality sequence
+of length $n \ge 1$. Let $d = \deg(\vec{S})$.
 
 \begin{enumerate}
 \item
-$R_i$ is a stationary bijection from $\dom(R_i)$ to $\dom(R_{i+1})$, for all $i \in [1,d-1]$.
-
+Assume $n=1$. Then the unique length $0$ suffix is the
+possibly stationary sequence $\nil$, therefore $d=0$.
 \item
-no $x \in \dom(R_n)$ is necessarily progressing  
-(i.e., for all $x \in \dom(R_n)$ there is some $y$ such that $R_n$ is stationary on $(x,y)$).
+Assume $n \ge2$. We have $d=0$ if and only if $S_n$ is necessarily progressing.
+We have $d \in [1,n-1]$ if and only if $S_n$ is possibly stationary,
+$S_{n-d}$ is necessarily progressing from $\dom(S_{n-d})$ to  $\dom(S_{n-d+1})$, 
+and for all $i \in [n-d+1,n-1]$, $S_{i}$ is possibly stationary 
+from $\dom(S_{i})$ to  $\dom(S_{i+1})$.
 \end{enumerate}
 
-%We say that $R \in \TypedRel$ has stationary degree $d$
-%if and only if there is some costant domain-degree sequence 
-%$\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d \in \Seq(\TypedRel)$ with stationary degree $d$
-%and such that $R =  (S_1 \ldots S_e R_1 \ldots R_d)$, 
-%namely, $R$ is the product of $\vec{C}$.
 
-\end{definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREVIOUS DEFINITION STATIONARY DEGREE 11:12 21/02/2026
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{definition}[Stationary degree in $\setR^+$]
+%Assume $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d \in \Seq(\TypedRel)$ is some 
+%\emph{non-empty} constant domain-cardinality sequence.
+%Let $d \in \N$. We say that $\vec{C}$ has stationary degree $d$
+%if and only if  and:
+%
+%\begin{enumerate}
+%\item
+%$R_i$ is a stationary bijection from $\dom(R_i)$ to $\dom(R_{i+1})$, for all $i \in [1,d-1]$.
+%
+%\item
+%no $x \in \dom(R_n)$ is necessarily progressing  
+%(i.e., for all $x \in \dom(R_n)$ there is some $y$ such that $R_n$ is stationary on $(x,y)$).
+%\end{enumerate}
+%
+%%We say that $R \in \TypedRel$ has stationary degree $d$
+%%if and only if there is some costant domain-degree sequence 
+%%$\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_d \in \Seq(\TypedRel)$ with stationary degree $d$
+%%and such that $R =  (S_1 \ldots S_e R_1 \ldots R_d)$, 
+%%namely, $R$ is the product of $\vec{C}$.
+%
+%\end{definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
 %All $R \in \TypedRel$ have at least stationary degree $0$ in $\setR^+$: 
@@ -2911,9 +2975,9 @@ hence poly-exponential time.
 
 Suppose $\pi_1 = \pi, (R : \beta \rightarrow \gamma) \in \ProofUnfolding$ is a typed path in 
 $\setR^+$. For each state $\sigma \in \States(\setR^+)$ we define a state 
-$\tau = \trans(\sigma,R) \in \States(\setR^+)$ such that if $\sigma \state \pi$ then 
-$\tau \state \pi_1$. We also check that $(\pi,\sigma) \succ (\pi_1, \tau)$ 
-in the lexicographic ordering.
+$\tau = \trans(\sigma,R : \beta \rightarrow \gamma) \in \States(\setR^+)$ 
+such that if $\sigma \state \pi$ then $\tau \state \pi_1$. We also check that 
+$(\pi,\sigma) \succ (\pi_1, \tau)$ in the lexicographic ordering.
 
 %18:47 19/02/2026
 
@@ -2922,15 +2986,19 @@ in the lexicographic ordering.
 %
 
 
-\begin{definition}[The Transition Function $\trans(\sigma,R) \in \States(\setR^+)$]
+\begin{definition}
+[The Transition Function $\trans(\sigma,R : \beta \rightarrow \gamma) \in \States(\setR^+)$]
 \label{definition-transition-state}
 
-Suppose $\sigma = (U_1, d_1,V_1,\beta_1; \ldots; U_h, d_h, V_h,\beta_h) \in \States(\setR^+)$ 
-with $\beta_h = \beta$ and $(R:\beta \rightarrow \gamma) \in \setR^+$. We set
+Suppose $\sigma = (\sigma_1, \ldots, \sigma_h) \in \States(\setR^+)$  and 
+$\sigma_i = (U_i, d_i,V_i,\beta_i)$ for $i \in [1,h]$.
+Suppose $(R:\beta \rightarrow \gamma) \in \setR^+$ and $\beta = \beta_h$.  We abbreviate
 $$
-U'_i = U_i R \mbox{ for all $i \in [1,h]$ \ \ \ and } U'_{h+1} = R, \beta_{h+1}=\gamma
+U'_i = (U_i \ldots U_h R) \mbox{ for all $i \in [1,h+1]$}
 $$
-Suppose that $i$ is the first element of $i \in [1,h+1]$ such that:
+
+Suppose that $i$ is the unique element of $i \in [1,h+1]$ such that
+$\dom(U'_j) = \dom(U_j)$ for all $j \in [1,i-1]$ and:
 
 \begin{enumerate} 
 \item
@@ -2939,49 +3007,66 @@ either $i \in [1,h]$ and $\dom(U'_i) \subset \dom(U_i)$
 or $i=h+1$
 \end{enumerate}
 
-We define a transition function $\trans(\sigma,R:\beta_h \rightarrow \gamma)$. 
+We define $\tau = \trans(\sigma,R:\beta_h \rightarrow \gamma)$. 
 
 \begin{enumerate}
 
 \item 
 \emph{Assume that $i=1$ or $\DomCard(U'_i) \not = \DomCard(U'_{i-1})$}.
-Then $\trans$ sets the counter number $i$ to its minimum value $0$
+Then $\tau = (\sigma_1, \ldots, \sigma_{i-1}, \tau_i)$ and
 
 $$
-\trans(\sigma,S) 
-= 
-(U_1, d_1, V_1,\beta_1; \ \ldots; U_{i-1}, d_{i-1},V_{i-1},\beta_{i-1}; \ U'_i, 0, \ U'_i, \beta_i)
+\tau_i 
+\ \ \ = \ \ \ 
+(U'_i, 0, \ U'_i, \gamma)
 $$
+
+%The index number $i$ restarts from $U'_i$ and 
+%$\trans$ sets the stationarity degree number $i$ to its minimum value $0$
 
 \item
 \emph{Assume that $i>1$ and $\DomCard(U'_i) = \DomCard(U'_{i-1})$}.
+Then $\tau = (\sigma_1, \ldots, \sigma_{i-2}, \tau_{i-1})$ 
+and we define $\tau_{i-1}$ by cases.
+
 \begin{enumerate}
 \item
-\emph{Assume $\size(\dom(U'_{i})) \not = \size(U'_i)$ or 
-($d_{i-1}\ge 1$ and $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to 
-$\dom(U'_{i})$)}. Then $\trans$ sets the counter number $(i-1)$ to $0$
+\emph{Assume 
+($\size(\dom(U'_{i})) \not = \size(U'_i)$) or 
+($V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$)
+}. 
+Then
+%$U'_i$ is concatenated to the index number $i-1$ and 
+%$\trans$ sets the stationarity degree $d_{i-1}$ to its minimum value $0$
 
 $$
-\trans(\sigma,S) = 
-(U_1, d_1,V_1,\beta_1;  \ \ldots; U_{i-2}, d_{i-1},V_{i-2},\beta_{i-2}; 
- \ U'_{i-1}, 0, U'_{i-1},\beta_{i-1})
+\tau_{i-1}
+\ \ \ = \ \ \ 
+(U'_{i-1}, 0, U'_{i}, \gamma)
 $$
 
 \item
-\emph{Assume $\size(\dom(U'_{i})) = \size(U'_i)$ and
-($d-{i-1}= 0$ or $V_{i-1}$ is stationary from $\dom(V_{i-1})$ to $\dom(U'_{i})$)}.
-Then $\trans$ increases the counter $d_{i-1}$ by one:
+Otherwise:
+%Then  $U'_i$ is concatenated to the index number $i-1$ and 
+%$\trans$ increases the stationarity degree $d_{i-1}$ by one:
 
 $$
-\trans(\sigma,S) = 
-(U_1, d_1,V_1,\beta_1;  \ \ldots; U_{i-2}, d_{i-1},V_{i-2},\beta_{i-2}; 
-  \ U'_{i-1}, d_{i-1}+1, U'_{i}, \gamma)
+\tau_{i-1}
+\ \ \ = \ \ \ 
+(U'_{i-1}, d_{i-1}+1, U'_{i}, \gamma)
 $$
  
 \end{enumerate}
 \end{enumerate}
 \end{definition}
  
+In the definition above , for all $j \in [1,h]$, by definition we have 
+$\dom(U'_j) = \dom(U_j \ldots U_h R)$. 
+by Lemma \ref{lemma-domain-inclusion-01}.\ref{lemma-domain-inclusion-01}
+applied to $U_j$ and $U_{j+1} \ldots U_h R$ we have
+$\dom(U_j \ldots U_h R)  \subseteq \dom(U_j)$. 
+This is why $i$ in the definition above exists and it is unique.
+
 Recall that we can decide whether $\size(\pi,\dom(R)) = \size(\pi_1,R)$ without computing the
 actual size of $\dom(R)$ and $R$, by checking whether
 no $x \in \dom(R)$ is necessarily progressing, namely checking whether
@@ -3005,12 +3090,16 @@ We define $\trans(\sigma, \pi')$ by induction on $\pi'$.
 \begin{enumerate}
 
 \item
-Let $\pi'=\nil$. 
-We set $\trans(\sigma,\nil) = ()$, the empty state.
+Let $\pi'=\nil$. Then
+$$
+\trans(\sigma,\nil) = \nil
+$$
 
 \item
-Let $\pi'=\pi'', (R:\alpha \rightarrow \beta)$ and $\tau = \trans(\sigma,\pi'')$.
-We set $\trans(\sigma,\pi') = \trans(\tau,R:\alpha \rightarrow \beta)$, the empty state.
+Let $\pi'=\pi'', (R:\alpha \rightarrow \beta)$. Then
+$$
+\trans(\sigma,\pi') = \trans(\trans(\sigma,\pi''),R:\alpha \rightarrow \beta)
+$$
 
 \end{enumerate}
 \end{definition}
@@ -3020,57 +3109,59 @@ We set $\trans(\sigma,\pi') = \trans(\tau,R:\alpha \rightarrow \beta)$, the empt
 \begin{theorem}[Transition Theorem]
 \label{theorem-transition}
 Suppose $\setR^+$ is injective, $\pi_1 = \pi, (R:\beta \rightarrow \gamma) \in \ProofUnfolding$ 
-is a finite path on $\setR^+$ and  $\sigma \state \pi$ and $R \in \setR^+$. 
-Let $\tau = \trans(\sigma,R) $. Then $\sigma > \tau$ and $\tau \state \pi_1$.
+is a finite path on $\setR^+$ and  $\sigma \state \pi$. 
+Let $\tau = \trans(\sigma,R:\beta \rightarrow \gamma) $. Then 
+\begin{center}
+$(\tau \state \pi_1)$
+and $(\pi,\sigma) \succ (\pi_1,\tau)$ 
+\end{center}
 \end{theorem}
 
 %18:59 14/02/2026
 
 \begin{proof}
-Suppose $\setR^+$ is injective, $\pi = \{R_i:\alpha_i \rightarrow \alpha_{i+1}| i \in [1,n]\}$, $\pi \in \Paths$, $\pi \in \Seq(\setR^+)$ with untyped sequence $\vec{R}= \{R_i | i \in [1,n]\}$.  
+Suppose $\setR^+$ a set of injective colored relations, 
+$\pi = \{R_i:\alpha_i \rightarrow \alpha_{i+1}| i \in [1,n]\}$ and 
+$\pi_1 = \pi, (R:\alpha_{b_h+1} \rightarrow \alpha_{b_h+2}) \in \ProofUnfolding$.
+Let $\vec{R}= \{R_i | i \in [1,n]\}$.  
 Assume $\minStable(\vec{R}) = \vec{S} = S_1, \ldots, S_m$ is the minimum stable grouping
-of $\vec{R}$. Let $S_{a_i}, \ldots, S_{b_i}$ for $i \in [1,h]$ be the components of $\vec{S}$. 
-Assume $\sigma = (U_1, d_1,V_1; \ldots; U_h, d_h, V_h)$, $\sigma \state \pi$.
-By definition of $\state$ we have $U_i = S_{a_i} \ldots S_{b_i} $ and $V_i = S_{b_i}$. 
-
-Let $\tau = \trans(\sigma,R) $. 
-Suppose $\pi_1 = \pi, (R:\beta \rightarrow \gamma) \in \ProofUnfolding$ , 
-in order to prove that $\tau \state \pi_1$. We argue by cases on the definition of $\tau$. 
-Let
+of $\vec{R}$. Let $S_{a_i}, \ldots, S_{b_i}$ for $i \in [1,h]$ be the components of $\vec{S}$,
+with $a_1=1$ and $b_h=m$. 
+Assume $\sigma \state \pi$ with $\sigma = (\sigma_1, \ldots, \sigma_h)$ and for all $i \in [1,h]$:
 $$
-U'_i = U_i R = S_{a_i} \ldots S_m  R \mbox{ for all $i \in [1,h]$ \ \ \ and } U'_{h+1} = R
+\sigma_i
+\ \ \ = \ \ \ 
+(S_{a_i} \ldots S_{b_i}, \ d_i, \ S_{b_i}, \ \alpha_{b_i+1})
 $$ 
-We have $\dom(U'_i) \subseteq \dom(U_i)$ 
+
+Let $\tau = \trans(\sigma,R:\alpha_{b_h+1} \rightarrow \alpha_{b_h+2}) $.
+We have to prove that $\tau \state \pi_1$. We argue by cases on the definition of $\tau$. 
+For all $i \in [1,h]$ we have 
+$\dom(S_{a_i} \ldots S_m  R) \subseteq \dom(S_{a_i} \ldots S_m )$ 
 by Lemma \ref{lemma-domain-inclusion-01}.\ref{lemma-domain-inclusion-01}.
-Suppose that $i$ is the first element of $i \in [1,h+1]$ such that:
-
-\begin{enumerate} 
-\item
-either $i \in [1,h]$ and $\dom(U'_i) \subset \dom(U_i)$
-\item 
-or $i=h+1$ and $\dom(U'_j) = \dom(U_j)$ for all $j \in [1,h]$
-\end{enumerate}
-
-By definition unfolding, $i$ is the first index in $[1,h]$ such that 
+Suppose that $i$ is the first index in $[1,h]$ such that 
 $\dom(S_{a_i} \ldots S_m  R) \subset \dom(S_{a_i} \ldots S_m )$, if any, otherwise $i=h+1$.
 
 We first remark that if $j \in [1,m]$ is the first index such that
 $\dom(S_{j} \ldots S_m  R) \subset \dom(S_{j} \ldots S_m )$, then $j = a_i$ for some 
 $i \in [1,h]$. Indeed, for some $i \in [1,h]$ we have
-$j \in [a_i,b_i]$, and by Lemma \ref{} we have 
+$j \in [a_i,b_i]$.
+By Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-02},
+by $\dom(S_{j} \ldots S_m  R) \subset \dom(S_{j} \ldots S_m )$
+and by definition of constant domain-cardinality we have 
 $$
 \DomCard(S_{a_i} \ldots S_m  R) \le 
 \DomCard(S_{j} \ldots S_m  R) < 
-\DomCard(S_{j} \ldots S_m ) = 
+\DomCard(S_{j} \ldots S_m ) =
 \DomCard(S_{a_i} \ldots S_m)
 $$ 
-From $j$ the first index such that $\dom(S_{j} \ldots S_m  R) \subset \dom(S_{j} \ldots S_m )$, 
-we deduce $j = a_i$.
+From $j \ge a_i$ and $j$ the first index such that 
+$\dom(S_{j} \ldots S_m  R) \subset \dom(S_{j} \ldots S_m )$ we deduce $j = a_i$.
 
 Thus, by Lemma \ref{lemma-minstable-inductive}, in the case $i \in [1,h]$ we have 
 $$
 \minStable(\vec{R},R) = 
-S_{a_1}, \ldots, S_{b_1}, \ldots, S_{a_{i-1}}\ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m  R)
+S_{a_1}, \ldots, S_{b_1}, \ \ldots, \ S_{a_{i-1}}\ldots, S_{b_{i-1}}, \ (S_{a_i} \ldots S_m  R)
 $$
 and in the case $i = h+1$ we have
 $$
@@ -3081,32 +3172,43 @@ $$
 
 % 11:01 12/02/2026
 
+
 We argue by cases on the definition of $\tau$.
 \begin{enumerate}
 
 \item 
-\emph{Assume that $i=1$ or $i>1$ and $\DomCard(U'_i) \not = \DomCard(U'_{i-1})$}. 
+\emph{Assume that $i=1$ or 
+$\DomCard(S_{a_{i-1}} \ldots S_{m} R) \not = \DomCard(S_{a_i} \ldots S_{m}R)$}. 
 We have
 $$
-\trans(\sigma,R) = (U_1, d_1, V_1; \ \ldots; U_{i-1}, d_{i-1},V_{i-1}; \ U'_i, 0, \ U'_i)
+\tau
+\ \ \ = \ \ \ 
+(S_{a_1} \ldots S_{b_1}, d_1, S_{b_1},\alpha_{b_1+1}; 
+\ \ldots; 
+\ S_{a_{i-1}} \ldots S_{b_{i-1}}, d_{i-1}, S_{b_{i-1}},\alpha_{b_{i-1}+1}; 
+\ S_{a_i} \ldots S_{m}R, 0, \ S_{a_1} \ldots S_{m}R,\gamma)
 $$
 
 \begin{enumerate}
 \item
-Suppose $i=1$. Then $\dom(U'_1) \subset \dom(U_1)$, therefore 
-$\minStable(\vec{R},R) = (S_{a_1} \ldots S_m  R) = U'_1$, 
-a grouping made of a single product, and $\trans(\sigma,R) = (U'_1, 0, U'_0)$. 
-$0$ is a degree of $U'_1$, therefore $(U'_1, 0, U'_0)$ 
-is a state of $\vec{R},R$. From $\dom(U'_1) = \dom(U_1 R) \subset \dom(U_1)$ 
+Suppose $i=1$. Then $\dom(S_{a_1} \ldots S_{m} R) \subset \dom(S_{a_1} \ldots S_{m})$, 
+therefore $\minStable(\vec{R},R) = (S_{a_1} \ldots S_m  R)$, a grouping made of a single 
+product, and $\tau = ((S_{a_1} \ldots S_m  R), 0, (S_{a_1} \ldots S_m  R), \gamma)$. 
+$0$ is a degree of $U'_1$, therefore $\tau$ 
+is a state of $\vec{R},R$. 
+From $\dom(S_{a_1} \ldots S_m  R) \subset \dom(S_{a_1} \ldots S_m )$ 
 and Lemma \ref{lemma-decreasing-size}.\ref{lemma-decreasing-size-02}
-we deduce $\size(U'_1) < \size(U_1)$, hence $\sigma > \trans(\sigma,R)$. 
+we deduce $\size(S_{a_1} \ldots S_m  R) < \size(S_{a_1} \ldots S_m)$, 
+hence $(\pi,\sigma) \succ (\pi_1,\tau)$. 
 
 \item
-Suppose $i \in [2,h]$. Then $\dom(U'_i) \subset \dom(U_i)$, namely
-$
-\dom(S_{a_i} \ldots S_m R) \not = 
-\dom(S_{a_{i-1}} \ldots S_m  R) 
-$ 
+Suppose $i \in [2,h]$. 
+Then $\dom(S_{a_i} \ldots S_m  R) \subset \dom(S_{a_i} \ldots S_m )$, 
+%namely
+%$
+%\dom(S_{a_i} \ldots S_m R) \not = 
+%\dom(S_{a_{i-1}} \ldots S_m  R) 
+%$ 
 %%%%INUTILE
 %therefore 
 %$$
@@ -3126,134 +3228,178 @@ $
 %$ 
 %(by stability and Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02}) 
 %$\DomCard(S_{a_{i-1}} \ldots S_{b_{i-1}})$.
-Thus $(S_{b_i} \ldots S_m R)$ is the last component of $\vec{R},R$ made of a single product, 
-therefore $\tau \state \pi_1$. From $\dom(U'_i) \subset \dom(U_i)$ 
+Thus $(S_{a_i} \ldots S_m R)$ is the last component of $\vec{R},R$ and it is 
+made of a single product, therefore $\tau \state \pi_1$. 
+From $\dom(S_{a_i} \ldots S_m  R) \subset \dom(S_{a_i} \ldots S_m )$, 
 and Lemma \ref{lemma-decreasing-size}.\ref{lemma-decreasing-size-02}
-we deduce $\size(U'_i) < \size(U_i)$, hence $\sigma > \trans(\sigma,R)$.
+we deduce $\size(S_{a_i} \ldots S_m  R) < \size(S_{a_i} \ldots S_m)$, 
+hence $\sigma >\tau$.
 \item
 Suppose $i=h+1 > 1$. Then $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{h}}, R$.
-By assumption from $i>1$ we deduce$\DomCard(U'_{h+1}) \not = \DomCard(U'_{h})$. 
+By assumption from $i=h+1>1$ we deduce$\DomCard(R) \not = 
+\DomCard(S_{a_h} \ldots S_m  R)$. 
 We obtain 
 $
-\DomCard(R) = 
-\DomCard(U'_{h+1}) > 
-\DomCard(U'_{h}) = 
+\DomCard(R) 
+> 
 \DomCard(S_{a_{h}} \ldots S_{b_{h}} R) = 
 $ 
 (by stability and 
 Lemma \ref{lemma-domain-stability}.\ref{lemma-domain-stability-02})  
 $ 
-\DomCard(S_{a_{h}} \ldots S_{b_{h}}
+\DomCard(S_{a_{h}} \ldots S_{b_{h}})
 $. 
-Namely $R = U_{h+1}$ is a one-product 
-component of $\vec{R},R$, with a larger domain-cardinality, and $\tau=\trans(\sigma,R)$ 
-is the concatenation of $\sigma$ and of $(R,0,R)$. We deduce $\tau \state \pi_1$ and 
-$\sigma > \trans(\sigma,R)$. 
+Namely $R$ is a one-product 
+component of $\vec{R},R$, with a larger domain-cardinality, and $\tau$ 
+is the concatenation of $\sigma$ and of $(R,0,R,\alpha_{n+2})$. 
+We deduce $\tau \state \pi_1$ and 
+$(\pi,\sigma) \succ (\pi_1,\tau)$. 
 \end{enumerate}
 
+%12:32 20/02/2026
 
 \item
-\emph{Assume that $i>1$ and $\DomCard(U'_i) = \DomCard(U'_{i-1})$}. 
+\emph{Assume that $i>1$ and 
+$\DomCard(S_{a_{i-1}} \ldots S_{m} R) = \DomCard(S_{a_i} \ldots S_{m}R)$}. 
+
 \begin{enumerate}
 
 \item
-\emph{Assume either $V'_{i-1}$ has some necessarily progressing
-$x \in \dom(V'_{i-1})$ or $d_{i-1}\ge 1$ and $V'_{i-1}$ is progressing from $\dom(V'_{i-1})$ 
-to $\dom(U'_{i})$}. We have
+\emph{Assume either $S_{b_{i-1}}$ has some necessarily progressing
+$x \in \dom(S_{b_{i-1}})$ or $S_{b_{i-1}}$ is progressing from $\dom(S_{b_{i-1}})$ 
+to $\dom(S_{a_i} \ldots S_{m}R)$}. We have
 
 $$
-\trans(\sigma,S) = 
-(U_1, d_1,V_1;  \ \ldots; U_{i-2}, d_{i-1},V_{i-2};  \ U'_{i-1}, 0, U'_{i})
+\tau_{i-1} = 
+(S_{a_{i-1}} \ldots S_{m} R, \ 0, \ S_{a_{i}} \ldots S_{m} R, \ \gamma)
 $$
 
 \begin{enumerate}
 \item
-Suppose $i \in [2,h]$. By assumption, $\dom(U'_i) \subset \dom(U_i)$
+Suppose $i \in [2,h]$. 
+By assumption, $\dom(S_{a_{i}} \ldots S_{m} R) \subset \dom(S_{a_{i}} \ldots S_{m})$
  therefore $\minStable(\vec{R},R) = S_1, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$.
- By assumption $\DomCard(U'_i) = \DomCard(U'_{i-1})$. We deduce that 
- $U'_{i} = S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$
+ By assumption 
+ $\DomCard(S_{a_{i-1}} \ldots S_{m} R) = \DomCard(S_{a_i} \ldots S_{m}R)$. 
+ We deduce that $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$
  is the last component of $\vec{R},R$, and it has last element 
- $U'_{i} = (S_{a_i} \ldots S_m R)$ and element before the last $V_{i-1} = S_{b_{i-1}}$.
+ $(S_{a_i} \ldots S_m R)$ and element before the last $S_{b_{i-1}}$.
  $0$ is a stationary degree of the last component. We deduce $\tau \state \pi_1$.
  
- We assumed that either $V_{i-1}$ has some necessarily progressing
-$x \in \dom(V_{i-1})$ or $d_{i-1}\ge 1$ and $V_{i-1}$ is progressing from $\dom(V_{i-1})$ 
-to $\dom(U'_{i})$.  
+ We assumed that either $S_{b_{i-1}}$ has some necessarily progressing
+$x \in \dom(S_{b_{i-1}})$ or $S_{b_{i-1}}$ is progressing from $\dom(S_{b_{i-1}})$ 
+to $\dom(S_{a_i} \ldots S_m R)$.  
  By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-05} we deduce that 
  $
- \size(U_{i-1}) = 
- \size(V_{i-1}) > 
+ \size(S_{a_{i-1}} \ldots S_{b_{i-1}}) = 
+ \size(S_{b_{i-1}}) > 
  $ 
  (By Lemma \ref{lemma-decreasing-size}.\ref{lemma-decreasing-size-01}) 
  $
- \size(U'_{i}) = 
+ \size(S_{a_i} \ldots S_m R) = 
  $
  (by Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-01}
  $ 
- \size(U'_{i-1})$. 
- Thus, $\sigma > \tau$.
+ \size(S_{a_{i-1}} \ldots S_m R)$. 
+ Thus, $(\pi,\sigma) > (\pi_1,\tau)$.
  
+ %13:30 20/02/2026
  \item
  Suppose $i=h+1$. We assumed that $i>1$, therefore $i-1 = h \in [1,h]$ and 
- $\dom(U'_{i-1}) = \dom(U_i)$, namely $\DomCard(U'_{h+1}) = \DomCard(U'_{h})$. 
+ $\DomCard(S_{a_{h}} \ldots S_{m} R) = \DomCard(R)$. 
+ 
  We have $\minStable(\vec{R},R) = S_1, \ldots, S_{b_h}, R$. We deduce that 
  $S_{a_h}, \ldots, S_{b_h}, R$
- is a component of $\minStable(\vec{R},R)$ with last element $R = U'_{h+1}$. 
- $0$ is a degree of its product $U'_{h}$. Therefore $\tau \state \pi_1$.
+ is a component of $\minStable(\vec{R},R)$ with last element $R$. 
+ $0$ is a degree of $S_{a_h}, \ldots, S_{b_h}, R$. Therefore $\tau \state \pi_1$.
  
- We assumed that either $V_{h}$ has some necessarily progressing
-$x \in \dom(V_{h})$, namely $\size(\dom(V_h)) > \size(V_h)$, or 
- $V_{h}$ is progressing from $\dom(V_{h})$ to $\dom(U'_{h+1})$,
- namely $\size(\dom(V_{h} U'_{h+1})) > \size(\dom(U'_{h+1}))$.
- By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-05} we deduce that 
- $\size(U_{h}) =  
- \size(V_{h})  >
+ We assumed that either $S_{b_h}$ has some necessarily progressing
+$x \in \dom(S_{b_h})$, namely $\size(\dom(S_{b_h})) > \size(S_{b_h})$, or 
+ $S_{b_h}$ is progressing from $\dom(S_{b_h})$ to $\dom(R)$,
+ namely $\size(\dom(S_{b_h} R)) > \size(\dom(R))$.
+ In both cases we have 
+ $
+ \size(S_{b_h})  >
  $
  (by Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-01}
  $ 
- \size(U'_{h+1}) = 
+ \size(S_{b_h} R)
+ $.
+ By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-05} we deduce that 
+ $
+ \size(S_{a_h} \ldots S_{b_h}) =  
+ \size(S_{b_h})  >
+ \size(S_{b_h} R) = 
  $
  (By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-01})
- $\size(U'_{h})$.  
- Thus, $\sigma > \tau$.
+ $\size(S_{a_h} \ldots S_{b_h} R)$.  
+ Thus, $(\pi,\sigma > (\pi_1, \tau)$.
  \end{enumerate}
  
 \item
-\emph{Assume $U'_{i}$ has no necessarily progressing $x \in \dom(U'_{i})$ and
-(either $d-{i-1}  = 0$ or $V_{i-1}$ is stationary from $\dom(V_{i-1})$ to $\dom(U'_{i})$)}.
+\emph{Assume $S_{b_{i-1}}$ has no necessarily progressing
+$x \in \dom(S_{b_{i-1}})$ and $S_{b_{i-1}}$ is progressing from $\dom(S_{b_{i-1}})$ 
+to $\dom(S_{a_i} \ldots S_{m}R)$}.
 We have
 
 $$
-\trans(\sigma,S) = 
-(U_1, d_1,V_1;  \ \ldots; U_{i-2}, d_{i-1},V_{i-2};  \ U_{i-1}, d_{i-1}+1, U'_{i})
+\tau_{i-1}
+= 
+(S_{a_{i-1}} \ldots S_m R, d_{i-1}+1, S_{a_{i}} \ldots S_m R)
 $$
 
 If $i \in [2,h]$ then $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$
- is the last component of $\vec{R},R$ with last element $U'_i = (S_{a_i} \ldots S_m R)$. 
+ is the last component of $\vec{R},R$ with last element $(S_{a_i} \ldots S_m R)$. 
  By Lemma \ref{lemma-degree-constant}.\ref{lemma-degree-constant-01},
- $d_{i-1}+1$ is a degree of $U'_{i-1}$. We deduce $\tau \state \pi_1$.
- Let $c = \DomCard(U_{i-1}) = \DomCard(U'_{i-1}) $. We conclude that 
+ $d_{i-1}+1$ is a degree of $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$. 
+ We deduce $\tau \state \pi_1$.
+ Let 
+ $
+ c = \DomCard(S_{a_{i-1}}\ldots S_{b_{m}}) = \DomCard(S_{a_{i-1}} \ldots S_{b_{m}} R) 
+ $. 
+ We conclude that 
  $$
- \size(\sigma) = 
- (U_1, d_1, \ldots,  U_{i-2}, d_{i-2}, U_{i-1},  \newton{\MaxInd}{c}-d_{i-1}) > 
- (U'_1, d_1, \ldots, U'_{i-2}, d_{i-2}, U'_{i-1}, \newton{\MaxInd}{c}-d_{i-1}-1) = 
+ \size(\pi,\sigma) 
+ = 
+ (\size(\pi,S_{a_{1}}\ldots S_{b_{1}}),  \newton{\MaxInd}{c}-d_1, 
+ \ldots,  
+ \size(\pi,S_{a_{i-2}}\ldots S_{b_{i-2}}),  \newton{\MaxInd}{c}-d_{i-2}, 
+ \size(\pi,S_{a_{i-1}}\ldots S_{b_{i-1}}),  \newton{\MaxInd}{c}-d_{i-1})
+  \succ
+  (\size(\pi,S_{a_{1}}\ldots S_{b_{1}}),  \newton{\MaxInd}{c}-d_1, 
+ \ldots,  
+ \size(\pi,S_{a_{i-2}}\ldots S_{b_{i-2}}),  \newton{\MaxInd}{c}-d_{i-2}, 
+ \size(\pi,S_{a_{i-1}}\ldots S_{b_{i-1}}R),  \newton{\MaxInd}{c}-d_{i-1}-1)
+ = 
  \size(\tau)
  $$
  
-If $i = h+1$ then $S_{a_{h}}, \ldots, S_{b_{h}}, R$ is the last component of $\vec{R},R$ with last element $R$. 
-By Lemma \ref{lemma-degree-constant}, $d_{i-1}+1$ 
-is a degree of $U'_{i-1}$. We deduce $\tau \state \pi_1$.
-Let $c = \DomCard(U_{i-1}) = \DomCard(U'_{i-1}) $. We conclude that 
+If $i = h+1$ then $S_{a_{h}}, \ldots, S_{b_{h}}, R$ is the last component of $\vec{R},R$ 
+with last element $R$. 
+By Lemma \ref{lemma-degree-constant}, $d_{h}+1$ 
+is a degree of $S_{a_{h}},\ldots S_{b_{h}},R$. We deduce $\tau \state \pi_1$.
+Let 
+$c = \DomCard(S_{a_{h}},\ldots, S_{b_{h}}) = \DomCard(S_{a_{h}},\ldots, S_{b_{h}},R) $. We conclude that 
 $$
- \size(\sigma) = 
-(U_1,  d_1, \ldots, U_{h-1}, d_{h-1}, U_{h},  \newton{\MaxInd}{c}-d_{i-1})    > 
-(U'_1, d_1, \ldots, U'_{h-1}, d_{h-1}, U'_{h}, \newton{\MaxInd}{c}-d_{i-1}-1) = 
-size(\tau)
-$$
+ \size(\pi,\sigma) 
+ = 
+ (\size(\pi,S_{a_{1}}\ldots S_{b_{1}}),  \newton{\MaxInd}{c}-d_1, 
+ \ldots,  
+ \size(\pi,S_{a_{h-1}}\ldots S_{b_{h-1}}),  \newton{\MaxInd}{c}-d_{h-1}, 
+ \size(\pi,S_{a_{h}}\ldots S_{b_{h}}),  \newton{\MaxInd}{c}-d_{h})
+  \succ
+  (\size(\pi,S_{a_{1}}\ldots S_{b_{1}}),  \newton{\MaxInd}{c}-d_{h}, 
+ \ldots,  
+ \size(\pi,S_{a_{h-1}}\ldots S_{b_{h-1}}),  \newton{\MaxInd}{c}-d_{h-1}, 
+ \size(\pi,S_{a_{h}}\ldots S_{b_{h}}R),  \newton{\MaxInd}{c}-d_{h}-1)
+ = 
+ \size(\tau)
+ $$
 \end{enumerate}
 \end{enumerate}
 \end{proof}
 
+%14:03 20/02/2026
 
 \section{The Transition Graph $\setG$}
 We define a graph $\setG$ with transitions $\sigma \rightarrow_R \trans(\sigma,R)$ labeled
