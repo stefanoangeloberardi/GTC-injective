@@ -1993,7 +1993,7 @@ $R_1 \ldots R_n$ is possibly stationary (necessarily progressing).
 
 The empty sequence $\nil$ is possibly stationary.
 Indeed, when $n=0$ then $R_1 \ldots R_n$ is the identity on $[1,\MaxInd]$ with only
-the stationary color, therefore possibly stationary. 
+the stationary color, therefore $R_1 \ldots R_n$ is possibly stationary. 
 
 %A constant domain-cardinality bicolored sequence $\vec{R}=R_1, ldots, R_n$
 %of injective relations is stationary if and only if for all $i,j \in [1,n]$, $i < j$ we have
@@ -2037,30 +2037,215 @@ the stationary color, therefore possibly stationary.
 
 %14:16 11/02/2026
 
-\begin{definition}[Stationary degree in $\setR^+$]
-Assume $\vec{S} \in \Seq(\TypedRel)$ is some constant domain-cardinality sequence
-of length $n \ge 1$. The stationary degree $\deg(\vec{S})$ of $\vec{S}$ is the maximum $d<n$ 
-such that $\vec{S}$ has some length $d$ possibly stationary suffix.
-\end{definition}
-
-All sequences have the possibly stationary suffix $\nil$, of length $0$.
-Therefore $\deg(\vec{S})$ is a maximum on a set including $0$. 
-
-Assume $\vec{S}$ is some constant domain-cardinality sequence
-of length $n \ge 1$. Let $d = \deg(\vec{S})$.
+\begin{lemma}[Possibly Stationary]
+\label{lemma-possibly-stationary}
+Assume $R, S \in \ColRel$.
 
 \begin{enumerate}
 \item
-Assume $n=1$. Then the unique length $0$ suffix is the
-possibly stationary sequence $\nil$, therefore $d=0$.
-\item
-Assume $n \ge2$. We have $d=0$ if and only if $S_n$ is necessarily progressing.
-We have $d \in [1,n-1]$ if and only if $S_n$ is possibly stationary,
-$S_{n-d}$ is necessarily progressing from $\dom(S_{n-d})$ to  $\dom(S_{n-d+1})$, 
-and for all $i \in [n-d+1,n-1]$, $S_{i}$ is possibly stationary 
-from $\dom(S_{i})$ to  $\dom(S_{i+1})$.
-\end{enumerate}
+\label{lemma-possibly-stationary-01}
+If $R$ is necessarily progressing, then $R$ is necessarily 
+progressing from $\dom(R)$ to $\dom(S)$.
 
+Conversely, if $R$ is possibly stationaary from $\dom(R)$ to $\dom(S)$, then $R$ is possibly 
+stationary.
+
+\item
+\label{lemma-possibly-stationary-02}
+If $R$ is possibly stationary from $\dom(R)$ to $\dom(S)$ and $S$ is possibly stationary
+then $RS$ is possibly stationary.
+
+\item
+\label{lemma-possibly-stationary-03}
+If $RS$ is possibly stationary and $R,S$ is stable, then $R$ is possibly stationary
+from $\dom(R)$ to $\dom(S)$.
+
+\item
+\label{lemma-possibly-stationary-04}
+Assume that $R$ is a bijection from $\dom(R)$ to $\dom(S)$ and $R,S$ is stable.
+If $RS$ is possibly stationary then $S$ is possibly stationary.
+
+\item
+\label{lemma-possibly-stationary-05}
+Assume that $R$ is a bijection from $\dom(R)$ to $\dom(S)$ and $R,S$ is stable.
+Then $RS$ is possibly stationary if and only if $R$ is possibly stationary from $\dom(R)$ to 
+$\dom(S)$ and $S$ is possibly stationary.
+
+\item
+\label{lemma-possibly-stationary-06}
+Assume that $n \ge 1$, $R_1, \ldots, R_n$ is stable and that $R_i$ is a bijection from $\dom(R_i)$ 
+to $\dom(R_{i+1})$ for all $i \in [1,n-1]$. 
+Then $R_1 \ldots R_n$ is possibly stationary if and only if $R_i$ is possibly stationary
+from $\dom(R_i)$ to $\dom(R_{i+1})$ for all $i \in [1,n-1]$ and $R_n$ is possibly stationary.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume $R, S \in \ColRel$.
+
+\begin{enumerate}
+\item
+%\label{lemma-possibly-stationary-01}
+Assume $R$ is necessarily progressing. By definition, 
+there is some $x \in \dom(R)$ such that $R$ is progressing on all $(x,y) \in \universe{R}$. 
+In particular, $R$ is progressing on all  $(x,y) \in \universe{R}$ such that $y \in \dom(S)$. 
+We deduce that $R$ is necessarily progressing from $\dom(R)$ to $\dom(S)$. 
+
+\item
+%\label{lemma-possibly-stationary-02}
+Assume $R$ is possibly stationary from $\dom(R)$ to $\dom(S)$ and $S$ is possibly stationary,
+in order to prove that $RS$ is possibly stationary. For, we assume that $x \in \dom(RS)$
+in order to prove that there is some $z \in \universe{RS}$ such that $RS$ is stationary on
+$(x,z)$. From $R$ possibly stationary from $\dom(R)$ to $\dom(S)$ we deduce that
+there is some $y \in \dom(S)$ such that $R$ is  is stationary on $(x,y)$. From $y \in \dom(S)$
+and $S$ possibly stationary we deduce that there is some $z$ such that $S$ is stationary on
+$(y,z)$. We conclude that $RS$ is stationary on $(x,z)$, as wished.
+
+\item
+%\label{lemma-possibly-stationary-03}
+Assume that $RS$ is possibly stationary and $R,S$ is stable, in order to prove that 
+$R$ is possibly stationary from $\dom(R)$ to $\dom(S)$. For, we assume that $x \in \dom(R)$ 
+in order to prove that for some $y \in \dom(S)$ we have $R$ stationary on $(x,y)$. From 
+$RS$ stationary we deduce that for some $z$ we have $RS$ stationary on $(x,z)$.
+From definition of product color we deduce that for some $y \in \dom(S)$ we have 
+$R$ stationary on $(x,y)$ and $S$ stationary on $(y,z)$. This includes our thesis. 
+
+\item
+%\label{lemma-possibly-stationary-04}
+Assume $RS$ is possibly stationary and $R,S$ stable and
+$R$ is a bijection from $\dom(R)$ to $\dom(S)$,
+in order to prove that $S$ is possibly stationary. For, we assume that $y \in \dom(S)$
+in order to prove that for some $z$ we have $S$ stationary on $(y,z)$. From $R$ bijection from 
+$\dom(R)$ to $\dom(S)$ and $y \in \dom(S)$ we deduce that there is some $x \in \dom(R)$
+such that $(x,y) \in R$. From $R,S$ stable we deduce that $x \in \dom(RS)$. From $RS$
+possibly stationary there is some $z$ such that $RS$ is stationary on $(x,z)$. 
+From definition of product color we deduce that for some $y' \in \dom(S)$ we have 
+$R$ stationary on $(x,y')$ and $S$ stationary on $(y',z)$. In order to prove that $R$  is stationary 
+on $(x,y)$, there is still to prove that $y=y'$. 
+We obtain that $y=y'$ $R$ bijection from $\dom(R)$ to $\dom(S)$ and $(x,y) \in R$,
+$y \in \dom(S)$ . This concluded our proof. 
+
+\item
+%\label{lemma-possibly-stationary-05}
+Assume that $R,S$ is stable and $R$ is a bijection from $\dom(R)$ to $\dom(S)$.
+By points  \ref{lemma-possibly-stationary-02}, \ref{lemma-possibly-stationary-03} 
+and \ref{lemma-possibly-stationary-04} above, we deduce that
+$RS$ is possibly stationary if and only if $R$ is possibly stationary from $\dom(R)$ to 
+$\dom(S)$ and $S$ is possibly stationary.
+
+\item
+%\label{lemma-possibly-stationary-06}
+By point \ref{lemma-possibly-stationary-05} above and the fact that a product of
+bijections is possibly stationary if and only if all bijections in the product are possibly stationary.
+\end{enumerate}
+\end{proof}
+
+We measure with a degree for how long all traces in the proper suffix  of a path 
+could all be stationary.
+
+\begin{definition}[Stationary degree in $\setR^+$]
+Assume $\vec{S} \in \Seq(\TypedRel)$ is some constant domain-cardinality sequence
+of length $n \ge 1$. The stationary degree $\deg(\vec{S})$ of $\vec{S}$ is the maximum 
+$d \in [0, n-1]$ such that $\vec{S}$ has some length $d$ possibly stationary suffix.
+\end{definition}
+
+All sequences have the possibly stationary suffix $\nil$ of length $0$.
+Therefore $\deg(\vec{S})$ is a maximum on a subset of $[0,n-1]$ including $0$
+and it exists. 
+
+Assume $\vec{S}$ has length $n \ge 1$. 
+We provide a bound for the memory required to compute $\deg(\vec{S})$.
+When $n=1$ then $\deg(\vec{S}) \in [0,0]$, so $\deg(\vec{S})=0$.
+In order to compute $\deg(\vec{S},S)$ for $\vec{S},S$ of length $n+1 \ge 2$ we only we have
+to know $\deg(\vec{S})$ and the last two elements of $\vec{S},S$. We \emph{do not} have
+to know the entire sequence $\vec{S},S$, as the next Lemma says.
+
+\begin{lemma}[Characterization of Stationarity Degree]
+\label{lemma-degree}
+Assume $\vec{S},S$ is some constant domain-cardinality sequence
+of length $n \ge 2$. Let $d = \deg(\vec{S})$ and $d' = \deg(\vec{S},S)$.
+
+\begin{enumerate}
+
+\item
+\label{lemma-degree-01}
+Assume $S$ is necessarily progressing.
+Then $d'=0$.
+
+\item
+\label{lemma-degree-02}
+Assume $S$ is possibly stationary and $d=0$.
+Then $d'=1$.
+
+
+\item
+\label{lemma-degree-03}
+Assume $S$ is possibly stationary and $d \ge 1$ and $S_{n}$ is necessarily progressing
+from $\dom(S_{n})$ to  $\dom(S)$. Then $d'=1$.
+
+\item
+\label{lemma-degree-04}
+Assume $S_n$ is possibly stationary and $d \ge 1$ and $S_{n}$ is possibly stationary
+from $\dom(S_{n})$ to  $\dom(S)$. Then $d' = d+1$.
+
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\begin{enumerate}
+
+\item
+%\label{lemma-degree-01}
+Assume $S$ is necessarily progressing.
+Then $d'=0$ by definition of degree.
+
+\item
+Assume $S$ is possibly stationary and $d=0$. Then $S_n$ is necessarily progressing,
+and by Lemma \ref{lemma-possibly-stationary}.\ref{lemma-possibly-stationary-01}, 
+$S_n$ is necessarily progressing from $\dom(S_n)$ to $\dom(S)$. By definition of degree we 
+conclude that $d'=1$.
+
+\item
+Assume $S$ is possibly stationary and $d \ge 1$ and $S_{n}$ is necessarily progressing
+from $\dom(S_{n})$ to  $\dom(S)$. Then $d'=1$ by definition of degree.
+
+\item
+Assume $S_n$ is possibly stationary and $d \ge 1$ and $S_n$ is possibly stationary
+from $\dom(S_{n})$ to  $\dom(S)$. By definition of degree, the stationary
+suffix of $\vec{S}$ is $S_{n-d+1}, \ldots, S_n$ cannot be extended while preserving $d \le n-1$.
+This implies that either $d=n-1$ or $S_{n-d}$ is necessarily progressing
+from $\dom(S_{n-d})$ to $\dom(S_{n-d+1})$, while $S_{i}$ is possibly stationary
+from $\dom(S_{i})$ to $\dom(S_{i+1})$ for all $i \in [n-d+1,n-1]$. Then $d'=d+1$ by
+definition of degree.
+
+\end{enumerate}
+\end{proof}
+
+The index:
+$$
+(\size(\vec{S},S), \newton{\MaxInd}{c} - \deg(\size(\vec{S},S))
+$$
+is progressing for constant domain-cardinality Sequences.
+
+\begin{lemma}[A Progressing Index for Constant Domain-Cardinality Sequences] 
+\label{lemma-stationarity-degree}
+Assume $\vec{S},S$ is a constant domain-degree sequence with domain-cardinality
+$c = \DomCard(S)$. Then
+
+\begin{enumerate}
+\item
+$\size(\vec{S}) \ge \size(\vec{S},S)$, and either $\size(\vec{S}) > \size(\vec{S},S)$
+or $\deg(\vec{S}) < \deg(\vec{S},S)$.
+
+\item
+$
+(\size(\vec{S}), \newton{\MaxInd}{c} - \deg(\size(\vec{S}))
+>
+(\size(\vec{S},S), \newton{\MaxInd}{c} - \deg(\size(\vec{S},S))
+$
+
+\end{enumerate}
+\end{lemma}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %% PREVIOUS DEFINITION STATIONARY DEGREE 11:12 21/02/2026
@@ -2974,8 +3159,8 @@ hence poly-exponential time.
 %$\DomCard(R_i) < \DomCard(R_{i+1})$.
 
 Suppose $\pi_1 = \pi, (R : \beta \rightarrow \gamma) \in \ProofUnfolding$ is a typed path in 
-$\setR^+$. For each state $\sigma \in \States(\setR^+)$ we define a state 
-$\tau = \trans(\sigma,R : \beta \rightarrow \gamma) \in \States(\setR^+)$ 
+$\setR^+$ and $\sigma \in \States(\setR^+)$. We define a state 
+$\tau = \trans(\sigma, R : \beta \rightarrow \gamma) \in \States(\setR^+)$ 
 such that if $\sigma \state \pi$ then $\tau \state \pi_1$. We also check that 
 $(\pi,\sigma) \succ (\pi_1, \tau)$ in the lexicographic ordering.
 
@@ -2991,7 +3176,8 @@ $(\pi,\sigma) \succ (\pi_1, \tau)$ in the lexicographic ordering.
 \label{definition-transition-state}
 
 Suppose $\sigma = (\sigma_1, \ldots, \sigma_h) \in \States(\setR^+)$  and 
-$\sigma_i = (U_i, d_i,V_i,\beta_i)$ for $i \in [1,h]$.
+$\sigma_i = (U_i, d_i,V_i,\beta_i)$ for $i \in [1,h]$, with
+$U_i = S_{a_i} \ldots S_{b_i}$
 Suppose $(R:\beta \rightarrow \gamma) \in \setR^+$ and $\beta = \beta_h$.  We abbreviate
 $$
 U'_i = (U_i \ldots U_h R) \mbox{ for all $i \in [1,h+1]$}
@@ -3033,7 +3219,7 @@ and we define $\tau_{i-1}$ by cases.
 \item
 \emph{Assume 
 ($\size(\dom(U'_{i})) \not = \size(U'_i)$) or 
-($V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$)
+($d_{i-1} \ge 1$ and $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$)
 }. 
 Then
 %$U'_i$ is concatenated to the index number $i-1$ and 
@@ -3060,7 +3246,15 @@ $$
 \end{enumerate}
 \end{definition}
  
-In the definition above , for all $j \in [1,h]$, by definition we have 
+We claim that 
+
+$$
+\trans(\state(\pi),R:\beta \rightarrow \gamma) 
+\ \ \ = \ \ \ 
+\state(\pi,R:\beta \rightarrow \gamma)
+$$
+
+In the definition above, for all $j \in [1,h]$, by definition we have 
 $\dom(U'_j) = \dom(U_j \ldots U_h R)$. 
 by Lemma \ref{lemma-domain-inclusion-01}.\ref{lemma-domain-inclusion-01}
 applied to $U_j$ and $U_{j+1} \ldots U_h R$ we have
