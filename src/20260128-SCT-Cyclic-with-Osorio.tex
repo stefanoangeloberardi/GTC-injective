@@ -3284,21 +3284,28 @@ $\minStable(\vec{R}) = \vec{S}$. Let
 $$\vec{U_i} = S_{a_i}, \ldots, S_{b_i}:\beta_{i-1} \rightarrow \beta_i$$
 be the constant domain-cardinality components of $\vec{S}$.
 
-Set $\sigma = (\sigma_1, \ldots, \sigma_h) = \state(\pi) \in \States$  where 
+Let $\sigma = (\sigma_1, \ldots, \sigma_h) = \state(\pi) \in \States$  where 
 $\sigma_i = (U_i, \deg(\vec{U_i}),V_i,\beta_i)$ for $i \in [1,h]$ for some
  $U_i = $ the product of $\vec{U_i}$ and some $V_i = S_{b_i} = $
  the last element of $\vec{U_i}$.
  
+We define a map $\tau = \trans(\sigma,R:\beta_h \rightarrow \gamma)$
+computing the next state.
+ 
 Suppose $(R:\beta_h \rightarrow \gamma) \in \setR^+$
-and $\vec{U'_i} = S_{a_i}, \ldots, S_{b_i}, (S_{a_{i+1}} \ldots S_{b_h} R)$
-for $i \in [1,h+1]$, with $U'_i$ the product of $\vec{U'_i}$
-and $V'_i =  (S_{a_{i+1}} \ldots S_{b_h} R)$ the last element of $\vec{U'_i}$:
-as a particular case we assume that $U'_i{h+1} = R = V'_{h+1}$.
-For all $i \in [1,h+1]$ we define a possible element of the next state $\tau$:
+and $\vec{U'_i} = S_{a_i}, \ldots, S_{b_i}, (S_{a_{i+1}} \ldots S_{b_h} R)$, 
+with $U'_i$ the product of $\vec{U'_i}$.
+As a particular case we assume that $\vec{U'_{h+1}} = R = U'_{h+1}$,
+with $R$ the last and unique element of $\vec{U'_{h+1}}$, while for $i \in [1,h]$, we have 
+$U_{i+1} = (S_{a_{i+1}} \ldots S_{b_h} R) = $ the last element of $\vec{U'_i}$.
+We define two alternative possibilities for the last state of $\tau$:
 
 $$
 \tau_i = 
-(U'_i, \deg(\vec{U'_i}), V'_i, \gamma) 
+(U'_i, 0, U'_i, \gamma) 
+\mbox{ \ \ \ and \ \ \ }
+\tau_{i-1} = 
+(U'_{i-1}, \deg(\vec{U'_{i-1}}), U'_{i}, \gamma) 
 $$
 
 Suppose that $i$ is the unique element of $i \in [1,h+1]$ such that
@@ -3311,8 +3318,7 @@ either $i \in [1,h]$ and $\dom(U'_i) \subset \dom(U_i)$
 or $i=h+1$
 \end{enumerate}
 
-We define a map $\tau = \trans(\sigma,R:\beta_h \rightarrow \gamma)$
-computing the next state.
+
 
 \begin{enumerate}
 
@@ -3386,7 +3392,7 @@ applied to $U_j$ and $U_{j+1} \ldots U_h R$ we have
 $\dom(U_j \ldots U_h R)  \subseteq \dom(U_j)$. 
 This is why $i$ in the definition above exists and it is unique.
 
-In the Mina Theorem we will prove that that 
+In the Main Theorem we will prove that that 
 
 $$
 \trans(\state(\pi),R:\beta \rightarrow \gamma) 
@@ -3495,12 +3501,14 @@ $$
 \minStable(\vec{R},R) = 
 S_{a_1}, \ldots, S_{b_1}, \ \ldots, \ S_{a_{i-1}}\ldots, S_{b_{i-1}}, \ (S_{a_i} \ldots S_m  R)
 $$
-and in the case $i = h+1$ we have
+with the last component having number $i$ and consisting of a single relation, 
+$(S_{a_i} \ldots S_m  R)$.
+In the case $i = h+1$ we have
 $$
 \minStable(\vec{R},R) = 
 S_{a_1}, \ldots, S_{b_1}, \ldots, S_{a_{h}}\ldots, S_{b_{h}}, R
 $$
-
+with the last component having number $h+1$ and consisting of a single relation, $R$.
 
 % 11:01 12/02/2026
 
@@ -3521,7 +3529,7 @@ $$
 (S_{a_1} \ldots S_{b_1}, d_1, S_{b_1},\alpha_{b_1+1}; 
 \ \ldots; 
 \ S_{a_{i-1}} \ldots S_{b_{i-1}}, d_{i-1}, S_{b_{i-1}},\alpha_{b_{i-1}+1}; 
-\ S_{a_i} \ldots S_{m}R, 0, \ S_{a_1} \ldots S_{m}R,\gamma)
+\ (S_{a_i} \ldots S_{m}R), 0, \ (S_{a_1} \ldots S_{m}R),\gamma)
 $$
 
 \begin{enumerate}
@@ -3701,6 +3709,9 @@ If $i \in [2,h]$ then $S_{a_{i-1}}, \ldots, S_{b_{i-1}}, (S_{a_i} \ldots S_m R)$
  \size(\pi,S_{a_{i-2}}\ldots S_{b_{i-2}}),  \newton{\MaxInd}{c}-d_{i-2}, 
  \size(\pi,S_{a_{i-1}}\ldots S_{b_{i-1}}),  \newton{\MaxInd}{c}-d_{i-1})
   \succ
+  $$
+  
+  $$
   (\size(\pi,S_{a_{1}}\ldots S_{b_{1}}),  \newton{\MaxInd}{c}-d_1, 
  \ldots,  
  \size(\pi,S_{a_{i-2}}\ldots S_{b_{i-2}}),  \newton{\MaxInd}{c}-d_{i-2}, 
@@ -3714,15 +3725,18 @@ with last element $R$.
 By Lemma \ref{lemma-degree-constant}, $d_{h}+1$ 
 is a degree of $S_{a_{h}},\ldots S_{b_{h}},R$. We deduce $\tau \state \pi_1$.
 Let 
-$c = \DomCard(S_{a_{h}},\ldots, S_{b_{h}}) = \DomCard(S_{a_{h}},\ldots, S_{b_{h}},R) $. We conclude that 
-$$
+$c = \DomCard(S_{a_{h}},\ldots, S_{b_{h}}) = \DomCard(S_{a_{h}},\ldots, S_{b_{h}},R) $. We conclude that  
+ $$
  \size(\pi,\sigma) 
- = 
+ =
  (\size(\pi,S_{a_{1}}\ldots S_{b_{1}}),  \newton{\MaxInd}{c}-d_1, 
  \ldots,  
  \size(\pi,S_{a_{h-1}}\ldots S_{b_{h-1}}),  \newton{\MaxInd}{c}-d_{h-1}, 
  \size(\pi,S_{a_{h}}\ldots S_{b_{h}}),  \newton{\MaxInd}{c}-d_{h})
   \succ
+$$
+
+$$
   (\size(\pi,S_{a_{1}}\ldots S_{b_{1}}),  \newton{\MaxInd}{c}-d_{h}, 
  \ldots,  
  \size(\pi,S_{a_{h-1}}\ldots S_{b_{h-1}}),  \newton{\MaxInd}{c}-d_{h-1}, 
