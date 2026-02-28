@@ -72,21 +72,17 @@
 \date{}
 
 \author[S. Berardi]{Stefano Berardi}
-\address{Universit\`{a} di Torino,
-Torino, Italy}
+\address{Universit\`{a} di Torino, Torino, Italy}
 \email{stefano.berardi@unito.it}
 
 \author[U. deLiguoro]{Ugo de' Liguoro}
-\address{Universit\`{a} di Torino,
-Torino, Italy}
+\address{Universit\`{a} di Torino, Torino, Italy}
 \email{ugo.deliguoro@unito.it}
 
 \author[D. Osorio]{Daniel Osorio}
-\address{Universit\`{a} di Torino,
-Torino, Italy}
+\address{Universit\`{a} di Torino, Torino, Italy}
 \email{dfosoriovalencia@gmail.com}
-
-
+  
 %% mandatory lists of keywords 
 \keywords{
 proof theory
@@ -2228,12 +2224,12 @@ definition of degree.
 \end{proof}
 
 Lemma \ref{lemma-degree} above says that in order to compute $\deg(\vec{S},S)$ for 
-$\vec{S},S$ of length $n+1 \ge 2$ we only we have to know 
+$\vec{S},S$ of length $n+1 \ge 2$ we only have to know 
 $\deg(\vec{S}) \in [0,\newton{\MaxInd}{c}] \subseteq [0,2^\MaxInd]$, the relation $S$ 
 and the last element $S_n$ of $\vec{S}$. 
 
 This is an information requiring a polinomial space in $\MaxInd$, to be accurate a number of
-bits bounded by  $\MaxInd \times 2\MaxInd^2$.
+bits bounded by  $(\MaxInd + 2\MaxInd^2)$.
 What is relevant is that \emph{do not} have to know the entire sequence $\vec{S},S$, 
 whose number of elements is not bounded by an expression in $\MaxInd$. 
 
@@ -2620,38 +2616,38 @@ as wished.
 
 %16:58 11/02/2026
 
-\begin{lemma}[Length Bound from PDC, IC, Constant-Cardinality Domain]
-\label{lemma-length-bound}
+\begin{lemma}[Decreasing Size for Constant Domain-Cardinality Sequences]
+\label{lemma-decreasing-size-constant}
 Assume $\pi_1 = \pi, (R:\alpha \rightarrow \beta)$ and 
 $\pi_2 = \pi_1, (S:\beta \rightarrow \gamma) $ and $\pi_2 \in \ProofUnfolding$.
 \begin{enumerate}
 \item
-\label{lemma-length-bound-01}
+\label{lemma-decreasing-size-constant-01}
 For all constant-cardinality domain colored sequence 
 $\vec{C} = R_1, \ldots, R_n$ we have $\size(\pi,R_1 \ldots R_n) = \size(\pi,R_{n})$.
 
 \item
-\label{lemma-length-bound-02}
+\label{lemma-decreasing-size-constant-02}
 For all $R:\alpha \rightarrow \beta \in \TypedRel$ we have 
 $\size(\pi,\dom(R)) \ge \size(\pi_1,R)$.
  
 \item
-\label{lemma-length-bound-03}
+\label{lemma-decreasing-size-constant-03}
 Assume $R \cap (\dom(R) \times \dom(S))$ is a bijection.
 Then $\size(\pi,\dom(R)) \ge \size(\pi_1, R) \ge \size(\pi_1,\dom(S)) \ge \size(\pi_2,S)$.
 
-\label{lemma-length-bound-03bis}
+\label{lemma-decreasing-size-constant-03bis}
 Assume $R \cap (\dom(R) \times \dom(S))$ is a bijection.
 If $\size(\pi_1,R) = \size(\pi_2,RS)$ then $R$ is possibly stationary.
 
 \item
-\label{lemma-length-bound-04}
+\label{lemma-decreasing-size-constant-04}
 Assume $R,S \in \InjColRel$ is a constant domain-cardinality  sequence.
 If $\size(\pi,\dom(R)) = \size(\pi_1,R)$ and $\size(\pi,\dom(R)) = \size(\pi_1,\dom(S))$
 and $\size(\pi_1,\dom(S)) = \size(\pi_2,S)$ then $\size(\pi_1,R) = \size(\pi_2,S)$.
 
 \item
-\label{lemma-length-bound-05}
+\label{lemma-decreasing-size-constant-05}
 Assume $R,S \in \InjColRel$ is a constant domain-cardinality sequence.
 If $\size(\pi,\dom(R)) = \size(\pi_1,R)$ ($R$ is possibly stationary) 
 and $\size(\pi,\dom(R)) >\size(\pi_1,\dom(S))$
@@ -2659,7 +2655,7 @@ or $\size(\pi_1,\dom(S)) > \size(\pi_2,S)$ then $\size(\pi_1,R) > \size(\pi_2,S)
 
 %
 %\item
-%\label{lemma-length-bound-05}
+%\label{lemma-decreasing-size-constant-05}
 %Assume $R_1, \ldots, R_n, R_{n+1}$ is a constant domain-cardinality sequence of 
 %relations in $\setR^+$ with domain-cardinality $c$.
 %Suppose for some $k$
@@ -2678,7 +2674,7 @@ or $\size(\pi_1,\dom(S)) > \size(\pi_2,S)$ then $\size(\pi_1,R) > \size(\pi_2,S)
 
 \begin{enumerate}
 \item
-%\label{lemma-length-bound-01}
+%\label{lemma-decreasing-size-constant-01}
 We assume that $R_1, \ldots, R_n \in \Seq(\ColRel)$ is some constant domain-cardinality  
 sequence  with $R = R_1 \ldots R_n$ in order to prove that
 $\size\pi,R) = \size\pi,R_{n})$.
@@ -2703,7 +2699,7 @@ $$
 $$
 
 \item
-%\label{lemma-length-bound-02}
+%\label{lemma-decreasing-size-constant-02}
 For all $x \in \dom(R)$, $y \in R(x)$ from $x R y$ and the conditions 
 about coloring, we deduce that $\size(\pi,x) \ge size(\pi_1,y)$. 
 Thus, $\size(\pi,x) \ge \max(\{\size(\pi_1,z) | z \in R(x) \}$.
@@ -2711,7 +2707,7 @@ We conclude that $size(\pi,\dom(R)) = \Sigma_{x \in \dom(R)} \size(\pi,x) \ge
 \Sigma_{x \in \dom(R)} \max(\{\size(\pi_1,z) | z \in R(x) \}) = \size(\pi_1,R)$.
 
 \item
-%\label{lemma-length-bound-03}
+%\label{lemma-decreasing-size-constant-03}
 Assume that $R \cap (\dom(R) \times \dom(S))$ is a bijection $\psi$.
 Then for all $x \in \dom(R)$ there is exactly  one $y \in \dom(S)$ with $y = \psi(x)$.
 Thus, 
@@ -2723,14 +2719,14 @@ $
 \size(\pi,\dom(S))
 $.
 
-We have $\size(\pi,\dom(S)) \ge \size(\pi_1,S)$ by point \ref{lemma-length-bound-02} above.
+We have $\size(\pi,\dom(S)) \ge \size(\pi_1,S)$ by point \ref{lemma-decreasing-size-constant-02} above.
 
 \item
-%\label{lemma-length-bound-03bis}
+%\label{lemma-decreasing-size-constant-03bis}
 Assume $R \cap (\dom(R) \times \dom(S))$ is a bijection and 
 $\size(\pi_1,R) = \size(\pi_2,RS)$.
-By point\ref{lemma-length-bound-01} above we have $\size(\pi_1,R) = \size(\pi_2,S)$.
-By point \ref{lemma-length-bound-03} above we have
+By point\ref{lemma-decreasing-size-constant-01} above we have $\size(\pi_1,R) = \size(\pi_2,S)$.
+By point \ref{lemma-decreasing-size-constant-03} above we have
 $\size(\pi_1, R) \ge \size(\pi_1,\dom(S)) \ge \size(\pi_2,S)$.
 We conclude that
 $\size(\pi_1, R) = \size(\pi_1,\dom(S)) = \size(\pi_2,S)$, in particulary that $S$ is possibly
@@ -2739,26 +2735,26 @@ stationary.
 
 
 \item
-%\label{lemma-length-bound-04}
+%\label{lemma-decreasing-size-constant-04}
 By assumption we have the equality chain 
 $\size(\pi_1,R)  = \size(\pi,\dom(R)) = \size(\pi_1,\dom(S)) = \size(\pi_2,S)$.
 %By $R, S$ constant domain-cardinality sequence and $R, S$ injective and
 %Lemma \ref{lemma-injective-sequences}.\ref{lemma-injective-sequences-01} 
 %we deduce that $R \cap (\dom(R) \times \dom(S))$ is a bijection.
-%By point \ref{lemma-length-bound-03} above we deduce that 
+%By point \ref{lemma-decreasing-size-constant-03} above we deduce that 
 %$\size(\pi,R) \ge \size(\pi,\dom(S)) \ge \size(\pi_1,S)$, and from $\size(\pi,R) = \size(\pi_1,S)$ 
 %we conclude that $\size(\pi_1,R) = \size(\dom(\pi_1,S)) = \size(\pi_2,S)$. 
 
 \item
-%\label{lemma-length-bound-05}
+%\label{lemma-decreasing-size-constant-05}
 Assume $\size(\pi,\dom(R)) = \size(\pi_1,R)$. Then
 $\size(\pi,\dom(R)) = \size(\pi_1,R) \ge \size(\dom(\pi_1,S)) \ge \size(\pi_2,S)$
-by point {lemma-length-bound-03} above, therefore $\size(\pi_1,R) > \size(\pi_2,S)$
+by point {lemma-decreasing-size-constant-03} above, therefore $\size(\pi_1,R) > \size(\pi_2,S)$
 if and only if $\size(\pi,\dom(R)) > \size(\pi_1,\dom(S))$ or 
 $\size(\pi,\dom(R)) >\size(\pi_1,\dom(S))$.
 
 %\item
-%%\label{lemma-length-bound-05}
+%%\label{lemma-decreasing-size-constant-05}
 %By Lemma \ref{lemma-size-colored-relation} $R_i \cap \dom(R_i) \times \dom(R_{i+1})$ 
 %is a stationary bijection for all $i \in [1,n ]$. By the previous point we have 
 %$\size(\dom(R_i)) = k$ for all $i \in [2,n+1]$. Thus, $R_i \cap (\dom(R_i) \times 
@@ -2795,11 +2791,11 @@ $\size(\pi,\dom(R)) >\size(\pi_1,\dom(S))$.
 %\end{lemma}
 %
 %\begin{proof}
-%By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-01}
+%By Lemma \ref{lemma-decreasing-size-constant}.\ref{lemma-decreasing-size-constant-01}
 %from $\size(\pi_1,R_1 \ldots R_n) = \size(\pi_2,R_1 \ldots R_n R_{n+1})$
 %we deduce that $\size(R_n) = \size(\pi_2,R_{n+1})$.
 %
-%By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-03}
+%By Lemma \ref{lemma-decreasing-size-constant}.\ref{lemma-decreasing-size-constant-03}
 %we conclude that $\size(\pi_1,R_n) = \size(\pi_1,\dom(R_{n+1})) = \size(\pi_2,R_{n+1})$.
 %
 %Assume $R_1 \ldots R_n$ has stationary degree $d$.
@@ -2862,7 +2858,7 @@ we have $\size(S_1 \ldots S_n) \ge \size(S_1 \ldots S_n S)$
 If $\size(\vec{S}) > \size(\vec{S},S)$ we are done, assume that 
 $\size(\vec{S}) = \size(\vec{S},S)$ in order to prove that $\deg(\vec{S}) < \deg(\vec{S},S)$.
 From $\size(\vec{S}) = \size(\vec{S},S)$ and 
-Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-03bis} 
+Lemma \ref{lemma-decreasing-size-constant}.\ref{lemma-decreasing-size-constant-03bis} 
 we deduce that $S$ is possibly stationary. 
 
 If $S_n$ is necessarily progressing from $\dom(S_n)$ to $\dom(S)$ then 
@@ -2951,13 +2947,13 @@ sequence and it requires.
 %\item
 %For all $i,j \in [1,d]$, $i<j$ we have $\DomCard(R_i) < \DomCard(R_j)$.
 %\end{enumerate}
-%$\States(\setR^+) = 
+%$\States = 
 %\{\sigma \in \Seq(\setR^+ \times \N \times \setR^+)
 % | \sigma \mbox{ is a state} \}$ 
 % is the set of states of $\setR^+$.
 %\end{definition}
 
-%09:55 28/02/2026
+
 
 \begin{definition}[State of an Injective Domain-Stable Sequence in $\setR^+$]
 Assume  $\pi = \{(S_i:\alpha_i \rightarrow \alpha_{i+1}) | i \in [1,m]\}$
@@ -3010,7 +3006,9 @@ Then $\sigma \state \pi$ if and only if $\sigma \state  \vec{S}$.
 \item 
 We call 
 $$
-\States =  \{\state(\pi) | \pi \in \ProofUnfolding\}
+\States =  \{\state(\pi) | \pi \in \ProofUnfolding\} 
+\subseteq 
+\Seq(\ColRel^2 \times [0,2^\MaxInd] \times \Graph)
 $$
 the set of states. 
 
@@ -3022,19 +3020,22 @@ $\size(\beta,\sigma_1) < \size(\gamma,\sigma_2)$ in the lexicographic order.
 \end{enumerate}
 \end{definition}
 
-We can decide $\size(\beta,\sigma_1) < \size(\gamma,\sigma_2)$ in polynomial time.
+In the definition above, due to the fact that the domain cardinality is increasing,
+we have $h \le \MaxInd+1$.
+
+%We can decide $\size(\beta,\sigma_1) < \size(\gamma,\sigma_2)$ in polynomial time in $\MaxInd$.
 
 
 %
 %\begin{lemma}[State of a Sequence]
 %Assume  $\setR^+$ is any set of injective relations and
-%$\sigma \state \vec(R)$ in $\setR^+$. Then $\sigma \in \States(\setR^+)$.
+%$\sigma \state \vec(R)$ in $\setR^+$. Then $\sigma \in \States$.
 %\end{lemma}
 %
 %\begin{proof}
 %Assume  $\setR^+$ is any set of injective relations and
 %$\sigma \state \vec(R)$ in $\setR^+$, in order to check the clauses for 
-%$\sigma \in \States(\setR^+)$.
+%$\sigma \in \States$.
 %Suppose $\minStable(\vec{R}) = \vec{S} = S_1,\ldots, S_n$ and
 %$$
 %\sigma \ \ \ 
@@ -3250,10 +3251,16 @@ hence poly-exponential time.
 %$\DomCard(R_i) < \DomCard(R_{i+1})$.
 
 Suppose $\pi_1 = \pi, (R : \beta \rightarrow \gamma) \in \ProofUnfolding$ is a typed path in 
-$\setR^+$ and $\sigma \in \States$. We define a state 
-$\tau = \trans(\sigma, R : \beta \rightarrow \gamma) \in \States$ 
-such that if $\sigma = \state(\pi)$ then $\tau = \state(\pi_1)$. We also check that 
-$\pi \succ \pi_1$ in the lexicographic ordering.
+$\setR^+$. We define map $\trans:  \States, \TypedRel \rightarrow  \States$ computing the state 
+of $\pi_1$ from the state of $\pi$, without accessing to $\pi$. Namely we claim we have
+
+$$
+\trans(\state(\pi), R : \beta \rightarrow \gamma) 
+= 
+\state(\pi_1)
+$$
+
+We also check that $\pi \succ \pi_1$ in the lexicographic ordering.
 
 %18:47 19/02/2026
 
@@ -3262,20 +3269,40 @@ $\pi \succ \pi_1$ in the lexicographic ordering.
 %
 
 
+
+The next definition uses the fact that we can compute the degree of $\vec{U},U$ from
+the degree of $\vec{U}$, the last element of $\vec{U}$ and $U$, without accessing $\vec{U}$
+(Lemma \ref{lemma-degree}). 
+
+
 \begin{definition}
-[The Transition Function $\trans(\sigma,R : \beta \rightarrow \gamma) \in \States(\setR^+)$]
+[The Transition Function $\trans(\sigma,R : \beta \rightarrow \gamma) \in \States$]
 \label{definition-transition-state}
 
-Suppose $\sigma = (\sigma_1, \ldots, \sigma_h) \in \States(\setR^+)$  and 
-$\sigma_i = (U_i, d_i,V_i,\beta_i)$ for $i \in [1,h]$, with
-$U_i = S_{a_i} \ldots S_{b_i}$
-Suppose $(R:\beta \rightarrow \gamma) \in \setR^+$ and $\beta = \beta_h$.  We abbreviate
+Suppose $\pi$ is a path with relations $vec{R}=R_1, \ldots, R_n$ and
+$\minStable(\vec{R}) = \vec{S}$. Let 
+$$\vec{U_i} = S_{a_i}, \ldots, S_{b_i}:\beta_{i-1} \rightarrow \beta_i$$
+be the constant domain-cardinality components of $\vec{S}$.
+
+Set $\sigma = (\sigma_1, \ldots, \sigma_h) = \state(\pi) \in \States$  where 
+$\sigma_i = (U_i, \deg(\vec{U_i}),V_i,\beta_i)$ for $i \in [1,h]$ for some
+ $U_i = $ the product of $\vec{U_i}$ and some $V_i = S_{b_i} = $
+ the last element of $\vec{U_i}$.
+ 
+Suppose $(R:\beta_h \rightarrow \gamma) \in \setR^+$
+and $\vec{U'_i} = S_{a_i}, \ldots, S_{b_i}, (S_{a_{i+1}} \ldots S_{b_h} R)$
+for $i \in [1,h+1]$, with $U'_i$ the product of $\vec{U'_i}$
+and $V'_i =  (S_{a_{i+1}} \ldots S_{b_h} R)$ the last element of $\vec{U'_i}$:
+as a particular case we assume that $U'_i{h+1} = R = V'_{h+1}$.
+For all $i \in [1,h+1]$ we define a possible element of the next state $\tau$:
+
 $$
-U'_i = (U_i \ldots U_h R) \mbox{ for all $i \in [1,h+1]$}
+\tau_i = 
+(U'_i, \deg(\vec{U'_i}), V'_i, \gamma) 
 $$
 
 Suppose that $i$ is the unique element of $i \in [1,h+1]$ such that
-$\dom(U'_j) = \dom(U_j)$ for all $j \in [1,i-1]$ and:
+$\dom(S_{a_j} \ldots S_{b_h} R) = \dom(U_j)$ for all $j \in [1,i-1]$ and:
 
 \begin{enumerate} 
 \item
@@ -3284,60 +3311,82 @@ either $i \in [1,h]$ and $\dom(U'_i) \subset \dom(U_i)$
 or $i=h+1$
 \end{enumerate}
 
-We define $\tau = \trans(\sigma,R:\beta_h \rightarrow \gamma)$. 
+We define a map $\tau = \trans(\sigma,R:\beta_h \rightarrow \gamma)$
+computing the next state.
 
 \begin{enumerate}
 
 \item 
 \emph{Assume that $i=1$ or $\DomCard(U'_i) \not = \DomCard(U'_{i-1})$}.
-Then $\tau = (\sigma_1, \ldots, \sigma_{i-1}, \tau_i)$ and
+Then 
 
 $$
-\tau_i 
-\ \ \ = \ \ \ 
-(U'_i, 0, \ U'_i, \gamma)
+\tau 
+= 
+(\sigma_1, \ldots, \sigma_{i-1}, \tau_i)
 $$
+
+%$$
+%\tau_i 
+%\ \ \ = \ \ \ 
+%(U'_i, 0, \ U'_i, \gamma)
+%$$
 
 %The index number $i$ restarts from $U'_i$ and 
 %$\trans$ sets the stationarity degree number $i$ to its minimum value $0$
 
 \item
 \emph{Assume that $i>1$ and $\DomCard(U'_i) = \DomCard(U'_{i-1})$}.
-Then $\tau = (\sigma_1, \ldots, \sigma_{i-2}, \tau_{i-1})$ 
-and we define $\tau_{i-1}$ by cases.
-
-\begin{enumerate}
-\item
-\emph{Assume 
-($\size(\dom(U'_{i})) \not = \size(U'_i)$) or 
-($d_{i-1} \ge 1$ and $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$)
-}. 
-Then
-%$U'_i$ is concatenated to the index number $i-1$ and 
-%$\trans$ sets the stationarity degree $d_{i-1}$ to its minimum value $0$
+Then 
 
 $$
-\tau_{i-1}
-\ \ \ = \ \ \ 
-(U'_{i-1}, 0, U'_{i}, \gamma)
+\tau 
+= 
+(\sigma_1, \ldots, \sigma_{i-2}, \tau_{i-1})
 $$
 
-\item
-Otherwise:
-%Then  $U'_i$ is concatenated to the index number $i-1$ and 
-%$\trans$ increases the stationarity degree $d_{i-1}$ by one:
-
-$$
-\tau_{i-1}
-\ \ \ = \ \ \ 
-(U'_{i-1}, d_{i-1}+1, U'_{i}, \gamma)
-$$
- 
-\end{enumerate}
+%$\tau = (\sigma_1, \ldots, \sigma_{i-2}, \tau_{i-1})$ 
+%and we define $\tau_{i-1}$ by cases.
+%
+%\begin{enumerate}
+%\item
+%\emph{Assume 
+%($\size(\dom(U'_{i})) \not = \size(U'_i)$) or 
+%($d_{i-1} \ge 1$ and $V_{i-1}$ is progressing from $\dom(V_{i-1})$ to $\dom(U'_{i})$)
+%}. 
+%Then
+%%$U'_i$ is concatenated to the index number $i-1$ and 
+%%$\trans$ sets the stationarity degree $d_{i-1}$ to its minimum value $0$
+%
+%$$
+%\tau_{i-1}
+%\ \ \ = \ \ \ 
+%(U'_{i-1}, 0, U'_{i}, \gamma)
+%$$
+%
+%\item
+%Otherwise:
+%%Then  $U'_i$ is concatenated to the index number $i-1$ and 
+%%$\trans$ increases the stationarity degree $d_{i-1}$ by one:
+%
+%$$
+%\tau_{i-1}
+%\ \ \ = \ \ \ 
+%(U'_{i-1}, d_{i-1}+1, U'_{i}, \gamma)
+%$$
+% 
+%\end{enumerate}
 \end{enumerate}
 \end{definition}
  
-We claim that 
+In the definition above, for all $j \in [1,h]$, by definition we have 
+$\dom(U'_j) = \dom(U_j \ldots U_h R)$. 
+By Lemma \ref{lemma-domain-inclusion-01}.\ref{lemma-domain-inclusion-01}
+applied to $U_j$ and $U_{j+1} \ldots U_h R$ we have
+$\dom(U_j \ldots U_h R)  \subseteq \dom(U_j)$. 
+This is why $i$ in the definition above exists and it is unique.
+
+In the Mina Theorem we will prove that that 
 
 $$
 \trans(\state(\pi),R:\beta \rightarrow \gamma) 
@@ -3345,12 +3394,7 @@ $$
 \state(\pi,R:\beta \rightarrow \gamma)
 $$
 
-In the definition above, for all $j \in [1,h]$, by definition we have 
-$\dom(U'_j) = \dom(U_j \ldots U_h R)$. 
-by Lemma \ref{lemma-domain-inclusion-01}.\ref{lemma-domain-inclusion-01}
-applied to $U_j$ and $U_{j+1} \ldots U_h R$ we have
-$\dom(U_j \ldots U_h R)  \subseteq \dom(U_j)$. 
-This is why $i$ in the definition above exists and it is unique.
+
 
 Recall that we can decide whether $\size(\pi,\dom(R)) = \size(\pi_1,R)$ without computing the
 actual size of $\dom(R)$ and $R$, by checking whether
@@ -3388,9 +3432,12 @@ $$
 
 \end{enumerate}
 \end{definition}
+
 % 14:19 08/02/2026
 % 17:48 12/02/2026
 % 18:56 19/02/2026
+
+
 \begin{theorem}[Transition Theorem]
 \label{theorem-transition}
 Suppose $\setR^+$ is injective, $\pi_1 = \pi, (R:\beta \rightarrow \gamma) \in \ProofUnfolding$ 
@@ -3398,7 +3445,7 @@ is a finite path on $\setR^+$ and  $\sigma \state \pi$.
 Let $\tau = \trans(\sigma,R:\beta \rightarrow \gamma) $. Then 
 \begin{center}
 $(\tau \state \pi_1)$
-and $(\pi,\sigma) \succ (\pi_1,\tau)$ 
+and $\pi \succ \pi_1$ 
 \end{center}
 \end{theorem}
 
@@ -3411,7 +3458,7 @@ $\pi_1 = \pi, (R:\alpha_{b_h+1} \rightarrow \alpha_{b_h+2}) \in \ProofUnfolding$
 Let $\vec{R}= \{R_i | i \in [1,n]\}$.  
 Assume $\minStable(\vec{R}) = \vec{S} = S_1, \ldots, S_m$ is the minimum stable grouping
 of $\vec{R}$. Let $S_{a_i}, \ldots, S_{b_i}$ for $i \in [1,h]$ be the components of $\vec{S}$,
-with $a_1=1$ and $b_h=m$. 
+with $a_1=1$ and $b_h=m$. Let $d_i = \deg(S_{a_i}, \ldots, S_{b_i})$.
 Assume $\sigma \state \pi$ with $\sigma = (\sigma_1, \ldots, \sigma_h)$ and for all $i \in [1,h]$:
 $$
 \sigma_i
@@ -3420,7 +3467,7 @@ $$
 $$ 
 
 Let $\tau = \trans(\sigma,R:\alpha_{b_h+1} \rightarrow \alpha_{b_h+2}) $.
-We have to prove that $\tau \state \pi_1$. We argue by cases on the definition of $\tau$. 
+We have to prove that $\tau = \state(\pi_1)$. We argue by cases on the definition of $\tau$. 
 For all $i \in [1,h]$ we have 
 $\dom(S_{a_i} \ldots S_m  R) \subseteq \dom(S_{a_i} \ldots S_m )$ 
 by Lemma \ref{lemma-domain-inclusion-01}.\ref{lemma-domain-inclusion-01}.
@@ -3458,7 +3505,10 @@ $$
 % 11:01 12/02/2026
 
 
-We argue by cases on the definition of $\tau$.
+Now we prove $\tau = \state(\pi,R:\beta \rightarrow \gamma) $ by cases on the definition of $\tau$.
+
+% 11:29 28/02/2026
+
 \begin{enumerate}
 
 \item 
@@ -3484,7 +3534,7 @@ is a state of $\vec{R},R$.
 From $\dom(S_{a_1} \ldots S_m  R) \subset \dom(S_{a_1} \ldots S_m )$ 
 and Lemma \ref{lemma-decreasing-size}.\ref{lemma-decreasing-size-02}
 we deduce $\size(S_{a_1} \ldots S_m  R) < \size(S_{a_1} \ldots S_m)$, 
-hence $(\pi,\sigma) \succ (\pi_1,\tau)$. 
+hence $\pi \succ \pi_1$. 
 
 \item
 Suppose $i \in [2,h]$. 
@@ -3538,7 +3588,7 @@ Namely $R$ is a one-product
 component of $\vec{R},R$, with a larger domain-cardinality, and $\tau$ 
 is the concatenation of $\sigma$ and of $(R,0,R,\alpha_{n+2})$. 
 We deduce $\tau \state \pi_1$ and 
-$(\pi,\sigma) \succ (\pi_1,\tau)$. 
+$\pi \succ \pi_1$. 
 \end{enumerate}
 
 %12:32 20/02/2026
@@ -3574,7 +3624,7 @@ By assumption, $\dom(S_{a_{i}} \ldots S_{m} R) \subset \dom(S_{a_{i}} \ldots S_{
  We assumed that either $S_{b_{i-1}}$ has some necessarily progressing
 $x \in \dom(S_{b_{i-1}})$ or $S_{b_{i-1}}$ is progressing from $\dom(S_{b_{i-1}})$ 
 to $\dom(S_{a_i} \ldots S_m R)$.  
- By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-05} we deduce that 
+ By Lemma \ref{lemma-decreasing-size-constant}.\ref{lemma-decreasing-size-constant-05} we deduce that 
  $
  \size(S_{a_{i-1}} \ldots S_{b_{i-1}}) = 
  \size(S_{b_{i-1}}) > 
@@ -3583,7 +3633,7 @@ to $\dom(S_{a_i} \ldots S_m R)$.
  $
  \size(S_{a_i} \ldots S_m R) = 
  $
- (by Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-01}
+ (by Lemma \ref{lemma-decreasing-size-constant}.\ref{lemma-decreasing-size-constant-01}
  $ 
  \size(S_{a_{i-1}} \ldots S_m R)$. 
  Thus, $(\pi,\sigma) > (\pi_1,\tau)$.
@@ -3606,17 +3656,17 @@ $x \in \dom(S_{b_h})$, namely $\size(\dom(S_{b_h})) > \size(S_{b_h})$, or
  $
  \size(S_{b_h})  >
  $
- (by Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-01}
+ (by Lemma \ref{lemma-decreasing-size-constant}.\ref{lemma-decreasing-size-constant-01}
  $ 
  \size(S_{b_h} R)
  $.
- By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-05} we deduce that 
+ By Lemma \ref{lemma-decreasing-size-constant}.\ref{lemma-decreasing-size-constant-05} we deduce that 
  $
  \size(S_{a_h} \ldots S_{b_h}) =  
  \size(S_{b_h})  >
  \size(S_{b_h} R) = 
  $
- (By Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-01})
+ (By Lemma \ref{lemma-decreasing-size-constant}.\ref{lemma-decreasing-size-constant-01})
  $\size(S_{a_h} \ldots S_{b_h} R)$.  
  Thus, $(\pi,\sigma > (\pi_1, \tau)$.
  \end{enumerate}
