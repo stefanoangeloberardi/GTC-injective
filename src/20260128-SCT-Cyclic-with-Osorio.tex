@@ -1555,8 +1555,8 @@ $$
 
 \item
 \label{lemma-injective-stable-sequences-02}
-If  $i, j \in[1,n]$ and $i < j$ and $\DomCard(R_i) = \DomCard(R_j)$ then $R_i \ldots R_{j-1}$ has 
-domain $\dom(R_i)$ and when restricted to $\dom(R_i) \times \dom(R_j)$ is a bijection.
+If  $i, j \in[1,n]$ and $i < j$ and $\DomCard(R_i) = \DomCard(R_j)$ then $R_i \ldots R_{j-1}$ 
+has domain $\dom(R_i)$ and when restricted to $\dom(R_i) \times \dom(R_j)$ is a bijection.
 \end{enumerate}
 \end{lemma}
 
@@ -1715,7 +1715,7 @@ is increasing.
 \begin{lemma}[Decomposing Stable Sequences of Injective Relations]
 \label{lemma-decomposition-stable}
 Every stable sequence $\vec{S} \in \Seq(\InjRel)$ of injective relations is equal to the 
-concatenation $\vec{C_1}, \ldots \vec{C_h}$
+concatenation $\vec{C_1}, \ldots, \vec{C_h}$
 of some non-empty constant domain-cardinality subsegments 
 such that $\DomCard(\vec{C_i})  < \DomCard(\vec{C_j})$ for all $i,j \in [1,h]$, $i < j$.
 \end{lemma}
@@ -2037,7 +2037,7 @@ the stationary color, therefore $R_1 \ldots R_n$ is possibly stationary.
 
 %14:16 11/02/2026
 
-\begin{lemma}[Possibly Stationary]
+\begin{lemma}[Possibly Stationary Relations]
 \label{lemma-possibly-stationary}
 Assume $R, S \in \ColRel$.
 
@@ -2057,17 +2057,17 @@ then $RS$ is possibly stationary.
 
 \item
 \label{lemma-possibly-stationary-03}
-If $RS$ is possibly stationary and $R,S$ is stable, then $R$ is possibly stationary
+Assume $R, S$ is stable. If $RS$ is possibly stationary, then $R$ is possibly stationary
 from $\dom(R)$ to $\dom(S)$.
 
 \item
 \label{lemma-possibly-stationary-04}
-Assume that $R$ is a bijection from $\dom(R)$ to $\dom(S)$ and $R,S$ is stable.
-If $RS$ is possibly stationary then $S$ is possibly stationary.
+Assume that $R, S$ is stable and that $R$ is a bijection from $\dom(R)$ to $\dom(S)$.
+If $RS$ is possibly stationary, then $S$ is possibly stationary.
 
 \item
 \label{lemma-possibly-stationary-05}
-Assume that $R$ is a bijection from $\dom(R)$ to $\dom(S)$ and $R,S$ is stable.
+Assume that $R, S$ is stable and that $R$ is a bijection from $\dom(R)$ to $\dom(S)$.
 Then $RS$ is possibly stationary if and only if $R$ is possibly stationary from $\dom(R)$ to 
 $\dom(S)$ and $S$ is possibly stationary.
 
@@ -2153,17 +2153,18 @@ All sequences have the possibly stationary suffix $\nil$ of length $0$.
 Therefore $\deg(\vec{S})$ is a maximum on a subset of $[0,n-1]$ including $0$
 and it exists. 
 
-Assume $\vec{S}$ has length $n \ge 1$. 
-We provide a bound for the memory required to compute $\deg(\vec{S})$.
-When $n=1$ then $\deg(\vec{S}) \in [0,0]$, so $\deg(\vec{S})=0$.
-In order to compute $\deg(\vec{S},S)$ for $\vec{S},S$ of length $n+1 \ge 2$ we only we have
-to know $\deg(\vec{S})$ and the last two elements of $\vec{S},S$. We \emph{do not} have
-to know the entire sequence $\vec{S},S$, as the next Lemma says.
+When $n=1$ then $\deg(\vec{S}) \in [0,0]$, and we trivially have $\deg(\vec{S})=0$.
+
+Assume $\vec{S}$ is some constant domain-cardinality sequence of length $n \ge 1$. 
+Let $c = \DomCard(S_1)$ be the common domain-cardinality of the sequence.
+The next Lemma implies that there is a bound for the memory required to compute 
+$\deg(\vec{S})$.
 
 \begin{lemma}[Characterization of Stationarity Degree]
 \label{lemma-degree}
 Assume $\vec{S},S$ is some constant domain-cardinality sequence
-of length $n \ge 2$. Let $d = \deg(\vec{S})$ and $d' = \deg(\vec{S},S)$.
+and $\vec{S} = S_1, \ldots, S_n$ for some $n \ge 1$. 
+Let $d = \deg(\vec{S})$ and $d' = \deg(\vec{S},S)$.
 
 \begin{enumerate}
 
@@ -2176,7 +2177,6 @@ Then $d'=0$.
 \label{lemma-degree-02}
 Assume $S$ is possibly stationary and $d=0$.
 Then $d'=1$.
-
 
 \item
 \label{lemma-degree-03}
@@ -2192,6 +2192,8 @@ from $\dom(S_{n})$ to  $\dom(S)$. Then $d' = d+1$.
 \end{lemma}
 
 \begin{proof}
+Assume $n \ge 1$. 
+
 \begin{enumerate}
 
 \item
@@ -2200,20 +2202,24 @@ Assume $S$ is necessarily progressing.
 Then $d'=0$ by definition of degree.
 
 \item
+%\label{lemma-degree-02}
 Assume $S$ is possibly stationary and $d=0$. Then $S_n$ is necessarily progressing,
 and by Lemma \ref{lemma-possibly-stationary}.\ref{lemma-possibly-stationary-01}, 
-$S_n$ is necessarily progressing from $\dom(S_n)$ to $\dom(S)$. By definition of degree we 
-conclude that $d'=1$.
+$S_n$ is necessarily progressing from $\dom(S_n)$ to $\dom(S)$. 
+By Lemma \ref{lemma-possibly-stationary}.\ref{lemma-possibly-stationary-06} 
+we conclude that $d'=1$.
 
 \item
 Assume $S$ is possibly stationary and $d \ge 1$ and $S_{n}$ is necessarily progressing
-from $\dom(S_{n})$ to  $\dom(S)$. Then $d'=1$ by definition of degree.
+from $\dom(S_{n})$ to  $\dom(S)$. 
+By Lemma \ref{lemma-possibly-stationary}.\ref{lemma-possibly-stationary-06} 
+we conclude that $d'=1$.
 
 \item
 Assume $S_n$ is possibly stationary and $d \ge 1$ and $S_n$ is possibly stationary
-from $\dom(S_{n})$ to  $\dom(S)$. By definition of degree, the stationary
-suffix of $\vec{S}$ is $S_{n-d+1}, \ldots, S_n$ cannot be extended while preserving $d \le n-1$.
-This implies that either $d=n-1$ or $S_{n-d}$ is necessarily progressing
+from $\dom(S_{n})$ to  $\dom(S)$. 
+By Lemma \ref{lemma-possibly-stationary}.\ref{lemma-possibly-stationary-06}
+and definition of degree, either $d=n-1$ or $S_{n-d}$ is necessarily progressing
 from $\dom(S_{n-d})$ to $\dom(S_{n-d+1})$, while $S_{i}$ is possibly stationary
 from $\dom(S_{i})$ to $\dom(S_{i+1})$ for all $i \in [n-d+1,n-1]$. Then $d'=d+1$ by
 definition of degree.
@@ -2221,31 +2227,15 @@ definition of degree.
 \end{enumerate}
 \end{proof}
 
-The index:
-$$
-(\size(\vec{S},S), \newton{\MaxInd}{c} - \deg(\size(\vec{S},S))
-$$
-is progressing for constant domain-cardinality Sequences.
+Lemma \ref{lemma-degree} above says that in order to compute $\deg(\vec{S},S)$ for 
+$\vec{S},S$ of length $n+1 \ge 2$ we only we have to know 
+$\deg(\vec{S}) \in [0,\newton{\MaxInd}{c}] \subseteq [0,2^\MaxInd]$, the relation $S$ 
+and the last element $S_n$ of $\vec{S}$. 
 
-\begin{lemma}[A Progressing Index for Constant Domain-Cardinality Sequences] 
-\label{lemma-stationarity-degree}
-Assume $\vec{S},S$ is a constant domain-degree sequence with domain-cardinality
-$c = \DomCard(S)$. Then
-
-\begin{enumerate}
-\item
-$\size(\vec{S}) \ge \size(\vec{S},S)$, and either $\size(\vec{S}) > \size(\vec{S},S)$
-or $\deg(\vec{S}) < \deg(\vec{S},S)$.
-
-\item
-$
-(\size(\vec{S}), \newton{\MaxInd}{c} - \deg(\size(\vec{S}))
->
-(\size(\vec{S},S), \newton{\MaxInd}{c} - \deg(\size(\vec{S},S))
-$
-
-\end{enumerate}
-\end{lemma}
+This is an information requiring a polinomial space in $\MaxInd$, to be accurate a number of
+bits bounded by  $\MaxInd \times 2\MaxInd^2$.
+What is relevant is that \emph{do not} have to know the entire sequence $\vec{S},S$, 
+whose number of elements is not bounded by an expression in $\MaxInd$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %% PREVIOUS DEFINITION STATIONARY DEGREE 11:12 21/02/2026
@@ -2278,9 +2268,9 @@ $
 %All $R \in \TypedRel$ have at least stationary degree $0$ in $\setR^+$: 
 %it is enough to take $\vec{C}=S_1$. In some case we can have a non-trivial degree, too.
 
-We explain the role of stationary degree. 
+We explain the role of stationary degree for constant domain-cardinality sequences. 
 If $\vec{C}= S_1, \ldots, S_e, R_1, \ldots, R_{d-1}, R_d$ 
-has stationary degree $d$, then in the worst case \emph{all} infinite trace $\sigma$
+has stationary degree $d$, this means that in the worst case \emph{all} infinite trace $\sigma$
 passing through $\vec{C}$ could have $d$ consecutive stationary steps.
 Indeed, all infinite $\sigma$ must move from $\dom(R_i)$ to $\dom(R_{i+1})$ through $R_i$, 
 therefore must have $d-1$ consecutive stationary steps. 
@@ -2321,7 +2311,8 @@ Assume $\vec{C}, T$ is a constant domain-cardinality sequence. Let $g = \Card(\G
 \begin{enumerate}
 \item
 \label{lemma-degree-constant-01}
-Assume that $T$ has no necessarily progressing $x \in \dom(T)$,
+Assume that $T$ is possibly stationary
+%has no necessarily progressing $x \in \dom(T)$,
 and either $d = 0$ or $R_{d}$ is a stationary bijection from $\dom(R_{d})$ to $\dom(T)$.
 
 Then $\vec{C}, T$ has stationary degree $d+1$.
@@ -2385,13 +2376,13 @@ $$
 \end{enumerate}
 \end{proof}
 
-In the proof above, if $d$ is any of the degrees of
+Lemma \ref{lemma-degree-constant} says that if $d$ is any of the degrees of
 $\vec{C}$, then $(g\newton{\MaxInd}{c}-d) \in [0,\newton{\MaxInd}{c}]$.
-We can extend $\vec{C}$ with stationary bijections to 
-a constant domain-cardinality sequence for at most
+Suppose we extend $\vec{C}$  to a longer constant domain-cardinality sequence with possibly stationary bijections and with a last possibly stationary relation. Then we can extend for at most
 $\newton{\MaxInd}{c}-d$ times. When $g\newton{\MaxInd}{c}-d=0$, in 
-all constant domain-cardinality extensions $R_1, \ldots, R_{d},T$
-the relation $R_{d}$ is progressing between $\dom(R_{d})$ and $\dom(T)$.
+all constant domain-cardinality extensions $R_1, \ldots, R_{d},T$, either
+the relation $R_{d}$ is necessarily progressing between $\dom(R_{d})$ and $\dom(T)$,
+or $T$ itself is necessarily progressing.
 
 
 %Assume $\vec{S} = S_1, \ldots, S_n$ is any sequence of bicolored relations. We define
@@ -2513,7 +2504,7 @@ the relation $R_{d}$ is progressing between $\dom(R_{d})$ and $\dom(T)$.
 
 \section{The Size Map}  
 
-For sake of simplicity we consider the case in which the unique inductive predicate is $N$. 
+For sake of simplicity we considered the case in which the unique inductive predicate is $N$. 
 We define a size map $\size$, taking any node $\alpha \in \Graph$, any $i \in [1,\MaxInd]$, 
 and returning $t+1$ if the $i$-th inductive formula in the antecedent of $\alpha$ is $N(t)$,
 returning $0$ if there is no $i$-th inductive formula.  We extend size to any path 
@@ -2649,6 +2640,10 @@ $\size(\pi,\dom(R)) \ge \size(\pi_1,R)$.
 Assume $R \cap (\dom(R) \times \dom(S))$ is a bijection.
 Then $\size(\pi,\dom(R)) \ge \size(\pi_1, R) \ge \size(\pi_1,\dom(S)) \ge \size(\pi_2,S)$.
 
+\label{lemma-length-bound-03bis}
+Assume $R \cap (\dom(R) \times \dom(S))$ is a bijection.
+If $\size(\pi_1,R) = \size(\pi_2,RS)$ then $R$ is possibly stationary.
+
 \item
 \label{lemma-length-bound-04}
 Assume $R,S \in \InjColRel$ is a constant domain-cardinality  sequence.
@@ -2658,7 +2653,8 @@ and $\size(\pi_1,\dom(S)) = \size(\pi_2,S)$ then $\size(\pi_1,R) = \size(\pi_2,S
 \item
 \label{lemma-length-bound-05}
 Assume $R,S \in \InjColRel$ is a constant domain-cardinality sequence.
-If $\size(\pi,\dom(R)) = \size(\pi_1,R)$ and $\size(\pi,\dom(R)) >\size(\pi_1,\dom(S))$
+If $\size(\pi,\dom(R)) = \size(\pi_1,R)$ ($R$ is possibly stationary) 
+and $\size(\pi,\dom(R)) >\size(\pi_1,\dom(S))$
 or $\size(\pi_1,\dom(S)) > \size(\pi_2,S)$ then $\size(\pi_1,R) > \size(\pi_2,S)$.
 
 %
@@ -2728,6 +2724,19 @@ $
 $.
 
 We have $\size(\pi,\dom(S)) \ge \size(\pi_1,S)$ by point \ref{lemma-length-bound-02} above.
+
+\item
+%\label{lemma-length-bound-03bis}
+Assume $R \cap (\dom(R) \times \dom(S))$ is a bijection and 
+$\size(\pi_1,R) = \size(\pi_2,RS)$.
+By point\ref{lemma-length-bound-01} above we have $\size(\pi_1,R) = \size(\pi_2,S)$.
+By point \ref{lemma-length-bound-03} above we have
+$\size(\pi_1, R) \ge \size(\pi_1,\dom(S)) \ge \size(\pi_2,S)$.
+We conclude that
+$\size(\pi_1, R) = \size(\pi_1,\dom(S)) = \size(\pi_2,S)$, in particulary that $S$ is possibly
+stationary.
+ 
+
 
 \item
 %\label{lemma-length-bound-04}
@@ -2804,9 +2813,87 @@ $\size(\pi,\dom(R)) >\size(\pi_1,\dom(S))$.
 %$R_1 \ldots R_{n+1} $ has stationary degree $d+1$.
 %\end{proof}
 
+
+\section{A Decreasing Index for Constant Domain-cardinality Sequences}
+Our goal is to provide a decreasing index for sequences. We first consider a particular case.
+We claim that the index:
+$$
+(\size(\vec{S},S), \newton{\MaxInd}{c} - \deg(\size(\vec{S},S))
+$$
+is decreasing in the case of \emph{constant domain-cardinality sequences}.
+
 Remark that we can decide whether $\size(\dom(R)) = \size(R)$, by checking whether
 no $x \in \dom(R)$ is necessarily progressing, namely checking whether
 for all $x \in \dom(R)$ there is some $y \in R(x)$ such that $R$ is stationary on $(x,y)$.
+
+
+\begin{lemma}[A Decreasing Index for Constant Domain-Cardinality Sequences] 
+\label{lemma-stationarity-degree}
+Assume $\vec{S},S$ is a constant domain-degree sequence with domain-cardinality
+$c = \DomCard(S)$. Then
+
+\begin{enumerate}
+\item
+\label{lemma-stationarity-degree-01}
+$\size(\vec{S}) \ge \size(\vec{S},S)$, and either $\size(\vec{S}) > \size(\vec{S},S)$
+or $\deg(\vec{S}) < \deg(\vec{S},S)$.
+
+\item
+\label{lemma-stationarity-degree-02}
+$
+(\size(\vec{S}), \newton{\MaxInd}{c} - \deg(\size(\vec{S}))
+>
+(\size(\vec{S},S), \newton{\MaxInd}{c} - \deg(\size(\vec{S},S))
+$
+
+\end{enumerate}
+\end{lemma}
+
+%16:08 26/02/2026
+
+\begin{proof}
+Let $\vec{S} = S_1 \ldots S_n$.
+
+\begin{enumerate}
+\item
+%\label{lemma-stationarity-degree-01}
+By Lemma \ref{lemma-decreasing-size}.\ref{lemma-decreasing-size-01}
+we have $\size(S_1 \ldots S_n) \ge \size(S_1 \ldots S_n S)$ 
+If $\size(\vec{S}) > \size(\vec{S},S)$ we are done, assume that 
+$\size(\vec{S}) = \size(\vec{S},S)$ in order to prove that $\deg(\vec{S}) < \deg(\vec{S},S)$.
+From $\size(\vec{S}) = \size(\vec{S},S)$ and 
+Lemma \ref{lemma-length-bound}.\ref{lemma-length-bound-03bis} 
+we deduce that $S$ is possibly stationary. 
+
+If $S_n$ is necessarily progressing from $\dom(S_n)$ to $\dom(S)$ then 
+by Lemma \ref{lemma-possibly-stationary}.\ref{lemma-possibly-stationary-06}
+we conclude that $\deg(\vec{S}) = 0 < 1 = \deg(\vec{S},S)$, as wished.
+
+If $S_n$ is possibly stationary from $\dom(S_n)$ to $\dom(S)$ 
+by Lemma \ref{lemma-possibly-stationary}.\ref{lemma-possibly-stationary-06}
+and definition of degree we conclude that $\deg(\vec{S}) + 1 =  \deg(\vec{S},S)$, as wished.
+
+\item
+%\label{lemma-stationarity-degree-02}
+By point \ref{lemma-stationarity-degree-01} above, $\size(\vec{S}) \ge \size(\vec{S},S)$.
+In the case $\size(\vec{S}) > \size(\vec{S},S)$ we deduce 
+$
+(\size(\vec{S}), \newton{\MaxInd}{c} - \deg(\size(\vec{S}))
+>
+(\size(\vec{S},S), \newton{\MaxInd}{c} - \deg(\size(\vec{S},S))
+$.
+Assume $\size(\vec{S}) = \size(\vec{S},S)$. Then by the second part of point 
+\ref{lemma-stationarity-degree-01} above we obtain $\deg(\vec{S}) < \deg(\vec{S},S)$,
+then $\newton{\MaxInd}{c} - \deg(\size(\vec{S}) > 
+\newton{\MaxInd}{c} - \deg(\size(\vec{S},S))$. 
+Again, we conclude that 
+$
+(\size(\vec{S}), \newton{\MaxInd}{c} - \deg(\size(\vec{S}))
+>
+(\size(\vec{S},S), \newton{\MaxInd}{c} - \deg(\size(\vec{S},S))
+$.
+\end{enumerate}
+\end{proof}
 
 %We claim that after at most $2^\MaxInd$ steps any constant-domain sequence progresses.
 %We formally express this fact through the notion of degree.
@@ -2830,7 +2917,9 @@ for all $x \in \dom(R)$ there is some $y \in R(x)$ such that $R$ is stationary o
 
 \section{State of a Path}
 We define a graph of states and transitions for the algorithm translating a cyclic proof. We first
-associate a state to each sequence of injective relations.
+associate a state to each sequence of injective relations. A state for a sequence is the information 
+require to compute the next degree for a constant domain-cardinality component of the 
+sequence and it requires.
 
 %%19:11 31/01/2026
 %
@@ -2868,13 +2957,15 @@ associate a state to each sequence of injective relations.
 % is the set of states of $\setR^+$.
 %\end{definition}
 
+%09:55 28/02/2026
+
 \begin{definition}[State of an Injective Domain-Stable Sequence in $\setR^+$]
 Assume  $\pi = \{(S_i:\alpha_i \rightarrow \alpha_{i+1}) | i \in [1,m]\}$
 and $\vec(S) = S_1, \ldots, S_m$ is stable.
 
-Suppose $\vec{S}$ has components $\vec{C_i} = S_{a_i},\ldots, S_{b_i}$ for $i \in [1,h]$
-and $\pi_i = \{(S_j:\alpha_i \rightarrow \alpha_{j+1}) | j \in [a_i,b_i]\}$ 
-is the typed version of $\vec{C_i}$, with codomain $\beta_i = \alpha_{b_i + 1}$.
+Suppose $\vec{S}$ has components $\vec{C_i} = S_{a_i},\ldots, S_{b_i}$ for $i \in [1,h]$.
+%and $\pi_i = \{(S_j:\alpha_j \rightarrow \alpha_{j+1}) | j \in [a_i,b_i]\}$ 
+%is the typed version of $\vec{C_i}$, with codomain $\beta_i = \alpha_{b_i + 1}$.
 
 Suppose $C_i = S_{a_i}\ldots S_{b_i}$ is the product of $\vec{C_i}$.
 
@@ -2884,15 +2975,16 @@ Suppose $d_1, \ldots, d_h$ are stationarity degrees of  $\vec{C_1}$, \ldots,  $\
 
 \item
 We say that a sequence $\sigma \in \Seq(\ColRel \times \N \times \ColRel \times \Graph)$ 
-is a state of $\vec{S} = S_1, \ldots, S_n$ and we write $\sigma \state \vec{S}$ if and only if 
+is a state of $\vec{S} = S_1, \ldots, S_n$ and we write $\sigma \state \vec{S}$
+or $\sigma = \state(\vec{S})$ if and only if 
 for some degrees  $d_1, \ldots, d_h$ and some codomains $\beta_1, \ldots, \beta_h$ we have:
 $$
 \sigma \ \ \ 
 = \ \ \ 
 (
-C_1, d_1, S_{b_1};
+C_1, d_1, S_{b_1},\alpha_{b_1 + 1};
 \ldots;
-C_h, d_h, S_{b_h}
+C_h, d_h, S_{b_h},\alpha_{b_h + 1}
 )
 $$
 %%%%%%%%%%%%%%%%%%%%%%
@@ -2904,9 +2996,9 @@ $$
 \size(\pi,\sigma)
 =
 (
-\size(\beta_1, C_1), \newton{\MaxInd}{c_1}-d_1; 
+\size(\alpha_{b_1 + 1}, C_1), \newton{\MaxInd}{c_1}-d_1; 
 \ldots;
-\size(\beta_h, C_h), \newton{\MaxInd}{c_h}-d_h
+\size(\alpha_{b_h + 1}, C_h), \newton{\MaxInd}{c_h}-d_h
 )
 $$
 
@@ -2918,20 +3010,19 @@ Then $\sigma \state \pi$ if and only if $\sigma \state  \vec{S}$.
 \item 
 We call 
 $$
-\States(\pi) =  \{\sigma \in \Seq(\ColRel \times \N \times \ColRel) | (\sigma \state\pi)\}
+\States =  \{\state(\pi) | \pi \in \ProofUnfolding\}
 $$
 the set of states. 
 
 \item
-Assume $\pi_1, \pi_2 \in \ProofUnfolding$ and $\sigma_1 \state \pi_1$ and 
-$\sigma_2 \state \pi_2$. We write $(\pi_1,\sigma_1) \preceq (\pi_2,\sigma_2)$ for: 
-$\size(\pi_1,\sigma_1) \le \size(\pi_2,\sigma_2)$ in the lexicographic order.
+Assume $\pi_1:\alpha \rightarrow \beta, \pi_2:\alpha \rightarrow \gamma \in \ProofUnfolding$ 
+and $\sigma_1 = \state(\pi_1)$ and 
+$\sigma_2 = \state(\pi_2)$. We write $\pi_1 \prec \pi_2$ for: 
+$\size(\beta,\sigma_1) < \size(\gamma,\sigma_2)$ in the lexicographic order.
 \end{enumerate}
 \end{definition}
 
-Each path $\pi$ has some state $\sigma$: we can always choose some codomains 
-$\beta_1, \ldots, \beta_h$ and we always choose the trivial stationarity degree $d_i = 0$. 
-We can decide $(\pi_1,\sigma_1) \preceq (\pi_2,\sigma_2)$ in polynomial time.
+We can decide $\size(\beta,\sigma_1) < \size(\gamma,\sigma_2)$ in polynomial time.
 
 
 %
@@ -3159,10 +3250,10 @@ hence poly-exponential time.
 %$\DomCard(R_i) < \DomCard(R_{i+1})$.
 
 Suppose $\pi_1 = \pi, (R : \beta \rightarrow \gamma) \in \ProofUnfolding$ is a typed path in 
-$\setR^+$ and $\sigma \in \States(\setR^+)$. We define a state 
-$\tau = \trans(\sigma, R : \beta \rightarrow \gamma) \in \States(\setR^+)$ 
-such that if $\sigma \state \pi$ then $\tau \state \pi_1$. We also check that 
-$(\pi,\sigma) \succ (\pi_1, \tau)$ in the lexicographic ordering.
+$\setR^+$ and $\sigma \in \States$. We define a state 
+$\tau = \trans(\sigma, R : \beta \rightarrow \gamma) \in \States$ 
+such that if $\sigma = \state(\pi)$ then $\tau = \state(\pi_1)$. We also check that 
+$\pi \succ \pi_1$ in the lexicographic ordering.
 
 %18:47 19/02/2026
 
