@@ -1,0 +1,40 @@
+﻿ [TYPES] Bibliography of Cyclic and Non-well-founded Proof Theory
+Oggetto:
+[TYPES] Bibliography of Cyclic and Non-well-founded Proof Theory
+Mittente:
+Reuben Rowe <reuben.rowe@rhul.ac.uk>
+Data:
+06/02/2024, 22:45
+A:
+types-list@LISTS.SEAS.UPENN.EDU
+
+[ The Types Forum, http://lists.seas.upenn.edu/mailman/listinfo/types-list ]
+
+Dear Colleagues,
+
+For a while I have been maintaining a private bibliography of all
+references I know of related to non-well-founded and cyclic proof theory
+and its applications.
+
+I am not currently aware of any comparable publicly available resource,
+and I thought that my bibliography could thus be of benefit to our
+research community. So I have now made it available on Github pages:
+
+    https://urldefense.com/v3/__https://reubenrowe.github.io/cyclic-proof-bibliography/__;!!IBzWLUs!TnVCQINddOFeCSK0IRNasHTn0gZNf7o_QC1fV0-JjpJ1TCC_9E4352uTTkDJ8kOj14-AxwAqKjcIyAreiennRAjjv-A5ZUI5IZ66$
+Currently, it contains ~160 references, comprising published articles,
+masters and phd theses, and preprints.
+
+I debated whether this was relevant to the TYPES community, and in the
+end decided that it would be: many of the items have been published in
+venues of interest to the TYPES community (POPL, LICS, CONCUR, etc.),
+and cyclic proof methodology has found a number of applications to
+program verification and synthesis, termination and type checking.
+
+I would welcome suggestions of any relevant items I have missed. Please
+feel free to email me, or submit an issue on the Github repository.
+
+    https://urldefense.com/v3/__https://github.com/reubenrowe/cyclic-proof-bibliography/issues__;!!IBzWLUs!TnVCQINddOFeCSK0IRNasHTn0gZNf7o_QC1fV0-JjpJ1TCC_9E4352uTTkDJ8kOj14-AxwAqKjcIyAreiennRAjjv-A5Zcv2UzvD$
+Best,
+
+Reuben
+This email, its contents and any attachments are intended solely for the addressee and may contain confidential information. In certain circumstances, it may also be subject to legal privilege. Any unauthorised use, disclosure, or copying is not permitted. If you have received this email in error, please notify us and immediately and permanently delete it. Any views or opinions expressed in personal emails are solely those of the author and do not necessarily represent those of Royal Holloway, University of London. It is your responsibility to ensure that this email and any attachments are virus free.
