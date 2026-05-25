@@ -1,0 +1,43 @@
+﻿ Re: transformation from a cyclic proof system for Peano Arithmetic to ordinary,Peano Arithmetic.
+Oggetto:
+Re: transformation from a cyclic proof system for Peano Arithmetic to ordinary,Peano Arithmetic.
+Mittente:
+Anupam das <a.das@bham.ac.uk>
+Data:
+19/02/2024, 16:01
+A:
+Alex Simpson <Alex.Simpson@fmf.uni-lj.si>, Berardi Stefano <stefano@di.unito.it>
+CC:
+Dominik Wehr <dominik.wehr@gu.se>, "tatsuta@nii.ac.jp" <tatsuta@nii.ac.jp>
+
+Dear Alex and Stefano,
+
+[apologies for my late response]
+
+Greetings from Naples, where Makoto (added in cc) also is for FICS!
+
+With respect to the question at hand, 
+
+”Give an explicit syntactic translation from cyclic proofs to proofs in
+> PA. Is there an essential blow-up in size?”
+
+it really depends on what is meant by `explicit syntactic' and `essential blow-up'. Let me survey:
+
+* Alex's proof in his 2017 paper ([Sim17]) is constructive, but yields a non-elementary blowup after cut-elimination from ACA0 to PA. 
+* The argument in my 2020 paper [D20] is constructive and yields an exponential blowup (as stated in Theorem 6.10). The reason for improvement (aside from logical complexity) is because the argument is uniform in the original cyclic proof: for this it is crucial to work with a sound `arithmetical overapproximation' to the progressing criterion. The exponential comes from the complementation of the trace automaton.
+* As far as I can see, your translation with Makoto in your 2017 LICS paper ([BT17]) is elementary, with some sources of exponential blowup  (?).
+* (some comparison between these papers appears in section 10.1 of [D20]).
+
+Now, all these arguments use some nontrivial infinitary combinatorics as `engines' for the (constructive) translation from CA to PA. E.g. in [BT17] there is the formalisation of  arithmetical Ramsey and consequently the Termination Theorem. This is hidden in the reverse mathematics of omega-automaton theory in [Sim17] and [D20]. I consider the metamthematical narrative to serve just as a high-level organisation of the ideas, but arguably this presentation is `non-explicit'. Now:
+
+* (Complexity) I feel it is unlikely that we can improve upon the exponential bound, as we now know that proof checking for cyclic proofs (in muMALL) is PSPACE-complete. Dominik (cc) has extended this result to CA too. What this means is that if there were, say, a polynomial time translation from CA to PA, then we would have a more efficient correctness criterion for CA that extends the usual progressing one: just guess a PA proof of the same conclusion; this is an NP procedure by assumption. This does not quite reduce to, say NP=PSPACE, but it feels counterintuitive.
+* (`Explicitness') In fact, Dominik is the one I know working most actively on this topic. He has leveraged certain types of annotated systems to control explicit translations from CA to PA. Since I found his Licentiate Thesis (which I examined)online and publicly available, I trust he will not mind me sharing the link to it with you: https://gupea.ub.gu.se/bitstream/handle/2077/75984/thesis_dom.pdf?sequence=3 . The second appendix is a preprint of his with Graham Leigh where they indeed carry out such a translation. Note that their formulation of CA is not precisely the same as Alex's, and it is possible that the method is sensitive to this choice.
+
+I will let Dominik expand further on the two points above (if he so wishes).
+
+Best,
+Anupam
+
+Sent from Outlook for Android
+
+

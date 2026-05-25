@@ -1,0 +1,256 @@
+
+
+@inproceedings{Lee1,
+author = {Lee, Chin Soon and Jones, Neil D. and Ben-Amram, Amir M.},
+title = {The size-change principle for program termination},
+year = {2001},
+isbn = {1581133367},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/360204.360210},
+doi = {10.1145/360204.360210},
+abstract = {The "size-change termination" principle for a first-order functional language with well-founded data is: a program terminates on all inputs if every infinite call sequence (following program control flow) would cause an infinite descent in some data values.Size-change analysis is based only on local approximations to parameter size changes derivable from program syntax. The set of infinite call sequences that follow program flow and can be recognized as causing infinite descent is an omega-regular set, representable by a Büchi automaton. Algorithms for such automata can be used to decide size-change termination. We also give a direct algorithm operating on "size-change graphs" (without the passage to automata).Compared to other results in the literature, termination analysis based on the size-change principle is surprisingly simple and general: lexical orders (also called lexicographic orders), indirect function calls and permuted arguments (descent that is not in-situ) are all handled automatically and without special treatment, with no need for manually supplied argument orders, or theorem-proving methods not certain to terminate at analysis time.We establish the problem's intrinsic complexity. This turns out to be surprisingly high, complete for PSPACE, in spite of the simplicity of the principle. PSPACE hardness is proved by a reduction from Boolean program termination. An interesting consequence: the same hardness result applies to many other analyses found in the termination and quasitermination literature.},
+booktitle = {Proceedings of the 28th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
+pages = {81–92},
+numpages = {12},
+keywords = {PSPACE-completeness, omega automaton, partial evaluation, program analysis, termination},
+location = {London, United Kingdom},
+series = {POPL '01}
+}
+
+@article{Lee2,
+author = {Lee, Chin Soon},
+title = {Ranking functions for size-change termination},
+year = {2009},
+issue_date = {April 2009},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {31},
+number = {3},
+issn = {0164-0925},
+url = {https://doi.org/10.1145/1498926.1498928},
+doi = {10.1145/1498926.1498928},
+abstract = {This article explains how to construct a ranking function for any program that is proved terminating by size-change analysis.The “principle of size-change termination” for a first-order functional language with well-ordered data is intuitive: A program terminates on all inputs, if every infinite call sequence (following program control flow) would imply an infinite descent in some data values. Size-change analysis is based on information associated with the subject program's call-sites. This information indicates, for each call-site, strict or weak data decreases observed as a computation traverses the call-site. The set DESC of call-site sequences for which the size-changes imply infinite descent is omega-regular, as is the set FLOW of infinite call-site sequences following the program flowchart. If FLOW included in DESC (a decidable problem), every infinite call sequence would imply infinite descent in a well-ordering—an impossibility—so the program must terminate.This analysis accounts for termination arguments applicable to different call-site sequences, without indicating a ranking function for the program's termination. In this article, it is explained how one can be constructed whenever size-change analysis succeeds. The constructed function has an unexpectedly simple form; it is expressed using only min, max, and lexicographic tuples of parameters and constants. In principle, such functions can be tested to determine whether size-change analysis will be successful. As a corollary, if a program verified as terminating performs only multiply recursive operations, the function that it computes is multiply recursive.The ranking function construction is connected with the determinization of the B\"{u}chi automaton for DESC. While the result is not practical, it is of value in addressing the scope of size-change reasoning. This reasoning has been applied broadly, in the analysis of functional and logic programs, as well as term rewrite systems.},
+journal = {ACM Trans. Program. Lang. Syst.},
+month = apr,
+articleno = {10},
+numpages = {42},
+keywords = {termination analysis, size-change termination, ranking function, multiple recursion, determinization, omega-Automaton}
+}
+
+@article{Brotherston1,
+  title={Sequent calculus proof systems for inductive definitions},
+  author={Brotherston, James},
+  year={2006},
+  publisher={University of Edinburgh. College of Science and Engineering. School of~…}
+}
+
+@InProceedings{Brotherston2,
+author="Brotherston, James",
+editor="Beckert, Bernhard",
+title="Cyclic Proofs for First-Order Logic with Inductive Definitions",
+booktitle="Automated Reasoning with Analytic Tableaux and Related Methods",
+year="2005",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="78--92",
+abstract="We consider a cyclic approach to inductive reasoning in the setting of first-order logic with inductive definitions. We present a proof system for this language in which proofs are represented as finite, locally sound derivation trees with a ``repeat function'' identifying cyclic proof sections. Soundness is guaranteed by a well-foundedness condition formulated globally in terms of traces over the proof tree, following an idea due to Sprenger and Dam. However, in contrast to their work, our proof system does not require an extension of logical syntax by ordinal variables.",
+isbn="978-3-540-31822-4"
+}
+
+@article{BrotherstonSimpson,
+author = {Brotherston, James and Simpson, Alex},
+title = {Sequent calculi for induction and infinite descent},
+year = {2011},
+issue_date = {December 2011},
+publisher = {Oxford University Press, Inc.},
+address = {USA},
+volume = {21},
+number = {6},
+issn = {0955-792X},
+url = {https://doi.org/10.1093/logcom/exq052},
+doi = {10.1093/logcom/exq052},
+abstract = {This article formalizes and compares two different styles of reasoning with inductively defined predicates, each style being encapsulated by a corresponding sequent calculus proof system.The first system, LKID, supports traditional proof by induction, with induction rules formulated as rules for introducing inductively defined predicates on the left of sequents.We show LKID to be cut-free complete with respect to a natural class of Henkin models; the eliminability of cut follows as a corollary. The second system, LKID-omega, uses infinite (non-well-founded) proofs to represent arguments by infinite descent. In this system, the left-introduction rules for inductively defined predicates are simple case-split rules, and an infinitary, global condition on proof trees is required in order to ensure soundness.We show LKID-omega to be cut-free complete with respect to standard models, and again infer the eliminability of cut. The infinitary system LKID-omega is unsuitable for formal reasoning. However, it has a natural restriction to proofs given by regular trees, i.e. to those proofs representable by finite graphs, which is so suited. We demonstrate that this restricted ‘cyclic’ proof system, CLKID-omega, subsumes LKID, and conjecture that CLKID-omega and LKID are in fact equivalent, i.e. that proof by induction is equivalent to regular proof by infinite descent.},
+journal = {J. Log. and Comput.},
+month = dec,
+pages = {1177–1216},
+numpages = {40}
+}
+
+
+
+@article{Afshari_Wehr_2024, 
+title={Abstract cyclic proofs}, 
+volume={34}, DOI={10.1017/S0960129524000070}, 
+number={7}, 
+journal={Mathematical Structures in Computer Science}, 
+author={Afshari, Bahareh and Wehr, Dominik}, 
+year={2024}, 
+pages={552–577}}
+
+@article{Mirai,
+title = {Cyclic proofs and size-change termination},
+journal = {Theoretical Computer Science},
+volume = {1045},
+pages = {115273},
+year = {2025},
+issn = {0304-3975},
+doi = {https://doi.org/10.1016/j.tcs.2025.115273},
+url = {https://www.sciencedirect.com/science/article/pii/S0304397525002117},
+author = {Mirai Ikebuchi},
+keywords = {Cyclic proof, Size-change termination, Intuitionistic logic},
+abstract = {A cyclic proof is a regular infinite proof tree with a global condition, and it is known that, under arithmetic, cyclic proofs with inductive definitions are equivalent to proofs with induction. A way to show this equivalence is by constructing a well-founded relation on tuples of natural numbers and then transforming a cyclic proof into a proof by well-founded induction with the relation. In this paper, we see the connection between cyclic proofs and size-change termination (SCT) of programs, and it provides a new well-founded relation for proof transformation.}
+}
+
+@InProceedings{Berardi,
+author="Berardi, Stefano
+and Tatsuta, Makoto",
+editor="C{\^i}rstea, Corina",
+title={Intuitionistic Podelski-Rybalchenko Theorem and Equivalence Between Inductive Definitions and Cyclic Proofs},
+booktitle="Coalgebraic Methods in Computer Science",
+year="2018",
+publisher="Springer International Publishing",
+address="Cham",
+pages="13--33",
+abstract="A cyclic proof system gives us another way of representing inductive and coinductive definitions and efficient proof search. Podelski-Rybalchenko termination theorem is important for program termination analysis. This paper first shows that Heyting arithmetic HA proves Kleene-Brouwer theorem for induction and Podelski-Rybalchenko theorem for induction. Then by using this theorem this paper proves the equivalence between the provability of the intuitionistic cyclic proof system and that of the intuitionistic system of Martin-Lof's inductive definitions when both systems contain HA.",
+isbn="978-3-030-00389-0"
+}
+
+@book{Graham1980,
+  title     = {Ramsey Theory},
+  author    = {{Ronald L. Graham, Bruce L. Rothschild, and Joel H. Spenser}},
+  year      = 1980,
+  publisher = "Wiley \& Sons",
+  address   = "New York"
+}
+
+@incollection{MartinLof,
+title = {Hauptsatz for the Intuitionistic Theory of Iterated Inductive Definitions},
+editor = {J.E. Fenstad},
+series = {Studies in Logic and the Foundations of Mathematics},
+publisher = {Elsevier},
+volume = {63},
+pages = {179-216},
+year = {1971},
+booktitle = {Proceedings of the Second Scandinavian Logic Symposium},
+issn = {0049-237X},
+doi = {https://doi.org/10.1016/S0049-237X(08)70847-4},
+url = {https://www.sciencedirect.com/science/article/pii/S0049237X08708474},
+author = {Per Martin-Löf},
+abstract = {Publisher Summary
+This chapter presents a proof theoretical analysis of the intuitionistic theory of generalized inductive definitions iterated an arbitrary finite number of times. Like the Hilbert type systems of first order predicate logic that are used, the theories of single and iterated generalized inductive definitions formulated do not lend themselves immediately to a proof theoretical analysis. Therefore, the chapter reformulates the axioms expressing the principles of definition and proof by generalized induction as rules of inference similar to those introduced by Gentzen in his system of natural deduction for first order predicate logic. As in Gentzen's case, this reformulation leads to a notable systematization that is already in the case of ordinary inductive definitions, the rules corresponding to the axioms that express the principle of definition by induction appearing as introduction rules for the inductively defined predicates, whereas the axioms that express the principle of proof by induction give rise to the corresponding elimination rules. Moreover, the generalized inductive definitions appear as inductive definitions iterated once and the iterated generalized inductive definitions as inductive definitions iterated twice or more.}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 	IMPLEMENTATION CYCLIC PROOFS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% It works fast on realistic examples. This counter-balances the negative 
+% impression produced by the PSPACE-completeness of the algorithm.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@inproceedings{10.1007/978-3-642-35182-2_25,
+author="James Brotherston and Nikos Gorogiannis and Rasmus Petersen",
+editor="Jhala, Ranjit and Igarashi, Atsushi",
+title="A Generic Cyclic Theorem Prover",
+booktitle="Programming Languages and Systems",
+year="2012",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="350--367",
+isbn="978-3-642-35182-2"
+}
+
+@inproceedings{10.1145/3018610.3018623,
+author = {Rowe, Reuben N. S. and Brotherston, James},
+title = {Automatic cyclic termination proofs for recursive procedures in separation logic},
+year = {2017},
+isbn = {9781450347051},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3018610.3018623},
+doi = {10.1145/3018610.3018623},
+abstract = {We describe a formal verification framework and tool implementation, based upon cyclic proofs, for certifying the safe termination of imperative pointer programs with recursive procedures. Our assertions are symbolic heaps in separation logic with user defined inductive predicates; we employ explicit approximations of these predicates as our termination measures. This enables us to extend cyclic proof to programs with procedures by relating these measures across the pre- and postconditions of procedure calls. We provide an implementation of our formal proof system in the Cyclist theorem proving framework, and evaluate its performance on a range of examples drawn from the literature on program termination. Our implementation extends the current state-of-the-art in cyclic proof-based program verification, enabling automatic termination proofs of a larger set of programs than previously possible.},
+booktitle = {Proceedings of the 6th ACM SIGPLAN Conference on Certified Programs and Proofs},
+pages = {53–65},
+numpages = {13},
+keywords = {Termination, Separation logic, Proof Certificates, Imperative programming, Explicit approximation, Cyclic proof, Automated proof search},
+location = {Paris, France},
+series = {CPP 2017}
+}
+
+@article{10.1145/3632888,
+author = {Cohen, Liron and Jabarin, Adham and Popescu, Andrei and Rowe, Reuben N. S.},
+title = {The Complex(ity) Landscape of Checking Infinite Descent},
+year = {2024},
+issue_date = {January 2024},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {8},
+number = {POPL},
+url = {https://doi.org/10.1145/3632888},
+doi = {10.1145/3632888},
+abstract = {Cyclic proof systems, in which induction is managed implicitly, are a promising approach to automatic verification. The soundness of cyclic proof graphs is ensured by checking them against a trace-based Infinite Descent property. Although the problem of checking Infinite Descent is known to be PSPACE-complete, this leaves much room for variation in practice. Indeed, a number of different approaches are employed across the various cyclic proof systems described in the literature. In this paper, we study criteria for Infinite Descent in an abstract, logic-independent setting. We look at criteria based on B\"{u}chi automata encodings and relational abstractions, and determine their parameterized time complexities in terms of natural dimensions of cyclic proofs: the numbers of vertices of the proof-tree graphs, and the vertex width—an upper bound on the number of components (e.g., formulas) of a sequent that can be simultaneously tracked for descent. We identify novel algorithms that improve upon the parameterised complexity of the existing algorithms. We implement the studied criteria and compare their performance on various benchmarks.},
+journal = {Proc. ACM Program. Lang.},
+month = jan,
+articleno = {46},
+numpages = {33},
+keywords = {cyclic proof, infinite descent, size-change termination, complexity, algorithms, B\"{u}chi automata}
+}
+
+@InProceedings{10.1007/978-3-031-90643-5_18,
+author="Cohen, Liron
+and Rowe, Reuben N. S.
+and Shaked, Matan",
+editor="Gurfinkel, Arie
+and Heule, Marijn",
+title="Cyclone: A Heterogeneous Tool for Verifying Infinite Descent",
+booktitle="Tools and Algorithms for the Construction and Analysis of Systems",
+year="2025",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="336--354",
+abstract="The Infinite Descent property underpins key verification techniques, such as size-change program termination and cyclic proofs. Deciding whether the Infinite Descent property holds of a given program or cyclic deduction is PSPACE-complete, with several exponential time algorithms in the literature. In this paper, we consider algorithms with better time complexity but which are (necessarily) incomplete. Concretely, we formulate and evaluate a number of alternative algorithms for semi-deciding Infinite Descent. Our aim is to improve average runtime performance by utilising more efficient algorithms for specific subclasses of input. We present Cyclone, a tool integrating these algorithms with an existing (complete) decision procedure. We evaluate Cyclone on a large suite of examples harvested from the Cyclist theorem prover, finding that the incomplete algorithms achieve extremely high coverage and afford substantial runtime improvement in practice. We thus believe that the Cyclone tool will foster broader adoption of techniques based on Infinite Descent and expand their practical applications.",
+isbn="978-3-031-90643-5"
+}
+
+@inproceedings{10.1145/3453483.3454087,
+author = {Itzhaky, Shachar and Peleg, Hila and Polikarpova, Nadia and Rowe, Reuben N. S. and Sergey, Ilya},
+title = {Cyclic program synthesis},
+year = {2021},
+isbn = {9781450383912},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3453483.3454087},
+doi = {10.1145/3453483.3454087},
+abstract = {We describe the first approach to automatically synthesizing heap-manipulating programs with auxiliary recursive procedures. Such procedures occur routinely in data structure transformations (e.g., flattening a tree into a list) or traversals of composite structures (e.g., n-ary trees). Our approach, dubbed cyclic program synthesis, enhances deductive program synthesis with a novel application of cyclic proofs. Specifically, we observe that the machinery used to form cycles in cyclic proofs can be reused to systematically and efficiently abduce recursive auxiliary procedures. We develop the theory of cyclic program synthesis by extending Synthetic Separation Logic (SSL), a logical framework for deductive synthesis of heap-manipulating programs from Separation Logic specifications. We implement our approach as a tool called Cypress, and showcase it by automatically synthesizing a number of programs manipulating linked data structures using recursive auxiliary procedures and mutual recursion, many of which were beyond the reach of existing program synthesis tools.},
+booktitle = {Proceedings of the 42nd ACM SIGPLAN International Conference on Programming Language Design and Implementation},
+pages = {944–959},
+numpages = {16},
+keywords = {Separation Logic, Program Synthesis, Cyclic Proofs},
+location = {Virtual, Canada},
+series = {PLDI 2021}
+}
+
+@article{Brotherston2020,
+author = {Tellez, G. and Brotherston J.},
+title = {Automatically Verifying Temporal Properties of Pointer Programs with Cyclic Proof}, 
+journal = {J. Autom. Reason. 64(3)},
+pages = {555-57},
+year = {2020},
+doi = {https://doi.org/10.1007/s10817-019-09532-0}
+}
+
+@article{Stratulat_2021,
+   title={E-Cyclist: Implementation of an Efficient Validation of FOLID Cyclic Induction Reasoning},
+   volume={342},
+   ISSN={2075-2180},
+   url={http://dx.doi.org/10.4204/EPTCS.342.11},
+   DOI={10.4204/eptcs.342.11},
+   journal={Electronic Proceedings in Theoretical Computer Science},
+   publisher={Open Publishing Association},
+   author={Stratulat, Sorin},
+   year={2021},
+   month=sep, pages={129–135} }
+
