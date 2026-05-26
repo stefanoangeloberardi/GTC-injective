@@ -1,0 +1,9 @@
+26/05/2026
+A QUESTION FROM MAKOTO: DOES GTC CHANGES IF WE MOVE FROM SETS TO LISTS?
+Suppose we have a proof Pi with contexts-as-sets with PI in GTC. 
+Can we transform Pi into a proof Pi' with contexts-as-lists
+in such a way that Pi' in GTC? And the other way round?
+
+Similar questions can be raised about the relationship between:
+- contexts-as-sets 	and 	context-as-multisets
+- context-as-multisets  and 	contexts-as-lists
