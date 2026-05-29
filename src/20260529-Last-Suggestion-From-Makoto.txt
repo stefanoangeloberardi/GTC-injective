@@ -1,0 +1,8 @@
+20260529-Last-Suggestion-From-Makoto
+Modify the indexes proving the correctness of the cyclic proof in such a way that they depend on
+the graph, on the current values of the parameters of the node but NOT on the values the parameters 
+had in an ancestor node. If possible, do not unfold the graph.
+
+Take the minimum of the vector index associated product of relations which can be associated to a 
+path leading to the node. count the number of steps without a progression, they are at maximum 
+(cardinality graph)X2^n, where n is the maximum number of parameters in the proof graph.
