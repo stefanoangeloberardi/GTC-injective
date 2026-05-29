@@ -1,0 +1,18 @@
+20260529-Amram-Lee-Jones-use-of-Classical-Logic
+
+(1) The 2010 paper by Amram use classical Ramsey Theorem
+(2) The 2009 paper by Lee, Ranking Functions I, uses Büchi automata in Definition 2.12
+(3) The 2010 paper by Lee and Amram uses classical logic in:
+
+Theorem 2.8. (T_G terminating <---> G satisfies SCT)
+The proof refers to the paper Ranking I and it is therefore classical. Here SCT=GTC.
+
+Theorem 3.3. applies to strict fan-out-free graph, therefore not to all fan-out-free graphs
+Theorem 4.10 Pag 14 is classical: 
+"Suppose to the contrary there is a counter-example M^R"
+Results about fan-in-free depends on results on fan-out-free and are therefore classical.
+
+
+
+
+
