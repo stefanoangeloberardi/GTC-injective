@@ -6,3 +6,8 @@ had in an ancestor node. If possible, do not unfold the graph.
 Take the minimum of the vector index associated product of relations which can be associated to a 
 path leading to the node. count the number of steps without a progression, they are at maximum 
 (cardinality graph)X2^n, where n is the maximum number of parameters in the proof graph.
+
+20260605. From the definition of multi-graph we cannot reconstruct the cyclic proof. This is not by
+chance, because to reconstruct the cyclic proof is not necessary to prove that cyclic proofs are sound.
+However, this could be confusing for the reader, so perhaps it is worth while to add for each node
+the sorted list of child nodes in order to reconstruct the cyclic proof structure.
