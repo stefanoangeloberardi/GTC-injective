@@ -1,8 +1,5 @@
 \section{Intuitionistic Proof Transformation}
 
-
-\section{Intuitionistic Proof Transformation}
-
 \subsection{Induction principle for path relation}
 
 \begin{Prop}
@@ -30,25 +27,30 @@ $E$ is the set of $(c_1,(S,P),\pi,c_2)$ where
 there is a path $\pi$ from a companion of companion number $c_1$ to a bud
 of companion number $c_2$ and
 \[
-S = \parbox{10cm}{$\{ (i,j) \ |\ $ \ there is some non-progressing trace from
-the $i$-th inductive atomic formula in the bottom sequent of $\pi$
-to the $j$-the inductive atomic formula in the top sequent of $\pi$ \}}, \\
-\\
-P = \{ (i,j) \ |\ \parbox{10cm}{\ there is non-progressing trace from
-the $i$-th inductive atomic formula in the bottom sequent of $\pi$
-to the $j$-the inductive atomic formula in the top sequent of $\pi$ \}.}
+S = \{ (i,j) \ |\ F_1(i,j) \}, \\
+P = \{ (i,j) \ |\ F_2(i,j) \},
 \]
+where $F_1(i,j)$ iff
+there is some non-progressing trace from
+the $i$-th inductive atomic formula in the bottom sequent of $\pi$
+to the $j$-the inductive atomic formula in the top sequent of $\pi$,
+and
+$F_2(i,j)$ iff
+there is non-progressing trace from
+the $i$-th inductive atomic formula in the bottom sequent of $\pi$
+to the $j$-the inductive atomic formula in the top sequent of $\pi$.
 
 Since the cyclic proof $\Pi$ satisfies, the SC call graph $G$ satisfies
 SCT condition.
 
-Claim 1. $(c_1,\Vec x) >_\Pi (c_2,\Vec y)$ implies
+Claim 1. $\<c_1,\<\Vec x\>\> >_\Pi \<c_2,\<\Vec y\>\>$ implies
 $\rho(c_1,\Vec x) >_\Lex \rho(c_2,\Vec y)$.
 
 We can show it as follows.
-From $(c_1,\<\Vec x\>) >_\Pi (c_2,\<\Vec y\>)$,
+From $\<c_1,\<\Vec x\>\> >_\Pi \<c_2,\<\Vec y\>\>$,
 there is a path $\pi$ from the bottom sequent of companion number $c_1$
-to the top sequent of companion number $c_2$.
+to the top sequent of companion number $c_2$ and
+$\<c_1,\<\Vec x\>\> >_\pi \<c_2,\<\Vec y\>\>$.
 Then there is a SC graph $R=(c_1,-,\pi,c_2)$ in the SC call graph $G$
 and $\Vec x R \Vec y$.
 Hence $(c_1,\Vec x) \to^\pi (c_2,\Vec y)$.
@@ -58,15 +60,15 @@ We have shown the claim 1.
 
 We have the induction principle for lexicographic ordering on natural number
 \[
-\forall \Vec x((\forall \Vec yfg(\rho(g,\Vec y) <_\Lex \rho(f,\Vec x) \imp A(\Vec y)))
-\imp A(\Vec x))
-\imp \forall \Vec xA(\Vec x).
+\forall \Vec xf((\forall \Vec yg(\rho(g,\Vec y) <_\Lex \rho(f,\Vec x) \imp A(g,\Vec y)))
+\imp A(f,\Vec x))
+\imp \forall \Vec xf A(f,\Vec x).
 \]
-By clamin 1,
+By clamin 1, taking $x$ to be $\<\Vec x\>$,
 it implies the induction principle for the path relation
 \[
-\forall \Vec x((\forall \Vec yfg((g,\Vec y) <_\Pi (f,\Vec x) \imp A(\Vec y)))
-\imp A(\Vec x))
-\imp \forall \Vec xA(\Vec x).
+\forall xf((\forall yg(\<g,y\> <_\Pi \<f,x\> \imp A(\<g,y\>)))
+\imp A(\<f,x\>))
+\imp \forall xf A(\<f,x\>).
 \]
 $\Box$
