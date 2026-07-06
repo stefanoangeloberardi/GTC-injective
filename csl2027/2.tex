@@ -1,0 +1,155 @@
+\section{Size-change graphs}
+
+\begin{Def}[Program frame]\rm
+A program frame is defined to be (\Functionnames, \Callsitenames, \arity)
+where
+\Functionnames, \Callsitenames\ are a finite set,
+and \arity : \Functionnames $\to$ N.
+\end{Def}
+
+A program frame is an abstraction of a functional program
+where \Functionnames\ is the set of function names in the program,
+\arity(f) is the arity of a function $f$
+and each function call is the form of $f^c$
+with $f$ in \Functionnames\ and $c$ in \Callsitenames\
+so that each function call $f$ is 
+distinguished by
+attacching a different call-site $c$ to it.
+
+For simplicity, we write SC for "size-change".
+
+\begin{Def}[SC call graph]\rm
+For a given program frame (\Functionnames,\Callsitenames, \arity),
+a SC call graph is defined to a labeled graph $(V,E)$ where
+
+vertexes $V \subseteq \Functionnames$,
+
+edges $E \subseteq \{(f, (S, P), c, g)) \ |\ 
+f,g \in \Functionnames, c \in \Callsitenames,
+S, P \subseteq [1,\arity(f)] \times [1,\arity(g)],
+S \cap P = \emptyset \}$,
+
+where the graph is a directed graph with edges and
+the edge $(f, (S, P), c, g))$ is from the vertex $f$ to the vertex $g$.
+
+For simplicity, we defined $V \subseteq \Functionnames$, but
+formally $V$ 
+can be defined as a finite set 
+with a labelling function
+\[
+L : \hbox{(the finite set)} \to \Functionnames.
+\]
+A similar formal definition can be applied to $E$.
+
+We will often write $G_i$ for an edge in $E$.
+
+A path is defined as a consecutive sequence of edges in $E$ as usual.
+A path may be infinite.
+We call an edge in a SC call graph a {\em SC graph}.
+We call a path in a SC call graph a {\em SC path}.
+
+For a given finite SC path $(G_1,\ldots,G_k)$,
+a {\em trace} in the path is defined to be
+a finite sequence $(n_1,\ldots,n_k)$ of natural numbers such that
+$n_i (S_i \cup P_i) n_{i+1}$ for all $i \in [1,k-1]$
+where $G_i = (-,(S_i,P_i),-,-)$.
+For an infinite SC path,
+a trace of the path is defined similarly,
+where the trace is infinite.
+
+A trace $(n_1,\ldots,n_k)$ is called progressing
+if there is some $i \in [1,k-1]$ such that
+$n_i P_i n_{i+1}$.
+The trace is called non-progressing otherwise.
+\end{Def}
+
+\begin{Def}[Infinitely progressing trace]\rm
+An initinite trace is defined to be {\em infinitely progressing}
+if 
+there are infinitely many $i \in N$ such that $n_i P_i n_{i+1}$
+where
+the trace is a trace $n_1,n_2,\ldots$ of a infinite SC path $G_1,G_2,\dots$
+and
+$G_i=(-,(S_i,P_i),-,-)$ for all $i \in N$.
+\end{Def}
+
+
+An edge $(f, (S, P), c, g)$ corresponds to
+a size-change graph $G : f \to g$ in [Ikebuchi2025]
+where
+\[
+x_i^f {\displaystyle \mathop{\to}^\downarrow} x_j^g \hbox{ if } iPj, \\
+x_i^f {\displaystyle \mathop{\to}^{=\hskip -5pt\downarrow}} x_j^g \hbox{ if } iSj.
+\]
+
+The relation $S$ means a stationary relation, and
+a non-progressing trace in the definition
+corresponds to a non-progressing trace in [Brotherston2011].
+The relation $P$ means a progressing relation, and
+a progressing trace in the definition
+corresponds to a progressing trace in [Brotherston2011].
+
+\begin{Def}[SCT condition]\rm
+A SC call graph is defined to satisfy SCT condition if
+for any infinite SC path $G_1,G_2,\ldots$ in the SC call graph
+there are some $k \in N$ and an infinitely progressing trace $n_k,n_{k+1},\ldots$
+in the SC path $G_k,G_{k+1},\ldots$.
+\end{Def}
+
+\subsection{Ranking function}
+
+We will sometimes write a sequcne $v_1,\ldots,v_k$ for $\Vec v$.
+We write $(v_1,\ldots,v_k)_i$ for $v_{i+1}$ with $i \ge 0$.
+
+\begin{Def}[State]\rm
+For a program frame (\Functionnames, \Callsitenames, \arity),
+a {\em state} is defined to be $(f,\Vec v)$
+where $f$ is in \Functionnames\
+and $\Vec v \in N^{\arity(f)}$.
+
+For a given SC call graph of a program frame and
+a call sites $c$ of the program frame and
+states $(f, \Vec v)$ and $(g, \Vec w)$ of the program frame,
+we define $(f, \Vec v) \to^c (g, \Vec w)$ to hold if
+there is some SC graph $(f,(S,P),c,g)$ in the SC call graph such that
+for all $i \in [1,\arity(f)]$ and $j \in [1,\arity(g)]$,
+
+- $v_i \ge w_j$ if $i S j$, and
+
+- $v_i > w_j$ if $i P j$.
+\end{Def}
+
+When we consider a program,
+$(f, \Vec v) \to^c (g, \Vec w)$ is an overapproximation of
+the fact that
+the definition body of $f$ contains $g^c$ and
+this $g^c$ is called with the form $g^c(\Vec w)$
+when this $f$ is called with the form $f(\Vec v)$.
+
+\begin{Def}[Ranking function for SC call graph]\rm
+For a given SC call graph,
+a function $\rho$ is defined to be a ranking function for the SC call graph if
+for some $m$, we have
+$\rho: \hbox{states} \to (N \cup \{\infty\})^m$
+such that
+
+if $(f, \Vec v) \to^c (g, \Vec w)$
+then $\rho(f, \Vec v) >_\Lex \rho(g, \Vec w)$
+
+where $>_\Lex$ is the lexicographic order.
+\end{Def}
+
+\begin{Th}[Ranking function synthesis (Lee2009 th 4.11, Ben2009 th 3.3, Ben2010 th 6.17)]
+If a SC call graph satisfies SCT condition,
+there is an algorithm to synthesize a ranking function
+for the SC call graph.
+\end{Th}
+Note that Ben2009 th 3.3 assumed a fan-out free condition.
+
+The metatheory of all these papers is classical.
+
+In this paper, 
+by assuming injectivity condition, which is the same as the fun-out free condition,
+we will prove the same statement
+in intuitionistic logic.
+

@@ -1,0 +1,72 @@
+\section{Intuitionistic Proof Transformation}
+
+
+\section{Intuitionistic Proof Transformation}
+
+\subsection{Induction principle for path relation}
+
+\begin{Prop}
+$\prove_\HA \Ind(>_\Pi)$.
+\end{Prop}
+
+{\em Proof.}
+
+Assume a cyclic proof $\Pi$ is given.
+
+We define a program frame by:
+$\Functionnames$ is the set of companion numbers,
+and
+$\Callsitenames$ is the set of paths from a companion to a bud,
+and
+$\arity(c)$ for a companion number $c$ is the number of
+inductive atomic formulas in the antecedent of the judgment
+of companion number $c$.
+
+We define a SC call graph $G$ by:
+
+$V$ is the set of companion numbers in $\Pi$,
+
+$E$ is the set of $(c_1,(S,P),\pi,c_2)$ where
+there is a path $\pi$ from a companion of companion number $c_1$ to a bud
+of companion number $c_2$ and
+\[
+S = \parbox{10cm}{$\{ (i,j) \ |\ $ \ there is some non-progressing trace from
+the $i$-th inductive atomic formula in the bottom sequent of $\pi$
+to the $j$-the inductive atomic formula in the top sequent of $\pi$ \}}, \\
+\\
+P = \{ (i,j) \ |\ \parbox{10cm}{\ there is non-progressing trace from
+the $i$-th inductive atomic formula in the bottom sequent of $\pi$
+to the $j$-the inductive atomic formula in the top sequent of $\pi$ \}.}
+\]
+
+Since the cyclic proof $\Pi$ satisfies, the SC call graph $G$ satisfies
+SCT condition.
+
+Claim 1. $(c_1,\Vec x) >_\Pi (c_2,\Vec y)$ implies
+$\rho(c_1,\Vec x) >_\Lex \rho(c_2,\Vec y)$.
+
+We can show it as follows.
+From $(c_1,\<\Vec x\>) >_\Pi (c_2,\<\Vec y\>)$,
+there is a path $\pi$ from the bottom sequent of companion number $c_1$
+to the top sequent of companion number $c_2$.
+Then there is a SC graph $R=(c_1,-,\pi,c_2)$ in the SC call graph $G$
+and $\Vec x R \Vec y$.
+Hence $(c_1,\Vec x) \to^\pi (c_2,\Vec y)$.
+By Theorem \ref{th:rankingfunc}, we have
+$\rho(f, \Vec x) >_\Lex (g, \Vec y)$.
+We have shown the claim 1.
+
+We have the induction principle for lexicographic ordering on natural number
+\[
+\forall \Vec x((\forall \Vec yfg(\rho(g,\Vec y) <_\Lex \rho(f,\Vec x) \imp A(\Vec y)))
+\imp A(\Vec x))
+\imp \forall \Vec xA(\Vec x).
+\]
+By clamin 1,
+it implies the induction principle for the path relation
+\[
+\forall \Vec x((\forall \Vec yfg((g,\Vec y) <_\Pi (f,\Vec x) \imp A(\Vec y)))
+\imp A(\Vec x))
+\imp \forall \Vec xA(\Vec x).
+\]
+$\Box$

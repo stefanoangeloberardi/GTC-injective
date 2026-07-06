@@ -1,0 +1,386 @@
+\section{Inductive proofs and cyclic proofs}
+
+\subsection{Martin-L\"of's Inductive Definition System $\LKID$}
+
+We define
+a Martin-L\"of's inductive definition system, called $\LKID$,
+given in \cite{Brotherston11}, 
+which formalizes classical first-order logic with inductive definitions
+in sequent calculus.
+
+The language of $\LKID$ is a first-order language with
+production rules for indutive predicate symbols.
+The predicate symbolds are classified into ordinary predicates symbols $Q,Q_1,Q_2,\ldots$
+and inductive predicate symbols $P,P_1,P_2,\ldots$.
+We assume the first order terms $t,u, \ldots$.
+We assume $\forall x$ and $\exists y$ are less tightly connected than other
+logical connectives.
+We call an atomic formula an {\em inductive atomic formula}
+when its predicate symbol is an inductive predicate symbol.
+
+For a formula $F$ and a variable $x$,
+we will call the expression $\lambda x.F$ an {\em abstract}.
+We will sometimes define an abstract $G$ as $\lambda x.F$
+by defining $G(x)$ as some formula $F$.
+For an abstract $\lambda x.F$ and a term $t$,
+we write $(\lambda x.F)t$ or $t \in \lambda x.F$ for $F[x:=t]$.
+We call a predicate symbol or an abstract {\em predicate}.
+
+For simplicity,
+we sometimes write $Fxy$ and $t \in F$ for $F(x,y)$ and $F(t)$ respectively
+when $F$ is a predicate,
+For simplicity, we use vector notation $\Vec t$ to denote
+the sequence $t_1,\ldots,t_n$.
+For simplicity, we will use a sequence to denote a set when it is not ambigious.
+We write $e[x:=t]$ for the expression obtained from $e$ by replacing
+every free occurrence of the variable $x$ by $t$.
+For simplicity,
+We also write $e[\Vec x:=\Vec t]$ for simultaneous multiple substitution.
+We also write $\theta$ for the substitution $[\Vec x:=\Vec t]$.
+We write $\FV(\Vec e)$ for the set of free variables in the expressions $\Vec e$.
+
+A {\em production rule} is defined as
+\[
+\infer{P(\Vec t)}{
+F_1 \ \ldots \ F_n
+}
+\]
+where $F_1,\ldots,F_n$ are atomic formulas and
+$P$ is an inductive predicate symbol.
+The inductive predicate symbol $P_i$ is {\em dependent} on 
+the inductive predicate symbol $P_j$,
+if
+$i=j$ or
+there are some $k$ and some production rule
+such that 
+the conclusion of the production rule contains $P_i$ and
+the assumptions of the production rule contain $P_k$
+and $P_k$ is dependent on $P_j$.
+The inductive predicate symbols $P_i,P_j$ are {\em mutually dependent}
+if $P_i$ is dependent on $P_j$ and $P_j$ is dependent on $P_i$.
+
+These production rules mean that 
+the inductive predicate denotes 
+the least fixed point defined by these production rules.
+
+For example, 
+the production rules of the inductive predicate symbol $N$ are given by
+\[
+\infer{N0}{}
+\qquad
+\infer{Ns x}{Nx}
+\]
+These production rules mean that 
+$N$ denotes the smallest set that contains 0 and closed under $s$,
+namely the set of natural numbers.
+
+$\LKID$ is based on a sequent calculus.
+We use a sequent $\Gamma \prove \Delta$ where $\Gamma$ and $\Delta$
+are sets of formulas.
+
+The inference rules of $\LKID$ contains
+the introduction rules and the elimination rules for inductive predicates,
+determined by the production rules.
+These rules describe that the predicate actually denotes the least fixed point.
+In particular, the elimination rule describes the induction principle.
+
+\begin{figure*}[t]
+{\prooflineskip
+\[
+\infer[(\Axiom)]{\Gamma,A \prove A,\Delta}{}
+\qquad
+\infer[(\Wk)]{\Gamma \prove \Delta}{\Gamma' \prove \Delta'}
+(\Gamma' \subseteq \Gamma, \Delta' \subseteq \Delta)
+%\\
+\qquad
+\infer[(\Cut)]{\Gamma \prove \Delta}{
+\Gamma \prove F,\Delta
+&
+\Gamma,F \prove \Delta
+}
+%\qquad
+\\
+\infer[(\Subst)]{\Gamma\theta \prove \Delta\theta}{\Gamma \prove \Delta}
+\qquad
+\infer[(\neg L)]{\Gamma,\neg F \prove \Delta}{\Gamma \prove F,\Delta}
+%\\
+\qquad
+\infer[(\neg R)]{\Gamma \prove \neg F,\Delta}{\Gamma,F \prove \Delta}
+\qquad
+\infer[(\lor L)]{\Gamma,F \lor G \prove \Delta}{
+\Gamma,F \prove \Delta
+&
+\Gamma,G \prove \Delta
+}
+%\qquad
+\\
+\infer[(\lor R)]{\Gamma \prove F \lor G,\Delta}{
+	\Gamma \prove F,G,\Delta
+}
+\qquad
+\infer[(\land L)]{\Gamma,F \land G \prove \Delta}{\Gamma,F,G \prove \Delta}
+\qquad
+\infer[(\land R)]{\Gamma \prove F \land G,\Delta}{
+\Gamma \prove F,\Delta
+&
+\Gamma \prove G,\Delta
+}
+\\
+\infer[(\imp L)]{\Gamma, F \imp G \prove \Delta}{
+	\Gamma \prove F,\Delta
+	&
+	\Gamma,G \prove \Delta
+}
+\qquad
+\infer[(\imp R)]{\Gamma \prove F \imp G,\Delta}{\Gamma,F \prove G,\Delta}
+\qquad
+\infer[(\forall L)]{\Gamma,\forall xF \prove \Delta}{\Gamma,F[x:=t] \prove \Delta}
+\\
+%\]
+%\[
+\infer[(\forall R)]{\Gamma \prove \forall xF,\Delta}{\Gamma \prove F,\Delta}
+(x \notin \FV(\Gamma))
+\qquad
+\infer[(\exists L)]{\Gamma,\exists xF \prove \Delta}{\Gamma,F \prove \Delta}
+(x \notin \FV(\Gamma,\Delta))
+%\\
+\qquad
+\infer[(\exists R)]{\Gamma \prove \exists xF,\Delta}{\Gamma \prove F[x:=t],\Delta}
+%\qquad
+\\
+\infer[(=L)]{\Gamma[x:=u],t=u \prove \Delta[x:=u]}{\Gamma[x:=t] \prove \Delta[x:=t]}
+\qquad
+\infer[(=R)]{\Gamma \prove t=t,\Delta}{}
+\qquad
+\infer[(\Ind\ P_j)]{\Gamma,P_j\Vec u \prove \Delta}{
+\hbox{minor premises}
+&
+\Gamma,F_j\Vec u \prove \Delta
+}
+\\
+\infer[(P\ R)]{\Gamma \prove P\Vec t,\Delta}{
+\Gamma \prove Q_{1}\Vec u_{1},\Delta & \ldots & \Gamma \prove Q_{n}\Vec u_{n},\Delta
+& \Gamma \prove P_1\Vec t_{1},\Delta & \ldots & \Gamma \prove P_{m}\Vec t_{m},\Delta
+}
+\]
+}
+\vskip -3ex
+\caption{Inference Rules}\label{fig:1a}
+\vskip -1ex
+\end{figure*}
+The inference rules of $\LKID$ are given in Figure \ref{fig:1a} where
+the inference rules except $(P\ R)$ and $(\Ind\ P_j)$ are exactly the same as
+the inference rules of the first-order sequent calculus $\LK$.
+Note that the contraction rule is implicit.
+In the figure,
+for $(P\ R)$ we assume the production rule
+\[
+\infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
+\]
+In the figure, 
+for $(\Ind\ P_j)$, we also assume 
+a predicate $F_i$ for each $P_i$,
+and
+the minor premises are defined as 
+\[
+\Gamma, Q_{i1}\Vec u_{i1}, \ldots, Q_{in_i}\Vec u_{in_i}, 
+F_{i1}\Vec t_{i1}, \ldots, F_{im_i}\Vec t_{im_i}
+\prove F_i\Vec t_i,\Delta
+\]
+for each production rule
+\[
+\infer{P_i\Vec t_i}{Q_{i1}\Vec u_{i1} & \ldots & Q_{in_i}\Vec u_{in_i} & P_{i1}\Vec t_{i1} & \ldots & P_{im_i}\Vec t_{im_i}}
+\]
+where $P_i$ is mutually dependent on $P_j$.
+The rules $(\neg L)$, $(\neg R)$,
+$(\land L)$, $(\land R)$,
+$(\lor L)$, $(\lor R)$,
+$(\imp L)$, $(\imp R)$,
+$(\forall L)$, $(\forall R)$,
+$(\exists L)$, and $(\exists R)$
+are called {\em logical rules}, and
+the introduced formulas in these rules and $(P\ R)$
+are called {\em main formulas},
+and the corresponding formulas in the assumptions are called {\em auxiliary
+formulas}.
+
+For example, the production rules for $N$ give the introduction rules
+\[
+\infer{\Gamma \prove N0,\Delta}{}
+\qquad
+\infer{\Gamma \prove Ns x,\Delta}{\Gamma \prove Nx,\Delta}
+\]
+and the elimination rule
+\[
+\infer{\Gamma,Nt \prove \Delta}{
+\Gamma \prove F0,\Delta
+&
+\Gamma,Fx \prove Fs x,\Delta
+&
+\Gamma,Ft \prove \Delta
+}
+\]
+
+\subsection{Cyclic Proof System $\CLKIDomega$}
+
+A cyclic proof system $\CLKIDomega$ 
+for classical first-order logic with inductive definitions
+is defined in \cite{Brotherston11}.
+
+The inference rules of $\CLKIDomega$ are obtained from
+those of $\LKID$ by replacing $(\Ind\ P_j)$ by
+\[
+\infer[(\Case P)]{\Gamma, P\Vec u \prove \Delta}{
+\hbox{case distinctions}
+}
+\]
+where the case distinctions are
+\[
+\Gamma,\Vec u=\Vec t,
+Q_1\Vec u_1, \ldots, Q_n\Vec u_n, P_1\Vec t_1, \ldots, P_m\Vec t_m
+\prove \Delta
+\]
+for each production rule
+\[
+\infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
+\]
+and
+$\FV(\Gamma,P_j\Vec u, \Delta)
+\cap \FV(P\Vec t,Q_1\Vec u_1, \ldots, Q_n\Vec u_n, P_1\Vec t_1, \ldots, P_m\Vec t_m) = \emptyset$.
+Note that if necessary for this free variable condition, 
+we rename variables in production rules.
+
+For the rule $(\Case P)$,
+the introduced formula 
+is called a {\em main formula},
+and the corresponding formulas in the assumptions are called {\em auxiliary
+formulas}.
+
+We define a preproof, which may have cycles and may not be sound.
+This definition is slightly different from that in \cite{Brotherston11}
+in the point that ours is finite and allows cycles.
+
+\begin{Def}[Preproof]\rm
+A {\em preproof} in $\CLKIDomega$ is defined as an ordinary finite proof figure,
+namely, a finite figure generated by combination of inference rules,
+where 
+we allow an open assumption, called a {\em bud}, and
+requiring for each bud
+some corresponding sequent of the same form, called a {\em companion}, 
+which is not a bud.
+\end{Def}
+We call the correspondence from a bud to a companion {\em bud-companion relation}.
+
+An {\em infinite unfolding} of a preproof is defined as
+the infinite figure obtained by 
+possibly infinitely many times replacing each bud by
+the subproof whose root is the companion of the bud 
+to reach some possibly infinite figure without any buds.
+
+\begin{Def}\rm
+A {\em path} in a preproof or an infinite unfolding of a preproof
+is defined as a sequence of sequents obtained by going
+upwardly from some node to another node in the tree
+of a proof.
+An {\em infinite path} in an infinite unfolding of a preproof
+is defined as a sequence of sequents obtained by going
+upwardly forever from some node in the tree of a proof.
+We define a tail of a path as the sequence of sequents above
+some sequent in the path.
+
+For a path and an infinite path,
+we define
+a {\em trace}
+as
+a sequence of inductive atomic formulas 
+in the antecedents of sequents in the path, 
+constructed by
+chasing an auxiliary inductive atomic formula instead when 
+the inductive atomic formula is the main formula of $(\Case P)$,
+and
+chasing a corresponding inductive atomic formula for
+the rules $(\Subst)$ and $(=L)$,
+and
+chasing the same inductive atomic formula upwardly in the other cases.
+Namely,
+in $(\Case P)$ we chase $P_i\Vec t_i$ after $P\Vec t$,
+in $(\Subst)$ we chase $F$ after $F\theta$,
+and
+in $(=L)$ we chase $F[x:=t]$ after $F[x:=u]$.
+
+We call a trace {\em progressing} 
+if it passes some main formula of a case rule.
+We call a trace {\em infinitely progressing} 
+if it passes main formulas of case rules infinitely many times.
+
+The {\em global trace condition} \cite{Brotherston11,Brotherston-phd} is 
+the condition that
+for every infinite path in the infinite unfolding of a given cyclic proof,
+there is some infinitely progressing trace in some tail of the infinite path.
+\end{Def}
+
+We define cyclic proofs as preproofs that satisfy the global trace condition.
+
+\begin{Def}[Cyclic Proof]\rm
+A {\em proof} (called a {\em cyclic proof}) in $\CLKIDomega$ is defined 
+as a preproof that satisfies
+the global trace condition defined below.
+\end{Def}
+
+\begin{Eg}\label{eg:1}\rm
+An example of a cyclic proof is given in Figure \ref{fig:5},
+\begin{figure*}[t]
+\[
+\infer[(\lor L)]{Ex \lor Ox \prove \N x}{
+	\infer[(\Case\ E)]{(a)\ Ex \prove \N x}{
+		\infer[(=L)]{x=0 \prove \N x}{
+		\infer[(Wk)]{x=0 \prove \N 0}{
+		\infer[(\N\ R1)]{\prove \N 0}{}
+		}}
+		&
+		\infer[(=L)]{x=sx',Ox' \prove \N x}{
+		\infer[(\N\ R2)]{x=sx',Ox' \prove \N sx'}{
+		\infer[(Wk)]{x=sx',Ox' \prove \N x'}{
+		\infer[(\Subst)]{Ox' \prove \N x'}{
+		(b)\ Ox \prove \N x
+		}}}}
+	}
+	&
+	\infer[(\Case\ O)]{(b)\ Ox \prove \N x}{
+	\infer[(=L)]{x=sx',Ex' \prove \N x}{
+	\infer[(\N\ R2)]{x=sx',Ex' \prove \N sx'}{
+	\infer[(Wk)]{x=sx',Ex' \prove \N x'}{
+	\infer[(\Subst)]{Ex' \prove \N x'}{
+	(a)\ Ex \prove \N x
+	}}}}}
+}
+\]
+\caption{Cyclic Proof}\label{fig:5}
+\end{figure*}
+where the mark (a) and (b) denote the bud-companion relation, and
+the production rules are
+\[
+\infer{E0}{}
+\qquad
+\infer{Esx}{Ox}
+\qquad
+\infer{Osx}{Ex}
+\]
+\end{Eg}
+In Figure \ref{fig:5} the companion (a) uses $E x$, but
+the bud (a) uses $E x$ where $x$ is $x'$ and $x' < x$,
+so 
+their actual meanings are different
+even though they are of the same form.
+The global trace condition generalizes this fact
+and guarantees the soundness of a cyclic proof system.
+
+We say a path $\pi$ is in a proof $\Pi$ if $\pi$ is syntactically in $\Pi$
+without unfolding of $\Pi$. 
+For a finite path that goes up from the lowermost sequent $J_2$ to the uppermost sequent $J_1$ in $\Pi$,
+we call $J_{2}$ and $J_{1}$ 
+the {\em bottom sequent} and the {\em top sequent} of the path respectively.
+We write $\pi_1\pi_2$ for the path of the composition of
+paths $\pi_1$ and $\pi_2$,
+which goes from the bottom sequent of $\pi_1$
+to the top sequent of $\pi_2$.

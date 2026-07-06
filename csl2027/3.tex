@@ -1,0 +1,736 @@
+\section{Domain-stable sequence}
+
+We assume a SC call graph in this section.
+
+\begin{Def}[Injective]\rm
+A relation $R$ is defined to be {\em injective}
+if $x R z$ and $y R z$ imply $x=y$.
+\end{Def}
+
+\begin{Def}[Composition of SC graphs]\rm
+The composition $R_1\ldots R_k$ of a given SC path $(R_1,\ldots,R_k)$ is
+defined as
+
+$(f_1,(S_1,P_1)\ldots(S_k,P_k),c_{k+1},f_{k+1})$
+
+where
+
+$R_i=(f_i,(S_i,P_i),c_{i+1},f_{i+1})$ for all $i \in [1,k]$,
+
+and we define
+
+$(S_1,P_1)\ldots(S_k,P_k) = (S,P)$
+
+where
+
+$S = S_1\ldots S_k$ (ordinary composition of relations),
+
+$P = (S_1 \cup P_1)\ldots (S_k \cup P_k) - S$.
+
+We write $i(R_1\ldots R_i)j$ for $i (S \cup P) j$.
+
+We call a composition of a SC path a {\em SC composition}.
+
+We will often write $R$ for a SC composition.
+
+A sequece $(R_1,\ldots,R_k)$ of SC compsitions 
+is defined to be {\em composable} if
+$R_i = (f_i,-,-,f_{i+1})$ for all $i \in [1,k-1]$
+
+Note that a SC path is a special case of a composable sequence of SC compositions.
+
+A composition of a composable sequence of SC compositions
+is defined in a similar way to a composition of a SC path.
+
+A SC composition $R$ is called {\em injective} if
+the relation $S \cup P$ is injective
+where
+the composition $R = (-,(S,P),-,-)$.
+A sequence $(R_1,\ldots,R_k)$ of SC compositions is defined to be {\em injective} if
+each $R_i$ is injective for $i \in [1,k]$.
+As a special case,
+a SC path is defined to be {\em injective} in a similar way to 
+a sequence of SC compositions.
+A SC graph is defined to be {\em injective} if all edges in the graph are
+injective.
+
+For a SC composition $R$, we define
+
+$\dom(R)$ as $\{x \ |\ R = (-,(S,P),-,-), x(S \cup P)y \}$ and
+
+$\codom(R)$ as $\{y \ |\ R = (-,(S,P),-,-), x(S \cup P)y \}$.
+
+For a finite set $X$, we write $|X|$ for the cardinal of $X$.
+
+Note that $\dom(R)$ and $\codom(R)$ for a SC path $R$ is 
+defined as a special case of this definition.
+\end{Def}
+
+\begin{Def}[Domain-stable (Same as def 3.3 in "Poly-exponential ...")]\rm
+A sequence $(R_1,\ldots,R_k)$ of SC compositions
+is defined to be {\em domain-stable}
+if 
+the sequence is composable, and
+for all $i \in [1,k-1]$, 
+we have $\dom(R_i) = \dom(R_iR_{i+1})$.
+\end{Def}
+
+\begin{Lemma}[Cardinal of domains]\label{lemma:cardinal}
+If $|\dom(R)|=|\dom(RS)|$, then $(R,S)$ is domain-stable.
+\end{Lemma}
+
+{\em Proof.}
+By definition of $\dom$, we have $\dom(R) \supseteq \dom(RS)$.
+Since $|\dom(R)|=|\dom(RS)|$, we have $\dom(R) = \dom(RS)$.
+$\Box$
+
+\begin{Def}\rm
+For a given composable sequence $R_1,\ldots,R_n$ of SC compositions,
+a sequence $R'_1,\ldots,R'_l$ of SC compositions
+is defined to be a {\em partial composition} of $R_1,\ldots,R_n$
+with head indexes $a_1,\ldots,a_l$
+if 
+
+- there are $R_{a_1},\ldots,R_{b_1},R_{a_2},\ldots,R_{b_2},\ldots, R_{a_l},\ldots,R_{b_l}$
+which is the same sequence as $R_1,\ldots,R_n$
+where $a_i \le b_i$ for all $i \in [1,l]$,
+
+- $R_i' = R_{a_i}\ldots R_{b_i}$ for all $i \in [1,l]$.
+\end{Def}
+
+\begin{Def}\rm
+We define a {\em value assignment} to be a map from $N$ to $N$.
+Note that we will use a value assignment $\alpha$ so that
+$\alpha(i)=m$ means that the $i$-th variable has a value $m$.
+
+We write a sequence $(v_1,\ldots,v_n)$ of natural numbers for
+a value assignment $\alpha$ such that
+$\alpha(i)=v_i$ for all $i \in [1,n]$ and
+$\alpha(i)=0$ otherwise.
+
+For a SC composition $R$ and value assignments $\alpha$ and $\alpha'$,
+we define $\alpha R \alpha'$ to hold if for all $k,l \in N$,
+
+- $\alpha(k) \ge \alpha'(l)$ if $k S l$, and
+
+- $\alpha(k) > \alpha'(l)$ if $k P l$,
+
+where
+$R_i = (f,(S,P),-,g)$.
+\end{Def}
+
+Note that $\exists \alpha_2(\alpha_1 R_1 \alpha_2 R_2 \alpha_3)$ 
+implies $\alpha_1 R_1R_2 \alpha_3$, but
+$\alpha_1 R_1R_2 \alpha_3$ does not imply 
+ $\exists \alpha_2(\alpha_1 R_1 \alpha_2 R_2 \alpha_3)$ 
+since $\alpha_1 R_1 \alpha_2 R_2 \alpha_3$ implies 
+$\alpha_1(1) > \alpha_2(1) > \alpha_3(1)$ 
+when $1 P_1 1 P_2 1$.
+
+\begin{Def}[Value flow]\rm
+We define $\sigma$ to be a {\em value flow} along a composable sequence $\pi$ of
+SC compositions 
+if $\pi$ is $R_1,\ldots, R_n$,
+and $\sigma$ is $\Vec v_1,\ldots,\Vec v_n$,
+and 
+
+- $\Vec v_i R_i \Vec v_{i+1}$ for all $i \in [1,n-1]$.
+
+For a SC composition $R$ and a value assignment $\alpha$,
+we define $\Val(R,\alpha) \in N$
+as $\Sigma \{ \alpha(i) \ |\ i \in \dom(R) \}$.
+\end{Def}
+
+\begin{Lemma}\label{lemma:A}
+if $R_1,R_2,R_3$ is composable,
+and $\Vec v_1,\Vec v_2$ is along $R_1,R_2$, 
+and $\Vec v_2,\Vec v_3$ is along $R_2,R_3$, 
+then
+$\Vec v_1,\Vec v_3$ is along $R_1R_2,R_3$.
+\end{Lemma}
+
+{\em Proof.}
+Since $\exists j(i R_1 j R_2 k)$ implies $i R_1R_2 k$,
+we have $\Vec v_1 (R_1R_2) \Vec v_3$.
+$\Box$
+
+\begin{Prop}[Transform to domain-stable sequence]\label{prop:domain-stable}
+(1) For a composable sequence $R_1,\ldots,R_k,R$ of SC compositions,
+if $R_1,\ldots,R_k$ is domain-stable
+and $R_k,R$ is not domain-stable, then
+the following sequcne $R_1,\ldots,R_{i-1},R'$ is
+domain-stable and a partial composition of $R_1,\ldots,R_k,R$
+with head redexes $1,\ldots,i-1,i$ and $R_{i},R_{i+1}\ldots R_k R$ is
+not domain-stable.
+
+- Take $i$ to be the smallest $i \in [1,k]$ among $i$'s such that
+$R_i, R_{i+1} \ldots R_k R$ is not domain-stable.
+It exists since the sequence $R_k,R$ is not domain-stable.
+Let
+\[
+R' = R_i\ldots R_k R.
+\]
+
+(2) For any composable sequence $R_1,\ldots,R_k$ of SC compositions,
+the following sequence $R_1',\ldots,R_l'$ 
+is domain-stable and
+a partial composition of 
+$R_1,\ldots,R_k$ with head indexes $d_1,\ldots,d_l$.
+Moreover,
+if $\Vec v_1,\ldots,\Vec v_k$ is along $R_1,\ldots,R_k$,
+then $\Vec v'_1,\ldots,\Vec v'_l$ is along $R'_1,\ldots,R'_l$,
+where $\Vec v'_i$ is defined as $\Vec v_{d_i}$.
+
+For each $0 < n \le k$, we define a sequence $R^{(n)}$ and 
+a sequence $H^{(n)}$ of the same length by induction on $n$.
+\[
+R^{(1)} = (R_1), \\ 
+H^{(1)} = (1).
+\]
+We define $R^{(n+1)}$ and $H^{(n+1)}$ from $R^{(n)}$ and $H^{(n)}$ as follows.
+Let
+\[
+R^{(n)} = (R_1',\ldots,R_m'), \\
+H^{(n)} = (n_1,\ldots,n_m).
+\]
+Case 1. If $R_1',\ldots,R_m',R_{n+1}$ is domain-stable,
+then
+\[
+R^{(n+1)} = (R_1',\ldots,R_m',R_{n+1}), \\
+H^{(n+1)} = (n_1,\ldots,n_m,n+1).
+\]
+Case 2. If $R_1',\ldots,R_m',R_{n+1}$ is not domain-stable.
+
+By (1), there is some $i \in [1,m]$ such that
+$R'_1,\ldots,R'_{i-1}, R_i'\ldots R_m'R_{n+1}$ is domain-stable
+and $R_i',R_{i+1}'\ldots R_m'R_{n+1}$ is not domain-stable.
+Define
+\[
+R^{(n+1)} = (R_1',\ldots,R_{i-1}',R_i'R'_{i+1}\ldots R'_m R_{n+1}), \\
+H^{(n+1)} = (n_1,\ldots,n_{i}), \\
+\]
+
+We define $R_1',\ldots,R_l'$ as $R^{(k)}$
+and define $n_1,\ldots,n_l$ as $H^{(k)}$.
+\end{Prop}
+
+{\em Proof.}
+We can show $R^{(n)}$ is domain-stable for all $n \in [1,k]$
+by induction on $n$.
+
+If $\Vec v_1,\ldots,\Vec v_k$ is along $R_1,\ldots,R_k$,
+then by Lemma \ref{lemma:A} $\Vec v'_1,\ldots,\Vec v'_l$ is along $R'_1,\ldots,R'_l$.
+$\Box$
+
+In this proposition,
+the resulting sequence is obtained from 
+maximal grouping of a given sequence of compositions 
+such that a composition of elements in each group gives 
+an element of a domain-stable sequence.
+Here a head index is taken from the index of the head element of each group.
+
+\begin{Lemma}\label{lemma:domain-stable-increase}
+If
+a composable sequence $R_1,\ldots,R_k$ of SC compositions
+is domain-stable and injective, then
+\[
+|\dom(R_1)| \le \ldots \le |\dom(R_k)|.
+\]
+\end{Lemma}
+
+{\em Proof.}
+Let $R = R_i$ and $S = R_{i+1}$.
+
+Since $R,S$ is domain-stable, we have $\dom(RS) = \dom(R)$.
+Hence for each $x \in \dom(R)$ there are $y,z$ such that $x R y S z$.
+Define a function $f: \dom(R) \to \dom(S)$ such that $f(x)=y$.
+Since $f$ is injective, we have $|\dom(R)| \le |\dom(S)|$.
+$\Box$
+
+\begin{Lemma}[Grouping of cardinal-constant domains]\label{lemma:cardinal-constant}
+For any 
+domain-stable injective
+sequence $R_1,\ldots,R_k$ of SC compositions,
+there are $a_1,b_1,\ldots, a_l,b_l \in [1,k]$ such that
+$R_{a_1},\ldots,R_{b_1},R_{a_2},\ldots,R_{b_2},\ldots,R_{a_l},\ldots,R_{b_l}$
+is the same sequence as $R_1,\ldots,R_k$ such that
+
+- $|\dom(R_i)| = |\dom(R_j)|$ for all $m \in [1,k]$ and
+all $a_m \le i \le j \le b_m$,
+
+- $|\dom(R_{a_i})| < |\dom(R_{a_{i+1}})|$ for all $i \in [1,k-1]$.
+
+\end{Lemma}
+
+{\em Proof.}
+By Lemma \ref{lemma:domain-stable-increase}.
+$\Box$
+
+\begin{Lemma}\label{lemma:bijection}
+If $R,S$ is a domain-stable sequence
+and $|\dom(S)|=|\dom(R)|$
+and $R$ is injective,
+then $R:\dom(R) \to \dom(S)$ is a bijection.
+\end{Lemma}
+
+{\em Proof.}
+We write $R|_{X \times Y}$ for $\{ (x,y) \in X \times Y \ |\ xRy \}$.
+
+Let $R'$ be $R|_{\dom(R) \times \dom(S)}$.
+
+Claim 1. $\dom(R')=\dom(R)$.
+We can show it as follows.
+Fix $x \in \dom(R)$.
+Since $R,S$ is domain-stable, we have $\dom(RS) = \dom(R)$.
+Hence $x \in \dom(RS)$.
+Hence there are $y$ and $z$ such that $x R y S z$.
+Hence $y \in \dom(S)$.
+Hence $x \in \dom(R')$.
+
+Claim 2. $\codom(R')=\dom(S)$.
+We can show it as follows.
+By definition of $R'$, we have $\codom(R') \subseteq \dom(S)$.
+Since $R'$ is injective, we have $|\dom(R')| \le |\codom(R')|$.
+From Claim 1, we have $\dom(R')=\dom(R)$.
+Hence $|\dom(R)| \le |\codom(R')| \le |\dom(S)|$.
+Since $|\dom(R)| = |\dom(S)|$, we have $\codom(R')=\dom(S)$.
+
+$R'^{-1}$ is a function $\dom(S) \to \dom(R)$.
+We can show it as follows.
+Fix $x \in \dom(S)$ to show $x R'^{-1} y$ for some $y$.
+By Claim 2. $x \in \codom(R')$. Hence there is $y$ such that $y R' x$.
+Hence $x R'^{-1} y$.
+Assume $x R'^{-1} y$ and $x R'^{-1} z$ to show $y=z$.
+Then $y R' x$ and $z R' x$.
+Since $R'$ injective, we have $y=z$.
+
+The function $R'^{-1}$ is surjective.
+We can show it as follows.
+Fix $x \in \dom(R)$.
+By Claim 1, we have $x \in \dom(R')$.
+Hence there is $y$ such that $x R' y$.
+Hence $y R'^{-1} x$.
+
+Since $|\dom(S)|=|\dom(R)|$, the function $R'^{-1}$ is bijective.
+Hence $R'$ is a bijection.
+Hence $R:\dom(R) \to \dom(S)$ is a bijection.
+$\Box$
+
+\begin{Lemma}\label{lemma:maxlen}
+If a SC call graph satisfies SCT condition,
+then
+for a domain-stable injective sequence $R_1,\ldots, R_n$ of SC compositions
+and a value flow $\Vec v_1,\ldots,\Vec v_n$ along $R_1,\ldots, R_n$
+such that $|\dom(R_i)|=k$ for all $i \in [1,n]$ and
+$\Val(R_i,\Vec v_i)$ is the same for all $i \in [1,n]$,
+we have
+$n \le |V|{K \choose k}$
+where $V$ is the set of vertexes of the SC call graph and
+$K$ is the maximum arity in all function names.
+\end{Lemma}
+
+{\em Proof.}
+By Lemma \ref{lemma:bijection},
+$R_i:\dom(R_i) \to \dom(R_{i+1})$ is a bijection for all $i \in [1,n-1]$.
+
+Let $R_i=(a_i,(S_i,P_i),-,a_{i+1})$ for all $i \in [1,n]$.
+
+Since $\Val(R_i,\Vec v_i)$ is the same for all $i \in [1,n]$,
+$P_i = \emptyset$ for all $i \in [1,n-1]$.
+
+For any $i <j \in [1,n]$, we have $\dom(R_i) \ne \dom(R_j)$ or $a_i \ne a_j$.
+We can show it as follows.
+Assume $\dom(R_i) = \dom(R_j)$ and $a_i = a_j$
+for some $i < j \in [1,n]$ to show contradiction.
+We consider an infinite composable sequence $(R_i,\ldots,R_{j-1})^\omega$.
+Let $R_l$ be the composition of SC paths $R'_{l,1},\ldots,R'_{l,q_l}$
+for all $l \in [i,j]$.
+By applying SCT condition to
+the infinite SC path 
+$(R_{i,1},\dots,R_{i,q_i},\ldots,R_{j-1,1},\ldots,R_{j-1,q_{j-1}})^\omega$,
+there is a progressing trace of some tail of it.
+Hence
+there are some $l \in [i,j-1]$ such that $R_l$ 
+is progressing, which contradicts
+with $P_l = \emptyset$.
+
+Hence $(a_1,\dom(R_1)),\ldots, (a_n,\dom(R_n))$ are different.
+The number of $a_i$ is $\le |V|$.
+The number of $\dom(R_i)$ is $\le {K \choose k}$.
+Hence $n \le |V|{K \choose k}$.
+$\Box$
+
+\begin{Def}[Weight]\label{def:weight}\rm
+For a SC call graph that satisfies SCT condition,
+a composable sequence $\pi$ of injective SC compositions, and 
+a value flow $\sigma$ along $\pi$,
+we define the weight $W(\pi, \sigma) \in ((N\cup\{\infty\}) \times N)^{K}$ 
+where $K$ is the maximum arity in all function names
+as follows.
+
+Let $\pi$ be $R_1,\ldots, R_n$ and
+$\sigma$ be $\Vec v_1,\ldots,\Vec v_n$.
+
+By Proposition \ref{prop:domain-stable} (2), we define
+a domain-stable sequence $R_1',\ldots,R_l'$ 
+of partial SC compositions of $R_1,\ldots, R_n$ with 
+head indexes $d_1,\ldots,d_l$.
+
+We define $\Vec v'_i$ as $\Vec v_{d_i}$ for all $i \in [1,l]$.
+Then by Proposition \ref{prop:domain-stable} (2), 
+the value flow $\Vec v'_1,\ldots,\Vec v'_l$ is
+along $R_1',\ldots,R_l'$.
+
+By Lemma \ref{lemma:cardinal-constant},
+we have
+$R'_{a_1},\ldots,R'_{b_1},R'_{a_2},\ldots,R'_{b_2},\ldots, 
+R'_{a_r},\ldots,R'_{b_r}$ such that
+
+- $R'_{a_1},\ldots,R'_{b_1},R'_{a_2},\ldots,R'_{b_2},\ldots,
+R'_{a_r},\ldots,R'_{b_r}$
+is the same sequence as $R'_1,\ldots,R'_l$,
+
+- $|\dom(R'_i)| = |\dom(R'_j)|$ for all $k \in [1,r]$ and
+all $a_k \le i \le j \le b_k$,
+
+- $|\dom(R'_{a_i})| < |\dom(R'_{a_{i+1}})|$ for all $i \in [1,r-1]$.
+
+Fix $k \in [1,K]$. We define $W_k$.
+
+Case 1. There is no $i \in [1,r]$ such that $|\dom(R'_i)| = k$.
+
+We define $W_k$ as $(\infty,0)$.
+
+Case 2. There is some $i \in [1,r]$ such that $|\dom(R'_i)| = k$.
+
+Take $i \in [1,r]$ such that $|\dom(R'_{a_i})| = k$.
+
+We define $W_k$ as $(\Val(R'_{b_i}, \Vec {v'}_{b_i}),|V|{K \choose k}-s)$
+where $V$ is the set of vertexes of the SC call graph,
+$K$ is the maximum arity in all function names,
+and $s$ is the maximum $s$ such that
+$b_i-s+1 \in [a_i,b_i]$ and
+$\Val(R'_{b_i}, \Vec {v'}_{b_i}) = \Val(R'_{b_i-s+1}, \Vec {v'}_{b_i-s+1})$.
+Note that by Lemma \ref{lemma:maxlen}, we have $|V|{K \choose k} \ge s$.
+
+Note also that $s$ is the maximum length of the sequence from $R'_{b_i}$
+such that each element has the same value by $\Val$.
+\end{Def}
+
+\begin{Def}\rm
+We write $>_\Lex$ for the lexicographic order on $((N\cup\{\infty\}) \times N)^K$
+for some $K$.
+\end{Def}
+
+\begin{Lemma}\label{lemma:stable-extension}
+For a SC call graph that satisfies SCT condition,
+domain-stable injective SC sequences $(\pi,\pi')$ and $(\pi,R)$ of SC compositions and 
+a value flow $(\sigma,\sigma')$ along $(\pi,\pi')$ and
+a value flow $(\sigma,\Vec v)$ along $(\pi,R)$,
+if $\pi'=(R',-)$ and $|\dom(R)|<|\dom(R')|$ or $|\pi'|=0$,
+then
+\[
+W((\pi,\pi'),(\sigma,\sigma'))
+>_\Lex
+W((\pi,R),(\sigma,\Vec v)).
+\]
+\end{Lemma}
+
+{\em Proof.}
+
+Let $\pi=(R_1,\ldots,R_n)$ and $\sigma = (\Vec v_1,\ldots,\Vec v_n)$.
+
+Let $k=|\dom(R)|$.
+
+Let $v = \Val(R,\Vec v)$.
+
+Let $W((\pi,\pi'),(\sigma,\sigma')) = W = (W_1,\ldots,W_K)$ and
+$W((\pi,R),(\sigma,\Vec v)) = W' = (W'_1,\ldots,W'_k)$.
+
+We have $W_j = W'_j$ for $j \in [1,k-1]$, since $|\dom(R)|<|\dom(R')|$
+or $|\pi'|=0$.
+
+By Lemma \ref{lemma:domain-stable-increase}, 
+we have $|\dom(R_{n})| \le k$.
+
+Let $L$ be $|V|{K \choose k}$ 
+where $V$ is the set of vertexes of the SC call graph
+and $K$ is the maximum arity in all function names.
+
+Case 1. $k=|\dom(R_{n})|$.
+
+By Lemma \ref{lemma:bijection},
+\[
+R_n:\dom(R_n) \to \dom(R)
+\]
+is a bijectiion.
+Hence we have $\Val(R_n,\Vec {v}_{n}) \ge v$.
+
+Case 1.1. $\Val(R_n,\Vec {v}_{n}) = v$.
+
+Let $W_k = (v,b)$.
+Then $W'_k = (v, b-1)$.
+Hence $W_k >_\Lex W'_k$.
+Since $W_j = W'_j$ for $j \in [1,k-1]$,
+we have $W >_\Lex W'$.
+
+Case 1.2. $\Val(R_{n},\Vec {v}_{n}) > v$.
+
+Let $W_k = (\Val(R_{n},\Vec {v}_{n}),b)$.
+Then $W'_k = (v, L)$.
+Hence $W_k >_\Lex W'_k$.
+Since $W_j = W'_j$ for $j \in [1,k-1]$,
+we have $W >_\Lex W'$.
+
+Case 2. $k>|\dom(R_{n})|$.
+
+Then $W_k = (\infty,0)$ since 
+$\pi'=(R',-)$ and $|\dom(R)|<|\dom(R')|$ or $|\pi'|=0$.
+We have $W'_k = (v, L)$.
+Hence $W_k >_\Lex W'_k$.
+Since $W_j = W'_j$ for $j \in [1,k-1]$,
+we have $W >_\Lex W'$.
+$\Box$
+
+\begin{Prop}\label{prop:decrease-pi}
+For a SC call graph that satisfies SCT condition, and
+a composable SC sequence $(\pi,R)$ of SC compositions and 
+a value flow $(\sigma,\Vec v)$ along $(\pi,R)$,
+we have $W(\pi,\sigma) >_\Lex W((\pi,R),(\sigma,\Vec v))$.
+\end{Prop}
+
+{\em Proof.}
+$\pi' = (\pi,R)$ and
+$\sigma' = (\sigma,\Vec v)$.
+
+Let $W(\pi,\sigma) = (W_1,\ldots,W_K)$ and
+$W(\pi',\sigma') = (W'_1,\ldots,W'_K)$.
+
+By Proposition \ref{prop:domain-stable} (2) for $\pi$, we define
+a domain-stable sequence $R_1',\ldots,R_l'$ 
+of partial SC compositions of $\pi$ with 
+head indexes $d_1,\ldots,d_l$.
+
+Define $\Vec v'_i$ as $\Vec v_{d_i}$ for all $i \in [1,l]$.
+
+Then by Proposition \ref{prop:domain-stable}, 
+the value flow $\Vec v'_1,\ldots,\Vec v'_l$ is
+along $R'_1,\ldots,R'_l$.
+
+Case 1. $R'_1,\ldots,R'_l,R$ is not domain-stable.
+
+By Proposition \ref{prop:domain-stable} (1),
+there is some $i$ such that $R'_1,\ldots,R'_{i-1},R'_i\ldots R'_lR$
+is domain-stable and $R'_i,R'_{i+1}\ldots R'_lR$ is not domain-stable.
+Let
+\[
+R' = R'_i\ldots R'_lR.
+\]
+Since $R'_i,R'_{i+1}\ldots R'_lR$ is not domain-stable and Lemma \ref{lemma:cardinal},
+we have $|\dom(R')|<|\dom(R'_i)|$.
+
+By applying Lemma \ref{lemma:stable-extension}
+to $R'_1,\ldots,R'_l$ with $\Vec v'_1,\ldots,\Vec v'_l$ and
+$R'_1,\ldots,R'_{i-1},R'$ with 
+$\Vec v'_1,\ldots,\Vec v'_{i-1},\Vec v'_i$ with
+$|\dom(R')|<|\dom(R'_i)|$,
+we have
+\[
+W((R'_1,\ldots,R'_l),(\Vec v'_1,\ldots,\Vec v'_l)) >_\Lex
+W((R'_1,\ldots,R'_{i-1},R'),
+(\Vec v'_1,\ldots,\Vec v'_{i-1},\Vec v'_i)).
+\]
+Since
+\[
+W(\pi,\sigma) = W((R'_1,\ldots,R'_l),(\Vec v'_1,\ldots,\Vec v'_l)), \\
+W(\pi',\sigma') = W((R'_1,\ldots,R'_{i-1},R'),
+(\Vec v'_1,\ldots,\Vec v'_{i-1},\Vec v'_i))
+\]
+by definition, we have 
+$W(\pi,\sigma) >_\Lex W(\pi',\sigma')$.
+
+Case 2. $R'_1,\ldots,R'_l,R$ is domain-stable.
+
+By applying Lemma \ref{lemma:stable-extension}
+to $R'_1,\ldots,R'_{l}$ with $\Vec v'_1,\ldots,\Vec v'_l$ and
+$R'_1,\ldots,R'_{l},R$ with $\Vec v'_1,\ldots,\Vec v'_l,\Vec v$,
+we have
+\[
+W((R'_1,\ldots,R'_{l}), (\Vec v'_1,\ldots,\Vec v'_l)) >_\Lex
+W((R'_1,\ldots,R'_{l},R), (\Vec v'_1,\ldots,\Vec v'_l,\Vec v)).
+\]
+Since
+\[
+W(\pi,\sigma) = W((R'_1,\ldots,R'_{l}), (\Vec v'_1,\ldots,\Vec v'_l)), \\
+W(\pi',\sigma') = 
+W((R'_1,\ldots,R'_{l},R), (\Vec v'_1,\ldots,\Vec v'_l,\Vec v))
+\]
+by definition, we have 
+$W(\pi,\sigma) >_\Lex W(\pi',\sigma')$.
+$\Box$
+
+\begin{Th}[Intuitionistic synthesis of ranking function]\label{th:rankingfunc}
+For an injective SC call graph that satisfies SCT condition,
+we define
+\[
+\rho(f,\Vec x) = \min\{ W(\pi,\sigma) \in ((N\cup\{\infty\}) \times N)^{K} \ |\ 
+\\ \qquad
+\Last(\pi) = (-,-,-,f),
+\sigma \hbox{\ along\ } \pi,
+\Last(\sigma) \Last(\pi) \Vec x,
+\pi \hbox{\ a domain-stable SC compositions},
+\\ \qquad
+\sigma \hbox{\ a value flow along $\pi$},
+k=|\dom(\Last(\pi))|,
+|\pi| \le k(|V|{K \choose k}+k!|E^+|)
+\}
+\]
+where 
+$K$ is the maximum arity in the SC call graph, and
+$\Last(x)$ returns the last element of the sequence $x$, and
+$V$ is the set of vertexes of the SC call graph,
+and $E^+$ is the set of finite SC compositions in the call graph.
+
+If $s \to^c s'$ for some $c \in \Callsitenames$,
+then $\rho(s) >_\Lex \rho(s')$.
+\end{Th}
+
+{\em Proof.}
+We define
+\[
+U_0(f,\Vec x) = \min\{ W(\pi,\sigma) \in ((N\cup\{\infty\}) \times N)^{K} \ |\ 
+\\ \qquad
+\Last(\pi) = (-,-,-,f),
+\sigma \hbox{\ along\ } \pi,
+\Last(\sigma) \Last(\pi) \Vec x
+\},
+\\
+U_1(f,\Vec x) = \min\{ W(\pi,\sigma) \in ((N\cup\{\infty\}) \times N)^{K} \ |\ 
+\\ \qquad
+\Last(\pi) = (-,-,-,f),
+\sigma \hbox{\ along\ } \pi,
+\Last(\sigma) \Last(\pi) \Vec x,
+\\ \qquad
+\pi \hbox{\ a domain-stable sequence of SC compositions}
+\}.
+\]
+Note that 
+$U_1$ does not assume the maximum length of $\pi$,
+and moreover $U_0$ does not assume the domain-stability of $\pi$.
+We will show $U_0=U_1=\rho$ step by step.
+
+Claim 1. $U_0=U_1$.
+
+We can show it as follows.
+Assume $\pi$ is not stable.
+By definition of weights, we make a domain-stable $\pi'$ from $\pi$
+and $\sigma'$ from $\sigma$ such that $\sigma'$ is along $\pi'$,
+and $W(\pi,\rho) = W(\pi',\rho')$.
+By definition of compsitions, we have $\Last(\pi')=(-,-,-,f)$
+and $\Last(\sigma') \Last(\pi') \Vec x$.
+Hence $U_0(f,\Vec x) \ge U_1(f,\Vec x)$.
+By definition of min, we have $U_0 \le U_1$.
+Hence $U_0=U_1$.
+
+Claim 2. $U_1=\rho$.
+
+We can show it as follows.
+Fix $\pi$ and $\sigma$ such that
+\[
+\Last(\pi) = (-,-,-,f),
+\sigma \hbox{\ along\ } \pi,
+\Last(\sigma) \Last(\pi) \Vec x,
+\\ \qquad
+\pi \hbox{\ a domain-stable sequence of SC compositions},
+\sigma \hbox{\ a value flow along $\pi$}.
+\]
+Let $k=|\dom(\Last(\pi))|$.
+
+Assume $|\pi| > k(|V|{K \choose k}+k!|E^+|)$
+to show that there are $\pi'$ and $\sigma'$ such that
+they are obtained from $\pi$ and $\sigma$ by removing some subsequences
+and $W(\pi,\sigma) = W(\pi',\sigma')$ and $|\pi|>|\pi'|$.
+
+Let $W(\pi,\sigma)=(W_1,\ldots,W_k)$.
+Since $\pi$ is domain-stable, we have $W_i=(\infty,0)$ for all $i \in [k+1,K]$.
+By the condition for length, there are some $k' \in [1,k]$ and
+some subsequence $R_1,\ldots,R_n$ of $\pi$
+such that
+for all $R \in \pi$ we have
+$|\dom(R)|=k'$ iff $R=R_i$ for some $i \in [1,n]$, and
+$n > |V|{K \choose k}+k!|E^+|$.
+Let $\Vec v_1,\ldots,\Vec v_n$ be the subsequence of $\sigma$
+corresponding to $R_1,\ldots,R_n$.
+By Lemma \ref{lemma:maxlen},
+there is $p \in [1,n]$ such that 
+$\Val(R_i,\Vec v_i) = \Val(R_n,\Vec v_n)$ for all $i \in [p,n]$
+and $\Val(R_{p-1},\Vec v_{p-1}) \ne \Val(R_p,\Vec v_p)$
+and $n-p+1 \le |V|{K \choose k}$.
+Hence $p-1 > k!|E^+|$.
+
+Since $|\dom(R_i)|$ is the same for all $i \in [1,n]$,
+by Lemma \ref{lemma:bijection}, $R_i : \dom(R_i) \to \dom(R_{i+1})$
+is a bijection for all $i \in [1,p-1]$.
+For a SC composition $R$, we write $\Bar R$ for
+$\{(x,y) \in N^2 \ |\ x (S \cup P) y \}$ where $R = (-,(S,P),-,-)$.
+Since the number of shapes of $R_1,\ldots,R_n$ is $\le |E^+|$,
+there is some $R' \in \pi$ such that
+$|\{i \in [1,p-1] \ |\ R_i=R'\}| > k!$.
+Take the smallest $i \in [1,p-1]$ such that $R'=R_i$.
+Since $\Bar{R_i \ldots R_j}$ is a bijection on $\dom(R')$,
+we have
+$|\{ \Bar{R_i \ldots R_j} \ |\ j \in [1,p-1], i \le j, R_j=R' \}| \le k!$.
+Hence we have some $q,r \in [1,p-1]$ such that $i \le q<r$ and
+$\Bar{R_i \ldots R_q}=\Bar{R_i \ldots R_r}$.
+Since they are bijections, we have
+$\Bar{R_q \ldots R_{r-1}} = 1|_{\dom(R')}$.
+From bijectivity, we have $(\Vec v_q)(l) \ge (\Vec v_r)(l)$ for all $l \in \dom(R')$.
+
+Define $\pi'$ as the sequence obtained from $\pi$ by removing
+$R_{q},\ldots,R_{r-1}$ and 
+define $\Hat\sigma$ as the sequence obtained from $\sigma$
+corresponding to $\pi'$.
+Then $|\pi'|<|\pi|$ and $\pi'$ is domain-stable.
+Moreover $\Hat\sigma$ is along $\pi'$, since $\Vec v_q \ge \Vec v_r$ on $\dom(R')$
+and $\codom(R_{q-1}) \subseteq \dom(R_q)$ from the domain-stability.
+
+Then by comparing the $i$-th element for each $i \in [1,K]$,
+we have
+$W(\pi',\Hat\sigma)=W(\pi,\sigma)$.
+We have shown Claim 2.
+
+By claims 1 and 2, we have $\rho=U_0$.
+
+Assume $(f,\Vec x) \to^c (g,\Vec v)$ to show
+$U_0(f,\Vec x) >_\Lex U_0(g,\Vec v)$.
+
+Let $R$ be the edge $(f,-,c,g)$.
+
+Define $\pi$ and $\sigma$ by
+\[
+U_0(f,\Vec x)=W(\pi,\sigma), \\
+\Last(\pi) = (-,-,-,f), \\
+\sigma \hbox{\ along\ } \pi,
+\Last(\sigma) \Last(\pi) \Vec x.
+\]
+Then 
+$(\sigma,\Vec v)$ is along $(\pi,R)$.
+By Proposition \ref{prop:decrease-pi},
+we have
+$W(\pi,\sigma) >_\Lex W((\pi,R),(\sigma,\Vec v))$.
+Hence
+$U_0(f,\Vec x) =
+W(\pi,\sigma) >_\Lex W((\pi,R),(\sigma,\Vec v))
+\ge_\Lex U_0(g,\Vec v)$.
+Hence $U_0(f,\Vec x) >_\Lex U_0(g,\Vec v)$.
+$\Box$
+
+Note that the ranking function synthesis in this theorem
+is done in intuitionistic logic.
+
+Note also that the upper bound $k(|V|{K \choose k}+k!|E^+|)$ for $|\pi|$
+can be overapproximated by the SC graph as lollows.
+$|E^+| \le |V|^2C2^{2K^2}$ from $S,P \subseteq (2^K)^K$
+and ${K \choose k} \le 2^K$
+and $k \le K$ where $C = |\Callsitenames|$.
+

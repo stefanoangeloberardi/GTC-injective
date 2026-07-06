@@ -1,0 +1,775 @@
+\appendix
+\section*{Appendix}
+
+\section{Cyclic Proofs}
+
+\subsection{Intuitionistic Martin-L\"of's Inductive Definition System $\LJID$}
+
+We define
+an intuitionistic Martin-L\"of's inductive definition system, called $\LJID$.
+
+The language of $\LJID$ is determined by a first-order language with
+inductive predicate symbols.
+The logical system $\LJID$ is determined by production rules
+for inductive predicate symbols.
+These production rules mean that 
+the inductive predicate denotes 
+the least fixed point defined by these production rules.
+
+We assume the first order terms $t,u, \ldots$.
+We assume $\forall x$ and $\exists y$ are less tightly connected than other
+logical connectives.
+To save space,
+we sometimes write $Pxy$ and $Fxy$ for $P(x,y)$ and $F(x,y)$.
+
+For example, 
+the production rules of the inductive predicate symbol $N$ are
+\[
+\infer{N0}{}
+\qquad
+\infer{Ns x}{Nx}
+\]
+These production rules mean that 
+$N$ denotes the smallest set closed under 0 and $s$,
+namely the set of natural numbers.
+
+The inference rules of $\LJID$ contains
+the introduction rules and the elimination rules for inductive predicates,
+determined by the production rules.
+These rules describe that the predicate actually denotes the least fixed point.
+In particular, the elimination rule describes the induction principle.
+
+For example, the above production rules give the introduction rules
+\[
+\infer{\Gamma \prove N0}{}
+\qquad
+\infer{\Gamma \prove Ns x}{\Gamma \prove Nx}
+\]
+and the elimination rule
+\[
+\infer{\Gamma,Nt \prove Ft}{
+\Gamma \prove F0
+&
+\Gamma,Fx \prove Fs x
+}
+\]
+This elimination rule describes mathematical induction principle.
+
+\begin{figure*}[t]
+{\prooflineskip
+\[
+\infer[(\Axiom)]{\Gamma,A \prove A}{}
+\qquad
+\infer[(\Wk)]{\Gamma \prove \Delta}{\Gamma' \prove \Delta'}
+(\Gamma' \subseteq \Gamma, \Delta' \subseteq \Delta)
+%\\
+\qquad
+\infer[(\Cut)]{\Gamma \prove \Delta}{
+\Gamma \prove F
+&
+\Gamma,F \prove \Delta
+}
+%\qquad
+\\
+\infer[(\Subst)]{\Gamma\theta \prove \Delta\theta}{\Gamma \prove \Delta}
+\qquad
+\infer[(\neg L)]{\Gamma,\neg F \prove}{\Gamma \prove F}
+%\\
+\qquad
+\infer[(\neg R)]{\Gamma \prove \neg F}{\Gamma,F \prove}
+\qquad
+\infer[(\lor L)]{\Gamma,F \lor G \prove \Delta}{
+\Gamma,F \prove \Delta
+&
+\Gamma,G \prove \Delta
+}
+%\qquad
+\\
+\infer[(\lor R_l)]{\Gamma \prove F \lor G}{
+	\Gamma \prove F
+}
+%\\
+\qquad
+\infer[(\lor R_r)]{\Gamma \prove F \lor G}{
+	\Gamma \prove G
+}
+\qquad
+\infer[(\land L)]{\Gamma,F \land G \prove \Delta}{\Gamma,F,G \prove \Delta}
+\qquad
+\infer[(\land R)]{\Gamma \prove F \land G}{
+\Gamma \prove F
+&
+\Gamma \prove G
+}
+\\
+\infer[(\imp L)]{\Gamma, F \imp G \prove \Delta}{
+	\Gamma \prove F
+	&
+	\Gamma,G \prove \Delta
+}
+\qquad
+\infer[(\imp R)]{\Gamma \prove F \imp G}{\Gamma,F \prove G}
+\qquad
+\infer[(\forall L)]{\Gamma,\forall xF \prove \Delta}{\Gamma,F[x:=t] \prove \Delta}
+\\
+%\]
+%\[
+\infer[(\forall R)]{\Gamma \prove \forall xF}{\Gamma \prove F}
+(x \notin \FV(\Gamma))
+\qquad
+\infer[(\exists L)]{\Gamma,\exists xF \prove \Delta}{\Gamma,F \prove \Delta}
+(x \notin \FV(\Gamma,\Delta))
+%\\
+\qquad
+\infer[(\exists R)]{\Gamma \prove \exists xF}{\Gamma \prove F[x:=t]}
+%\qquad
+\\
+\infer[(=L)]{\Gamma[x:=u],t=u \prove \Delta[x:=u]}{\Gamma[x:=t] \prove \Delta[x:=t]}
+\qquad
+\infer[(=R)]{\Gamma \prove t=t}{}
+\qquad
+\infer[(\Ind\ P_j)]{\Gamma,P_j\Vec u \prove F_j\Vec u}{
+\hbox{minor premises}
+}
+\\
+\infer[(P\ R)]{\Gamma \prove P\Vec t}{
+\Gamma \prove Q_{1}\Vec u_{1} & \ldots & \Gamma \prove Q_{n}\Vec u_{n} 
+& \Gamma \prove P_1\Vec t_{1} & \ldots & \Gamma \prove P_{m}\Vec t_{m}
+}
+\]
+}
+\vskip -3ex
+\caption{Inference Rules}\label{fig:2}
+\vskip -1ex
+\end{figure*}
+The inference rules are given in Figure \ref{fig:2}
+where 
+for $(P_i\ R)$ we assume the production rule
+\[
+\infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
+\]
+and
+for $(\Ind\ P_j)$ we assume a predicate $F_i$ for each $P_i$
+and
+the minor premises are defined as
+\[
+\Gamma, Q_{i1}\Vec u_{i1}, \ldots, Q_{in_i}\Vec u_{in_i}, 
+F_1\Vec t_{i1}, \ldots, F_{im_i}\Vec t_{im_i}
+\prove F_i\Vec t_i
+\]
+for each production rule
+\[
+\infer{P_i\Vec t_i}{Q_{i1}\Vec u_{i1} & \ldots & Q_{in_i}\Vec u_{in_i} & P_1\Vec t_{i1} & \ldots & P_{im_i}\Vec t_{im_i}}
+\]
+Note that the antecedents and the succedents are sets and
+the succedent is empty or a formula.
+
+The system $\LJID$ is the same as the system obtained from
+classical Martin-L\"of's inductive definition system $\LKID$
+defined in \cite{Brotherston11a}
+by restricting every sequent to intuitionistic sequents and replacing
+$(\imp L)$, $(\lor R)$, and $(\Ind\ P_j)$ accordingly.
+The provability of the system $\LJID$ is the same as
+that of the natural deduction system given in \cite{Martin-Lof-1971}.
+
+\subsection{Cyclic Proof System $\CLJIDomega$}
+
+An intuitionistic cyclic proof system, called $\CLJIDomega$,
+is defined as the system obtained from
+classical cyclic proof system $\CLKIDomega$
+defined in \cite{Brotherston11a}
+by restricting every sequent to intuitionistic sequents and
+replacing $(\imp L)$ and $(\lor R)$ in the same way as $\LJID$.
+Note that the {\em global trace condition} in $\CLJIDomega$ 
+is the same as that in $\CLKIDomega$ (Definition 5.5 of \cite{Brotherston11a}).
+
+Namely, the inference rules of $\CLJIDomega$ are obtained from
+$\LJID$ by replacing $(\Ind P_j)$ by
+\[
+\infer[(\Case P)]{\Gamma, P\Vec u \prove \Delta}{
+\hbox{case distinctions}
+}
+\]
+where the case distinctions are
+\[
+\Gamma,\Vec u=\Vec t,
+Q_1\Vec u_1, \ldots, Q_n\Vec u_n, P_1\Vec t_1, \ldots, P_m\Vec t_m
+\prove \Delta
+\]
+for each production rule
+\[
+\infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
+\]
+A cyclic proof in $\CLJIDomega$ is defined by
+(1) allowing a bud as an open assumption and
+requiring a companion for each bud,
+(2) requiring the global trace condition.
+
+The {\em global trace condition} \cite{Brotherston11,Brotherston-phd} is 
+the condition that
+for every infinite path in the infinite unfolding of a given cyclic proof,
+there is a trace that passes
+main formulas of case rules
+infinitely many times.
+The global trace condition ensures that
+when we think some measure by counting case rules,
+the measure of a bud is smaller than that of the companion.
+For example, in the next example the companion (a) uses $Px0y$, but
+the bud (a) uses $Px0y$ where $x$ is $x'$ and $x' < x$,
+so 
+their actual meanings are different
+even though they are of the same form.
+The global trace condition guarantees the soundness of a cyclic proof system.
+
+An example of a cyclic proof (trivial steps are omitted) is as follows:
+\[
+\infer[(\Case\ P)]{(a) Px0y \prove x=y}{
+\infer{x=0,y=0,Px0y \prove x=y}{
+\infer{\prove 0=0}{}
+}
+&
+\infer{Px'0y',x=sx',y=sy' \prove x=y}{
+\infer{Px'0y',x=sx',y=sy' \prove sx'=sy'}{
+\infer[(\Wk)]{Px'0y',x=sx',y=sy' \prove x'=y'}{
+\infer[(\Subst)]{Px'0y' \prove x'=y'}{(a) Px0y \prove x=y}
+}}}}
+\]
+where the mark (a) denotes the bud-companion relation, and
+the production rules are
+\[
+\infer{P0yy}{}
+\qquad
+\infer{P(sx)y(sz)}{Pxyz}
+\]
+Note that
+the predicate $P$ is addition on natural numbers
+and the proof is, essentially, deriving the arithmetic identity $x + 0 = x$.
+
+We call an atomic formula an {\em inductive atomic formula}
+when its predicate symbol is an inductive predicate symbol.
+
+\subsection{Cyclic Proofs for Coinductive Predicates}
+
+This subsection shows how we can use a cyclic proof system
+to formalize coinductive predicates.
+Since a coinductive predicate is a dual of an inductive predicate,
+and sequent calculus is symmetric for this dual, we can construct
+a cyclic proof system for coinductive predicates.
+For example,
+for stream predicates
+we can define a cyclic proof system $\mu\nu\LK$ from $\CLKIDomega$ as follows:
+
+(1) Add function symbols $\Head$, $\Tail$,
+and the pair $\<\ , \ \>$ with
+the axioms $\<x,y\>=\<x',y'\> \imp x=x' \land y=y'$ and
+$x=\<\Head\ x,\Tail\ x\>$,
+and 
+a coinductive predicate symbol $P$ with its coproduction rule
+\[
+\infer[\Co]{P\<y,x\>}{Qyx & Px}
+\]
+which means $P$ is defined coinductively by this rule.
+Note that
+$P$ represents
+the set of streams $\<x_0, \<x_1, \<x_2, \< \ldots\>\>\>$
+such that $Q(x_i,\<x_{i+1}, \<x_{i+2}, \<\ldots\>\>)$ for all $i$.
+
+(2) Add the inference rules $(P\ R)$ and $(\Case\ P)$ in the same way
+as $\CLKIDomega$, namely,
+\[
+\infer[(\Case\ P)]{\Gamma, Pt \prove \Delta}{
+\Gamma,t=\<y,x\>, Qyx, Px \prove \Delta
+}
+\qquad
+\infer[(P\ R)]{\Gamma \prove P\<y,x\>,\Delta}{
+\Gamma \prove Qyx,\Delta
+&
+\Gamma \prove Px,\Delta
+}
+\]
+
+(3) 
+We call an atomic formula a {\em coinductive atomic formula}
+when its predicate symbol is a coinductive predicate symbol.
+We define a {\em cotrace} as a sequence of coinductive atomic formulas
+in the succedents of a path such that
+two atomic formulas are related by an inference rule in a similar way
+to a trace defined in \cite{Brotherston11a}.
+The {\em global trace and cotrace condition} is
+the condition that
+for every infinite path in the infinite unfolding of a given cyclic proof,
+the path contains 
+either a trace that passes main formulas of case rules infinitely many times,
+or a cotrace that passes main formulas of rules $(P\ R)$ infinitely many times.
+
+(4) A cyclic proof is a preproof that satisfies the global trace and cotrace
+condition.
+
+Example.
+We define the bit stream predicate $\BS$ by the following coproduction rules:
+\[
+\infer[\Co]{\BS \<y,x\>}{
+\Bit\ y
+&
+\BS\ x
+}
+\]
+where $\Bit$ is an ordinary predicate symbol with the axiom
+$\Bit\ x \lequiv x=0 \lor x=1$.
+The inference rules from this production rule are:
+\[
+\infer[(\BS\ R)]{\Gamma \prove \BS\<y,x\>,\Delta}{
+\Gamma \prove \Bit\ y,\Delta
+&
+\Gamma \prove \BS\ x,\Delta
+}
+\qquad
+\infer[(\Case\ \BS)]{\Gamma,\BS\ t \prove \Delta}{
+\Gamma, t=\<y,x\>, \Bit\ y, \BS\ x \prove \Delta
+}
+\]
+Then we can show $x=\<0,x\> \prove \BS\ x$, namely,
+the zero stream is a bit stream, as follows (trivial steps are omitted):
+\[
+\infer{(a)\ x=\<0,x\> \prove \BS\ x}{
+\infer[(\BS\ R)]{x=\<0,x\> \prove \BS \<0,x\>}{
+\infer{x=\<0,x\> \prove \Bit\ 0}{}
+&
+(a)\ x=\<0,x\> \prove \BS\ x
+}}
+\]
+where (a) denotes the bud-companion relation.
+
+The cyclic proof system $\mu\nu\LK$ is sound for the standard model.
+\begin{Th}
+If a sequent is provable in $\mu\nu\LK$,
+then it is true in the standard model where
+a coinductive predicate is interpreted as the greatest fixed point
+that satisfies the coproduction rules.
+\end{Th}
+
+{\em Proof sketch.}
+We add an ordinary predicate symbol $\tilde Q$ with the axiom
+$\tilde Qyx \lequiv \neg Qyx$
+and add an inductive predicate symbols $\tilde P$ with the production rules
+\[
+\infer{\tilde Px}{\tilde Q(\Head\ x)(\Tail\ x)}
+\qquad
+\infer{\tilde Px}{\tilde P(\Tail\ x)}
+\]
+
+In the standard model, $P$ is the greatest solution of the equation
+\[
+Px \lequiv \exists yx'(x=\<y,x'\> \land Qyx' \land Px')
+\]
+and $\tilde P$ is the least solution of the equation
+\[
+\tilde Px \lequiv \tilde Q(\Head\ x)(\Tail\ x) \lor \tilde P(\Tail\ x).
+\]
+By putting $\neg$ on both sides of the equation for $P$
+and taking $y$ and $x'$ to be $\Head\ x$ and $\Tail\ x$,
+we can show $\neg P$ is a solution of the equation for $\tilde P$.
+Hence $\tilde Px \imp \neg Px$ is true.
+In the same say by putting $\neg$ on both sides of the equation for $\tilde P$,
+and using $x=\<\Head x, \Tail x\>$,
+we can show $\neg \tilde P$ is a solution of the equation for $P$.
+Hence $\neg \tilde Px \imp Px$ is true.
+Therefore $\tilde Px \lequiv \neg Px$ is true.
+
+We define a transformation $(\ )^-$ for a sequent and a proof,
+in order to replace $P$ by $\tilde P$.
+For a sequent $J$, we define $J^-$ by
+replacing $P$ by $\neg \tilde P$ and then
+moving an atomic formula $\neg \tilde Pt$ of the antecedent to
+$\tilde Pt$ of the succedent and
+moving an atomic formula $\neg \tilde Pt$ of the succedent to
+$\tilde Pt$ of the antecedent.
+
+Given a cyclic proof $\pi$, we define $\pi^-$ by
+replacing each sequent $J$ by $J^-$ and then
+replacing $(P\ R)$ by 
+\[
+\infer[(\Case\ \tilde P)]{\Gamma^-, \tilde P\<y,x'\> \prove \Delta^-}{
+\infer{\Gamma^-, \tilde Qyx' \prove \Delta^-}{
+\Gamma^- \prove Qyx', \Delta^-
+}
+&
+\Gamma^-, \tilde Px' \prove \Delta^-
+}
+\ \hbox{(trivial steps are omitted)}
+\]
+and replacing $(\Case P)$ by 
+\[
+\infer{\Gamma^- \prove \tilde Px,\Delta^-}{
+\infer[(\tilde P\ R)]{\Gamma^-,x=\<y,x'\> \prove \tilde Px,\Delta^-}{
+\infer[(\tilde P\ R)]{\Gamma^-,x=\<y,x'\> \prove \tilde Qyx',\tilde Px,\Delta^-}{
+\infer{\Gamma^-,x=\<y,x'\> \prove \tilde Qyx',\tilde Px',\Delta^-}{
+\Gamma^-,x=\<y,x'\>,Qyx' \prove \tilde Px',\Delta^-
+}}}}
+\ \hbox{(trivial steps are omitted)}
+\]
+Then a cotrace in $\pi$ corresponds to a trace in $\pi^-$.
+Hence $\pi^-$ is a cyclic proof of $J^-$ in $\CLKIDomega$ when
+$\pi$ is a cyclic proof of $J$ in $\mu\nu\LK$.
+By the soundness of $\CLKIDomega$, $J^-$ is true in the standard model.
+Since $\tilde Px \lequiv \neg Px$ is true,
+$J$ is true in the standard model where
+$P$ is interpreted as the greatest fixed point.
+$\Box$
+
+\section{Equivalence between $\LJID$ and $\CLJIDomega$}
+
+This section studies the equivalence between $\CLJIDomega$ and $\LJID$.
+
+\subsection{Countermodel and Addition of Heyting Arithmetic}
+
+This subsection gives a countermodel and adds arithmetic to the logical systems.
+
+The counterexample given in \cite{Berardi17} also shows that
+the equivalence between $\CLJIDomega$ and $\LJID$ does not hold in general,
+because the proof of the statement $H$ in \cite{Berardi17} is actually in $\CLJIDomega$,
+and $\LJID$ does not prove $H$ since $\LKID$ does not prove $H$.
+This gives us the following theorem (it is not new in the sense
+\cite{Berardi17} immediately implies it).
+\begin{Th}
+There are some signature and some set of production rules for which
+the provability of $\CLJIDomega$ is not the same as
+that of $\LJID$.
+\end{Th}
+
+There is a possibility of the equivalence under some conditions.
+We will show the equivalence holds by adding arithmetic to both systems.
+
+We add arithmetic to both $\LJID$ and $\CLJIDomega$.
+\begin{Def}\rm
+$\CLJIDHA$ and $\LJIDHA$
+are defined to be obtained from $\CLJIDomega$ and $\LJID$
+by adding Heyting arithmetic.
+Namely, we add constants and function symbols $0, s, +, \times$,
+the inductive predicate symbol $\N$, the productions for $\N$,
+and Heyting axioms:
+\[
+\infer{\N0}{}
+\qquad
+\infer{\N s x}{\N x}
+\qquad
+\prove \N x \imp s x \ne 0, \qquad
+\prove \N x \land \N y \imp s x=s y \imp x=y, \\
+\prove \N x \imp x + 0 = x, \qquad
+\prove \N x \land \N y \imp x + s y = s(x+y), \\
+\prove \N x \imp x \times 0 = 0, \qquad
+\prove \N x \land \N y \imp x \times s y = x \times y + x.
+\]
+\end{Def}
+
+\subsection{Equivalence Theorem}
+
+In this subsection we state the equivalence theorem and explains proof ideas.
+
+First we assume a new inductive predicate symbol $P'$
+for each inductive predicate symbol $P$
+and define 
+the production rules of $P'$ in the same way as \cite{Berardi17a}.
+\begin{Def}\label{def:P'}\rm
+We define the production rule of $P'$
+\[
+\infer{P'\Vec tv}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & v > v_1 & P'_1\Vec t_1v_1 & \ldots & v > v_m & P'_m\Vec t_mv_m & \N v}
+\]
+for each production rule of $P$
+\[
+\infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
+\]
+where $v,v_1,\ldots,v_m$ are fresh variables.
+\end{Def}
+
+We write $\LJIDHA+(\Sigma,\Phi)$ for the system
+$\LJIDHA$ with the signature $\Sigma$ and the set $\Phi$ of production rules.
+Similarly we write $\CLJIDHA+(\Sigma,\Phi)$.
+For simplicity, in $\Phi$ we write only $P$ for the set of production rules
+for $P$.
+We define
+$\Sigma_N = \{0,s,+,\times,<,N\}$ and
+$ \Phi_N = \{N\}.$
+We write $P''$ for $(P')'$.
+
+The next theorem shows
+the equivalence of $\LJIDHA$ and $\CLJIDHA$ with signatures.
+\begin{Th}[Equivalence of $\LJIDHA$ and $\CLJIDHA$]\label{th:equiv}
+Let
+$\Sigma = \Sigma_N \cup \{\Vec Q,\Vec P, \Vec P'\}$ and
+$\Phi = \Phi_N \cup \{ \Vec P, \Vec P'\}$.
+Then
+the provability of $\CLJIDHA+(\Sigma,\Phi)$ is the same as
+that of $\LJIDHA+(\Sigma,\Phi)$.
+\end{Th}
+
+We explain our ideas of proofs of this theorem.
+\cite{Berardi17a} shows the equivalence between classical systems
+by using classical Podelski-Rybalchenko theorem for induction.
+This proof goes well even if we replace classical systems by intuitionistic
+systems except that
+we have to replace classical Podelski-Rybalchenko theorem for induction
+by intuitionistic Podelski-Rybalchenko theorem for induction.
+Since we proved intuitionistic Podelski-Rybalchenko theorem for induction
+in Theorem \ref{th:Podelski},
+by combining them, we can show the equivalence between
+$\LJID$ and $\CLJIDomega$.
+
+\section{Proof Transformation}
+
+This section gives the proof of the equivalence.
+More detailed discussions are given in \cite{Berardi17b}.
+We define proof transformation from $\CLJIDHA$ to $\LJIDHA$.
+First we will define stage numbers and path relations,
+and then define proof transformation using them.
+
+For notational convenience,
+we assume a cyclic proof $\Pi$ in this section.
+Let the buds in $\Pi$ be $J_{1i} \ (i \in I)$ and
+the companions be $J_{2j} \ (j \in K)$.
+Assume $f:I \to K$ such that the companion of a bud $J_{1i}$ is $J_{2,f(i)}$.
+
+\subsection{Stage Numbers for Inductive Definitions}
+
+In this subsection, we define and discuss stage transformation.
+
+We introduce a stage number to each inductive atomic formula 
+so that
+the argument of the formula comes into the inductive predicate at the stage 
+of the stage number.
+This stage number will decrease by a progressing trace.
+A proof in $\LJIDHA$ will be constructed by 
+using the induction on stage numbers.
+
+First we give stage transformation of an inductive atomic formula.
+We assume a fresh inductive predicate symbol $P'$ for
+each inductive predicate symbol $P$
+and we call it a {\em stage-number inductive predicate symbol}.
+$P'(\Vec t,v)$ means that
+the element $\Vec t$ comes into $P$ at the stage $v$.
+We transform $P(\Vec t)$ into $\exists vP'(\Vec t,v)$.
+We call a variable $v$ a {\em stage number}
+of $\Vec t$ when $P'(\Vec t,v)$.
+$P(\Vec t)$ and $\exists vP'(\Vec t,v)$ will become equivalent 
+by inference rules introduced by the transformation of production rules.
+We call $P'(\Vec t,v)$ a {\em stage-number inductive atomic formula}.
+
+Secondly 
+we give stage transformation of a production rule.
+We transform the production of $P$
+into the production of $P'$ given in Definition \ref{def:P'}.
+
+Next we give the stage transformation of a sequent.
+For given fresh variables $\Vec v$,
+we transform a sequent $J$ into $J^\circ_{\Vec v}$ defined as follows.
+We define $\Gamma^\bullet$ 
+as the set obtained from $\Gamma$
+by replacing $P(\Vec t)$ by $\exists vP'(\Vec t,v)$.
+%
+For fresh variables $\Vec v$, 
+we define $(\Gamma)^\circ_{\Vec v}$ 
+as the sequent obtained from $\Gamma^\bullet$
+by replacing the $i$-th element 
+of the form $\exists vP'(\Vec t,v)$ in the sequent $\Gamma^\bullet$
+by $P'(\Vec t,v_i)$.
+%
+We define $(\Gamma \prove \Delta)^\bullet$ by $\Gamma^\bullet \prove \Delta^\bullet$,
+and define $(\Gamma \prove \Delta)^\circ_{\Vec v}$ by $(\Gamma)^\circ_{\Vec v} \prove \Delta^\bullet$.
+
+We write $(a_i)_{i \in I}$ for the sequence of elements $a_i$ 
+where $i$ varies in $I$.
+We extend the notion of proofs by allowing open assumptions.
+We write $\Gamma \prove_\CLJIDHA \Delta$ with assumptions $(J_i)_{i \in I}$
+when there is a proof with assumptions $(J_i)_{i \in I}$ and
+the conclusion $\Gamma \prove \Delta$ in $\CLJIDHA$.
+
+\begin{Def}\rm
+In a path $\pi$ in a proof,
+we define $\Ineq(\pi)$ as the set of the forms
+$v > v'$ and $v = v'$ for any stage numbers $v,v'$
+eliminated by every case distinction in $\pi$.
+\end{Def}
+
+The proof of the next proposition gives 
+{\em stage transformation}
+of a proof into
+a proof of the stage transformation of the conclusion of the original proof.
+We write $\Pi^\circ$ for the stage transformation of $\Pi$.
+
+\begin{Prop}[Stage Transformation]\label{prop:birthtrans1}
+For any fresh variables $\Vec v$, 
+if $\Gamma \prove_\CLJIDHA \Delta$ with assumptions $(\Gamma_i \prove \Delta_i)_{i \in I}$
+without any buds,
+then
+for some fresh variables $(\Vec v_i)_{i \in I}$
+we have $(\Gamma)^\circ_{\Vec v} \prove_\CLJIDHA \Delta^\bullet$
+with assumptions $(\Ineq(\pi_i),(\Gamma_i)^\circ_{\Vec v_i} \prove \Delta_i^\bullet)_{i \in I}$
+without any buds,
+where $\pi_i$ is the path from the conclusion to the assumption 
+$(\Gamma_i)^\circ_{\Vec v_i} \prove \Delta_i^\bullet$.
+\end{Prop}
+
+\subsection{Path Relation}
+
+In this section, we will introduce path relations and discuss them.
+
+We assume a subproof $\Pi_j$ of $\Pi$ 
+such that it does not have buds,
+its conclusion is $J_{2j}$ and its assumptions are
+$J_{1i} \ (i \in I_j)$. 
+
+For $J$ in $\Pi^\circ_j$, we define $\Tilde J$ as $\< v_1,\ldots,v_k \>$ where
+$J$ is $\Gamma^\circ_{v_1\ldots v_k} \prove \Delta^\bullet$.
+
+For a path $\pi$ from the conclusion to an assumption in $\Pi_j^\circ$,
+we write $\check\pi$ for the corresponding path in $\Pi$.
+We extend this notation to a finite composition of $\pi$'s.
+By the correspondence $(\check{\ })$,
+a stage-number inductive atomic formula in $\Pi^\circ_j$
+corresponds to an inductive atomic formula in $\Pi$,
+and
+a path, a trace, and a progressing trace in $\Pi^\circ_j$
+correspond to the same kind of objects in $\Pi$.
+
+\begin{Def}\rm
+For a finite composition $\pi$ of paths in $\{ \Pi_j^\circ \ |\ j \in K\}$ such that
+$\check\pi$ is a path in the infinite unfolding of $\Pi$,
+we define the {\em path relation} $\tilde>_{\pi}$ by
+\[
+x \tilde>_{\pi} y \equiv
+|x|=|\Tilde J_2| \land |y|=|\Tilde J_1| \land
+\Land_{F(q_1,q_2)} (x)_{q_2} > (y)_{q_1}
+\land
+\Land_{G(q_1,q_2)} (x)_{q_2} = (y)_{q_1}
+\]
+where 
+$J_1$ and $J_2$ are the top and bottom sequents of $\pi$ respectively,
+$\check J_1$ and $\check J_2$ are those of the path $\check\pi$,
+$F(q_1,q_2)$ is that
+there is some progressing trace from the $q_2$-th atomic formula in $\check J_2$
+to the $q_1$-th atomic formula in $\check J_1$,
+$G(q_1,q_2)$ is that
+there is some non-progressing trace from the $q_2$-th atomic formula in $\check J_2$ to the $q_1$-th atomic formula in $\check J_1$.
+\end{Def}
+
+We define $B_1$ as the set of paths from conclusions to assumptions in 
+$\Pi^\circ_j \ (j \in K)$.
+We define $B$ as the set of finite compositions of elements in $B_1$ such that
+if $\pi \in B$ then $\check\pi$ is a path in the infinite unfolding of $\Pi$.
+
+\begin{Def}\rm\label{def:>}
+For $\pi \in B$,
+define $x >_{\pi} y$ by
+\[
+x >_{\pi} y \equiv
+(x)_0=j \land (y)_0=f(i) \land  (x)_1 \tilde>_{\pi} (y)_1,
+\]
+where 
+$J_{1i}$ is the top sequent of $\check\pi$, and
+$J_{2j}$ is the bottom sequent of $\check\pi$.
+\end{Def}
+
+Note that $(\ )_0$ and $(\ )_1$ are operations for a number that represents
+a sequence of numbers defined in Section 3.
+The first element is a companion number.
+
+\begin{Lemma}\label{lemma:finite}
+$\{ >_{\pi} \ |\ \pi \in B \}$ is finite.
+\end{Lemma}
+
+{\em Proof.}
+Define $C_n$ as $\{ >_{\pi_1\ldots \pi_m} \ |\ m \le n, \pi_i \in B_1 \}$.
+Since $>_{\pi}$ is a relation on $N \times N^{\le p}$ where
+$p$ is the maximum number of inductive atomic formulas in the antecedents of $\Pi$,
+there is $L$ such that $|C_n| \le L$ for all $n$.
+Then we have the least $n$ such that $C_{n+1}=C_n$.
+Then $|\{ >_{\pi} \ |\ \pi \in B \}|=|C_n|$.
+$\Box$
+
+The next lemma is the only lemma that uses the global trace condition.
+
+\begin{Lemma}\label{lemma:globaltrace}
+For all $\pi \in B$, there is $n>0$ such that
+$\prove_\HA \Ind(U,>_\pi^n)$.
+\end{Lemma}
+
+We define $>_\Pi$ as $\bigcup \{ >_{\pi} \ |\ \pi \in B \}$.
+Note that $>_\Pi$ is transitive,
+since 
+the top sequent of $\pi_1$
+is the bottom sequent of $\pi_2$ by the first element, and
+$((>_{\pi_1}) \circ (>_{\pi_2})) \subseteq (>_{\pi_1\pi_2})$.
+
+\subsection{Proof Transformation}
+
+This section gives proof transformation.
+
+The next lemma shows
+we can replace (Case) rules of $\CLJIDHA$ 
+by (Ind) rules of $\LJIDHA$.
+\begin{Lemma}\label{lemma:case-ind}
+If there is a proof
+with some assumptions
+and without any buds in $\CLJIDHA$,
+then
+there is a proof of the same conclusions with the same assumptions
+in $\LJIDHA$.
+\end{Lemma}
+
+The next is a key lemma and shows each bud in a cyclic proof
+is provable in $\LJIDHA$, which is proved by using Theorem \ref{th:Podelski}.
+\begin{Lemma}\label{lemma:prooftrans}
+For every bud $J$ of a proof in $\CLJIDHA$ and fresh variables $\Vec v$,
+$(J)^\circ_{\Vec v}$ is provable in $\LJIDHA$.
+\end{Lemma}
+
+The next is the main proposition stating that a cyclic proof is transformed
+into an $(\LJIDHA)$-proof with stage-number inductive predicates.
+\begin{Prop}\label{prop:equiv}
+If a sequent $J$ is provable in
+$\CLJIDHA+(\Sigma_N \cup \{ \Vec P \}, \Phi_N \cup \{ \Vec P \})$,
+then
+$J$ is provable in 
+$\LJIDHA+(\Sigma_N \cup \{N', \Vec P, \Vec P' \}, \Phi_N \cup \{ \Vec P, \Vec P' \})$
+where $N', \Vec P'$ are the stage-number inductive predicates 
+of $N, \Vec P$.
+\end{Prop}
+
+The next shows conservativity for 
+stage-number inductive predicates.
+\begin{Prop}[Conservativity of $N'$ and $P''$]\label{prop:conservative}
+Let 
+$
+\Sigma = \Sigma_N \cup \{\Vec Q,\Vec P, \Vec P'\}$,
+$\Phi = \Phi_N \cup \{ \Vec P, \Vec P'\}$,
+$\Sigma' = \Sigma \cup \{N',\Vec P''\}$, and
+$\Phi' = \Phi \cup \{N', \Vec P''\}$.
+Then
+$\LJIDHA+(\Sigma',\Phi')$
+is conservative over
+$\LJIDHA+(\Sigma,\Phi)$.
+\end{Prop}
+
+\noindent
+{\bf Proof of Theorem \ref{th:equiv}.}
+(1) $\LJIDHA+(\Sigma,\Phi)$ to $\CLJIDHA+(\Sigma,\Phi)$.
+
+For this claim, we can obtain a proof 
+from the proof of Lemma 7.5 in \cite{Brotherston11a}
+by restricting every sequent into intuitionistic sequents
+and replacing
+$\LKID+(\Sigma,\Phi)$ and $\CLKIDomega+(\Sigma,\Phi)$ by
+$\LJID+(\Sigma,\Phi)$ and $\CLJIDomega+(\Sigma,\Phi)$ respectively.
+
+(2) $\CLJIDHA+(\Sigma,\Phi)$ to $\LJIDHA+(\Sigma,\Phi)$.
+
+Let
+$\Sigma' = \Sigma \cup \{N',\Vec P''\}$ and
+$\Phi' = \Phi \cup \{N', \Vec P''\}$.
+Assume $J$ is provable in $\CLJIDHA+(\Sigma,\Phi)$.
+By Proposition \ref{prop:equiv},
+$J$ is provable in $\LJIDHA+(\Sigma',\Phi')$.
+By Proposition \ref{prop:conservative},
+$J$ is provable in $\LJIDHA+(\Sigma,\Phi)$.
+$\Box$
+
