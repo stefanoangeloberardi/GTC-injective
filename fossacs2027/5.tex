@@ -1,0 +1,117 @@
+\section{Intuitionistic Proof Transformation}
+
+\subsection{Induction principle for path relation}
+
+Define
+\[
+G_jx \equiv \forall \Vec z(
+((x)_0,\ldots,(x)_{l-1}) = \Vec v \imp
+(\Gamma_{2j})^\circ_{\Vec v} \imp \Delta_{2j}^\bullet), \\
+Gx_0x \equiv \Land_{j \in K} (x_0=j \imp G_jx),
+\]
+where 
+$l$ is the number of inductive atomic formulas in $\Gamma_{2j}$, and
+$\Vec z$ is $\FV((\Gamma_{2j})^\circ_{\Vec v},\Delta_{2j}^\bullet)$.
+
+$>_\Pi$ is defined in the appendix.
+%
+We define $\rho$ as obtained in Theorem \ref{th:rankingfunc}.
+
+We define $\rho'(c,x)$ as
+$\rho(c,((x)_0,\ldots,(x)_{l-1}))$
+where $l$ is the number of inductive atomic formulas in 
+the antecedent of the sequent of companion number $c$.
+
+\begin{Prop}\label{prop:0.5}
+For a path $\pi$ from a companion $c$ to a bud $d$ above $c$,
+$(c,x) >_\pi (d,y)$ implies $\rho'(c,x) >_\Lex \rho'(d,y)$.
+\end{Prop}
+
+{\em Proof.}
+In a given cyclic proof $\Pi$,
+for a companion $c_i$ and a bud $d_i$ above $c_i$,
+we write a path $\pi_i$ for the path from $c_i$ to $d_i$.
+
+For $\pi_i$, we define an SC graph $G_{\pi_i}$ 
+as $(c_i,(S_i,P_i),d_i)$ where
+$j S_i l$ is defined to hold if there is some nonprogressing trace from the $j$-th
+inductive atomic formula to the $l$-th inductive atomic formula, and
+$j P_i l$ is defined to hold if there is some progressing trace from the $j$-th
+inductive atomic formula to the $l$-th inductive atomic formula.
+
+The set of SC graphs $G_{\pi_i}$ satisfies the SCT condition.
+It is shown as follows.
+Assume an infinite composable sequence $G_{\pi_{p_1}},G_{\pi_{p_2}},\ldots$
+of composable SC graphs.
+Then $pi_{p_1},\pi_{p_2},\ldots$ is an infinite path in the cyclic proof.
+By the global trace condition, there is some trace for some tail of the path
+that is infinitely progressing.
+Let $A_1,A_2,\ldots$ be the occurrences of the inductive atomic formulas
+in the trace.
+Take $n_i$ such that
+$A_i$ is the $n_i$-th inductive atomic formula in the antecedent.
+Then $n_1,n_2,\ldots$ is an SC trace of some tail of $G_{\pi_{p_1}},G_{\pi_{p_2}},\ldots$ that is infinitely progressing.
+Hence the set of SC graphs satisfies the SCT condition.
+
+By Theorem \ref{th:rankingfunc}, there is some $\rho$ such that
+$(c,\Vec t) \to^{G_i} (d,\Vec u)$ implies
+$\rho(c,\Vec t) >_\Lex \rho(d,\Vec u)$.
+
+Fix  path $\pi$ from a companion $c$ to a bud $d$ above $c$.
+Assume $(c,x) >_\pi (d,y)$.
+Then $(x)_i > (y)_j$ iff there is a progressing trace from $i$ to $j$
+iff $i P j$.
+Similarly $(x)_i \ge (y)_j$ iff there is a nonprogressing trace from $i$ to $j$
+iff $i S j$.
+Hence we have
+\[
+(c,((x)_0,\ldots,(x)_{l-1})) \to^{G_\pi} (d,((y)_0,\ldots,(y)_{l'-1})).
+\]
+
+By the ranking function $\rho$, we have
+$\rho(c,((x)_0,\ldots,(x)_{l-1})) >_\Lex \rho(d,((y)_0,\ldots,(y)_{l'-1}))$.
+Hence $\rho'(c,x) >_\Lex \rho'(d,y)$.
+$\Box$
+
+\begin{Prop}\label{prop:1}
+$(c,x) >_\Pi (d,y)$ implies $\rho'(c,x) >_\Lex \rho'(d,y)$.
+\end{Prop}
+
+The proof is given in the appendix.
+
+\begin{Prop}\label{prop:2}
+\[
+\HA \prove 
+\forall cx(\forall dy(\rho'(d,y) <_U \rho'(c,x) \imp Gdy) \imp Gcx)
+\imp \forall cx.Gcx.
+\]
+\end{Prop}
+
+The proof is given in the appendix
+
+\begin{Prop}\label{prop:ind}
+$\HA \prove \Ind(>_\pi,G)$.
+\end{Prop}
+
+{\em Proof.}
+In the statement of Proposition \ref{prop:2},
+since $\rho'(d,y) <_U \rho'(c,x)$ appears negatively,
+by Proposition \ref{prop:1}, we can replace it by $(d,y) <_\Pi (c,x)$.
+Hence $\Ind(>_\pi,G)$ is provable.
+$\Box$
+
+\subsection{Equivalence between cyclic proofs and inductive proofs}
+
+Combining Proposition \ref{prop:ind} and
+the proof transformation given in \cite{Berardi18}
+we obtain the following theorem.
+The detailed descriptions are given in the appendix.
+
+\begin{Th}[Equivalence of $\LJIDHA$ and $\CLJIDHA$]
+If $\CLJIDHA$ with inductive predicates $P_1,\ldots,P_n$ proves a sequent,
+then there is a proof of the same sequent in $\LJIDHA$ with $P_1,\ldots,P_n$ and their stage-number inductive predicates $P_1',\ldots,P_n'$.
+Moreover, we have an algorithm of
+proof transformation from $\CLJIDHA$ to $\LJIDHA$.
+Moreover, the correctness of the algorithm of the proof transformation
+from $\CLJIDHA$ to $\LJIDHA$ is proved in intuitionistic logic.
+\end{Th}

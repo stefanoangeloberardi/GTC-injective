@@ -1,0 +1,906 @@
+\appendix
+\section*{Appendix}
+
+\section{Proof of Lemma \ref{lemma:bijection}}
+
+{\em Proof.}
+We write $R|_{X \times Y}$ for $\{ (x,y) \in X \times Y \ |\ xRy \}$.
+
+Let $R'$ be $R|_{\dom(R) \times \dom(S)}$.
+
+Claim 1. $\dom(R')=\dom(R)$.
+We can show it as follows.
+Fix $x \in \dom(R)$.
+Since $R,S$ is domain-stable, we have $\dom(RS) = \dom(R)$.
+Hence $x \in \dom(RS)$.
+Hence there are $y$ and $z$ such that $x R y S z$.
+Hence $y \in \dom(S)$.
+Hence $x \in \dom(R')$.
+
+Claim 2. $\codom(R')=\dom(S)$.
+We can show it as follows.
+By definition of $R'$, we have $\codom(R') \subseteq \dom(S)$.
+Since $R'$ is injective, we have $|\dom(R')| \le |\codom(R')|$.
+From Claim 1, we have $\dom(R')=\dom(R)$.
+Hence $|\dom(R)| \le |\codom(R')| \le |\dom(S)|$.
+Since $|\dom(R)| = |\dom(S)|$, we have $\codom(R')=\dom(S)$.
+
+$R'^{-1}$ is a function $\dom(S) \to \dom(R)$.
+We can show it as follows.
+Fix $x \in \dom(S)$ to show $x R'^{-1} y$ for some $y$.
+By Claim 2. $x \in \codom(R')$. Hence there is $y$ such that $y R' x$.
+Hence $x R'^{-1} y$.
+Assume $x R'^{-1} y$ and $x R'^{-1} z$ to show $y=z$.
+Then $y R' x$ and $z R' x$.
+Since $R'$ injective, we have $y=z$.
+
+The function $R'^{-1}$ is surjective.
+We can show it as follows.
+Fix $x \in \dom(R)$.
+By Claim 1, we have $x \in \dom(R')$.
+Hence there is $y$ such that $x R' y$.
+Hence $y R'^{-1} x$.
+
+Since $|\dom(S)|=|\dom(R)|$, the function $R'^{-1}$ is bijective.
+Hence $R'$ is a bijection.
+Hence $R:\dom(R) \to \dom(S)$ is a bijection.
+$\Box$
+
+\section{Proof of Lemma \ref{lemma:shorten}}
+
+{\em Proof.}
+
+Assume $|\pi| > C_0$
+to show that there are $\pi'$ and $\sigma'$ such that
+they are obtained from $\pi$ and $\sigma$ by replacing some subsequences
+and $W(\pi,\sigma) = W(\pi',\sigma')$ and $|\pi|>|\pi'|$.
+
+Let $\pi$ be $(R_1,\ldots,R_n)$.
+Let $\sigma$ be $(\Vec v_1,\ldots,\Vec v_n)$.
+Let $k=|\dom(R_n)|$.
+Let $W(\pi,\sigma)=(W_1,\ldots,W_K)$.
+Since $\pi$ is domain-stable, we have $W_i=(\infty,0)$ for all $i \in [k+1,K]$.
+
+Take $p_0 \in [1,n]$ such that
+$p_0$ is the smallest among $p_0$'s such that
+$|\dom(R_{p_0})|>0$
+Let $k_0$ be $|\dom(R_{p_0})|$.
+
+Take $p_1 \in [p_0+1,n]$ such that 
+$p_1$ is the smallest among $p_1$'s such that
+$|\dom(R_{p_1})|>k_0$.
+
+Case 1. $p_1-p_0 \ge |V|{K \choose k_0}+2$.
+
+By Lemma \ref{lemma:maxlen}, we have
+$\Val(R_{p_0},\Vec v_{p_0}) \ne \Val(R_{p_1-1},\Vec v_{p_1-1})$
+and
+$\Val(R_{p_0+1},\Vec v_{p_0+1}) \ne \Val(R_{p_1-1},\Vec v_{p_1-1})$.
+
+Define $\pi'$ from $\pi$ by 
+replacing $R_{p_0},R_{p_0+1}$ by a single composition $R_{p_0}R_{p_0+1}$.
+
+Case 2. $p_1-p_0 \le |V|{K \choose k_0}+1$.
+
+Since $C_0 = \Sigma_{k=1}^K|V|{K \choose k}+1$,
+by the condition for length
+there are some 
+$k' \in [1,k]$
+and
+$p_2 \in [p_1,n]$
+and
+$p_3 \in [p_2+1,n]$
+such that
+for all $R \in \pi$ we have
+$|\dom(R)|=k'$ iff $R=R_i$ for some $i \in [p_2,p_3-1]$
+and
+$p_3-p_2 > |V|{K \choose k'}$.
+
+By Lemma \ref{lemma:maxlen},
+$\Val(R_{p_2},\Vec v_{p_2}) \ne \Val(R_{p_3-1},\Vec v_{p_3-1})$.
+
+Define $\pi'$ from $\pi$ by 
+replacing $R_{p_2-1},R_{p_2}$ by a single composition $R_{p_2-1}R_{p_2}$.
+
+In both cases, the following holds.
+
+Define $\sigma'$ as the sequence obtained from $\sigma$
+corresponding to $\pi'$.
+Then $|\pi'|<|\pi|$ and $\pi'$ is domain-stable.
+Moreover $\sigma'$ is along $\pi'$, by Lemma \ref{lemma:A}.
+
+Then by comparing the $i$-th element for each $i \in [1,K]$,
+we have
+$W(\pi',\sigma')=W(\pi,\sigma)$.
+$\Box$
+
+\section{Proof of Proposition \ref{prop:2}}
+
+{\em Proof.}
+Assume $(c,x) >_\Pi (d,y)$.
+There is a path $\pi=\pi_1,\ldots,\pi_k$ such that
+$(c,x) >_\pi (d,y)$.
+For $i \in [1,k]$, let $c_i$ and $t_i$ be
+the companion number and the stage number in the bottom sequent
+of the path $\pi_i$.
+Let $c_{k+1}$ and $t_{k+1}$ be $d$ and $y$.
+Then $(c_i,t_i)$ and $(c_{i+1},t_{i+1})$ are
+the companion numbers and the stage numbers in the bottom sequent
+and the top sequent of the pqth $\pi_i$.
+
+By Proposition \ref{prop:0.5},
+$\rho'(c_i,t_i) >_\Lex \rho'(c_{i+1},t_{i+1})$ for $i \in [1,k]$.
+Hence
+$\rho(c,x) >_\Lex \rho'(d,y)$
+$\Box$
+
+\section{Proof of Proposition \ref{prop:2}}
+
+
+{\em Proof.}
+Assume $\forall cx(\forall dy(\rho'(d,y) <_U \rho'(c,x) \imp Gdy) \imp Gcx)$
+to show $\forall cx.Gcx$ (labelled with (c)).
+
+Let B n be $\forall cx(\rho'(c,x) \le n \imp Gcx)$.
+
+We will use the following induction principle for $>_\Lex$:
+\[
+\forall n((\forall m<_U n.Bm) \imp Bn) \imp \forall n.Bn.
+\]
+
+We will show
+\[
+\forall n((\forall m<_U n.Bm) \imp Bn)
+\]
+(labelled with (b)).
+Fix $n$ and 
+assume $\forall m<_U n.Bm$ to show $Bn$.
+Fix $c,x$ and assume $\rho'(c,x) \le_U n$ to show $Gcx$ (labelled with (a)).
+
+Let $\Pi_1$ be the subtree of root $c$. Let $c_1,\ldots,c_k$ be the leaves
+of $\Pi_1$.
+For $i \in [1,k]$,
+let $\pi_i$ be the path from $c$ to $c_i$.
+
+Let $v_i$ be the stage-number of the sequent $c_i$
+when the stage number of $c$ is $x$ in the subproof $\Pi_1$.
+By the ranking function, we have
+$\rho(c,((x)_0,\ldots,(x)_{l-1})) >_\Lex
+\rho(d,((v_i)_0,\ldots,(v_i)_{l_i-1}))$
+where $l =|x|$ and $l_i=|v_i|$.
+Hence
+$\rho'(c,x) >_\Lex \rho'(d,v_i)$.
+
+From the assumption $\rho'(c,x) \le_U n$, we have
+$\rho'(d,y) <_U n$.
+In the assumption $\forall m<_U n.Bm$,
+by taking $m$ to be $\rho'(c_i,v_i)$,
+we have $B(\rho'(c_i,v_i))$.
+In the definition of $B$, by taking $c$ and $x$ to be $c_i$ and $v_i$,
+we have $Gc_iv_i$. Hence $G_{c_i}v_i$.Hence
+\[
+(\Gamma_{2c_i})^\circ_{(v_i)_0\ldots (v_i)_{l_i-1}} \prove \Delta_{2c_i}^\bullet
+\]
+where $\Gamma_{2c_i}$ is the bottom sequent of the path $\pi_{c_i}$ and
+where $\Gamma_{1c_i}$ is the top sequent of the path $\pi_{c_i}$.
+
+Hence every open assumption of $\Pi_1$ is provable.
+Hence the conclusion
+$(\Gamma_{2c})^\circ_{(x)_0\ldots (x)_{l-1}} \prove \Delta_{2c}^\bullet$
+is provable.
+Hence $Gcx$ holds, which shows (a).
+Hence  we haves shown (b).
+By induction principle for $>_\Lex$ we have $\forall n.Bn$.
+
+We will show (c).
+Fix $c,x$.
+In $\forall n.Bn$, by taking $n$ to be $\rho'(c,x)$, we have $Gcx$.
+Hence we have shown (c).
+$\Box$
+
+\section{Equivalence between $\LJID$ and $\CLJIDomega$}
+
+This section studies the equivalence between $\CLJIDomega$ and $\LJID$.
+
+\subsection{Addition of Heyting Arithmetic}
+
+This subsection adds arithmetic to the logical systems.
+
+We add arithmetic to both $\LJID$ and $\CLJIDomega$.
+\begin{Def}\rm
+$\CLJIDHA$ and $\LJIDHA$
+are defined to be obtained from $\CLJIDomega$ and $\LJID$
+by adding Heyting arithmetic.
+Namely, we add constants and function symbols $0, s, +, \times$,
+the inductive predicate symbol $\N$, the productions for $\N$,
+and Heyting axioms:
+\[
+\infer{\N0}{}
+\qquad
+\infer{\N s x}{\N x}
+\qquad
+\prove \N x \imp s x \ne 0, \qquad
+\prove \N x \land \N y \imp s x=s y \imp x=y, \\
+\prove \N x \imp x + 0 = x, \qquad
+\prove \N x \land \N y \imp x + s y = s(x+y), \\
+\prove \N x \imp x \times 0 = 0, \qquad
+\prove \N x \land \N y \imp x \times s y = x \times y + x.
+\]
+\end{Def}
+
+\section{Stage Numbers for Inductive Definitions}
+
+In this section, we define and discuss stage transformation.
+
+We introduce a stage number to each inductive atomic formula 
+so that
+the argument of the formula comes into the inductive predicate at the stage 
+of the stage number.
+This stage number will decrease by a progressing trace.
+A proof in $\LJIDHA$ will be constructed by 
+using the induction on stage numbers.
+
+First we give stage transformation of an inductive atomic formula.
+We assume a fresh inductive predicate symbol $P'$ for
+each inductive predicate symbol $P$
+and we call it a {\em stage-number inductive predicate symbol}.
+$P'(\Vec t,v)$ means that
+the element $\Vec t$ comes into $P$ at the stage $v$.
+We transform $P(\Vec t)$ into $\exists vP'(\Vec t,v)$.
+We call a variable $v$ a {\em stage number}
+of $\Vec t$ when $P'(\Vec t,v)$.
+$P(\Vec t)$ and $\exists vP'(\Vec t,v)$ will become equivalent 
+by inference rules introduced by the transformation of production rules.
+We call $P'(\Vec t,v)$ a {\em stage-number inductive atomic formula}.
+
+Secondly 
+we give stage transformation of a production rule.
+We transform the production of $P$ (the first rule) in Figure \ref{fig:2}
+into the production of $P'$ (the second rule) in Figure \ref{fig:2},
+where $v,v_1,\ldots,v_m$ are fresh variables.
+\begin{figure*}[t]
+\[
+\infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
+\qquad
+\infer{P'\Vec tv}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & v > v_1 & P'_1\Vec t_1v_1 & \ldots & v > v_m & P'_m\Vec t_mv_m & \N v}
+\]
+\caption{Production Rules}\label{fig:2}
+\end{figure*}
+
+Next we give stage transformation of a sequent.
+For given fresh variables $\Vec v$,
+we transform a sequent $J$ into $J^\circ_{\Vec v}$ defined as follows.
+We define $\Gamma^\bullet$ 
+as the sequent obtained from $\Gamma$
+by replacing $P(\Vec t)$ by $\exists vP'(\Vec t,v)$.
+%
+For fresh variables $\Vec v$, 
+we define $(\Gamma)^\circ_{\Vec v}$ 
+as the sequent obtained from $\Gamma^\bullet$
+by replacing the $i$-th element 
+of the form $\exists vP'(\Vec t,v)$ in the sequent $\Gamma^\bullet$
+by $P'(\Vec t,v_i)$.
+%
+We define $(\Gamma \prove \Delta)^\bullet$ by $\Gamma^\bullet \prove \Delta^\bullet$,
+and define $(\Gamma \prove \Delta)^\circ_{\Vec v}$ by $(\Gamma)^\circ_{\Vec v} \prove \Delta^\bullet$.
+
+We write $(a_i)_{i \in I}$ for the sequence of elements $a_i$ 
+where $i$ varies in $I$.
+We extend a proof to that with open assumptions.
+We write $\Gamma \prove_\CLJIDHA \Delta$ with assumptions $(J_i)_{i \in I}$
+when there is a proof with assumptions $(J_i)_{i \in I}$ and
+the conclusion $\Gamma \prove \Delta$ in $\CLJIDHA$.
+
+By the definition of stage transformation of production rules,
+$P'\Vec tv$ implies $\N v$.
+\begin{Lemma}
+(1) $P'\Vec tv \prove_\CLJIDHA \N v$.
+
+(2) $P'\Vec tv \prove_\LJIDHA \N v$.
+\end{Lemma}
+{\em Proof.}
+(1) and (2) are proved by (Case $P'$) and $(\Ind\ P')$ respectively.
+$\Box$
+
+\begin{Def}\rm
+In a path $\pi$ in a proof,
+we define $\Ineq(\pi)$ as the set of the forms
+$v > v'$ and $v = v'$ for any stage numbers $v,v'$
+eliminated by every case distinction in $\pi$.
+\end{Def}
+For example, when the path $\pi$ has the case distinction
+\[
+\Gamma^\circ, u=t(y), \hat v=v,Q_1u_1(y), \ldots, Q_nu_n(y), 
+\\ \qquad
+v > v_1, P'_1t_1(y)v_1, 
+\ldots, v > v_m, P'_mt_m(y)v_m, 
+\\ \qquad
+\N v \prove \Delta^\bullet
+\]
+we take $\hat v=v,v>v_1,\ldots,v>v_m$ for $\Ineq(\pi)$.
+
+The proof of the next proposition gives 
+{\em stage transformation}
+of a proof into
+a proof of the stage transformation of the conclusion of the original proof.
+We write $\Pi^\circ$ for the stage transformation of $\Pi$.
+
+\begin{Prop}[Stage Transformation]\label{prop:birthtrans1}
+For any fresh variables $\Vec v$, 
+$\Gamma \prove_\CLJIDHA \Delta$ with assumptions $(\Gamma_i \prove \Delta_i)_{i \in I}$
+without any buds
+implies 
+$(\Gamma)^\circ_{\Vec v} \prove_\CLJIDHA \Delta^\bullet$
+with assumptions $(\Ineq(\pi_i),(\Gamma_i)^\circ_{\Vec v_i} \prove \Delta_i^\bullet)_{i \in I}$
+without any buds
+for some fresh variables $(\Vec v_i)_{i \in I}$,
+where $\pi_i$ is the path from the conclusion to the assumption 
+$(\Gamma_i)^\circ_{\Vec v_i} \prove \Delta_i^\bullet$.
+\end{Prop}
+
+{\em Proof.}
+By induction on the proof.
+We will transform
+the proof $\Pi$ of $\Gamma \prove_\CLJIDHA \Delta$ with assumptions $(J_i)_{i \in I}$ into
+the proof of $\Gamma^\circ_{\Vec v} \prove_\CLJIDHA \Delta^\bullet$ with 
+assumptions $(\Ineq(\pi_i),(J_i)^\circ_{\Vec v_i})_{i \in I}$ by
+transforming each rule as follows.
+
+Case 1. The rule is not ($P_i$ R), (Case), (Cut), 
+(Axiom) with a common inductive atomic formula,
+or logical rules with
+some of the main formula and the auxiliary formulas being
+an inductive atomic formula in the antecedent.
+
+Since the main formula and the auxiliary formulas
+are not inductive atomic formulas in the antecedent, 
+we can just replace each sequent $J$ by $(J)^\circ_{\Vec v}$.
+If the rule is an assumption, since $I=\{1\}$,
+we take $\Vec v_1$ to be $\Vec v$.
+
+For example,
+\[
+\infer[(\lor R)]{\Gamma \prove \Delta,P_1t_1 \lor P_2t_2}{
+\Gamma \prove \Delta,P_1t_1,P_2t_2
+}
+\]
+is transformed into
+\[
+\infer[(\lor R)]{(\Gamma)^\circ_{\Vec v} \prove \Delta^\bullet,\exists v_1P'_1t_1v_1 \lor \exists v_2P'_2t_2v_2}{
+(\Gamma)^\circ_{\Vec v} \prove \Delta^\bullet,\exists v_1P'_1t_1v_1, \exists v_2P'_2t_2v_2
+}
+\]
+
+Case 2. The rule is (Axiom) with a common inductive atomic formula.
+
+We transform
+\[
+\infer[(Axiom)]{\Gamma,P(\Vec t) \prove \Delta,P(\Vec t)}{}
+\]
+into 
+\[
+\infer[(\exists R)]{\Gamma^\circ_{\Vec v},P'(\Vec t,v) \prove \Delta^\bullet,\exists vP'(\Vec t,v)}{
+	\infer[(Axiom)]{\Gamma^\circ_{\Vec v},P'(\Vec t,v) \prove \Delta^\bullet,P'(\Vec t,v)}{}
+}
+\]
+
+Case 3. The rule is (Cut),
+or logical rules with
+some of the main formula and the auxiliary formulas being
+an inductive atomic formula in the antecedent.
+
+We replace each sequent $J$ by $(J)^\circ_{\Vec v}$ and
+use
+\[
+\infer[(\exists L)]{\Gamma^\circ_{\Vec v},\exists vP'(\Vec t,v) \prove \Delta^\bullet}{\Gamma^\circ_{\Vec v},P'(\Vec t,v) \prove \Delta^\bullet}
+\]
+
+Note that by IH we can assume each $P'(\Vec t,v)$ has a fresh $v$ in $\Gamma^\circ_{\Vec v}$,
+so we can use $(\exists L)$.
+For example, we transform
+\[
+\infer[(\neg R)]{\Gamma \prove \neg Pt,\Delta}{\Gamma,Pt \prove \Delta}
+\]
+into
+\[
+\infer[(\neg R)]{\Gamma^\circ_{\Vec v} \prove \neg \exists vP'tv,\Delta^\bullet}{
+\infer[(\exists L)]{\Gamma^\circ_{\Vec v},\exists vP'tv \prove \Delta^\bullet}{
+\Gamma^\circ_{\Vec v},P'tv \prove \Delta^\bullet
+}}
+\]
+
+Case 4. The rule is $(P\ R)$. 
+Assume the production rule of $P$ 
+and its stage transformation in Figure \ref{fig:2}.
+Let $\Sigma_0$ be the set of all assumptions of this production rule of $P'$
+and $t_0$ be $v_1+\ldots+v_n+1$.
+By $(P'\ R)$ for this production rule,
+\[
+\Sigma_0 \prove P'\Vec tv.
+\]
+Since $P_i\Vec t_iv_i \prove \N v_i$, $(\Sigma_1)^\circ_{\Vec v} \prove \N v_i$
+where $\Sigma_1$ is $Q_1\Vec u_1, \ldots, Q_m\Vec u_m,
+P_1\Vec t_1, \ldots, P_n\Vec t_n$ and $\Vec v$ is $v_1\ldots v_n$.
+By (Subst) with $v:=t_0$,
+and
+(Cut) with $\prove t_0 > v_i$ and $(\Sigma_1)^\circ_{\Vec v} \prove \N t_0$,
+\[
+(\Sigma_1)^\circ_{\Vec v} \prove P'\Vec tt_0.
+\]
+By $(\exists R)$, then by $(\exists L)$,
+$
+(\Sigma_1)^\bullet \prove \exists vP'\Vec tv.
+$
+
+By IH,
+\[
+\Gamma^\circ_{\Vec v} \prove Q_j\Vec u_j, \Delta^\bullet, \\
+\Gamma^\circ_{\Vec v} \prove \exists v_iP'_i\Vec t_iv_i, \Delta^\bullet.
+\]
+By (Cut),
+$
+\Gamma^\circ_{\Vec v} \prove \exists vP'\Vec tv, \Delta^\bullet.
+$
+
+Case 5. The rule is $(\Case\ P)$.
+Assume the production rule of $P$ 
+and its stage transformation in Figure \ref{fig:2}.
+Let $\Vec v$ be $\Vec v'\hat v$.
+Let $v_1,\ldots,v_m$ be fresh variables.
+Let the rule be
+\[
+\infer[(\Case\ P)]{\Gamma,P\Vec u \prove \Delta}{
+\hbox{case distinctions}
+}
+\]
+with the case distinctions
+\[
+\Gamma, \Vec u=\Vec t(\Vec y),Q_1\Vec u_1(\Vec y),\ldots, Q_n\Vec u_n(\Vec y), 
+\\ \qquad
+P_1\Vec t_1(\Vec y), \ldots, P_m\Vec t_m(\Vec y)
+\prove \Delta.
+\]
+
+Let
+\[
+\Sigma \equiv (\Vec u=\Vec t(\Vec y), Q_1\Vec u_1(\Vec y), \ldots, Q_n\Vec u_n(\Vec y),
+\\ \qquad
+P'_1\Vec t_1(\Vec y)v_1, \ldots, P'_m\Vec t_m(\Vec y)v_m), \\
+\Sigma_1 \equiv (\hat v=v,v > v_1,\ldots,v > v_m).
+\]
+
+By IH with $\Vec v'v_1\ldots v_m$ for the case distinction
+we obtain a proof of
+\[
+\Gamma^\circ_{\Vec v'}, \Sigma \prove \Delta^\bullet
+\]
+with assumptions $(\Ineq(\pi'_i),(J_i)^\circ_{\Vec v_i})_{i \in I}$
+for some $(\Vec v_i)_{i \in I}$
+where 
+$\pi'_i$ is the path from the transformation of the case distinction
+to $(J_i)^\circ_{\Vec v_i}$.
+Add $\Sigma_1$
+to the antecedent of every sequent in the path $\pi'_i$,
+by renaming fresh variables to keep freshness of all fresh variables
+in the path.
+Then we have a proof of
+\[
+\Sigma_1,
+\Gamma^\circ_{\Vec v'}, \Sigma \prove \Delta^\bullet
+\]
+with assumptions $(\Sigma_1,\Ineq(\pi_i'),(J_i)^\circ_{\Vec v_i})_{i \in I}$.
+We have
+\[
+\infer[(\Case\ P')]{\Gamma^\circ_{\Vec v}, P'\Vec u\hat v \prove \Delta^\bullet}{
+\hbox{case distinctions}
+}
+\]
+with the case distinctions
+\[
+\Gamma^\circ_{\Vec v}, \Sigma_1,\Sigma, \N v \prove \Delta^\bullet.
+\]
+By (Wk) with $\N v$ we obtain the case distinction.
+By (Case $P'$),
+\[
+\Gamma^\circ_{\Vec v'}, P'\Vec u\hat v \prove \Delta^\bullet.
+\]
+Let $\pi_i$ be the path from $\Gamma^\circ, P'\Vec u\hat v \prove \Delta^\bullet$
+to $(J_i)^\circ_{\Vec v_i}$.
+Then
+\[
+\Ineq(\pi_i) = (\Sigma_1,\Ineq(\pi'_i)).
+\]
+Hence we have a proof of
+\[
+\Gamma^\circ_{\Vec v'}, P'\Vec u\hat v \prove \Delta^\bullet
+\]
+with assumptions $(\Ineq(\pi_i),(J_i)^\circ_{\Vec v_i})_{i \in I}$.
+$\Box$
+
+\begin{Prop}\label{prop:birthtrans2}
+For any fresh variables $\Vec v$,
+$\Gamma^\circ_{\Vec v} \prove_\LJIDHA \Delta^\bullet$ 
+implies $\Gamma \prove_\LJIDHA \Delta$.
+\end{Prop}
+
+{\em Proof.}
+First we can show $\Gamma^\bullet \prove_\LJIDHA \Delta^\bullet$
+by 
+\[
+\infer[(\exists L)]{
+\exists v P'\Vec tv,\Gamma^\bullet \prove \Delta^\bullet}{
+P'\Vec tv,\Gamma^\bullet \prove \Delta^\bullet
+}
+\]
+
+Secondly
+by
+\[
+\prove_\LJIDHA P\Vec t \lequiv \exists vP'(\Vec t,v)
+\]
+we have 
+\[
+\Gamma \prove_\LJIDHA \Delta.
+\]
+$\Box$
+
+\section{Proof Transformation}
+
+This section defines main proof transformation from $\CLJIDHA$ to $\LJIDHA$.
+First we will define path relations, and then we will define main
+proof transformation by using path relations.
+
+For notational convenience,
+we assume a cyclic proof $\Pi$ in this section.
+Let the buds in $\Pi$ be $J_{1i} \ (i \in I)$ and
+the companions be $J_{2j} \ (j \in K)$.
+Assume $f:N \to N$ such that the companion of a bud $J_{1i}$ is $J_{2,f(i)}$.
+
+\subsection{Path Relation}
+
+In this section, we will introduce path relations and discuss them.
+
+For a path $\pi$,
+we will define the path relation $>_\pi$ 
+so that it abstracts $\Ineq(\pi)$ and the set of path relations of all paths
+is finite.
+
+We assume a subproof $\Pi_j$ of $\Pi$ 
+such that it does not have buds,
+its conclusion is $J_{2j}$ and its assumptions are
+$J_{1i} \ (i \in I_j)$. 
+
+For $J$ in $\Pi^\circ_j$, we define $\Tilde J$ as $\< v_1,\ldots,v_k \>$ where
+$J$ is $\Gamma^\circ_{v_1\ldots v_k} \prove \Delta^\bullet$.
+Note that 
+$\Gamma^\circ$ contains $P'_1\Vec t_1v_1,\ldots,P'_k\Vec t_kv_k$
+by definition of $(\ )^\circ$.
+
+For a path $\pi$ from the conclusion to an assumption in $\Pi_j^\circ$,
+we write $\check\pi$ for the corresponding path in $\Pi$.
+We extend this notation to a finite composition of $\pi$'s.
+By the correspondence $(\check{\ })$,
+a path, a trace, a progressing trace,
+and a stage-number inductive atomic formula in $\Pi^\circ_j$
+correspond to those and an inductive atomic formula in $\Pi$.
+
+\begin{Def}\rm
+For a finite composition $\pi$ of paths in $\{ \Pi_j^\circ \ |\ j \in K\}$ such that
+$\check\pi$ is a path in the infinite unfolding of $\Pi$,
+we define the {\em path relation} $\tilde>_{\pi}$ by
+\[
+x \tilde>_{\pi} y \equiv
+|x|=|\Tilde J_2| \land |y|=|\Tilde J_1| \land
+\\ \qquad
+\Land_{F(q_1,q_2)} (x)_{q_2} > (y)_{q_1}
+\land
+\Land_{G(q_1,q_2)} (x)_{q_2} = (y)_{q_1}
+\]
+where 
+$J_1$ and $J_2$ are the top and bottom sequents of $\pi$ respectively,
+$\check J_1$ and $\check J_2$ are those of the path $\check\pi$,
+$F(q_1,q_2)$ is that
+there is some progressing trace from the $q_2$-th atomic formula in $\check J_2$
+to the $q_1$-th atomic formula in $\check J_1$,
+$G(q_1,q_2)$ is that
+there is some non-progressing trace from the $q_2$-th atomic formula in $\check J_2$ to the $q_1$-th atomic formula in $\check J_1$.
+\end{Def}
+
+\begin{Lemma}\label{lemma:decrease}
+For a proof $\Pi$ without any buds,
+if $\pi$ is a path from $(J_2)^\circ_{\Vec x}$ to $(J_1)^\circ_{\Vec y}$ in $\Pi^\circ$,
+\[
+\Ineq(\pi) \prove_\HA \<\Vec x\>  \tilde>_{ \pi} \<\Vec y\>.
+\]
+\end{Lemma}
+
+{\em Proof.}
+By induction on $|\pi|$. 
+
+Case 1. $|\pi|=0$.
+$J_1 = J_2$. $x \tilde>_{ \pi} y$ is
+$|x|=m \land |y|=m \land (x)_0=(y)_0 \land \ldots \land (x)_{m-1}=(y)_{m-1}$
+where $m$ is the number of stage-number inductive atomic formulas in $(J_1)^\circ_{\Vec y}$.
+Hence $\prove_\HA x \tilde>_{ \pi} y$.
+
+Case 2. $|\pi|>0$.
+Consider cases according to the last rule of $\pi$.
+Let $\pi=\pi_1\pi_2$ such that $|\pi_1|=1$.
+Let the top sequent of $\pi_1$ be $(J_3)^\circ_{\Vec z}$.
+Let $x$,$y$,$z$ be $\<\Vec x\>$, $\<\Vec y\>$, $\<\Vec z\>$ respectively.
+
+By IH, $\Ineq(\pi_2) \prove_\HA z \tilde>_{ \pi_2} y$.
+
+We will show $\Ineq(\pi_1) \prove_\HA x \tilde>_{ \pi_1} z$.
+Since the rule that changes the stage number is only (Case),
+we will show only the case (Case).
+Assume the production rule of $P$ 
+and its stage transformation in Figure \ref{fig:2}.
+Let the path for the rule (Case $P'$) be
+\[
+\infer{\Gamma^\circ_{\Vec v}, P'\Vec u\hat v \prove \Delta^\bullet}{
+\Gamma^\circ_{\Vec v}, \Sigma_1,\Sigma, \N v \prove \Delta^\bullet
+}
+\]
+where
+\[
+\Sigma \equiv (\Vec u=\Vec t(\Vec y), Q_1\Vec u_1(\Vec y), \ldots, Q_n\Vec u_n(\Vec y),
+\\ \qquad
+P'_1\Vec t_1(\Vec y)v_1, \ldots, P'_m\Vec t_m(\Vec y)v_m), \\
+\Sigma_1 \equiv (\hat v=v,v > v_1,\ldots,v > v_m).
+\]
+Then $x=\<\Vec v,\hat v\>$ and $z=\<\Vec v,v_1,\ldots,v_m\>$, and
+\[
+x \tilde>_{ \pi_1} z \lequiv v_1 < \hat v \land \ldots \land v_m < \hat v.
+\]
+Since $\Ineq(\pi_1) \equiv \Sigma_1$,
+$
+\Ineq(\pi_1) \prove_\HA x \tilde>_{ \pi_1} z.
+$
+Since $\Ineq(\pi) = (\Ineq(\pi_1), \Ineq(\pi_2))$,
+$
+\Ineq(\pi) \prove_\HA 
+x \tilde>_{ \pi_1} z \tilde>_{ \pi_2} y.
+$
+Since 
+$(\tilde>_{ \pi_1}) \circ (\tilde>_{ \pi_2}) \subseteq (\tilde>_{\pi_1\pi_2})$,
+$
+\Ineq(\pi) \prove_\HA x \tilde>_{ \pi_1\pi_2} y.
+$
+$\Box$
+
+We define $B_0$ as the set of paths from conclusions to assumptions in 
+$\Pi^\circ_j \ (j \in K)$.
+We define $B$ as the set of finite compositions of elements in $B_0$ such that
+if $\pi \in B$ then $\check\pi$ is a path in the infinite unfolding of $\Pi$.
+
+\begin{Def}\rm\label{def:>}
+For $\pi \in B$,
+define $x >_{\pi} y$ by
+\[
+x >_{\pi} y \equiv
+(x)_0=j \land (y)_0=f(i) \land  (x)_1 \tilde>_{\pi} (y)_1.
+\]
+where 
+$J_{1i}$ is the top sequent of $\check\pi$, and
+$J_{2j}$ is the bottom sequent of $\check\pi$.
+\end{Def}
+
+Note that $>_{\pi}$ is a relation on $N \times N^{\le p}$ where
+$p$ is the maximum number of inductive atomic formulas in the antecedents of $\Pi$.
+The first element is a companion number.
+
+By this note, the next lemma immediately follows.
+\begin{Lemma}\label{lemma:finite}
+$\{ >_{\pi} \ |\ \pi \in B \}$ is finite.
+\end{Lemma}
+
+We define $>_\Pi$ as $\bigcup \{ >_{\pi} \ |\ \pi \in B \}$.
+Note that $>_\Pi$ is transitive,
+since 
+the top sequent of $\pi_1$
+is the bottom sequent of $\pi_2$ by the first element, and
+$((>_{\pi_1}) \circ (>_{\pi_2})) \subseteq (>_{\pi_1\pi_2})$.
+
+\subsection{Proof Transformation}
+
+This section gives main proof transformation.
+
+First we prepare a piece of main transformation by
+proving that we can replace (Case) rules of $\CLJIDHA$ 
+by (Ind) rules of $\LJIDHA$ if there are no bud-companion relations.
+
+\begin{Lemma}\label{lemma:case-ind}
+If there is a proof
+with some assumptions
+and without any buds in $\CLJIDHA$,
+then
+there is a proof of the same conclusions with the same assumptions
+in $\LJIDHA$.
+\end{Lemma}
+
+{\em Proof.}
+It is sufficient to replace the rule (Case) by the rule $(\Ind)$.
+This is straightforward and
+has been proved by Lemma 4.1.4 in \cite{Brotherston06}.
+We give only a proof idea here.
+
+Assume the production rule of $P$ in Figure \ref{fig:2}.
+We can replace
+{
+\[
+\infer[(Case)]{\Gamma,P\Vec u \prove \Delta}{
+	\infer*[\Pi_i]{\Gamma,\Vec u=\Vec t(\Vec y),\Sigma \prove \Delta}{}
+	&
+	(\forall i \in I)
+}
+\]
+}
+by
+{
+\[
+\infer[(\imp L)(\forall L)(Cut)]{\Gamma,P\Vec u \prove \Delta}{
+\infer[(\Ind\ P)]{P\Vec u \prove F\Vec u}{
+\infer*[\Pi'_i]{
+\Sigma' \prove F\Vec t(\Vec y),F\Vec u}{}
+&
+\infer{F\Vec u \prove F\Vec u}{}
+}}
+\]
+}
+where
+\[
+F'\Vec z \equiv \forall \Vec x(\Vec z=\Vec u \imp \Gamma \imp \Delta), \\
+F\Vec z \equiv P\Vec z \land F'\Vec z.
+\]
+$\Box$
+
+\begin{Lemma}\label{lemma:prooftrans}
+For every bud $J$ of a proof in $\CLJIDHA$ and fresh variables $\Vec v$,
+$(J)^\circ_{\Vec v}$ is provable in $\LJIDHA$.
+\end{Lemma}
+
+{\em Proof.}
+For $j \in K$, define
+\[
+G_jx \equiv \forall \Vec z(x=\<\Vec v\> \imp (\Gamma_{2j})^\circ_{\Vec v} \imp \Delta_{2j}^\bullet)
+\]
+where $\Vec z$ is $\FV((\Gamma_{2j})^\circ_{\Vec v},\Delta_{2j}^\bullet)$.
+
+Define
+\[
+Gx_0x \equiv \Land_{j \in K} (x_0=j \imp G_jx), \\
+Hx_0x \equiv \forall y_0y.
+\<y_0,y\> <_\Pi \<x_0,x\> \imp Gy_0y.
+\]
+
+We will show that 
+for every companion $J$ in $\Pi$ and fresh variables $\Vec v$,
+$(J)^\circ_{\Vec v}$ is provable in $\LJIDHA$.
+Fix a companion in $\Pi$ and fresh variables $\Vec v$.
+Let the companion be $J_{2j}$.
+We will construct a proof of $(J_{2j})^\circ_{\Vec v}$ in $\LJIDHA$.
+We have a subproof $\Pi_j$ of $\Pi$ 
+such that it does not have buds,
+its conclusion is $J_{2j}$ and its assumptions are
+$J_{1i} \ (i \in I_j)$. 
+By Proposition \ref{prop:birthtrans1},
+\[
+\infer*[\Pi_j^\circ]{(\Gamma_{2j})^\circ_{\Vec v} \prove \Delta_{2j}^\bullet}{
+(\Ineq(\pi_{ji}), (\Gamma_{1i})^\circ_{\Vec v_i} \prove \Delta_{1i}^\bullet)
+_{i \in I_j}
+}
+\]
+for some fresh variables $(\Vec v_i)_{i \in I_j}$,
+where
+$\pi_{ji}$ is the path from $J_{2j}$ to $J_{1i}$ in $\Pi_j$.
+Next we transform $\Pi_j^\circ$ 
+into the ($\LJIDHA$)-proof $\Pi'_j$ 
+with the same conclusion and the same assumptions
+by Lemma \ref{lemma:case-ind}.
+
+Next we add
+\[
+x_0=j,x=\<\Vec v\>,Hx_0x
+\]
+to every antecedent in $\Pi'_j$ 
+to obtain 
+\[
+\infer*[\Pi''_j]{x_0=j,x=\<\Vec v\>,Hx_0x,(\Gamma_{2j})^\circ_{\Vec v} \prove \Delta^\bullet_{2j}}{
+(x_0=j,x=\<\Vec v\>,Hx_0x,\Ineq(\pi_{ji}),(\Gamma_{1i})^\circ_{\Vec v_i} \prove \Delta^\bullet_{1i})
+_{i \in I_j}
+}
+\]
+
+Let $\Pi_{ij}$ be the proof in Figure \ref{fig:3}.
+\begin{figure*}[t]
+\[
+\infer[(\imp L)(\forall L)(Cut)]{x_0=j,x=\<\Vec v\>,Hx_0x,\Ineq(\pi_{ji}),(\Gamma_{1i})^\circ_{\Vec v_i} \prove \Delta^\bullet_{1i}}{
+\infer[(Cut)(Subst)]{x_0=j,x=\<\Vec v\>,Hx_0x,\Ineq(\pi_{ji}) \prove Gf(i)\<\Vec v_i\>}{
+	\infer[(Wk)(=L)]{x=\<\Vec v\>,y=\<\Vec v_i\>,\Ineq(\pi_{ji}) \prove x \tilde>_{\pi_{ji}} y}{\hbox{Lemma \ref{lemma:decrease}}}
+	&
+	\infer[(\imp L)(\forall L)(Cut)]{x_0=j,y_0=f(i),
+	\<x_0,x\> >_{\pi_{ji}} \<y_0,y\>, Hx_0x \prove Gy_0y}{}
+}}
+\]
+\caption{Subproof $\Pi_{ij}$}\label{fig:3}
+\end{figure*}
+We have a proof $\Pi'''$ of $\forall x_0x.Gx_0x$ 
+with the assumption $\Ind(>_\Pi,G)$
+in Figure \ref{fig:1}.
+\begin{figure*}[t]
+\[
+\infer[(\imp R)(\forall R)(Cut)]{\prove \forall x_0x.Gx_0x}{
+	\prove \Ind(>_\Pi,G)
+	&
+	\infer[(\land R)]{Hx_0x \prove Gx_0x}{
+		(\forall j \in K)
+		&
+		\infer[(\imp R)(\forall R)(\imp R)(\imp R)]{Hx_0x \prove x_0=j \imp G_jx}{
+		\infer*[\Pi''_j]{x_0=j,x=\<\Vec v\>,Hx_0x,(\Gamma_{2j})^\circ_{\Vec v} \prove \Delta^\bullet_{2j}}{
+		\left(
+		\infer*[\Pi_{ij}]{x_0=j,x=\<\Vec v\>,Hx_0x,\Ineq(\pi_{ji}),(\Gamma_{1i})^\circ_{\Vec v_i} \prove \Delta^\bullet_{1i}}{}
+		\right)
+		_{i \in I_j}
+}}}}
+\]
+\caption{Proof $\Pi'''$}\label{fig:1}
+\end{figure*}
+
+Then
+\[
+\infer[(\imp L)(\forall L)(Cut)]{(J_{2j})^\circ_{\Vec v}}{
+\infer[(\imp L)(\land L)(Cut)]{\prove G_j\<\Vec v\>}{
+\infer[(\forall L)(Cut)]{\prove Gj\<\Vec v\>}{
+\infer*[\Pi''']{\prove \forall x_0x.Gx_0x}{
+\deduce{\prove \Ind(U,>_\Pi,G)}{\hbox{Proposition \ref{prop:ind}}}
+}}}}
+\]
+
+We have shown that 
+for every companion $J$ in $\Pi$ and fresh variables $\Vec v$,
+$(J)^\circ_{\Vec v}$ is provable in $\LJIDHA$.
+
+Fix a bud be $J_{1k}$ in $\Pi$ and fresh variables $\Vec v$.
+Let $J_{2j}$ be the companion of the bud.
+Since $(J_{2j})^\circ_{\Vec v}$ is provable, 
+$(J_{1k})^\circ_{\Vec v}$ is provable in $\LJIDHA$.
+$\Box$
+
+\begin{Th}[Equivalence of $\LJIDHA$ and $\CLJIDHA$]
+$\Gamma \prove_\CLJIDHA \Delta$ with inductive predicates $P_1,\ldots,P_n$
+implies $\Gamma \prove_\LJIDHA \Delta$ with $P_1,\ldots,P_n$ and their stage-number inductive predicates $P_1',\ldots,P_n'$.
+\end{Th}
+
+{\em Proof.}
+Let $\Pi_1$ be the cyclic proof of $\Gamma \prove_\CLJIDHA \Delta$.
+Let $(J_{1i})_{i \in I}$ be all the buds in $\Pi_1$.
+Define $\Pi_2$ be a proof obtained from $\Pi_1$ by removing 
+all bud-companion relations.
+Then
+$\Pi_2$ is a proof of $\Gamma \prove \Delta$
+with assumptions $(J_{1i})_{i \in I}$ and without buds in $\CLJIDHA$.
+Choose fresh variables $\Vec v$.
+By Proposition \ref{prop:birthtrans1}, there is $(\Vec v_i)_{i \in I}$ such that
+$\Gamma^\circ_{\Vec v} \prove \Delta^\bullet$
+with assumptions $(\Ineq(\pi_i),(J_{1i})^\circ_{\Vec v_i})_{i \in I}$ and without buds in $\CLJIDHA$.
+By Lemma \ref{lemma:case-ind}, 
+$\Gamma^\circ_{\Vec v} \prove \Delta^\bullet$
+with assumptions $(\Ineq(\pi_i),(J_{1i})^\circ_{\Vec v_i})_{i \in I}$ and without buds is provable in $\LJIDHA$.
+By (Wk),
+there is a proof $\Pi_3$ of $\Gamma^\circ_{\Vec v} \prove \Delta^\bullet$
+with assumptions $((J_{1i})^\circ_{\Vec v_i})_{i \in I}$ in $\LJIDHA$.
+By Lemma \ref{lemma:prooftrans},
+$(J_{1i})^\circ_{\Vec v_i}$ is provable in $\LJIDHA$.
+Combining them with $\Pi_3$,
+$\Gamma^\circ_{\Vec v} \prove \Delta^\bullet$ is provable in $\LJIDHA$.
+By Proposition \ref{prop:birthtrans2},
+$\Gamma \prove \Delta$ is provable in $\LJIDHA$.
+$\Box$
+
+\begin{Cor}
+If both systems contain the stage-number inductive predicate $P'$
+for each inductive predicate $P$,
+$\Gamma \prove_\CLJIDHA \Delta$ implies $\Gamma \prove_\LJIDHA \Delta$.
+\end{Cor}
+
