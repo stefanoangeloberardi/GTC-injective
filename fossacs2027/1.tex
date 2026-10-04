@@ -4,12 +4,13 @@ Martin-L\"of's inductive definition system \cite{Martin-Lof-1971} is
 widely used for formalizing inductive definitions.
 Cyclic proof systems \cite{Brotherston06,Brotherston11a} are another proof system to formalize
 inductive definitions and have been actively 
-studied \cite{das20,das21,das22,das23a,das23,das26,berardi17,berardi19,brotherston07,brotherston08,brotherston11,brotherston12,brotherston17b,brotherston17a,brotherston17,oda25,brotherston25},
-since cyclic proof systems may work a better way for proof search.
+studied \cite{das20,das21,das22,das23a,das23,das26,berardi17,berardi19,brotherston07,brotherston08,brotherston11b,brotherston12,brotherston17b,brotherston17a,brotherston17,oda25,brotherston25},
+since cyclic proof systems may work in a better way for proof search.
 
 To prove soundness of cyclic proof systems or
 to reduce a cyclic proof to an ordinary inductive proof,
-a proof transformation from cyclic proofs to inductive proofs is important.
+a proof transformation from cyclic proofs to inductive proofs is 
+important \cite{Berardi17a,Berardi18,berardi19}.
 
 The first contribution of this paper gives intuitionistic ranking function synthesis
 for fan-in-free case in intuitionistic meta-theory.
@@ -27,16 +28,8 @@ we define systems $\CLJIDomega$ and $\LJID$
 as intuitionistic versions of $\CLKIDomega$ and $\LKID$.
 As defined in \cite{Berardi18},
 we also define systems $\CLJIDHA$ and $\LJIDHA$ as
-and the system $\CLJIDomega$ with Heyting arithmetic $\HA$
+the system $\CLJIDomega$ with Heyting arithmetic $\HA$
 and the system $\LJID$ with Heyting arithmetic $\HA$.
-In case, these definitions are provided in the appendix.
-
-A proof transformation from $\CLKIDomega$ to $\LKID$
-is given in \cite{Berardi17}.
-As discussed in \cite{Berardi18},
-resulting proofs by the proof transformation in \cite{Berardi17} 
-are intuitionistic except 
-the induction principle for the path relation.
 
 First, we compare our results for proof transformation
 with existing work \cite{Berardi18} and
@@ -46,15 +39,15 @@ with existing work \cite{Berardi18} and
 In \cite{Berardi18},
 they extended
 the proof transformation in \cite{Berardi17}
-to intuitionistic systems $\CLJIDomega$ and $\LJID$,
+to intuitionistic systems $\CLJIDHA$ and $\LJIDHA$,
 by replacing the proof of Podelski-Rybalchenko theorem in  \cite{Berardi17}
 by an intuitionistic Podelski-Rybalchenko theorem.
 
 In this paper,
 we will give
 another proof transformation from
-the intuitionistic system $\CLJIDomega$ and 
-to the intuitionistic system $\LJID$.
+the intuitionistic system $\CLJIDHA$ and 
+to the intuitionistic system $\LJIDHA$.
 The result is similar to \cite{Berardi18},
 but in this paper,
 we use a ranking function
@@ -65,24 +58,26 @@ Kleene-Brouwer theorem
 to prove the correctness of the proof transformation.
 The meta-theory used for proofs in both papers is
 intuitionistic.
+This paper may give better understanding for the proof transformation
+and better resulting proofs of the proof transformation.
 
 % (2)
 In \cite{Ikebuchi25},
 they simplified the proof transformation given in \cite{Berardi17}
 by using ranking function synthesis given in \cite{Lee09}.
 Their proof technique is that
-they represent path relations by
-ranking functions and lexicographic ordering on natural numbers,
+they represent path relations by size-change graphs,
 and then
 they reduce
 the induction principle for path relations
 to
 the induction principle for lexicographic ordering on natural numbers.
-They used ranking functions provided in \cite{Lee09}.
+They rely on ranking functions provided in \cite{Lee09}.
 
 In this paper,
 we use a similar proof technique to \cite{Ikebuchi25}.
-We will reduce
+In the same way as \cite{Ikebuchi25},
+we will reduce
 the induction principle for path relations
 to
 the induction principle for lexicographic ordering on natural numbers.
@@ -92,7 +87,7 @@ we will give intuitionistic
 ranking function synthesis provided in this paper.
 Namely, we will show
 the existence of a ranking function for size-change termination condition
-for the fan-in-free case in intuitionistic logic,
+in the fan-in-free case by using intuitionistic logic,
 where a size-change graph is called fan-in free \cite{Benamram09} if
 the following holds:
 if
@@ -100,10 +95,10 @@ each of any two different arguments in a calling function
 has an edge to some argument of a called function,
 then
 the argument 
-the first argument in the calling function has an edge to
+which the first argument in the calling function has an edge to
 and 
 the argument 
-the second argument in the calling function has an edge to
+which the second argument in the calling function has an edge to
 are different.
 
 In this paper,
@@ -143,7 +138,7 @@ The use of the size-change termination condition in a whole proof is only for
 guaranteeing the well-definedness of the weight.
 The weight decreases when the computation goes with a domain-stable sequence.
 (3) We provide an algorithm to obtain a domain-stable sequence for
-any given sequence. 
+any (possibly non-domain-stable) given sequence. 
 By this algorithm,
 the weight decreases when the computation goes with any sequence.
 

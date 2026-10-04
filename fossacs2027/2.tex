@@ -1,9 +1,16 @@
-\section{Size-change graphs}
+\section{Size-Change Graphs}
+
+This section gives background for size-change graphs and
+ranking functions.
+
+\subsection{Size-Change Termination}
+
+This section gives background for size-change graphs.
 
 \begin{Def}[Function symbols]\rm
 We assume every function symbol comes with its arity.
 We define $\Functionnames$ as the set of function symbols and
-$\arity : \Functionnames \to N$.
+we define $\arity : \Functionnames \to N$.
 \end{Def}
 
 For simplicity, we write SC for "size-change".
@@ -18,7 +25,6 @@ edges $E \subseteq \{(f, (S, P), g) \ |\
 f,g \in \Functionnames,
 S, P \subseteq [1,\arity(f)] \times [1,\arity(g)],
 S \cap P = \emptyset \}$,
-
 where the graph is a directed graph with edges and
 the edge $(f, (S, P), g)$ is from the vertex $f$ to the vertex $g$.
 
@@ -26,13 +32,13 @@ For simplicity, we defined $V \subseteq \Functionnames$, but
 formally $V$ 
 can be defined as a finite set 
 with a labeling function
-\[
+$
 L : \hbox{(the finite set)} \to \Functionnames.
-\]
+$
 A similar formal definition can be applied to $E$.
 
 We will often write $G_i$ for an edge in $E$.
-
+%
 A path is defined as a consecutive sequence of edges in $E$ as usual.
 A path may be infinite.
 
@@ -55,7 +61,7 @@ For a given finite SC path $(G_1,\ldots,G_k)$,
 an {\em SC trace} in the path is defined to be
 a finite sequence $(n_1,\ldots,n_k)$ of natural numbers such that
 $n_i (S_i \cup P_i) n_{i+1}$ for all $i \in [1,k-1]$
-where $G_i = (-,(S_i,P_i),-)$.
+where $G_i = (f_i,(S_i,P_i),f_{i+1})$.
 For an infinite SC path,
 an SC trace of the path is defined similarly,
 where the SC trace is infinite.
@@ -78,7 +84,7 @@ $G_i=(-,(S_i,P_i),-)$ for all $i \in N$.
 
 
 An edge $(f, (S, P), g)$ corresponds to
-a size-change graph $G : f \to g$ in [Ikebuchi2025]
+a size-change graph $G : f \to g$ in \cite{Ikebuchi25}
 where
 \[
 x_i^f {\displaystyle \mathop{\to}^\downarrow} x_j^g \hbox{ if } iPj, \\
@@ -87,25 +93,29 @@ x_i^f {\displaystyle \mathop{\to}^{=\hskip -5pt\downarrow}} x_j^g \hbox{ if } iS
 
 The relation $S$ means a stationary relation, and
 a non-progressing SC trace in the definition
-corresponds to a non-progressing trace in [Brotherston2011].
+corresponds to a non-progressing trace in \cite{Brotherston11}.
 The relation $P$ means a progressing relation, and
 a progressing SC trace in the definition
-corresponds to a progressing trace in [Brotherston2011].
+corresponds to a progressing trace in \cite{Brotherston11}.
 
-\begin{Def}[SCT condition]\rm
-A SC call graph is defined to satisfy SCT condition if
+\begin{Def}[Size-change termination condition]\rm
+A SC call graph is defined to satisfy size-change termination condition if
 for any infinite SC path $G_1,G_2,\ldots$ in the SC call graph
 there are some $k \in N$ and an infinitely progressing SC trace $n_k,n_{k+1},\ldots$
 in the SC path $G_k,G_{k+1},\ldots$.
 \end{Def}
 
-\subsection{Ranking function}
+We write SCT for "SC termination."
+
+\subsection{Ranking Functions}
+
+This section gives background for ranking functions.
 
 We will sometimes write a sequence $v_1,\ldots,v_k$ for $\Vec v$.
 We write $(v_1,\ldots,v_k)_i$ for $v_{i+1}$ with $i \ge 0$.
 
 \begin{Def}[State]\rm
-For given $(\Functionnames, \arity)$,
+For a given $(\Functionnames, \arity)$,
 a {\em state} is defined to be $(f,\Vec v)$
 where $f$ is in \Functionnames\
 and $\Vec v \in N^{\arity(f)}$.
@@ -122,12 +132,9 @@ for all $i \in [1,\arity(f)]$ and $j \in [1,\arity(g)]$,
 - $v_i > w_j$ if $i P j$.
 \end{Def}
 
-When we consider a program,
-$(f, \Vec v) \to^c (g, \Vec w)$ is an overapproximation of
-the fact that
-the definition body of $f$ contains $g^c$ and
-this $g^c$ is called with the form $g^c(\Vec w)$
-when this $f$ is called with the form $f(\Vec v)$.
+When the function $f$ calls the function $g$,
+a computation from the state $\Vec v$ to $\Vec w$ is overapproximated by
+$(f, \Vec v) \to^G (g, \Vec w)$.
 
 \begin{Def}[Ranking function for SC call graph]\rm
 For a given SC call graph,
@@ -139,6 +146,7 @@ such that
 if $(f, \Vec v) \to^c (g, \Vec w)$
 then $\rho(f, \Vec v) >_\Lex \rho(g, \Vec w)$
 
+\noindent
 where $>_\Lex$ is the lexicographic order.
 \end{Def}
 
