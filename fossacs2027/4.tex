@@ -1,8 +1,11 @@
 \section{Inductive proofs and cyclic proofs}
 
+This section defines cyclic proof systems and inductive proof systems.
+
 \subsection{Intuitionistic Martin-L\"of's Inductive Definition System $\LJID$}
 
-We define
+In this section,
+we define
 an intuitionistic Martin-L\"of's inductive definition system, called $\LJID$,
 which is an Intuitionistic version of $\LKID$ given in \cite{Brotherston11}, 
 which formalizes intuitionistic first-order logic with inductive definitions
@@ -21,7 +24,7 @@ when its predicate symbol is an inductive predicate symbol.
 For a formula $F$ and a variable $x$,
 we will call the expression $\lambda x.F$ an {\em abstract}.
 We will sometimes define an abstract $G$ as $\lambda x.F$
-by defining $G(x)$ as some formula $F$.
+by defining $G(x)$ as the formula $F$.
 For an abstract $\lambda x.F$ and a term $t$,
 we write $(\lambda x.F)t$ or $t \in \lambda x.F$ for $F[x:=t]$.
 We call a predicate symbol or an abstract {\em predicate}.
@@ -29,8 +32,6 @@ We call a predicate symbol or an abstract {\em predicate}.
 For simplicity,
 we sometimes write $Fxy$ and $t \in F$ for $F(x,y)$ and $F(t)$ respectively
 when $F$ is a predicate,
-For simplicity, we use vector notation $\Vec t$ to denote
-the sequence $t_1,\ldots,t_n$.
 For simplicity, we will use a sequence to denote a set when it is not ambiguous.
 We write $e[x:=t]$ for the expression obtained from $e$ by replacing
 every free occurrence of the variable $x$ by $t$.
@@ -62,7 +63,7 @@ if $P_i$ is dependent on $P_j$ and $P_j$ is dependent on $P_i$.
 These production rules mean that 
 the inductive predicate denotes 
 the least fixed point defined by these production rules.
-
+%
 For example, 
 the production rules of the inductive predicate symbol $N$ are given by
 \[
@@ -152,7 +153,8 @@ and the elimination rule
 
 \subsection{Cyclic Proof System $\CLJIDomega$}
 
-A cyclic proof system $\CLJIDomega$ 
+In this section,
+a cyclic proof system $\CLJIDomega$ 
 for intuitionistic first-order logic with inductive definitions
 is an intuitionistic version of $\CLKIDomega$ defined in \cite{Brotherston11}.
 
@@ -184,10 +186,6 @@ the introduced formula
 is called a {\em main formula},
 and the corresponding formulas in the assumptions are called {\em auxiliary
 formulas}.
-
-We define a preproof, which may have cycles and may not be sound.
-This definition is slightly different from that in \cite{Brotherston11}
-in the point that ours is finite and allows cycles.
 
 \begin{Def}[Preproof]\rm
 A {\em preproof} in $\CLJIDomega$ is defined as an ordinary finite proof figure,
@@ -231,7 +229,7 @@ the inductive atomic formula is the main formula of $(\Case P)$,
 and
 we chase a corresponding inductive atomic formula for
 the rules $(\Subst)$ and $(=L)$ and $(\Wk)$ and $(\Cont)$ and $(\Exch)$.
-We chase the same inductive atomic formula upwardly in the other cases.
+We chase the corresponding same inductive atomic formula upwardly in the other cases.
 Namely,
 in $(\Case P)$ we chase $P_i\Vec t_i$ after $P\Vec t$,
 in $(\Subst)$ we chase $F$ after $F\theta$,
@@ -253,8 +251,7 @@ We define cyclic proofs as preproofs that satisfy the global trace condition.
 
 \begin{Def}[Cyclic Proof]\rm
 A {\em proof} (called a {\em cyclic proof}) in $\CLJIDomega$ is defined 
-as a preproof that satisfies
-the global trace condition defined below.
+as a preproof that satisfies the global trace condition.
 \end{Def}
 
 An example of cyclic proofs is explained in the appendix.
