@@ -9,7 +9,7 @@ by using intuitionistic logic.
 
 This section proposes domain-stable sequences.
 %
-We assume a SC call graph in this section.
+We assume an SC call graph in this section.
 
 In this paper, we call an SC graph a {\em relation}.
 When $A \subset X \times Y$,
@@ -48,18 +48,18 @@ $P = (S_1 \cup P_1)\ldots (S_k \cup P_k) - S$.
 
 We write $i(R_1\ldots R_i)j$ for $i (S \cup P) j$.
 %
-We call a composition of a SC path a {\em SC composition}.
+We call a composition of an SC path a {\em SC composition}.
 %
-We will often write $R$ for a SC composition.
+We will often write $R$ for an SC composition.
 %
 A sequence $(R_1,\ldots,R_k)$ of SC compositions 
 is defined to be {\em composable} if
 $R_i = (f_i,-,f_{i+1})$ for all $i \in [1,k-1]$.
 %
-Note that a SC path is a special case of a composable sequence of SC compositions.
+Note that an SC path is a special case of a composable sequence of SC compositions.
 %
 A composition of a composable sequence of SC compositions
-is defined in a similar way to a composition of a SC path.
+is defined in a similar way to a composition of an SC path.
 
 A SC composition $R$ is called {\em injective} if
 the relation $S \cup P$ is injective
@@ -68,12 +68,12 @@ the composition $R = (-,(S,P),-)$.
 A sequence $(R_1,\ldots,R_k)$ of SC compositions is defined to be {\em injective} if
 each $R_i$ is injective for $i \in [1,k]$.
 As a special case,
-a SC path is defined to be {\em injective} in a similar way to 
+an SC path is defined to be {\em injective} in a similar way to 
 a sequence of SC compositions.
 A SC graph is defined to be {\em injective} if all edges in the graph are
 injective.
 
-For a SC composition $R$, we define
+For an SC composition $R$, we define
 %
 $\dom(R)$ as $\{x \ |\ R = (-,(S,P),-), x(S \cup P)y \}$ and
 %
@@ -81,7 +81,7 @@ $\codom(R)$ as $\{y \ |\ R = (-,(S,P),-), x(S \cup P)y \}$.
 %
 For a finite set $X$, we write $|X|$ for the cardinal of $X$.
 %
-Note that $\dom(R)$ and $\codom(R)$ for a SC path $R$ is 
+Note that $\dom(R)$ and $\codom(R)$ for an SC path $R$ is 
 defined as a special case of this definition.
 \end{Def}
 
@@ -100,7 +100,8 @@ If $|\dom(R)|=|\dom(RS)|$, then $(R,S)$ is domain-stable.
 
 {\em Proof.}
 By definition of $\dom$, we have $\dom(R) \supseteq \dom(RS)$.
-Since $|\dom(R)|=|\dom(RS)|$, we have $\dom(R) = \dom(RS)$.
+Since $|\dom(R)|=|\dom(RS)|$ and $\dom(R)$ is finite,
+we have $\dom(R) = \dom(RS)$.
 $\Box$
 
 \begin{Def}\rm
@@ -127,7 +128,7 @@ a value assignment $\alpha$ such that
 $\alpha(i)=v_i$ for all $i \in [1,n]$ and
 $\alpha(i)=0$ otherwise.
 
-For a SC composition $R$ and value assignments $\alpha$ and $\alpha'$,
+For an SC composition $R$ and value assignments $\alpha$ and $\alpha'$,
 we define $\alpha R \alpha'$ to hold if for all $k,l \in N$,
 $\alpha(k) \ge \alpha'(l)$ for $k S l$, and
 $\alpha(k) > \alpha'(l)$ for $k P l$,
@@ -152,7 +153,7 @@ and
 %
  $\Vec v_i R_i \Vec v_{i+1}$ for all $i \in [1,n-1]$.
 
-For a SC composition $R$ and a value assignment $\alpha$,
+For an SC composition $R$ and a value assignment $\alpha$,
 we define a {\em domain-sum value} $\Val(R,\alpha) \in N$
 as $\Sigma \{ \alpha(i) \ |\ i \in \dom(R) \}$.
 \end{Def}
@@ -278,7 +279,7 @@ Let $R = R_i$ and $S = R_{i+1}$.
 Since $R,S$ is domain-stable, we have $\dom(RS) = \dom(R)$.
 Hence for each $x \in \dom(R)$ there are $y,z$ such that $x R y S z$.
 Define a function $f: \dom(R) \to \dom(S)$ such that $f(x)=y$.
-Since $f$ is injective, we have $|\dom(R)| \le |\dom(S)|$.
+$f$ is injective since $R$ is injective, and hence we have $|\dom(R)| \le |\dom(S)|$.
 $\Box$
 
 \begin{Lemma}[Grouping by Cardinal of Domains]\label{lemma:cardinal-constant}
@@ -307,14 +308,14 @@ and $R$ is injective,
 then $R:\dom(R) \to \dom(S)$ is a bijection.
 \end{Lemma}
 
-Its proof is given in the appendix.
+The proof is given in the appendix.
 
 \subsection{Synthesis of Ranking Functions}
 
 This section constructs a ranking function from a given SC graphs.
 
 \begin{Lemma}\label{lemma:maxlen}
-If a SC call graph satisfies SCT condition,
+If an SC call graph satisfies SCT condition,
 then
 for a domain-stable injective sequence $R_1,\ldots, R_n$ of SC compositions
 and a value assignment sequence $\Vec v_1,\ldots,\Vec v_n$ along $R_1,\ldots, R_n$
@@ -354,7 +355,7 @@ Hence $n \le |V|{K \choose k}$.
 $\Box$
 
 \begin{Def}[Weight]\label{def:weight}\rm
-For a SC call graph that satisfies SCT condition,
+For an SC call graph that satisfies SCT condition,
 a composable sequence $\pi$ of injective SC compositions, and 
 a value assignment sequence $\sigma$ along $\pi$,
 we define the weight $W(\pi, \sigma) \in ((N\cup\{\infty\}) \times N)^{K}$ 
@@ -417,7 +418,7 @@ for some $K$.
 \end{Def}
 
 \begin{Lemma}\label{lemma:stable-extension}
-For a SC call graph that satisfies SCT condition,
+For an SC call graph that satisfies SCT condition,
 domain-stable injective SC sequences $(\pi,\pi')$ and $(\pi,R)$ of SC compositions and 
 a value assignment sequence $(\sigma,\sigma')$ along $(\pi,\pi')$ and
 a value assignment sequence $(\sigma,\Vec v)$ along $(\pi,R)$,
@@ -483,7 +484,7 @@ we have $W >_\Lex W'$.
 $\Box$
 
 \begin{Prop}\label{prop:decrease-pi}
-For a SC call graph that satisfies SCT condition, and
+For an SC call graph that satisfies SCT condition, and
 a composable SC sequence $(\pi,R)$ of SC compositions and 
 a value assignment sequence $(\sigma,\Vec v)$ along $(\pi,R)$,
 we have $W(\pi,\sigma) >_\Lex W((\pi,R),(\sigma,\Vec v))$.
@@ -565,6 +566,7 @@ $W(\pi,\sigma) >_\Lex W(\pi',\sigma')$.
 $\Box$
 
 \begin{Lemma}\label{lemma:shorten}
+Let $C_0 = |V|(2^K-1)+1$.
 For a domain-stable sequence $\pi$ of SC compositions
 and a value assignment sequence $\sigma$ along $\pi$,
 if $|\pi| > C_0$, then
@@ -577,11 +579,10 @@ and
 W(\pi,\sigma)=W(\pi',\sigma')
 \]
 where
-$C_0 = |V|(2^K-1)+1$ and
 $(\sigma')_{i-1} = (\sigma)_{a_i-1}$ for all $i \in [1,l]$.
 \end{Lemma}
 
-Its proof is given in the appendix.
+The proof is given in the appendix.
 
 \begin{Def}[Value Assignment Sequence Minimally Along SC Compositions]\rm
 We define $\Vec v$ to be the {\em minimum value assignment 
@@ -592,7 +593,7 @@ for an injective SC composition $R$ and $\Vec v'$} if the following hold.
 \]
 where $R=(-,(S,P),-)$.
 We write $\Vec v \min(R) \Vec v'$ when
-$\Vec v$ to be the {\em minimum value assignment 
+$\Vec v$ is the {\em minimum value assignment 
 for $R$ and $\Vec v'$}.
 
 $\sigma$ is defined to be {\em minimally along} $\pi$ if

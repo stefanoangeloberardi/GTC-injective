@@ -17,7 +17,7 @@ For simplicity, we write SC for "size-change".
 
 \begin{Def}[SC call graph]\rm
 For given function symbols,
-a SC call graph is defined to a labeled graph $(V,E)$ where
+an SC call graph is defined to a labeled graph $(V,E)$ where
 
 vertexes $V \subseteq \Functionnames$,
 
@@ -42,8 +42,8 @@ We will often write $G_i$ for an edge in $E$.
 A path is defined as a consecutive sequence of edges in $E$ as usual.
 A path may be infinite.
 
-We call an edge in a SC call graph a {\em SC graph}.
-A SC call graph represents a bipartite graph such that
+We call an edge in an SC call graph a {\em SC graph}.
+An SC call graph represents a bipartite graph such that
 the first set of its vertexes are arguments of the calling function, and
 the second set of its vertexes are arguments of the called function, and
 the edges are the collection of
@@ -55,7 +55,7 @@ an edge from the $i$-th argument of the calling function to
 the $j$-th argument of the called function with the edge label $P$
 for $i P j$.
 
-We call a path in a SC call graph a {\em SC path}.
+We call a path in an SC call graph an {\em SC path}.
 %
 For a given finite SC path $(G_1,\ldots,G_k)$,
 an {\em SC trace} in the path is defined to be
@@ -121,7 +121,7 @@ where $f$ is in \Functionnames\
 and $\Vec v \in N^{\arity(f)}$.
 
 For a given SC call graph,
-a SC graph $G$ and
+an SC graph $G$ and
 states $(f, \Vec v)$ and $(g, \Vec w)$,
 we define $(f, \Vec v) \to^G (g, \Vec w)$ to hold if
 there is some SC graph $(f,(S,P),g)$ in the SC call graph such that
@@ -155,16 +155,16 @@ in Theorem 4.11 \cite{Lee09} and Theorem 3.3 \cite{Benamram09} and
 Theorem 6.17 \cite{Benamram10}.
 
 \begin{Th}
-If a SC call graph satisfies SCT condition,
+If an SC call graph satisfies SCT condition,
 there is an algorithm to synthesize a ranking function
 for the SC call graph.
 \end{Th}
 Note that \cite{Benamram09} assumed a fan-in free condition.
 
-The meta-theory of all these papers is classical.
+The metatheory of all these papers is classical and they use complicated results such as Ramsey Theorem or Buchi Automata.
 
 In this paper, 
 by assuming injectivity condition, which is the same as the fan-in free condition,
-we will prove the same statement
-in intuitionistic logic.
+we will provide a more direct proof for the same statement in
+Intuitionistic Arithmetic.
 

@@ -1,4 +1,4 @@
-\section{Introduction}
+1\section{Introduction}
 
 Martin-L\"of's inductive definition system \cite{Martin-Lof-1971} is
 widely used for formalizing inductive definitions.
@@ -73,6 +73,8 @@ the induction principle for path relations
 to
 the induction principle for lexicographic ordering on natural numbers.
 They rely on ranking functions provided in \cite{Lee09}.
+In partiular, 
+they used both Ramsey Theorem and Buchi automata in the meta-theory.
 
 In this paper,
 we use a similar proof technique to \cite{Ikebuchi25}.
@@ -90,16 +92,8 @@ the existence of a ranking function for size-change termination condition
 in the fan-in-free case by using intuitionistic logic,
 where a size-change graph is called fan-in free \cite{Benamram09} if
 the following holds:
-if
-each of any two different arguments in a calling function
-has an edge to some argument of a called function,
-then
-the argument 
-which the first argument in the calling function has an edge to
-and 
-the argument 
-which the second argument in the calling function has an edge to
-are different.
+if any two arguments in a calling function have an edge to the same
+argument of a called function, then the two arguments are the same.”
 
 In this paper,
 for completing intuitionistic proof transformation,
@@ -132,8 +126,8 @@ Our techniques for intuitionistic ranking function synthesis is as follows.
 For a given sequence $R_1,\ldots,R_n$ of relations,
 we call the sequence {\em domain-stable} if
 $\exists y(x R_i y)$ implies
-$\exists z(x R_i \circ R_{i+1} y)$ for any $i \in [1,n-1]$.
-(2) We presents some weight for any domain-stable sequence.
+$\exists y(x R_i \circ R_{i+1} y)$ for any $i \in [1,n-1]$.
+(2) We presents some notion of weight for any domain-stable sequence.
 The use of the size-change termination condition in a whole proof is only for 
 guaranteeing the well-definedness of the weight.
 The weight decreases when the computation goes with a domain-stable sequence.
