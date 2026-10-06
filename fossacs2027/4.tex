@@ -85,74 +85,11 @@ determined by the production rules.
 These rules describe that the predicate actually denotes the least fixed point.
 In particular, the elimination rule describes the induction principle.
 
-\begin{figure*}[t]
+The inference rules of $\LJID$ are those of $\LJ$ (given in the appendix)
+and the following $(P\ R)$ and $(\Ind\ P_j)$.
+
 {\prooflineskip
 \[
-\infer[(\Axiom)]{\Gamma,A \prove A,\Delta}{}
-\qquad
-\infer[(\Wk)]{\Gamma \prove \Delta}{\Gamma' \prove \Delta'}
-(\Gamma' \subseteq \Gamma, \Delta' \subseteq \Delta)
-%\\
-\qquad
-\infer[(\Cut)]{\Gamma \prove \Delta}{
-\Gamma \prove F,\Delta
-&
-\Gamma,F \prove \Delta
-}
-%\qquad
-\\
-\infer[(\Subst)]{\Gamma\theta \prove \Delta\theta}{\Gamma \prove \Delta}
-\qquad
-\infer[(\neg L)]{\Gamma,\neg F \prove \Delta}{\Gamma \prove F,\Delta}
-%\\
-\qquad
-\infer[(\neg R)]{\Gamma \prove \neg F,\Delta}{\Gamma,F \prove \Delta}
-\qquad
-\infer[(\lor L)]{\Gamma,F \lor G \prove \Delta}{
-\Gamma,F \prove \Delta
-&
-\Gamma,G \prove \Delta
-}
-%\qquad
-\\
-\infer[(\lor R)]{\Gamma \prove F \lor G,\Delta}{
-	\Gamma \prove F,G,\Delta
-}
-\qquad
-\infer[(\land L)]{\Gamma,F \land G \prove \Delta}{\Gamma,F,G \prove \Delta}
-\qquad
-\infer[(\land R)]{\Gamma \prove F \land G,\Delta}{
-\Gamma \prove F,\Delta
-&
-\Gamma \prove G,\Delta
-}
-\\
-\infer[(\imp L)]{\Gamma, F \imp G \prove \Delta}{
-	\Gamma \prove F,\Delta
-	&
-	\Gamma,G \prove \Delta
-}
-\qquad
-\infer[(\imp R)]{\Gamma \prove F \imp G,\Delta}{\Gamma,F \prove G,\Delta}
-\qquad
-\infer[(\forall L)]{\Gamma,\forall xF \prove \Delta}{\Gamma,F[x:=t] \prove \Delta}
-\\
-%\]
-%\[
-\infer[(\forall R)]{\Gamma \prove \forall xF,\Delta}{\Gamma \prove F,\Delta}
-(x \notin \FV(\Gamma))
-\qquad
-\infer[(\exists L)]{\Gamma,\exists xF \prove \Delta}{\Gamma,F \prove \Delta}
-(x \notin \FV(\Gamma,\Delta))
-%\\
-\qquad
-\infer[(\exists R)]{\Gamma \prove \exists xF,\Delta}{\Gamma \prove F[x:=t],\Delta}
-%\qquad
-\\
-\infer[(=L)]{\Gamma[x:=u],t=u \prove \Delta[x:=u]}{\Gamma[x:=t] \prove \Delta[x:=t]}
-\qquad
-\infer[(=R)]{\Gamma \prove t=t,\Delta}{}
-\qquad
 \infer[(\Ind\ P_j)]{\Gamma,P_j\Vec u \prove \Delta}{
 \hbox{minor premises}
 &
@@ -165,16 +102,7 @@ In particular, the elimination rule describes the induction principle.
 }
 \]
 }
-\vskip -3ex
-\caption{Inference Rules}\label{fig:1a}
-\vskip -1ex
-\end{figure*}
-The inference rules of $\LJID$ are given in Figure \ref{fig:1a} where
-the inference rules except $(P\ R)$ and $(\Ind\ P_j)$ are exactly the same as
-the inference rules of the first-order sequent calculus $\LJ$.
-Note that the contraction rule is implicit.
-In the figure,
-for $(P\ R)$ we assume the production rule
+For $(P\ R)$ we assume the production rule
 \[
 \infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
 \]
@@ -302,7 +230,7 @@ we chase an auxiliary inductive atomic formula when
 the inductive atomic formula is the main formula of $(\Case P)$,
 and
 we chase a corresponding inductive atomic formula for
-the rules $(\Subst)$ and $(=L)$.
+the rules $(\Subst)$ and $(=L)$ and $(\Wk)$ and $(\Cont)$ and $(\Exch)$.
 We chase the same inductive atomic formula upwardly in the other cases.
 Namely,
 in $(\Case P)$ we chase $P_i\Vec t_i$ after $P\Vec t$,
@@ -329,60 +257,4 @@ as a preproof that satisfies
 the global trace condition defined below.
 \end{Def}
 
-\begin{Eg}\label{eg:1}\rm
-An example of a cyclic proof is given in Figure \ref{fig:5},
-\begin{figure*}[t]
-\[
-\infer[(\lor L)]{Ex \lor Ox \prove \N x}{
-	\infer[(\Case\ E)]{(a)\ Ex \prove \N x}{
-		\infer[(=L)]{x=0 \prove \N x}{
-		\infer[(Wk)]{x=0 \prove \N 0}{
-		\infer[(\N\ R1)]{\prove \N 0}{}
-		}}
-		&
-		\infer[(=L)]{x=sx',Ox' \prove \N x}{
-		\infer[(\N\ R2)]{x=sx',Ox' \prove \N sx'}{
-		\infer[(Wk)]{x=sx',Ox' \prove \N x'}{
-		\infer[(\Subst)]{Ox' \prove \N x'}{
-		(b)\ Ox \prove \N x
-		}}}}
-	}
-	&
-	\infer[(\Case\ O)]{(b)\ Ox \prove \N x}{
-	\infer[(=L)]{x=sx',Ex' \prove \N x}{
-	\infer[(\N\ R2)]{x=sx',Ex' \prove \N sx'}{
-	\infer[(Wk)]{x=sx',Ex' \prove \N x'}{
-	\infer[(\Subst)]{Ex' \prove \N x'}{
-	(a)\ Ex \prove \N x
-	}}}}}
-}
-\]
-\caption{Cyclic Proof}\label{fig:5}
-\end{figure*}
-where the mark (a) and (b) denote the bud-companion relation, and
-the production rules are
-\[
-\infer{E0}{}
-\qquad
-\infer{Esx}{Ox}
-\qquad
-\infer{Osx}{Ex}
-\]
-\end{Eg}
-In Figure \ref{fig:5} the companion (a) uses $E x$, but
-the bud (a) uses $E x$ where $x$ is $x'$ and $x' < x$,
-so 
-their actual meanings are different
-even though they are of the same form.
-The global trace condition generalizes this fact
-and guarantees the soundness of a cyclic proof system.
-
-We say a path $\pi$ is in a proof $\Pi$ if $\pi$ is syntactically in $\Pi$
-without unfolding of $\Pi$. 
-For a finite path that goes up from the lowermost sequent $J_2$ to the uppermost sequent $J_1$ in $\Pi$,
-we call $J_{2}$ and $J_{1}$ 
-the {\em bottom sequent} and the {\em top sequent} of the path respectively.
-We write $\pi_1\pi_2$ for the path of the composition of
-paths $\pi_1$ and $\pi_2$,
-which goes from the bottom sequent of $\pi_1$
-to the top sequent of $\pi_2$.
+An example of cyclic proofs is explained in the appendix.

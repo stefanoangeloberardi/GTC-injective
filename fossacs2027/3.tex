@@ -8,7 +8,7 @@ by using intuitionistic logic.
 \subsection{Domain-Stable Sequences}
 
 This section proposes domain-stable sequences.
-
+%
 We assume a SC call graph in this section.
 
 In this paper, we call an SC graph a {\em relation}.
@@ -85,9 +85,7 @@ Note that $\dom(R)$ and $\codom(R)$ for a SC path $R$ is
 defined as a special case of this definition.
 \end{Def}
 
-***
-
-\begin{Def}[Domain-stable]\rm
+\begin{Def}[Domain-Stable]\rm
 A sequence $(R_1,\ldots,R_k)$ of SC compositions
 is defined to be {\em domain-stable}
 if 
@@ -96,7 +94,7 @@ for all $i \in [1,k-1]$,
 we have $\dom(R_i) = \dom(R_iR_{i+1})$.
 \end{Def}
 
-\begin{Lemma}[Cardinal of domains]\label{lemma:cardinal}
+\begin{Lemma}[Cardinal of Domains]\label{lemma:cardinal}
 If $|\dom(R)|=|\dom(RS)|$, then $(R,S)$ is domain-stable.
 \end{Lemma}
 
@@ -112,7 +110,7 @@ is defined to be a {\em partial composition} of $R_1,\ldots,R_n$
 with head indexes $a_1,\ldots,a_l$
 if 
 
-- there are $R_{a_1},\ldots,R_{b_1},R_{a_2},\ldots,R_{b_2},\ldots, R_{a_l},\ldots,R_{b_l}$
+- there is some sequence $R_{a_1},\ldots,R_{b_1},R_{a_2},\ldots,R_{b_2},\ldots, R_{a_l},\ldots,R_{b_l}$
 which is the same sequence as $R_1,\ldots,R_n$
 where $a_i \le b_i$ for all $i \in [1,l]$,
 
@@ -131,11 +129,8 @@ $\alpha(i)=0$ otherwise.
 
 For a SC composition $R$ and value assignments $\alpha$ and $\alpha'$,
 we define $\alpha R \alpha'$ to hold if for all $k,l \in N$,
-
-- $\alpha(k) \ge \alpha'(l)$ if $k S l$, and
-
-- $\alpha(k) > \alpha'(l)$ if $k P l$,
-
+$\alpha(k) \ge \alpha'(l)$ for $k S l$, and
+$\alpha(k) > \alpha'(l)$ for $k P l$,
 where
 $R_i = (f,(S,P),g)$.
 \end{Def}
@@ -144,21 +139,21 @@ Note that $\exists \alpha_2(\alpha_1 R_1 \alpha_2 R_2 \alpha_3)$
 implies $\alpha_1 R_1R_2 \alpha_3$, but
 $\alpha_1 R_1R_2 \alpha_3$ does not imply 
  $\exists \alpha_2(\alpha_1 R_1 \alpha_2 R_2 \alpha_3)$ 
-since $\alpha_1 R_1 \alpha_2 R_2 \alpha_3$ implies 
-$\alpha_1(1) > \alpha_2(1) > \alpha_3(1)$ 
-when $1 P_1 1 P_2 1$.
+since 
+$\alpha_1(1) =2 > \alpha_2(1) = \alpha_3(1) =1$ and
+$1 P_1 1 P_2 1$ may happen.
 
-\begin{Def}[Value flow]\rm
-We define $\sigma$ to be a {\em value flow} along a composable sequence $\pi$ of
+\begin{Def}[Value Assignment Along Sequence and Domain-Sum Value]\rm
+We define $\sigma$ to be a {\em value assignment sequence along} a composable sequence $\pi$ of
 SC compositions 
 if $\pi$ is $R_1,\ldots, R_n$,
 and $\sigma$ is $\Vec v_1,\ldots,\Vec v_n$,
 and 
-
-- $\Vec v_i R_i \Vec v_{i+1}$ for all $i \in [1,n-1]$.
+%
+ $\Vec v_i R_i \Vec v_{i+1}$ for all $i \in [1,n-1]$.
 
 For a SC composition $R$ and a value assignment $\alpha$,
-we define $\Val(R,\alpha) \in N$
+we define a {\em domain-sum value} $\Val(R,\alpha) \in N$
 as $\Sigma \{ \alpha(i) \ |\ i \in \dom(R) \}$.
 \end{Def}
 
@@ -175,7 +170,7 @@ Since $\exists j(i R_1 j R_2 k)$ implies $i R_1R_2 k$,
 we have $\Vec v_1 (R_1R_2) \Vec v_3$.
 $\Box$
 
-\begin{Prop}[Transform to domain-stable sequence]\label{prop:domain-stable}
+\begin{Prop}[Transform to Domain-Stable Sequence]\label{prop:domain-stable}
 (1) For a composable sequence $R_1,\ldots,R_k,R$ of SC compositions,
 if $R_1,\ldots,R_k$ is domain-stable
 and $R_k,R$ is not domain-stable, then
@@ -202,22 +197,23 @@ if $\Vec v_1,\ldots,\Vec v_k$ is along $R_1,\ldots,R_k$,
 then $\Vec v'_1,\ldots,\Vec v'_l$ is along $R'_1,\ldots,R'_l$,
 where $\Vec v'_i$ is defined as $\Vec v_{d_i}$.
 
-For each $0 < n \le k$, we define a sequence $R^{(n)}$ and 
-a sequence $H^{(n)}$ of the same length by induction on $n$.
+For each $0 < n \le k$, we define a sequence $R^{(n)}$ of SC compositions and 
+a sequence $H^{(n)}$ of numbers by induction on $n$.
+First we define
 \[
-R^{(1)} = (R_1), \\ 
+R^{(1)} = (R_1), \ \ \
 H^{(1)} = (1).
 \]
 We define $R^{(n+1)}$ and $H^{(n+1)}$ from $R^{(n)}$ and $H^{(n)}$ as follows.
 Let
 \[
-R^{(n)} = (R_1',\ldots,R_m'), \\
+R^{(n)} = (R_1',\ldots,R_m'), \ \ \
 H^{(n)} = (n_1,\ldots,n_m).
 \]
 Case 1. If $R_1',\ldots,R_m',R_{n+1}$ is domain-stable,
-then
+then we define
 \[
-R^{(n+1)} = (R_1',\ldots,R_m',R_{n+1}), \\
+R^{(n+1)} = (R_1',\ldots,R_m',R_{n+1}), \ \ \
 H^{(n+1)} = (n_1,\ldots,n_m,n+1).
 \]
 Case 2. If $R_1',\ldots,R_m',R_{n+1}$ is not domain-stable.
@@ -227,8 +223,8 @@ $R'_1,\ldots,R'_{i-1}, R_i'\ldots R_m'R_{n+1}$ is domain-stable
 and $R_i',R_{i+1}'\ldots R_m'R_{n+1}$ is not domain-stable.
 Define
 \[
-R^{(n+1)} = (R_1',\ldots,R_{i-1}',R_i'R'_{i+1}\ldots R'_m R_{n+1}), \\
-H^{(n+1)} = (n_1,\ldots,n_{i}), \\
+R^{(n+1)} = (R_1',\ldots,R_{i-1}',R_i'R'_{i+1}\ldots R'_m R_{n+1}), \ \ \
+H^{(n+1)} = (n_1,\ldots,n_{i}).
 \]
 
 We define $R_1',\ldots,R_l'$ as $R^{(k)}$
@@ -242,7 +238,7 @@ and define $n_1,\ldots,n_l$ as $H^{(k)}$.
 by induction on $n$.
 If $\Vec v_1,\ldots,\Vec v_k$ is along $R_1,\ldots,R_k$,
 then by induction on $l$,
-$\Vec v'_1,\ldots,\Vec v'_l$ is along $R'_1,\ldots,R'_l$.
+$\Vec v'_1,\ldots,\Vec v'_l$ is shown to be along $R'_1,\ldots,R'_l$.
 $\Box$
 
 The construction of a domain-stable sequence 
@@ -250,7 +246,7 @@ in this proposition can be explained as follows.
 For a given $R_1,\ldots,R_k$,
 we handle them from the left to the right.
 Assume we have already constructed a domain-stable sequence $R_1',\ldots,R_m'$
-from the original sequence $R_1,\ldots,R_n$.
+from the original sequence $R_1,\ldots,R_n$ for $n<k$.
 Next we handle $R_{n+1}$. If $R_1',\ldots,R_m',R_{n+1}$ is
 domain-stable, we take the resulting sequence to be
 $R_1',\ldots,R_m',R_{n+1}$.
@@ -273,9 +269,7 @@ Here a head index is taken from the index of the head element of each group.
 If
 a composable sequence $R_1,\ldots,R_k$ of SC compositions
 is domain-stable and injective, then
-\[
-|\dom(R_1)| \le \ldots \le |\dom(R_k)|.
-\]
+$|\dom(R_1)| \le \ldots \le |\dom(R_k)|$.
 \end{Lemma}
 
 {\em Proof.}
@@ -287,7 +281,7 @@ Define a function $f: \dom(R) \to \dom(S)$ such that $f(x)=y$.
 Since $f$ is injective, we have $|\dom(R)| \le |\dom(S)|$.
 $\Box$
 
-\begin{Lemma}[Grouping of cardinal-constant domains]\label{lemma:cardinal-constant}
+\begin{Lemma}[Grouping by Cardinal of Domains]\label{lemma:cardinal-constant}
 For any 
 domain-stable injective
 sequence $R_1,\ldots,R_k$ of SC compositions,
@@ -295,10 +289,10 @@ there are $a_1,b_1,\ldots, a_l,b_l \in [1,k]$ such that
 $R_{a_1},\ldots,R_{b_1},R_{a_2},\ldots,R_{b_2},\ldots,R_{a_l},\ldots,R_{b_l}$
 is the same sequence as $R_1,\ldots,R_k$ such that
 
-- $|\dom(R_i)| = |\dom(R_j)|$ for all $m \in [1,k]$ and
+- $|\dom(R_i)| = |\dom(R_j)|$ for all $m \in [1,l]$ and
 all $a_m \le i \le j \le b_m$,
 
-- $|\dom(R_{a_i})| < |\dom(R_{a_{i+1}})|$ for all $i \in [1,k-1]$.
+- $|\dom(R_{a_i})| < |\dom(R_{a_{i+1}})|$ for all $i \in [1,l-1]$.
 
 \end{Lemma}
 
@@ -323,7 +317,7 @@ This section constructs a ranking function from a given SC graphs.
 If a SC call graph satisfies SCT condition,
 then
 for a domain-stable injective sequence $R_1,\ldots, R_n$ of SC compositions
-and a value flow $\Vec v_1,\ldots,\Vec v_n$ along $R_1,\ldots, R_n$
+and a value assignment sequence $\Vec v_1,\ldots,\Vec v_n$ along $R_1,\ldots, R_n$
 such that $|\dom(R_i)|=k$ for all $i \in [1,n]$ and
 $\Val(R_i,\Vec v_i)$ is the same for all $i \in [1,n]$,
 we have
@@ -346,11 +340,7 @@ We can show it as follows.
 Assume $\dom(R_i) = \dom(R_j)$ and $a_i = a_j$
 for some $i < j \in [1,n]$ to show contradiction.
 We consider an infinite composable sequence $(R_i,\ldots,R_{j-1})^\omega$.
-Let $R_l$ be the composition of SC paths $R'_{l,1},\ldots,R'_{l,q_l}$
-for all $l \in [i,j]$.
-By applying SCT condition to
-the infinite SC path 
-$(R_{i,1},\dots,R_{i,q_i},\ldots,R_{j-1,1},\ldots,R_{j-1,q_{j-1}})^\omega$,
+By applying SCT condition to it,
 there is a progressing trace of some tail of it.
 Hence
 there are some $l \in [i,j-1]$ such that $R_l$ 
@@ -366,9 +356,9 @@ $\Box$
 \begin{Def}[Weight]\label{def:weight}\rm
 For a SC call graph that satisfies SCT condition,
 a composable sequence $\pi$ of injective SC compositions, and 
-a value flow $\sigma$ along $\pi$,
+a value assignment sequence $\sigma$ along $\pi$,
 we define the weight $W(\pi, \sigma) \in ((N\cup\{\infty\}) \times N)^{K}$ 
-where $K$ is the maximum arity in all function names
+where $K$ is the maximum arity for all function names
 as follows.
 
 Let $\pi$ be $R_1,\ldots, R_n$ and
@@ -381,7 +371,7 @@ head indexes $d_1,\ldots,d_l$.
 
 We define $\Vec v'_i$ as $\Vec v_{d_i}$ for all $i \in [1,l]$.
 Then by Proposition \ref{prop:domain-stable} (2), 
-the value flow $\Vec v'_1,\ldots,\Vec v'_l$ is
+the value assignment sequence $\Vec v'_1,\ldots,\Vec v'_l$ is
 along $R_1',\ldots,R_l'$.
 
 By Lemma \ref{lemma:cardinal-constant},
@@ -410,13 +400,14 @@ Take $i \in [1,r]$ such that $|\dom(R'_{a_i})| = k$.
 
 We define $W_k$ as $(\Val(R'_{b_i}, \Vec {v'}_{b_i}),|V|{K \choose k}-s)$
 where $V$ is the set of vertexes of the SC call graph,
-$K$ is the maximum arity in all function names,
+$K$ is the maximum arity for all function names,
 and $s$ is the maximum $s$ such that
 $b_i-s+1 \in [a_i,b_i]$ and
 $\Val(R'_{b_i}, \Vec {v'}_{b_i}) = \Val(R'_{b_i-s+1}, \Vec {v'}_{b_i-s+1})$.
 Note that by Lemma \ref{lemma:maxlen}, we have $|V|{K \choose k} \ge s$.
 
 Note also that $s$ is the maximum length of the sequence from $R'_{b_i}$
+to the left
 such that each element has the same value by $\Val$.
 \end{Def}
 
@@ -428,9 +419,9 @@ for some $K$.
 \begin{Lemma}\label{lemma:stable-extension}
 For a SC call graph that satisfies SCT condition,
 domain-stable injective SC sequences $(\pi,\pi')$ and $(\pi,R)$ of SC compositions and 
-a value flow $(\sigma,\sigma')$ along $(\pi,\pi')$ and
-a value flow $(\sigma,\Vec v)$ along $(\pi,R)$,
-if $\pi'=(R',-)$ and $|\dom(R)|<|\dom(R')|$ or $|\pi'|=0$,
+a value assignment sequence $(\sigma,\sigma')$ along $(\pi,\pi')$ and
+a value assignment sequence $(\sigma,\Vec v)$ along $(\pi,R)$,
+if $|\pi'|\ne 0$ and $\pi'=(R',-)$ and $|\dom(R)|<|\dom(R')|$ or $|\pi'|=0$,
 then
 \[
 W((\pi,\pi'),(\sigma,\sigma'))
@@ -440,17 +431,13 @@ W((\pi,R),(\sigma,\Vec v)).
 \end{Lemma}
 
 {\em Proof.}
-
 Let $\pi=(R_1,\ldots,R_n)$ and $\sigma = (\Vec v_1,\ldots,\Vec v_n)$.
-
 Let $k=|\dom(R)|$.
-
 Let $v = \Val(R,\Vec v)$.
-
 Let $W((\pi,\pi'),(\sigma,\sigma')) = W = (W_1,\ldots,W_K)$ and
 $W((\pi,R),(\sigma,\Vec v)) = W' = (W'_1,\ldots,W'_k)$.
 
-We have $W_j = W'_j$ for $j \in [1,k-1]$, since $|\dom(R)|<|\dom(R')|$
+We have $W_j = W'_j$ for $j \in [1,k-1]$, since $|\pi'|\ne 0$ and $|\dom(R)|<|\dom(R')|$
 or $|\pi'|=0$.
 
 By Lemma \ref{lemma:domain-stable-increase}, 
@@ -458,14 +445,14 @@ we have $|\dom(R_{n})| \le k$.
 
 Let $L$ be $|V|{K \choose k}$ 
 where $V$ is the set of vertexes of the SC call graph
-and $K$ is the maximum arity in all function names.
+and $K$ is the maximum arity for all function names.
 
 Case 1. $k=|\dom(R_{n})|$.
 
 By Lemma \ref{lemma:bijection},
-\[
+$
 R_n:\dom(R_n) \to \dom(R)
-\]
+$
 is a bijection.
 Hence we have $\Val(R_n,\Vec {v}_{n}) \ge v$.
 
@@ -488,7 +475,7 @@ we have $W >_\Lex W'$.
 Case 2. $k>|\dom(R_{n})|$.
 
 Then $W_k = (\infty,0)$ since 
-$\pi'=(R',-)$ and $|\dom(R)|<|\dom(R')|$ or $|\pi'|=0$.
+$|\pi'|\ne 0$ and $\pi'=(R',-)$ and $|\dom(R)|<|\dom(R')|$ or $|\pi'|=0$.
 We have $W'_k = (v, L)$.
 Hence $W_k >_\Lex W'_k$.
 Since $W_j = W'_j$ for $j \in [1,k-1]$,
@@ -498,14 +485,14 @@ $\Box$
 \begin{Prop}\label{prop:decrease-pi}
 For a SC call graph that satisfies SCT condition, and
 a composable SC sequence $(\pi,R)$ of SC compositions and 
-a value flow $(\sigma,\Vec v)$ along $(\pi,R)$,
+a value assignment sequence $(\sigma,\Vec v)$ along $(\pi,R)$,
 we have $W(\pi,\sigma) >_\Lex W((\pi,R),(\sigma,\Vec v))$.
 \end{Prop}
 
 {\em Proof.}
+Let
 $\pi' = (\pi,R)$ and
 $\sigma' = (\sigma,\Vec v)$.
-
 Let $W(\pi,\sigma) = (W_1,\ldots,W_K)$ and
 $W(\pi',\sigma') = (W'_1,\ldots,W'_K)$.
 
@@ -513,11 +500,11 @@ By Proposition \ref{prop:domain-stable} (2) for $\pi$, we define
 a domain-stable sequence $R_1',\ldots,R_l'$ 
 of partial SC compositions of $\pi$ with 
 head indexes $d_1,\ldots,d_l$.
-
+%
 Define $\Vec v'_i$ as $\Vec v_{d_i}$ for all $i \in [1,l]$.
-
+%
 Then by Proposition \ref{prop:domain-stable}, 
-the value flow $\Vec v'_1,\ldots,\Vec v'_l$ is
+the value assignment sequence $\Vec v'_1,\ldots,\Vec v'_l$ is
 along $R'_1,\ldots,R'_l$.
 
 Case 1. $R'_1,\ldots,R'_l,R$ is not domain-stable.
@@ -544,11 +531,13 @@ W((R'_1,\ldots,R'_{i-1},R'),
 (\Vec v'_1,\ldots,\Vec v'_{i-1},\Vec v'_i)).
 \]
 Since
-\[
-W(\pi,\sigma) = W((R'_1,\ldots,R'_l),(\Vec v'_1,\ldots,\Vec v'_l)), \\
+$
+W(\pi,\sigma) = W((R'_1,\ldots,R'_l),(\Vec v'_1,\ldots,\Vec v'_l))
+$ and
+$
 W(\pi',\sigma') = W((R'_1,\ldots,R'_{i-1},R'),
 (\Vec v'_1,\ldots,\Vec v'_{i-1},\Vec v'_i))
-\]
+$
 by definition, we have 
 $W(\pi,\sigma) >_\Lex W(\pi',\sigma')$.
 
@@ -563,18 +552,21 @@ W((R'_1,\ldots,R'_{l}), (\Vec v'_1,\ldots,\Vec v'_l)) >_\Lex
 W((R'_1,\ldots,R'_{l},R), (\Vec v'_1,\ldots,\Vec v'_l,\Vec v)).
 \]
 Since
-\[
-W(\pi,\sigma) = W((R'_1,\ldots,R'_{l}), (\Vec v'_1,\ldots,\Vec v'_l)), \\
+$
+W(\pi,\sigma) = W((R'_1,\ldots,R'_{l}), (\Vec v'_1,\ldots,\Vec v'_l))
+$
+and
+$
 W(\pi',\sigma') = 
 W((R'_1,\ldots,R'_{l},R), (\Vec v'_1,\ldots,\Vec v'_l,\Vec v))
-\]
+$
 by definition, we have 
 $W(\pi,\sigma) >_\Lex W(\pi',\sigma')$.
 $\Box$
 
 \begin{Lemma}\label{lemma:shorten}
 For a domain-stable sequence $\pi$ of SC compositions
-and a value flow $\sigma$ along $\pi$,
+and a value assignment sequence $\sigma$ along $\pi$,
 if $|\pi| > C_0$, then
 we have a partial composition $\pi'$ of $\pi$ with head indexes 
 $a_1,\ldots,a_l$ such that
@@ -591,12 +583,12 @@ $(\sigma')_{i-1} = (\sigma)_{a_i-1}$ for all $i \in [1,l]$.
 
 Its proof is given in the appendix.
 
-\begin{Def}[Value flow minimally along SC compositions]\rm
+\begin{Def}[Value Assignment Sequence Minimally Along SC Compositions]\rm
 We define $\Vec v$ to be the {\em minimum value assignment 
-for an injective SC composition $R$ and $\Vec v'$} if
+for an injective SC composition $R$ and $\Vec v'$} if the following hold.
 \[
-\Vec v(i) = \max\{ \Vec v'(j)+1,\Vec v'(k) \ |\ i P j, i S k \} \hbox{\ if for some $j$, \ } i (S\cup P) j, \\
-\Vec v(i) = 0 \hbox{\ otherwise},
+-\ \Vec v(i) = \max\{ \Vec v'(j)+1,\Vec v'(k) \ |\ i P j, i S k \} \hbox{\ if for some $j$, \ } i (S\cup P) j, \\
+-\ \Vec v(i) = 0 \hbox{\ otherwise},
 \]
 where $R=(-,(S,P),-)$.
 We write $\Vec v \min(R) \Vec v'$ when
@@ -611,9 +603,9 @@ where $\pi=(R_1,\ldots,R_n)$ and $\sigma=(\Vec v_1,\ldots,\Vec v_n)$.
 
 Note that for given a composable sequence $\pi$ of SC compositions 
 and $\Vec v$, 
-a value flow $\sigma$ minimally along $\pi$ and $\Vec v$ uniquely exists.
+a value assignment sequence $\sigma$ minimally along $\pi$ and $\Vec v$ uniquely exists.
 
-\begin{Th}[Intuitionistic synthesis of ranking function]\label{th:rankingfunc}
+\begin{Th}[Intuitionistic Synthesis of Ranking Function]\label{th:rankingfunc}
 For an injective SC call graph that satisfies SCT condition,
 we define
 \[
@@ -623,7 +615,7 @@ we define
 \Last(\sigma) \min(\Last(\pi)) \Vec x,
 \pi \hbox{\ a domain-stable SC compositions},
 \\ \qquad
-\sigma \hbox{\ a value flow minimally along $\pi$},
+\sigma \hbox{\ a value assignment sequence minimally along $\pi$},
 |\pi| \le C_0
 \}
 \]
@@ -641,41 +633,59 @@ then $\rho(s) >_\Lex \rho(s')$.
 Assume $(f,\Vec x) \to^G (g,\Vec y)$ to show
 $\rho(f,\Vec x) >_\Lex \rho(g,\Vec y)$.
 
-Let $R$ be the edge $(f,-,g)$.
+Let $R$ be $(f,-,g)$.
 
-Define $\pi$ and $\sigma$ by
-\[
-\rho(f,\Vec x)=W(\pi,\sigma), \\
-\Last(\pi) = (-,-,f),
-\Last(\sigma) \min(\Last(\pi)) \Vec x,
-\pi \hbox{\ a domain-stable SC compositions},
-\\ \qquad
-\sigma \hbox{\ a value flow minimally along $\pi$},
-|\pi| \le C_0.
-\]
+Define $\pi$ and $\sigma$ as those that give the minimum
+in the body of the definition of $\rho(f,\Vec x)$.
+Then
+$
+\rho(f,\Vec x)=W(\pi,\sigma)
+$
+and
+$
+\Last(\pi) = (-,-,f)
+$
+and
+$
+\Last(\sigma) \min(\Last(\pi)) \Vec x
+$
+and
+$\pi$ is a domain-stable SC compositions and
+$\sigma$ is a value assignment sequence minimally along $\pi$ and
+$|\pi| \le C_0$.
+
 Define $\pi'$ and $\sigma'$ by
-\[
-\pi'=(\pi,R), \\
+$
+\pi'=(\pi,R)
+$
+and
+$
 \sigma'=(\sigma,\Vec x).
-\]
+$
 Then we have
-\[
-\Last(\pi') = (-,-,g), \\
-\sigma' \hbox{\ along\ } \pi',
-\Last(\sigma') \Last(\pi') \Vec y.
-\]
+$
+\Last(\pi') = (-,-,g)
+$
+and
+$
+\sigma' \hbox{\ along\ } \pi'
+$
+and
+$\Last(\sigma') \Last(\pi') \Vec y.$
 
 By Proposition \ref{prop:decrease-pi},
 we have
 $W(\pi,\sigma) >_\Lex W(\pi',\sigma')$.
 
 By definition of weights,
-\[
+$
 W(\pi',\sigma')=W(\pi'',\sigma'')
-\]
-and $\sigma''$ is along $\pi''$
+$
+and
+$\pi''$ is domain-stable
+and $\Last(\pi'')=(-,-,g)$
 and $\Last(\sigma'') \Last(\pi'') \Vec y$
-and $\Last(\pi'')=(-,-,g)$,
+and $\sigma''$ is along $\pi''$,
 where $\pi''$ and the head redexes $d_1,\ldots,d_l$ are 
 defined to be obtained from $\pi'$ by
 Proposition \ref{prop:domain-stable} (2) and
@@ -684,17 +694,17 @@ we define $(\sigma'')_{i-1} = (\sigma')_{d_i-1}$ for all $i \in [1,l]$.
 By Lemma \ref{lemma:shorten},
 we have a partial composition $\pi'''$ of $\pi''$ and $\sigma'''$
 such that
-\[
-W(\pi'',\sigma'')=W(\pi''',\sigma'''), \\
-|\pi'''| \le C_0
-\]
-and
-$\sigma'''$ is along $\pi'''$
+$
+W(\pi'',\sigma'')=W(\pi''',\sigma''')
+$
+and $|\pi'''| \le C_0$
+and $\Last(\pi''')=(-,-,g)$
 and $\Last(\sigma''') \Last(\pi''') \Vec y$
-and $\Last(\pi''')=(-,-,g)$.
+and $\pi'''$ is domain-stable
+and $\sigma'''$ is along $\pi'''$.
 
 By definition of minimally along,
-there uniquely exists the value flow $\Tilde\sigma$ such that
+there uniquely exists the value assignment sequence $\Tilde\sigma$ such that
 $\Last(\Tilde\sigma) \min(\Last(\pi''')) \Vec y$
 and $\Tilde\sigma$ is minimally along $\pi'''$.
 
@@ -706,22 +716,29 @@ since
 by definition of minimum, we have
 $\Vec v_i \ge \Vec{\Tilde v_i}$ for all $i \in [1,n]$.
 
-Define $\Hat\pi$ and $\Hat\sigma$ by
-\[
-\rho(g,\Vec y)=W(\Hat\pi,\Hat\sigma), \\
-\Last(\Hat\pi) = (-,-,g),
-\Last(\Hat\sigma) \min(\Last(\Hat\pi)) \Vec y,
-\Hat\pi \hbox{\ a domain-stable SC compositions},
-\\ \qquad
-\Hat\sigma \hbox{\ a value flow minimally along $\Hat\pi$},
-|\pi| \le C_0
-\]
+Define $\Hat\pi$ and $\Hat\sigma$ 
+as those that give the minimum
+in the body of the definition of $\rho(g,\Vec y)$.
+Then 
+$
+\rho(g,\Vec y)=W(\Hat\pi,\Hat\sigma)
+$
+and
+$
+\Last(\Hat\pi) = (-,-,g)
+$
+and
+$
+\Last(\Hat\sigma) \min(\Last(\Hat\pi)) \Vec y$
+and
+$\Hat\pi$ is a domain-stable SC compositions and
+$\Hat\sigma$ is a value assignment sequence minimally along $\Hat\pi$
+and $|\pi| \le C_0$.
 
 By definition of $\rho$, we have
-\[
+$
 W(\pi''',\Tilde\sigma) \ge_\Lex W(\Hat\pi,\Hat\sigma).
-\]
-
+$
 Hence
 $\rho(f,\Vec x) >_\Lex \rho(g,\Vec y)$.
 $\Box$

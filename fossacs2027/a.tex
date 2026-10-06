@@ -114,7 +114,7 @@ we have
 $W(\pi',\sigma')=W(\pi,\sigma)$.
 $\Box$
 
-\section{Proof of Proposition \ref{prop:2}}
+\section{Proof of Proposition \ref{prop:1}}
 
 {\em Proof.}
 Assume $(c,x) >_\Pi (d,y)$.
@@ -126,7 +126,7 @@ of the path $\pi_i$.
 Let $c_{k+1}$ and $t_{k+1}$ be $d$ and $y$.
 Then $(c_i,t_i)$ and $(c_{i+1},t_{i+1})$ are
 the companion numbers and the stage numbers in the bottom sequent
-and the top sequent of the pqth $\pi_i$.
+and the top sequent of the path $\pi_i$.
 
 By Proposition \ref{prop:0.5},
 $\rho'(c_i,t_i) >_\Lex \rho'(c_{i+1},t_{i+1})$ for $i \in [1,k]$.
@@ -139,7 +139,7 @@ $\Box$
 
 {\em Proof.}
 Assume $\forall cx(\forall dy(\rho'(d,y) <_U \rho'(c,x) \imp Gdy) \imp Gcx)$
-to show $\forall cx.Gcx$ (labelled with (c)).
+to show $\forall cx.Gcx$ (labeled with (c)).
 
 Let B n be $\forall cx(\rho'(c,x) \le n \imp Gcx)$.
 
@@ -152,10 +152,10 @@ We will show
 \[
 \forall n((\forall m<_U n.Bm) \imp Bn)
 \]
-(labelled with (b)).
+(labeled with (b)).
 Fix $n$ and 
 assume $\forall m<_U n.Bm$ to show $Bn$.
-Fix $c,x$ and assume $\rho'(c,x) \le_U n$ to show $Gcx$ (labelled with (a)).
+Fix $c,x$ and assume $\rho'(c,x) \le_U n$ to show $Gcx$ (labeled with (a)).
 
 Let $\Pi_1$ be the subtree of root $c$. Let $c_1,\ldots,c_k$ be the leaves
 of $\Pi_1$.
@@ -198,11 +198,138 @@ In $\forall n.Bn$, by taking $n$ to be $\rho'(c,x)$, we have $Gcx$.
 Hence we have shown (c).
 $\Box$
 
-\section{Equivalence between $\LJID$ and $\CLJIDomega$}
+\section{Inference Rules for LJ}
 
-This section studies the equivalence between $\CLJIDomega$ and $\LJID$.
+The inference rules for LJ is given in Figure \ref{fig:1a}.
 
-\subsection{Addition of Heyting Arithmetic}
+\begin{figure*}[t]
+{\prooflineskip
+\[
+\infer[(\Cont)]{\Gamma,A \prove \Delta}{\Gamma,A,A \prove \Delta}
+\qquad
+\infer[(\Exch)]{\Gamma,A,B,\Gamma' \prove \Delta}{\Gamma,B,A,\Gamma' \prove \Delta}
+\\
+\infer[(\Axiom)]{\Gamma,A \prove A,\Delta}{}
+\qquad
+\infer[(\Wk)]{\Gamma,A \prove \Delta}{\Gamma \prove \Delta}
+%\\
+\qquad
+\infer[(\Cut)]{\Gamma \prove \Delta}{
+\Gamma \prove F,\Delta
+&
+\Gamma,F \prove \Delta
+}
+%\qquad
+\\
+\infer[(\Subst)]{\Gamma\theta \prove \Delta\theta}{\Gamma \prove \Delta}
+\qquad
+\infer[(\neg L)]{\Gamma,\neg F \prove \Delta}{\Gamma \prove F,\Delta}
+%\\
+\qquad
+\infer[(\neg R)]{\Gamma \prove \neg F,\Delta}{\Gamma,F \prove \Delta}
+\qquad
+\infer[(\lor L)]{\Gamma,F \lor G \prove \Delta}{
+\Gamma,F \prove \Delta
+&
+\Gamma,G \prove \Delta
+}
+%\qquad
+\\
+\infer[(\lor R)]{\Gamma \prove F \lor G,\Delta}{
+	\Gamma \prove F,G,\Delta
+}
+\qquad
+\infer[(\land L)]{\Gamma,F \land G \prove \Delta}{\Gamma,F,G \prove \Delta}
+\qquad
+\infer[(\land R)]{\Gamma \prove F \land G,\Delta}{
+\Gamma \prove F,\Delta
+&
+\Gamma \prove G,\Delta
+}
+\\
+\infer[(\imp L)]{\Gamma, F \imp G \prove \Delta}{
+	\Gamma \prove F,\Delta
+	&
+	\Gamma,G \prove \Delta
+}
+\qquad
+\infer[(\imp R)]{\Gamma \prove F \imp G,\Delta}{\Gamma,F \prove G,\Delta}
+\qquad
+\infer[(\forall L)]{\Gamma,\forall xF \prove \Delta}{\Gamma,F[x:=t] \prove \Delta}
+\\
+%\]
+%\[
+\infer[(\forall R)]{\Gamma \prove \forall xF,\Delta}{\Gamma \prove F,\Delta}
+(x \notin \FV(\Gamma))
+\qquad
+\infer[(\exists L)]{\Gamma,\exists xF \prove \Delta}{\Gamma,F \prove \Delta}
+(x \notin \FV(\Gamma,\Delta))
+%\\
+\qquad
+\infer[(\exists R)]{\Gamma \prove \exists xF,\Delta}{\Gamma \prove F[x:=t],\Delta}
+%\qquad
+\\
+\infer[(=L)]{\Gamma[x:=u],t=u \prove \Delta[x:=u]}{\Gamma[x:=t] \prove \Delta[x:=t]}
+\qquad
+\infer[(=R)]{\Gamma \prove t=t,\Delta}{}
+\]
+}
+\vskip -3ex
+\caption{Inference Rules}\label{fig:1a}
+\vskip -1ex
+\end{figure*}
+
+\section{Example of Cyclic Proofs}
+
+\begin{Eg}\label{eg:1}\rm
+An example of a cyclic proof is given in Figure \ref{fig:5},
+\begin{figure*}[t]
+\[
+\infer[(\lor L)]{Ex \lor Ox \prove \N x}{
+	\infer[(\Case\ E)]{(a)\ Ex \prove \N x}{
+		\infer[(=L)]{x=0 \prove \N x}{
+		\infer[(Wk)]{x=0 \prove \N 0}{
+		\infer[(\N\ R1)]{\prove \N 0}{}
+		}}
+		&
+		\infer[(=L)]{x=sx',Ox' \prove \N x}{
+		\infer[(\N\ R2)]{x=sx',Ox' \prove \N sx'}{
+		\infer[(Wk)]{x=sx',Ox' \prove \N x'}{
+		\infer[(\Subst)]{Ox' \prove \N x'}{
+		(b)\ Ox \prove \N x
+		}}}}
+	}
+	&
+	\infer[(\Case\ O)]{(b)\ Ox \prove \N x}{
+	\infer[(=L)]{x=sx',Ex' \prove \N x}{
+	\infer[(\N\ R2)]{x=sx',Ex' \prove \N sx'}{
+	\infer[(Wk)]{x=sx',Ex' \prove \N x'}{
+	\infer[(\Subst)]{Ex' \prove \N x'}{
+	(a)\ Ex \prove \N x
+	}}}}}
+}
+\]
+\caption{Cyclic Proof}\label{fig:5}
+\end{figure*}
+where the mark (a) and (b) denote the bud-companion relation, and
+the production rules are
+\[
+\infer{E0}{}
+\qquad
+\infer{Esx}{Ox}
+\qquad
+\infer{Osx}{Ex}
+\]
+\end{Eg}
+In Figure \ref{fig:5} the companion (a) uses $E x$, but
+the bud (a) uses $E x$ where $x$ is $x'$ and $x' < x$,
+so 
+their actual meanings are different
+even though they are of the same form.
+The global trace condition generalizes this fact
+and guarantees the soundness of a cyclic proof system.
+
+\section{Addition of Heyting Arithmetic}
 
 This subsection adds arithmetic to the logical systems.
 
@@ -228,9 +355,19 @@ and Heyting axioms:
 \]
 \end{Def}
 
-\section{Stage Numbers for Inductive Definitions}
+\section{Stage Numbers for Inductive Definitions}\label{sec:stagenumber}
 
 In this section, we define and discuss stage transformation.
+
+We say a path $\pi$ is in a proof $\Pi$ if $\pi$ is syntactically in $\Pi$
+without unfolding of $\Pi$. 
+For a finite path that goes up from the lowermost sequent $J_2$ to the uppermost sequent $J_1$ in $\Pi$,
+we call $J_{2}$ and $J_{1}$ 
+the {\em bottom sequent} and the {\em top sequent} of the path respectively.
+We write $\pi_1\pi_2$ for the path of the composition of
+paths $\pi_1$ and $\pi_2$,
+which goes from the bottom sequent of $\pi_1$
+to the top sequent of $\pi_2$.
 
 We introduce a stage number to each inductive atomic formula 
 so that
@@ -544,7 +681,7 @@ we have
 \]
 $\Box$
 
-\section{Proof Transformation}
+\section{Proof Transformation}\label{sec:prooftrans}
 
 This section defines main proof transformation from $\CLJIDHA$ to $\LJIDHA$.
 First we will define path relations, and then we will define main
@@ -755,12 +892,6 @@ F\Vec z \equiv P\Vec z \land F'\Vec z.
 \]
 $\Box$
 
-\begin{Lemma}\label{lemma:prooftrans}
-For every bud $J$ of a proof in $\CLJIDHA$ and fresh variables $\Vec v$,
-$(J)^\circ_{\Vec v}$ is provable in $\LJIDHA$.
-\end{Lemma}
-
-{\em Proof.}
 For $j \in K$, define
 \[
 G_jx \equiv \forall \Vec z(x=\<\Vec v\> \imp (\Gamma_{2j})^\circ_{\Vec v} \imp \Delta_{2j}^\bullet)
@@ -774,6 +905,13 @@ Hx_0x \equiv \forall y_0y.
 \<y_0,y\> <_\Pi \<x_0,x\> \imp Gy_0y.
 \]
 
+\begin{Lemma}\label{lemma:prooftrans}
+Assume $\Ind(U,>_\Pi,G)$.
+For every bud $J$ of a proof in $\CLJIDHA$ and fresh variables $\Vec v$,
+$(J)^\circ_{\Vec v}$ is provable in $\LJIDHA$.
+\end{Lemma}
+
+{\em Proof.}
 We will show that 
 for every companion $J$ in $\Pi$ and fresh variables $\Vec v$,
 $(J)^\circ_{\Vec v}$ is provable in $\LJIDHA$.
@@ -814,6 +952,7 @@ _{i \in I_j}
 
 Let $\Pi_{ij}$ be the proof in Figure \ref{fig:3}.
 \begin{figure*}[t]
+{\tiny
 \[
 \infer[(\imp L)(\forall L)(Cut)]{x_0=j,x=\<\Vec v\>,Hx_0x,\Ineq(\pi_{ji}),(\Gamma_{1i})^\circ_{\Vec v_i} \prove \Delta^\bullet_{1i}}{
 \infer[(Cut)(Subst)]{x_0=j,x=\<\Vec v\>,Hx_0x,\Ineq(\pi_{ji}) \prove Gf(i)\<\Vec v_i\>}{
@@ -823,6 +962,7 @@ Let $\Pi_{ij}$ be the proof in Figure \ref{fig:3}.
 	\<x_0,x\> >_{\pi_{ji}} \<y_0,y\>, Hx_0x \prove Gy_0y}{}
 }}
 \]
+}
 \caption{Subproof $\Pi_{ij}$}\label{fig:3}
 \end{figure*}
 We have a proof $\Pi'''$ of $\forall x_0x.Gx_0x$ 
@@ -853,7 +993,7 @@ Then
 \infer[(\imp L)(\land L)(Cut)]{\prove G_j\<\Vec v\>}{
 \infer[(\forall L)(Cut)]{\prove Gj\<\Vec v\>}{
 \infer*[\Pi''']{\prove \forall x_0x.Gx_0x}{
-\deduce{\prove \Ind(U,>_\Pi,G)}{\hbox{Proposition \ref{prop:ind}}}
+\Ind(U,>_\Pi,G)
 }}}}
 \]
 
@@ -867,10 +1007,11 @@ Since $(J_{2j})^\circ_{\Vec v}$ is provable,
 $(J_{1k})^\circ_{\Vec v}$ is provable in $\LJIDHA$.
 $\Box$
 
-\begin{Th}[Equivalence of $\LJIDHA$ and $\CLJIDHA$]
+\begin{Prop}[{\tiny Proof Transformation from $\LJIDHA$ to $\CLJIDHA$ Assuming Induction Principle}]
+Assume $\Ind(U,>_\Pi,G)$.
 $\Gamma \prove_\CLJIDHA \Delta$ with inductive predicates $P_1,\ldots,P_n$
 implies $\Gamma \prove_\LJIDHA \Delta$ with $P_1,\ldots,P_n$ and their stage-number inductive predicates $P_1',\ldots,P_n'$.
-\end{Th}
+\end{Prop}
 
 {\em Proof.}
 Let $\Pi_1$ be the cyclic proof of $\Gamma \prove_\CLJIDHA \Delta$.
@@ -896,11 +1037,7 @@ Combining them with $\Pi_3$,
 $\Gamma^\circ_{\Vec v} \prove \Delta^\bullet$ is provable in $\LJIDHA$.
 By Proposition \ref{prop:birthtrans2},
 $\Gamma \prove \Delta$ is provable in $\LJIDHA$.
+
+Moreover the proof of the correctness of the proof transformation is
+intuitionistic.
 $\Box$
-
-\begin{Cor}
-If both systems contain the stage-number inductive predicate $P'$
-for each inductive predicate $P$,
-$\Gamma \prove_\CLJIDHA \Delta$ implies $\Gamma \prove_\LJIDHA \Delta$.
-\end{Cor}
-
