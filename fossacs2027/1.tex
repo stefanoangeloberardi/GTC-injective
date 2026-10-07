@@ -2,34 +2,39 @@
 
 Martin-L\"of's inductive definition system \cite{Martin-Lof-1971} is
 widely used for formalizing inductive definitions.
-Cyclic proof systems \cite{Brotherston06,Brotherston11a} are another proof system to formalize
+Cyclic proof systems \cite{Brotherston06,Brotherston11} are another proof system to formalize
 inductive definitions and have been actively 
-studied \cite{das20,das21,das22,das23a,das23,das26,berardi17,berardi19,brotherston07,brotherston08,brotherston11b,brotherston12,brotherston17b,brotherston17a,brotherston17,oda25,brotherston25},
+studied \cite{berardi17,Berardi17a,Berardi18,berardi19,Brotherston06,brotherston07,brotherston08,brotherston11b,Brotherston11,brotherston12,brotherston25,rowe20,rowe24,rowe25,das23a,das26,das20,das21,das22,das23,Ikebuchi25,rowe21,oda25,brotherston17b,brotherston17a,brotherston17},
 since cyclic proof systems may work in a better way for proof search.
 
 To prove soundness of cyclic proof systems or
 to reduce a cyclic proof to an ordinary inductive proof,
 a proof transformation from cyclic proofs to inductive proofs is 
-important \cite{Berardi17a,Berardi18,berardi19}.
+important \cite{berardi17,Berardi17a,Berardi18,berardi19,Brotherston06,Brotherston11}.
+
+Size-change termination condition \cite{Lee-Jones01} is important since it gives
+sufficient condition for program termination
+and have been widely studied \cite{Avery06,Benamram09,Benamram10,Heizmann-Jones10,Ikebuchi25,Lee09}.
+In particular, ranking function sysnthesis for size-change termination condition has been actively discussed \cite{Benamram09,Benamram10,Ikebuchi25,Lee09}.
 
 The first contribution of this paper gives intuitionistic ranking function synthesis
 for fan-in-free case in intuitionistic meta-theory.
 The second contribution is that
 by using it
-this paper prove intuitionistic proof transformation
+this paper proves intuitionistic proof transformation
 from intuitionistic first-order cyclic proof system with Heyting arithmetic
 into intuitionistic first-order inductive proof system with Heyting arithmetic.
 
 The classical first-order cyclic proof system $\CLKIDomega$ and 
 the classical first-order inductive proof system $\LKID$ are defined 
-in \cite{Brotherston11a}.
+in \cite{Brotherston11}.
 As defined in \cite{Berardi18},
 we define systems $\CLJIDomega$ and $\LJID$ 
 as intuitionistic versions of $\CLKIDomega$ and $\LKID$.
 As defined in \cite{Berardi18},
 we also define systems $\CLJIDHA$ and $\LJIDHA$ as
-the system $\CLJIDomega$ with Heyting arithmetic $\HA$
-and the system $\LJID$ with Heyting arithmetic $\HA$.
+the system $\CLJIDomega$ with Heyting arithmetic
+and the system $\LJID$ with Heyting arithmetic.
 
 First, we compare our results for proof transformation
 with existing work \cite{Berardi18} and
@@ -38,9 +43,9 @@ with existing work \cite{Berardi18} and
 % (1)
 In \cite{Berardi18},
 they extended
-the proof transformation in \cite{Berardi17}
+the proof transformation in \cite{Berardi17a}
 to intuitionistic systems $\CLJIDHA$ and $\LJIDHA$,
-by replacing the proof of Podelski-Rybalchenko theorem in  \cite{Berardi17}
+by replacing the proof of Podelski-Rybalchenko theorem in  \cite{Berardi17a}
 by an intuitionistic Podelski-Rybalchenko theorem.
 
 In this paper,
@@ -63,13 +68,13 @@ and better resulting proofs of the proof transformation.
 
 % (2)
 In \cite{Ikebuchi25},
-they simplified the proof transformation given in \cite{Berardi17}
+they simplified the proof transformation given in \cite{Berardi17a}
 by using ranking function synthesis given in \cite{Lee09}.
 Their proof technique is that
-they represent path relations by size-change graphs,
+they represent path relation by size-change graphs,
 and then
 they reduce
-the induction principle for path relations
+the induction principle for path relation
 to
 the induction principle for lexicographic ordering on natural numbers.
 They rely on ranking functions provided in \cite{Lee09}.
@@ -80,7 +85,7 @@ In this paper,
 we use a similar proof technique to \cite{Ikebuchi25}.
 In the same way as \cite{Ikebuchi25},
 we will reduce
-the induction principle for path relations
+the induction principle for path relation
 to
 the induction principle for lexicographic ordering on natural numbers.
 However, instead of depending on 
@@ -93,17 +98,17 @@ in the fan-in-free case by using intuitionistic logic,
 where a size-change graph is called fan-in free \cite{Benamram09} if
 the following holds:
 if any two arguments in a calling function have an edge to the same
-argument of a called function, then the two arguments are the same.”
+argument of a called function, then the two arguments are the same.
 
 In this paper,
 for completing intuitionistic proof transformation,
 we will also present intuitionistic ranking function synthesis
 for fan-in-free case.
 First, we will use a sequent with sequences of formulas,
-which are used for cyclic proof system $\CLKIDomega$ given in 
+which is used for cyclic proof system $\CLKIDomega$ given in 
 \cite{Brotherston06},
 instead of a sequent with sets of formulas,
-which are used for cyclic proof system $\CLKIDomega$ given in 
+which is used for cyclic proof system $\CLKIDomega$ given in 
 \cite{Brotherston11}.
 Then a set of size-change graphs 
 which describes the path relation becomes fan-in free.
@@ -117,8 +122,7 @@ for ranking function synthesis for fan-in-free case.
 When we obtain intuitionistic ranking function synthesis,
 it is straightforward to obtain intuitionistic proof transformation
 from cyclic proofs to inductive proofs, since
-the correctness proof for the proof transformation in \cite{Berardi17} 
-is intuitionistic except 
+the correctness proof for the proof transformation in \cite{Berardi17a,Berardi18} is intuitionistic except 
 the induction principle for the path relation.
 
 Our techniques for intuitionistic ranking function synthesis is as follows.
@@ -132,7 +136,7 @@ The use of the size-change termination condition in a whole proof is only for
 guaranteeing the well-definedness of the weight.
 The weight decreases when the computation goes with a domain-stable sequence.
 (3) We provide an algorithm to obtain a domain-stable sequence for
-any (possibly non-domain-stable) given sequence. 
+any given (possibly non-domain-stable) sequence. 
 By this algorithm,
 the weight decreases when the computation goes with any sequence.
 
@@ -140,7 +144,7 @@ Section 2 gives background for size-change graphs and ranking functions.
 Section 3 defines a domain-stable sequence and
 presents intuitionistic synthesis of a ranking functions
 for fan-in-free case.
-Section 4 give background for inductive proofs and cyclic proofs.
+Section 4 gives background for inductive proofs and cyclic proofs.
 Section 5 presents intuitionistic proof transformation from
 cyclic proofs to inductive proofs.
 Section 6 concludes.
