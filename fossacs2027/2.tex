@@ -7,7 +7,7 @@ ranking functions.
 
 This section gives background for size-change graphs.
 
-\begin{Def}[Function symbols]\rm
+\begin{Def}[Function Symbols]\rm
 We assume every function symbol comes with its arity.
 We define $\Functionnames$ as the set of function symbols and
 we define $\arity : \Functionnames \to N$.
@@ -15,8 +15,8 @@ we define $\arity : \Functionnames \to N$.
 
 For simplicity, we write SC for "size-change".
 
-\begin{Def}[SC call graph]\rm
-For given function symbols,
+\begin{Def}[SC Call Graph]\rm
+For given $\Functionnames$ for function symbols,
 an SC call graph is defined to a labeled graph $(V,E)$ where
 
 vertexes $V \subseteq \Functionnames$,
@@ -30,7 +30,7 @@ the edge $(f, (S, P), g)$ is from the vertex $f$ to the vertex $g$.
 
 For simplicity, we defined $V \subseteq \Functionnames$, but
 formally $V$ 
-can be defined as a finite set 
+can be defined as a finite set of points
 with a labeling function
 $
 L : \hbox{(the finite set)} \to \Functionnames.
@@ -42,7 +42,7 @@ We will often write $G_i$ for an edge in $E$.
 A path is defined as a consecutive sequence of edges in $E$ as usual.
 A path may be infinite.
 
-We call an edge in an SC call graph a {\em SC graph}.
+We call an edge in an SC call graph an {\em SC graph}.
 An SC call graph represents a bipartite graph such that
 the first set of its vertexes are arguments of the calling function, and
 the second set of its vertexes are arguments of the called function, and
@@ -65,14 +65,14 @@ where $G_i = (f_i,(S_i,P_i),f_{i+1})$.
 For an infinite SC path,
 an SC trace of the path is defined similarly,
 where the SC trace is infinite.
-
+%
 An SC trace $(n_1,\ldots,n_k)$ is called progressing
 if there is some $i \in [1,k-1]$ such that
 $n_i P_i n_{i+1}$.
 The SC trace is called non-progressing otherwise.
 \end{Def}
 
-\begin{Def}[Infinitely progressing SC trace]\rm
+\begin{Def}[Infinitely Progressing SC Trace]\rm
 An infinite SC trace is defined to be {\em infinitely progressing}
 if 
 there are infinitely many $i \in N$ such that $n_i P_i n_{i+1}$
@@ -98,7 +98,7 @@ The relation $P$ means a progressing relation, and
 a progressing SC trace in the definition
 corresponds to a progressing trace in \cite{Brotherston11}.
 
-\begin{Def}[Size-change termination condition]\rm
+\begin{Def}[Size-Change Termination Condition]\rm
 A SC call graph is defined to satisfy size-change termination condition if
 for any infinite SC path $G_1,G_2,\ldots$ in the SC call graph
 there are some $k \in N$ and an infinitely progressing SC trace $n_k,n_{k+1},\ldots$
@@ -115,7 +115,7 @@ We will sometimes write a sequence $v_1,\ldots,v_k$ for $\Vec v$.
 We write $(v_1,\ldots,v_k)_i$ for $v_{i+1}$ with $i \ge 0$.
 
 \begin{Def}[State]\rm
-For a given $(\Functionnames, \arity)$,
+For a given $\Functionnames$,
 a {\em state} is defined to be $(f,\Vec v)$
 where $f$ is in \Functionnames\
 and $\Vec v \in N^{\arity(f)}$.
@@ -124,7 +124,7 @@ For a given SC call graph,
 an SC graph $G$ and
 states $(f, \Vec v)$ and $(g, \Vec w)$,
 we define $(f, \Vec v) \to^G (g, \Vec w)$ to hold if
-there is some SC graph $(f,(S,P),g)$ in the SC call graph such that
+$G=(f,(S,P),g)$ and
 for all $i \in [1,\arity(f)]$ and $j \in [1,\arity(g)]$,
 
 - $v_i \ge w_j$ if $i S j$, and
@@ -136,18 +136,18 @@ When the function $f$ calls the function $g$,
 a computation from the state $\Vec v$ to $\Vec w$ is overapproximated by
 $(f, \Vec v) \to^G (g, \Vec w)$.
 
-\begin{Def}[Ranking function for SC call graph]\rm
+\begin{Def}[Ranking Function for SC Call Graph]\rm
 For a given SC call graph,
 a function $\rho$ is defined to be a ranking function for the SC call graph if
 for some $m$, we have
 $\rho: \hbox{states} \to (N \cup \{\infty\})^m$
 such that
 
-if $(f, \Vec v) \to^c (g, \Vec w)$
-then $\rho(f, \Vec v) >_\Lex \rho(g, \Vec w)$
+- if $(f, \Vec v) \to^G (g, \Vec w)$
+then $\rho(f, \Vec v) >_\Lex \rho(g, \Vec w)$,
 
 \noindent
-where $>_\Lex$ is the lexicographic order.
+where $>_\Lex$ is the lexicographic order on $(N \cup \{\infty\})^m$.
 \end{Def}
 
 The following theorem of ranking function synthesis are discussed 
