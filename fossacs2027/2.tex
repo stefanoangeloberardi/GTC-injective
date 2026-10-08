@@ -72,14 +72,17 @@ $n_i P_i n_{i+1}$.
 The SC trace is called non-progressing otherwise.
 \end{Def}
 
+For simplicity, we sometimes write $-$ to denote
+an implicit existential for
+something not related to discussions.
+
 \begin{Def}[Infinitely Progressing SC Trace]\rm
 An infinite SC trace is defined to be {\em infinitely progressing}
-if 
-there are infinitely many $i \in N$ such that $n_i P_i n_{i+1}$
+if there are infinitely many $i \in N$ such that $n_i P_i n_{i+1}$
 where
-the SC trace is an SC trace $n_1,n_2,\ldots$ of a infinite SC path $G_1,G_2,\dots$
-and
-$G_i=(-,(S_i,P_i),-)$ for all $i \in N$.
+the SC trace is an SC trace $n_1,n_2,\ldots$ of 
+a infinite SC path $G_1,G_2,\dots$
+and $G_i=(-,(S_i,P_i),-)$ for all $i \in N$.
 \end{Def}
 
 
@@ -99,7 +102,7 @@ a progressing SC trace in the definition
 corresponds to a progressing trace in \cite{Brotherston11}.
 
 \begin{Def}[Size-Change Termination Condition]\rm
-A SC call graph is defined to satisfy size-change termination condition if
+An SC call graph is defined to satisfy size-change termination condition if
 for any infinite SC path $G_1,G_2,\ldots$ in the SC call graph
 there are some $k \in N$ and an infinitely progressing SC trace $n_k,n_{k+1},\ldots$
 in the SC path $G_k,G_{k+1},\ldots$.

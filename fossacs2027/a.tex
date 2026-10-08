@@ -211,7 +211,9 @@ The inference rules for LJ is given in Figure \ref{fig:1a}.
 \\
 \infer[(\Axiom)]{\Gamma,A \prove A,\Delta}{}
 \qquad
-\infer[(\Wk)]{\Gamma,A \prove \Delta}{\Gamma \prove \Delta}
+\infer[(\Wk\ L)]{\Gamma,A \prove \Delta}{\Gamma \prove \Delta}
+\qquad
+\infer[(\Wk\ R)]{\Gamma \prove A,\Delta}{\Gamma \prove \Delta}
 %\\
 \qquad
 \infer[(\Cut)]{\Gamma \prove \Delta}{
@@ -278,6 +280,32 @@ The inference rules for LJ is given in Figure \ref{fig:1a}.
 \caption{Inference Rules}\label{fig:1a}
 \vskip -1ex
 \end{figure*}
+
+For simplicity, we will use the following derived rule.
+\[
+\infer[(\Wk)]{\Gamma \prove \Delta}{\Gamma' \prove \Delta'}
+\] 
+when $\Gamma \supseteq \Gamma'$ and $\Delta \supseteq \Delta'$
+as sets.
+
+\section{Example of Additional Rules}
+
+For example, the production rules for $N$ give the introduction rules
+\[
+\infer{\Gamma \prove N0,\Delta}{}
+\qquad
+\infer{\Gamma \prove Ns x,\Delta}{\Gamma \prove Nx,\Delta}
+\]
+and the elimination rule
+\[
+\infer{\Gamma,Nt \prove \Delta}{
+\Gamma \prove F0,\Delta
+&
+\Gamma,Fx \prove Fs x,\Delta
+&
+\Gamma,Ft \prove \Delta
+}
+\]
 
 \section{Example of Cyclic Proofs}
 
@@ -1007,7 +1035,7 @@ Since $(J_{2j})^\circ_{\Vec v}$ is provable,
 $(J_{1k})^\circ_{\Vec v}$ is provable in $\LJIDHA$.
 $\Box$
 
-\begin{Prop}[{\tiny Proof Transformation from $\LJIDHA$ to $\CLJIDHA$ Assuming Induction Principle}]
+\begin{Prop}[{\tiny Proof Transformation from $\LJIDHA$ to $\CLJIDHA$ Assuming Induction Principle}]\label{prop:assumeInd}
 Assume $\Ind(U,>_\Pi,G)$.
 $\Gamma \prove_\CLJIDHA \Delta$ with inductive predicates $P_1,\ldots,P_n$
 implies $\Gamma \prove_\LJIDHA \Delta$ with $P_1,\ldots,P_n$ and their stage-number inductive predicates $P_1',\ldots,P_n'$.
