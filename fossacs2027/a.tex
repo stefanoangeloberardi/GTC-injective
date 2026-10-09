@@ -49,7 +49,6 @@ $\Box$
 \section{Proof of Lemma \ref{lemma:shorten}}
 
 {\em Proof.}
-
 Assume $|\pi| > C_0$
 to show that there are $\pi'$ and $\sigma'$ such that
 they are obtained from $\pi$ and $\sigma$ by replacing some subsequences
@@ -250,7 +249,7 @@ The inference rules for LJ is given in Figure \ref{fig:1a}.
 }
 \\
 \infer[(\imp L)]{\Gamma, F \imp G \prove \Delta}{
-	\Gamma \prove F,\Delta
+	\Gamma \prove F
 	&
 	\Gamma,G \prove \Delta
 }
@@ -281,14 +280,23 @@ The inference rules for LJ is given in Figure \ref{fig:1a}.
 \vskip -1ex
 \end{figure*}
 
-For simplicity, we will use the following derived rule.
+For simplicity, we will use the following derived rule:
 \[
 \infer[(\Wk)]{\Gamma \prove \Delta}{\Gamma' \prove \Delta'}
 \] 
 when $\Gamma \supseteq \Gamma'$ and $\Delta \supseteq \Delta'$
 as sets.
 
-\section{Example of Additional Rules}
+\section{Example for Rules of Inductive Definitions}
+
+The inference rules of $\LJID$ contains
+the introduction rules and the elimination rules for inductive predicates,
+determined by the production rules.
+These rules describe that the predicate actually denotes the least fixed point.
+In particular, the elimination rule describes the induction principle.
+
+Note that if necessary for this free variable condition, 
+we rename variables in production rules.
 
 For example, the production rules for $N$ give the introduction rules
 \[
@@ -385,7 +393,7 @@ and Heyting axioms:
 
 \section{Stage Numbers for Inductive Definitions}\label{sec:stagenumber}
 
-In this section, we define and discuss stage transformation.
+In this section, we define and discuss stage-number transformation.
 
 We say a path $\pi$ is in a proof $\Pi$ if $\pi$ is syntactically in $\Pi$
 without unfolding of $\Pi$. 
@@ -405,7 +413,7 @@ This stage number will decrease by a progressing trace.
 A proof in $\LJIDHA$ will be constructed by 
 using the induction on stage numbers.
 
-First we give stage transformation of an inductive atomic formula.
+First we give stage-number transformation of an inductive atomic formula.
 We assume a fresh inductive predicate symbol $P'$ for
 each inductive predicate symbol $P$
 and we call it a {\em stage-number inductive predicate symbol}.
@@ -419,20 +427,22 @@ by inference rules introduced by the transformation of production rules.
 We call $P'(\Vec t,v)$ a {\em stage-number inductive atomic formula}.
 
 Secondly 
-we give stage transformation of a production rule.
+we give stage-number transformation of a production rule.
 We transform the production of $P$ (the first rule) in Figure \ref{fig:2}
 into the production of $P'$ (the second rule) in Figure \ref{fig:2},
 where $v,v_1,\ldots,v_m$ are fresh variables.
 \begin{figure*}[t]
+{\prooflineskip
 \[
 \infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
-\qquad
+\\
 \infer{P'\Vec tv}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & v > v_1 & P'_1\Vec t_1v_1 & \ldots & v > v_m & P'_m\Vec t_mv_m & \N v}
 \]
+}
 \caption{Production Rules}\label{fig:2}
 \end{figure*}
 
-Next we give stage transformation of a sequent.
+Next we give stage-number transformation of a sequent.
 For given fresh variables $\Vec v$,
 we transform a sequent $J$ into $J^\circ_{\Vec v}$ defined as follows.
 We define $\Gamma^\bullet$ 
@@ -456,7 +466,7 @@ We write $\Gamma \prove_\CLJIDHA \Delta$ with assumptions $(J_i)_{i \in I}$
 when there is a proof with assumptions $(J_i)_{i \in I}$ and
 the conclusion $\Gamma \prove \Delta$ in $\CLJIDHA$.
 
-By the definition of stage transformation of production rules,
+By the definition of stage-number transformation of production rules,
 $P'\Vec tv$ implies $\N v$.
 \begin{Lemma}
 (1) $P'\Vec tv \prove_\CLJIDHA \N v$.
@@ -485,12 +495,12 @@ v > v_1, P'_1t_1(y)v_1,
 we take $\hat v=v,v>v_1,\ldots,v>v_m$ for $\Ineq(\pi)$.
 
 The proof of the next proposition gives 
-{\em stage transformation}
+{\em stage-number transformation}
 of a proof into
-a proof of the stage transformation of the conclusion of the original proof.
-We write $\Pi^\circ$ for the stage transformation of $\Pi$.
+a proof of the stage-number transformation of the conclusion of the original proof.
+We write $\Pi^\circ$ for the stage-number transformation of $\Pi$.
 
-\begin{Prop}[Stage Transformation]\label{prop:birthtrans1}
+\begin{Prop}[Stage-Number Transformation]\label{prop:birthtrans1}
 For any fresh variables $\Vec v$, 
 $\Gamma \prove_\CLJIDHA \Delta$ with assumptions $(\Gamma_i \prove \Delta_i)_{i \in I}$
 without any buds
@@ -511,8 +521,10 @@ the proof of $\Gamma^\circ_{\Vec v} \prove_\CLJIDHA \Delta^\bullet$ with
 assumptions $(\Ineq(\pi_i),(J_i)^\circ_{\Vec v_i})_{i \in I}$ by
 transforming each rule as follows.
 
-Case 1. The rule is not ($P_i$ R), (Case), (Cut), 
-(Axiom) with a common inductive atomic formula,
+Case 1. The rule is not ($P_i$ R), or (Case), or (Cut)
+with the cut formula being an inductive atomic formula,
+or (Cont) with the contracted formula being an inductive atomic formula,
+or (Axiom) with the common formula being an inductive atomic formula,
 or logical rules with
 some of the main formula and the auxiliary formulas being
 an inductive atomic formula in the antecedent.
@@ -576,7 +588,7 @@ into
 
 Case 4. The rule is $(P\ R)$. 
 Assume the production rule of $P$ 
-and its stage transformation in Figure \ref{fig:2}.
+and its stage-number transformation in Figure \ref{fig:2}.
 Let $\Sigma_0$ be the set of all assumptions of this production rule of $P'$
 and $t_0$ be $v_1+\ldots+v_n+1$.
 By $(P'\ R)$ for this production rule,
@@ -609,7 +621,7 @@ $
 
 Case 5. The rule is $(\Case\ P)$.
 Assume the production rule of $P$ 
-and its stage transformation in Figure \ref{fig:2}.
+and its stage-number transformation in Figure \ref{fig:2}.
 Let $\Vec v$ be $\Vec v'\hat v$.
 Let $v_1,\ldots,v_m$ be fresh variables.
 Let the rule be
@@ -680,6 +692,25 @@ Hence we have a proof of
 \Gamma^\circ_{\Vec v'}, P'\Vec u\hat v \prove \Delta^\bullet
 \]
 with assumptions $(\Ineq(\pi_i),(J_i)^\circ_{\Vec v_i})_{i \in I}$.
+
+Case 6. The rule is (Cont) with the contracted formula being an
+inductive atomic formula.
+Let the rule be
+\[
+\infer[(\Cont)]{\Gamma,P\Vec t \prove \Delta}{
+\Gamma,P\Vec t,P\Vec t \prove \Delta
+}
+\]
+Assume $\Vec vv$ is given for $\Gamma,P\Vec t$.
+By IH for $\Gamma,P\Vec t,P\Vec t \prove \Delta$ with $\Vec vvv$,
+we have
+\[
+(\Gamma)^\circ_{\Vec v},P'(\Vec t,v),P'(\Vec t,v) \prove \Delta^\bullet
+\]
+By $(\Cont)$, we have
+\[
+(\Gamma)^\circ_{\Vec v},P'(\Vec t,v) \prove \Delta^\bullet
+\]
 $\Box$
 
 \begin{Prop}\label{prop:birthtrans2}
@@ -800,7 +831,7 @@ We will show $\Ineq(\pi_1) \prove_\HA x \tilde>_{ \pi_1} z$.
 Since the rule that changes the stage number is only (Case),
 we will show only the case (Case).
 Assume the production rule of $P$ 
-and its stage transformation in Figure \ref{fig:2}.
+and its stage-number transformation in Figure \ref{fig:2}.
 Let the path for the rule (Case $P'$) be
 \[
 \infer{\Gamma^\circ_{\Vec v}, P'\Vec u\hat v \prove \Delta^\bullet}{
@@ -928,13 +959,12 @@ where $\Vec z$ is $\FV((\Gamma_{2j})^\circ_{\Vec v},\Delta_{2j}^\bullet)$.
 
 Define
 \[
-Gx_0x \equiv \Land_{j \in K} (x_0=j \imp G_jx), \\
-Hx_0x \equiv \forall y_0y.
-\<y_0,y\> <_\Pi \<x_0,x\> \imp Gy_0y.
+Gz \equiv \forall x_0x(z=\<x_0,x\> \imp \Land_{j \in K} (x_0=j \imp G_jx)), \\
+Hz \equiv \forall x_0x(z=\<x_0,x\> \imp \forall y_0y.\<y_0,y\> <_\Pi \<x_0,x\> \imp Gy_0y).
 \]
 
 \begin{Lemma}\label{lemma:prooftrans}
-Assume $\Ind(U,>_\Pi,G)$.
+Assume $\Ind(N,>_\Pi,G)$.
 For every bud $J$ of a proof in $\CLJIDHA$ and fresh variables $\Vec v$,
 $(J)^\circ_{\Vec v}$ is provable in $\LJIDHA$.
 \end{Lemma}
@@ -994,17 +1024,18 @@ Let $\Pi_{ij}$ be the proof in Figure \ref{fig:3}.
 \caption{Subproof $\Pi_{ij}$}\label{fig:3}
 \end{figure*}
 We have a proof $\Pi'''$ of $\forall x_0x.Gx_0x$ 
-with the assumption $\Ind(>_\Pi,G)$
+with the assumption $\Ind(N,>_\Pi,G)$
 in Figure \ref{fig:1}.
 \begin{figure*}[t]
 \[
-\infer[(\imp R)(\forall R)(Cut)]{\prove \forall x_0x.Gx_0x}{
-	\prove \Ind(>_\Pi,G)
+\infer[(\imp R)(\forall R)(Cut)]{\prove \forall z.Gz}{
+	\prove \Ind(N,>_\Pi,G)
 	&
-	\infer[(\land R)]{Hx_0x \prove Gx_0x}{
+	\infer[\hbox{\tiny $(\land R)(\Wk)(\imp L)(\imp R)(\forall R)
+		(\forall L)$}]{Hz \prove Gz}{
 		(\forall j \in K)
 		&
-		\infer[(\imp R)(\forall R)(\imp R)(\imp R)]{Hx_0x \prove x_0=j \imp G_jx}{
+		\infer[\hbox{\tiny $(\imp R)(\forall R)(\imp R)(\imp R)$}]{Hx_0x \prove x_0=j \imp G_jx}{
 		\infer*[\Pi''_j]{x_0=j,x=\<\Vec v\>,Hx_0x,(\Gamma_{2j})^\circ_{\Vec v} \prove \Delta^\bullet_{2j}}{
 		\left(
 		\infer*[\Pi_{ij}]{x_0=j,x=\<\Vec v\>,Hx_0x,\Ineq(\pi_{ji}),(\Gamma_{1i})^\circ_{\Vec v_i} \prove \Delta^\bullet_{1i}}{}
@@ -1020,8 +1051,8 @@ Then
 \infer[(\imp L)(\forall L)(Cut)]{(J_{2j})^\circ_{\Vec v}}{
 \infer[(\imp L)(\land L)(Cut)]{\prove G_j\<\Vec v\>}{
 \infer[(\forall L)(Cut)]{\prove Gj\<\Vec v\>}{
-\infer*[\Pi''']{\prove \forall x_0x.Gx_0x}{
-\Ind(U,>_\Pi,G)
+\infer*[\Pi''']{\prove \forall z.Gz}{
+\Ind(N,>_\Pi,G)
 }}}}
 \]
 
@@ -1036,7 +1067,7 @@ $(J_{1k})^\circ_{\Vec v}$ is provable in $\LJIDHA$.
 $\Box$
 
 \begin{Prop}[{\tiny Proof Transformation from $\LJIDHA$ to $\CLJIDHA$ Assuming Induction Principle}]\label{prop:assumeInd}
-Assume $\Ind(U,>_\Pi,G)$.
+Assume $\Ind(N,>_\Pi,G)$.
 $\Gamma \prove_\CLJIDHA \Delta$ with inductive predicates $P_1,\ldots,P_n$
 implies $\Gamma \prove_\LJIDHA \Delta$ with $P_1,\ldots,P_n$ and their stage-number inductive predicates $P_1',\ldots,P_n'$.
 \end{Prop}

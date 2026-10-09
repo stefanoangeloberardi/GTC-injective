@@ -61,10 +61,10 @@ companion-bud paths in the infinite unfolding of $\Pi$} \}$.
 \end{Def}
 
 For $\rho$ obtained in Theorem \ref{th:rankingfunc},
-we define $\rho'(c,x)$ as
-$\rho(c,((x)_0,\ldots,(x)_{l-1}))$
-where $J$ is the sequent of companion number $c$,
-and $l=||J||$.
+we define $\rho'(x)$ as
+$\rho((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1}))$
+if $(x)_0$ is a companion number in a given cyclic proof
+and $l=||J_{2(x)_0}||$.
 
 The next proposition says that
 if a stage-number decreases
@@ -72,9 +72,8 @@ then
 a ranking function decreases.
 
 \begin{Prop}\label{prop:0.5}
-For a bud-companion path $\pi$ from a companion $c$ to a bud $d$
-in a given cyclic proof,
-$(c,x) >_\pi (d,y)$ implies $\rho'(c,x) >_\Lex \rho'(d,y)$.
+For a bud-companion path $\pi$ in a given cyclic proof,
+$x >_\pi y$ implies $\rho'(x) >_\Lex \rho'(y)$.
 \end{Prop}
 
 {\em Proof.}
@@ -107,23 +106,22 @@ By Theorem \ref{th:rankingfunc}, there is some $\rho$ such that
 $(c,\Vec t) \to^{G_i} (d,\Vec u)$ implies
 $\rho(c,\Vec t) >_\Lex \rho(d,\Vec u)$.
 
-Fix a companion-bud path $\pi$ from a companion $c$ to a bud $d$ and
-assume $(c,x) >_\pi (d,y)$.
-Then $(x)_i > (y)_j$ iff there is a progressing trace from $i$ to $j$
+Fix a companion-bud path $\pi$ from a companion $J_2$ to a bud $J_1$ and
+assume $x >_\pi y$.
+Let $l=||J_2||$ and $l'=||J_1||$.
+Then for any $i<l$ and $j<l'$, 
+$((x)_1)_i > ((y)_1)_j$ iff there is a progressing trace from $i$ to $j$
 iff $i P j$.
-Moreover $(x)_i \ge (y)_j$ iff there is a non-progressing trace from $i$ to $j$
+Moreover $((x)_1)_i \ge ((y)_1)_j$ iff there is a non-progressing trace from $i$ to $j$
 iff $i S j$.
 Hence we have
 \[
-(c,((x)_0,\ldots,(x)_{l-1})) \to^{G_\pi} (d,((y)_0,\ldots,(y)_{l'-1}))
+((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1})) \to^{G_\pi} ((y)_0,(((y)_1)_0,\ldots,((y)_1)_{l'-1})).
 \]
-where $J_2$ and $J_1$ are 
-the bottom sequent and the top sequent of $\pi$ respectively,
-and $l=||J_2||$ and $l'=||J_1||$.
 
 By the ranking function $\rho$, we have
-$\rho(c,((x)_0,\ldots,(x)_{l-1})) >_\Lex \rho(d,((y)_0,\ldots,(y)_{l'-1}))$.
-Hence $\rho'(c,x) >_\Lex \rho'(d,y)$.
+$\rho((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1})) >_\Lex \rho((y)_0,(((y)_1)_0,\ldots,((y)_1)_{l'-1}))$.
+Hence $\rho'(x) >_\Lex \rho'(y)$.
 $\Box$
 
 The proposition can be extended from a path to a composition of paths
@@ -132,7 +130,7 @@ The proof is given in the appendix.
 
 \begin{Prop}\label{prop:1}
 For a given cyclic proof $\Pi$,
-$(c,x) >_\Pi (d,y)$ implies $\rho'(c,x) >_\Lex \rho'(d,y)$.
+$x >_\Pi y$ implies $\rho'(x) >_\Lex \rho'(y)$.
 \end{Prop}
 
 For a companion number $j$ in a given cyclic proof,
@@ -141,11 +139,17 @@ we define
 G_jx \equiv \forall \Vec z(
 ((x)_0,\ldots,(x)_{l-1}) = \Vec v \imp
 (\Gamma_{2j})^\circ_{\Vec v} \imp \Delta_{2j}^\bullet), \\
-Gx_0x \equiv \Land_{j \in K} (x_0=j \imp G_jx),
+Gz \equiv \forall x_0x(z=\<x_0,x\> \imp \Land_{j \in K} (x_0=j \imp G_jx)),
 \]
 where 
 $l = ||\Gamma_{2j}||$, and
 $\Vec z$ is $\FV((\Gamma_{2j})^\circ_{\Vec v},\Delta_{2j}^\bullet)$.
+
+We define $\Ind(N,>_\Pi,G)$ as
+$
+\forall x(\forall y(y <_\Pi x \imp Gy) \imp Gx)
+\imp \forall x.Gx.
+$
 
 The next proposition is proved by induction on $<_\Lex$
 in a straightforward way.
@@ -154,20 +158,20 @@ The proof is given in the appendix.
 \begin{Prop}\label{prop:2}
 \[
 \HA \prove 
-\forall cx(\forall dy(\rho'(d,y) <_\Lex \rho'(c,x) \imp Gdy) \imp Gcx)
-\imp \forall cx.Gcx.
+\forall x(\forall y(\rho'(y) <_\Lex \rho'(x) \imp Gy) \imp Gx)
+\imp \forall x.Gx.
 \]
 \end{Prop}
 
 \begin{Prop}\label{prop:ind}
-$\HA \prove \Ind(>_\Pi,G)$.
+$\HA \prove \Ind(N,>_\Pi,G)$.
 \end{Prop}
 
 {\em Proof.}
 In the statement of Proposition \ref{prop:2},
-since $\rho'(d,y) <_\Lex \rho'(c,x)$ appears negatively,
-by Proposition \ref{prop:1}, we can replace it by $(d,y) <_\Pi (c,x)$.
-Hence $\Ind(>_\pi,G)$ is provable.
+since $\rho'(y) <_\Lex \rho'(x)$ appears negatively,
+by Proposition \ref{prop:1}, we can replace it by $y <_\Pi x$.
+Hence $\Ind(N,>_\Pi,G)$ is provable.
 $\Box$
 
 \subsection{Proof Transformation from Cyclic Proofs to Inductive Proofs}
@@ -181,7 +185,7 @@ proof transformation
 assuming the induction principle for path relation.
 
 \begin{Prop}[Proof Transformation Assuming Induction Principle]
-Assume the induction principle $\Ind(>_\Pi,G)$.
+Assume the induction principle $\Ind(N,>_\Pi,G)$.
 If $\CLJIDHA$ with inductive predicates $P_1,\ldots,P_n$ proves a sequent,
 then there is a proof of the same sequent in $\LJIDHA$ with $P_1,\ldots,P_n$ and their stage-number inductive predicates $P_1',\ldots,P_n'$.
 Moreover, we have an algorithm of
