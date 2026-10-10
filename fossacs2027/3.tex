@@ -54,7 +54,7 @@ $P = (S_1 \cup P_1)\ldots (S_k \cup P_k) - S$.
 
 We write $i(R_1\ldots R_i)j$ for $i (S \cup P) j$.
 %
-We call a composition of an SC path a {\em SC composition}.
+We call a composition of an SC path an {\em SC composition}.
 %
 We will often write $R$ for an SC composition.
 %
@@ -71,7 +71,7 @@ is defined in a similar way to a composition of an SC path.
 An SC composition $R$ is called {\em injective} if
 the ordinary relation $S \cup P$ is injective
 where
-the composition $R = (-,(S,P),-)$.
+$R = (-,(S,P),-)$.
 A sequence $(R_1,\ldots,R_k)$ of SC compositions is defined to be {\em injective} if
 each $R_i$ is injective for $i \in [1,k]$.
 As a special case,
@@ -82,9 +82,10 @@ An SC call graph is defined to be {\em injective} if all edges
 
 For an SC composition $R$, we define
 %
-$\dom(R)$ as $\{x \ |\ R = (-,(S,P),-), x(S \cup P)y \}$ and
+$\dom(R)$ as $\{x \ |\ x(S \cup P)y \}$ and
 %
-$\codom(R)$ as $\{y \ |\ R = (-,(S,P),-), x(S \cup P)y \}$.
+$\codom(R)$ as $\{y \ |\ x(S \cup P)y \}$
+where $R = (-,(S,P),-)$.
 %
 For a finite set $X$, we write $|X|$ for the cardinal of $X$.
 %
@@ -127,8 +128,7 @@ with head indexes $a_1,\ldots,a_l$
 if 
 
 - there is some sequence $R_{a_1},\ldots,R_{b_1},R_{a_2},\ldots,R_{b_2},\ldots, R_{a_l},\ldots,R_{b_l}$
-which is the same sequence as $R_1,\ldots,R_n$
-where $a_i \le b_i$ for all $i \in [1,l]$,
+which is the same sequence as $R_1,\ldots,R_n$,
 
 - $R_i' = R_{a_i}\ldots R_{b_i}$ for all $i \in [1,l]$.
 \end{Def}
@@ -166,11 +166,11 @@ if $\pi$ is $R_1,\ldots, R_n$, and $\sigma$ is $\Vec v_1,\ldots,\Vec v_n$,
 and $\Vec v_i R_i \Vec v_{i+1}$ for all $i \in [1,n-1]$.
 \end{Def}
 
-A domain-sum value takes the sum of values in a domain.
+A domain-sum takes the sum of values in a domain.
 
-\begin{Def}[Domain-Sum Value]\rm
+\begin{Def}[Domain-Sum]\rm
 For an SC composition $R$ and a value assignment $\alpha$,
-we define a {\em domain-sum value} $\Val(R,\alpha) \in N$
+we define a {\em domain-sum} $\Val(R,\alpha) \in N$
 as $\Sigma \{ \alpha(i) \ |\ i \in \dom(R) \}$.
 \end{Def}
 
@@ -200,7 +200,7 @@ domain-stable and a partial composition of $R_1,\ldots,R_k,R$
 with head redexes $1,\ldots,i-1,i$ and $R_{i},R_{i+1}\ldots R_k R$ is
 not domain-stable.
 
-- Take $i$ to be the largest $i \in [1,k]$ among $i$'s such that
+- Take $i$ to be the smallest $i \in [1,k]$ among $i$'s such that
 $R_i, R_{i+1} \ldots R_k R$ is not domain-stable.
 It exists since the sequence $R_k,R$ is not domain-stable.
 Let
@@ -279,10 +279,6 @@ we stop. Continue it until
 $R_1',\ldots,R'_{i-1},R'_i \ldots R_{m-1}' R_m'  R_{n+1}$ is domain-stable.
 Then we take it to be the resulting domain-stable sequence
 for a sequence $R_1,\ldots,R_n$.
-After handling the whole sequence $R_1,\ldots,R_k$,
-the resulting sequence $R_1',\ldots,R_l'$ is 
-some maximal partial composition of a given sequence $R_1,\ldots,R_k$
-such that $R_1',\ldots,R_l'$ is domain-stable.
 Here a head index is taken from the index of the head element of each group
 of compositions.
 
@@ -322,6 +318,8 @@ all $a_m \le i \le j \le b_m$,
 By Lemma \ref{lemma:domain-stable-increase}.
 $\Box$
 
+Injective domain-stable relations with the same cardinal give a bijection.
+
 \begin{Lemma}\label{lemma:bijection}
 If $R,S$ is a domain-stable sequence
 and $|\dom(S)|=|\dom(R)|$
@@ -338,8 +336,8 @@ This section constructs a ranking function from a given SC call graph.
 The next lemma uses SCT condition to show
 there is an upper limit for the length
 of a sequece with the same cardinality of domains
-and the same domain-sum value.
-
+and the same domain-sum.
+%
 \begin{Lemma}\label{lemma:maxlen}
 If an SC call graph satisfies SCT condition,
 then
@@ -363,8 +361,8 @@ Let $R_i=(a_i,(S_i,P_i),a_{i+1})$ for all $i \in [1,n]$.
 Since $\Val(R_i,\Vec v_i)$ is the same for all $i \in [1,n]$,
 $P_i = \emptyset$ for all $i \in [1,n-1]$.
 
-For any $i <j \in [1,n]$, we have $\dom(R_i) \ne \dom(R_j)$ or $a_i \ne a_j$.
-We can show it as follows.
+For any $i <j \in [1,n]$, we can show 
+$\dom(R_i) \ne \dom(R_j)$ or $a_i \ne a_j$ follows.
 Assume $\dom(R_i) = \dom(R_j)$ and $a_i = a_j$
 for some $i < j \in [1,n]$ to show contradiction.
 We consider an infinite composable sequence $(R_i,\ldots,R_{j-1})^\omega$.
@@ -399,7 +397,7 @@ $\sigma$ be $\Vec v_1,\ldots,\Vec v_n$.
 
 By Proposition \ref{prop:domain-stable} (2), we define
 a domain-stable sequence $R_1',\ldots,R_l'$ 
-of partial SC compositions of $R_1,\ldots, R_n$ with 
+of a partial SC composition of $R_1,\ldots, R_n$ with 
 head indexes $d_1,\ldots,d_l$.
 
 We define $\Vec v'_i$ as $\Vec v_{d_i}$ for all $i \in [1,l]$.
@@ -602,7 +600,7 @@ The proof is given in the appendix.
 
 \begin{Lemma}\label{lemma:shorten}
 Let $C_0 = |V|(2^K-1)+1$.
-For a domain-stable sequence $\pi$ of SC compositions
+For a domain-stable injective sequence $\pi$ of SC compositions
 and a value assignment sequence $\sigma$ along $\pi$,
 if $|\pi| > C_0$, then
 we have a partial composition $\pi'$ of $\pi$ with head indexes 
@@ -620,7 +618,7 @@ $(\sigma')_{i-1} = (\sigma)_{a_i-1}$ for all $i \in [1,l]$.
 For a given $R$ and $\Vec v'$, we consider the smallest $\Vec v$ 
 such that $\Vec v R \Vec v'$.
 
-\begin{Def}[\scriptsize Value Assignment Sequence Minimally Along SC Compositions]\rm
+\begin{Def}[Minimally Along]\rm
 We define $\Vec v$ to be the {\em minimum value assignment 
 for an injective SC composition $R$ and $\Vec v'$} if the following hold.
 \[
@@ -633,7 +631,8 @@ We write $\Vec v \min(R) \Vec v'$ when
 $\Vec v$ is the {\em minimum value assignment 
 for $R$ and $\Vec v'$}.
 
-$\sigma$ is defined to be {\em minimally along} $\pi$ if
+A value assignment sequence $\sigma$ is defined to be 
+{\em minimally along} a sequence $\pi$ of SC compositions if
 for all $i \in [1,n-1]$, $\Vec v_i$ is the minimum value assignment
 for $R_i$ and $\Vec v_{i+1}$,
 where $\pi=(R_1,\ldots,R_n)$ and $\sigma=(\Vec v_1,\ldots,\Vec v_n)$.
@@ -756,9 +755,8 @@ We have
 $
 W(\pi''',\sigma''')\ge_\Lex W(\pi''',\Tilde\sigma),
 $
-since
-by definition of minimum, we have
-$\Vec v_i \ge \Vec{\Tilde v_i}$ for all $i \in [1,n]$.
+since by definition of minimum we have
+$\Vec v_i \ge \Vec{\Tilde v_i}$ for all $i \in [1,|\pi'''|]$.
 
 Define $\Hat\pi$ and $\Hat\sigma$ 
 as those that give the minimum
@@ -777,7 +775,7 @@ $
 and
 $\Hat\pi$ is a domain-stable sequence of SC compositions and
 $\Hat\sigma$ is a value assignment sequence minimally along $\Hat\pi$
-and $|\pi| \le C_0$.
+and $|\Hat\pi| \le C_0$.
 
 By definition of $\rho$, we have
 $

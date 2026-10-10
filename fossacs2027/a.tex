@@ -116,21 +116,17 @@ $\Box$
 \section{Proof of Proposition \ref{prop:1}}
 
 {\em Proof.}
-Assume $(c,x) >_\Pi (d,y)$.
-There is a path $\pi=\pi_1,\ldots,\pi_k$ such that
-$(c,x) >_\pi (d,y)$.
-For $i \in [1,k]$, let $c_i$ and $t_i$ be
-the companion number and the stage number in the bottom sequent
+Assume $x >_\Pi y$.
+There is a path $\pi=\pi_1,\ldots,\pi_k$ such that $x >_\pi y$.
+For $i \in [1,k]$, let $t_i$ be the stage number in the bottom sequent
 of the path $\pi_i$.
-Let $c_{k+1}$ and $t_{k+1}$ be $d$ and $y$.
-Then $(c_i,t_i)$ and $(c_{i+1},t_{i+1})$ are
-the companion numbers and the stage numbers in the bottom sequent
-and the top sequent of the path $\pi_i$.
+Let $t_{k+1}$ be $y$.
+Then $t_i$ and $t_{i+1}$ are the stage numbers in 
+the bottom sequent and the top sequent of the path $\pi_i$.
 
 By Proposition \ref{prop:0.5},
-$\rho'(c_i,t_i) >_\Lex \rho'(c_{i+1},t_{i+1})$ for $i \in [1,k]$.
-Hence
-$\rho(c,x) >_\Lex \rho'(d,y)$
+$\rho'(t_i) >_\Lex \rho'(t_{i+1})$ for $i \in [1,k]$.
+Hence $\rho(x) >_\Lex \rho'(y)$
 $\Box$
 
 \section{Proof of Proposition \ref{prop:2}}
@@ -208,15 +204,15 @@ The inference rules for LJ is given in Figure \ref{fig:1a}.
 \qquad
 \infer[(\Exch)]{\Gamma,A,B,\Gamma' \prove \Delta}{\Gamma,B,A,\Gamma' \prove \Delta}
 \\
-\infer[(\Axiom)]{\Gamma,A \prove A,\Delta}{}
+\infer[(\Axiom)]{\Gamma,A \prove A}{}
 \qquad
 \infer[(\Wk\ L)]{\Gamma,A \prove \Delta}{\Gamma \prove \Delta}
 \qquad
-\infer[(\Wk\ R)]{\Gamma \prove A,\Delta}{\Gamma \prove \Delta}
+\infer[(\Wk\ R)]{\Gamma \prove A}{\Gamma \prove}
 %\\
 \qquad
 \infer[(\Cut)]{\Gamma \prove \Delta}{
-\Gamma \prove F,\Delta
+\Gamma \prove F
 &
 \Gamma,F \prove \Delta
 }
@@ -224,10 +220,10 @@ The inference rules for LJ is given in Figure \ref{fig:1a}.
 \\
 \infer[(\Subst)]{\Gamma\theta \prove \Delta\theta}{\Gamma \prove \Delta}
 \qquad
-\infer[(\neg L)]{\Gamma,\neg F \prove \Delta}{\Gamma \prove F,\Delta}
+\infer[(\neg L)]{\Gamma,\neg F \prove}{\Gamma \prove F}
 %\\
 \qquad
-\infer[(\neg R)]{\Gamma \prove \neg F,\Delta}{\Gamma,F \prove \Delta}
+\infer[(\neg R)]{\Gamma \prove \neg F}{\Gamma,F \prove}
 \qquad
 \infer[(\lor L)]{\Gamma,F \lor G \prove \Delta}{
 \Gamma,F \prove \Delta
@@ -236,16 +232,20 @@ The inference rules for LJ is given in Figure \ref{fig:1a}.
 }
 %\qquad
 \\
-\infer[(\lor R)]{\Gamma \prove F \lor G,\Delta}{
-	\Gamma \prove F,G,\Delta
+\infer[(\lor R1)]{\Gamma \prove F \lor G}{
+	\Gamma \prove F
+}
+\qquad
+\infer[(\lor R2)]{\Gamma \prove F \lor G}{
+	\Gamma \prove G
 }
 \qquad
 \infer[(\land L)]{\Gamma,F \land G \prove \Delta}{\Gamma,F,G \prove \Delta}
 \qquad
-\infer[(\land R)]{\Gamma \prove F \land G,\Delta}{
-\Gamma \prove F,\Delta
+\infer[(\land R)]{\Gamma \prove F \land G}{
+\Gamma \prove F
 &
-\Gamma \prove G,\Delta
+\Gamma \prove G
 }
 \\
 \infer[(\imp L)]{\Gamma, F \imp G \prove \Delta}{
@@ -254,25 +254,25 @@ The inference rules for LJ is given in Figure \ref{fig:1a}.
 	\Gamma,G \prove \Delta
 }
 \qquad
-\infer[(\imp R)]{\Gamma \prove F \imp G,\Delta}{\Gamma,F \prove G,\Delta}
+\infer[(\imp R)]{\Gamma \prove F \imp G}{\Gamma,F \prove G}
 \qquad
 \infer[(\forall L)]{\Gamma,\forall xF \prove \Delta}{\Gamma,F[x:=t] \prove \Delta}
 \\
 %\]
 %\[
-\infer[(\forall R)]{\Gamma \prove \forall xF,\Delta}{\Gamma \prove F,\Delta}
+\infer[(\forall R)]{\Gamma \prove \forall xF}{\Gamma \prove F}
 (x \notin \FV(\Gamma))
 \qquad
 \infer[(\exists L)]{\Gamma,\exists xF \prove \Delta}{\Gamma,F \prove \Delta}
 (x \notin \FV(\Gamma,\Delta))
 %\\
 \qquad
-\infer[(\exists R)]{\Gamma \prove \exists xF,\Delta}{\Gamma \prove F[x:=t],\Delta}
+\infer[(\exists R)]{\Gamma \prove \exists xF}{\Gamma \prove F[x:=t]}
 %\qquad
 \\
 \infer[(=L)]{\Gamma[x:=u],t=u \prove \Delta[x:=u]}{\Gamma[x:=t] \prove \Delta[x:=t]}
 \qquad
-\infer[(=R)]{\Gamma \prove t=t,\Delta}{}
+\infer[(=R)]{\Gamma \prove t=t}{}
 \]
 }
 \vskip -3ex
@@ -1023,7 +1023,7 @@ Let $\Pi_{ij}$ be the proof in Figure \ref{fig:3}.
 }
 \caption{Subproof $\Pi_{ij}$}\label{fig:3}
 \end{figure*}
-We have a proof $\Pi'''$ of $\forall x_0x.Gx_0x$ 
+We have a proof $\Pi'''$ of $\forall z.Gz$ 
 with the assumption $\Ind(N,>_\Pi,G)$
 in Figure \ref{fig:1}.
 \begin{figure*}[t]

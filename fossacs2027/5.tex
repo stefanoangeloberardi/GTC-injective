@@ -37,7 +37,7 @@ we define $\tilde>_{\pi}$ by
 \[
 x \tilde>_{\pi} y \equiv
 |x|=|J_2| \land |y|=|J_1| \land
-\\ \qquad
+%\\ \qquad
 \Land_{\NPT_\pi(q_1,q_2)} (x)_{q_2} > (y)_{q_1}
 \land
 \Land_{\PT_\pi(q_1,q_2)} (x)_{q_2} = (y)_{q_1}
@@ -67,7 +67,7 @@ if $(x)_0$ is a companion number in a given cyclic proof
 and $l=||J_{2(x)_0}||$.
 
 The next proposition says that
-if a stage-number decreases
+if a stage number decreases
 then
 a ranking function decreases.
 
@@ -78,8 +78,10 @@ $x >_\pi y$ implies $\rho'(x) >_\Lex \rho'(y)$.
 
 {\em Proof.}
 In a given cyclic proof $\Pi$,
-we write $\pi_i$ for the a companion-bud path from 
-the companion number $c_i$ to the companion number $d_i$ with $i \in I$.
+we write $\{ \pi_i \ |\ i \in I\}$ for the set of companion-bud paths.
+For $\pi$, we write $c_i$ and $d_i$ for
+the companion number for the top sequent and 
+the companion number for the bottom sequent respectively.
 
 For $\pi_i$, we define an SC graph $G_{\pi_i}$ 
 as $(c_i,(S_i,P_i),d_i)$ where
@@ -87,7 +89,7 @@ $j S_i l$ is defined to hold if $\NPT_{\pi_i}(j,l)$, and
 $j P_i l$ is defined to hold if $\PT_{\pi_i}(j,l)$.
 
 The SC call graph consisting of
-the set $\{G_{\pi_i} \ |\ i \in i\}$ of SC graphs satisfies the SCT condition.
+the set $\{G_{\pi_i} \ |\ i \in I\}$ of SC graphs satisfies the SCT condition.
 It is shown as follows.
 Assume an infinite composable sequence $G_{\pi_{p_1}},G_{\pi_{p_2}},\ldots$
 of SC graphs.
@@ -103,17 +105,15 @@ Then $n_1,n_2,\ldots$ is an SC trace of some tail of $G_{\pi_{p_1}},G_{\pi_{p_2}
 Hence the SC call graph satisfies the SCT condition.
 
 By Theorem \ref{th:rankingfunc}, there is some $\rho$ such that
-$(c,\Vec t) \to^{G_i} (d,\Vec u)$ implies
-$\rho(c,\Vec t) >_\Lex \rho(d,\Vec u)$.
+$(c,\Vec t) \to^{G_{\pi_i}} (d,\Vec u)$ implies
+$\rho(c,\Vec t) >_\Lex \rho(d,\Vec u)$ for all $i \in I$.
 
 Fix a companion-bud path $\pi$ from a companion $J_2$ to a bud $J_1$ and
 assume $x >_\pi y$.
 Let $l=||J_2||$ and $l'=||J_1||$.
 Then for any $i<l$ and $j<l'$, 
-$((x)_1)_i > ((y)_1)_j$ iff there is a progressing trace from $i$ to $j$
-iff $i P j$.
-Moreover $((x)_1)_i \ge ((y)_1)_j$ iff there is a non-progressing trace from $i$ to $j$
-iff $i S j$.
+$((x)_1)_i > ((y)_1)_j$ iff $\PT(i,j)$ iff $i P j$.
+Moreover $((x)_1)_i \ge ((y)_1)_j$ iff $\NPT(i,j)$ iff $i S j$.
 Hence we have
 \[
 ((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1})) \to^{G_\pi} ((y)_0,(((y)_1)_0,\ldots,((y)_1)_{l'-1})).
@@ -124,8 +124,8 @@ $\rho((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1})) >_\Lex \rho((y)_0,(((y)_1)_0,\ldot
 Hence $\rho'(x) >_\Lex \rho'(y)$.
 $\Box$
 
-The proposition can be extended from a path to a composition of paths
-in the next proposition.
+The previous pproposition can be extended from a bud-companion path to 
+a composition of bud-compannion paths in the next proposition.
 The proof is given in the appendix.
 
 \begin{Prop}\label{prop:1}
@@ -145,11 +145,15 @@ where
 $l = ||\Gamma_{2j}||$, and
 $\Vec z$ is $\FV((\Gamma_{2j})^\circ_{\Vec v},\Delta_{2j}^\bullet)$.
 
+The next is the induction principle for path relation.
+
+\begin{Def}\rm
 We define $\Ind(N,>_\Pi,G)$ as
 $
 \forall x(\forall y(y <_\Pi x \imp Gy) \imp Gx)
 \imp \forall x.Gx.
 $
+\end{Def}
 
 The next proposition is proved by induction on $<_\Lex$
 in a straightforward way.

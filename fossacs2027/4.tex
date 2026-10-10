@@ -29,7 +29,6 @@ We call a predicate symbol or an abstract a {\em predicate}.
 
 For simplicity,
 we sometimes write $Fxy$ for $F(x,y)$ when $F$ is a predicate,
-For simplicity, we will use a sequence to denote a set when it is not ambiguous.
 We write $e[x:=t]$ for the expression obtained from $e$ by replacing
 every free occurrence of the variable $x$ by $t$.
 For simplicity,
@@ -82,9 +81,9 @@ and the following $(P\ R)$ and $(\Ind\ P_j)$.
 
 {\prooflineskip
 \[
-\infer[(P\ R)]{\Gamma \prove P\Vec t,\Delta}{
-\Gamma \prove Q_{1}\Vec u_{1},\Delta & \ldots & \Gamma \prove Q_{n}\Vec u_{n},\Delta
-& \Gamma \prove P_1\Vec t_{1},\Delta & \ldots & \Gamma \prove P_{m}\Vec t_{m},\Delta
+\infer[(P\ R)]{\Gamma \prove P\Vec t}{
+\Gamma \prove Q_{1}\Vec u_{1} & \ldots & \Gamma \prove Q_{n}\Vec u_{n}
+& \Gamma \prove P_1\Vec t_{1} & \ldots & \Gamma \prove P_{m}\Vec t_{m}
 }
 \\
 \infer[(\Ind\ P_j)]{\Gamma,P_j\Vec u \prove \Delta}{
@@ -106,16 +105,18 @@ the minor premises are defined as
 \[
 \Gamma, Q_{i1}\Vec u_{i1}, \ldots, Q_{in_i}\Vec u_{in_i}, 
 F_{i1}\Vec t_{i1}, \ldots, F_{im_i}\Vec t_{im_i}
-\prove F_i\Vec t_i,\Delta
+\prove F_i\Vec t_i
 \]
 for each production rule
 \[
 \infer{P_i\Vec t_i}{Q_{i1}\Vec u_{i1} & \ldots & Q_{in_i}\Vec u_{in_i} & P_{i1}\Vec t_{i1} & \ldots & P_{im_i}\Vec t_{im_i}}
 \]
 where $P_i$ is mutually dependent on $P_j$.
+An example of these rules is in the appendix.
+
 The rules $(\neg L)$, $(\neg R)$,
 $(\land L)$, $(\land R)$,
-$(\lor L)$, $(\lor R)$,
+$(\lor L)$, $(\lor R1)$, $(\lor R2)$, 
 $(\imp L)$, $(\imp R)$,
 $(\forall L)$, $(\forall R)$,
 $(\exists L)$, and $(\exists R)$
@@ -124,8 +125,6 @@ the introduced formulas in these rules and $(P\ R)$
 are called {\em main formulas},
 and the corresponding formulas in the assumptions are called {\em auxiliary
 formulas}.
-
-An example of these rules is in the appendix.
 
 \subsection{Cyclic Proof System $\CLJIDomega$}
 
@@ -176,7 +175,7 @@ We call the correspondence from a bud to a companion {\em bud-companion relation
 An {\em infinite unfolding} of a preproof is defined as
 the infinite figure obtained by 
 possibly infinitely many times replacing each bud by
-the subproof whose root is the companion of the bud 
+the subproof of the companion of the bud 
 to reach some possibly infinite figure without any buds.
 
 \begin{Def}\rm
