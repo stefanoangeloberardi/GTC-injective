@@ -13,12 +13,12 @@ in it and we call the number a {\em companion number}.
 We write $\Gamma_{2i} \prove \Delta_{2i}$ for the sequent of
 companion number $i$.
 We call a path from a companion to a bud a {\em companion-bud path}.
-
+%
 For a sequence $\Gamma$ of formulas,
 we write $||\Gamma||$ for the number of inductive atomic formulas in $\Gamma$.
 We write $||\Gamma \prove \Delta||$ for $||\Gamma||$.
 
-\begin{Def}\rm
+\begin{Def}[Path Relation]\rm
 Assume a finite composition $\pi$ of companion-bud paths in 
 the infinite unfolding of a given cyclic proof $\Pi$.
 
@@ -32,8 +32,8 @@ $\PT_\pi(q_1,q_2)$ to hold if
 there is some non-progressing trace from the $q_2$-th atomic formula in 
 the bottom sequent of $\pi$
 to the $q_1$-th atomic formula in the top sequent of $\pi$.
-
-we define $\tilde>_{\pi}$ by
+%
+We define $\tilde>_{\pi}$ by
 \[
 x \tilde>_{\pi} y \equiv
 |x|=|J_2| \land |y|=|J_1| \land
@@ -54,16 +54,61 @@ where
 $J_{2i}$ is the top sequent of $\pi$ and
 $J_{2j}$ is the bottom sequent of $\pi$.
 
-We define
+We define {\em path relation}
 $>_\Pi$ as \Break
 $\bigcup \{ >_\pi \ |\ \hbox{\small $\pi$ a finite composition of
 companion-bud paths in the infinite unfolding of $\Pi$} \}$.
 \end{Def}
 
-For $\rho$ obtained in Theorem \ref{th:rankingfunc},
+We define an SC call graph corresponding to a cyclic proof.
+
+\begin{Def}[SC Call Graph for Cyclic Proof]
+
+Asume a cyclic proof $\Pi$ is given.
+%
+For a bud-companion path $\pi$, 
+we define an SC graph $G_{\pi_i}$ 
+as $(c_i,(S_i,P_i),d_i)$ where
+we $c_i$ and $d_i$ are
+the companion number for the top sequent and 
+the companion number for the bottom sequent respectively, and
+$j S_i l$ is defined to hold if $\NPT_{\pi_i}(j,l)$, and
+$j P_i l$ is defined to hold if $\PT_{\pi_i}(j,l)$.
+%
+We define $G_\Pi$ as
+the SC call graph consisting of
+the set $\{G_{\pi_i} \ |\ i \in I\}$ of SC graphs
+where $\{ \pi_i \ |\ i \in I\}$ is the set of companion-bud paths in $\Pi$.
+
+\end{Def}
+
+The SC call graph corresponding to a cyclic proof satisfies
+SCT condition.
+
+\begin{Prop}\label{prop:sctcyclicproof}
+$G_\Pi$ for a given cyclic proof $\Pi$ satisfies the SCT condition.
+\end{Prop}
+
+{\em Proof.}
+Assume an infinite composable sequence $G_{\pi_{p_1}},G_{\pi_{p_2}},\ldots$
+of $G_\Pi$.
+Then $\pi_{p_1},\pi_{p_2},\ldots$ is an infinite path 
+in the infinite unfolding of $\Pi$.
+By the global trace condition, there is some trace for some tail of the path
+that is infinitely progressing.
+Let $A_1,A_2,\ldots$ be the occurrences of the inductive atomic formulas
+in the trace.
+Take $n_i$ such that
+$A_i$ is the $n_i$-th inductive atomic formula in the antecedent.
+Then $n_1,n_2,\ldots$ is an SC trace of some tail of $G_{\pi_{p_1}},G_{\pi_{p_2}},\ldots$ that is infinitely progressing.
+Hence $G_\Pi$ graph satisfies the SCT condition.
+$\Box$
+
+For a cylic proof $\Pi$,
 we define $\rho'(x)$ as
 $\rho((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1}))$
-if $(x)_0$ is a companion number in a given cyclic proof
+where
+$\rho$ is obtained in Theorem \ref{th:rankingfunc} for $G_\Pi$
 and $l=||J_{2(x)_0}||$.
 
 The next proposition says that
@@ -72,42 +117,11 @@ then
 a ranking function decreases.
 
 \begin{Prop}\label{prop:0.5}
-For a bud-companion path $\pi$ in a given cyclic proof,
+For a bud-companion path $\pi$,
 $x >_\pi y$ implies $\rho'(x) >_\Lex \rho'(y)$.
 \end{Prop}
 
 {\em Proof.}
-In a given cyclic proof $\Pi$,
-we write $\{ \pi_i \ |\ i \in I\}$ for the set of companion-bud paths.
-For $\pi$, we write $c_i$ and $d_i$ for
-the companion number for the top sequent and 
-the companion number for the bottom sequent respectively.
-
-For $\pi_i$, we define an SC graph $G_{\pi_i}$ 
-as $(c_i,(S_i,P_i),d_i)$ where
-$j S_i l$ is defined to hold if $\NPT_{\pi_i}(j,l)$, and
-$j P_i l$ is defined to hold if $\PT_{\pi_i}(j,l)$.
-
-The SC call graph consisting of
-the set $\{G_{\pi_i} \ |\ i \in I\}$ of SC graphs satisfies the SCT condition.
-It is shown as follows.
-Assume an infinite composable sequence $G_{\pi_{p_1}},G_{\pi_{p_2}},\ldots$
-of SC graphs.
-Then $\pi_{p_1},\pi_{p_2},\ldots$ is an infinite path 
-in the infinite unfolding of the cyclic proof $\Pi$.
-By the global trace condition, there is some trace for some tail of the path
-that is infinitely progressing.
-Let $A_1,A_2,\ldots$ be the occurrences of the inductive atomic formulas
-in the trace.
-Take $n_i$ such that
-$A_i$ is the $n_i$-th inductive atomic formula in the antecedent.
-Then $n_1,n_2,\ldots$ is an SC trace of some tail of $G_{\pi_{p_1}},G_{\pi_{p_2}},\ldots$ that is infinitely progressing.
-Hence the SC call graph satisfies the SCT condition.
-
-By Theorem \ref{th:rankingfunc}, there is some $\rho$ such that
-$(c,\Vec t) \to^{G_{\pi_i}} (d,\Vec u)$ implies
-$\rho(c,\Vec t) >_\Lex \rho(d,\Vec u)$ for all $i \in I$.
-
 Fix a companion-bud path $\pi$ from a companion $J_2$ to a bud $J_1$ and
 assume $x >_\pi y$.
 Let $l=||J_2||$ and $l'=||J_1||$.
@@ -115,11 +129,10 @@ Then for any $i<l$ and $j<l'$,
 $((x)_1)_i > ((y)_1)_j$ iff $\PT(i,j)$ iff $i P j$.
 Moreover $((x)_1)_i \ge ((y)_1)_j$ iff $\NPT(i,j)$ iff $i S j$.
 Hence we have
-\[
+$
 ((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1})) \to^{G_\pi} ((y)_0,(((y)_1)_0,\ldots,((y)_1)_{l'-1})).
-\]
-
-By the ranking function $\rho$, we have
+$
+By a ranking function,
 $\rho((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1})) >_\Lex \rho((y)_0,(((y)_1)_0,\ldots,((y)_1)_{l'-1}))$.
 Hence $\rho'(x) >_\Lex \rho'(y)$.
 $\Box$
@@ -133,7 +146,7 @@ For a given cyclic proof $\Pi$,
 $x >_\Pi y$ implies $\rho'(x) >_\Lex \rho'(y)$.
 \end{Prop}
 
-For a companion number $j$ in a given cyclic proof,
+For a given cyclic proof $\Pi$,
 we define
 \[
 G_jx \equiv \forall \Vec z(
@@ -142,18 +155,10 @@ G_jx \equiv \forall \Vec z(
 Gz \equiv \forall x_0x(z=\<x_0,x\> \imp \Land_{j \in K} (x_0=j \imp G_jx)),
 \]
 where 
+$j$ is a companion number, and
 $l = ||\Gamma_{2j}||$, and
-$\Vec z$ is $\FV((\Gamma_{2j})^\circ_{\Vec v},\Delta_{2j}^\bullet)$.
-
-The next is the induction principle for path relation.
-
-\begin{Def}\rm
-We define $\Ind(N,>_\Pi,G)$ as
-$
-\forall x(\forall y(y <_\Pi x \imp Gy) \imp Gx)
-\imp \forall x.Gx.
-$
-\end{Def}
+$\Vec z$ is $\FV((\Gamma_{2j})^\circ_{\Vec v},\Delta_{2j}^\bullet)$, and
+$K$ is the set of companion numbers in $\Pi$.
 
 The next proposition is proved by induction on $<_\Lex$
 in a straightforward way.
@@ -166,6 +171,16 @@ The proof is given in the appendix.
 \imp \forall x.Gx.
 \]
 \end{Prop}
+
+\begin{Def}\rm
+We define $\Ind(N,>_\Pi,G)$ as
+$
+\forall x(\forall y(y <_\Pi x \imp Gy) \imp Gx)
+\imp \forall x.Gx.
+$
+\end{Def}
+
+The next proposition shows the induction principle for path relation.
 
 \begin{Prop}\label{prop:ind}
 $\HA \prove \Ind(N,>_\Pi,G)$.
@@ -213,7 +228,7 @@ Instead we use domain-stable sequence for it.
 
 Combining Proposition \ref{prop:ind} and
 this proposition,
-we obtain the following theorem.
+we obtain the main theorem for proof transformation.
 
 \begin{Th}[Proof Transformation from $\LJIDHA$ to $\CLJIDHA$]
 If $\CLJIDHA$ with inductive predicates $P_1,\ldots,P_n$ proves a sequent,
