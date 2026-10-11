@@ -67,13 +67,13 @@ We define an SC call graph corresponding to a cyclic proof.
 Asume a cyclic proof $\Pi$ is given.
 %
 For a bud-companion path $\pi$, 
-we define an SC graph $G_{\pi_i}$ 
-as $(c_i,(S_i,P_i),d_i)$ where
-we $c_i$ and $d_i$ are
+we define an SC graph $G_{\pi}$ 
+as $(c,(S,P),d)$ where
+we $c$ and $d$ are
 the companion number for the top sequent and 
 the companion number for the bottom sequent respectively, and
-$j S_i l$ is defined to hold if $\NPT_{\pi_i}(j,l)$, and
-$j P_i l$ is defined to hold if $\PT_{\pi_i}(j,l)$.
+$j S l$ is defined to hold if $\NPT_{\pi}(j,l)$, and
+$j P l$ is defined to hold if $\PT_{\pi}(j,l)$.
 %
 We define $G_\Pi$ as
 the SC call graph consisting of
@@ -137,7 +137,7 @@ $\rho((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1})) >_\Lex \rho((y)_0,(((y)_1)_0,\ldot
 Hence $\rho'(x) >_\Lex \rho'(y)$.
 $\Box$
 
-The previous pproposition can be extended from a bud-companion path to 
+The previous proposition can be extended from a bud-companion path to 
 a composition of bud-compannion paths in the next proposition.
 The proof is given in the appendix.
 
@@ -181,6 +181,8 @@ $
 \end{Def}
 
 The next proposition shows the induction principle for path relation.
+Similar results were discussed in \cite{Ikebuchi25}
+by using \cite{Lee09}.
 
 \begin{Prop}\label{prop:ind}
 $\HA \prove \Ind(N,>_\Pi,G)$.
