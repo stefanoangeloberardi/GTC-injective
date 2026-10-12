@@ -10,8 +10,6 @@ This section proves the induction principle for path relation.
 
 For a given cyclic proof, we assign a differenct number to each companion
 in it and we call the number a {\em companion number}.
-We write $\Gamma_{2i} \prove \Delta_{2i}$ for the sequent of
-companion number $i$.
 We call a path from a companion to a bud a {\em companion-bud path}.
 %
 For a sequence $\Gamma$ of formulas,
@@ -21,38 +19,33 @@ We write $||\Gamma \prove \Delta||$ for $||\Gamma||$.
 \begin{Def}[Path Relation]\rm
 Assume a finite composition $\pi$ of companion-bud paths in 
 the infinite unfolding of a given cyclic proof $\Pi$.
+Let $\pi$ be from the sequent $J_2$ to the sequent $J_1$.
 
 We define
-$\NPT_\pi(q_1,q_2)$ to hold if
-there is some progressing trace from the $q_2$-th atomic formula in 
-the bottom sequent of $\pi$
-to the $q_1$-th atomic formula in the top sequent of $\pi$.
-We define
 $\PT_\pi(q_1,q_2)$ to hold if
-there is some non-progressing trace from the $q_2$-th atomic formula in 
-the bottom sequent of $\pi$
-to the $q_1$-th atomic formula in the top sequent of $\pi$.
+there is some progressing trace from the $q_2$-th atomic formula in $J_2$
+to the $q_1$-th atomic formula in $J_1$.
+We define
+$\NPT_\pi(q_1,q_2)$ to hold if
+there is some non-progressing trace from the $q_2$-th atomic formula in $J_2$
+to the $q_1$-th atomic formula in $J_1$.
 %
 We define $\tilde>_{\pi}$ by
 \[
 x \tilde>_{\pi} y \equiv
-|x|=|J_2| \land |y|=|J_1| \land
+|x|=||J_2|| \land |y|=||J_1|| \land
 %\\ \qquad
 \Land_{\NPT_\pi(q_1,q_2)} (x)_{q_2} > (y)_{q_1}
 \land
-\Land_{\PT_\pi(q_1,q_2)} (x)_{q_2} = (y)_{q_1}
+\Land_{\PT_\pi(q_1,q_2)} (x)_{q_2} = (y)_{q_1}.
 \]
-where 
-$J_1$ and $J_2$ are the top and bottom sequents of $\pi$ respectively.
 
 Define $x >_{\pi} y$ by
 $
 x >_{\pi} y \equiv
 (x)_0=j \land (y)_0=i \land  (x)_1 \tilde>_{\pi} (y)_1
 $
-where 
-$J_{2i}$ is the top sequent of $\pi$ and
-$J_{2j}$ is the bottom sequent of $\pi$.
+where $j$ and $i$ are companion numbers of $J_2$ and $J_1$ respectively.
 
 We define {\em path relation}
 $>_\Pi$ as \Break
@@ -69,9 +62,8 @@ Asume a cyclic proof $\Pi$ is given.
 For a bud-companion path $\pi$, 
 we define an SC graph $G_{\pi}$ 
 as $(c,(S,P),d)$ where
-we $c$ and $d$ are
-the companion number for the top sequent and 
-the companion number for the bottom sequent respectively, and
+$\pi$ is from the sequent of companion number $c$ to 
+the companion number $d$, and
 $j S l$ is defined to hold if $\NPT_{\pi}(j,l)$, and
 $j P l$ is defined to hold if $\PT_{\pi}(j,l)$.
 %
@@ -109,12 +101,12 @@ we define $\rho'(x)$ as
 $\rho((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1}))$
 where
 $\rho$ is obtained in Theorem \ref{th:rankingfunc} for $G_\Pi$
-and $l=||J_{2(x)_0}||$.
+and $J$ is the sequent of companion number $(x)_0$
+and $l=||J||$.
 
 The next proposition says that
-if a stage number decreases
-then
-a ranking function decreases.
+path relation makes
+a ranking function decrease.
 
 \begin{Prop}\label{prop:0.5}
 For a bud-companion path $\pi$,
@@ -146,37 +138,26 @@ For a given cyclic proof $\Pi$,
 $x >_\Pi y$ implies $\rho'(x) >_\Lex \rho'(y)$.
 \end{Prop}
 
-For a given cyclic proof $\Pi$,
-we define
-\[
-G_jx \equiv \forall \Vec z(
-((x)_0,\ldots,(x)_{l-1}) = \Vec v \imp
-(\Gamma_{2j})^\circ_{\Vec v} \imp \Delta_{2j}^\bullet), \\
-Gz \equiv \forall x_0x(z=\<x_0,x\> \imp \Land_{j \in K} (x_0=j \imp G_jx)),
-\]
-where 
-$j$ is a companion number, and
-$l = ||\Gamma_{2j}||$, and
-$\Vec z$ is $\FV((\Gamma_{2j})^\circ_{\Vec v},\Delta_{2j}^\bullet)$, and
-$K$ is the set of companion numbers in $\Pi$.
-
 The next proposition is proved by induction on $<_\Lex$
 in a straightforward way.
 The proof is given in the appendix.
 
 \begin{Prop}\label{prop:2}
-\[
+For any predicate $F$, we have
+\Break $
 \HA \prove 
-\forall x(\forall y(\rho'(y) <_\Lex \rho'(x) \imp Gy) \imp Gx)
-\imp \forall x.Gx.
-\]
+\forall x(\forall y(\rho'(y) <_\Lex \rho'(x) \imp Fy) \imp Fx)
+\imp \forall x.Fx.
+$
 \end{Prop}
 
-\begin{Def}\rm
-We define $\Ind(N,>_\Pi,G)$ as
+We define induction principle for path relation.
+
+\begin{Def}[$\Ind(N,>_\Pi,F)$]\rm
+For a predicate $F$, we define $\Ind(N,>_\Pi,F)$ as
 $
-\forall x(\forall y(y <_\Pi x \imp Gy) \imp Gx)
-\imp \forall x.Gx.
+\forall x(\forall y(y <_\Pi x \imp Fy) \imp Fx)
+\imp \forall x.Fx.
 $
 \end{Def}
 
@@ -184,16 +165,18 @@ The next proposition shows the induction principle for path relation.
 Similar results were discussed in \cite{Ikebuchi25}
 by using \cite{Lee09}.
 
-\begin{Prop}\label{prop:ind}
-$\HA \prove \Ind(N,>_\Pi,G)$.
+\begin{Prop}[Induction Principle for Path Relation]\label{prop:ind}
+\Break $\HA \prove \Ind(N,>_\Pi,F)$ for any predicate $F$.
 \end{Prop}
 
 {\em Proof.}
 In the statement of Proposition \ref{prop:2},
 since $\rho'(y) <_\Lex \rho'(x)$ appears negatively,
 by Proposition \ref{prop:1}, we can replace it by $y <_\Pi x$.
-Hence $\Ind(N,>_\Pi,G)$ is provable.
+Hence $\Ind(N,>_\Pi,F)$ is provable.
 $\Box$
+
+We can see the proof of this proposition is done in intuitionistic logic.
 
 \subsection{Proof Transformation from Cyclic Proofs to Inductive Proofs}
 
@@ -201,9 +184,33 @@ By using the induction principle for path relation,
 this section defines intuitionistic proof transformation
 from $\CLJIDHA$ to $\LJIDHA$ with its correctness proof in intuitionistic logic.
 
+By stage-number transformation,
+we transform the production 
+$\vcenter{
+\infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
+}$
+into the production 
+$\vcenter{
+\infer{P'\Vec tv}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & v > v_1 & P'_1\Vec t_1v_1 & \ldots & v > v_m & P'_m\Vec t_mv_m & \N v}
+}$
+where $v,v_1,\ldots,v_m$ are fresh variables.
+
+We define $Gz$ as
+the sequenent of companion number $x_0$ with a stage number $x$
+where $z=\<x_0,x\>$ in the same way as \cite{Berardi18}.
+It is given in the appendix.
+
+***
+
 The following proposition gives
 proof transformation
 assuming the induction principle for path relation.
+The proof transformation and its correctness are given
+in the proof of Theorem 4.4 in \cite{Berardi18}.
+They are given in Sections \ref{sec:stagenumber}
+and \ref{sec:prooftrans} of the appendix (Proposition \ref{prop:assumeInd}).
+We can also say the meta-theory is intuitionistic
+by carefully reading the proof.
 
 \begin{Prop}[Proof Transformation Assuming Induction Principle]
 Assume the induction principle $\Ind(N,>_\Pi,G)$.
@@ -214,21 +221,12 @@ proof transformation from $\CLJIDHA$ to $\LJIDHA$.
 Moreover, the correctness of the algorithm is proved in intuitionistic logic.
 \end{Prop}
 
-{\em Proof.}
-The proof transformation and its correctness are given
-in the proof of Theorem 4.4 in \cite{Berardi18}.
-They are given in Sections \ref{sec:stagenumber}
-and \ref{sec:prooftrans} of the appendix (Proposition \ref{prop:assumeInd}).
-We can also say the meta-theory is intuitionistic
-by carefully reading the proof.
-$\Box$
-
 Note that to show the induction principle for path relation,
 \cite{Berardi17a} used Ramsey theorem and
 \cite{Berardi18} used Kleene-Brouwer theorem.
 Instead we use domain-stable sequence for it.
 
-Combining Proposition \ref{prop:ind} and
+Combining Proposition \ref{prop:ind} with $G$ and
 this proposition,
 we obtain the main theorem for proof transformation.
 

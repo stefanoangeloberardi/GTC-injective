@@ -287,7 +287,7 @@ For simplicity, we will use the following derived rule:
 when $\Gamma \supseteq \Gamma'$ and $\Delta \supseteq \Delta'$
 as sets.
 
-\section{Example for Rules of Inductive Definitions}
+\section{Example of Rules for Inductive Definitions}
 
 The inference rules of $\LJID$ contains
 the introduction rules and the elimination rules for inductive predicates,
@@ -300,18 +300,18 @@ we rename variables in production rules.
 
 For example, the production rules for $N$ give the introduction rules
 \[
-\infer{\Gamma \prove N0,\Delta}{}
+\infer{\Gamma \prove N0}{}
 \qquad
-\infer{\Gamma \prove Ns x,\Delta}{\Gamma \prove Nx,\Delta}
+\infer{\Gamma \prove Ns x}{\Gamma \prove Nx}
 \]
 and the elimination rule
 \[
-\infer{\Gamma,Nt \prove \Delta}{
-\Gamma \prove F0,\Delta
+\infer{\Gamma,Nt \prove}{
+\Gamma \prove F0
 &
-\Gamma,Fx \prove Fs x,\Delta
+\Gamma,Fx \prove Fs x
 &
-\Gamma,Ft \prove \Delta
+\Gamma,Ft \prove
 }
 \]
 
@@ -411,7 +411,7 @@ the argument of the formula comes into the inductive predicate at the stage
 of the stage number.
 This stage number will decrease by a progressing trace.
 A proof in $\LJIDHA$ will be constructed by 
-using the induction on stage numbers.
+using the induction related to stage numbers.
 
 First we give stage-number transformation of an inductive atomic formula.
 We assume a fresh inductive predicate symbol $P'$ for
@@ -477,22 +477,7 @@ $P'\Vec tv$ implies $\N v$.
 (1) and (2) are proved by (Case $P'$) and $(\Ind\ P')$ respectively.
 $\Box$
 
-\begin{Def}\rm
-In a path $\pi$ in a proof,
-we define $\Ineq(\pi)$ as the set of the forms
-$v > v'$ and $v = v'$ for any stage numbers $v,v'$
-eliminated by every case distinction in $\pi$.
-\end{Def}
-For example, when the path $\pi$ has the case distinction
-\[
-\Gamma^\circ, u=t(y), \hat v=v,Q_1u_1(y), \ldots, Q_nu_n(y), 
-\\ \qquad
-v > v_1, P'_1t_1(y)v_1, 
-\ldots, v > v_m, P'_mt_m(y)v_m, 
-\\ \qquad
-\N v \prove \Delta^\bullet
-\]
-we take $\hat v=v,v>v_1,\ldots,v>v_m$ for $\Ineq(\pi)$.
+***
 
 The proof of the next proposition gives 
 {\em stage-number transformation}
@@ -508,9 +493,13 @@ implies
 $(\Gamma)^\circ_{\Vec v} \prove_\CLJIDHA \Delta^\bullet$
 with assumptions $(\Ineq(\pi_i),(\Gamma_i)^\circ_{\Vec v_i} \prove \Delta_i^\bullet)_{i \in I}$
 without any buds
-for some fresh variables $(\Vec v_i)_{i \in I}$,
+for some variables $(\Vec v_i)_{i \in I}$,
 where $\pi_i$ is the path from the conclusion to the assumption 
-$(\Gamma_i)^\circ_{\Vec v_i} \prove \Delta_i^\bullet$.
+$(\Gamma_i)^\circ_{\Vec v_i} \prove \Delta_i^\bullet$,
+and we define $\Ineq(\pi)$ as the set of the forms
+$v > v'$ and $v = v'$ for any stage numbers $v,v'$
+eliminated by every case distinction 
+in the stage-number transformation of $\pi$.
 \end{Prop}
 
 {\em Proof.}
@@ -520,6 +509,7 @@ the proof $\Pi$ of $\Gamma \prove_\CLJIDHA \Delta$ with assumptions $(J_i)_{i \i
 the proof of $\Gamma^\circ_{\Vec v} \prove_\CLJIDHA \Delta^\bullet$ with 
 assumptions $(\Ineq(\pi_i),(J_i)^\circ_{\Vec v_i})_{i \in I}$ by
 transforming each rule as follows.
+$\Ineq(\pi)$ does not change by the these rules except (Case).
 
 Case 1. The rule is not ($P_i$ R), or (Case), or (Cut)
 with the cut formula being an inductive atomic formula,
@@ -537,14 +527,14 @@ we take $\Vec v_1$ to be $\Vec v$.
 
 For example,
 \[
-\infer[(\lor R)]{\Gamma \prove \Delta,P_1t_1 \lor P_2t_2}{
-\Gamma \prove \Delta,P_1t_1,P_2t_2
+\infer[(\lor R)]{\Gamma \prove P_1t_1 \lor P_2t_2}{
+\Gamma \prove P_1t_1,P_2t_2
 }
 \]
 is transformed into
 \[
-\infer[(\lor R)]{(\Gamma)^\circ_{\Vec v} \prove \Delta^\bullet,\exists v_1P'_1t_1v_1 \lor \exists v_2P'_2t_2v_2}{
-(\Gamma)^\circ_{\Vec v} \prove \Delta^\bullet,\exists v_1P'_1t_1v_1, \exists v_2P'_2t_2v_2
+\infer[(\lor R)]{(\Gamma)^\circ_{\Vec v} \prove \exists v_1P'_1t_1v_1 \lor \exists v_2P'_2t_2v_2}{
+(\Gamma)^\circ_{\Vec v} \prove \exists v_1P'_1t_1v_1, \exists v_2P'_2t_2v_2
 }
 \]
 
@@ -552,12 +542,12 @@ Case 2. The rule is (Axiom) with a common inductive atomic formula.
 
 We transform
 \[
-\infer[(Axiom)]{\Gamma,P(\Vec t) \prove \Delta,P(\Vec t)}{}
+\infer[(Axiom)]{\Gamma,P(\Vec t) \prove P(\Vec t)}{}
 \]
 into 
 \[
-\infer[(\exists R)]{\Gamma^\circ_{\Vec v},P'(\Vec t,v) \prove \Delta^\bullet,\exists vP'(\Vec t,v)}{
-	\infer[(Axiom)]{\Gamma^\circ_{\Vec v},P'(\Vec t,v) \prove \Delta^\bullet,P'(\Vec t,v)}{}
+\infer[(\exists R)]{\Gamma^\circ_{\Vec v},P'(\Vec t,v) \prove \exists vP'(\Vec t,v)}{
+	\infer[(Axiom)]{\Gamma^\circ_{\Vec v},P'(\Vec t,v) \prove P'(\Vec t,v)}{}
 }
 \]
 
@@ -576,13 +566,13 @@ Note that by IH we can assume each $P'(\Vec t,v)$ has a fresh $v$ in $\Gamma^\ci
 so we can use $(\exists L)$.
 For example, we transform
 \[
-\infer[(\neg R)]{\Gamma \prove \neg Pt,\Delta}{\Gamma,Pt \prove \Delta}
+\infer[(\neg R)]{\Gamma \prove \neg Pt}{\Gamma,Pt \prove}
 \]
 into
 \[
-\infer[(\neg R)]{\Gamma^\circ_{\Vec v} \prove \neg \exists vP'tv,\Delta^\bullet}{
-\infer[(\exists L)]{\Gamma^\circ_{\Vec v},\exists vP'tv \prove \Delta^\bullet}{
-\Gamma^\circ_{\Vec v},P'tv \prove \Delta^\bullet
+\infer[(\neg R)]{\Gamma^\circ_{\Vec v} \prove \neg \exists vP'tv}{
+\infer[(\exists L)]{\Gamma^\circ_{\Vec v},\exists vP'tv \prove}{
+\Gamma^\circ_{\Vec v},P'tv \prove
 }}
 \]
 
@@ -611,12 +601,12 @@ $
 
 By IH,
 \[
-\Gamma^\circ_{\Vec v} \prove Q_j\Vec u_j, \Delta^\bullet, \\
-\Gamma^\circ_{\Vec v} \prove \exists v_iP'_i\Vec t_iv_i, \Delta^\bullet.
+\Gamma^\circ_{\Vec v} \prove Q_j\Vec u_j, \\
+\Gamma^\circ_{\Vec v} \prove \exists v_iP'_i\Vec t_iv_i.
 \]
 By (Cut),
 $
-\Gamma^\circ_{\Vec v} \prove \exists vP'\Vec tv, \Delta^\bullet.
+\Gamma^\circ_{\Vec v} \prove \exists vP'\Vec tv.
 $
 
 Case 5. The rule is $(\Case\ P)$.
@@ -656,6 +646,11 @@ for some $(\Vec v_i)_{i \in I}$
 where 
 $\pi'_i$ is the path from the transformation of the case distinction
 to $(J_i)^\circ_{\Vec v_i}$.
+
+Let $\pi'$ be the path from the minor premiss to the top sequent of $\pi$.
+Then we define $\Ineq(\pi)$ as
+$\Ineq(\pi') \cup \{\hat v=v,v>v_1,\ldots,v>v_m\}$.
+
 Add $\Sigma_1$
 to the antecedent of every sequent in the path $\pi'_i$,
 by renaming fresh variables to keep freshness of all fresh variables
@@ -744,7 +739,7 @@ $\Box$
 
 This section defines main proof transformation from $\CLJIDHA$ to $\LJIDHA$.
 First we will define path relations, and then we will define main
-proof transformation by using path relations.
+proof transformation assuming induction principle for path relation.
 
 For notational convenience,
 we assume a cyclic proof $\Pi$ in this section.
@@ -772,17 +767,9 @@ Note that
 $\Gamma^\circ$ contains $P'_1\Vec t_1v_1,\ldots,P'_k\Vec t_kv_k$
 by definition of $(\ )^\circ$.
 
-For a path $\pi$ from the conclusion to an assumption in $\Pi_j^\circ$,
-we write $\check\pi$ for the corresponding path in $\Pi$.
-We extend this notation to a finite composition of $\pi$'s.
-By the correspondence $(\check{\ })$,
-a path, a trace, a progressing trace,
-and a stage-number inductive atomic formula in $\Pi^\circ_j$
-correspond to those and an inductive atomic formula in $\Pi$.
-
 \begin{Def}\rm
-For a finite composition $\pi$ of paths in $\{ \Pi_j^\circ \ |\ j \in K\}$ such that
-$\check\pi$ is a path in the infinite unfolding of $\Pi$,
+For a finite composition $\pi$ of paths in $\{ \Pi_j \ |\ j \in K\}$ such that
+$\pi$ is a path in the infinite unfolding of $\Pi$,
 we define the {\em path relation} $\tilde>_{\pi}$ by
 \[
 x \tilde>_{\pi} y \equiv
@@ -794,12 +781,11 @@ x \tilde>_{\pi} y \equiv
 \]
 where 
 $J_1$ and $J_2$ are the top and bottom sequents of $\pi$ respectively,
-$\check J_1$ and $\check J_2$ are those of the path $\check\pi$,
 $F(q_1,q_2)$ is that
-there is some progressing trace from the $q_2$-th atomic formula in $\check J_2$
-to the $q_1$-th atomic formula in $\check J_1$,
+there is some progressing trace from the $q_2$-th atomic formula in $ J_2$
+to the $q_1$-th atomic formula in $ J_1$,
 $G(q_1,q_2)$ is that
-there is some non-progressing trace from the $q_2$-th atomic formula in $\check J_2$ to the $q_1$-th atomic formula in $\check J_1$.
+there is some non-progressing trace from the $q_2$-th atomic formula in $ J_2$ to the $q_1$-th atomic formula in $ J_1$.
 \end{Def}
 
 \begin{Lemma}\label{lemma:decrease}
@@ -832,7 +818,7 @@ Since the rule that changes the stage number is only (Case),
 we will show only the case (Case).
 Assume the production rule of $P$ 
 and its stage-number transformation in Figure \ref{fig:2}.
-Let the path for the rule (Case $P'$) be
+Let the stage-number transformation of the path for the rule (Case $P'$) be
 \[
 \infer{\Gamma^\circ_{\Vec v}, P'\Vec u\hat v \prove \Delta^\bullet}{
 \Gamma^\circ_{\Vec v}, \Sigma_1,\Sigma, \N v \prove \Delta^\bullet
@@ -866,9 +852,8 @@ $
 $\Box$
 
 We define $B_0$ as the set of paths from conclusions to assumptions in 
-$\Pi^\circ_j \ (j \in K)$.
-We define $B$ as the set of finite compositions of elements in $B_0$ such that
-if $\pi \in B$ then $\check\pi$ is a path in the infinite unfolding of $\Pi$.
+$\Pi_j \ (j \in K)$.
+We define $B$ as the set of finite compositions of elements in $B_0$.
 
 \begin{Def}\rm\label{def:>}
 For $\pi \in B$,
@@ -878,8 +863,8 @@ x >_{\pi} y \equiv
 (x)_0=j \land (y)_0=f(i) \land  (x)_1 \tilde>_{\pi} (y)_1.
 \]
 where 
-$J_{1i}$ is the top sequent of $\check\pi$, and
-$J_{2j}$ is the bottom sequent of $\check\pi$.
+$J_{1i}$ is the top sequent of $\pi$, and
+$J_{2j}$ is the bottom sequent of $\pi$.
 \end{Def}
 
 Note that $>_{\pi}$ is a relation on $N \times N^{\le p}$ where
@@ -898,9 +883,9 @@ the top sequent of $\pi_1$
 is the bottom sequent of $\pi_2$ by the first element, and
 $((>_{\pi_1}) \circ (>_{\pi_2})) \subseteq (>_{\pi_1\pi_2})$.
 
-\subsection{Proof Transformation}
+\subsection{Proof Transformation Assuming Induction for Path Relation}
 
-This section gives main proof transformation.
+This section gives main proof transformation assuming induction for path relation.
 
 First we prepare a piece of main transformation by
 proving that we can replace (Case) rules of $\CLJIDHA$ 
@@ -1066,7 +1051,7 @@ Since $(J_{2j})^\circ_{\Vec v}$ is provable,
 $(J_{1k})^\circ_{\Vec v}$ is provable in $\LJIDHA$.
 $\Box$
 
-\begin{Prop}[{\tiny Proof Transformation from $\LJIDHA$ to $\CLJIDHA$ Assuming Induction Principle}]\label{prop:assumeInd}
+\begin{Prop}[{Proof Transformation Assuming Induction Principle}]\label{prop:assumeInd}
 Assume $\Ind(N,>_\Pi,G)$.
 $\Gamma \prove_\CLJIDHA \Delta$ with inductive predicates $P_1,\ldots,P_n$
 implies $\Gamma \prove_\LJIDHA \Delta$ with $P_1,\ldots,P_n$ and their stage-number inductive predicates $P_1',\ldots,P_n'$.
