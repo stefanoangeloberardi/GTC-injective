@@ -36,9 +36,9 @@ We define $\tilde>_{\pi}$ by
 x \tilde>_{\pi} y \equiv
 |x|=||J_2|| \land |y|=||J_1|| \land
 %\\ \qquad
-\Land_{\NPT_\pi(q_1,q_2)} (x)_{q_2} > (y)_{q_1}
+\Land_{\PT_\pi(q_1,q_2)} (x)_{q_2} > (y)_{q_1}
 \land
-\Land_{\PT_\pi(q_1,q_2)} (x)_{q_2} = (y)_{q_1}.
+\Land_{\NPT_\pi(q_1,q_2)} (x)_{q_2} \ge (y)_{q_1}.
 \]
 }
 
@@ -48,21 +48,21 @@ x >_{\pi} y \equiv
 (x)_0=j \land (y)_0=i \land  (x)_1 \tilde>_{\pi} (y)_1
 $
 where $j$ and $i$ are companion numbers of $J_2$ and $J_1$ respectively.
-
+%
 We define {\em path relation}
 $>_\Pi$ as 
-$\bigcup \{ >_\pi \ |\ $
-\Break \qquad $\hbox{\small $\pi$ a finite composition of
-companion-bud paths in the infinite unfolding of $\Pi$} \}$.
+\Break 
+{\small $\bigcup \{ >_\pi \ |\ 
+\hbox{$\pi$ a finite composition of
+companion-bud paths in the infinite unfolding of $\Pi$} \}$.}
 \end{Def}
 
 We define an SC call graph corresponding to a cyclic proof.
 
-\begin{Def}[SC Call Graph for Cyclic Proof]
-
+\begin{Def}[SC Call Graph for Cyclic Proof]\rm
 Asume a cyclic proof $\Pi$ is given.
 %
-For a bud-companion path $\pi$, 
+For a companion-bud path $\pi$, 
 we define an SC graph $G_{\pi}$ 
 as $(c,(S,P),d)$ where
 $\pi$ is from the sequent of companion number $c$ to 
@@ -112,7 +112,7 @@ path relation makes
 a ranking function decrease.
 
 \begin{Prop}\label{prop:0.5}
-For a bud-companion path $\pi$,
+For a companion-bud path $\pi$,
 $x >_\pi y$ implies $\rho'(x) >_\Lex \rho'(y)$.
 \end{Prop}
 
@@ -121,8 +121,8 @@ Fix a companion-bud path $\pi$ from a companion $J_2$ to a bud $J_1$ and
 assume $x >_\pi y$.
 Let $l=||J_2||$ and $l'=||J_1||$.
 Then for any $i<l$ and $j<l'$, 
-$((x)_1)_i > ((y)_1)_j$ iff $\PT(i,j)$ iff $i P j$.
-Moreover $((x)_1)_i \ge ((y)_1)_j$ iff $\NPT(i,j)$ iff $i S j$.
+$((x)_1)_i > ((y)_1)_j$ if $\PT_\pi(i,j)$ if $i P j$.
+Moreover $((x)_1)_i \ge ((y)_1)_j$ if $\NPT_\pi(i,j)$ if $i S j$.
 Hence we have
 $
 ((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1})) \to^{G_\pi} ((y)_0,(((y)_1)_0,\ldots,((y)_1)_{l'-1})).
@@ -132,8 +132,8 @@ $\rho((x)_0,(((x)_1)_0,\ldots,((x)_1)_{l-1})) >_\Lex \rho((y)_0,(((y)_1)_0,\ldot
 Hence $\rho'(x) >_\Lex \rho'(y)$.
 $\Box$
 
-The previous proposition can be extended from a bud-companion path to 
-a composition of bud-compannion paths in the next proposition.
+The previous proposition can be extended from a companion-bud path to 
+a composition of companion-bud paths in the next proposition.
 The proof is given in the appendix.
 
 \begin{Prop}\label{prop:1}
@@ -200,7 +200,9 @@ into the production
 \infer{P'\Vec tv}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & v > v_1 & P'_1\Vec t_1v_1 & \ldots & v > v_m & P'_m\Vec t_mv_m & \N v}
 %}$
 \]
-where $v,v_1,\ldots,v_m$ are fresh variables.
+where $v,v_1,\ldots,v_m$ are fresh variables
+and $P',P_1',\ldots,P_m'$ are fresh inductive predicate symbols,
+called {\em stage-number inductive predicate symbols} for $P,P_1,\ldots,P_m$.
 
 We define $Gz$ as
 the sequenent of companion number $x_0$ with a stage number $x$
@@ -229,7 +231,7 @@ Moreover, the correctness of the algorithm is proved in intuitionistic logic.
 Note that to show the induction principle for path relation,
 \cite{Berardi17a} used Ramsey theorem and
 \cite{Berardi18} used Kleene-Brouwer theorem.
-Instead we use domain-stable sequence for it.
+Instead we used domain-stable sequences for showing it.
 
 Finally we obtain the main theorem for proof transformation.
 
