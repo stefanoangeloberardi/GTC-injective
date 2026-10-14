@@ -31,6 +31,7 @@ there is some non-progressing trace from the $q_2$-th atomic formula in $J_2$
 to the $q_1$-th atomic formula in $J_1$.
 %
 We define $\tilde>_{\pi}$ by
+{\small
 \[
 x \tilde>_{\pi} y \equiv
 |x|=||J_2|| \land |y|=||J_1|| \land
@@ -39,6 +40,7 @@ x \tilde>_{\pi} y \equiv
 \land
 \Land_{\PT_\pi(q_1,q_2)} (x)_{q_2} = (y)_{q_1}.
 \]
+}
 
 Define $x >_{\pi} y$ by
 $
@@ -48,8 +50,9 @@ $
 where $j$ and $i$ are companion numbers of $J_2$ and $J_1$ respectively.
 
 We define {\em path relation}
-$>_\Pi$ as \Break
-$\bigcup \{ >_\pi \ |\ \hbox{\small $\pi$ a finite composition of
+$>_\Pi$ as 
+$\bigcup \{ >_\pi \ |\ $
+\Break \qquad $\hbox{\small $\pi$ a finite composition of
 companion-bud paths in the infinite unfolding of $\Pi$} \}$.
 \end{Def}
 
@@ -163,7 +166,7 @@ $
 
 The next proposition shows the induction principle for path relation.
 Similar results were discussed in \cite{Ikebuchi25}
-by using \cite{Lee09}.
+by using \cite{Lee09} and classical logic.
 
 \begin{Prop}[Induction Principle for Path Relation]\label{prop:ind}
 \Break $\HA \prove \Ind(N,>_\Pi,F)$ for any predicate $F$.
@@ -186,13 +189,17 @@ from $\CLJIDHA$ to $\LJIDHA$ with its correctness proof in intuitionistic logic.
 
 By stage-number transformation,
 we transform the production 
-$\vcenter{
+\[
+%$\vcenter{
 \infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
-}$
+%}$
+\]
 into the production 
-$\vcenter{
+\[
+%$\vcenter{
 \infer{P'\Vec tv}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & v > v_1 & P'_1\Vec t_1v_1 & \ldots & v > v_m & P'_m\Vec t_mv_m & \N v}
-}$
+%}$
+\]
 where $v,v_1,\ldots,v_m$ are fresh variables.
 
 We define $Gz$ as
@@ -200,19 +207,17 @@ the sequenent of companion number $x_0$ with a stage number $x$
 where $z=\<x_0,x\>$ in the same way as \cite{Berardi18}.
 It is given in the appendix.
 
-***
-
 The following proposition gives
 proof transformation
 assuming the induction principle for path relation.
 The proof transformation and its correctness are given
 in the proof of Theorem 4.4 in \cite{Berardi18}.
 They are given in Sections \ref{sec:stagenumber}
-and \ref{sec:prooftrans} of the appendix (Proposition \ref{prop:assumeInd}).
+and \ref{sec:prooftrans} of the appendix with Proposition \ref{prop:assumeInd}.
 We can also say the meta-theory is intuitionistic
 by carefully reading the proof.
 
-\begin{Prop}[Proof Transformation Assuming Induction Principle]
+\begin{Prop}[\small Proof Transformation Assuming Induction Principle]\label{prop:assuming}
 Assume the induction principle $\Ind(N,>_\Pi,G)$.
 If $\CLJIDHA$ with inductive predicates $P_1,\ldots,P_n$ proves a sequent,
 then there is a proof of the same sequent in $\LJIDHA$ with $P_1,\ldots,P_n$ and their stage-number inductive predicates $P_1',\ldots,P_n'$.
@@ -226,11 +231,9 @@ Note that to show the induction principle for path relation,
 \cite{Berardi18} used Kleene-Brouwer theorem.
 Instead we use domain-stable sequence for it.
 
-Combining Proposition \ref{prop:ind} with $G$ and
-this proposition,
-we obtain the main theorem for proof transformation.
+Finally we obtain the main theorem for proof transformation.
 
-\begin{Th}[Proof Transformation from $\LJIDHA$ to $\CLJIDHA$]
+\begin{Th}[\scriptsize Proof Transformation from $\LJIDHA$ to $\CLJIDHA$]
 If $\CLJIDHA$ with inductive predicates $P_1,\ldots,P_n$ proves a sequent,
 then there is a proof of the same sequent in $\LJIDHA$ with $P_1,\ldots,P_n$ and their stage-number inductive predicates $P_1',\ldots,P_n'$.
 Moreover, we have an algorithm of
@@ -238,3 +241,7 @@ proof transformation from $\CLJIDHA$ to $\LJIDHA$.
 Moreover, the correctness of the algorithm is proved in intuitionistic logic.
 \end{Th}
 
+{\em Proof.}
+By combining Proposition \ref{prop:ind} with $G$ and
+Proposition \ref{prop:assuming}.
+$\Box$

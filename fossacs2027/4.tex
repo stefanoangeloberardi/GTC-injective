@@ -1,6 +1,7 @@
 \section{Inductive Proofs and Cyclic proofs}
 
 This section defines cyclic proof systems and inductive proof systems.
+These definitions are taken from \cite{Brotherston11,Berardi17a,Berardi18}.
 
 \subsection{Intuitionistic Martin-L\"of's Inductive Definition System $\LJID$}
 
@@ -37,11 +38,13 @@ We also write $\theta$ for the substitution $[\Vec x:=\Vec t]$.
 We write $\FV(\Vec e)$ for the set of free variables in the expressions $\Vec e$.
 
 A {\em production rule} is defined as
-$\vcenter{
+%$\vcenter{
+\[
 \infer{P(\Vec t)}{
 F_1 \ \ldots \ F_n
 }
-}$
+\]
+%}$
 where $F_1,\ldots,F_n$ are atomic formulas and
 $P$ is an inductive predicate symbol.
 The inductive predicate symbol $P_i$ is {\em dependent} on 
@@ -102,11 +105,11 @@ For $(\Ind\ P_j)$, we also assume
 a predicate $F_i$ for each $P_i$,
 and
 the minor premises are defined (by replacing $F_i$ for each $P_i$) as 
-$
+\[
 \Gamma, Q_{i1}\Vec u_{i1}, \ldots, Q_{in_i}\Vec u_{in_i}, 
 F_{i1}\Vec t_{i1}, \ldots, F_{im_i}\Vec t_{im_i}
 \prove F_i\Vec t_i
-$
+\]
 for each production rule
 $\vcenter{
 \infer{P_i\Vec t_i}{Q_{i1}\Vec u_{i1} & \ldots & Q_{in_i}\Vec u_{in_i} & P_{i1}\Vec t_{i1} & \ldots & P_{im_i}\Vec t_{im_i}}
@@ -142,11 +145,11 @@ those of $\LJID$ by replacing $(\Ind\ P_j)$ by
 }
 \]
 where the case distinctions are
-$
+\[
 \Gamma,\Vec u=\Vec t,
 Q_1\Vec u_1, \ldots, Q_n\Vec u_n, P_1\Vec t_1, \ldots, P_m\Vec t_m
 \prove \Delta
-$
+\]
 for each production rule
 $\vcenter{
 \infer{P\Vec t}{Q_1\Vec u_1 & \ldots & Q_n\Vec u_n & P_1\Vec t_1 & \ldots & P_m\Vec t_m}
