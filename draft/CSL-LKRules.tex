@@ -82,7 +82,7 @@
     \begin{prooftree}
         \hypo{\vnode1{\Gamma} \vdash F, \vnode2{\Delta}}
         
-        \hypo{\vnode3{\Gamma'} \vdash F, \vnode4{\Delta'}}
+        \hypo{F, \vnode3{\Gamma'} \vdash \vnode4{\Delta'}}
 
         \infer2[(Cut)]{\vnode5{\Gamma}, \vnode6{\Gamma'} \vdash \vnode7{\Delta}, \vnode8{\Delta'}} 
     \end{prooftree}

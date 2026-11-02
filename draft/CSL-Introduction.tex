@@ -4,7 +4,7 @@
 
 
 
-Cyclic proof systems are the formalization of a particular way of reasoning with inductively defined predicates, where derivations using induction rules are replaced by infinite regular proof trees, whose infinite branches satisfy the ``infinite descent'' condition. This condition is inspired by Fermat’s method of infinite descent. If such if such a branch exists in a proof, then an infinite sequence of decreasing-size values of inductively defined formal parameters should exist, contradicting their well-founded definition. As a consequence, a cyclic proof encodes an underlying inductive argument that is sound.
+Cyclic proof systems are the formalization of a particular way of reasoning with inductively defined predicates, where derivations using induction rules are replaced by infinite regular proof trees, whose infinite branches satisfy the ``infinite descent'' condition. This condition is inspired by Fermat’s method of infinite descent. If such a branch exists in a proof, then an infinite sequence of decreasing-size values of inductively defined formal parameters should exist, contradicting their well-founded definition. As a consequence, a cyclic proof encodes an underlying inductive argument that is sound.
 
 This criterion,
  also called {\em Global Trace Condition} (GTC) in the literature, is the adaptation of Fermat's 
@@ -27,7 +27,7 @@ A major result in \cite{Lee1} is that deciding that SCT holds for a set of graph
 In her recent study \cite{Mirai}, Ikebuchi has shown a deep relationship among GTC and SCT, by proving that a set of size-change graphs can be associated with each cyclic pre-proof so that it satisfies GTC if and only if the graphs associated with it satisfy SCT.
 
 In this paper, we go further in investigating the relation between cyclic proofs and SCT. 
-In \cite{Lee2,Ben-AmramLee2007,Lee3}, Lee and Ben-Amran have explored the complexity of the problem of deciding the SCT condition by
+In \cite{Lee2,Ben-AmramLee2007,Lee3}, Lee and Ben-Amram have explored the complexity of the problem of deciding the SCT condition by
 considering some particular cases of size-change graphs. In the case of fan-in free graphs, namely when the in-degree of all nodes is at most one, algorithms solving SCT problem have an exponential lower bound given by the size of ranking functions (roughly related to the size of the graph), in place of the triple exponentials needed in the general case. By considering a sequent calculus in the original sense of Gentzen \cite{Gentzen1969}, where sequents are pairs of (finite) lists instead of multisets or sets of formulas as in Brotherston and Simpson systems, we show that the notion of trace in a pre-proof can be identified with a thread in a set of fan-in free size-change graphs, while preserving the equivalence among GTC and SCT established by Ikebuchi.
 
 Technically, this is obtained by using a variant of the notion of size-change graphs, which we call {\em transition graphs}. These are directed and cyclic graphs, rather than multigraphs, where edges are labeled by certain relations, modeling the \quotationMarks{stationary} and 

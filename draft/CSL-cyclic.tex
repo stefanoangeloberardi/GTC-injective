@@ -7,7 +7,7 @@ In this section, we define the GTC, for the cyclic proof systems $\CLKIDomega$ a
 $\CLKIDomega$ and $\CLJIDomega$ are both systems for first-order theories, hence we consider a signature $\Sigma$, which contains symbols for constants, functions, and predicates of individuals. Terms, formulas, and $\Sigma$-structures are defined as usual. We consider sequents as originally defined by Gentzen using finite lists, instead of the formulations in \cite{Brotherston2, BrotherstonSimpson} using sets or multisets. 
 
 In the case of $\CLKIDomega$, sequents have the form $\Gamma \vdash \Delta$, while in $\CLJIDomega$, they are defined as $\Gamma \vdash \phi$, where $\Gamma$ and $\Delta$ are finite lists of formulas, and $\phi$ is either a single formula or the empty list. 
-The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concatenation. For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between \emph{inductive predicates}, as in Martin-Löfs \emph{productions} \cite{MartinLof}, and \emph{ordinary predicates}. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}.
+The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concatenation. For any formula $F$ in a list $\Gamma$, we define the \emph{occurrence} of $F$ in $\Gamma$ as the formula $F$ paired with the position $i$ where it appears in $\Gamma$, written as $(F,i)$. Predicate symbols are divided between \emph{inductive predicates}, as in Martin-Löf's \emph{productions} \cite{MartinLof}, and \emph{ordinary predicates}. To formally define inductive predicates, we introduce the notion of \emph{inductive definition set}.
 
 \begin{definition}[Inductive definition set]
     \label{defIndSet}
@@ -23,7 +23,7 @@ The comma between lists of formulas (e.g. $\Gamma, \Delta$) denotes list concate
     \end{center}
 
 \noindent
-where $Q_1, \ldots, Q_h$ are ordinary predicates symbols, $P_1, \ldots, P_m$ are inductive predicate symbols, and $\mathbf{u_1}, \ldots, \mathbf{u_h}$, $\mathbf{t_1}, \ldots, \mathbf{t_m}$, $\mathbf{t}$ are tuples of terms.
+where $Q_1, \ldots, Q_h$ are ordinary predicate symbols, $P_1, \ldots, P_m$ are inductive predicate symbols, and $\mathbf{u_1}, \ldots, \mathbf{u_h}$, $\mathbf{t_1}, \ldots, \mathbf{t_m}$, $\mathbf{t}$ are tuples of terms.
 
 A production of conclusion $P \mathbf{t}$ for some $\mathbf{t}$ is said to be a production for $P$. A formula is said \emph{inductive} when it is an atomic formula $P\mathbf{t}$ for some inductive predicate $P$ and some $\mathbf{t}$.
 \end{definition} 
@@ -136,7 +136,7 @@ To the usual presentation of these rules, we add a \emph{trace relation} among o
 
 \begin{definition}[Trace Relation]
     \label{def:subOccur}
-    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the ocurrences $(P\mathbf{u},i)$ in $\Gamma$ and $(Q\mathbf{t},j)$ in $\Gamma_k$ for some $ 1 \leq k \leq n$, where $P$ and $Q$ are inductive predicates. We say that $(P\mathbf{u},i)$ is connected to $(Q\mathbf{t},j)$ in $r$, noted $(P\mathbf{u},i) \rightarrow_{r} (Q\mathbf{t},j)$ if and only if there is an arrow drawn from $(P\mathbf{u},i)$ to $(Q\mathbf{t},j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas (\ref{def:caseRuleRight}) and (\ref{def:caseRuleLeft}). $(P\mathbf{u},i)$ is called a \emph{progressing} occurrence, if only {\color{red} \bf red} arrows originate from it, and a \emph{stationary} occurrence if all arrows out of it are {\color{blue} \bf blue}.
+    Let $r$ be a rule in $\CLKIDomega$, with conclusion $\Gamma \vdash \Delta$ and premises $\Gamma_1 \vdash \Delta_1, \ldots, \Gamma_n \vdash \Delta_n$. Moreover, consider the occurrences $(P\mathbf{u},i)$ in $\Gamma$ and $(Q\mathbf{t},j)$ in $\Gamma_k$ for some $ 1 \leq k \leq n$, where $P$ and $Q$ are inductive predicates. We say that $(P\mathbf{u},i)$ is connected to $(Q\mathbf{t},j)$ in $r$, noted $(P\mathbf{u},i) \rightarrow_{r} (Q\mathbf{t},j)$ if and only if there is an arrow drawn from $(P\mathbf{u},i)$ to $(Q\mathbf{t},j)$ in the definition of rule $r$ in the Figure \ref{LKrules} or the Formulas (\ref{def:caseRuleRight}) and (\ref{def:caseRuleLeft}). $(P\mathbf{u},i)$ is called a \emph{progressing} occurrence, if only {\color{red} \bf red} arrows originate from it, and a \emph{stationary} occurrence if all arrows out of it are {\color{blue} \bf blue}.
 \end{definition}
 
 The intended meaning of {\color{red} \bf red} progressing arrows and of {\color{blue} \bf blue} stationary arrows is: when $P\mathbf{t}$ progresses to $Q\mathbf{u}$ then the vector denoted by $\mathbf{t}$ has larger size than the vector denoted by $\mathbf{u}$, when there is a stationary connection then $\mathbf{t}$ and $\mathbf{u}$ denote the same vector.

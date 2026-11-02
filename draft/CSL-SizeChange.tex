@@ -3,7 +3,7 @@
 \label{sec:size-change}
 
 
-Inspired by the work by Ikebuchi \cite{Mirai}, in this section we introduce the notion of {\em transition graphs}, which is intended to charecterize the global trace condition from the theory of cyclic proofs in terms of the {\em size-change termination} condition. We consider directed graphs whose edges are labelled with pairs of relations, that we call bi-partite relations. The properties relevant for termination can now be expressed in terms of compositions of such relations.
+Inspired by the work by Ikebuchi \cite{Mirai}, in this section we introduce the notion of {\em transition graphs}, which is intended to characterize the global trace condition from the theory of cyclic proofs in terms of the {\em size-change termination} condition. We consider directed graphs whose edges are labelled with pairs of relations, that we call bi-partite relations. The properties relevant for termination can now be expressed in terms of compositions of such relations.
  
  \subsection{Bi-partite Relations and Transition Graphs}
  
@@ -14,7 +14,7 @@ Then we define $\dom{R} = \Set{x \in X \mid \exists y \in Y.\; xRy}
 $\cod{R} = \Set{y \in Y \mid \exists x \in X.\; xRy} = \bigcup_{x \in X} R(x)$. 
 
 In this work, we shall consider binary relations over some fixed finite set 
-$X = \Set{x_1, ..., x_n}$ of abstract ``paremeters'', which are consequently themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$ and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$, with possibly $S$ or $P$ empty.
+$X = \Set{x_1, ..., x_n}$ of abstract ``parameters'', which are consequently themselves finite. We say that $(S,P)$ is a {\em bi-partite} relation over $X$ if both $S, P \subseteq X \times X$ and $S \cap P = \emptyset$, namely if $S, P$ are a partition of the binary relation $S \cup P$ over $X$, with possibly $S$ or $P$ empty.
 
 \begin{definition}[Transition graph]\label{def:transitionGraph}
 Let $\biRel$ be a finite set of bi-partite relations over $X$.
@@ -27,7 +27,7 @@ then $\source{e} = u$, $\target{e} = v$, and $\lbl{e} = (S,P)$ are the {\em sour
 of $e$ respectively. When $\Graph$ is understood, we omit the subscripts in $\edge{(S,P)}{u}{v}$. 
 
 Suppose that $\edgeG{(S,P)}{u}{v}{\Graph}$, and $x, y \in X$. When $x S y$ we say that the size associated with $x$ in the abstract state $u$ is equal or greater than the size associated with $y$ in $v$ in some intended ordering; hence, if $x S y$ we say that 
-$x,y$ are {\em stationary} in the transtion from $u$ to $v$. If instead  $x P y$, then the size of $x$ in $u$ is strictly greater than that of $y$ in $v$, and 
+$x,y$ are {\em stationary} in the transition from $u$ to $v$. If instead  $x P y$, then the size of $x$ in $u$ is strictly greater than that of $y$ in $v$, and 
 we say that $x$ {\em progresses} to $y$ in the transition from $u$ to $v$. 
 Finally, if $x$ and $y$ are unrelated by $S \cup P$, this
 represents the lack of knowledge about the ordering of their sizes in $u$ and $v$, respectively.
@@ -48,7 +48,7 @@ $X$ is the set of all parameters occurring in the program $\texttt{p}$,
 and $S_G = \Set{(x,y) \mid (x, \leqdownarrow, y) \in \textsf{E}}$ and 
 $P_G = \Set{(x,y) \mid (x, \downarrow, y) \in \textsf{E}}$ are binary relations over $X$.
 The transition graph $\Graph$ has vertices $V=$ the set of all functions $\texttt{f}$
-defined in  in the program $\texttt{p}$, and has set of
+defined in the program $\texttt{p}$, and has set of
 bi-partite relations $\biRel = \Set{(S_G,P_G) | G \mbox{ size-change graph}}$.
 
 %Our set of labelled edges is the set of all $(f,(S_G,P_G),g)$ 
@@ -60,7 +60,7 @@ requires that the target function symbols of $G$ and the source function symbol 
 In the case of our transition graphs, we have a unique graph $\Graph$, with finite set of parameters $X \supseteq
  \textit{Param}(\texttt{f}) \cup \textit{Param}(\texttt{g}) \cup \textit{Param}(\texttt{h})$,
 and we express the composition $GG'$ by composing 
-the the edges $\edgeG{(S_G,P_G)}{\texttt{f}}{\texttt{g}}{\Graph}$ and  
+the edges $\edgeG{(S_G,P_G)}{\texttt{f}}{\texttt{g}}{\Graph}$ and  
 $\edgeG{(S_{G'},P_{G'})}{\texttt{g}}{\texttt{h}}{\Graph}$. 
 
 

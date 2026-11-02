@@ -29,7 +29,7 @@ If $(S',P')$ is injective, then composition can be simplified by:
 \begin{proof}
 \begin{enumerate}
 \item
-By (\ref{eq:unionComp}) in Section \ref{sec:size-change},  we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective reations $S \cup P$ and $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
+By (\ref{eq:unionComp}) in Section \ref{sec:size-change},  we know that $|(S,P) \comp (S',P')| =  |(S,P)| |(S',P')|$ which is ordinary composition of the injective relations $S \cup P$ and $S' \cup P'$, hence it is injective by Lemma \ref{lem:comInjective}.
 
 \item
 By definition the stationary component of $(S,P) \comp (S',P')$ is $S'' \setminus P''$
@@ -40,7 +40,7 @@ We assume $xSyS'z$ and $x (S \cup P) y' (S \cup P) z$
 in order to prove that this trace is not in $P''$, namely that
 $\neg (x P  y')$ and $\neg (y' P  z)$.  From $S' \cup P'$ injective and $y (S' \cup P') z$
 we deduce that $y = y'$. Our thesis is now $\neg (x P  y)$ and $\neg (y P  z)$.
-This follow from $xSy$ and $yS'z$ and $S \cap P = S' \cap P' = \emptyset$.
+This follows from $xSy$ and $yS'z$ and $S \cap P = S' \cap P' = \emptyset$.
 \end{enumerate}
 \end{proof}
 
@@ -106,12 +106,12 @@ of the rule.
 
 
 
-In the previous section, we have seen that the SCT condition for transition graphs and the GCT condition for cyclic proofs coincide up to rephrasing GTC in terms of transition graphs. %; henceforth, we shall use GTC and SCT as synonymous. 
+In the previous section, we have seen that the SCT condition for transition graphs and the GTC condition for cyclic proofs coincide up to rephrasing GTC in terms of transition graphs. %; henceforth, we shall use GTC and SCT as synonymous. 
 We have also proved that the transition graphs associated with cyclic pre-proofs in systems $\CLJIDomega$ and $\CLKIDomega$ are injective. In this section, we formalize a new condition
 on transition graphs, which we call {\em Progress Domain Condition}, shortly PDC, and show that, although it is strictly weaker than SCT, it implies SCT in the case of injective graphs. Hence PDC is a simpler reformulation of GTC for our deduction system.
 
 \begin{definition}[Progress Domain Condition - PDC]\label{def:PDC}
-A transition $\Graph = (V,\biRel,E)$ 
+A transition graph $\Graph = (V,\biRel,E)$ 
 satisfies the {\em Progress Domain Condition} 
 if for all self-composable $(S,P) \in \biRel^*$ there are $x, y \in  \dom{S \cup P}$ such that
 $x$ progresses to $y$. In other words we require:
@@ -198,7 +198,7 @@ $[N]^2 = \Set{\Set{x,y} \subseteq N \mid x \neq y}$ is the set of edges of the c
 
 A {\em finite coloring} of $[N]^2$ is a map  
 $c:[N]^2 \to \underline{k}$ for some $k > 0$, where $\underline{k} = \Set{1, \ldots , k}$, the set of ``colors'', is the set of the first $k$ positive integers.
-A subset $[A]^2 \subseteq [N]^2$ is {\em monocromatic} w.r.t. the coloring $c$ if there is $i \in \underline{k}$ such that  $c((a,b)) = i$ for all
+A subset $[A]^2 \subseteq [N]^2$ is {\em monochromatic} w.r.t. the coloring $c$ if there is $i \in \underline{k}$ such that  $c((a,b)) = i$ for all
 $(a,b) \in [A]^2$.
 
 \begin{theorem}[Ramsey's Theorem]\label{thr:Ramsey}
