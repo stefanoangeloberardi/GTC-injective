@@ -1,0 +1,156 @@
+\subsection{Composition of bi-partite Graphs and Size Change Termination}
+
+Binary relations compose: if $R \subseteq X \times Y$ and 
+$R' \subseteq Y \times Z$ then $RR' \subseteq X \times Z$ is such that
+$xRR'z$ if and only if there is $y \in Y$ s.t. $xRy$ and $yR'z$, a fact 
+we abbreviate by $xRyR'z$. Relation compositions are associative 
+and have the identities $I_X = \Set{(x,x) \mid x \in X}$ as units. We can extend composition
+to bi-partite relations in a way compatible with the information weakly decreasing/strictly
+decreasing associated to the partition. 
+In the next definition, we say that $x$ progresses to $z$ in this composition if for some $y$ either $x$ progresses to $y$ such that $y(S' \cup P')z$ or if $x,y$ are stationary and $yP'z$. We say that $x,z$ are stationary in the composition $(S, P) \comp (S', P')$ if there is a $y$ such that $x$ is stationary to $y$ which is stationary to $z$, provided $x$ \emph{does not progress} to $z$. In
+this case we consider the progression information to be more relevant and we drop
+the stationary information from $(S, P) \comp (S', P')$.
+
+\begin{definition}[Composition of bi-partite relations]\label{def:bi-partiteRelations}
+Let $(S,P)$, $(S',P')$ be bipartite relations over $X$; then we define their {\em composition} $(S, P) \comp (S', P') = (S'' \setminus P'',\; P'')$
+where
+\[S'' = S S' \qquad \mbox{and} \qquad P'' = (S P') \cup (P S') \cup (P P') \]
+We call $|(S,P)| = S \cup P$ the relation associated to $(S,P)$.
+\end{definition}
+
+We will prove that the case all relations are injective the definition
+can be replaced with $(S, P) \comp (S', P') = (S'', \; P'')$
+The composition of bi-partite relations is bi-partite by construction; also, it is associative
+with identity the pair $(I_X, \emptyset)$.
+We observe that composition is compatible with the operation 
+$|\cdot|$ and ordinary composition of binary relations: 
+%let's write $|(S,P)| = S \cup P$, then
+\begin{align}
+\label{eq:unionComp}
+|(S,P) \comp (S',P')| = |(S'' \setminus P'', P'')| &= (S''\setminus P'') \cup P''  
+= S'' \cup P''  \nonumber \\ = SS' \cup  (S P') \cup (P S') \cup (P P')
+& = (S \cup P) (S' \cup P') = |(S,P)| |(S',P')|
+\end{align}
+%We shall be interested in (finite) sets of bi-partite relations $\biRel = \Set{(S_1,P_1),...,(S_k,P_k)}$ over the same set $X$.
+Let $\biRel^*$ be the closure under composition $\comp$ of a set $\biRel$ of bi-partite relations. Notice that the set of bi-partite relations over the finite set $X$
+is a subset of $\wp(X^2) \times \wp(X^2)$ which is finite, hence $\biRel^*$ is finite.
+The role of a transition graph $\Graph$ with labels in $\biRel$ is to reduce the number of
+ compositions of bipartite relations in $\biRel^*$ which are accepted. We formalize this notion
+by adapting the usual definition of transitive closure of a graph.
+
+\begin{definition}[Transitive closure of a transition graph]\label{def:transitiveClosure}
+We say that  the graph $\Graph^* = (V, \biRel^*, E^*)$ is the {\em transitive closure} of $\Graph = (V, \biRel, E)$ if
+$E^* \subseteq V \times \biRel^* \times V$ is the smallest set such that $E \subseteq E^*$ and
+\[ (u, (S,P), v), (v, (S',P'), w) \in E^* \Then (u, (S,P) \comp (S',P'), w) \in E^*\]
+If $(u, (S,P) \comp (S',P'), w) \in E^*$ for some vertexes $u, w$ then we say that $(S,P)$ and $(S',P')$ are {\em composable} in $\Graph^*$; we say
+that $(S,P)$ is {\em self-composable} in $\Graph^*$ if $(v, (S,P), v) \in E^*$ for some vertex $v$.
+\end{definition}
+
+In words, $\Graph^*$ is the transitive closure of the graph $\Graph$ with edges labeled by the composition of the labels of composable edges in $\Graph$. 
+We could say that it is essentially a category, but for the lack of identities.
+
+Let $\Graph^* = (V, \biRel^*, E^*)$; we abbreviate $(u, (S,P), v) \in E^*$ by %$\edgeG{(S,P)}{u}{v}{\Graph}$ and $(u, (S,P), v) \in E^*$ by 
+$\edgeGstar{(S,P)}{u}{v}{\Graph}$. 
+If $\edgeGstar{(S,P)}{v}{v}{\Graph}$ is self-composable then $\edgeGstar{(S,P)^n}{v}{v}{\Graph}$ for all $n > 0$ by definition of composition over the edges 
+of $\Graph^*$, where $(S,P)^n$ is the composition of $(S,P)$ with itself $n$-times.
+As before, we omit the subscripts in $\edgestar{(S,P)}{u}{v}$, when $\Graph$ is understood.
+In order to state GTC for transition graphs we need the notions of sequence and suffix.
+
+\begin{definition}[Sequence and Inhabited Suffix]
+Let $\alpha \leq \omega$ be an ordinal, 
+identified with an initial segment of $\Nat$ 
+ordered in the natural way, and possibly coinciding with $\Nat$. Let $k \in \alpha$.
+\begin{enumerate}
+\item
+a sequence over some set $A$ with domain $\alpha$ is just a map $s:\alpha \to A$;  
+
+\item
+$\alpha\uparrow_k \;=\; \Set{i \in \alpha \mid i \geq k}$ is an inhabited suffix of $\alpha$; 
+
+
+\end{enumerate}
+\end{definition}
+
+We can now restate the notion of trace and the Global Trace Condition for transition graphs.
+
+\begin{definition}[Trace, path and progress]\label{def:TracePath}
+Let $\Graph = (V, \biRel, E)$ be a transition graph and $\alpha \leq \omega$, $k \in \alpha$; 
+then:
+\begin{enumerate}[i)]
+\item 
+a {\em trace} is a map $\tau:\alpha\uparrow_k \to X$ with domain some inhabited 
+suffix of $\alpha$;
+
+\item 
+a {\em path} is a map $\ppath:\alpha \to E$ such that if $i + 1 \in \alpha$ then 
+$\target{\ppath(i)} = \source{\ppath(i+1)}$;
+
+\item 
+a trace $\tau:\alpha\uparrow_k \to X$ {\em follows} a path $\ppath: \alpha \to E$,
+written $\tau \models \ppath$, if for all $i,i+1 \in \alpha\uparrow_k$,
+if $\lbl{\ppath(i)} = (S,P)$ then $\tau(i) (S \cup P) \tau(i + 1)$.
+
+If furthermore $\tau(i) P \tau(i + 1)$ 
+we say that $i$ is a {\em progress point} of $\tau$ in $\ppath$.
+
+\item 
+a trace $\tau$ such that $\tau\models \ppath$ 
+is infinitely progressing if $\tau$ has infinitely many progress points in $\ppath$.
+\end{enumerate}
+\end{definition}
+
+
+\begin{remark}
+A trace $\tau = x_k, x_{k+1}, x_{k+2} \cdots$ follows a path $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \stackrel{(S_1,P_1)}{\longrightarrow} v_2 \cdots$
+if for $\tau$, $\ppath$ have domain $\alpha\uparrow_k$, $\alpha$, respectively, 
+and $x_i (S_i \cup P_i) x_{i+1}$ for all $i, i+1 \in \alpha\uparrow_k$. 
+Hence, for $\tau\models\ppath$ to hold, it suffices that the above relation holds, possibly disregarding an initial segment of $\ppath$ which is a proper subset.
+In the particular case that $\alpha < \omega$, namely when both $\tau$ and $\ppath$ are finite, there is no condition about $x_{\alpha - 1}$ w.r.t. $S_{\alpha - 1} \cup P_{\alpha - 1}$, but this is immaterial for our development, 
+as for us the only interesting paths and traces are the infinite ones.
+\end{remark}
+
+We say that $\tau$ is a trace of $\Graph$ if 
+$\tau \models \ppath$ for some path $\ppath$ of $\Graph$.
+In our terminology, the path $\ppath$ and the trace $\tau$ correspond to a {\em multipath} $\mathcal{M}$ and a {\em thread} in \cite{Lee1}, respectively.
+Both $\Graph$ and $\Graph^*$ are finite, so that an infinite path $\ppath$ exists in $\Graph$ only if it has a cycle, and therefore there exists
+some $(S,P) \in \biRel^*$ which is self-composable in $\Graph^*$.
+
+We are eventually in place to define the size-change termination condition for transition graphs, which is essentially the same as \cite[Def. 2.6]{Lee3}.
+
+\begin{definition}[Size-change Termination - SCT]
+\label{def:SCT}
+The transition graph $\Graph$ satisfies the {\em Size-change Termination} condition 
+if for all infinite path $\ppath$ of $\Graph$ there is some infinitely progressing trace $\tau$ 
+such that $\tau \models \ppath$.
+\end{definition}
+
+%\medskip
+In the rest of this section, we relate the progress of a trace $\tau$ w.r.t. $\ppath$ 
+to the composition $(S,P)$ of the bi-partite relations labeling the edges in $\ppath$,
+and show that progressing is equivalent to having $x, y$ in the image of $\tau$ such that $x$ precedes $y$ in $\tau$ and $x P y$.
+
+\begin{lemma}\label{lem:P-lemma}
+Let $(S,P) = (S_1,P_1)\comp (S_2,P_2)$ and $x (S_1 \cup P_1) y (S_2 \cup P_2) z$, then
+\begin{enumerate}[i)]
+
+\item
+\label{lem:P-lemma-1} $x P_1 y \Then x P z$
+
+\item
+\label{lem:P-lemma-2} $y P_2 z \Then x P z$
+
+\end{enumerate}
+\end{lemma}
+
+
+If $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{b-1} \stackrel{(S_{b-1},P_{b-1})}{\longrightarrow} v_{b}$ is a (finite) path of $\Graph$, for $0 \leq i < j < b$
+we abbreviate $(S_{i,j}, P_{i,j}) = \bigcomp_{p = i}^{j} (S_p,P_p) = (S_i,P_i) \comp \cdots \comp (S_j,P_j)$. 
+
+
+\begin{proposition}\label{prop:progresing-and-P}
+Let $\ppath: v_0 \stackrel{(S_0,P_0)}{\longrightarrow} v_1 \cdots \; v_{b-1} \stackrel{(S_{b-1},P_{b-1})}{\longrightarrow} v_{b}$ be a finite path of $\Graph$
+and $\tau = x_a, \ldots , x_{b-1}$ be a trace such that $\tau \models \ppath$. Then $\tau$ has a progress point in $\ppath$ if and only if
+there exists $a \leq h < b$ such that
+\[x_h P_{h,b-1} x_b \And \forall h \leq j < b.\; x_j (S_j \cup P_j) x_{j+1}\]
+\end{proposition}
+

@@ -1,0 +1,69 @@
+%math environments
+%\theoremstyle{definition}
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{corollary}{Corollary}[section]
+%\newtheorem{proposition}{Proposition}[section]
+%\newtheorem{lemma}{Lemma}[section]
+%\newtheorem{definition}{Definition}[section]
+%\newtheorem{observation}{Observation}[section]
+%\newtheorem{conjecture}{Conjecture}[section]
+%\newtheorem{notation}{Notation}[section]
+%\newtheorem{example}{Example}[section]
+
+%exponents in code
+%\lstset{
+%    basicstyle=\ttfamily\scriptsize,  % Monospace font like verbatim
+%    columns=fullflexible,  % Ensures proper spacing
+%    breaklines=true,       % Allows line breaking
+%    frame=none,            % Removes the box around the listing
+%    escapeinside={*}{*},
+%    keepspaces=true        % Preserves spaces
+%}
+
+
+
+%====== PROOFZILLA =======%
+% Define node style 
+\newemptyvertex{node}{}
+% Define edge styles: directed/undirected, color, arrow head etc
+\defedgetype{dirflowblue}{-Latex,draw=blue}{}
+\defedgetype{dirflowred}{-Latex,draw=red}{}
+%=========================%
+
+% Custom mapsto with tail
+\newcommand{\mmapsto}{\mapstochar\relbar\mathrel{\mkern-12mu}\mapsto}
+
+% Smaller downward version, scaled and rotated
+\newcommand{\downmapsto}{\mathrel{\scalebox{0.7}[0.7]{\rotatebox[origin=c]{270}{$\mmapsto$}}}}
+
+\newcommand{\biRel}{\mathcal{R}}
+\newcommand{\Graph}{\mathcal{G}}
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\ppath}{\pi}
+\newcommand{\Then}{\Longrightarrow}
+\newcommand{\dom}[1]{{\textit dom}( #1 )}
+\newcommand{\cod}[1]{{\textit cod}( #1 )}
+
+\newcommand{\Set}[1]{\{ #1 \}}
+
+\newcommand{\edgestar}[3]{#1 : #2 \to^* #3}
+\newcommand{\edge}[3]{#1 : #2 \to #3}
+
+\newcommand{\edgeGstar}[4]{#1 : #2 \to_{#4}^* #3}
+\newcommand{\edgeG}[4]{#1 : #2 \to_{#4} #3}
+\newcommand{\myor}{\;\vee\;}
+
+\newcommand{\comp}{\otimes}
+\newcommand{\bigcomp}{\bigotimes}
+
+\newcommand{\source}[1]{\textit{src}( #1 )}
+\newcommand{\target}[1]{\textit{trg}( #1 )}
+\newcommand{\lbl}[1]{\textit{lbl}( #1 )}
+
+\newcommand{\CLJIDomega}{\textit{CLJID}^\omega}
+\newcommand{\CLKIDomega}{\textit{CLKID}^\omega}
+
+\newcommand{\leqdownarrow}{\downarrow^{\hspace{-2mm}=}}
+
+%quotations
+\newcommand{\quotationMarks} [1]  {{\textquotedblleft #1\textquotedblright}}
